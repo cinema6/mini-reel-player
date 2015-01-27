@@ -1,0 +1,15 @@
+{
+    "distDir": "build",
+    "port": 9000,
+    "awsJSON": ".aws.json",
+    "s3": {
+        "staging": {
+            "bucket": "com.cinema6.staging",
+            "app": "apps/<%= package.name %>/"
+        },
+        "production": {
+            "bucket": "com.cinema6.portal",
+            "app": "apps/<%= package.name %>/"
+        }
+    }
+}

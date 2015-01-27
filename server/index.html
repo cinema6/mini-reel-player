@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>C6Embed Server</title>
+    </head>
+    <body>
+        <script>
+            'use strict';
+
+            function MiniReelConfig(experience) {
+                this.config = {
+                    container: 'embed',
+                    context: 'embed',
+                    exp: experience.id
+                };
+
+                this.embed = document.body;
+                this.experience = experience;
+                this.load = false;
+                this.preload = false;
+                this.splashDelegate = {};
+                this.standalone = false;
+            }
+
+            window.__c6_ga__ = function() {};
+
+            window.__C6_APP_FOLDER__ = '/.build';
+            window.__C6_APP_FILE__ = 'index.html';
+            window.__C6_DEBUG__     = true;
+            window.__C6_URL_ROOT__  = window.location.protocol + '//staging.cinema6.com';
+
+            window.c6 = {
+                embeds: [
+                    {
+                        id: 'e-1b38a220f3e282',
+                        title: 'Mock Experience',
+                        data: {}
+                    }
+                ].map(function(experience) { return new MiniReelConfig(experience); })
+            };
+        </script>
+        <script src="https://s3.amazonaws.com/c6.dev/ext/c6embed/v1/app.js"></script>
+        <script>
+            window.c6.loadExperience(window.c6.embeds[0]).done();
+        </script>
+    </body>
+</html>

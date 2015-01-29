@@ -48,6 +48,8 @@
   },
   "dependencies": {
     "es6-promise": "^2.0.1",
+    "private-parts": "^0.4.1",
+    "raf.js": "0.0.4",
     "weakmap": "0.0.6",
     "whatwg-fetch": "^0.7.0"
   },

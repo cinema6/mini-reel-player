@@ -16,6 +16,12 @@ module.exports = {
             autoWatch: true
         }
     },
+    server: {
+        options: {
+            background: true,
+            singleRun: false
+        }
+    },
 
     perf: {
         options: {

@@ -60,6 +60,11 @@ $> git clone git@github.com:google/closure-compiler.git
 
 ### Grunt Tasks and Configuration
 #### Configuration
+##### .jshintrc
+There are many ```.jshintrc``` files in the project (used to give different configuration to the differing environments.) To find them all, run this command:
+```bash
+$> find . -path ./node_modules -prune -o -name ".jshintrc" -print
+```
 ##### .aws.json
 This file should be stored in a location where it can be accessed by many applications (usually your home directory.) It should have the following properties:
 
@@ -67,32 +72,8 @@ This file should be stored in a location where it can be accessed by many applic
 2. secretAccessKey
 3. region
 
-#### package.json
+##### package.json
 The name and keywords in this file are used to configure certain application settings and defaults.
-
-##### settings.json
-This file contains the application settings that are used accross grunt tasks.
-
-###### distDir
-The folder into which grunt should build the application.
-
-###### awsJSON
-The path (relative to your home directory) of your .aws.json file.
-
-###### port
-The port on which to run the development server.
-
-###### s3.staging.bucket
-The S3 bucket used for staging.
-
-###### s3.staging.app
-The app upload location for staging.
-
-###### s3.production.bucket
-The S3 bucket used for production.
-
-###### s3.production.app
-The app upload location for production.
 
 #### Tasks
 
@@ -115,6 +96,14 @@ This task will start a development server that uses c6embed. Your application wi
 ex:
 ```bash
 $> grunt server
+```
+
+##### server:tdd
+This task, in addition to starting a development server (just like the ```server``` task,) will also run unit tests whenever a source/test file changes.
+
+ex:
+```bash
+$> grunt server:tdd
 ```
 
 ##### test:unit

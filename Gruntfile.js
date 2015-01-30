@@ -11,13 +11,21 @@ module.exports = function(grunt) {
         return configExists ? grunt.file.readJSON(configPath) : {};
     }
 
-    var settings = (function() {
-            var json = grunt.file.readJSON('settings.json');
-
-            return _.extend(json, {
-                aws: loadGlobalConfig(json.awsJSON)
-            });
-        }()),
+    var settings = {
+        distDir: 'build',
+        port: 9000,
+        awsJSON: '.aws.json',
+        s3: {
+            staging: {
+                bucket: 'com.cinema6.staging',
+                app: 'apps/<%= package.name %>/'
+            },
+            production: {
+                bucket: 'com.cinema6.portal',
+                app: 'apps/<%= package.name %>/'
+            }
+        }
+    },
         personal = _.extend({
             browser: 'Google Chrome'
         }, grunt.file.exists('personal.json') ? grunt.file.readJSON('personal.json') : {});
@@ -25,7 +33,9 @@ module.exports = function(grunt) {
     require('load-grunt-config')(grunt, {
         configPath: path.join(__dirname, 'tasks/options'),
         config: {
-            settings: settings,
+            settings: _.extend(settings, {
+                aws: loadGlobalConfig(settings.awsJSON)
+            }),
             personal: personal
         }
     });
@@ -38,14 +48,19 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('server', 'start a development server', [
-        'clean:server',
-        'connect:server',
-        'copy:server',
-        'browserify:server',
-        'open:server',
-        'watch:livereload'
-    ]);
+    grunt.registerTask('server', 'start a development server', function(config) {
+        var withTests = config === 'tdd';
+
+        if (withTests) {
+            grunt.task.run('karma:server');
+        }
+        grunt.task.run('clean:server');
+        grunt.task.run('connect:server');
+        grunt.task.run('copy:server');
+        grunt.task.run('browserify:server');
+        grunt.task.run('open:server');
+        grunt.task.run('watch:livereload' + (withTests ? '-tdd' : ''));
+    });
 
     /*********************************************************************************************
      *

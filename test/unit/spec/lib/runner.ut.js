@@ -237,33 +237,21 @@ describe('Runner', function() {
             });
         });
 
-        describe('properties:', function() {
-            describe('current', function() {
-                it('should be null', function() {
-                    expect(Runner.current).toBeNull();
-                });
-            });
-        });
-
         describe('methods:', function() {
             describe('run(fn)', function() {
                 let result;
                 let object;
-                let runner;
 
                 beforeEach(function() {
                     object = {};
 
                     result = Runner.run(function() {
-                        runner = Runner.current;
-
                         spyOn(Runner.prototype, 'flush');
 
-                        expect(runner).toEqual(jasmine.any(Runner));
                         expect(function() {
-                            runner.schedule('beforeRender', function() {});
-                            runner.schedule('render', function() {});
-                            runner.schedule('afterRender', function() {});
+                            Runner.schedule('beforeRender', function() {});
+                            Runner.schedule('render', function() {});
+                            Runner.schedule('afterRender', function() {});
                         }).not.toThrow();
 
                         return object;
@@ -272,54 +260,42 @@ describe('Runner', function() {
 
                 it('should flush the queue', function() {
                     expect(Runner.prototype.flush).toHaveBeenCalled();
-                    expect(Runner.prototype.flush.calls.mostRecent().object).toBe(runner);
+                    expect(Runner.prototype.flush.calls.mostRecent().object).toEqual(jasmine.any(Runner));
                 });
 
                 it('should return the result of the provided function', function() {
                     expect(result).toBe(object);
                 });
-
-                it('should return the current property to null after finishing run', function() {
-                    expect(Runner.current).toBeNull();
-                });
             });
 
             describe('schedule(queue, fn)', function() {
-                let runner;
                 let fn1;
                 let fn2;
                 let fn3;
 
                 beforeEach(function() {
-                    runner = new Runner(Runner.queues.map(Queue => new Queue()));
-                    Runner.current = runner;
 
-                    spyOn(runner, 'schedule');
+                    spyOn(Runner.prototype, 'schedule');
+                    spyOn(Runner.prototype, 'flush');
 
                     fn1 = function() {};
                     fn2 = function() {};
                     fn3 = function() {};
 
-                    Runner.schedule('beforeRender', fn1);
-                    Runner.schedule('render', fn2);
-                    Runner.schedule('afterRender', fn3);
-                });
-
-                afterEach(function() {
-                    Runner.current = null;
+                    Runner.run(function() {
+                        Runner.schedule('beforeRender', fn1);
+                        Runner.schedule('render', fn2);
+                        Runner.schedule('afterRender', fn3);
+                    });
                 });
 
                 it('should schedule actions on the current runner instance', function() {
-                    expect(runner.schedule).toHaveBeenCalledWith('beforeRender', fn1);
-                    expect(runner.schedule).toHaveBeenCalledWith('render', fn2);
-                    expect(runner.schedule).toHaveBeenCalledWith('afterRender', fn3);
+                    expect(Runner.prototype.schedule).toHaveBeenCalledWith('beforeRender', fn1);
+                    expect(Runner.prototype.schedule).toHaveBeenCalledWith('render', fn2);
+                    expect(Runner.prototype.schedule).toHaveBeenCalledWith('afterRender', fn3);
                 });
 
                 describe('if there is no open runner', function() {
-                    beforeEach(function() {
-                        Runner.current = null;
-                    });
-
                     it('should throw an error', function() {
                         expect(function() {
                             Runner.schedule('beforeRender', function() {});

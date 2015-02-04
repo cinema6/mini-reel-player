@@ -4,3 +4,4 @@ if (!('WeakMap' in global)) {
 }
 require('whatwg-fetch');
 require('raf.js');
+require('6to5/runtime');

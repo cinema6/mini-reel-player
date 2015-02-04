@@ -48,6 +48,7 @@
     "underscore": "^1.7.0"
   },
   "dependencies": {
+    "6to5": "^3.3.10",
     "es6-promise": "^2.0.1",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",

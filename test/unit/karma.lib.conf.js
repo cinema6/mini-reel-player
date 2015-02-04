@@ -17,8 +17,7 @@ module.exports = function(config) {
             transform: [
                 ['6to5ify', {
                     loose: 'all',
-                    runtime: true,
-                    modules: 'commonStrict'
+                    runtime: true
                 }],
                 ['partialify']
             ]

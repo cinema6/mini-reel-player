@@ -52,6 +52,8 @@ module.exports = function(grunt) {
         var withTests = config === 'tdd';
 
         if (withTests) {
+            grunt.task.run('clean:test');
+            grunt.task.run('copy:test');
             grunt.task.run('karma:server');
         }
         grunt.task.run('clean:server');
@@ -69,6 +71,8 @@ module.exports = function(grunt) {
      *********************************************************************************************/
 
     grunt.registerTask('test:unit', 'run unit tests', [
+        'clean:test',
+        'copy:test',
         'jshint',
         'karma:unit'
     ]);
@@ -77,9 +81,13 @@ module.exports = function(grunt) {
         'karma:perf'
     ]);
 
-    grunt.registerTask('tdd', 'run unit tests whenever files change', [
-        'karma:tdd'
-    ]);
+    grunt.registerTask('tdd', 'run unit tests whenever files change', function(target) {
+        target = target || 'app';
+
+        grunt.task.run('clean:test');
+        grunt.task.run('copy:test');
+        grunt.task.run('karma:tdd:' + target);
+    });
 
     /*********************************************************************************************
      *

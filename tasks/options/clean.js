@@ -1,4 +1,5 @@
 module.exports = {
     build: ['<%= settings.distDir %>', '.tmp'],
-    server: ['server/.build']
+    server: ['server/.build'],
+    test: ['.tmp']
 };

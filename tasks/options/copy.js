@@ -43,5 +43,17 @@ module.exports = {
                 dest: 'server/.build'
             }
         ]
+    },
+    test: {
+        files: [
+            {
+                expand: true,
+                cwd: 'lib',
+                src: [
+                    '**/*.js'
+                ],
+                dest: '.tmp/lib-real'
+            }
+        ]
     }
 };

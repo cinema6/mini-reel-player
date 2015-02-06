@@ -238,14 +238,15 @@ describe('Runner', function() {
         });
 
         describe('methods:', function() {
-            describe('run(fn)', function() {
+            describe('run(fn, ...args)', function() {
                 let result;
                 let object;
+                let runFn, arg1, arg2;
 
                 beforeEach(function() {
                     object = {};
 
-                    result = Runner.run(function() {
+                    runFn = jasmine.createSpy('runFn()').and.callFake(function() {
                         spyOn(Runner.prototype, 'flush');
 
                         expect(function() {
@@ -256,6 +257,14 @@ describe('Runner', function() {
 
                         return object;
                     });
+                    arg1 = { name: 'arg1' };
+                    arg2 = { name: 'arg2' };
+
+                    result = Runner.run(runFn, arg1, arg2);
+                });
+
+                it('should call the run function with the provided args', function() {
+                    expect(runFn).toHaveBeenCalledWith(arg1, arg2);
                 });
 
                 it('should flush the queue', function() {

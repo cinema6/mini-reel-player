@@ -21,6 +21,7 @@ module.exports = function(config) {
                     loose: 'all',
                     modules: 'commonStrict'
                 }],
+                ['browserify-swap'],
                 ['partialify']
             ]
         }

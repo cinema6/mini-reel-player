@@ -1,16 +1,18 @@
 module.exports = function(config) {
+    process.env.BROWSERIFYSWAP_ENV = 'test:app';
+
     config.set({
-        frameworks: ['browserify', 'benchmark'],
+        frameworks: ['browserify', 'jasmine'],
 
         // list of files / patterns to load in the browser
         files: [
             'test/main.js',
-            'test/perf/spec/**/*.ut.js'
+            'test/unit/spec/*.ut.js'
         ],
 
         // test results reporter to use
         // possible values: dots || progress || growl
-        reporters: ['benchmark', 'junit'],
+        reporters: ['progress'],
 
         browserify: {
             debug: true,
@@ -21,10 +23,6 @@ module.exports = function(config) {
                 }],
                 ['partialify']
             ]
-        },
-
-        junitReporter: {
-            outputFile: 'reports/perf.xml'
         }
     });
 };

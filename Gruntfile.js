@@ -48,18 +48,21 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('server', 'start a development server', function(config) {
+    grunt.registerTask('server', 'start a development server', function(config, target) {
         var withTests = config === 'tdd';
+        target = target || 'app';
 
         if (withTests) {
-            grunt.task.run('karma:server');
+            grunt.task.run('clean:test');
+            grunt.task.run('copy:test');
+            grunt.task.run('karma:server:foo:' + target);
         }
         grunt.task.run('clean:server');
         grunt.task.run('connect:server');
         grunt.task.run('copy:server');
         grunt.task.run('browserify:server');
         grunt.task.run('open:server');
-        grunt.task.run('watch:livereload' + (withTests ? '-tdd' : ''));
+        grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
     });
 
     /*********************************************************************************************
@@ -68,18 +71,37 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('test:unit', 'run unit tests', [
-        'jshint',
-        'karma:unit'
-    ]);
+    grunt.registerTask('test:unit', 'run unit tests', function() {
+        grunt.task.run('clean:test');
+        grunt.task.run('copy:test');
+        grunt.task.run('jshint');
+
+        // Run library code tests if there are any.
+        if (grunt.file.expand('test/unit/spec/lib/**/*.ut.js').length > 0) {
+            grunt.task.run('karma:unit:lib');
+        } else {
+            grunt.log.error('There are no tests for library code.');
+        }
+
+        // Run application code tests if there are any.
+        if (grunt.file.expand('./test/unit/spec/*.ut.js').length > 0) {
+            grunt.task.run('karma:unit:app');
+        } else {
+            grunt.log.error('There are no tests for application code.');
+        }
+    });
 
     grunt.registerTask('test:perf', 'run performance tests', [
         'karma:perf'
     ]);
 
-    grunt.registerTask('tdd', 'run unit tests whenever files change', [
-        'karma:tdd'
-    ]);
+    grunt.registerTask('tdd', 'run unit tests whenever files change', function(target) {
+        target = target || 'app';
+
+        grunt.task.run('clean:test');
+        grunt.task.run('copy:test');
+        grunt.task.run('karma:tdd:' + target);
+    });
 
     /*********************************************************************************************
      *

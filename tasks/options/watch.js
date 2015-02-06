@@ -22,7 +22,7 @@ module.exports = {
         options: {
             livereload: true
         },
-        tasks: ['copy:server', 'karma:server:run']
+        tasks: ['copy:server', 'karma:server:run:<%= grunt.task.current.args[1] %>']
 
     }
 };

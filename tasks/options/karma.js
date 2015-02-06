@@ -34,7 +34,10 @@ module.exports = {
         browsers: ['PhantomJS'],
 
         // If browser does not capture in given timeout [ms], kill it
-        captureTimeout: 30000
+        captureTimeout: 30000,
+
+        // How long will Karma wait for a message from a browser before disconnecting from it.
+        browserNoActivityTimeout: 60000
     },
     unit: {
         options: {

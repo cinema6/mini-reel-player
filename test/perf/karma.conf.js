@@ -64,7 +64,8 @@ module.exports = function(config) {
             debug: true,
             transform: [
                 ['6to5ify', {
-                    loose: 'all'
+                    loose: 'all',
+                    modules: 'commonStrict'
                 }],
                 ['partialify']
             ]

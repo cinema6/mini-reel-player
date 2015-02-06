@@ -3,7 +3,7 @@ module.exports = {
         transform: [
             ['6to5ify', {
                 loose: 'all',
-                modules: 'commonStrict'
+                runtime: true
             }],
             ['partialify']
         ]

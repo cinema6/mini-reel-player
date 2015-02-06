@@ -1,6 +1,6 @@
 describe('fetcher', function() {
     import fetcher from '../../../../lib/fetcher.js';
-    import {RunnerPromise} from '../../../../lib/Runner.js';
+    import RunnerPromise from '../../../../lib/RunnerPromise.js';
     import global from '../../../../lib/global.js';
     import {extend} from '../../../../lib/utils.js';
 

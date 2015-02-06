@@ -1,5 +1,5 @@
 describe('RunnerPromise', function() {
-    import {RunnerPromise} from '../../../../lib/Runner.js';
+    import RunnerPromise from '../../../../lib/RunnerPromise.js';
     import Runner from '../../../../lib/Runner.js';
     let promise;
 

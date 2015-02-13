@@ -63,6 +63,47 @@ describe('TemplateView', function() {
             it('should compile the template', function() {
                 expect(tbCompileFn).toHaveBeenCalledWith(data);
             });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    view.update({
+                        name: 'Josh'
+                    });
+                    view.update({
+                        age: 23
+                    });
+                    queues.render.pop()();
+                    tbCompileFn.calls.reset();
+
+                    queues.render.pop()();
+                });
+
+                it('should extend the data each time', function() {
+                    expect(tbCompileFn).toHaveBeenCalledWith({
+                        company: 'Cinema6',
+                        name: 'Josh',
+                        age: 23
+                    });
+                });
+            });
+
+            describe('if the view was not created yet', function() {
+                beforeEach(function() {
+                    tbCompileFn = undefined;
+                    view.constructor();
+                    view.tag = 'span';
+
+                    spyOn(view, 'create').and.callThrough();
+
+                    view.update(data);
+                    queues.render.pop()();
+                });
+
+                it('should create and compile the element', function() {
+                    expect(view.create).toHaveBeenCalled();
+                    expect(tbCompileFn).toHaveBeenCalledWith(data);
+                });
+            });
         });
     });
 

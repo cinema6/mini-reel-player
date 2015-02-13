@@ -217,7 +217,8 @@ describe('View', function() {
                 view.classes.push('my-class', 'foo-class');
                 view.attributes = {
                     style: 'left: 20px;',
-                    'data-foo': 'bar'
+                    'data-foo': 'bar',
+                    disabled: true
                 };
                 view.template = '<p>I am a great view.</p>';
                 view.tag = 'button';
@@ -253,6 +254,7 @@ describe('View', function() {
             it('should give the element the specified attributes', function() {
                 expect(element.getAttribute('style')).toBe('left: 20px;');
                 expect(element.getAttribute('data-foo')).toBe('bar');
+                expect(element.getAttribute('disabled')).toBe('');
             });
 
             it('should innerHTML the template', function() {
@@ -496,6 +498,70 @@ describe('View', function() {
 
                 it('should mutate the className of the element', function() {
                     expect(view.element.className).toBe('c6-view cool-class');
+                });
+            });
+        });
+
+        describe('setAttribute(attribute, value)', function() {
+            describe('before the element is created', function() {
+                beforeEach(function() {
+                    Runner.run(() => view.setAttribute('data-test-thing', 'hello-world'));
+                });
+
+                it('should set the value on the attributes object', function() {
+                    expect(view.attributes['data-test-thing']).toBe('hello-world');
+                });
+            });
+
+            describe('after the element is created', function() {
+                beforeEach(function() {
+                    view.create();
+
+                    Runner.run(() => view.setAttribute('data-name', 'Josh'));
+                    queues.render.pop()();
+                });
+
+                it('should set the value on the attributes object', function() {
+                    expect(view.attributes['data-name']).toBe('Josh');
+                });
+
+                it('should mutate the attribute on the element', function() {
+                    expect(view.element.getAttribute('data-name')).toBe('Josh');
+                });
+
+                describe('if set to an existing value', function() {
+                    beforeEach(function() {
+                        spyOn(view.element, 'setAttribute').and.callThrough();
+                        Runner.schedule.calls.reset();
+                        view.setAttribute('data-name', 'Josh');
+                    });
+
+                    it('should not call setAttribute() on the element', function() {
+                        expect(Runner.schedule).not.toHaveBeenCalled();
+                        expect(view.element.setAttribute).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if set to false', function() {
+                    beforeEach(function() {
+                        view.setAttribute('data-name', false);
+                        queues.render.pop()();
+                    });
+
+                    it('should remove the attribute', function() {
+                        expect(view.element.getAttribute('data-name')).toBeNull();
+                    });
+                });
+
+                describe('if set to true', function() {
+                    beforeEach(function() {
+                        view.setAttribute('data-name', true);
+                        queues.render.pop()();
+                    });
+
+                    it('should add the attribute with no value', function() {
+                        expect(view.element.getAttribute('data-name')).toBe('');
+                    });
                 });
             });
         });

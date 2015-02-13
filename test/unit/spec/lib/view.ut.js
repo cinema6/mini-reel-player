@@ -242,6 +242,10 @@ describe('View', function() {
                 expect(element.tagName).toBe('BUTTON');
             });
 
+            it('should give the element the specified id', function() {
+                expect(element.id).toBe(view.id);
+            });
+
             it('should give the element the specified classes', function() {
                 expect(element.className).toBe('c6-view my-class foo-class');
             });

@@ -418,6 +418,87 @@ describe('View', function() {
                 });
             });
         });
+
+        describe('addClass(className)', function() {
+            describe('before the element is created', function() {
+                beforeEach(function() {
+                    Runner.run(() => view.addClass('new-class'));
+                });
+
+                it('should add the class to the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'new-class']);
+                });
+            });
+
+            describe('if called with a class that is already added', function() {
+                beforeEach(function() {
+                    Runner.run(() => view.addClass('c6-view'));
+                });
+
+                it('should not add the same class again', function() {
+                    expect(view.classes).toEqual(['c6-view']);
+                });
+            });
+
+            describe('after the element is created', function() {
+                beforeEach(function() {
+                    view.create();
+
+                    Runner.run(() => view.addClass('a-class'));
+                    queues.render.pop()();
+                });
+
+                it('should add the class to the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'a-class']);
+                });
+
+                it('should mutate the className of the element', function() {
+                    expect(view.element.className).toBe('c6-view a-class');
+                });
+            });
+        });
+
+        describe('removeClass(className)', function() {
+            describe('before the element is created', function() {
+                beforeEach(function() {
+                    view.classes.push('some-class', 'cool-class');
+
+                    Runner.run(() => view.removeClass('some-class'));
+                });
+
+                it('should remove the class from the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'cool-class']);
+                });
+
+                describe('if called with a class that doesn\'t exist', function() {
+                    beforeEach(function() {
+                        Runner.run(() => view.removeClass('foo-class'));
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.classes).toEqual(['c6-view', 'cool-class']);
+                    });
+                });
+            });
+
+            describe('after the element is created', function() {
+                beforeEach(function() {
+                    view.classes.push('some-class', 'cool-class');
+                    view.create();
+
+                    Runner.run(() => view.removeClass('some-class'));
+                    queues.render.pop()();
+                });
+
+                it('should remove the class from the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'cool-class']);
+                });
+
+                it('should mutate the className of the element', function() {
+                    expect(view.element.className).toBe('c6-view cool-class');
+                });
+            });
+        });
     });
 
     describe('hooks:', function() {

@@ -266,6 +266,22 @@ describe('View', function() {
                 expect(element.innerHTML).toBe(view.template);
             });
 
+            describe('if the element\'s innerHTML is the same as the template', function() {
+                let contents;
+
+                beforeEach(function() {
+                    view.element.innerHTML = '<p>Hello!</p>';
+                    view.template = '<p>Hello!</p>';
+
+                    contents = view.element.firstChild;
+                    view.create();
+                });
+
+                it('should not set the element\'s innerHTML', function() {
+                    expect(view.element.firstChild).toBe(contents);
+                });
+            });
+
             it('should return the element', function() {
                 expect(result).toBe(element);
             });

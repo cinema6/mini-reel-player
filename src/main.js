@@ -5,6 +5,7 @@ if (!('WeakMap' in global)) {
 require('whatwg-fetch');
 require('raf.js');
 require('6to5/runtime');
+require('gsap/src/uncompressed/plugins/CSSPlugin.js');
 
 import Runner from '../lib/Runner.js';
 import ApplicationController from './controllers/ApplicationController.js';

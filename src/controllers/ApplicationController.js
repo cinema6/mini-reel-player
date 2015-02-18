@@ -8,6 +8,8 @@ export default class ApplicationController extends Controller {
     constructor(root) {
         super(...arguments);
 
+        require('../animations/mobile.js');
+
         this.session = cinema6.init();
         this.appView = new ApplicationView(root);
 

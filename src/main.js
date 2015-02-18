@@ -1,5 +1,12 @@
-/* jshint devel:true */
+global.Promise = require('es6-promise').Promise;
+if (!('WeakMap' in global)) {
+    global.WeakMap = require('weakmap');
+}
+require('whatwg-fetch');
+require('raf.js');
+require('6to5/runtime');
 
-let message = 'Greetings';
+import Runner from '../lib/Runner.js';
+import ApplicationController from './controllers/ApplicationController.js';
 
-console.log(`Booted up! The message is ${message}.`);
+Runner.run(() => new ApplicationController(document.body));

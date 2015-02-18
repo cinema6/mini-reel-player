@@ -1,0 +1,104 @@
+<div class="MiniReel__group">
+    <div data-view="landscapeLeftSidebar:NavbarView" class="navBarLeft__group c6-slide-bar--left css-promote">
+        <div class="publisherProfile__logoBox publisherProfile__logoBox--landscape">&nbsp;</div>
+        <button data-view="landscapePreviousButton:NavButtonView" title="Previous Video" type="button" class="btnPrimary pager__btn landscapePager__btn landscapePager__btn--prev">
+            <svg class="pager__btnIcon landscapePager__btnIcon landscapePager__btnIcon--prev" 
+            version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941">
+                <path class="pager__btnIconPath pager__btnIconPath--prev" 
+                fill-rule="evenodd" clip-rule="evenodd" 
+                d="M22.971,0L0,22.971l22.971,22.97l4.243-4.243L8.485,22.971L27.213,4.243L22.971,0z"/>
+            </svg>
+            <span class="btn__label landscapePager__label landscapePager__label--prev tk--action">
+                Prev
+            </span>
+        </button>
+
+        <p class="nav__counter nav__counter--landscape">
+            <span>{{currentCardNumber}} of {{totalCards}}</span>
+        </p>
+    </div><!--.navBarLeft__group-->
+
+    <div class="navBarRight__group css-promote">
+        <button data-view="tocButton:ButtonView" class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn--landscape"
+        title="View Table of Contents" type="button">
+            <span class="ir">Table of Contents</span>
+            <span class="spriteBe uiIconsBe uiIconsBe--toc">&nbsp;</span>
+        </button>
+
+        <button data-view="landscapeNextButton:NavButtonView" title="Next Video" type="button" class="btnPrimary pager__btn landscapePager__btn landscapePager__btn">
+            <svg class="pager__btnIcon landscapePager__btnIcon landscapePager__btnIcon--next" 
+            version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941">
+                <path class="pager__btnIconPath pager__btnIconPath--next" 
+                fill-rule="evenodd" clip-rule="evenodd" 
+                d="M4.243,0l22.971,22.971L4.243,45.941L0,41.699l18.728-18.728L0,4.243L4.243,0z"/>
+            </svg>
+            <span class="btn__label landscapePager__label landscapePager__label--next tk--action">
+                Next
+            </span>
+        </button>
+
+        <button data-view="landscapeCloseButton:CloseButtonView" class="btnSecondary MiniReel__closeBtn MiniReel__closeBtn--landscape clearfix" title="Close" type="button">
+            <span class="btn__label tk--action">
+                Close
+            </span>
+            <span class="sprite sprite--close">&nbsp;</span>
+        </button>
+    </div><!--.navBarRight__group-->
+
+    <div data-view="navbar:NavbarView" class="headerBar__group css-promote">
+        <div class="publisherProfile__logoBox">&nbsp;</div>
+        <button data-view="closeButton:CloseButtonView" class="btnSecondary MiniReel__closeBtn clearfix" title="Close" type="button">
+            <span class="btn__label tk--action">
+                Close
+            </span>
+            <span class="sprite sprite--close">&nbsp;</span>
+        </button>
+        <p class="nav__counter">
+            <span>{{currentCardNumber}} of {{totalCards}}</span>
+        </p>
+    </div><!--.headerBar__group-->
+
+    <div class="navBar__group css-promote">
+        <button data-view="previousButton:NavButtonView" title="Previous Video" type="button" class="btnPrimary pager__btn pager__btn--prev">
+            <svg class="pager__btnIcon pager__btnIcon--prev" version="1.1" 
+            xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941">
+                <path class="pager__btnIconPath pager__btnIconPath--prev" 
+                fill-rule="evenodd" clip-rule="evenodd" 
+                d="M22.971,0L0,22.971l22.971,22.97l4.243-4.243L8.485,22.971L27.213,4.243L22.971,0z"/>
+            </svg>
+            <span class="btn__label pager__label pager__label--prev tk--action">
+                Prev
+            </span>
+        </button>
+        <button data-view="landscapeTocButton:ButtonView" class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn" title="View Table of Contents" type="button">
+            <span class="ir">Table of Contents</span>
+            <span class="spriteBe uiIconsBe uiIconsBe--toc">&nbsp;</span>
+        </button>
+        <button data-view="nextButton:NavButtonView" title="Next Video" type="button" class="btnPrimary pager__btn pager__btn--next">
+            <svg class="pager__btnIcon pager__btnIcon--next" version="1.1" 
+            xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941">
+                <path class="pager__btnIconPath pager__btnIconPath--next" 
+                fill-rule="evenodd" clip-rule="evenodd" 
+                d="M4.243,0l22.971,22.971L4.243,45.941L0,41.699l18.728-18.728L0,4.243L4.243,0z"/>
+            </svg>
+            <span class="btn__label pager__label pager__label--next tk--action">
+                Next
+            </span>
+        </button>
+    </div><!--.ui-control-->
+
+
+    <article class="cards__group">
+        <h3 class="MiniReel__title tk--hdr">{{title}}</h3>
+        <ul data-view="cards:View" class="cards__list"></ul>
+        <div data-view="toc:View"></div>
+    </article>
+</div>

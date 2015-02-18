@@ -1,0 +1,448 @@
+describe('PlayerView', function() {
+    import TemplateView from '../../../lib/core/TemplateView.js';
+    import View from '../../../lib/core/View.js';
+    import PlayerView from '../../../src/views/PlayerView.js';
+    import ButtonView from '../../../src/views/ButtonView.js';
+    import CloseButtonView from '../../../src/views/CloseButtonView.js';
+    import NavButtonView from '../../../src/views/NavButtonView.js';
+    import NavbarView from '../../../src/views/NavbarView.js';
+    import Runner from '../../../lib/Runner.js';
+    let playerView;
+
+    beforeEach(function() {
+        playerView = new PlayerView();
+    });
+
+    it('should be a TemplateView', function() {
+        expect(playerView).toEqual(jasmine.any(TemplateView));
+    });
+
+    describe('properties:', function() {
+        describe('tag', function() {
+            it('should be "main"', function() {
+                expect(playerView.tag).toBe('main');
+            });
+        });
+
+        describe('template', function() {
+            it('should be an external HTML template', function() {
+                expect(playerView.template).toBe(require('../../../src/views/PlayerView.html'));
+            });
+        });
+
+        describe('cards', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a view', function() {
+                expect(playerView.cards).toEqual(jasmine.any(View));
+            });
+        });
+
+        describe('toc', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a view', function() {
+                expect(playerView.toc).toEqual(jasmine.any(View));
+            });
+        });
+
+        describe('navbar', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a NavbarView', function() {
+                expect(playerView.navbar).toEqual(jasmine.any(NavbarView));
+            });
+        });
+
+        describe('landscapeLeftSidebar', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a NavbarView', function() {
+                expect(playerView.landscapeLeftSidebar).toEqual(jasmine.any(NavbarView));
+            });
+        });
+
+        describe('closeButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a ButtonView', function() {
+                expect(playerView.closeButton).toEqual(jasmine.any(CloseButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('close', spy);
+
+                        playerView.closeButton.emit('press');
+                    });
+
+                    it('should emit the close event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('landscapeCloseButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a ButtonView', function() {
+                expect(playerView.landscapeCloseButton).toEqual(jasmine.any(CloseButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('close', spy);
+
+                        playerView.landscapeCloseButton.emit('press');
+                    });
+
+                    it('should emit the close event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('tocButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a ButtonView', function() {
+                expect(playerView.tocButton).toEqual(jasmine.any(ButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('toggleToc', spy);
+
+                        playerView.tocButton.emit('press');
+                    });
+
+                    it('should emit the toggleToc event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('landscapeTocButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a ButtonView', function() {
+                expect(playerView.landscapeTocButton).toEqual(jasmine.any(ButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('toggleToc', spy);
+
+                        playerView.landscapeTocButton.emit('press');
+                    });
+
+                    it('should emit the toggleToc event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('nextButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a NavButtonView', function() {
+                expect(playerView.nextButton).toEqual(jasmine.any(NavButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('next', spy);
+
+                        playerView.nextButton.emit('press');
+                    });
+
+                    it('should emit the next event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('landscapeNextButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a NavButtonView', function() {
+                expect(playerView.landscapeNextButton).toEqual(jasmine.any(NavButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('next', spy);
+
+                        playerView.landscapeNextButton.emit('press');
+                    });
+
+                    it('should emit the next event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('previousButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a NavButtonView', function() {
+                expect(playerView.previousButton).toEqual(jasmine.any(NavButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('previous', spy);
+
+                        playerView.previousButton.emit('press');
+                    });
+
+                    it('should emit the previous event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('landscapePreviousButton', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a NavButtonView', function() {
+                expect(playerView.landscapePreviousButton).toEqual(jasmine.any(NavButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        playerView.on('previous', spy);
+
+                        playerView.landscapePreviousButton.emit('press');
+                    });
+
+                    it('should emit the previous event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+    });
+
+    describe('methods:', function() {
+        describe('hideNavigation()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.nextButtons, playerView.previousButtons, playerView.closeButtons).forEach(button => spyOn(button, 'hide'));
+
+                playerView.hideNavigation();
+            });
+
+            it('should hide the next, previous and close buttons', function() {
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.nextButtons, playerView.previousButtons, playerView.closeButtons).forEach(button => expect(button.hide).toHaveBeenCalled());
+            });
+        });
+
+        describe('showNavigation()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.nextButtons, playerView.previousButtons, playerView.closeButtons).forEach(button => spyOn(button, 'show'));
+
+                playerView.showNavigation();
+            });
+
+            it('should show the next, previous and close buttons', function() {
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.previousButtons, playerView.closeButtons, playerView.nextButtons).forEach(button => expect(button.show).toHaveBeenCalled());
+            });
+        });
+
+        describe('toggleNavigation()', function() {
+            beforeEach(function() {
+                spyOn(playerView, 'showNavigation').and.callThrough();
+                spyOn(playerView, 'hideNavigation').and.callThrough();
+            });
+
+            describe('when called initially', function() {
+                beforeEach(function() {
+                    playerView.toggleNavigation();
+                });
+
+                it('should hide the navigation', function() {
+                    expect(playerView.hideNavigation).toHaveBeenCalled();
+                });
+            });
+
+            describe('when called after the navigation has been hidden', function() {
+                beforeEach(function() {
+                    playerView.hideNavigation();
+                    playerView.toggleNavigation();
+                });
+
+                it('should show the navigation', function() {
+                    expect(playerView.showNavigation).toHaveBeenCalled();
+                });
+            });
+        });
+
+        describe('update(data)', function() {
+            let data;
+
+            beforeEach(function() {
+                data = {
+                    title: 'title',
+                    foo: 'bar',
+                    canGoForward: true,
+                    canGoBack: true,
+                    thumbs: {
+                        next: 'next-thumb.jpg',
+                        previous: 'prev-thumb.jpg'
+                    }
+                };
+                spyOn(TemplateView.prototype, 'update').and.callThrough();
+
+                Runner.run(() => playerView.create());
+
+                [playerView.nextButton, playerView.landscapeNextButton, playerView.previousButton, playerView.landscapePreviousButton].forEach(button => {
+                    spyOn(button, 'enable').and.callThrough();
+                    spyOn(button, 'setThumb').and.callThrough();
+                });
+
+                Runner.run(() => playerView.update(data));
+            });
+
+            it('should call super()', function() {
+                expect(TemplateView.prototype.update).toHaveBeenCalledWith(data);
+            });
+
+            it('should enable all of the buttons', function() {
+                expect(playerView.nextButton.enable).toHaveBeenCalled();
+                expect(playerView.landscapeNextButton.enable).toHaveBeenCalled();
+                expect(playerView.previousButton.enable).toHaveBeenCalled();
+                expect(playerView.landscapePreviousButton.enable).toHaveBeenCalled();
+            });
+
+            it('should set the thumbnails for the buttons', function() {
+                expect(playerView.nextButton.setThumb).toHaveBeenCalledWith(data.thumbs.next);
+                expect(playerView.landscapeNextButton.setThumb).toHaveBeenCalledWith(data.thumbs.next);
+                expect(playerView.previousButton.setThumb).toHaveBeenCalledWith(data.thumbs.previous);
+                expect(playerView.landscapePreviousButton.setThumb).toHaveBeenCalledWith(data.thumbs.previous);
+            });
+
+            describe('if the minireel can\'t go forward', function() {
+                beforeEach(function() {
+                    data.canGoForward = false;
+                    playerView.nextButton.enable.calls.reset();
+                    playerView.landscapeNextButton.enable.calls.reset();
+                    playerView.previousButton.enable.calls.reset();
+                    playerView.landscapePreviousButton.enable.calls.reset();
+
+                    spyOn(playerView.nextButton, 'disable').and.callThrough();
+                    spyOn(playerView.landscapeNextButton, 'disable').and.callThrough();
+                    spyOn(playerView.previousButton, 'disable').and.callThrough();
+                    spyOn(playerView.landscapePreviousButton, 'disable').and.callThrough();
+
+                    Runner.run(() => playerView.update(data));
+                });
+
+                it('should disable the next buttons and enable the previous buttons', function() {
+                    expect(playerView.nextButton.enable).not.toHaveBeenCalled();
+                    expect(playerView.landscapeNextButton.enable).not.toHaveBeenCalled();
+                    expect(playerView.previousButton.disable).not.toHaveBeenCalled();
+                    expect(playerView.landscapePreviousButton.disable).not.toHaveBeenCalled();
+
+                    expect(playerView.nextButton.disable).toHaveBeenCalled();
+                    expect(playerView.landscapeNextButton.disable).toHaveBeenCalled();
+                    expect(playerView.previousButton.enable).toHaveBeenCalled();
+                    expect(playerView.landscapePreviousButton.enable).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the minireel can\'t go back', function() {
+                beforeEach(function() {
+                    data.canGoBack = false;
+                    playerView.nextButton.enable.calls.reset();
+                    playerView.landscapeNextButton.enable.calls.reset();
+                    playerView.previousButton.enable.calls.reset();
+                    playerView.landscapePreviousButton.enable.calls.reset();
+
+                    spyOn(playerView.nextButton, 'disable').and.callThrough();
+                    spyOn(playerView.landscapeNextButton, 'disable').and.callThrough();
+                    spyOn(playerView.previousButton, 'disable').and.callThrough();
+                    spyOn(playerView.landscapePreviousButton, 'disable').and.callThrough();
+
+                    Runner.run(() => playerView.update(data));
+                });
+
+                it('should disable the next buttons and enable the previous buttons', function() {
+                    expect(playerView.nextButton.disable).not.toHaveBeenCalled();
+                    expect(playerView.landscapeNextButton.disable).not.toHaveBeenCalled();
+                    expect(playerView.previousButton.enable).not.toHaveBeenCalled();
+                    expect(playerView.landscapePreviousButton.enable).not.toHaveBeenCalled();
+
+                    expect(playerView.nextButton.enable).toHaveBeenCalled();
+                    expect(playerView.landscapeNextButton.enable).toHaveBeenCalled();
+                    expect(playerView.previousButton.disable).toHaveBeenCalled();
+                    expect(playerView.landscapePreviousButton.disable).toHaveBeenCalled();
+                });
+            });
+        });
+    });
+});

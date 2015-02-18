@@ -11,7 +11,7 @@ const _ = createKey();
 
 class Cinema6 extends EventEmitter {
     constructor() {
-        super();
+        super(...arguments);
 
         this.ready = false;
 

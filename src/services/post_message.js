@@ -70,7 +70,7 @@ const _ = createKey({
 
 class Session extends EventEmitter {
     constructor(id, win, _private) {
-        super();
+        super(...arguments);
 
         this.id = id;
         this.window = win;

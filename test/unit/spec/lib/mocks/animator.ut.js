@@ -1,6 +1,6 @@
 describe('mock animator', function() {
     import mockAnimator from '../../../../../lib/mocks/animator.js';
-    import animator from '../../../../../lib/animator.js';
+    import animator from '../../../../../.tmp/lib-real/animator.js';
 
     beforeEach(function() {
         mockAnimator.constructor();

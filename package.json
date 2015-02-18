@@ -63,6 +63,7 @@
   "browserify-swap": {
     "test:app": {
       ".*\\/lib\\/fetcher\\.js$": "./lib/mocks/fetcher.js",
+      ".*\\/lib\\/animator\\.js$": "./lib/mocks/animator.js",
       ".*\\/lib\\/Logger\\.js$": "./lib/mocks/Logger.js",
       ".*\\/lib\\/Runner\\.js$": "./lib/mocks/Runner.js"
     }

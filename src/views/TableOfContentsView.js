@@ -12,6 +12,7 @@ class TableOfContentsView extends TemplateView {
         super(...arguments);
 
         this.tag = 'section';
+        this.id = 'toc';
         this.classes.push('css-promote', 'toc__group');
         this.template = require('./TableOfContentsView.html');
         this.instantiates.push(View);

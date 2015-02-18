@@ -26,6 +26,12 @@ describe('TableOfContentsView', function() {
             });
         });
 
+        describe('id', function() {
+            it('should be "toc"', function() {
+                expect(tableOfContentsView.id).toBe('toc');
+            });
+        });
+
         describe('classes', function() {
             it('should be the default classes plus "css-promote toc__group"', function() {
                 expect(tableOfContentsView.classes).toEqual((new TemplateView()).classes.concat(['css-promote', 'toc__group']));

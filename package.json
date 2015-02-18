@@ -52,7 +52,7 @@
     "es6-promise": "^2.0.1",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",
-    "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js",
+    "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js#v0.1.1",
     "weakmap": "0.0.6",
     "whatwg-fetch": "^0.7.0"
   },
@@ -60,7 +60,6 @@
     "test": "test"
   },
   "license": "ISC",
-
   "browserify-swap": {
     "test:app": {
       ".*\\/lib\\/fetcher\\.js$": "./lib/mocks/fetcher.js",

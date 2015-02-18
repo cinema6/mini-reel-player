@@ -2,6 +2,7 @@ describe('Hideable', function() {
     import Hideable from '../../../src/mixins/Hideable.js';
     import View from '../../../lib/core/View.js';
     import Runner from '../../../lib/Runner.js';
+    import animator from '../../../lib/animator.js';
     let testView;
 
     class TestView extends View {
@@ -19,8 +20,9 @@ describe('Hideable', function() {
 
     describe('methods:', function() {
         describe('hide()', function() {
-            beforeEach(function() {
+            beforeEach(function(done) {
                 Runner.run(() => testView.hide());
+                animator.flush('view:hide').then(done);
             });
 
             it('should set display to "none"', function() {
@@ -37,12 +39,13 @@ describe('Hideable', function() {
             });
 
             describe('after the view is hidden', function() {
-                beforeEach(function() {
+                beforeEach(function(done) {
                     testView.attributes = { style: 'display: inline-block;' };
                     Runner.run(() => {
                         testView.hide();
                         testView.show();
                     });
+                    Promise.all([animator.flush('view:hide'), animator.flush('view:show')]).then(done);
                 });
 
                 it('should set the display prop back to its inital value', function() {

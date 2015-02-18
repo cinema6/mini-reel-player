@@ -1,4 +1,5 @@
 import Runner from '../../lib/Runner.js';
+import animator from '../../lib/animator.js';
 import {createKey} from 'private-parts';
 
 const _ = createKey();
@@ -12,13 +13,19 @@ Hideable.prototype = {
 
         _(this).display = element.style.display;
 
-        Runner.schedule('render', () => element.style.display = 'none');
+        Runner.schedule('render', () => {
+            return animator.trigger('view:hide', this)
+                .then(() => element.style.display = 'none');
+        });
     },
 
     show() {
         const element = this.element || this.create();
 
-        Runner.schedule('render', () => element.style.display = _(this).display);
+        Runner.schedule('render', () => {
+            return animator.trigger('view:show', this)
+                .then(() => element.style.display = _(this).display);
+        });
     }
 };
 

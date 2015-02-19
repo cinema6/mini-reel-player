@@ -72,6 +72,7 @@ module.exports = function(grunt) {
      *********************************************************************************************/
 
     grunt.registerTask('test:unit', 'run unit tests', function() {
+        grunt.task.run('resetbrowserify');
         grunt.task.run('clean:test');
         grunt.task.run('copy:test');
         grunt.task.run('jshint');
@@ -82,6 +83,8 @@ module.exports = function(grunt) {
         } else {
             grunt.log.error('There are no tests for library code.');
         }
+
+        grunt.task.run('resetbrowserify');
 
         // Run application code tests if there are any.
         if (grunt.file.expand('./test/unit/spec/*.ut.js').length > 0) {

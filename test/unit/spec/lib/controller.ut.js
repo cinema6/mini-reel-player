@@ -1,5 +1,6 @@
 describe('Controller', function() {
     import Controller from '../../../../lib/core/Controller.js';
+    import Mixable from '../../../../lib/core/Mixable.js';
     let controller;
 
     beforeEach(function() {
@@ -7,6 +8,6 @@ describe('Controller', function() {
     });
 
     it('should exist', function() {
-        expect(controller).toEqual(jasmine.any(Object));
+        expect(controller).toEqual(jasmine.any(Mixable));
     });
 });

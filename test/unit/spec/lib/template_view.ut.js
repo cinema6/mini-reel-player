@@ -63,6 +63,47 @@ describe('TemplateView', function() {
             it('should compile the template', function() {
                 expect(tbCompileFn).toHaveBeenCalledWith(data);
             });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    view.update({
+                        name: 'Josh'
+                    });
+                    view.update({
+                        age: 23
+                    });
+                    queues.render.pop()();
+                    tbCompileFn.calls.reset();
+
+                    queues.render.pop()();
+                });
+
+                it('should extend the data each time', function() {
+                    expect(tbCompileFn).toHaveBeenCalledWith({
+                        company: 'Cinema6',
+                        name: 'Josh',
+                        age: 23
+                    });
+                });
+            });
+
+            describe('if the view was not created yet', function() {
+                beforeEach(function() {
+                    tbCompileFn = undefined;
+                    view.constructor();
+                    view.tag = 'span';
+
+                    spyOn(view, 'create').and.callThrough();
+
+                    view.update(data);
+                    queues.render.pop()();
+                });
+
+                it('should create and compile the element', function() {
+                    expect(view.create).toHaveBeenCalled();
+                    expect(tbCompileFn).toHaveBeenCalledWith(data);
+                });
+            });
         });
     });
 
@@ -96,6 +137,101 @@ describe('TemplateView', function() {
 
             it('should parse the element with TwoBits.js', function() {
                 expect(twobits.parse).toHaveBeenCalledWith(element);
+            });
+
+            describe('if template contains a data-if="" directive', function() {
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <div>I am a normal div</div>
+                        <div data-if="foo.bar"></div>
+                        <div>I am also normal.</div>
+                    `;
+
+                    view.create();
+                });
+
+                it('should add a placeholder comment above the element with the directive', function() {
+                    const comment = view.element.querySelector('[data-if]').previousSibling;
+
+                    expect(comment).toEqual(jasmine.any(window.Comment));
+                    expect(comment.nodeValue).toBe(' data-if="foo.bar" ');
+                });
+
+                describe('when update() is called', function() {
+                    describe('if the specified value is falsy', function() {
+                        beforeEach(function() {
+                            view.update({
+                                foo: {
+                                    bar: false
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should remove the element from the DOM', function() {
+                            expect(view.element.querySelector('[data-if]')).not.toEqual(jasmine.any(Element));
+                        });
+
+                        describe('if the element has already been removed', function() {
+                            beforeEach(function() {
+                                spyOn(view.element, 'removeChild').and.callThrough();
+
+                                view.update({
+                                    foo: {
+                                        bar: false
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should not remove the element again', function() {
+                                expect(view.element.removeChild).not.toHaveBeenCalled();
+                            });
+                        });
+                    });
+
+                    describe('if the specified value is truthy', function() {
+                        let element, comment;
+
+                        beforeEach(function() {
+                            element = view.element.querySelector('[data-if]');
+                            comment = element.previousSibling;
+                            view.element.removeChild(element);
+
+                            view.update({
+                                foo: {
+                                    bar: true
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should add the element to the DOM', function() {
+                            expect(element.previousSibling).toBe(comment);
+                        });
+
+                        describe('if the element has already been added', function() {
+                            beforeEach(function() {
+                                spyOn(view.element, 'insertBefore').and.callThrough();
+                                spyOn(view.element, 'removeChild').and.callThrough();
+
+                                view.update({
+                                    foo: {
+                                        bar: true
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should not replace the element', function() {
+                                expect(view.element.insertBefore).not.toHaveBeenCalled();
+                                expect(view.element.removeChild).not.toHaveBeenCalled();
+                            });
+                        });
+                    });
+                });
             });
 
             it('should create the child views declared in the templates', function() {

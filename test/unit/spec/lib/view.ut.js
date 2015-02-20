@@ -1,5 +1,6 @@
 describe('View', function() {
     import View from '../../../../lib/core/View.js';
+    import Mixable from '../../../../lib/core/Mixable.js';
     import eventDelegator from '../../../../lib/event_delegator.js';
     import {EventEmitter} from 'events';
     import Runner from '../../../../lib/Runner.js';
@@ -19,7 +20,11 @@ describe('View', function() {
     });
 
     it('should exist', function() {
-        expect(view).toEqual(jasmine.any(EventEmitter));
+        expect(view).toEqual(jasmine.any(Mixable));
+    });
+
+    it('should mixin the EventEmitter', function() {
+        expect(View.mixins).toContain(EventEmitter);
     });
 
     describe('if constructed with another view\'s element', function() {
@@ -217,7 +222,8 @@ describe('View', function() {
                 view.classes.push('my-class', 'foo-class');
                 view.attributes = {
                     style: 'left: 20px;',
-                    'data-foo': 'bar'
+                    'data-foo': 'bar',
+                    disabled: true
                 };
                 view.template = '<p>I am a great view.</p>';
                 view.tag = 'button';
@@ -242,6 +248,10 @@ describe('View', function() {
                 expect(element.tagName).toBe('BUTTON');
             });
 
+            it('should give the element the specified id', function() {
+                expect(element.id).toBe(view.id);
+            });
+
             it('should give the element the specified classes', function() {
                 expect(element.className).toBe('c6-view my-class foo-class');
             });
@@ -249,10 +259,27 @@ describe('View', function() {
             it('should give the element the specified attributes', function() {
                 expect(element.getAttribute('style')).toBe('left: 20px;');
                 expect(element.getAttribute('data-foo')).toBe('bar');
+                expect(element.getAttribute('disabled')).toBe('');
             });
 
             it('should innerHTML the template', function() {
                 expect(element.innerHTML).toBe(view.template);
+            });
+
+            describe('if the element\'s innerHTML is the same as the template', function() {
+                let contents;
+
+                beforeEach(function() {
+                    view.element.innerHTML = '<p>Hello!</p>';
+                    view.template = '<p>Hello!</p>';
+
+                    contents = view.element.firstChild;
+                    view.create();
+                });
+
+                it('should not set the element\'s innerHTML', function() {
+                    expect(view.element.firstChild).toBe(contents);
+                });
             });
 
             it('should return the element', function() {
@@ -411,6 +438,151 @@ describe('View', function() {
 
                 it('should remove the element from the dom', function() {
                     expect(parentView.element.removeChild).toHaveBeenCalledWith(element);
+                });
+            });
+        });
+
+        describe('addClass(className)', function() {
+            describe('before the element is created', function() {
+                beforeEach(function() {
+                    Runner.run(() => view.addClass('new-class'));
+                });
+
+                it('should add the class to the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'new-class']);
+                });
+            });
+
+            describe('if called with a class that is already added', function() {
+                beforeEach(function() {
+                    Runner.run(() => view.addClass('c6-view'));
+                });
+
+                it('should not add the same class again', function() {
+                    expect(view.classes).toEqual(['c6-view']);
+                });
+            });
+
+            describe('after the element is created', function() {
+                beforeEach(function() {
+                    view.create();
+
+                    Runner.run(() => view.addClass('a-class'));
+                    queues.render.pop()();
+                });
+
+                it('should add the class to the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'a-class']);
+                });
+
+                it('should mutate the className of the element', function() {
+                    expect(view.element.className).toBe('c6-view a-class');
+                });
+            });
+        });
+
+        describe('removeClass(className)', function() {
+            describe('before the element is created', function() {
+                beforeEach(function() {
+                    view.classes.push('some-class', 'cool-class');
+
+                    Runner.run(() => view.removeClass('some-class'));
+                });
+
+                it('should remove the class from the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'cool-class']);
+                });
+
+                describe('if called with a class that doesn\'t exist', function() {
+                    beforeEach(function() {
+                        Runner.run(() => view.removeClass('foo-class'));
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.classes).toEqual(['c6-view', 'cool-class']);
+                    });
+                });
+            });
+
+            describe('after the element is created', function() {
+                beforeEach(function() {
+                    view.classes.push('some-class', 'cool-class');
+                    view.create();
+
+                    Runner.run(() => view.removeClass('some-class'));
+                    queues.render.pop()();
+                });
+
+                it('should remove the class from the classes array', function() {
+                    expect(view.classes).toEqual(['c6-view', 'cool-class']);
+                });
+
+                it('should mutate the className of the element', function() {
+                    expect(view.element.className).toBe('c6-view cool-class');
+                });
+            });
+        });
+
+        describe('setAttribute(attribute, value)', function() {
+            describe('before the element is created', function() {
+                beforeEach(function() {
+                    Runner.run(() => view.setAttribute('data-test-thing', 'hello-world'));
+                });
+
+                it('should set the value on the attributes object', function() {
+                    expect(view.attributes['data-test-thing']).toBe('hello-world');
+                });
+            });
+
+            describe('after the element is created', function() {
+                beforeEach(function() {
+                    view.create();
+
+                    Runner.run(() => view.setAttribute('data-name', 'Josh'));
+                    queues.render.pop()();
+                });
+
+                it('should set the value on the attributes object', function() {
+                    expect(view.attributes['data-name']).toBe('Josh');
+                });
+
+                it('should mutate the attribute on the element', function() {
+                    expect(view.element.getAttribute('data-name')).toBe('Josh');
+                });
+
+                describe('if set to an existing value', function() {
+                    beforeEach(function() {
+                        spyOn(view.element, 'setAttribute').and.callThrough();
+                        Runner.schedule.calls.reset();
+                        view.setAttribute('data-name', 'Josh');
+                    });
+
+                    it('should not call setAttribute() on the element', function() {
+                        expect(Runner.schedule).not.toHaveBeenCalled();
+                        expect(view.element.setAttribute).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if set to false', function() {
+                    beforeEach(function() {
+                        view.setAttribute('data-name', false);
+                        queues.render.pop()();
+                    });
+
+                    it('should remove the attribute', function() {
+                        expect(view.element.getAttribute('data-name')).toBeNull();
+                    });
+                });
+
+                describe('if set to true', function() {
+                    beforeEach(function() {
+                        view.setAttribute('data-name', true);
+                        queues.render.pop()();
+                    });
+
+                    it('should add the attribute with no value', function() {
+                        expect(view.element.getAttribute('data-name')).toBe('');
+                    });
                 });
             });
         });

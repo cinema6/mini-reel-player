@@ -92,6 +92,12 @@ export default class MiniReel extends EventEmitter {
             }
         });
 
+        const nextCard = this.deck[this.currentIndex + 1];
+
+        if (nextCard) {
+            nextCard.prepare();
+        }
+
         this.emit('move');
     }
 }

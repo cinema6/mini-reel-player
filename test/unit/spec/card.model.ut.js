@@ -143,5 +143,20 @@ describe('Card', function() {
                 });
             });
         });
+
+        describe('prepare()', function() {
+            let spy;
+
+            beforeEach(function() {
+                spy = jasmine.createSpy('spy()');
+                card.on('prepare', spy);
+
+                card.prepare();
+            });
+
+            it('should emit the "prepare" event', function() {
+                expect(spy).toHaveBeenCalled();
+            });
+        });
     });
 });

@@ -54,7 +54,68 @@ describe('VideoCard', function() {
                     type: data.type,
                     source: data.source,
                     href: data.data.href,
-                    videoid: data.data.videoid
+                    videoid: data.data.videoid,
+                    autoplay: true
+                });
+            });
+
+            describe('.autoplay', function() {
+                describe('if data.autoplay is true', function() {
+                    beforeEach(function() {
+                        data.data.autoplay = true;
+                        card = new VideoCard(data, false);
+                    });
+
+                    it('should be true', function() {
+                        expect(card.data.autoplay).toBe(true);
+                    });
+                });
+
+                describe('if data.autoplay is false', function() {
+                    beforeEach(function() {
+                        data.data.autoplay = false;
+                        card = new VideoCard(data, true);
+                    });
+
+                    it('should be false', function() {
+                        expect(card.data.autoplay).toBe(false);
+                    });
+                });
+
+                describe('if data.autoplay is not defined', function() {
+                    beforeEach(function() {
+                        delete data.data.autoplay;
+                    });
+
+                    describe('if true on the minireel', function() {
+                        beforeEach(function() {
+                            card = new VideoCard(data, true);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.autoplay).toBe(true);
+                        });
+                    });
+
+                    describe('if false on the minireel', function() {
+                        beforeEach(function() {
+                            card = new VideoCard(data, false);
+                        });
+
+                        it('should be false', function() {
+                            expect(card.data.autoplay).toBe(false);
+                        });
+                    });
+
+                    describe('if undefined on the minireel', function() {
+                        beforeEach(function() {
+                            card = new VideoCard(data, undefined);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.autoplay).toBe(true);
+                        });
+                    });
                 });
             });
         });

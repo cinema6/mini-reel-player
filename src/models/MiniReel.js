@@ -18,7 +18,7 @@ function initialize(minireel, experience) {
         case 'recap':
             return new RecapCard(card, minireel);
         default:
-            return new VideoCard(card);
+            return new VideoCard(card, experience.data.autoplay);
         }
     });
     minireel.length = minireel.deck.length;

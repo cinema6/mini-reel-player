@@ -1,7 +1,7 @@
 import Card from './Card.js';
 
 export default class VideoCard extends Card {
-    constructor(data) {
+    constructor(data, autoplay = true) {
         super(...arguments);
 
         this.type = 'video';
@@ -10,7 +10,8 @@ export default class VideoCard extends Card {
             type: data.type,
             source: data.source,
             videoid: data.data.videoid,
-            href: data.data.href
+            href: data.data.href,
+            autoplay: 'autoplay' in data.data ? data.data.autoplay : autoplay
         };
     }
 }

@@ -55,7 +55,8 @@ describe('VideoCard', function() {
                     source: data.source,
                     href: data.data.href,
                     videoid: data.data.videoid,
-                    autoplay: true
+                    autoplay: true,
+                    autoadvance: true
                 });
             });
 
@@ -116,6 +117,101 @@ describe('VideoCard', function() {
                             expect(card.data.autoplay).toBe(true);
                         });
                     });
+                });
+            });
+
+            describe('.autoadvance', function() {
+                describe('if data.autoadvance is true', function() {
+                    beforeEach(function() {
+                        data.data.autoadvance = true;
+                        card = new VideoCard(data, undefined, false);
+                    });
+
+                    it('should be true', function() {
+                        expect(card.data.autoadvance).toBe(true);
+                    });
+                });
+
+                describe('if data.autoadvance is false', function() {
+                    beforeEach(function() {
+                        data.data.autoadvance = false;
+                        card = new VideoCard(data, undefined, true);
+                    });
+
+                    it('should be false', function() {
+                        expect(card.data.autoadvance).toBe(false);
+                    });
+                });
+
+                describe('if data.autoadvance is not defined', function() {
+                    beforeEach(function() {
+                        delete data.data.autoadvance;
+                    });
+
+                    describe('if true on the minireel', function() {
+                        beforeEach(function() {
+                            card = new VideoCard(data, undefined, true);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.autoadvance).toBe(true);
+                        });
+                    });
+
+                    describe('if false on the minireel', function() {
+                        beforeEach(function() {
+                            card = new VideoCard(data, undefined, false);
+                        });
+
+                        it('should be false', function() {
+                            expect(card.data.autoadvance).toBe(false);
+                        });
+                    });
+
+                    describe('if undefined on the minireel', function() {
+                        beforeEach(function() {
+                            card = new VideoCard(data, undefined, undefined);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.autoadvance).toBe(true);
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+    describe('methods:', function() {
+        describe('complete()', function() {
+            let spy;
+
+            beforeEach(function() {
+                spy = jasmine.createSpy('spy()');
+                card.on('canAdvance', spy);
+            });
+
+            describe('if autoadvance is true', function() {
+                beforeEach(function() {
+                    card.data.autoadvance = true;
+
+                    card.complete();
+                });
+
+                it('should emit "canAdvance"', function() {
+                    expect(spy).toHaveBeenCalled();
+                });
+            });
+
+            describe('if autoadvance is true', function() {
+                beforeEach(function() {
+                    card.data.autoadvance = false;
+
+                    card.complete();
+                });
+
+                it('should not emit "canAdvance"', function() {
+                    expect(spy).not.toHaveBeenCalled();
                 });
             });
         });

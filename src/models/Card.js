@@ -38,4 +38,8 @@ export default class Card extends EventEmitter {
     prepare() {
         this.emit('prepare');
     }
+
+    complete() {
+        this.emit('complete');
+    }
 }

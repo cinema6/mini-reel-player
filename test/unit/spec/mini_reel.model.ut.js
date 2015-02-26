@@ -18,7 +18,7 @@ describe('MiniReel', function() {
         "title": "The 15 best movies of the decade (so far) that you can watch on Netflix right now",
         "mode": "lightbox",
         "autoplay": false,
-        "autoadvance": true,
+        "autoadvance": false,
         "sponsored": true,
         "links": {
           "Website": "http://pando.com/2015/02/03/the-15-best-movies-of-the-decade-so-far-that-you-can-watch-on-netflix-right-now/",
@@ -549,6 +549,67 @@ describe('MiniReel', function() {
                     expect(minireel.didMove.calls.count()).toBe(2);
                 });
 
+                describe('when the currentCard emits "canAdvance"', function() {
+                    beforeEach(function() {
+                        spyOn(minireel, 'next').and.callThrough();
+
+                        minireel.moveToIndex(0);
+                        minireel.currentCard.emit('canAdvance');
+                    });
+
+                    it('should move to the next card', function() {
+                        expect(minireel.next).toHaveBeenCalled();
+                    });
+
+                    describe('if a previous currentCard emits "canAdvance"', function() {
+                        beforeEach(function() {
+                            minireel.next.calls.reset();
+
+                            minireel.moveToIndex(3);
+                            minireel.deck[0].emit('canAdvance');
+                        });
+
+                        it('should not move to the next card', function() {
+                            expect(minireel.next).not.toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('if the currentCard is null', function() {
+                        it('should not throw any errors', function() {
+                            expect(function() {
+                                minireel.moveToIndex(-1);
+                            }).not.toThrow();
+                        });
+                    });
+
+                    describe('if moved to the same card', function() {
+                        beforeEach(function() {
+                            spyOn(minireel.currentCard, 'on').and.callThrough();
+
+                            minireel.moveTo(minireel.currentCard);
+                        });
+
+                        it('should not add another event listener', function() {
+                            expect(minireel.currentCard.on).not.toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('if moved to the last card', function() {
+                        let lastCard;
+
+                        beforeEach(function() {
+                            lastCard = minireel.deck[minireel.deck.length - 1];
+
+                            spyOn(lastCard, 'on').and.callThrough();
+                            minireel.moveToIndex(minireel.deck.length - 1);
+                        });
+
+                        it('should not listen for the canAdvance event', function() {
+                            expect(lastCard.on).not.toHaveBeenCalledWith('canAdvance', jasmine.any(Function));
+                        });
+                    });
+                });
+
                 describe('if already on a card', function() {
                     beforeEach(function() {
                         minireel.moveToIndex(2);
@@ -814,6 +875,14 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(RecapCard)
             ]);
+        });
+
+        it('should pass the minireel\'s autoplay and autoadvance properites to the video cards', function() {
+            minireel.deck.filter(card => card instanceof VideoCard)
+                .forEach(card => {
+                    expect(card.data.autoplay).toBe(experience.data.autoplay);
+                    expect(card.data.autoadvance).toBe(experience.data.autoadvance);
+                });
         });
 
         it('should give the recap card a reference to itself', function() {

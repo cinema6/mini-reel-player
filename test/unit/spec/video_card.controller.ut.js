@@ -171,11 +171,16 @@ describe('VideoCardController', function() {
                     describe('ended', function() {
                         beforeEach(function() {
                             spyOn(player, 'reload');
-                            player.emit('ended');
+                            spyOn(card, 'complete');
+                            Runner.run(() => player.emit('ended'));
                         });
 
                         it('should reload itself', function() {
                             expect(player.reload).toHaveBeenCalled();
+                        });
+
+                        it('should call complete() on the card', function() {
+                            expect(card.complete).toHaveBeenCalled();
                         });
                     });
                 });

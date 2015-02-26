@@ -25,7 +25,10 @@ export default class VideoCardController extends CardController {
             player.pause();
             Runner.schedule('afterRender', () => player.unload());
         });
-        player.on('ended', () => player.reload());
+        player.on('ended', () => {
+            Runner.schedule('afterRender', () => player.reload());
+            this.model.complete();
+        });
     }
 
     render() {

@@ -18,7 +18,7 @@ function initialize(minireel, experience) {
         case 'recap':
             return new RecapCard(card, minireel);
         default:
-            return new VideoCard(card, experience.data.autoplay);
+            return new VideoCard(card, experience.data.autoplay, experience.data.autoadvance);
         }
     });
     minireel.length = minireel.deck.length;
@@ -40,6 +40,8 @@ export default class MiniReel extends EventEmitter {
 
         _(this).ready = false;
 
+        _(this).cardCanAdvanceHandler = (() => this.next());
+
         cinema6.getAppData().then(appData => initialize(this, appData.experience));
         cinema6.getSession().then(session => session.on('show', () => this.moveToIndex(0)));
     }
@@ -58,13 +60,23 @@ export default class MiniReel extends EventEmitter {
         }
 
         const previousCard = this.currentCard;
+        const currentCard = this.deck[index];
+        const atTail = (index === this.length - 1);
 
         this.currentIndex = index;
-        this.currentCard = this.deck[index];
+        this.currentCard = currentCard;
 
-        if (this.currentCard !== previousCard) {
-            this.didMove();
+        if (currentCard === previousCard) { return; }
+
+        if (currentCard && !atTail) {
+            currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
         }
+
+        if (previousCard) {
+            previousCard.removeListener('canAdvance', _(this).cardCanAdvanceHandler);
+        }
+
+        this.didMove();
     }
 
     moveTo(card) {

@@ -158,5 +158,20 @@ describe('Card', function() {
                 expect(spy).toHaveBeenCalled();
             });
         });
+
+        describe('complete()', function() {
+            let spy;
+
+            beforeEach(function() {
+                spy = jasmine.createSpy('spy()');
+                card.on('complete', spy);
+
+                card.complete();
+            });
+
+            it('should emit the "complete" event', function() {
+                expect(spy).toHaveBeenCalled();
+            });
+        });
     });
 });

@@ -172,7 +172,7 @@ describe('TableOfContentsViewController', function() {
         spyOn(TableOfContentsView.prototype, 'hide');
         spyOn(TableOfContentsView.prototype, 'show');
 
-        minireel.on('init', done);
+        minireel.on('init', () => process.nextTick(done));
 
         TableOfContentsViewCtrl = new TableOfContentsViewController(minireel);
     });

@@ -34,4 +34,8 @@ export default class Card extends EventEmitter {
             this.emit('deactivate');
         }
     }
+
+    prepare() {
+        this.emit('prepare');
+    }
 }

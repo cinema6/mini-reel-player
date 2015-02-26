@@ -18,7 +18,7 @@ function initialize(minireel, experience) {
         case 'recap':
             return new RecapCard(card, minireel);
         default:
-            return new VideoCard(card);
+            return new VideoCard(card, experience.data.autoplay);
         }
     });
     minireel.length = minireel.deck.length;
@@ -91,6 +91,12 @@ export default class MiniReel extends EventEmitter {
                 card.deactivate();
             }
         });
+
+        const nextCard = this.deck[this.currentIndex + 1];
+
+        if (nextCard) {
+            nextCard.prepare();
+        }
 
         this.emit('move');
     }

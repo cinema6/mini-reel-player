@@ -663,9 +663,11 @@ describe('MiniReel', function() {
                     minireel.deck.forEach(card => {
                         spyOn(card, 'activate').and.callThrough();
                         spyOn(card, 'deactivate').and.callThrough();
+                        spyOn(card, 'prepare').and.callThrough();
                     });
 
                     minireel.currentCard = minireel.deck[2];
+                    minireel.currentIndex = 2;
                     minireel.didMove();
 
                     done();
@@ -677,6 +679,36 @@ describe('MiniReel', function() {
 
             it('should emit the "move" event', function() {
                 expect(spy).toHaveBeenCalled();
+            });
+
+            it('should call prepare() on the card after the currentCard', function() {
+                expect(minireel.deck[0].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[1].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[2].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[3].prepare).toHaveBeenCalled();
+                expect(minireel.deck[4].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[5].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[6].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[7].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[8].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[9].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[10].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[11].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[12].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[13].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[14].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[15].prepare).not.toHaveBeenCalled();
+            });
+
+            describe('when moving to the last card', function() {
+                beforeEach(function() {
+                    minireel.currentIndex = 15;
+                    minireel.currentCard = minireel.deck[15];
+                });
+
+                it('should not throw any errors', function() {
+                    minireel.didMove();
+                });
             });
 
             it('should call activate() on the active card and deactivate() on the non-active card', function() {

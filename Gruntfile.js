@@ -27,7 +27,7 @@ module.exports = function(grunt) {
         }
     },
         personal = _.extend({
-            browser: 'Google Chrome'
+            browser: null
         }, grunt.file.exists('personal.json') ? grunt.file.readJSON('personal.json') : {});
 
     require('load-grunt-config')(grunt, {

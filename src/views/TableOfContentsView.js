@@ -15,7 +15,7 @@ class TableOfContentsView extends TemplateView {
         this.id = 'toc';
         this.classes.push('css-promote', 'toc__group');
         this.template = require('./TableOfContentsView.html');
-        this.instantiates.push(View);
+        this.instantiates = {View};
 
         this.cards = [];
     }

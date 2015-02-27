@@ -11,8 +11,7 @@ module.exports = {
     tmp: {
         files: [
             {
-                cwd: '.tmp',
-                src: '<%= package.main %>',
+                src: '.tmp/<%= package.main %>',
                 dest: '.tmp/<%= settings.distDir %>/<%= _version %>/main.js'
             }
         ]

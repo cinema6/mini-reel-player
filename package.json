@@ -31,6 +31,7 @@
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-git-assist": "git+ssh://git@github.com:cinema6/grunt-git-assist",
+    "grunt-c6-util": "git+ssh://git@github.com:cinema6/c6-grunt-util",
     "grunt-karma": "^0.10.1",
     "grunt-open": "^0.2.3",
     "grunt-text-replace": "^0.4.0",

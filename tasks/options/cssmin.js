@@ -7,7 +7,7 @@ module.exports = {
                 src: [
                     '**/*.css'
                 ],
-                dest: '.tmp/<%= settings.distDir %>/<%= _version %>'
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>'
             }
         ]
     }

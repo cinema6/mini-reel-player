@@ -469,6 +469,7 @@ describe('MiniReel', function() {
 
     beforeEach(function(done) {
         session = new EventEmitter();
+        session.ping = jasmine.createSpy('session.ping()');
 
         appDataDeferred = defer(RunnerPromise);
         sessionDeferred = defer(RunnerPromise);
@@ -519,6 +520,30 @@ describe('MiniReel', function() {
         });
     });
 
+    describe('events:', function() {
+        describe('launch', function() {
+            beforeEach(function(done) {
+                minireel.emit('launch');
+                sessionDeferred.promise.then(done);
+            });
+
+            it('should ping the session with the "open" event', function() {
+                expect(session.ping).toHaveBeenCalledWith('open');
+            });
+        });
+
+        describe('close', function() {
+            beforeEach(function(done) {
+                minireel.emit('close');
+                sessionDeferred.promise.then(done);
+            });
+
+            it('should ping the session with the "close" event', function() {
+                expect(session.ping).toHaveBeenCalledWith('close');
+            });
+        });
+    });
+
     describe('methods:', function() {
         describe('moveToIndex(index)', function() {
             describe('if called before initialization', function() {
@@ -547,6 +572,45 @@ describe('MiniReel', function() {
                     expect(minireel.currentIndex).toBe(3);
                     expect(minireel.currentCard).toBe(minireel.deck[3]);
                     expect(minireel.didMove.calls.count()).toBe(2);
+                });
+
+                describe('when moving from no card', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        minireel.on('launch', spy);
+
+                        minireel.moveToIndex(-1);
+                        expect(spy).not.toHaveBeenCalled();
+                        minireel.moveToIndex(2);
+                    });
+
+                    it('should emit the launch event', function() {
+                        expect(spy).toHaveBeenCalled();
+                        minireel.moveToIndex(4);
+                        expect(spy.calls.count()).toBe(1);
+                    });
+                });
+
+                describe('when moving to no card', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('spy()');
+                        minireel.on('close', spy);
+
+                        minireel.moveToIndex(-1);
+                        minireel.moveToIndex(3);
+                        minireel.moveToIndex(4);
+                        expect(spy).not.toHaveBeenCalled();
+
+                        minireel.moveToIndex(-1);
+                    });
+
+                    it('should emit the close event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
                 });
 
                 describe('when the currentCard emits "canAdvance"', function() {

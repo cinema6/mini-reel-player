@@ -11,6 +11,14 @@ module.exports = {
             },
             {
                 expand: true,
+                cwd: 'lib',
+                src: [
+                    '**/*.js'
+                ],
+                dest: '.tmp/lib'
+            },
+            {
+                expand: true,
                 cwd: 'public',
                 src: [
                     '**/*.{png,jpg,jpeg,gif,webp,svg}'
@@ -25,8 +33,7 @@ module.exports = {
                 expand: true,
                 cwd: '.tmp/<%= settings.distDir %>',
                 src: [
-                    '**',
-                    '!*.js'
+                    '**'
                 ],
                 dest: '<%= settings.distDir %>'
             }

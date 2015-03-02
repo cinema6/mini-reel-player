@@ -4,13 +4,15 @@ module.exports = {
         dest: '<%= settings.distDir %>/index.html',
         replacements: [
             {
-                from: /<base href="?(.+?)"?\/?>/,
+                from: /<base href="?(.*?)"?\/?>/,
                 to: function(match, index, text, matches) {
                     'use strict';
 
                     var grunt = require('grunt');
+                    var base = '<base href="' + grunt.config('_version') + '/"/>';
 
-                    return match.replace(matches[0], grunt.config('_version') + '/');
+
+                    return match.replace(match,  base);
                 }
             }
         ]

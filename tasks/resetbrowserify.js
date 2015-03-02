@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         'Reset all browserify instances to their virgin state.',
         function() {
             Object.keys(require.cache).filter(function(name) {
-                return (/browserify/).test(name);
+                return (/browserify/).test(name) && !(/grunt-browserify/).test(name);
             }).forEach(function(name) {
                 delete require.cache[name];
             });

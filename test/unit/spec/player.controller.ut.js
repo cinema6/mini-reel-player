@@ -1,4 +1,5 @@
 describe('PlayerController', function() {
+    import cinema6 from '../../../src/services/cinema6.js';
     import PlayerController from '../../../src/controllers/PlayerController.js';
     import Controller from '../../../lib/core/Controller.js';
     import ApplicationView from '../../../src/views/ApplicationView.js';
@@ -16,8 +17,16 @@ describe('PlayerController', function() {
     let PlayerCtrl;
 
     let applicationView;
+    let session;
 
     beforeEach(function() {
+        cinema6.constructor();
+
+        const init = cinema6.init;
+        spyOn(cinema6, 'init').and.callFake(function() {
+            return (session = init.apply(cinema6, arguments));
+        });
+
         applicationView = new ApplicationView(document.createElement('body'));
 
         Runner.run(() => PlayerCtrl = new PlayerController(applicationView));
@@ -27,7 +36,17 @@ describe('PlayerController', function() {
         expect(PlayerCtrl).toEqual(jasmine.any(Controller));
     });
 
+    it('should initialize a cinema6 session', function() {
+        expect(cinema6.init).toHaveBeenCalled();
+    });
+
     describe('properties:', function() {
+        describe('session', function() {
+            it('should be the cinema6 session', function() {
+                expect(PlayerCtrl.session).toBe(session);
+            });
+        });
+
         describe('view', function() {
             it('should be a PlayerView', function() {
                 expect(PlayerCtrl.view).toEqual(jasmine.any(PlayerView));
@@ -179,6 +198,28 @@ describe('PlayerController', function() {
 
                     it('should call updateView()', function() {
                         expect(PlayerCtrl.updateView).toHaveBeenCalled();
+                    });
+                });
+
+                describe('launch', function() {
+                    beforeEach(function() {
+                        spyOn(cinema6, 'fullscreen');
+                        PlayerCtrl.minireel.emit('launch');
+                    });
+
+                    it('should enter fullscreen mode', function() {
+                        expect(cinema6.fullscreen).toHaveBeenCalledWith(true);
+                    });
+                });
+
+                describe('close', function() {
+                    beforeEach(function() {
+                        spyOn(cinema6, 'fullscreen');
+                        PlayerCtrl.minireel.emit('close');
+                    });
+
+                    it('should leave fullscreen mode', function() {
+                        expect(cinema6.fullscreen).toHaveBeenCalledWith(false);
                     });
                 });
             });

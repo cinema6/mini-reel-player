@@ -39,8 +39,8 @@ describe('TemplateView', function() {
         });
 
         describe('instantiates', function() {
-            it('should be an empty array', function() {
-                expect(view.instantiates).toEqual([]);
+            it('should be an object', function() {
+                expect(view.instantiates).toEqual({});
             });
         });
     });
@@ -118,7 +118,7 @@ describe('TemplateView', function() {
                 element = document.createElement('span');
                 view.element = element;
 
-                view.instantiates = [ButtonView, TextFieldView];
+                view.instantiates = {ButtonView, TextFieldView};
 
                 element.innerHTML = `
                     <p>Hello {{name}}</p>

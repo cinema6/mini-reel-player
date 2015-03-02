@@ -5,7 +5,7 @@ module.exports = {
     build: {
         files: [
             {
-                cwd: '<%= settings.distDir %>',
+                cwd: '.tmp/uncompressed/<%= settings.distDir %>',
                 expand: true,
                 src: [
                     '**/*.js',

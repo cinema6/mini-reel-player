@@ -4,6 +4,7 @@ import MiniReel from '../models/MiniReel.js';
 import VideoCardController from './VideoCardController.js';
 import RecapCardController from './RecapCardController.js';
 import TableOfContentsViewController from './TableOfContentsViewController.js';
+import cinema6 from '../services/cinema6.js';
 import {
     map,
     forEach
@@ -18,6 +19,7 @@ export default class PlayerController extends Controller {
     constructor(parentView) {
         super(...arguments);
 
+        this.session = cinema6.init();
         this.view = new PlayerView();
         this.minireel = new MiniReel();
         this.cardCtrls = [];
@@ -35,6 +37,8 @@ export default class PlayerController extends Controller {
             this.view.appendTo(parentView);
         });
         this.minireel.on('move', () => this.updateView());
+        this.minireel.on('launch', () => cinema6.fullscreen(true));
+        this.minireel.on('close', () => cinema6.fullscreen(false));
 
         this.view.on('next', () => this.minireel.next());
         this.view.on('previous', () => this.minireel.previous());

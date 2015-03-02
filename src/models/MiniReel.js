@@ -44,6 +44,9 @@ export default class MiniReel extends EventEmitter {
 
         cinema6.getAppData().then(appData => initialize(this, appData.experience));
         cinema6.getSession().then(session => session.on('show', () => this.moveToIndex(0)));
+
+        this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
+        this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
     }
 
     moveToIndex(index) {
@@ -60,7 +63,7 @@ export default class MiniReel extends EventEmitter {
         }
 
         const previousCard = this.currentCard;
-        const currentCard = this.deck[index];
+        const currentCard = this.deck[index] || null;
         const atTail = (index === this.length - 1);
 
         this.currentIndex = index;
@@ -74,6 +77,14 @@ export default class MiniReel extends EventEmitter {
 
         if (previousCard) {
             previousCard.removeListener('canAdvance', _(this).cardCanAdvanceHandler);
+        }
+
+        if (!previousCard) {
+            this.emit('launch');
+        }
+
+        if (!currentCard) {
+            this.emit('close');
         }
 
         this.didMove();

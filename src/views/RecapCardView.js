@@ -10,7 +10,7 @@ export default class RecapCardView extends CardView {
         super(...arguments);
 
         this.template = require('./RecapCardView.html');
-        this.instantiates.push(View);
+        this.instantiates = {View};
     }
 
     update(data) {

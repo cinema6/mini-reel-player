@@ -5,7 +5,7 @@ export default class VideoCardView extends CardView {
     constructor() {
         super(...arguments);
 
-        this.instantiates.push(View);
+        this.instantiates = {View};
         this.template = require('./VideoCardView.html');
     }
 }

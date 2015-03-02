@@ -18,13 +18,13 @@ export default class PlayerView extends TemplateView {
         this.tag = 'main';
         this.template = require('./PlayerView.html');
 
-        this.instantiates.push(
+        this.instantiates = {
             View,
             NavbarView,
             ButtonView,
             CloseButtonView,
             NavButtonView
-        );
+        };
 
         this.nextButtons = [];
         this.previousButtons = [];

@@ -35,6 +35,7 @@ describe('RecapCard', function() {
 
     beforeEach(function() {
         minireel = new MiniReel();
+        minireel.splash = '/collateral/experiences/e-42108b552a05ea/splash';
         card = new RecapCard(data, minireel);
     });
 
@@ -52,6 +53,15 @@ describe('RecapCard', function() {
         describe('data', function() {
             it('should be the minireel', function() {
                 expect(card.data).toBe(minireel);
+            });
+        });
+
+        describe('thumbs', function() {
+            it('should use the minireel\'s splash', function() {
+                expect(card.thumbs).toEqual({
+                    small: minireel.splash,
+                    large: minireel.splash
+                });
             });
         });
     });

@@ -6,6 +6,7 @@ describe('MiniReel', function() {
         defer
     } from '../../../lib/utils.js';
     import RunnerPromise from '../../../lib/RunnerPromise.js';
+    import TextCard from '../../../src/models/TextCard.js';
     import VideoCard from '../../../src/models/VideoCard.js';
     import RecapCard from '../../../src/models/RecapCard.js';
 
@@ -39,6 +40,25 @@ describe('MiniReel', function() {
           "theme": "img-only"
         },
         "deck": [
+          {
+            "data": {},
+            "id": "rc-4b3dc304c3573f",
+            "type": "text",
+            "title": "Check These Out!",
+            "note": "This people play the trumpet like you've never heard before.",
+            "modules": [],
+            "placementId": null,
+            "templateUrl": null,
+            "sponsored": false,
+            "campaign": {
+                "campaignId": null,
+                 "advertiserId": null,
+                 "minViewTime": null
+            },
+            "collateral": {},
+            "links": {},
+            "params": {}
+          },
           {
             "data": {
               "controls": true,
@@ -495,6 +515,12 @@ describe('MiniReel', function() {
             });
         });
 
+        describe('splash', function() {
+            it('should be null', function() {
+                expect(minireel.splash).toBeNull();
+            });
+        });
+
         describe('currentCard', function() {
             it('should be null', function() {
                 expect(minireel.currentCard).toBeNull();
@@ -698,7 +724,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(16);
+                            minireel.moveToIndex(17);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -823,12 +849,13 @@ describe('MiniReel', function() {
                 expect(minireel.deck[13].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[14].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[15].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[16].prepare).not.toHaveBeenCalled();
             });
 
             describe('when moving to the last card', function() {
                 beforeEach(function() {
-                    minireel.currentIndex = 15;
-                    minireel.currentCard = minireel.deck[15];
+                    minireel.currentIndex = 16;
+                    minireel.currentCard = minireel.deck[16];
                 });
 
                 it('should not throw any errors', function() {
@@ -884,6 +911,9 @@ describe('MiniReel', function() {
 
                 expect(minireel.deck[15].deactivate).toHaveBeenCalled();
                 expect(minireel.deck[15].activate).not.toHaveBeenCalled();
+
+                expect(minireel.deck[16].deactivate).toHaveBeenCalled();
+                expect(minireel.deck[16].activate).not.toHaveBeenCalled();
             });
         });
     });
@@ -920,8 +950,13 @@ describe('MiniReel', function() {
             expect(minireel.title).toBe(experience.data.title);
         });
 
+        it('should set the splash', function() {
+            expect(minireel.splash).toBe(experience.data.collateral.splash);
+        });
+
         it('should fill the deck with the cards', function() {
             expect(minireel.deck).toEqual([
+                jasmine.any(TextCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
@@ -949,12 +984,20 @@ describe('MiniReel', function() {
                 });
         });
 
+        it('should pass the minireel\'s splash property to the text cards', function() {
+            minireel.deck.filter(card => card instanceof TextCard)
+                .forEach(card => expect(card.thumbs).toEqual({
+                    small: minireel.splash,
+                    large: minireel.splash
+                }));
+        });
+
         it('should give the recap card a reference to itself', function() {
             expect(minireel.deck[minireel.deck.length - 1].data).toBe(minireel);
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(16);
+            expect(minireel.length).toBe(17);
         });
     });
 });

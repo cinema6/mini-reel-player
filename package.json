@@ -1,6 +1,6 @@
 {
   "name": "mini-reel-player",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "main": "src/main.js",

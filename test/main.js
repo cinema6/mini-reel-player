@@ -1,7 +1,5 @@
 require('es6-promise').polyfill();
-if (!('WeakMap' in global)) {
-    global.WeakMap = require('weakmap');
-}
+global.WeakMap = require('weak-map');
 require('whatwg-fetch');
 require('raf.js');
 require('6to5/runtime');

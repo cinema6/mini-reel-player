@@ -16,11 +16,12 @@
     "Joshua D. Minzner <josh@cinema6.com>"
   ],
   "devDependencies": {
-    "6to5ify": "^4.1.0",
+    "babelify": "^5.0.3",
     "browserify": "^8.1.1",
     "browserify-swap": "^0.2.1",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.3.0",
+    "grunt-c6-util": "git+ssh://git@github.com:cinema6/c6-grunt-util",
     "grunt-closure-compiler": "0.0.21",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compress": "^0.13.0",
@@ -31,7 +32,6 @@
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-git-assist": "git+ssh://git@github.com:cinema6/grunt-git-assist",
-    "grunt-c6-util": "git+ssh://git@github.com:cinema6/c6-grunt-util",
     "grunt-karma": "^0.10.1",
     "grunt-open": "^0.2.3",
     "grunt-text-replace": "^0.4.0",
@@ -49,7 +49,6 @@
     "underscore": "^1.7.0"
   },
   "dependencies": {
-    "6to5": "^3.3.10",
     "es6-promise": "^2.0.1",
     "gsap": "^1.15.1",
     "private-parts": "^0.4.1",

@@ -1,6 +1,7 @@
 import Controller from '../../lib/core/Controller.js';
 import PlayerView from '../views/PlayerView.js';
 import MiniReel from '../models/MiniReel.js';
+import TextCardController from './TextCardController.js';
 import VideoCardController from './VideoCardController.js';
 import RecapCardController from './RecapCardController.js';
 import TableOfContentsViewController from './TableOfContentsViewController.js';
@@ -11,6 +12,7 @@ import {
 } from '../../lib/utils.js';
 
 const CardControllers = {
+    text: TextCardController,
     video: VideoCardController,
     recap: RecapCardController
 };

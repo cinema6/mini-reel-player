@@ -5,9 +5,11 @@ describe('PlayerController', function() {
     import ApplicationView from '../../../src/views/ApplicationView.js';
     import PlayerView from '../../../src/views/PlayerView.js';
     import MiniReel from '../../../src/models/MiniReel.js';
+    import TextCard from '../../../src/models/TextCard.js';
     import VideoCard from '../../../src/models/VideoCard.js';
     import RecapCard from '../../../src/models/RecapCard.js';
     import CardController from '../../../src/controllers/CardController.js';
+    import TextCardController from '../../../src/controllers/TextCardController.js';
     import VideoCardController from '../../../src/controllers/VideoCardController.js';
     import RecapCardController from '../../../src/controllers/RecapCardController.js';
     import TableOfContentsViewController from '../../../src/controllers/TableOfContentsViewController.js';
@@ -149,6 +151,7 @@ describe('PlayerController', function() {
                         spyOn(PlayerCtrl, 'updateView');
 
                         PlayerCtrl.minireel.deck = [
+                            new TextCard({ data: {} }),
                             new VideoCard({ data: {} }),
                             new VideoCard({ data: {} }),
                             new VideoCard({ data: {} }),
@@ -174,6 +177,7 @@ describe('PlayerController', function() {
 
                     it('should create a CardController based on the type of card', function() {
                         expect(PlayerCtrl.cardCtrls).toEqual([
+                            jasmine.any(TextCardController),
                             jasmine.any(VideoCardController),
                             jasmine.any(VideoCardController),
                             jasmine.any(VideoCardController),

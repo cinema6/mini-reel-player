@@ -1,9 +1,8 @@
 module.exports = {
     options: {
         transform: [
-            ['6to5ify', {
-                loose: 'all',
-                runtime: true
+            ['babelify', {
+                loose: 'all'
             }],
             ['partialify']
         ]

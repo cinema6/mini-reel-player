@@ -2,7 +2,6 @@ global.Promise = require('es6-promise').Promise;
 global.WeakMap = require('weak-map');
 require('whatwg-fetch');
 require('raf.js');
-require('6to5/runtime');
 require('gsap/src/uncompressed/plugins/CSSPlugin.js');
 import './tests.js';
 

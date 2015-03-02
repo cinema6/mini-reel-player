@@ -6,6 +6,7 @@ import {
     forEach
 } from '../../lib/utils.js';
 
+import TextCard from './TextCard.js';
 import VideoCard from './VideoCard.js';
 import RecapCard from './RecapCard.js';
 
@@ -13,8 +14,11 @@ const _ = createKey();
 
 function initialize(minireel, experience) {
     minireel.title = experience.data.title;
+    minireel.splash = experience.data.collateral.splash;
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
+        case 'text':
+            return new TextCard(card, minireel.splash);
         case 'recap':
             return new RecapCard(card, minireel);
         default:
@@ -32,6 +36,7 @@ export default class MiniReel extends EventEmitter {
         super(...arguments);
 
         this.title = null;
+        this.splash = null;
         this.deck = [];
         this.length = 0;
 

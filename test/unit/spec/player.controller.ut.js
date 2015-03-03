@@ -90,6 +90,7 @@ describe('PlayerController', function() {
 
                 describe('toggleToc', function() {
                     beforeEach(function() {
+                        PlayerCtrl.minireel.deck = [new TextCard({ data: {} })];
                         Runner.run(() => PlayerCtrl.minireel.emit('init'));
                         spyOn(PlayerCtrl.TableOfContentsViewCtrl, 'toggle');
 
@@ -158,8 +159,8 @@ describe('PlayerController', function() {
                             new RecapCard({}, PlayerCtrl.minireel)
                         ];
                         spyOn(CardController.prototype, 'render');
-                        spyOn(VideoCardController.prototype, 'render');
-                        spyOn(RecapCardController.prototype, 'render');
+                        spyOn(VideoCardController.prototype, 'render').and.callThrough();
+                        spyOn(RecapCardController.prototype, 'render').and.callThrough();
                         PlayerCtrl.view.cards = new View();
                         PlayerCtrl.view.toc = new View();
                         spyOn(TableOfContentsViewController.prototype, 'renderInto');
@@ -185,8 +186,12 @@ describe('PlayerController', function() {
                         ]);
                         PlayerCtrl.cardCtrls.forEach((Ctrl, index) => {
                             expect(Ctrl.model).toBe(PlayerCtrl.minireel.deck[index]);
-                            expect(Ctrl.render).toHaveBeenCalled();
                         });
+                    });
+
+                    it('should only render the first card', function() {
+                        expect(CardController.prototype.render.calls.count()).toBe(1);
+                        expect(PlayerCtrl.cardCtrls[0].render.calls.mostRecent().object).toBe(PlayerCtrl.cardCtrls[0]);
                     });
 
                     it('should append its view to the provided view', function() {
@@ -208,11 +213,28 @@ describe('PlayerController', function() {
                 describe('launch', function() {
                     beforeEach(function() {
                         spyOn(cinema6, 'fullscreen');
-                        PlayerCtrl.minireel.emit('launch');
+
+                        PlayerCtrl.minireel.deck = [
+                            new TextCard({ data: {} }),
+                            new VideoCard({ data: {} }),
+                            new VideoCard({ data: {} }),
+                            new VideoCard({ data: {} }),
+                            new RecapCard({}, PlayerCtrl.minireel)
+                        ];
+
+                        Runner.run(() => PlayerCtrl.minireel.emit('init'));
+
+                        PlayerCtrl.cardCtrls.forEach(Ctrl => spyOn(Ctrl, 'render'));
+                        Runner.run(() => PlayerCtrl.minireel.emit('launch'));
                     });
 
                     it('should enter fullscreen mode', function() {
                         expect(cinema6.fullscreen).toHaveBeenCalledWith(true);
+                    });
+
+                    it('should render the remaining card ctrls', function() {
+                        expect(PlayerCtrl.cardCtrls[0].render).not.toHaveBeenCalled();
+                        PlayerCtrl.cardCtrls.slice(1).forEach(Ctrl => expect(Ctrl.render).toHaveBeenCalled());
                     });
                 });
 

@@ -312,6 +312,73 @@ describe('Runner', function() {
                     });
                 });
             });
+
+            describe('runNext(fn, ...args)', function() {
+                let runFn, arg1, arg2;
+
+                beforeEach(function() {
+                    runFn = jasmine.createSpy('runFun()').and.callFake(() => Runner.schedule('render', () => {}));
+
+                    arg1 = { data: 'arg1' };
+                    arg2 = { data: 'arg2' };
+
+                    spyOn(Runner, 'run').and.callThrough();
+                });
+
+                describe('if there is no open runner', function() {
+                    beforeEach(function() {
+                        Runner.runNext(runFn, arg1, arg2);
+                    });
+
+                    it('should call Runner.run()', function() {
+                        expect(Runner.run).toHaveBeenCalledWith(runFn, arg1, arg2);
+                    });
+                });
+
+                describe('if there is an open Runner', function() {
+                    let flushDone;
+                    let runFn2;
+
+                    beforeEach(function() {
+                        spyOn(Runner.prototype, 'flush').and.callFake(function(callback) {
+                            flushDone = callback || function() {};
+                        });
+
+                        runFn2 = jasmine.createSpy('runFn2()').and.callFake(() => Runner.schedule('beforeRender', () => {}));
+
+                        Runner.run(() => {
+                            Runner.run.calls.reset();
+                            Runner.runNext(runFn, arg1, arg2);
+                            Runner.runNext(runFn2);
+                        });
+                    });
+
+                    it('should not call Runner.run()', function() {
+                        expect(Runner.run).not.toHaveBeenCalled();
+                    });
+
+                    it('should not call the provided function', function() {
+                        expect(runFn).not.toHaveBeenCalled();
+                        expect(runFn2).not.toHaveBeenCalled();
+                    });
+
+                    describe('when the current runner is done', function() {
+                        beforeEach(function() {
+                            flushDone();
+                        });
+
+                        it('should call Runner.run() once', function() {
+                            expect(Runner.run).toHaveBeenCalledWith(jasmine.any(Function));
+                            expect(Runner.run.calls.count()).toBe(1);
+                        });
+
+                        it('should call the functions with their specified args', function() {
+                            expect(runFn).toHaveBeenCalledWith(arg1, arg2);
+                            expect(runFn2).toHaveBeenCalledWith();
+                        });
+                    });
+                });
+            });
         });
     });
 

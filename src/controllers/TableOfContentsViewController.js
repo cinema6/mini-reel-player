@@ -1,5 +1,6 @@
 import ViewController from './ViewController.js';
 import TableOfContentsView from '../views/TableOfContentsView.js';
+import Runner from '../../lib/Runner.js';
 import {createKey} from 'private-parts';
 import {
     map,
@@ -19,7 +20,7 @@ export default class TableOfContentsViewController extends ViewController {
             this.hide();
         });
 
-        minireel.once('init', () => this.view.update({
+        minireel.once('launch', () => Runner.runNext(() => this.view.update({
             title: minireel.title,
             cards: map(minireel.deck, card => ({
                 id: card.id,
@@ -28,7 +29,7 @@ export default class TableOfContentsViewController extends ViewController {
                 href: card.data.href,
                 thumb: card.thumbs.small
             }))
-        }));
+        })));
 
         this.hide();
     }

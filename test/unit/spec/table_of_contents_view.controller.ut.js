@@ -181,16 +181,26 @@ describe('TableOfContentsViewController', function() {
         expect(TableOfContentsViewCtrl).toEqual(jasmine.any(ViewController));
     });
 
-    it('should update its view', function() {
-        expect(TableOfContentsViewCtrl.view.update).toHaveBeenCalledWith({
-            title: minireel.title,
-            cards: minireel.deck.map(card => ({
-                id: card.id,
-                title: card.title,
-                source: card.data.source,
-                href: card.data.href,
-                thumb: card.thumbs.small
-            }))
+    it('should not update its view', function() {
+        expect(TableOfContentsViewCtrl.view.update).not.toHaveBeenCalled();
+    });
+
+    describe('when the minireel is launched', function() {
+        beforeEach(function() {
+            minireel.moveToIndex(0);
+        });
+
+        it('should update its view', function() {
+            expect(TableOfContentsViewCtrl.view.update).toHaveBeenCalledWith({
+                title: minireel.title,
+                cards: minireel.deck.map(card => ({
+                    id: card.id,
+                    title: card.title,
+                    source: card.data.source,
+                    href: card.data.href,
+                    thumb: card.thumbs.small
+                }))
+            });
         });
     });
 

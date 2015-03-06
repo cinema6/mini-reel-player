@@ -6,6 +6,7 @@ import VideoCardController from './VideoCardController.js';
 import RecapCardController from './RecapCardController.js';
 import TableOfContentsViewController from './TableOfContentsViewController.js';
 import cinema6 from '../services/cinema6.js';
+import Runner from '../../lib/Runner.js';
 import {
     map,
     forEach
@@ -33,13 +34,16 @@ export default class PlayerController extends Controller {
             this.cardCtrls = map(this.minireel.deck, card => {
                 return new CardControllers[card.type](card, this.view.cards);
             });
-            forEach(this.cardCtrls, CardCtrl => CardCtrl.render());
+            forEach(this.cardCtrls.slice(0, 1), Ctrl => Ctrl.render());
 
             this.TableOfContentsViewCtrl.renderInto(this.view.toc);
             this.view.appendTo(parentView);
         });
         this.minireel.on('move', () => this.updateView());
         this.minireel.on('launch', () => cinema6.fullscreen(true));
+        this.minireel.once('launch', () => {
+            Runner.runNext(() => forEach(this.cardCtrls.slice(1), Ctrl => Ctrl.render()));
+        });
         this.minireel.on('close', () => cinema6.fullscreen(false));
 
         this.view.on('next', () => this.minireel.next());

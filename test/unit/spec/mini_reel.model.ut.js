@@ -8,6 +8,7 @@ describe('MiniReel', function() {
     import RunnerPromise from '../../../lib/RunnerPromise.js';
     import TextCard from '../../../src/models/TextCard.js';
     import VideoCard from '../../../src/models/VideoCard.js';
+    import AdUnitCard from '../../../src/models/AdUnitCard.js';
     import RecapCard from '../../../src/models/RecapCard.js';
 
     /* jshint quotmark:double */
@@ -58,6 +59,52 @@ describe('MiniReel', function() {
             "collateral": {},
             "links": {},
             "params": {}
+          },
+          {
+            "data": {
+              "hideSource": true,
+              "controls": false,
+              "autoadvance": false,
+              "skip": 40,
+              "vast": "//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0;ord=[timestamp];dcmt=text/xml"
+            },
+            "id": "rc-c175fedab87e6f",
+            "type": "adUnit",
+            "title": "WATCH & LEARN",
+            "note": "See how to make classic, seasonal and specialty cocktails from our expert bartenders. You’re just a shake, stir and pour away from the ultimate drink.",
+            "modules": [
+              "displayAd",
+              "post"
+            ],
+            "ballot": {
+              "election": "el-58ad9e1f49b147",
+              "prompt": "Do you drink too much?",
+              "choices": [
+                "Of Course Not",
+                "There's No Such Thing"
+              ]
+            },
+            "thumbs": {
+              "small": "https://yt3.ggpht.com/-EFAfQiEuYSI/AAAAAAAAAAI/AAAAAAAAAAA/AsAgcOBSoTw/s100-c-k-no/photo.jpg",
+              "large": "https://yt3.ggpht.com/-EFAfQiEuYSI/AAAAAAAAAAI/AAAAAAAAAAA/AsAgcOBSoTw/s100-c-k-no/photo.jpg"
+            },
+            "placementId": "3245275",
+            "templateUrl": null,
+            "sponsored": true,
+            "campaign": {
+              "campaignId": "",
+              "advertiserId": "DIAGEO USA",
+              "minViewTime": -1
+            },
+            "collateral": {
+              "logo": "http://i.imgur.com/YbBIFZv.png"
+            },
+            "links": {},
+            "params": {
+              "action": null,
+              "sponsor": "thebar.com",
+              "ad": true
+            }
           },
           {
             "data": {
@@ -724,7 +771,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(17);
+                            minireel.moveToIndex(18);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -850,12 +897,13 @@ describe('MiniReel', function() {
                 expect(minireel.deck[14].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[15].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[16].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[17].prepare).not.toHaveBeenCalled();
             });
 
             describe('when moving to the last card', function() {
                 beforeEach(function() {
-                    minireel.currentIndex = 16;
-                    minireel.currentCard = minireel.deck[16];
+                    minireel.currentIndex = 17;
+                    minireel.currentCard = minireel.deck[17];
                 });
 
                 it('should not throw any errors', function() {
@@ -914,6 +962,9 @@ describe('MiniReel', function() {
 
                 expect(minireel.deck[16].deactivate).toHaveBeenCalled();
                 expect(minireel.deck[16].activate).not.toHaveBeenCalled();
+
+                expect(minireel.deck[17].deactivate).toHaveBeenCalled();
+                expect(minireel.deck[17].activate).not.toHaveBeenCalled();
             });
         });
     });
@@ -957,6 +1008,7 @@ describe('MiniReel', function() {
         it('should fill the deck with the cards', function() {
             expect(minireel.deck).toEqual([
                 jasmine.any(TextCard),
+                jasmine.any(AdUnitCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
@@ -997,7 +1049,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(17);
+            expect(minireel.length).toBe(18);
         });
     });
 });

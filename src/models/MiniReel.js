@@ -8,6 +8,7 @@ import {
 
 import TextCard from './TextCard.js';
 import VideoCard from './VideoCard.js';
+import AdUnitCard from './AdUnitCard.js';
 import RecapCard from './RecapCard.js';
 
 const _ = createKey();
@@ -21,6 +22,8 @@ function initialize(minireel, experience) {
             return new TextCard(card, minireel.splash);
         case 'recap':
             return new RecapCard(card, minireel);
+        case 'adUnit':
+            return new AdUnitCard(card, experience.data.autoplay, experience.data.autoadvance);
         default:
             return new VideoCard(card, experience.data.autoplay, experience.data.autoadvance);
         }

@@ -208,7 +208,8 @@ describe('VideoCard', function() {
                     videoid: data.data.videoid,
                     autoplay: true,
                     autoadvance: true,
-                    hideSource: !!data.data.hideSource
+                    hideSource: !!data.data.hideSource,
+                    controls: data.data.controls
                 });
             });
 

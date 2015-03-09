@@ -155,113 +155,115 @@ export default class YouTubePlayer extends CorePlayer {
     load() {
         if (_(this).iframe && _(this).iframe.getAttribute('data-videoid') === this.src) { return; }
 
-        const element = this.element || this.create();
+        Runner.schedule('afterRender', () => {
+            const element = this.element || this.create();
 
-        if (_(this).iframe) {
-            element.removeChild(_(this).iframe);
-        }
-
-        const iframe = _(this).iframe = document.createElement('iframe');
-
-        iframe.src = `https://www.youtube.com/embed/${this.src}` +
-            `?html5=1&wmode=opaque&rel=0&enablejsapi=1`;
-        iframe.setAttribute('data-videoid', this.src);
-
-        element.appendChild(iframe);
-
-        fetcher.get(
-            `https://www.googleapis.com/youtube/v3/videos` +
-            `?part=contentDetails&id=${this.src}&key=${YT_API_KEY}`
-        ).then(response => response.json()).then(data => {
-            const {state} = _(this);
-            const duration = parseISO8601Duration(data.items[0].contentDetails.duration);
-
-            state.readyState = Math.max(state.readyState, 1);
-            this.emit('loadedmetadata');
-
-            state.duration = Math.min(duration - this.start, this.end || Infinity);
-            this.emit('durationchange');
-        });
-
-        codeLoader.load('youtube').then(youtube => {
-            const {PLAYING, PAUSED, BUFFERING, ENDED} = youtube.PlayerState;
-            const {state} = _(this);
-            const playerStates = [];
-
-            function interruptedByBuffer(STATE) {
-                return playerStates[0] === BUFFERING && playerStates[1] === STATE;
+            if (_(this).iframe) {
+                element.removeChild(_(this).iframe);
             }
 
-            const player = new youtube.Player(iframe, {
-                events: {
-                    onReady: () => Runner.run(() => {
-                        _(this).player = player;
+            const iframe = _(this).iframe = document.createElement('iframe');
 
-                        _(this).state.readyState = 3;
-                        this.emit('canplay');
+            iframe.src = `https://www.youtube.com/embed/${this.src}` +
+                `?html5=1&wmode=opaque&rel=0&enablejsapi=1`;
+            iframe.setAttribute('data-videoid', this.src);
 
-                        _(this).interval = timer.interval(() => {
-                            const currentTime = player.getCurrentTime();
-                            const {state} = _(this);
-                            const end = this.end || Infinity;
-                            const start = this.start || 0;
+            element.appendChild(iframe);
 
-                            if (currentTime === this.currentTime) { return; }
+            fetcher.get(
+                `https://www.googleapis.com/youtube/v3/videos` +
+                `?part=contentDetails&id=${this.src}&key=${YT_API_KEY}`
+            ).then(response => response.json()).then(data => {
+                const {state} = _(this);
+                const duration = parseISO8601Duration(data.items[0].contentDetails.duration);
 
-                            if (!this.paused) {
-                                if (currentTime < start) {
-                                    player.seekTo(start);
-                                }
+                state.readyState = Math.max(state.readyState, 1);
+                this.emit('loadedmetadata');
 
-                                if (currentTime >= end) {
-                                    player.pauseVideo();
-                                    state.ended = true;
-                                    this.emit('ended');
-                                }
-                            }
+                state.duration = Math.min(duration - this.start, this.end || Infinity);
+                this.emit('durationchange');
+            });
 
-                            state.currentTime = Math.max(0, currentTime - start);
-                            this.emit('timeupdate');
+            codeLoader.load('youtube').then(youtube => {
+                const {PLAYING, PAUSED, BUFFERING, ENDED} = youtube.PlayerState;
+                const {state} = _(this);
+                const playerStates = [];
 
-                            if (state.seeking && state.currentTime !== _(this).seekStart) {
-                                state.seeking = false;
-                                this.emit('seeked');
-                                _(this).seekStart = null;
-                            }
-                        }, 250);
-                    }),
-
-                    onStateChange: event => Runner.run(() => {
-                        switch (event.data) {
-                        case PLAYING:
-                            _(this).hasPlayed = true;
-                            state.paused = false;
-                            state.ended = false;
-
-                            if (!interruptedByBuffer(PLAYING)) {
-                                this.emit('play');
-                            }
-                            break;
-
-                        case PAUSED:
-                            state.paused = true;
-
-                            if (!interruptedByBuffer(PAUSED)) {
-                                this.emit('pause');
-                            }
-                            break;
-
-                        case ENDED:
-                            state.paused = true;
-                            state.ended = true;
-
-                            this.emit('ended');
-                            break;
-                        }
-
-                        playerStates.unshift(event.data);
-                    })
+                function interruptedByBuffer(STATE) {
+                    return playerStates[0] === BUFFERING && playerStates[1] === STATE;
                 }
+
+                const player = new youtube.Player(iframe, {
+                    events: {
+                        onReady: () => Runner.run(() => {
+                            _(this).player = player;
+
+                            _(this).state.readyState = 3;
+                            this.emit('canplay');
+
+                            _(this).interval = timer.interval(() => {
+                                const currentTime = player.getCurrentTime();
+                                const {state} = _(this);
+                                const end = this.end || Infinity;
+                                const start = this.start || 0;
+
+                                if (currentTime === this.currentTime) { return; }
+
+                                if (!this.paused) {
+                                    if (currentTime < start) {
+                                        player.seekTo(start);
+                                    }
+
+                                    if (currentTime >= end) {
+                                        player.pauseVideo();
+                                        state.ended = true;
+                                        this.emit('ended');
+                                    }
+                                }
+
+                                state.currentTime = Math.max(0, currentTime - start);
+                                this.emit('timeupdate');
+
+                                if (state.seeking && state.currentTime !== _(this).seekStart) {
+                                    state.seeking = false;
+                                    this.emit('seeked');
+                                    _(this).seekStart = null;
+                                }
+                            }, 250);
+                        }),
+
+                        onStateChange: event => Runner.run(() => {
+                            switch (event.data) {
+                            case PLAYING:
+                                _(this).hasPlayed = true;
+                                state.paused = false;
+                                state.ended = false;
+
+                                if (!interruptedByBuffer(PLAYING)) {
+                                    this.emit('play');
+                                }
+                                break;
+
+                            case PAUSED:
+                                state.paused = true;
+
+                                if (!interruptedByBuffer(PAUSED)) {
+                                    this.emit('pause');
+                                }
+                                break;
+
+                            case ENDED:
+                                state.paused = true;
+                                state.ended = true;
+
+                                this.emit('ended');
+                                break;
+                            }
+
+                            playerStates.unshift(event.data);
+                        })
+                    }
+                });
             });
         });
 

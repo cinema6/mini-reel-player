@@ -129,7 +129,7 @@ describe('YouTubePlayer', function() {
                             /* jshint quotmark:single */
 
                         player.src = 'VSL0vtRrTYk';
-                        player.load();
+                        Runner.run(() => player.load());
                         Promise.all([Promise.resolve(codeLoader.load('youtube')).then(() => {
                             youtube.Player.calls.mostRecent().args[1].events.onReady();
                         }), fetcher.flush()]).then(() => {
@@ -410,7 +410,7 @@ describe('YouTubePlayer', function() {
                         });
                         /* jshint quotmark:single */
 
-                    player.load();
+                    Runner.run(() => player.load());
                     codeLoader.load('youtube').then(() => {
                         player.pause();
                         done();
@@ -486,7 +486,7 @@ describe('YouTubePlayer', function() {
                     /* jshint quotmark:single */
 
                 player.src = 'DcylVx2ex78';
-                player.load();
+                Runner.run(() => player.load());
             });
 
             it('should emit loadstart', function() {
@@ -760,7 +760,7 @@ describe('YouTubePlayer', function() {
                                 });
                                 /* jshint quotmark:single */
 
-                            player.reload();
+                            Runner.run(() => player.reload());
                             fetcher.flush().then(() => process.nextTick(done));
                         });
 
@@ -862,7 +862,7 @@ describe('YouTubePlayer', function() {
                                 });
                                 /* jshint quotmark:single */
 
-                            player.reload();
+                            Runner.run(() => player.reload());
                             fetcher.flush().then(() => process.nextTick(done));
                         });
 
@@ -1062,7 +1062,7 @@ describe('YouTubePlayer', function() {
                     loadstart.calls.reset();
 
                     player.src = player.src;
-                    player.load();
+                    Runner.run(() => player.load());
                 });
 
                 it('should not remove the previous iframe', function() {
@@ -1119,7 +1119,7 @@ describe('YouTubePlayer', function() {
                             /* jshint quotmark:single */
 
                         player.src = 'w_x7rSZ5aJQ';
-                        player.load();
+                        Runner.run(() => player.load());
                         codeLoader.load('youtube').then(done);
                     });
 
@@ -1179,7 +1179,7 @@ describe('YouTubePlayer', function() {
 
                 jasmine.clock().install();
 
-                player.load();
+                Runner.run(() => player.load());
                 iframe = player.element.querySelector('iframe');
                 Promise.all([Promise.resolve(codeLoader.load('youtube')).then(() => {
                     youtube.Player.calls.mostRecent().args[1].events.onReady();
@@ -1282,7 +1282,7 @@ describe('YouTubePlayer', function() {
                 spyOn(player, 'unload');
                 spyOn(player, 'load');
 
-                player.reload();
+                Runner.run(() => player.reload());
             });
 
             it('should call unload() then load()', function() {

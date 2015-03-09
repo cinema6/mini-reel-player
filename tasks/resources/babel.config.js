@@ -1,3 +1,4 @@
 module.exports = {
-    loose: 'all'
+    loose: 'all',
+    optional: ['spec.protoToAssign']
 };

@@ -15,9 +15,7 @@ module.exports = function(config) {
         browserify: {
             debug: true,
             transform: [
-                ['babelify', {
-                    loose: 'all'
-                }],
+                ['babelify', require('../../tasks/resources/babel.config.js')],
                 ['partialify']
             ]
         },

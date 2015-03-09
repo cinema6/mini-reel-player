@@ -1,9 +1,7 @@
 module.exports = {
     options: {
         transform: [
-            ['babelify', {
-                loose: 'all'
-            }],
+            ['babelify', require('../../tasks/resources/babel.config.js')],
             ['partialify']
         ]
     },

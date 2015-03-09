@@ -1,5 +1,4 @@
-import View from '../../lib/core/View.js';
-import PlayerPosterView from '../views/PlayerPosterView.js';
+import CorePlayer from './CorePlayer.js';
 import {createKey} from 'private-parts';
 import codeLoader from '../../src/services/code_loader.js';
 import fetcher from '../../lib/fetcher.js';
@@ -53,12 +52,11 @@ function parseISO8601Duration(timestamp) {
     return reduce(durations, (total, time, index) => total + (time * Math.pow(60, 2 - index)), 0);
 }
 
-export default class YouTubePlayer extends View {
+export default class YouTubePlayer extends CorePlayer {
     constructor() {
         super(...arguments);
 
         this.tag = 'div';
-        this.classes.push('playerBox');
 
         this.start = null;
         this.end = null;
@@ -70,7 +68,6 @@ export default class YouTubePlayer extends View {
             poster: null
         });
 
-        _(this).poster = new PlayerPosterView();
         _(this).player = null;
         _(this).iframe = null;
         _(this).interval = null;
@@ -130,19 +127,6 @@ export default class YouTubePlayer extends View {
 
     get error() {
         return _(this).state.error;
-    }
-
-    get poster() {
-        return _(this).state.poster;
-    }
-    set poster(value) {
-        const {poster} = _(this);
-
-        if (poster) {
-            poster.setImage(value);
-        }
-
-        _(this).state.poster = value;
     }
 
     play() {
@@ -316,15 +300,6 @@ export default class YouTubePlayer extends View {
     /***********************************************************************************************
      * Hooks
      **********************************************************************************************/
-    didCreateElement() {
-        const {poster} = _(this);
-
-        this.append(poster);
-        poster.setImage(this.poster);
-
-        return super(...arguments);
-    }
-
     didInsertElement() {
         if (this.autoplay) {
             this.play();

@@ -33,6 +33,58 @@ describe('VideoCard', function() {
     };
     /* jshint quotmark:single */
 
+    /* jshint quotmark:double */
+    const sponsoredData = {
+        "data": {
+          "hideSource": true,
+          "controls": true,
+          "autoadvance": false,
+          "skip": true,
+          "modestbranding": 0,
+          "rel": 0,
+          "videoid": "q3tq4-IXA0M",
+          "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M"
+        },
+        "type": "youtube",
+        "title": "Aziz Ansari Live at Madison Square Garden",
+        "note": "Stand-up comedian and TV star (\"Parks and Recreation\") Aziz Ansari delivers his sharp-witted take on immigration, relationships and the food industry in his newest Netflix original comedy special, Aziz Ansari: Live At Madison Square Garden.",
+        "source": "YouTube",
+        "modules": [],
+        "thumbs": {
+          "small": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg",
+          "large": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg"
+        },
+        "placementId": null,
+        "templateUrl": null,
+        "sponsored": true,
+        "campaign": {
+          "campaignId": null,
+          "advertiserId": null,
+          "minViewTime": -1
+        },
+        "collateral": {
+          "logo": "https://pbs.twimg.com/profile_images/554776783967363072/2lxo5V22_400x400.png"
+        },
+        "links": {
+          "Action": "http://www.netflix.com/WiMovie/80038296?locale=en-US",
+          "Website": "http://www.netflix.com",
+          "Facebook": "https://www.facebook.com/netflixus",
+          "Twitter": "https://twitter.com/netflix",
+          "Pinterest": "https://www.pinterest.com/netflix/",
+          "YouTube": "https://www.youtube.com/user/NewOnNetflix"
+        },
+        "params": {
+          "sponsor": "Netflix",
+          "action": {
+            "type": "button",
+            "label": "Watch on Netflix"
+          },
+          "ad": true
+        },
+        "id": "rc-fc7d04deda983b"
+    };
+    /* jshint quotmark:single */
+
     beforeEach(function() {
         card = new VideoCard(data);
     });
@@ -48,6 +100,66 @@ describe('VideoCard', function() {
             });
         });
 
+        describe('logo', function() {
+            it('should be undefined', function() {
+                expect(card.logo).toBeUndefined();
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be the logo', function() {
+                    expect(new VideoCard(sponsoredData).logo).toBe(sponsoredData.collateral.logo);
+                });
+            });
+        });
+
+        describe('links', function() {
+            it('should be an empty object', function() {
+                expect(card.links).toEqual({});
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be the links', function() {
+                    expect(new VideoCard(sponsoredData).links).toBe(sponsoredData.links);
+                });
+            });
+        });
+
+        describe('sponsor', function() {
+            it('should be undefined', function() {
+                expect(card.sponsor).toBeUndefined();
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be the sponsor', function() {
+                    expect(new VideoCard(sponsoredData).sponsor).toBe(sponsoredData.params.sponsor);
+                });
+            });
+        });
+
+        describe('action', function() {
+            it('should be an object', function() {
+                expect(card.action).toEqual({});
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be the action', function() {
+                    expect(new VideoCard(sponsoredData).action).toBe(sponsoredData.params.action);
+                });
+            });
+        });
+
+        describe('ad', function() {
+            it('should be false', function() {
+                expect(card.ad).toBe(false);
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be true', function() {
+                    expect(new VideoCard(sponsoredData).ad).toBe(true);
+                });
+            });
+        });
+
         describe('data', function() {
             it('should be an object with the video data', function() {
                 expect(card.data).toEqual({
@@ -56,7 +168,8 @@ describe('VideoCard', function() {
                     href: data.data.href,
                     videoid: data.data.videoid,
                     autoplay: true,
-                    autoadvance: true
+                    autoadvance: true,
+                    hideSource: !!data.data.hideSource
                 });
             });
 

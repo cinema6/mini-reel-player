@@ -206,6 +206,12 @@ describe('View', function() {
                 });
             });
         });
+
+        describe('inserted', function() {
+            it('should be false', function() {
+                expect(view.inserted).toBe(false);
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -342,7 +348,7 @@ describe('View', function() {
 
                 spyOn(parentView, 'create').and.callThrough();
                 spyOn(view, 'create').and.callThrough();
-                spyOn(view, 'didInsertElement');
+                spyOn(view, 'didInsertElement').and.callThrough();
 
                 view.appendTo(parentView);
             });
@@ -363,6 +369,18 @@ describe('View', function() {
 
                 it('should call didInsertElement()', function() {
                     expect(view.didInsertElement).toHaveBeenCalled();
+                });
+
+                describe('if called again', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+                        view.appendTo(parentView);
+                        queues.render.pop()();
+                    });
+
+                    it('should not call didInsertElement() again', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
                 });
             });
 
@@ -606,8 +624,12 @@ describe('View', function() {
         });
 
         describe('didInsertElement()', function() {
-            it('should exist', function() {
-                expect(view.didInsertElement).toEqual(jasmine.any(Function));
+            beforeEach(function() {
+                view.didInsertElement();
+            });
+
+            it('should set inserted to true', function() {
+                expect(view.inserted).toBe(true);
             });
         });
 
@@ -616,6 +638,7 @@ describe('View', function() {
 
             beforeEach(function() {
                 view.tag = 'span';
+                view.inserted = true;
                 view.create();
                 element = view.element;
                 spyOn(eventDelegator, 'removeListeners');
@@ -625,6 +648,10 @@ describe('View', function() {
 
             it('should remove event listeners', function() {
                 expect(eventDelegator.removeListeners).toHaveBeenCalledWith(view);
+            });
+
+            it('should set inserted to false', function() {
+                expect(view.inserted).toBe(false);
             });
 
             describe('if another view is created with the view\'s old element', function() {

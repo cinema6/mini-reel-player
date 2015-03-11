@@ -153,9 +153,9 @@ describe('PlayerController', function() {
 
                         PlayerCtrl.minireel.deck = [
                             new TextCard({ data: {} }),
-                            new VideoCard({ data: {} }),
-                            new VideoCard({ data: {} }),
-                            new VideoCard({ data: {} }),
+                            new VideoCard({ collateral: {}, data: {}, params: {} }),
+                            new VideoCard({ collateral: {}, data: {}, params: {} }),
+                            new VideoCard({ collateral: {}, data: {}, params: {} }),
                             new RecapCard({}, PlayerCtrl.minireel)
                         ];
                         spyOn(CardController.prototype, 'render');
@@ -216,9 +216,9 @@ describe('PlayerController', function() {
 
                         PlayerCtrl.minireel.deck = [
                             new TextCard({ data: {} }),
-                            new VideoCard({ data: {} }),
-                            new VideoCard({ data: {} }),
-                            new VideoCard({ data: {} }),
+                            new VideoCard({ collateral: {}, data: {}, params: {} }),
+                            new VideoCard({ collateral: {}, data: {}, params: {} }),
+                            new VideoCard({ collateral: {}, data: {}, params: {} }),
                             new RecapCard({}, PlayerCtrl.minireel)
                         ];
 

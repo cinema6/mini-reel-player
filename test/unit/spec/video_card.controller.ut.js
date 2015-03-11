@@ -15,18 +15,55 @@ describe('VideoCardController', function() {
         parentView.tag = 'div';
 
         card = new VideoCard({
-            title: 'Hello',
-            note: 'Sup?',
-            type: 'youtube',
-            source: 'YouTube',
-            thumbs: {
-                small: 'https://i.ytimg.com/vi/B5FcZrg_Nuo/default.jpg',
-                large: 'https://i.ytimg.com/vi/B5FcZrg_Nuo/maxresdefault.jpg'
+            /* jshint quotmark:double */
+            "data": {
+              "hideSource": true,
+              "controls": true,
+              "autoadvance": false,
+              "skip": true,
+              "modestbranding": 0,
+              "rel": 0,
+              "videoid": "q3tq4-IXA0M",
+              "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M"
             },
-            data: {
-                href: 'https://www.youtube.com/watch?v=B5FcZrg_Nuo',
-                videoid: 'B5FcZrg_Nuo'
-            }
+            "type": "youtube",
+            "title": "Aziz Ansari Live at Madison Square Garden",
+            "note": "Stand-up comedian and TV star (\"Parks and Recreation\") Aziz Ansari delivers his sharp-witted take on immigration, relationships and the food industry in his newest Netflix original comedy special, Aziz Ansari: Live At Madison Square Garden.",
+            "source": "YouTube",
+            "modules": [],
+            "thumbs": {
+              "small": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg",
+              "large": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg"
+            },
+            "placementId": null,
+            "templateUrl": null,
+            "sponsored": true,
+            "campaign": {
+              "campaignId": null,
+              "advertiserId": null,
+              "minViewTime": -1
+            },
+            "collateral": {
+              "logo": "https://pbs.twimg.com/profile_images/554776783967363072/2lxo5V22_400x400.png"
+            },
+            "links": {
+              "Action": "http://www.netflix.com/WiMovie/80038296?locale=en-US",
+              "Website": "http://www.netflix.com",
+              "Facebook": "https://www.facebook.com/netflixus",
+              "Twitter": "https://twitter.com/netflix",
+              "Pinterest": "https://www.pinterest.com/netflix/",
+              "YouTube": "https://www.youtube.com/user/NewOnNetflix"
+            },
+            "params": {
+              "sponsor": "Netflix",
+              "action": {
+                "type": "button",
+                "label": "Watch on Netflix"
+              },
+              "ad": true
+            },
+            "id": "rc-fc7d04deda983b"
+            /* jshint quotmark:single */
         });
 
         VideoCardCtrl = new VideoCardController(card, parentView);
@@ -49,6 +86,7 @@ describe('VideoCardController', function() {
 
                 beforeEach(function() {
                     VideoCardCtrl.view.create();
+                    spyOn(VideoCardCtrl.view, 'update');
 
                     spyOn(VideoCardCtrl.view.playerOutlet, 'append');
                     Runner.run(() => VideoCardCtrl.render());
@@ -144,7 +182,71 @@ describe('VideoCardController', function() {
             it('should update the view with video data', function() {
                 expect(VideoCardCtrl.view.update).toHaveBeenCalledWith({
                     source: card.data.source,
-                    href: card.data.href
+                    href: card.data.href,
+                    sponsor: card.sponsor,
+                    logo: card.logo,
+                    showSource: !card.data.hideSource,
+                    links: [
+                        {
+                            type: 'facebook',
+                            label: 'Facebook',
+                            href: card.links.Facebook
+                        },
+                        {
+                            type: 'twitter',
+                            label: 'Twitter',
+                            href: card.links.Twitter
+                        },
+                        {
+                            type: 'pinterest',
+                            label: 'Pinterest',
+                            href: card.links.Pinterest
+                        },
+                        {
+                            type: 'youtube',
+                            label: 'YouTube',
+                            href: card.links.YouTube
+                        }
+                    ],
+                    website: card.links.Website,
+                    action: jasmine.objectContaining({
+                        label: card.action.label,
+                        href: card.links.Action
+                    })
+                });
+            });
+
+            describe('if the action is a button', function() {
+                beforeEach(function() {
+                    VideoCardCtrl.view.update.calls.reset();
+                    card.action.type = 'button';
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should update the view with the action marked as being a button', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        action: jasmine.objectContaining({
+                            isButton: true,
+                            isText: false
+                        })
+                    }));
+                });
+            });
+
+            describe('if the action is text', function() {
+                beforeEach(function() {
+                    VideoCardCtrl.view.update.calls.reset();
+                    card.action.type = 'text';
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should update the view with the action marked as being text', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        action: jasmine.objectContaining({
+                            isButton: false,
+                            isText: true
+                        })
+                    }));
                 });
             });
 

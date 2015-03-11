@@ -21,6 +21,8 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'yt-thumb.jpg'
                 },
+                params: {},
+                collateral: {},
                 data: {
                     href: 'https://www.youtube.com/watch?v=3XxB6ma7qu8'
                 }
@@ -32,6 +34,8 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'vimeo-thumb.jpg'
                 },
+                params: {},
+                collateral: {},
                 data: {
                     href: 'https://www.youtube.com/watch?v=mmEJQfm8H0k'
                 }
@@ -43,6 +47,8 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'dailymotion-thumb.jpg'
                 },
+                params: {},
+                collateral: {},
                 data: {
                     href: 'https://www.youtube.com/watch?v=LZL9JfoqaHQ'
                 }

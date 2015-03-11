@@ -71,7 +71,8 @@ describe('VideoCard', function() {
           "Facebook": "https://www.facebook.com/netflixus",
           "Twitter": "https://twitter.com/netflix",
           "Pinterest": "https://www.pinterest.com/netflix/",
-          "YouTube": "https://www.youtube.com/user/NewOnNetflix"
+          "YouTube": "https://www.youtube.com/user/NewOnNetflix",
+          "Vimeo": "http://www.vimeo.com/video/37843"
         },
         "params": {
           "sponsor": "Netflix",
@@ -120,6 +121,44 @@ describe('VideoCard', function() {
             describe('on a sponsored card', function() {
                 it('should be the links', function() {
                     expect(new VideoCard(sponsoredData).links).toBe(sponsoredData.links);
+                });
+            });
+        });
+
+        describe('socialLinks', function() {
+            it('should be an array', function() {
+                expect(card.socialLinks).toEqual([]);
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be an array of the supported social media links', function() {
+                    expect(new VideoCard(sponsoredData).socialLinks).toEqual([
+                        {
+                            type: 'facebook',
+                            label: 'Facebook',
+                            href: 'https://www.facebook.com/netflixus'
+                        },
+                        {
+                            type: 'twitter',
+                            label: 'Twitter',
+                            href: 'https://twitter.com/netflix'
+                        },
+                        {
+                            type: 'pinterest',
+                            label: 'Pinterest',
+                            href: 'https://www.pinterest.com/netflix/'
+                        },
+                        {
+                            type: 'youtube',
+                            label: 'YouTube',
+                            href: 'https://www.youtube.com/user/NewOnNetflix'
+                        },
+                        {
+                            type: 'vimeo',
+                            label: 'Vimeo',
+                            href: 'http://www.vimeo.com/video/37843'
+                        }
+                    ]);
                 });
             });
         });

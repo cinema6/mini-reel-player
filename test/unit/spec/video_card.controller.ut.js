@@ -186,28 +186,7 @@ describe('VideoCardController', function() {
                     sponsor: card.sponsor,
                     logo: card.logo,
                     showSource: !card.data.hideSource,
-                    links: [
-                        {
-                            type: 'facebook',
-                            label: 'Facebook',
-                            href: card.links.Facebook
-                        },
-                        {
-                            type: 'twitter',
-                            label: 'Twitter',
-                            href: card.links.Twitter
-                        },
-                        {
-                            type: 'pinterest',
-                            label: 'Pinterest',
-                            href: card.links.Pinterest
-                        },
-                        {
-                            type: 'youtube',
-                            label: 'YouTube',
-                            href: card.links.YouTube
-                        }
-                    ],
+                    links: card.socialLinks,
                     website: card.links.Website,
                     action: jasmine.objectContaining({
                         label: card.action.label,

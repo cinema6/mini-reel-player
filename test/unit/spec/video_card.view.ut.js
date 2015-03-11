@@ -77,11 +77,6 @@ describe('VideoCardView', function() {
                             href: 'vim.com/389dh3'
                         },
                         {
-                            type: 'instagram',
-                            label: 'Instagram',
-                            href: 'insta.grm'
-                        },
-                        {
                             type: 'facebook',
                             label: 'Facebook',
                             href: 'fb.com'
@@ -126,40 +121,8 @@ describe('VideoCardView', function() {
                 })));
             });
 
-            it('should filter out unknown links', function() {
-                expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                    links: [
-                        {
-                            type: 'youtube',
-                            label: 'YouTube',
-                            href: 'yt.com'
-                        },
-                        {
-                            type: 'twitter',
-                            label: 'Twitter',
-                            href: 'twitter.com/389fe'
-                        },
-                        {
-                            type: 'vimeo',
-                            label: 'Vimeo',
-                            href: 'vim.com/389dh3'
-                        },
-                        {
-                            type: 'facebook',
-                            label: 'Facebook',
-                            href: 'fb.com'
-                        },
-                        {
-                            type: 'pinterest',
-                            label: 'Pinterest',
-                            href: 'pin.com/iufne4'
-                        }
-                    ]
-                }));
-            });
-
             it('should update the links view with links', function() {
-                expect(videoCardView.links.update).toHaveBeenCalledWith(CardView.prototype.update.calls.mostRecent().args[0].links);
+                expect(videoCardView.links.update).toHaveBeenCalledWith(data.links);
             });
 
             describe('if the card has no sponsorship info', function() {

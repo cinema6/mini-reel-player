@@ -2,8 +2,7 @@ describe('TableOfContentsView', function() {
     import TemplateView from '../../../lib/core/TemplateView.js';
     import Hideable from '../../../src/mixins/Hideable.js';
     import TableOfContentsView from '../../../src/views/TableOfContentsView.js';
-    import TableOfContentsCardView from '../../../src/views/TableOfContentsCardView.js';
-    import View from '../../../lib/core/View.js';
+    import TableOfContentsListView from '../../../src/views/TableOfContentsListView.js';
     import Runner from '../../../lib/Runner.js';
     let tableOfContentsView;
 
@@ -44,19 +43,13 @@ describe('TableOfContentsView', function() {
             });
         });
 
-        describe('cards', function() {
-            it('should be an empty array', function() {
-                expect(tableOfContentsView.cards).toEqual([]);
-            });
-        });
-
         describe('list', function() {
             beforeEach(function() {
                 Runner.run(() => tableOfContentsView.create());
             });
 
-            it('should be a view', function() {
-                expect(tableOfContentsView.list).toEqual(jasmine.any(View));
+            it('should be a TableOfContentsListView', function() {
+                expect(tableOfContentsView.list).toEqual(jasmine.any(TableOfContentsListView));
             });
         });
     });
@@ -64,6 +57,7 @@ describe('TableOfContentsView', function() {
     describe('methods:', function() {
         describe('update(data)', function() {
             let data;
+            let cardViews;
 
             beforeEach(function() {
                 data = {
@@ -81,13 +75,16 @@ describe('TableOfContentsView', function() {
                             id: 'rc-ba397fc384b275',
                             title: 'card3'
                         }
-                    ]
+                   ]
                 };
+                cardViews = [];
 
                 Runner.run(() => tableOfContentsView.create());
 
                 spyOn(TemplateView.prototype, 'update').and.callThrough();
-                spyOn(tableOfContentsView.list, 'append').and.callThrough();
+                spyOn(tableOfContentsView.list, 'update').and.callThrough();
+                tableOfContentsView.list.on('addChild', (card, index) => cardViews[index] = card);
+
                 Runner.run(() => tableOfContentsView.update(data));
             });
 
@@ -95,20 +92,8 @@ describe('TableOfContentsView', function() {
                 expect(TemplateView.prototype.update).toHaveBeenCalledWith({ title: data.title });
             });
 
-            it('should populate the cards array with a TableOfContentsCardView for each card', function() {
-                expect(tableOfContentsView.cards).toEqual([
-                    jasmine.any(TableOfContentsCardView),
-                    jasmine.any(TableOfContentsCardView),
-                    jasmine.any(TableOfContentsCardView)
-                ]);
-            });
-
-            it('should update each card with data', function() {
-                tableOfContentsView.cards.forEach((card, index) => expect(card.update).toHaveBeenCalledWith(data.cards[index]));
-            });
-
-            it('should append each card to itself', function() {
-                tableOfContentsView.cards.forEach(card => expect(tableOfContentsView.list.append).toHaveBeenCalledWith(card));
+            it('should update the list with the cards', function() {
+                expect(tableOfContentsView.list.update).toHaveBeenCalledWith(data.cards);
             });
 
             describe('when a card is selected', function() {
@@ -118,7 +103,7 @@ describe('TableOfContentsView', function() {
                     spy = jasmine.createSpy('spy()');
                     tableOfContentsView.on('selectCard', spy);
 
-                    tableOfContentsView.cards[1].emit('select');
+                    cardViews[1].emit('select');
                 });
 
                 it('should call the spy with the id of the selected card', function() {

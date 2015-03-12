@@ -1,22 +1,16 @@
 import CardController from './CardController.js';
 import VideoCardView from '../views/VideoCardView.js';
-import YouTubePlayer from '../players/YouTubePlayer.js';
-import VASTPlayer from '../players/VASTPlayer.js';
 import Runner from '../../lib/Runner.js';
+import playerFactory from '../services/player_factory.js';
 import {createKey} from 'private-parts';
 
 const _ = createKey();
-
-const PLAYERS = {
-    youtube: YouTubePlayer,
-    adUnit: VASTPlayer
-};
 
 export default class VideoCardController extends CardController {
     constructor() {
         super(...arguments);
 
-        const player = new PLAYERS[this.model.data.type]();
+        const player = playerFactory.playerForCard(this.model);
         player.poster = this.model.thumbs.large;
         player.src = this.model.data.videoid;
         player.controls = this.model.data.controls;

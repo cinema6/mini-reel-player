@@ -5,10 +5,20 @@ describe('VideoCardController', function() {
     import VideoCardView from '../../../src/views/VideoCardView.js';
     import Runner from '../../../lib/Runner.js';
     import View from '../../../lib/core/View.js';
-    import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
+    import playerFactory from '../../../src/services/player_factory.js';
     let VideoCardCtrl;
     let card;
+    let player;
     let parentView;
+
+    class MockPlayer extends View {
+        load() {}
+        unload() {}
+        play() {}
+        pause() {}
+        minimize() {}
+        reload() {}
+    }
 
     beforeEach(function() {
         parentView = new View();
@@ -18,7 +28,7 @@ describe('VideoCardController', function() {
             /* jshint quotmark:double */
             "data": {
               "hideSource": true,
-              "controls": true,
+              "controls": false,
               "autoadvance": false,
               "skip": true,
               "modestbranding": 0,
@@ -65,6 +75,8 @@ describe('VideoCardController', function() {
             "id": "rc-fc7d04deda983b"
             /* jshint quotmark:single */
         });
+        player = new MockPlayer();
+        spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
         VideoCardCtrl = new VideoCardController(card, parentView);
     });
@@ -82,15 +94,12 @@ describe('VideoCardController', function() {
 
         describe('model', function() {
             describe('events:', function() {
-                let player;
-
                 beforeEach(function() {
                     VideoCardCtrl.view.create();
                     spyOn(VideoCardCtrl.view, 'update');
 
                     spyOn(VideoCardCtrl.view.playerOutlet, 'append');
                     Runner.run(() => VideoCardCtrl.render());
-                    player = VideoCardCtrl.view.playerOutlet.append.calls.mostRecent().args[0];
                 });
 
                 describe('prepare', function() {
@@ -229,17 +238,12 @@ describe('VideoCardController', function() {
                 });
             });
 
-            it('should append a YouTubePlayer to the playerOutlet', function() {
-                expect(VideoCardCtrl.view.playerOutlet.append).toHaveBeenCalledWith(jasmine.any(YouTubePlayer));
+            it(`should append the player to the playerOutlet`, function() {
+                expect(playerFactory.playerForCard).toHaveBeenCalledWith(card);
+                expect(VideoCardCtrl.view.playerOutlet.append).toHaveBeenCalledWith(player);
             });
 
             describe('the player', function() {
-                let player;
-
-                beforeEach(function() {
-                    player = VideoCardCtrl.view.playerOutlet.append.calls.mostRecent().args[0];
-                });
-
                 it('should have a poster', function() {
                     expect(player.poster).toBe(card.thumbs.large);
                 });
@@ -248,16 +252,33 @@ describe('VideoCardController', function() {
                     expect(player.src).toBe(card.data.videoid);
                 });
 
+                it('should set the controls', function() {
+                    expect(player.controls).toBe(card.data.controls);
+                });
+
                 describe('events', function() {
                     describe('ended', function() {
                         beforeEach(function() {
-                            spyOn(player, 'reload');
+                            spyOn(player, 'minimize');
                             spyOn(card, 'complete');
                             Runner.run(() => player.emit('ended'));
                         });
 
-                        it('should reload itself', function() {
-                            expect(player.reload).toHaveBeenCalled();
+                        describe('if the minimize() method returns an error', function() {
+                            beforeEach(function() {
+                                player.minimize.and.returnValue(new Error());
+                                spyOn(player, 'reload');
+
+                                Runner.run(() => player.emit('ended'));
+                            });
+
+                            it('should reload the player', function() {
+                                expect(player.reload).toHaveBeenCalled();
+                            });
+                        });
+
+                        it('should minimize the player', function() {
+                            expect(player.minimize).toHaveBeenCalled();
                         });
 
                         it('should call complete() on the card', function() {

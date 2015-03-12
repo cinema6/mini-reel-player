@@ -1,7 +1,6 @@
 describe('YouTubePlayer', function() {
     import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
-    import PlayerPosterView from '../../../src/views/PlayerPosterView.js';
-    import View from '../../../lib/core/View.js';
+    import CorePlayer from '../../../src/players/CorePlayer.js';
     import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
     import codeLoader from '../../../src/services/code_loader.js';
     import fetcher from '../../../lib/fetcher.js';
@@ -57,8 +56,8 @@ describe('YouTubePlayer', function() {
         }
     });
 
-    it('should be a view', function() {
-        expect(player).toEqual(jasmine.any(View));
+    it('should be a CorePlayer', function() {
+        expect(player).toEqual(jasmine.any(CorePlayer));
     });
 
     it('should implement the PlayerInterface', function() {
@@ -69,12 +68,6 @@ describe('YouTubePlayer', function() {
         describe('tag', function() {
             it('should be div', function() {
                 expect(player.tag).toBe('div');
-            });
-        });
-
-        describe('classes', function() {
-            it('should include "playerBox"', function() {
-                expect(player.classes).toEqual(new View().classes.concat(['playerBox']));
             });
         });
 
@@ -136,7 +129,7 @@ describe('YouTubePlayer', function() {
                             /* jshint quotmark:single */
 
                         player.src = 'VSL0vtRrTYk';
-                        player.load();
+                        Runner.run(() => player.load());
                         Promise.all([Promise.resolve(codeLoader.load('youtube')).then(() => {
                             youtube.Player.calls.mostRecent().args[1].events.onReady();
                         }), fetcher.flush()]).then(() => {
@@ -200,12 +193,6 @@ describe('YouTubePlayer', function() {
         describe('error', function() {
             it('should be null', function() {
                 expect(player.error).toBeNull();
-            });
-        });
-
-        describe('poster', function() {
-            it('should be null', function() {
-                expect(player.poster).toBeNull();
             });
         });
 
@@ -423,7 +410,7 @@ describe('YouTubePlayer', function() {
                         });
                         /* jshint quotmark:single */
 
-                    player.load();
+                    Runner.run(() => player.load());
                     codeLoader.load('youtube').then(() => {
                         player.pause();
                         done();
@@ -499,7 +486,7 @@ describe('YouTubePlayer', function() {
                     /* jshint quotmark:single */
 
                 player.src = 'DcylVx2ex78';
-                player.load();
+                Runner.run(() => player.load());
             });
 
             it('should emit loadstart', function() {
@@ -773,7 +760,7 @@ describe('YouTubePlayer', function() {
                                 });
                                 /* jshint quotmark:single */
 
-                            player.reload();
+                            Runner.run(() => player.reload());
                             fetcher.flush().then(() => process.nextTick(done));
                         });
 
@@ -875,7 +862,7 @@ describe('YouTubePlayer', function() {
                                 });
                                 /* jshint quotmark:single */
 
-                            player.reload();
+                            Runner.run(() => player.reload());
                             fetcher.flush().then(() => process.nextTick(done));
                         });
 
@@ -1075,7 +1062,7 @@ describe('YouTubePlayer', function() {
                     loadstart.calls.reset();
 
                     player.src = player.src;
-                    player.load();
+                    Runner.run(() => player.load());
                 });
 
                 it('should not remove the previous iframe', function() {
@@ -1132,7 +1119,7 @@ describe('YouTubePlayer', function() {
                             /* jshint quotmark:single */
 
                         player.src = 'w_x7rSZ5aJQ';
-                        player.load();
+                        Runner.run(() => player.load());
                         codeLoader.load('youtube').then(done);
                     });
 
@@ -1192,7 +1179,7 @@ describe('YouTubePlayer', function() {
 
                 jasmine.clock().install();
 
-                player.load();
+                Runner.run(() => player.load());
                 iframe = player.element.querySelector('iframe');
                 Promise.all([Promise.resolve(codeLoader.load('youtube')).then(() => {
                     youtube.Player.calls.mostRecent().args[1].events.onReady();
@@ -1295,7 +1282,7 @@ describe('YouTubePlayer', function() {
                 spyOn(player, 'unload');
                 spyOn(player, 'load');
 
-                player.reload();
+                Runner.run(() => player.reload());
             });
 
             it('should call unload() then load()', function() {
@@ -1327,39 +1314,6 @@ describe('YouTubePlayer', function() {
 
             it('should unload() the player', function() {
                 expect(player.unload).toHaveBeenCalled();
-            });
-        });
-
-        describe('didCreateElement()', function() {
-            let posterView;
-
-            beforeEach(function() {
-                player.poster = 'https://i.ytimg.com/vi/B5FcZrg_Nuo/maxresdefault.jpg';
-
-                spyOn(PlayerPosterView.prototype, 'setImage').and.callThrough();
-                spyOn(player, 'append').and.callThrough();
-                player.create();
-                posterView = player.append.calls.mostRecent().args[0];
-            });
-
-            it('should append a view for its poster', function() {
-                expect(player.append).toHaveBeenCalledWith(jasmine.any(PlayerPosterView));
-            });
-
-            it('should set the poster\'s image', function() {
-                expect(posterView.setImage).toHaveBeenCalledWith(player.poster);
-            });
-
-            describe('when the poster is changed', function() {
-                beforeEach(function() {
-                    posterView.setImage.calls.reset();
-
-                    player.poster = 'https://i.ytimg.com/vi/B5FcZrg_Nuo/low.jpg';
-                });
-
-                it('should set the poster\'s image again', function() {
-                    expect(posterView.setImage).toHaveBeenCalledWith(player.poster);
-                });
             });
         });
 

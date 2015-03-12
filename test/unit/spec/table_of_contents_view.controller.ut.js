@@ -70,6 +70,56 @@ describe('TableOfContentsViewController', function() {
           },
           {
             "data": {
+              "hideSource": true,
+              "controls": true,
+              "autoadvance": false,
+              "skip": true,
+              "modestbranding": 0,
+              "rel": 0,
+              "videoid": "q3tq4-IXA0M",
+              "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M"
+            },
+            "type": "youtube",
+            "title": "Aziz Ansari Live at Madison Square Garden",
+            "note": "Stand-up comedian and TV star (\"Parks and Recreation\") Aziz Ansari delivers his sharp-witted take on immigration, relationships and the food industry in his newest Netflix original comedy special, Aziz Ansari: Live At Madison Square Garden.",
+            "source": "YouTube",
+            "modules": [],
+            "thumbs": {
+              "small": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg",
+              "large": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg"
+            },
+            "placementId": null,
+            "templateUrl": null,
+            "sponsored": true,
+            "campaign": {
+              "campaignId": null,
+              "advertiserId": null,
+              "minViewTime": -1
+            },
+            "collateral": {
+              "logo": "https://pbs.twimg.com/profile_images/554776783967363072/2lxo5V22_400x400.png"
+            },
+            "links": {
+              "Action": "http://www.netflix.com/WiMovie/80038296?locale=en-US",
+              "Website": "http://www.netflix.com",
+              "Facebook": "https://www.facebook.com/netflixus",
+              "Twitter": "https://twitter.com/netflix",
+              "Pinterest": "https://www.pinterest.com/netflix/",
+              "YouTube": "https://www.youtube.com/user/NewOnNetflix",
+              "Vimeo": "http://www.vimeo.com/video/37843"
+            },
+            "params": {
+              "sponsor": "Netflix",
+              "action": {
+                "type": "button",
+                "label": "Watch on Netflix"
+              },
+              "ad": true
+            },
+            "id": "rc-fc7d04deda983b"
+          },
+          {
+            "data": {
               "controls": true,
               "skip": true,
               "modestbranding": 0,
@@ -198,7 +248,11 @@ describe('TableOfContentsViewController', function() {
                     title: card.title,
                     source: card.data.source,
                     href: card.data.href,
-                    thumb: card.thumbs.small
+                    thumb: card.thumbs.small,
+                    showSource: !card.data.hideSource && !!card.data.source,
+                    sponsor: card.sponsor,
+                    website: (card.links || {}).Website,
+                    type: card.ad ? 'ad' : 'content'
                 }))
             });
         });

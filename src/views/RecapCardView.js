@@ -1,28 +1,21 @@
 import CardView from './CardView.js';
-import View from '../../lib/core/View.js';
-import RecapCardItemView from './RecapCardItemView.js';
-import {
-    forEach
-} from '../../lib/utils.js';
+import RecapCardListView from './RecapCardListView.js';
 
 export default class RecapCardView extends CardView {
     constructor() {
         super(...arguments);
 
         this.template = require('./RecapCardView.html');
-        this.instantiates = {View};
+        this.instantiates = {RecapCardListView};
     }
 
     update(data) {
         if (!this.cards) { this.create(); }
+        if (!data.cards) { return; }
 
-        forEach(data.cards || [], card => {
-            const itemView = new RecapCardItemView();
-
-            itemView.update(card);
-            itemView.on('select', () => this.emit('selectCard', card.id));
-
-            this.cards.append(itemView);
+        this.cards.on('addChild', (card, index) => {
+            card.on('select', () => this.emit('selectCard', data.cards[index].id));
         });
+        this.cards.update(data.cards);
     }
 }

@@ -27,7 +27,11 @@ export default class TableOfContentsViewController extends ViewController {
                 title: card.title,
                 source: card.data.source,
                 href: card.data.href,
-                thumb: card.thumbs.small
+                thumb: card.thumbs.small,
+                showSource: !!card.data.source && !card.data.hideSource,
+                sponsor: card.sponsor,
+                website: (card.links || {}).Website,
+                type: card.ad ? 'ad' : 'content'
             }))
         })));
 

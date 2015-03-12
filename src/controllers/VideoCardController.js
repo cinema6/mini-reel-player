@@ -32,9 +32,22 @@ export default class VideoCardController extends CardController {
     }
 
     render() {
+        const card = this.model;
+
         this.view.update({
-            source: this.model.data.source,
-            href: this.model.data.href
+            source: card.data.source,
+            href: card.data.href,
+            sponsor: card.sponsor,
+            logo: card.logo,
+            showSource: !card.data.hideSource,
+            links: card.socialLinks,
+            website: card.links.Website,
+            action: {
+                label: card.action.label,
+                href: card.links.Action,
+                isButton: card.action.type === 'button',
+                isText: card.action.type === 'text'
+            }
         });
         this.view.playerOutlet.append(_(this).player);
 

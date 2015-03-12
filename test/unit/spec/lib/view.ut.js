@@ -206,6 +206,12 @@ describe('View', function() {
                 });
             });
         });
+
+        describe('inserted', function() {
+            it('should be false', function() {
+                expect(view.inserted).toBe(false);
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -342,7 +348,7 @@ describe('View', function() {
 
                 spyOn(parentView, 'create').and.callThrough();
                 spyOn(view, 'create').and.callThrough();
-                spyOn(view, 'didInsertElement');
+                spyOn(view, 'didInsertElement').and.callThrough();
 
                 view.appendTo(parentView);
             });
@@ -363,6 +369,18 @@ describe('View', function() {
 
                 it('should call didInsertElement()', function() {
                     expect(view.didInsertElement).toHaveBeenCalled();
+                });
+
+                describe('if called again', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+                        view.appendTo(parentView);
+                        queues.render.pop()();
+                    });
+
+                    it('should not call didInsertElement() again', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
                 });
             });
 
@@ -390,6 +408,92 @@ describe('View', function() {
             });
         });
 
+        describe('insertInto(parent, before)', function() {
+            let parentView;
+            let sibling;
+
+            beforeEach(function() {
+                parentView = new View();
+                parentView.tag = 'span';
+
+                sibling = new View();
+                sibling.tag = 'span';
+                sibling.create();
+
+                spyOn(view, 'create').and.callThrough();
+                spyOn(parentView, 'create').and.callThrough();
+
+                view.insertInto(parentView, sibling);
+            });
+
+            it('should create the view and the view to insert', function() {
+                expect(view.create).toHaveBeenCalled();
+                expect(parentView.create).toHaveBeenCalled();
+            });
+
+            describe('in the render queue', function() {
+                beforeEach(function() {
+                    spyOn(parentView.element, 'insertBefore');
+                    spyOn(view, 'didInsertElement').and.callThrough();
+
+                    queues.render.pop()();
+                });
+
+                it('should insert the child before the sibling', function() {
+                    expect(parentView.element.insertBefore).toHaveBeenCalledWith(view.element, sibling.element);
+                });
+
+                it('should call didInsertElement()', function() {
+                    expect(view.didInsertElement).toHaveBeenCalled();
+                });
+
+                describe('if called again', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+                        view.insertInto(parentView, sibling);
+                        queues.render.pop()();
+                    });
+
+                    it('should not call didInsertElement()', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if sibling is not provided', function() {
+                beforeEach(function() {
+                    view.insertInto(parentView);
+                });
+
+                describe('in the render queue', function() {
+                    beforeEach(function() {
+                        spyOn(parentView.element, 'insertBefore');
+                        queues.render.pop()();
+                    });
+
+                    it('should call with the second parameter as null', function() {
+                        expect(parentView.element.insertBefore).toHaveBeenCalledWith(view.element, null);
+                    });
+                });
+            });
+
+            describe('if the views were already created', function() {
+                beforeEach(function() {
+                    view.create();
+                    parentView.create();
+                    view.create.calls.reset();
+                    parentView.create.calls.reset();
+
+                    view.insertInto(parentView, sibling);
+                });
+
+                it('should not create them again', function() {
+                    expect(view.create).not.toHaveBeenCalled();
+                    expect(parentView.create).not.toHaveBeenCalled();
+                });
+            });
+        });
+
         describe('append(view)', function() {
             let child;
 
@@ -403,6 +507,24 @@ describe('View', function() {
 
             it('should append the child to itself', function() {
                 expect(child.appendTo).toHaveBeenCalledWith(view);
+            });
+        });
+
+        describe('insert(child, sibling)', function() {
+            let child;
+            let sibling;
+
+            beforeEach(function() {
+                child = new View();
+                sibling = new View();
+
+                spyOn(child, 'insertInto');
+
+                view.insert(child, sibling);
+            });
+
+            it('should call insertInto() on the child', function() {
+                expect(child.insertInto).toHaveBeenCalledWith(view, sibling);
             });
         });
 
@@ -606,8 +728,12 @@ describe('View', function() {
         });
 
         describe('didInsertElement()', function() {
-            it('should exist', function() {
-                expect(view.didInsertElement).toEqual(jasmine.any(Function));
+            beforeEach(function() {
+                view.didInsertElement();
+            });
+
+            it('should set inserted to true', function() {
+                expect(view.inserted).toBe(true);
             });
         });
 
@@ -616,6 +742,7 @@ describe('View', function() {
 
             beforeEach(function() {
                 view.tag = 'span';
+                view.inserted = true;
                 view.create();
                 element = view.element;
                 spyOn(eventDelegator, 'removeListeners');
@@ -625,6 +752,10 @@ describe('View', function() {
 
             it('should remove event listeners', function() {
                 expect(eventDelegator.removeListeners).toHaveBeenCalledWith(view);
+            });
+
+            it('should set inserted to false', function() {
+                expect(view.inserted).toBe(false);
             });
 
             describe('if another view is created with the view\'s old element', function() {

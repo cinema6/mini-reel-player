@@ -23,7 +23,11 @@ export default class RecapCardController extends CardController {
                 title: card.title,
                 source: card.data.source,
                 href: card.data.href,
-                thumb: card.thumbs.small
+                thumb: card.thumbs.small,
+                showSource: !!card.data.source && !card.data.hideSource,
+                website: (card.links || {}).Website,
+                sponsor: card.sponsor,
+                type: card.ad ? 'ad' : 'content'
             }))
         });
 

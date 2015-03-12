@@ -21,7 +21,16 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'yt-thumb.jpg'
                 },
+                params: {
+                    sponsor: 'Netflix',
+                    ad: true
+                },
+                links: {
+                    Website: 'http://www.netflix.com'
+                },
+                collateral: {},
                 data: {
+                    hideSource: true,
                     href: 'https://www.youtube.com/watch?v=3XxB6ma7qu8'
                 }
             }),
@@ -32,6 +41,8 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'vimeo-thumb.jpg'
                 },
+                params: {},
+                collateral: {},
                 data: {
                     href: 'https://www.youtube.com/watch?v=mmEJQfm8H0k'
                 }
@@ -43,6 +54,20 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'dailymotion-thumb.jpg'
                 },
+                params: {},
+                collateral: {},
+                data: {
+                    href: 'https://www.youtube.com/watch?v=LZL9JfoqaHQ'
+                }
+            }),
+            new VideoCard({
+                id: 'rc-9adf2905169f34',
+                title: 'Card 4',
+                thumbs: {
+                    small: 'dailymotion-thumb.jpg'
+                },
+                params: {},
+                collateral: {},
                 data: {
                     href: 'https://www.youtube.com/watch?v=LZL9JfoqaHQ'
                 }
@@ -100,7 +125,11 @@ describe('RecapCardController', function() {
                         title: card.title,
                         source: card.data.source,
                         href: card.data.href,
-                        thumb: card.thumbs.small
+                        thumb: card.thumbs.small,
+                        showSource: !!card.data.source && !card.data.hideSource,
+                        website: (card.links || {}).Website,
+                        sponsor: card.sponsor,
+                        type: card.ad ? 'ad' : 'content'
                     }))
                 });
             });

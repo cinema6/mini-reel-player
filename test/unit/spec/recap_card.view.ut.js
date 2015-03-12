@@ -1,7 +1,7 @@
 describe('RecapCardView', function() {
     import CardView from '../../../src/views/CardView.js';
     import RecapCardView from '../../../src/views/RecapCardView.js';
-    import View from '../../../lib/core/View.js';
+    import RecapCardListView from '../../../src/views/RecapCardListView.js';
     import RecapCardItemView from '../../../src/views/RecapCardItemView.js';
     import Runner from '../../../lib/Runner.js';
     let recapCardView;
@@ -26,8 +26,8 @@ describe('RecapCardView', function() {
                 Runner.run(() => recapCardView.create());
             });
 
-            it('should be a view', function() {
-                expect(recapCardView.cards).toEqual(jasmine.any(View));
+            it('should be a RecapCardListView', function() {
+                expect(recapCardView.cards).toEqual(jasmine.any(RecapCardListView));
             });
         });
     });
@@ -35,6 +35,7 @@ describe('RecapCardView', function() {
     describe('methods:', function() {
         describe('update(data)', function() {
             let data;
+            let cardViews;
 
             beforeEach(function() {
                 data = {
@@ -50,14 +51,15 @@ describe('RecapCardView', function() {
                         }
                     ]
                 };
+                cardViews = [];
 
                 spyOn(recapCardView, 'create').and.callThrough();
 
                 Runner.run(() => recapCardView.update({}));
 
-                spyOn(recapCardView.cards, 'append');
                 spyOn(RecapCardItemView.prototype, 'update');
-
+                spyOn(recapCardView.cards, 'update').and.callThrough();
+                recapCardView.cards.on('addChild', (child, index) => cardViews[index] = child);
 
                 Runner.run(() => recapCardView.update(data));
             });
@@ -66,30 +68,18 @@ describe('RecapCardView', function() {
                 expect(recapCardView.create.calls.count()).toBe(1);
             });
 
-            it('should append a RecapCardItemView to the cards view for every card in the data', function() {
-                expect(recapCardView.cards.append.calls.count()).toBe(3);
-                recapCardView.cards.append.calls.all().forEach(call => {
-                    expect(call.args[0]).toEqual(jasmine.any(RecapCardItemView));
-                });
-            });
-
-            it('should update each RecapCardItemView with the data for the card', function() {
-                data.cards.forEach((card, index) => {
-                    const view = recapCardView.cards.append.calls.argsFor(index)[0];
-
-                    expect(view.update).toHaveBeenCalledWith(card);
-                });
+            it('should update the cards with card data', function() {
+                expect(recapCardView.cards.update).toHaveBeenCalledWith(data.cards);
             });
 
             describe('when a child is selected', function() {
-                let view, spy;
+                let spy;
 
                 beforeEach(function() {
-                    view = recapCardView.cards.append.calls.argsFor(1)[0];
                     spy = jasmine.createSpy('spy()');
                     recapCardView.on('selectCard', spy);
 
-                    view.emit('select');
+                    cardViews[1].emit('select');
                 });
 
                 it('should emit selectCard with the id of the selected card', function() {

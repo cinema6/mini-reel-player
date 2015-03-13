@@ -45,16 +45,6 @@ function initializeVideo(player) {
     return _player.video || (function(video) {
         const element = player.element || player.create();
 
-        function firePixelsOnce(pixel, predicate) {
-            const {vastEvents} = state;
-            const {vast} = _player;
-
-            if (predicate() && !vastEvents[pixel]) {
-                vast.firePixels(pixel);
-                vastEvents[pixel] = true;
-            }
-        }
-
         video.addEventListener('loadedmetadata', () => Runner.run(() => {
             player.emit('loadedmetadata');
         }), false);
@@ -87,27 +77,7 @@ function initializeVideo(player) {
             player.emit('ended');
         }), false);
         video.addEventListener('timeupdate', () => Runner.run(() => {
-            const {currentTime, duration} = video;
-
             player.emit('timeupdate');
-
-            if (!duration) { return; }
-
-            firePixelsOnce('firstQuartile', function() {
-                return currentTime >= (duration * 0.25);
-            });
-
-            firePixelsOnce('midpoint', function() {
-                return currentTime >= (duration * 0.5);
-            });
-
-            firePixelsOnce('thirdQuartile', function() {
-                return currentTime >= (duration * 0.75);
-            });
-
-            firePixelsOnce('complete', function() {
-                return currentTime >= (duration - 1);
-            });
         }), false);
 
         video.controls = player.controls;
@@ -195,6 +165,11 @@ export default class VASTPlayer extends CorePlayer {
         _(this).video = null;
         _(this).state = getInitialState();
         _(this).src = null;
+
+        this.on('firstQuartile', () => _(this).vast.firePixels('firstQuartile'));
+        this.on('midpoint', () => _(this).vast.firePixels('midpoint'));
+        this.on('thirdQuartile', () => _(this).vast.firePixels('thirdQuartile'));
+        this.on('complete', () => _(this).vast.firePixels('complete'));
     }
 
     get error() {

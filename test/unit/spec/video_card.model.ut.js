@@ -125,6 +125,12 @@ describe('VideoCard', function() {
             });
         });
 
+        describe('campaign', function() {
+            it('should be the card\'s campaign', function() {
+                expect(card.campaign).toBe(data.campaign);
+            });
+        });
+
         describe('socialLinks', function() {
             it('should be an array', function() {
                 expect(card.socialLinks).toEqual([]);

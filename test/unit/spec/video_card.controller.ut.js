@@ -6,6 +6,7 @@ describe('VideoCardController', function() {
     import Runner from '../../../lib/Runner.js';
     import View from '../../../lib/core/View.js';
     import playerFactory from '../../../src/services/player_factory.js';
+    import dispatcher from '../../../src/services/dispatcher.js';
     let VideoCardCtrl;
     let card;
     let player;
@@ -118,10 +119,20 @@ describe('VideoCardController', function() {
                     beforeEach(function() {
                         spyOn(player, 'play');
                         spyOn(player, 'load');
+                        spyOn(dispatcher, 'addSource').and.callThrough();
+
+                        Runner.run(() => card.activate());
+                    });
+
+                    it('should add the player as an event source', function() {
+                        expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, ['play', 'timeupdate', 'complete'], card);
                     });
 
                     describe('if autoplay is true', function() {
                         beforeEach(function() {
+                            player.play.calls.reset();
+                            player.load.calls.reset();
+                            card.active = false;
                             card.data.autoplay = true;
 
                             Runner.run(() => card.activate());
@@ -134,6 +145,9 @@ describe('VideoCardController', function() {
 
                     describe('if autoplay is false', function() {
                         beforeEach(function() {
+                            player.play.calls.reset();
+                            player.load.calls.reset();
+                            card.active = false;
                             card.data.autoplay = false;
 
                             Runner.run(() => card.activate());
@@ -155,6 +169,7 @@ describe('VideoCardController', function() {
 
                         spyOn(player, 'pause');
                         spyOn(player, 'unload');
+                        spyOn(dispatcher, 'removeSource').and.callThrough();
 
                         Runner.run(() => card.deactivate());
                     });
@@ -165,6 +180,10 @@ describe('VideoCardController', function() {
 
                     it('should unload the player', function() {
                         expect(player.unload).toHaveBeenCalled();
+                    });
+
+                    it('should remove the player as an event source', function() {
+                        expect(dispatcher.removeSource).toHaveBeenCalledWith(player);
                     });
                 });
             });

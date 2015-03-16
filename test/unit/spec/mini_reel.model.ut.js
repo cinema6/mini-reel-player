@@ -1,5 +1,7 @@
 describe('MiniReel', function() {
     import MiniReel from '../../../src/models/MiniReel.js';
+    import dispatcher from '../../../src/services/dispatcher.js';
+    import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
     import {EventEmitter} from 'events';
     import cinema6 from '../../../src/services/cinema6.js';
     import {
@@ -544,6 +546,8 @@ describe('MiniReel', function() {
         spyOn(cinema6, 'getAppData').and.returnValue(appDataDeferred.promise);
         spyOn(cinema6, 'getSession').and.returnValue(sessionDeferred.promise);
 
+        spyOn(dispatcher, 'addClient');
+
         minireel = new MiniReel();
 
         sessionDeferred.fulfill(session);
@@ -553,6 +557,10 @@ describe('MiniReel', function() {
 
     it('should be an event emitter', function() {
         expect(minireel).toEqual(jasmine.any(EventEmitter));
+    });
+
+    it('should add the ADTECHHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).toHaveBeenCalledWith(ADTECHHandler);
     });
 
     describe('properties:', function() {

@@ -12,6 +12,7 @@ export default class VideoCard extends Card {
 
         this.type = 'video';
 
+        this.campaign = data.campaign;
         this.sponsor = data.params.sponsor;
         this.action = data.params.action || {};
         this.logo = data.collateral.logo;

@@ -3,6 +3,7 @@ import VideoCardView from '../views/VideoCardView.js';
 import Runner from '../../lib/Runner.js';
 import playerFactory from '../services/player_factory.js';
 import {createKey} from 'private-parts';
+import dispatcher from '../services/dispatcher.js';
 
 const _ = createKey();
 
@@ -21,15 +22,15 @@ export default class VideoCardController extends CardController {
         this.model.on('prepare', () =>  player.load());
         this.model.on('activate', () => {
             player[this.model.data.autoplay ? 'play' : 'load']();
+            dispatcher.addSource('video', player, ['play', 'timeupdate', 'complete'], this.model);
         });
         this.model.on('deactivate', () => {
             player.pause();
             Runner.schedule('afterRender', () => player.unload());
+            dispatcher.removeSource(player);
         });
         player.on('ended', () => {
-            Runner.schedule('afterRender', () => {
-                if (player.minimize() instanceof Error) { player.reload(); }
-            });
+            if (player.minimize() instanceof Error) { player.reload(); }
             this.model.complete();
         });
     }

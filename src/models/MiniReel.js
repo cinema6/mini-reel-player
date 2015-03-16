@@ -1,3 +1,5 @@
+import dispatcher from '../services/dispatcher.js';
+import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
@@ -55,6 +57,8 @@ export default class MiniReel extends EventEmitter {
 
         this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
+
+        dispatcher.addClient(ADTECHHandler);
     }
 
     moveToIndex(index) {

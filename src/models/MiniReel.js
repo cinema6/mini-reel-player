@@ -16,7 +16,9 @@ import RecapCard from './RecapCard.js';
 const _ = createKey();
 
 function initialize(minireel, experience) {
+    minireel.id = experience.id;
     minireel.title = experience.data.title;
+    minireel.branding = experience.data.branding;
     minireel.splash = experience.data.collateral.splash;
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
@@ -40,7 +42,9 @@ export default class MiniReel extends EventEmitter {
     constructor() {
         super(...arguments);
 
+        this.id = null;
         this.title = null;
+        this.branding = null;
         this.splash = null;
         this.deck = [];
         this.length = 0;

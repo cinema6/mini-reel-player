@@ -24,6 +24,7 @@ describe('MiniReel', function() {
         "autoplay": false,
         "autoadvance": false,
         "sponsored": true,
+        "branding": "elitedaily",
         "links": {
           "Website": "http://pando.com/2015/02/03/the-15-best-movies-of-the-decade-so-far-that-you-can-watch-on-netflix-right-now/",
           "Facebook": "https://www.facebook.com/pandodaily",
@@ -564,9 +565,21 @@ describe('MiniReel', function() {
     });
 
     describe('properties:', function() {
+        describe('id', function() {
+            it('should be null', function() {
+                expect(minireel.id).toBeNull();
+            });
+        });
+
         describe('title', function() {
             it('should be null', function() {
                 expect(minireel.title).toBeNull();
+            });
+        });
+
+        describe('branding', function() {
+            it('should be null', function() {
+                expect(minireel.branding).toBeNull();
             });
         });
 
@@ -1005,8 +1018,16 @@ describe('MiniReel', function() {
             expect(done).toHaveBeenCalled();
         });
 
+        it('should copy the id', function() {
+            expect(minireel.id).toBe(experience.id);
+        });
+
         it('should copy the title', function() {
             expect(minireel.title).toBe(experience.data.title);
+        });
+
+        it('should copy the branding', function() {
+            expect(minireel.branding).toBe(experience.data.branding);
         });
 
         it('should set the splash', function() {

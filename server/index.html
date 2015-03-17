@@ -23,14 +23,14 @@
                 this.standalone = false;
             }
 
-            window.__c6_ga__ = function() {};
-
             window.__C6_APP_FOLDER__ = '/.build';
             window.__C6_APP_FILE__ = 'index.html';
             window.__C6_DEBUG__     = true;
             window.__C6_URL_ROOT__  = window.location.protocol + '//staging.cinema6.com';
 
             window.c6 = {
+                gaAcctIdPlayer: 'UA-44457821-2',
+                gaAcctIdEmbed: 'UA-44457821-3',
                 embeds: [
                     {
                       "access": "public",
@@ -679,7 +679,44 @@
         </script>
         <script src="https://s3.amazonaws.com/c6.dev/ext/c6embed/v1/app.js"></script>
         <script>
-            window.c6.loadExperience(window.c6.embeds[0]).done();
+            (function() {
+                var minireel = window.c6.embeds[0];
+                var experience = minireel.experience;
+
+                /* jshint sub:true, asi:true, expr:true, camelcase:false, indent:false */
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','__c6_ga__');
+                /* jshint sub:false, asi:false, expr:false, indent:4 */
+
+                var embedTracker = experience.id.replace(/e-/,''),
+                    pagePath = (function(e,q){
+                        var r='/embed/'+e+'/',p,qf=[];
+                        for (p in q){ if(q[p]){qf.push(p + '=' + q[p]);} }
+                        if (qf.length){ r += '?' + qf.join('&'); }
+                        return r;
+                    }(experience.id,{cx:'devel',ct:'devel'}));
+
+                window.__c6_ga__('create', c6.gaAcctIdPlayer, {
+                    'name'       : 'c6',
+                    'cookieName' : '_c6ga'
+                });
+
+                window.__c6_ga__('create', c6.gaAcctIdEmbed, {
+                    'name'       : embedTracker,
+                    'cookieName' : '_c6ga'
+                });
+                window.__c6_ga__(embedTracker + '.require', 'displayfeatures');
+
+                window.__c6_ga__(embedTracker + '.set',{
+                    'dimension1' : window.location.href,
+                    'page'  : pagePath,
+                    'title' : experience.data.title
+                });
+
+                window.c6.loadExperience(minireel).done();
+            }());
         </script>
     </body>
 </html>

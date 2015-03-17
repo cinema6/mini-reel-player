@@ -1,11 +1,14 @@
-global.Promise = require('es6-promise').Promise;
-global.WeakMap = require('weak-map');
-require('whatwg-fetch');
-require('raf.js');
-require('gsap/src/uncompressed/plugins/CSSPlugin.js');
-import './tests.js';
+import {Promise} from 'es6-promise';
+import WeakMap from 'weak-map';
+import 'whatwg-fetch';
+import 'raf.js';
+import 'gsap/src/uncompressed/plugins/CSSPlugin.js';
+
+global.Promise = Promise;
+global.WeakMap = WeakMap;
 
 import Runner from '../lib/Runner.js';
 import ApplicationController from './controllers/ApplicationController.js';
+import './tests.js';
 
 Runner.run(() => new ApplicationController(document.body));

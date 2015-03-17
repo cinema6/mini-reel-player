@@ -1,5 +1,6 @@
 import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
+import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
@@ -16,7 +17,9 @@ import RecapCard from './RecapCard.js';
 const _ = createKey();
 
 function initialize(minireel, experience) {
+    minireel.id = experience.id;
     minireel.title = experience.data.title;
+    minireel.branding = experience.data.branding;
     minireel.splash = experience.data.collateral.splash;
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
@@ -40,7 +43,9 @@ export default class MiniReel extends EventEmitter {
     constructor() {
         super(...arguments);
 
+        this.id = null;
         this.title = null;
+        this.branding = null;
         this.splash = null;
         this.deck = [];
         this.length = 0;
@@ -53,12 +58,18 @@ export default class MiniReel extends EventEmitter {
         _(this).cardCanAdvanceHandler = (() => this.next());
 
         cinema6.getAppData().then(appData => initialize(this, appData.experience));
-        cinema6.getSession().then(session => session.on('show', () => this.moveToIndex(0)));
+        cinema6.getSession().then(session => {
+            session.on('show', () => this.moveToIndex(0));
+            session.on('initAnalytics', config => {
+                dispatcher.addClient(GoogleAnalyticsHandler, this, config);
+            });
+        });
 
         this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
+        dispatcher.addSource('navigation', this, ['move']);
     }
 
     moveToIndex(index) {

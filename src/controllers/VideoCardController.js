@@ -22,7 +22,10 @@ export default class VideoCardController extends CardController {
         this.model.on('prepare', () =>  player.load());
         this.model.on('activate', () => {
             player[this.model.data.autoplay ? 'play' : 'load']();
-            dispatcher.addSource('video', player, ['play', 'timeupdate', 'complete'], this.model);
+            dispatcher.addSource('video', player, [
+                'play', 'timeupdate', 'pause', 'ended', 'error',
+                'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
+            ], this.model);
         });
         this.model.on('deactivate', () => {
             player.pause();
@@ -33,6 +36,8 @@ export default class VideoCardController extends CardController {
             if (player.minimize() instanceof Error) { player.reload(); }
             this.model.complete();
         });
+
+        dispatcher.addSource('card', this.model, ['activate'], player);
     }
 
     render() {

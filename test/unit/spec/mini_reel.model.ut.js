@@ -2,6 +2,7 @@ describe('MiniReel', function() {
     import MiniReel from '../../../src/models/MiniReel.js';
     import dispatcher from '../../../src/services/dispatcher.js';
     import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
+    import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
     import {EventEmitter} from 'events';
     import cinema6 from '../../../src/services/cinema6.js';
     import {
@@ -548,6 +549,7 @@ describe('MiniReel', function() {
         spyOn(cinema6, 'getSession').and.returnValue(sessionDeferred.promise);
 
         spyOn(dispatcher, 'addClient');
+        spyOn(dispatcher, 'addSource');
 
         minireel = new MiniReel();
 
@@ -562,6 +564,10 @@ describe('MiniReel', function() {
 
     it('should add the ADTECHHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(ADTECHHandler);
+    });
+
+    it('should add itself as a source', function() {
+        expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel, ['move']);
     });
 
     describe('properties:', function() {
@@ -998,6 +1004,20 @@ describe('MiniReel', function() {
 
         it('should start the minireel', function() {
             expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
+        });
+    });
+
+    describe('when the session pings "initAnalytics"', function() {
+        let config;
+
+        beforeEach(function() {
+            config = { data: 'foo' };
+
+            session.emit('initAnalytics', config);
+        });
+
+        it('should add the GoogleAnalyticsHandler', function() {
+            expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel, config);
         });
     });
 

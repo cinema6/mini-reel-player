@@ -1,5 +1,6 @@
 import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
+import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
@@ -57,12 +58,18 @@ export default class MiniReel extends EventEmitter {
         _(this).cardCanAdvanceHandler = (() => this.next());
 
         cinema6.getAppData().then(appData => initialize(this, appData.experience));
-        cinema6.getSession().then(session => session.on('show', () => this.moveToIndex(0)));
+        cinema6.getSession().then(session => {
+            session.on('show', () => this.moveToIndex(0));
+            session.on('initAnalytics', config => {
+                dispatcher.addClient(GoogleAnalyticsHandler, this, config);
+            });
+        });
 
         this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
+        dispatcher.addSource('navigation', this, ['move']);
     }
 
     moveToIndex(index) {

@@ -79,11 +79,17 @@ describe('VideoCardController', function() {
         player = new MockPlayer();
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
+        spyOn(dispatcher, 'addSource');
+
         VideoCardCtrl = new VideoCardController(card, parentView);
     });
 
     it('should be a CardController', function() {
         expect(VideoCardCtrl).toEqual(jasmine.any(CardController));
+    });
+
+    it('should add its model as an event source', function() {
+        expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['activate'], player);
     });
 
     describe('properties:', function() {
@@ -119,13 +125,15 @@ describe('VideoCardController', function() {
                     beforeEach(function() {
                         spyOn(player, 'play');
                         spyOn(player, 'load');
-                        spyOn(dispatcher, 'addSource').and.callThrough();
 
                         Runner.run(() => card.activate());
                     });
 
                     it('should add the player as an event source', function() {
-                        expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, ['play', 'timeupdate', 'complete'], card);
+                        expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, [
+                            'play', 'timeupdate', 'pause', 'ended', 'error',
+                            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
+                        ], card);
                     });
 
                     describe('if autoplay is true', function() {

@@ -1,6 +1,10 @@
 import {
     extend
 } from '../../../lib/utils.js';
+import PlayerOutletView from '../../../src/views/PlayerOutletView.js';
+import HideableView from '../../../src/views/HideableView.js';
+import ButtonView from '../../../src/views/ButtonView.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('VideoCardView', function() {
     import CardView from '../../../src/views/CardView.js';
@@ -26,21 +30,91 @@ describe('VideoCardView', function() {
 
         describe('playerOutlet', function() {
             beforeEach(function() {
-                videoCardView.create();
+                Runner.run(() => videoCardView.create());
             });
 
-            it('should be a View', function() {
-                expect(videoCardView.playerOutlet).toEqual(jasmine.any(View));
+            it('should be a PlayerOutletView', function() {
+                expect(videoCardView.playerOutlet).toEqual(jasmine.any(PlayerOutletView));
+            });
+        });
+
+        describe('displayAdOutlet', function() {
+            beforeEach(function() {
+                Runner.run(() => videoCardView.create());
+            });
+
+            it('should be a view', function() {
+                expect(videoCardView.displayAdOutlet).toEqual(jasmine.any(View));
             });
         });
 
         describe('links', function() {
             beforeEach(function() {
-                videoCardView.create();
+                Runner.run(() => videoCardView.create());
             });
 
             it('should be a LinksListView', function() {
                 expect(videoCardView.links).toEqual(jasmine.any(LinksListView));
+            });
+        });
+
+        describe('replayContainer', function() {
+            beforeEach(function() {
+                spyOn(HideableView.prototype, 'hide');
+                Runner.run(() => videoCardView.create());
+            });
+
+            it('should be a HideableView', function() {
+                expect(videoCardView.replayContainer).toEqual(jasmine.any(HideableView));
+            });
+
+            it('should be hidden', function() {
+                expect(videoCardView.replayContainer.hide).toHaveBeenCalled();
+            });
+        });
+
+        describe('replayButton', function() {
+            beforeEach(function() {
+                Runner.run(() => videoCardView.create());
+            });
+
+            it('should be a ButtonView', function() {
+                expect(videoCardView.replayButton).toEqual(jasmine.any(ButtonView));
+            });
+
+            describe('events:', function() {
+                describe('press', function() {
+                    let spy;
+
+                    beforeEach(function() {
+                        spy = jasmine.createSpy('replay()');
+                        videoCardView.on('replay', spy);
+
+                        videoCardView.replayButton.emit('press');
+                    });
+
+                    it('should emit the replay event', function() {
+                        expect(spy).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('moduleOutlets', function() {
+            it('should be an empty object', function() {
+                expect(videoCardView.moduleOutlets).toEqual({});
+            });
+
+            describe('after the view is created', function() {
+                beforeEach(function() {
+                    Runner.run(() => videoCardView.create());
+                });
+
+                it('should be a reference to each module\'s outlet by name', function() {
+                    expect(videoCardView.moduleOutlets).toEqual({
+                        displayAd: videoCardView.displayAdOutlet
+                    });
+                });
             });
         });
     });
@@ -50,7 +124,7 @@ describe('VideoCardView', function() {
             let data;
 
             beforeEach(function() {
-                videoCardView.create();
+                Runner.run(() => videoCardView.create());
 
                 spyOn(CardView.prototype, 'update');
                 spyOn(videoCardView.links, 'update');

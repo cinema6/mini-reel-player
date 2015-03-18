@@ -7,7 +7,14 @@
         </span>
     </h1>
 
-    <div data-view="playerOutlet:View" class="player js-playerBox"></div>
+    <div data-view="playerOutlet:PlayerOutletView" class="player js-playerBox"></div>
+
+    <div data-view="displayAdOutlet:View" class="displayAdCard__adModule"></div>
+    <p data-view="replayContainer:HideableView" style="text-align:center;">
+        <button data-view="replayButton:ButtonView" type="button" class="btnPrimary btnPrimary--small" title="Replay Video">
+            <span class="btn__label">Replay Video</span>
+        </button>
+    </p>
 
     <div data-if="isSponsored" class="sponsorProfile__group clearfix">
         <a data-if="logo" href="{{website}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">

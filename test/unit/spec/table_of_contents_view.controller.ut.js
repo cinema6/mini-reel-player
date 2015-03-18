@@ -36,6 +36,7 @@ describe('TableOfContentsViewController', function() {
           "ratio": "6-5",
           "theme": "img-only"
         },
+        "adServer": {},
         "deck": [
           {
             "data": {

@@ -4,6 +4,7 @@ import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
+import adtech from '../services/adtech.js';
 import {
     map,
     forEach
@@ -34,6 +35,23 @@ function initialize(minireel, experience) {
         }
     });
     minireel.length = minireel.deck.length;
+    minireel.adConfig = experience.data.adConfig || {
+        video: {
+            firstPlacement: 1,
+            frequency: 3,
+            waterfall: 'cinema6',
+            skip: 6
+        },
+        display: {
+            waterfall: 'cinema6'
+        }
+    };
+
+    adtech.setDefaults({
+        network: experience.data.adServer.network,
+        server: experience.data.adServer.server,
+        kv: { mode: minireel.adConfig.display.waterfall || 'default' },
+    });
 
     _(minireel).ready = true;
     minireel.emit('init');
@@ -49,6 +67,7 @@ export default class MiniReel extends EventEmitter {
         this.splash = null;
         this.deck = [];
         this.length = 0;
+        this.adConfig = null;
 
         this.currentIndex = -1;
         this.currentCard = null;

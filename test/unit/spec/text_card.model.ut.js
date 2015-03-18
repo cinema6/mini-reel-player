@@ -3,11 +3,15 @@ import Card from '../../../src/models/Card.js';
 
 describe('TextCard', function() {
     let textCard;
-    let minireel, data;
+    let experience, data;
 
     beforeEach(function() {
-        minireel = {
-            splash: '/collateral/experiences/e-42108b552a05ea/splash'
+        experience = {
+            data: {
+                collateral: {
+                    splash: '/collateral/experiences/e-42108b552a05ea/splash'
+                }
+            }
         };
 
         data = {
@@ -32,7 +36,7 @@ describe('TextCard', function() {
             /* jshint quotmark:single */
         };
 
-        textCard = new TextCard(data, minireel.splash);
+        textCard = new TextCard(data, experience);
     });
 
     it('should be a Card', function() {
@@ -49,8 +53,8 @@ describe('TextCard', function() {
         describe('thumbs', function() {
             it('should be copied from the passed-in value', function() {
                 expect(textCard.thumbs).toEqual({
-                    small: minireel.splash,
-                    large: minireel.splash
+                    small: experience.data.collateral.splash,
+                    large: experience.data.collateral.splash
                 });
             });
         });

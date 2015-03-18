@@ -3,6 +3,10 @@ describe('VideoCard', function() {
     import Card from '../../../src/models/Card.js';
     let card;
 
+    const experience = {
+        data: {}
+    };
+
     /* jshint quotmark:double */
     const data = {
         "data": {
@@ -87,7 +91,7 @@ describe('VideoCard', function() {
     /* jshint quotmark:single */
 
     beforeEach(function() {
-        card = new VideoCard(data);
+        card = new VideoCard(data, experience);
     });
 
     it('should exist', function() {
@@ -108,7 +112,7 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be the logo', function() {
-                    expect(new VideoCard(sponsoredData).logo).toBe(sponsoredData.collateral.logo);
+                    expect(new VideoCard(sponsoredData, experience).logo).toBe(sponsoredData.collateral.logo);
                 });
             });
         });
@@ -120,7 +124,7 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be the links', function() {
-                    expect(new VideoCard(sponsoredData).links).toBe(sponsoredData.links);
+                    expect(new VideoCard(sponsoredData, experience).links).toBe(sponsoredData.links);
                 });
             });
         });
@@ -138,7 +142,7 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be an array of the supported social media links', function() {
-                    expect(new VideoCard(sponsoredData).socialLinks).toEqual([
+                    expect(new VideoCard(sponsoredData, experience).socialLinks).toEqual([
                         {
                             type: 'facebook',
                             label: 'Facebook',
@@ -176,7 +180,7 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be the sponsor', function() {
-                    expect(new VideoCard(sponsoredData).sponsor).toBe(sponsoredData.params.sponsor);
+                    expect(new VideoCard(sponsoredData, experience).sponsor).toBe(sponsoredData.params.sponsor);
                 });
             });
         });
@@ -188,7 +192,7 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be the action', function() {
-                    expect(new VideoCard(sponsoredData).action).toBe(sponsoredData.params.action);
+                    expect(new VideoCard(sponsoredData, experience).action).toBe(sponsoredData.params.action);
                 });
             });
         });
@@ -200,7 +204,7 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be true', function() {
-                    expect(new VideoCard(sponsoredData).ad).toBe(true);
+                    expect(new VideoCard(sponsoredData, experience).ad).toBe(true);
                 });
             });
         });
@@ -222,8 +226,9 @@ describe('VideoCard', function() {
             describe('.autoplay', function() {
                 describe('if data.autoplay is true', function() {
                     beforeEach(function() {
+                        experience.data.autoplay = false;
                         data.data.autoplay = true;
-                        card = new VideoCard(data, false);
+                        card = new VideoCard(data, experience);
                     });
 
                     it('should be true', function() {
@@ -233,8 +238,9 @@ describe('VideoCard', function() {
 
                 describe('if data.autoplay is false', function() {
                     beforeEach(function() {
+                        experience.data.autoplay = true;
                         data.data.autoplay = false;
-                        card = new VideoCard(data, true);
+                        card = new VideoCard(data, experience);
                     });
 
                     it('should be false', function() {
@@ -249,7 +255,8 @@ describe('VideoCard', function() {
 
                     describe('if true on the minireel', function() {
                         beforeEach(function() {
-                            card = new VideoCard(data, true);
+                            experience.data.autoplay = true;
+                            card = new VideoCard(data, experience);
                         });
 
                         it('should be true', function() {
@@ -259,7 +266,8 @@ describe('VideoCard', function() {
 
                     describe('if false on the minireel', function() {
                         beforeEach(function() {
-                            card = new VideoCard(data, false);
+                            experience.data.autoplay = false;
+                            card = new VideoCard(data, experience);
                         });
 
                         it('should be false', function() {
@@ -269,7 +277,8 @@ describe('VideoCard', function() {
 
                     describe('if undefined on the minireel', function() {
                         beforeEach(function() {
-                            card = new VideoCard(data, undefined);
+                            delete experience.data.autoplay;
+                            card = new VideoCard(data, experience);
                         });
 
                         it('should be true', function() {
@@ -282,8 +291,9 @@ describe('VideoCard', function() {
             describe('.autoadvance', function() {
                 describe('if data.autoadvance is true', function() {
                     beforeEach(function() {
+                        experience.data.autoadvance = false;
                         data.data.autoadvance = true;
-                        card = new VideoCard(data, undefined, false);
+                        card = new VideoCard(data, experience);
                     });
 
                     it('should be true', function() {
@@ -293,8 +303,9 @@ describe('VideoCard', function() {
 
                 describe('if data.autoadvance is false', function() {
                     beforeEach(function() {
+                        experience.data.autoadvance = true;
                         data.data.autoadvance = false;
-                        card = new VideoCard(data, undefined, true);
+                        card = new VideoCard(data, experience);
                     });
 
                     it('should be false', function() {
@@ -309,7 +320,8 @@ describe('VideoCard', function() {
 
                     describe('if true on the minireel', function() {
                         beforeEach(function() {
-                            card = new VideoCard(data, undefined, true);
+                            experience.data.autoadvance = true;
+                            card = new VideoCard(data, experience);
                         });
 
                         it('should be true', function() {
@@ -319,7 +331,8 @@ describe('VideoCard', function() {
 
                     describe('if false on the minireel', function() {
                         beforeEach(function() {
-                            card = new VideoCard(data, undefined, false);
+                            experience.data.autoadvance = false;
+                            card = new VideoCard(data, experience);
                         });
 
                         it('should be false', function() {
@@ -329,7 +342,8 @@ describe('VideoCard', function() {
 
                     describe('if undefined on the minireel', function() {
                         beforeEach(function() {
-                            card = new VideoCard(data, undefined, undefined);
+                            delete experience.data.autoadvance;
+                            card = new VideoCard(data, experience);
                         });
 
                         it('should be true', function() {

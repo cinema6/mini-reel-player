@@ -7,6 +7,7 @@ import imageLoader from '../../../src/services/image_loader.js';
 
 describe('ADTECHHandler', function() {
     let card;
+    let experience;
     let player;
     let handler;
 
@@ -22,6 +23,10 @@ describe('ADTECHHandler', function() {
         dispatcher.constructor();
         dispatcher.addClient(MockHandler);
 
+        experience = {
+            data: {}
+        };
+
         player = new CorePlayer();
         card = new VideoCard({
             id: 'rc-6d51e674680717',
@@ -35,7 +40,7 @@ describe('ADTECHHandler', function() {
                 clickUrls: ['img1.jpg', 'img2.jpg'],
                 countUrls: ['img3.jpg', 'img4.jpg']
             }
-        });
+        }, experience);
 
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'complete'], card);
     });

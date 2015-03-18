@@ -4,6 +4,10 @@ describe('RecapCard', function() {
     import MiniReel from '../../../src/models/MiniReel.js';
     let card, minireel;
 
+    const experience = {
+        data: {}
+    };
+
     /* jshint quotmark:double */
     const data = {
         "data": {
@@ -36,7 +40,7 @@ describe('RecapCard', function() {
     beforeEach(function() {
         minireel = new MiniReel();
         minireel.splash = '/collateral/experiences/e-42108b552a05ea/splash';
-        card = new RecapCard(data, minireel);
+        card = new RecapCard(data, experience, minireel);
     });
 
     it('should exist', function() {

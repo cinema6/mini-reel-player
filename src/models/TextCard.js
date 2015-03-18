@@ -1,7 +1,7 @@
 import Card from './Card.js';
 
 export default class TextCard extends Card {
-    constructor(data, splash) {
+    constructor(data, { data: { collateral: { splash } } }) {
         super(...arguments);
 
         this.type = 'text';

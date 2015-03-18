@@ -24,13 +24,13 @@ function initialize(minireel, experience) {
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
         case 'text':
-            return new TextCard(card, minireel.splash);
+            return new TextCard(card, experience);
         case 'recap':
-            return new RecapCard(card, minireel);
+            return new RecapCard(card, experience, minireel);
         case 'adUnit':
-            return new AdUnitCard(card, experience.data.autoplay, experience.data.autoadvance);
+            return new AdUnitCard(card, experience);
         default:
-            return new VideoCard(card, experience.data.autoplay, experience.data.autoadvance);
+            return new VideoCard(card, experience);
         }
     });
     minireel.length = minireel.deck.length;

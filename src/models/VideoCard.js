@@ -7,7 +7,7 @@ import {
 const SOCIAL_LINKS = ['Facebook', 'Pinterest', 'Twitter', 'YouTube', 'Vimeo'];
 
 export default class VideoCard extends Card {
-    constructor(data, autoplay = true, autoadvance = true) {
+    constructor(data, { data: { autoplay = true, autoadvance = true } }) { // jshint ignore:line
         super(...arguments);
 
         this.type = 'video';

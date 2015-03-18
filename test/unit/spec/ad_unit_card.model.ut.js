@@ -4,8 +4,13 @@ import VideoCard from '../../../src/models/VideoCard.js';
 describe('AdUnitCard', function() {
     let card;
     let data;
+    let experience;
 
     beforeEach(function() {
+        experience = {
+            data: {}
+        };
+
         data = {
             /* jshint quotmark:double */
             "data": {
@@ -49,7 +54,7 @@ describe('AdUnitCard', function() {
             /* jshint quotmark:single */
         };
 
-        card = new AdUnitCard(data);
+        card = new AdUnitCard(data, experience);
     });
 
     it('should be a VideoCard', function() {

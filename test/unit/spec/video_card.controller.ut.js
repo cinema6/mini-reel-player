@@ -9,6 +9,7 @@ describe('VideoCardController', function() {
     import dispatcher from '../../../src/services/dispatcher.js';
     let VideoCardCtrl;
     let card;
+    let experience;
     let player;
     let parentView;
 
@@ -24,6 +25,10 @@ describe('VideoCardController', function() {
     beforeEach(function() {
         parentView = new View();
         parentView.tag = 'div';
+
+        experience = {
+            data: {}
+        };
 
         card = new VideoCard({
             /* jshint quotmark:double */
@@ -75,7 +80,7 @@ describe('VideoCardController', function() {
             },
             "id": "rc-fc7d04deda983b"
             /* jshint quotmark:single */
-        });
+        }, experience);
         player = new MockPlayer();
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 

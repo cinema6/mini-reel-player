@@ -6,11 +6,15 @@ const _ = createKey();
 
 function Hideable() {
     _(this).display = '';
+    _(this).shown = true;
 }
 Hideable.prototype = {
     hide() {
         const element = this.element || this.create();
 
+        if (!_(this).shown) { return; }
+
+        _(this).shown = false;
         _(this).display = element.style.display;
 
         Runner.schedule('render', () => {
@@ -21,6 +25,8 @@ Hideable.prototype = {
 
     show() {
         const element = this.element || this.create();
+
+        _(this).shown = true;
 
         Runner.schedule('render', () => {
             return animator.trigger('view:show', this)

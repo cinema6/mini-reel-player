@@ -75,8 +75,8 @@ describe('Runner', function() {
                                     });
                                 });
                                 fn2 = jasmine.createSpy('fn2()').and.callFake(function() {
-                                    return new Promise(function(fulfill, reject) {
-                                        setTimeout(reject, 2);
+                                    return new Promise(function(fulfill) {
+                                        setTimeout(fulfill, 2);
                                     });
                                 });
                                 fn3 = jasmine.createSpy('fn3()').and.callFake(function() {
@@ -98,6 +98,23 @@ describe('Runner', function() {
 
                             it('should hasWork to false', function() {
                                 expect(queue.hasWork).toBe(false);
+                            });
+
+                            describe('if there is a failure', function() {
+                                let error;
+
+                                beforeEach(function(done) {
+                                    spyOn(global.console, 'error');
+                                    error = new Error('I FAILED!');
+                                    queue.add(() => Promise.reject(error));
+
+                                    queue.flush();
+                                    setTimeout(done, 5);
+                                });
+
+                                it('should log the error', function() {
+                                    expect(global.console.error).toHaveBeenCalledWith(error);
+                                });
                             });
 
                             describe('when called again', function() {
@@ -167,8 +184,8 @@ describe('Runner', function() {
                                 });
                             });
                             fn2 = jasmine.createSpy('fn2()').and.callFake(function() {
-                                return new Promise(function(fulfill, reject) {
-                                    setTimeout(reject, 2);
+                                return new Promise(function(fulfill) {
+                                    setTimeout(fulfill, 2);
                                 });
                             });
                             fn3 = jasmine.createSpy('fn3()').and.callFake(function() {

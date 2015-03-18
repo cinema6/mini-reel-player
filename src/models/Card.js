@@ -1,16 +1,35 @@
 import {EventEmitter} from 'events';
+import DisplayAd from './DisplayAd.js';
 import {
-    extend
+    extend,
+    reduce
 } from '../../lib/utils.js';
 
 export default class Card extends EventEmitter {
-    constructor(card) {
+    constructor(card, experience) {
         this.id = card.id;
         this.title = card.title;
         this.note = card.note;
         this.thumbs = extend(card.thumbs);
 
         this.data = {};
+
+        this.modules = reduce(card.modules || [], (modules, module) => {
+            const model = (() => {
+                switch (module) {
+                case 'displayAd':
+                    return new DisplayAd(card, experience);
+                default:
+                    return undefined;
+                }
+            }());
+
+            if (model) {
+                modules[module] = model;
+            }
+
+            return modules;
+        }, {});
 
         this.active = false;
     }

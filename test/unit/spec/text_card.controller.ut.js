@@ -7,7 +7,11 @@ describe('TextCardController', function() {
     let TextCardCtrl;
 
     beforeEach(function() {
-        TextCardCtrl = new TextCardController(new TextCard({ data: {} }));
+        TextCardCtrl = new TextCardController(new TextCard({ data: {} }, {
+            data: {
+                collateral: {}
+            }
+        }));
     });
 
     it('should be a CardController', function() {

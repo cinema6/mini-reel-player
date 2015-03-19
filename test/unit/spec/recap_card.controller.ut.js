@@ -11,6 +11,10 @@ describe('RecapCardController', function() {
 
     let card, minireel;
 
+    const experience = {
+        data: {}
+    };
+
     beforeEach(function() {
         minireel = new MiniReel();
         minireel.deck = [
@@ -33,7 +37,7 @@ describe('RecapCardController', function() {
                     hideSource: true,
                     href: 'https://www.youtube.com/watch?v=3XxB6ma7qu8'
                 }
-            }),
+            }, experience),
             new VideoCard({
                 id: 'rc-241b9cc66bcf19',
                 title: 'Card 2',
@@ -46,7 +50,7 @@ describe('RecapCardController', function() {
                 data: {
                     href: 'https://www.youtube.com/watch?v=mmEJQfm8H0k'
                 }
-            }),
+            }, experience),
             new VideoCard({
                 id: 'rc-ce2efbc9230739',
                 title: 'Card 3',
@@ -59,7 +63,7 @@ describe('RecapCardController', function() {
                 data: {
                     href: 'https://www.youtube.com/watch?v=LZL9JfoqaHQ'
                 }
-            }),
+            }, experience),
             new VideoCard({
                 id: 'rc-9adf2905169f34',
                 title: 'Card 4',
@@ -71,9 +75,9 @@ describe('RecapCardController', function() {
                 data: {
                     href: 'https://www.youtube.com/watch?v=LZL9JfoqaHQ'
                 }
-            })
+            }, experience)
         ];
-        card = new RecapCard({}, minireel);
+        card = new RecapCard({}, experience, minireel);
         minireel.deck.push(card);
 
         RecapCardCtrl = new RecapCardController(card, new View(document.createElement('ul')));

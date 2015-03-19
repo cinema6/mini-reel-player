@@ -20,9 +20,16 @@ describe('PlayerController', function() {
 
     let applicationView;
     let session;
+    let experience;
 
     beforeEach(function() {
         cinema6.constructor();
+
+        experience = {
+            data: {
+                collateral: {}
+            }
+        };
 
         const init = cinema6.init;
         spyOn(cinema6, 'init').and.callFake(function() {
@@ -90,7 +97,7 @@ describe('PlayerController', function() {
 
                 describe('toggleToc', function() {
                     beforeEach(function() {
-                        PlayerCtrl.minireel.deck = [new TextCard({ data: {} })];
+                        PlayerCtrl.minireel.deck = [new TextCard({ data: {} }, experience)];
                         Runner.run(() => PlayerCtrl.minireel.emit('init'));
                         spyOn(PlayerCtrl.TableOfContentsViewCtrl, 'toggle');
 
@@ -152,11 +159,11 @@ describe('PlayerController', function() {
                         spyOn(PlayerCtrl, 'updateView');
 
                         PlayerCtrl.minireel.deck = [
-                            new TextCard({ data: {} }),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }),
-                            new RecapCard({}, PlayerCtrl.minireel)
+                            new TextCard({ data: {} }, experience),
+                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                            new RecapCard({}, experience, PlayerCtrl.minireel)
                         ];
                         spyOn(CardController.prototype, 'render');
                         spyOn(VideoCardController.prototype, 'render').and.callThrough();
@@ -215,11 +222,11 @@ describe('PlayerController', function() {
                         spyOn(cinema6, 'fullscreen');
 
                         PlayerCtrl.minireel.deck = [
-                            new TextCard({ data: {} }),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }),
-                            new RecapCard({}, PlayerCtrl.minireel)
+                            new TextCard({ data: {} }, experience),
+                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                            new RecapCard({}, experience, PlayerCtrl.minireel)
                         ];
 
                         Runner.run(() => PlayerCtrl.minireel.emit('init'));

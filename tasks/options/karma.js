@@ -37,7 +37,7 @@ module.exports = {
         captureTimeout: 30000,
 
         // How long will Karma wait for a message from a browser before disconnecting from it.
-        browserNoActivityTimeout: 60000
+        browserNoActivityTimeout: 300000
     },
     unit: {
         options: {

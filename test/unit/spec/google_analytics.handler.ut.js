@@ -15,6 +15,7 @@ describe('GoogleAnalyticsHandler', function() {
     let trckr;
     let config;
     let minireel;
+    let experience;
 
     class MockHandler extends GoogleAnalyticsHandler {
         constructor() {
@@ -40,6 +41,8 @@ describe('GoogleAnalyticsHandler', function() {
     beforeEach(function() {
         dispatcher.constructor();
         tracker.constructor();
+
+        experience = { data: {} };
 
         trckr = tracker.get('c6mr');
         config = { accountId: '12345', clientId: 'abcde' };
@@ -179,7 +182,7 @@ describe('GoogleAnalyticsHandler', function() {
                     collateral: {},
                     links: {},
                     campaign: {}
-                });
+                }, experience);
                 player = new CorePlayer();
                 player.duration = 45;
 
@@ -327,7 +330,7 @@ describe('GoogleAnalyticsHandler', function() {
                     collateral: {},
                     type: 'dailymotion',
                     id: 'rc-9823rd8932'
-                });
+                }, experience);
                 player = new CorePlayer();
                 player.duration = 22;
 
@@ -408,7 +411,7 @@ describe('GoogleAnalyticsHandler', function() {
                     logos: {},
                     type: 'youtube',
                     id: 'rc-q9438htrf9'
-                });
+                }, experience);
                 player = new CorePlayer();
                 player.duration = 33;
 

@@ -4,6 +4,7 @@ import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
+import adtech from '../services/adtech.js';
 import {
     map,
     forEach
@@ -24,16 +25,33 @@ function initialize(minireel, experience) {
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
         case 'text':
-            return new TextCard(card, minireel.splash);
+            return new TextCard(card, experience);
         case 'recap':
-            return new RecapCard(card, minireel);
+            return new RecapCard(card, experience, minireel);
         case 'adUnit':
-            return new AdUnitCard(card, experience.data.autoplay, experience.data.autoadvance);
+            return new AdUnitCard(card, experience);
         default:
-            return new VideoCard(card, experience.data.autoplay, experience.data.autoadvance);
+            return new VideoCard(card, experience);
         }
     });
     minireel.length = minireel.deck.length;
+    minireel.adConfig = experience.data.adConfig || {
+        video: {
+            firstPlacement: 1,
+            frequency: 3,
+            waterfall: 'cinema6',
+            skip: 6
+        },
+        display: {
+            waterfall: 'cinema6'
+        }
+    };
+
+    adtech.setDefaults({
+        network: experience.data.adServer.network,
+        server: experience.data.adServer.server,
+        kv: { mode: minireel.adConfig.display.waterfall || 'default' },
+    });
 
     _(minireel).ready = true;
     minireel.emit('init');
@@ -49,6 +67,7 @@ export default class MiniReel extends EventEmitter {
         this.splash = null;
         this.deck = [];
         this.length = 0;
+        this.adConfig = null;
 
         this.currentIndex = -1;
         this.currentCard = null;

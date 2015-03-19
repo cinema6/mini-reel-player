@@ -4,8 +4,12 @@ import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
 import VASTPlayer from '../../../src/players/VASTPlayer.js';
 
 describe('playerFactory', function() {
+    let experience;
+
     beforeEach(function() {
         playerFactory.constructor();
+
+        experience = { data: {} };
     });
 
     describe('methods:', function() {
@@ -20,7 +24,7 @@ describe('playerFactory', function() {
                         data: {},
                         params: {},
                         collateral: {}
-                    });
+                    }, experience);
 
                     result = playerFactory.playerForCard(card);
                 });
@@ -37,7 +41,7 @@ describe('playerFactory', function() {
                         data: {},
                         params: {},
                         collateral: {}
-                    });
+                    }, experience);
 
                     result = playerFactory.playerForCard(card);
                 });
@@ -54,7 +58,7 @@ describe('playerFactory', function() {
                         data: {},
                         params: {},
                         collateral: {}
-                    });
+                    }, experience);
                 });
 
                 it('should throw an error', function() {

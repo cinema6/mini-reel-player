@@ -41,11 +41,17 @@ describe('Hideable', function() {
             describe('after the view is hidden', function() {
                 beforeEach(function(done) {
                     testView.attributes = { style: 'display: inline-block;' };
-                    Runner.run(() => {
-                        testView.hide();
-                        testView.show();
-                    });
-                    Promise.all([animator.flush('view:hide'), animator.flush('view:show')]).then(done);
+                    Runner.run(() => testView.hide());
+
+                    animator.flush('view:hide').then(() => {
+                        Runner.run(() => testView.hide());
+                    }).then(() => {
+                        return animator.flush('view:hide');
+                    }).then(() => {
+                        Runner.run(() => testView.show());
+                    }).then(() => {
+                        return animator.flush('view:show');
+                    }).then(done, done);
                 });
 
                 it('should set the display prop back to its inital value', function() {

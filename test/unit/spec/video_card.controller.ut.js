@@ -1,3 +1,5 @@
+import {EventEmitter} from 'events';
+
 describe('VideoCardController', function() {
     import VideoCardController from '../../../src/controllers/VideoCardController.js';
     import CardController from '../../../src/controllers/CardController.js';
@@ -6,11 +8,15 @@ describe('VideoCardController', function() {
     import Runner from '../../../lib/Runner.js';
     import View from '../../../lib/core/View.js';
     import playerFactory from '../../../src/services/player_factory.js';
+    import module from '../../../src/services/module.js';
+    import DisplayAd from '../../../src/models/DisplayAd.js';
     import dispatcher from '../../../src/services/dispatcher.js';
     let VideoCardCtrl;
     let card;
+    let experience;
     let player;
     let parentView;
+    let moduleControllers;
 
     class MockPlayer extends View {
         load() {}
@@ -24,6 +30,10 @@ describe('VideoCardController', function() {
     beforeEach(function() {
         parentView = new View();
         parentView.tag = 'div';
+
+        experience = {
+            data: {}
+        };
 
         card = new VideoCard({
             /* jshint quotmark:double */
@@ -75,9 +85,12 @@ describe('VideoCardController', function() {
             },
             "id": "rc-fc7d04deda983b"
             /* jshint quotmark:single */
-        });
+        }, experience);
         player = new MockPlayer();
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
+
+        moduleControllers = {};
+        spyOn(module, 'getControllers').and.returnValue(moduleControllers);
 
         spyOn(dispatcher, 'addSource');
 
@@ -97,12 +110,92 @@ describe('VideoCardController', function() {
             it('should be a VideoCardView', function() {
                 expect(VideoCardCtrl.view).toEqual(jasmine.any(VideoCardView));
             });
+
+            describe('events:', function() {
+                describe('replay', function() {
+                    beforeEach(function() {
+                        spyOn(player, 'play');
+                        VideoCardCtrl.view.emit('replay');
+                    });
+
+                    it('should play the video', function() {
+                        expect(player.play).toHaveBeenCalled();
+                    });
+
+                    describe('if there is a DisplayAdCtrl', function() {
+                        beforeEach(function() {
+                            moduleControllers.displayAd = new EventEmitter();
+                            moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
+
+                            VideoCardCtrl = new VideoCardController(card, parentView);
+                            VideoCardCtrl.view.emit('replay');
+                        });
+
+                        it('should deactivate the DisplayAdCtrl', function() {
+                            expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
+                        });
+                    });
+                });
+            });
+        });
+
+        describe('moduleControllers', function() {
+            it('should be the result of module.getControllers()', function() {
+                expect(module.getControllers).toHaveBeenCalledWith(card.modules);
+                expect(module.getControllers.calls.mostRecent().args[0]).toBe(card.modules);
+                expect(VideoCardCtrl.moduleControllers).toBe(moduleControllers);
+            });
+
+            describe(': displayAd', function() {
+                beforeEach(function() {
+                    moduleControllers.displayAd = new EventEmitter();
+                    VideoCardCtrl = new VideoCardController(card, parentView);
+                });
+
+                describe('events:', function() {
+                    describe('activate', function() {
+                        beforeEach(function() {
+                            Runner.run(() => VideoCardCtrl.view.create());
+                            spyOn(VideoCardCtrl.view.playerOutlet, 'hide');
+                            spyOn(VideoCardCtrl.view.replayContainer, 'show');
+
+                            moduleControllers.displayAd.emit('activate');
+                        });
+
+                        it('should hide the playerOutlet', function() {
+                            expect(VideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
+                        });
+
+                        it('should show the replayContainer', function() {
+                            expect(VideoCardCtrl.view.replayContainer.show).toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('deactivate', function() {
+                        beforeEach(function() {
+                            Runner.run(() => VideoCardCtrl.view.create());
+                            spyOn(VideoCardCtrl.view.playerOutlet, 'show');
+                            spyOn(VideoCardCtrl.view.replayContainer, 'hide');
+
+                            moduleControllers.displayAd.emit('deactivate');
+                        });
+
+                        it('should show the playerOutlet', function() {
+                            expect(VideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
+                        });
+
+                        it('should hide the replayContainer', function() {
+                            expect(VideoCardCtrl.view.replayContainer.hide).toHaveBeenCalled();
+                        });
+                    });
+                });
+            });
         });
 
         describe('model', function() {
             describe('events:', function() {
                 beforeEach(function() {
-                    VideoCardCtrl.view.create();
+                    Runner.run(() => VideoCardCtrl.view.create());
                     spyOn(VideoCardCtrl.view, 'update');
 
                     spyOn(VideoCardCtrl.view.playerOutlet, 'append');
@@ -203,7 +296,11 @@ describe('VideoCardController', function() {
             let result;
 
             beforeEach(function() {
-                VideoCardCtrl.view.create();
+                Runner.run(() => VideoCardCtrl.view.create());
+
+                moduleControllers.displayAd = {
+                    renderInto: jasmine.createSpy('DisplayAdController.renderInto()')
+                };
 
                 spyOn(CardController.prototype, 'render').and.callThrough();
                 spyOn(VideoCardCtrl.view, 'update');
@@ -270,6 +367,10 @@ describe('VideoCardController', function() {
                 expect(VideoCardCtrl.view.playerOutlet.append).toHaveBeenCalledWith(player);
             });
 
+            it('should render its ModuleControllers into the proper outlets', function() {
+                expect(moduleControllers.displayAd.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.displayAd);
+            });
+
             describe('the player', function() {
                 it('should have a poster', function() {
                     expect(player.poster).toBe(card.thumbs.large);
@@ -284,11 +385,78 @@ describe('VideoCardController', function() {
                 });
 
                 describe('events', function() {
+                    describe('play', function() {
+                        beforeEach(function() {
+                            Runner.run(() => player.emit('play'));
+                        });
+
+                        it('should do nothing', function() {});
+
+                        describe('if there is a DisplayAdCtrl', function() {
+                            beforeEach(function() {
+                                moduleControllers.displayAd = new EventEmitter();
+                                moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
+
+                                VideoCardCtrl = new VideoCardController(card, parentView);
+                                Runner.run(() => player.emit('play'));
+                            });
+
+                            it('should deactivate the DisplayAdCtrl', function() {
+                                expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
+                            });
+                        });
+                    });
+
                     describe('ended', function() {
                         beforeEach(function() {
                             spyOn(player, 'minimize');
                             spyOn(card, 'complete');
                             Runner.run(() => player.emit('ended'));
+                        });
+
+                        describe('if the displayAd module is present', function() {
+                            let displayAd;
+                            let DisplayAdCtrl;
+
+                            beforeEach(function() {
+                                player.removeAllListeners();
+                                displayAd = new DisplayAd(card, experience);
+
+                                DisplayAdCtrl = new EventEmitter();
+                                DisplayAdCtrl.activate = jasmine.createSpy('DisplayAdController.activate()');
+
+                                moduleControllers.displayAd = DisplayAdCtrl;
+                                card.modules.displayAd = displayAd;
+
+                                VideoCardCtrl = new VideoCardController(card, parentView);
+                            });
+
+                            describe('if the displayAd is the default placement', function() {
+                                beforeEach(function() {
+                                    displayAd.isDefault = true;
+                                    Runner.run(() => player.emit('ended'));
+                                });
+
+                                it('should not activate the DisplayAdCtrl', function() {
+                                    expect(DisplayAdCtrl.activate).not.toHaveBeenCalled();
+                                });
+                            });
+
+                            describe('if the displayAd is not the default placement', function() {
+                                beforeEach(function() {
+                                    displayAd.isDefault = false;
+                                    card.complete.calls.reset();
+                                    Runner.run(() => player.emit('ended'));
+                                });
+
+                                it('should activate the DisplayAdCtrl', function() {
+                                    expect(DisplayAdCtrl.activate).toHaveBeenCalled();
+                                });
+
+                                it('should not "complete" the card', function() {
+                                    expect(card.complete).not.toHaveBeenCalled();
+                                });
+                            });
                         });
 
                         describe('if the minimize() method returns an error', function() {

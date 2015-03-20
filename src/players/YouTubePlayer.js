@@ -309,10 +309,4 @@ export default class YouTubePlayer extends CorePlayer {
 
         return super(...arguments);
     }
-
-    willRemoveElement() {
-        this.unload();
-
-        return super(...arguments);
-    }
 }

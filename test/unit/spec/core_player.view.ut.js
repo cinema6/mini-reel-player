@@ -185,7 +185,32 @@ describe('CorePlayer', function() {
         });
     });
 
+    describe('methods:', function() {
+        describe('unload()', function() {
+            it('should exist', function() {
+                expect(player.unload).toEqual(jasmine.any(Function));
+            });
+        });
+    });
+
     describe('hooks:', function() {
+        describe('willRemoveElement()', function() {
+            beforeEach(function() {
+                spyOn(View.prototype, 'willRemoveElement');
+                spyOn(player, 'unload');
+
+                player.willRemoveElement();
+            });
+
+            it('should unload the player', function() {
+                expect(player.unload).toHaveBeenCalled();
+            });
+
+            it('should call super()', function() {
+                expect(View.prototype.willRemoveElement).toHaveBeenCalled();
+            });
+        });
+
         describe('didCreateElement()', function() {
             let posterView;
 

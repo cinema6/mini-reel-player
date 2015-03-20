@@ -1,6 +1,7 @@
 import playerFactory from '../../../src/services/player_factory.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
+import VimeoPlayer from '../../../src/players/VimeoPlayer.js';
 import VASTPlayer from '../../../src/players/VASTPlayer.js';
 
 describe('playerFactory', function() {
@@ -31,6 +32,23 @@ describe('playerFactory', function() {
 
                 it('should be a YouTubePlayer', function() {
                     expect(result).toEqual(jasmine.any(YouTubePlayer));
+                });
+            });
+
+            describe('if the card is from Vimeo', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'vimeo',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a VimeoPlayer', function() {
+                    expect(result).toEqual(jasmine.any(VimeoPlayer));
                 });
             });
 

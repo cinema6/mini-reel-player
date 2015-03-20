@@ -54,11 +54,19 @@ export default class CorePlayer extends View {
         _(this).poster.setImage(value);
     }
 
+    unload() {}
+
     didCreateElement() {
         const {poster} = _(this);
 
         this.append(poster);
         poster.setImage(this.poster);
+
+        return super(...arguments);
+    }
+
+    willRemoveElement() {
+        this.unload();
 
         return super(...arguments);
     }

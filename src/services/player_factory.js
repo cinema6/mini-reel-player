@@ -1,4 +1,5 @@
 import YouTubePlayer from '../players/YouTubePlayer.js';
+import VimeoPlayer from '../players/VimeoPlayer.js';
 import VASTPlayer from '../players/VASTPlayer.js';
 
 class PlayerFactory {
@@ -6,6 +7,8 @@ class PlayerFactory {
         switch (card.data.type) {
         case 'youtube':
             return new YouTubePlayer();
+        case 'vimeo':
+            return new VimeoPlayer();
         case 'adUnit':
             return new VASTPlayer();
 

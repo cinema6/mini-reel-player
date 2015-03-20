@@ -1305,18 +1305,6 @@ describe('YouTubePlayer', function() {
     });
 
     describe('hooks:', function() {
-        describe('willRemoveElement()', function() {
-            beforeEach(function() {
-                spyOn(player, 'unload').and.callThrough();
-                player.create();
-                player.remove();
-            });
-
-            it('should unload() the player', function() {
-                expect(player.unload).toHaveBeenCalled();
-            });
-        });
-
         describe('didInsertElement()', function() {
             beforeEach(function() {
                 spyOn(player, 'play');

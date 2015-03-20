@@ -2,7 +2,7 @@ import CardController from './CardController.js';
 import VideoCardView from '../views/VideoCardView.js';
 import Runner from '../../lib/Runner.js';
 import playerFactory from '../services/player_factory.js';
-import module from '../services/module.js';
+import moduleService from '../services/module.js';
 import {createKey} from 'private-parts';
 import dispatcher from '../services/dispatcher.js';
 import {
@@ -21,7 +21,7 @@ export default class VideoCardController extends CardController {
         player.controls = this.model.data.controls;
 
         this.view = new VideoCardView();
-        this.moduleControllers = module.getControllers(this.model.modules);
+        this.moduleControllers = moduleService.getControllers(this.model.modules);
 
         /* Module events. */
         const {

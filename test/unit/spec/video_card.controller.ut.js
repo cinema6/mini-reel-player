@@ -10,6 +10,7 @@ describe('VideoCardController', function() {
     import playerFactory from '../../../src/services/player_factory.js';
     import module from '../../../src/services/module.js';
     import DisplayAd from '../../../src/models/DisplayAd.js';
+    import Post from '../../../src/models/Post.js';
     import dispatcher from '../../../src/services/dispatcher.js';
     let VideoCardCtrl;
     let card;
@@ -190,6 +191,52 @@ describe('VideoCardController', function() {
                     });
                 });
             });
+
+            describe(': post', function() {
+                beforeEach(function() {
+                    moduleControllers.post = new EventEmitter();
+                    VideoCardCtrl = new VideoCardController(card, parentView);
+                    Runner.run(() => VideoCardCtrl.view.create());
+                });
+
+                describe('events:', function() {
+                    describe('activate', function() {
+                        beforeEach(function() {
+                            spyOn(VideoCardCtrl.view.playerOutlet, 'hide');
+
+                            moduleControllers.post.emit('activate');
+                        });
+
+                        it('should hide the playerOutlet', function() {
+                            expect(VideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('deactivate', function() {
+                        beforeEach(function() {
+                            spyOn(VideoCardCtrl.view.playerOutlet, 'show');
+
+                            moduleControllers.post.emit('deactivate');
+                        });
+
+                        it('should hide the playerOutlet', function() {
+                            expect(VideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('replay', function() {
+                        beforeEach(function() {
+                            spyOn(player, 'play');
+
+                            moduleControllers.post.emit('replay');
+                        });
+
+                        it('should play the video', function() {
+                            expect(player.play).toHaveBeenCalled();
+                        });
+                    });
+                });
+            });
         });
 
         describe('model', function() {
@@ -286,6 +333,31 @@ describe('VideoCardController', function() {
                     it('should remove the player as an event source', function() {
                         expect(dispatcher.removeSource).toHaveBeenCalledWith(player);
                     });
+
+                    describe('if the post module is present', function() {
+                        let post;
+                        let PostCtrl;
+
+                        beforeEach(function() {
+                            Runner.run(() => card.activate());
+                            player.removeAllListeners();
+                            post = new Post(card, experience);
+
+                            PostCtrl = new EventEmitter();
+                            PostCtrl.deactivate = jasmine.createSpy('PostCtrl.deactivate()');
+
+                            moduleControllers.post = PostCtrl;
+                            card.modules.post = post;
+
+                            VideoCardCtrl = new VideoCardController(card, parentView);
+
+                            Runner.run(() => card.deactivate());
+                        });
+
+                        it('should deactivate the PostCtrl', function() {
+                            expect(PostCtrl.deactivate).toHaveBeenCalled();
+                        });
+                    });
                 });
             });
         });
@@ -298,9 +370,11 @@ describe('VideoCardController', function() {
             beforeEach(function() {
                 Runner.run(() => VideoCardCtrl.view.create());
 
-                moduleControllers.displayAd = {
-                    renderInto: jasmine.createSpy('DisplayAdController.renderInto()')
-                };
+                ['displayAd', 'post'].forEach(type => {
+                    moduleControllers[type] = new EventEmitter();
+                    moduleControllers[type].renderInto = jasmine.createSpy('ModuleController.renderInto()');
+                    moduleControllers[type].deactivate = jasmine.createSpy('ModuleController.deactivate()');
+                });
 
                 spyOn(CardController.prototype, 'render').and.callThrough();
                 spyOn(VideoCardCtrl.view, 'update');
@@ -369,6 +443,7 @@ describe('VideoCardController', function() {
 
             it('should render its ModuleControllers into the proper outlets', function() {
                 expect(moduleControllers.displayAd.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.displayAd);
+                expect(moduleControllers.post.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.post);
             });
 
             describe('the player', function() {
@@ -405,6 +480,20 @@ describe('VideoCardController', function() {
                                 expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
                             });
                         });
+
+                        describe('if there is a DisplayAdCtrl', function() {
+                            beforeEach(function() {
+                                moduleControllers.post = new EventEmitter();
+                                moduleControllers.post.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
+
+                                VideoCardCtrl = new VideoCardController(card, parentView);
+                                Runner.run(() => player.emit('play'));
+                            });
+
+                            it('should deactivate the PostCtrl', function() {
+                                expect(moduleControllers.post.deactivate).toHaveBeenCalled();
+                            });
+                        });
                     });
 
                     describe('ended', function() {
@@ -412,6 +501,35 @@ describe('VideoCardController', function() {
                             spyOn(player, 'minimize');
                             spyOn(card, 'complete');
                             Runner.run(() => player.emit('ended'));
+                        });
+
+                        describe('if the post module is present', function() {
+                            let post;
+                            let PostCtrl;
+
+                            beforeEach(function() {
+                                card.complete.calls.reset();
+                                player.removeAllListeners();
+                                post = new Post(card, experience);
+
+                                PostCtrl = new EventEmitter();
+                                PostCtrl.activate = jasmine.createSpy('PostCtrl.activate()');
+
+                                moduleControllers.post = PostCtrl;
+                                card.modules.post = post;
+
+                                VideoCardCtrl = new VideoCardController(card, parentView);
+
+                                Runner.run(() => player.emit('ended'));
+                            });
+
+                            it('should not complete the card', function() {
+                                expect(card.complete).not.toHaveBeenCalled();
+                            });
+
+                            it('should activate the PostCtrl', function() {
+                                expect(PostCtrl.activate).toHaveBeenCalled();
+                            });
                         });
 
                         describe('if the displayAd module is present', function() {

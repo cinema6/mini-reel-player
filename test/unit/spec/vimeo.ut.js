@@ -1,4 +1,5 @@
 import vimeo from '../../../src/services/vimeo.js';
+import Runner from '../../../lib/Runner.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 
 describe('vimeo', function() {
@@ -119,7 +120,8 @@ describe('vimeo', function() {
                 it('should emit events that come via postMessage', function() {
                     let ready = jasmine.createSpy('ready'),
                         play = jasmine.createSpy('play'),
-                        playProgress = jasmine.createSpy('playProgress');
+                        playProgress = jasmine.createSpy('playProgress')
+                            .and.callFake(() => Runner.schedule('afterRender', () => {}));
 
                     player.on('ready', ready)
                         .on('play', play)

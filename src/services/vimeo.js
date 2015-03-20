@@ -1,6 +1,7 @@
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import RunnerPromise from '../../lib/RunnerPromise.js';
+import Runner from '../../lib/Runner.js';
 import urlParser from './url_parser.js';
 import {
     defer
@@ -80,7 +81,7 @@ class Player extends EventEmitter {
         }
 
         if (event) {
-            this.emit(event, data || value);
+            Runner.run(() => this.emit(event, data || value));
         }
     }
 }

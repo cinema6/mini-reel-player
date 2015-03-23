@@ -35,3 +35,6 @@ reports/**/*.xml
 server/.build
 .tmp
 build
+
+# Tern (http://ternjs.net/) files
+.tern-project

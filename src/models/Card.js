@@ -1,5 +1,6 @@
 import {EventEmitter} from 'events';
 import DisplayAd from './DisplayAd.js';
+import Post from './Post.js';
 import {
     extend,
     reduce
@@ -19,6 +20,8 @@ export default class Card extends EventEmitter {
                 switch (module) {
                 case 'displayAd':
                     return new DisplayAd(card, experience);
+                case 'post':
+                    return new Post(card, experience);
                 default:
                     return undefined;
                 }

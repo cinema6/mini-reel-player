@@ -538,7 +538,7 @@ describe('View', function() {
                 parentView.append(view);
                 queues.render.pop()();
 
-                spyOn(view, 'willRemoveElement');
+                spyOn(view, 'willRemoveElement').and.callThrough();
 
                 element = view.element;
                 view.remove();
@@ -560,6 +560,18 @@ describe('View', function() {
 
                 it('should remove the element from the dom', function() {
                     expect(parentView.element.removeChild).toHaveBeenCalledWith(element);
+                });
+            });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    view.willRemoveElement.calls.reset();
+
+                    view.remove();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
                 });
             });
         });
@@ -746,12 +758,17 @@ describe('View', function() {
                 view.create();
                 element = view.element;
                 spyOn(eventDelegator, 'removeListeners');
+                spyOn(view, 'removeAllListeners');
 
                 view.willRemoveElement();
             });
 
             it('should remove event listeners', function() {
                 expect(eventDelegator.removeListeners).toHaveBeenCalledWith(view);
+            });
+
+            it('should remove all of its event listeners', function() {
+                expect(view.removeAllListeners).toHaveBeenCalled();
             });
 
             it('should set inserted to false', function() {

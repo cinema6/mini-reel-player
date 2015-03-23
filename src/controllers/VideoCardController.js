@@ -25,7 +25,8 @@ export default class VideoCardController extends CardController {
 
         /* Module events. */
         const {
-            displayAd: DisplayAdCtrl
+            displayAd: DisplayAdCtrl,
+            post: PostCtrl
         } = this.moduleControllers;
 
         if (DisplayAdCtrl) {
@@ -39,6 +40,12 @@ export default class VideoCardController extends CardController {
             });
         }
 
+        if (PostCtrl) {
+            PostCtrl.on('activate', () => this.view.playerOutlet.hide());
+            PostCtrl.on('deactivate', () => this.view.playerOutlet.show());
+            PostCtrl.on('replay', () => player.play());
+        }
+
         /* VideoCard (model) events. */
         this.model.on('prepare', () =>  player.load());
         this.model.on('activate', () => {
@@ -49,6 +56,7 @@ export default class VideoCardController extends CardController {
             ], this.model);
         });
         this.model.on('deactivate', () => {
+            if (PostCtrl) { PostCtrl.deactivate(); }
             player.pause();
             Runner.schedule('afterRender', () => player.unload());
             dispatcher.removeSource(player);
@@ -57,14 +65,17 @@ export default class VideoCardController extends CardController {
         /* Player events. */
         player.on('play', () => {
             if (DisplayAdCtrl) { DisplayAdCtrl.deactivate(); }
+            if (PostCtrl) { PostCtrl.deactivate(); }
         });
         player.on('ended', () => {
-            const {displayAd} = this.model.modules;
+            const {displayAd, post} = this.model.modules;
 
             if (player.minimize() instanceof Error) { player.reload(); }
 
             if (displayAd && !displayAd.isDefault) {
                 DisplayAdCtrl.activate();
+            } else if (post) {
+                PostCtrl.activate();
             } else {
                 this.model.complete();
             }

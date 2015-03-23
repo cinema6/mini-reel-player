@@ -48,6 +48,16 @@ describe('VideoCardView', function() {
             });
         });
 
+        describe('postOutlet', function() {
+            beforeEach(function() {
+                Runner.run(() => videoCardView.create());
+            });
+
+            it('should be a view', function() {
+                expect(videoCardView.postOutlet).toEqual(jasmine.any(View));
+            });
+        });
+
         describe('links', function() {
             beforeEach(function() {
                 Runner.run(() => videoCardView.create());
@@ -112,7 +122,8 @@ describe('VideoCardView', function() {
 
                 it('should be a reference to each module\'s outlet by name', function() {
                     expect(videoCardView.moduleOutlets).toEqual({
-                        displayAd: videoCardView.displayAdOutlet
+                        displayAd: videoCardView.displayAdOutlet,
+                        post: videoCardView.postOutlet
                     });
                 });
             });

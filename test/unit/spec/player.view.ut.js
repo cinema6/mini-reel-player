@@ -2,7 +2,7 @@ describe('PlayerView', function() {
     import TemplateView from '../../../lib/core/TemplateView.js';
     import View from '../../../lib/core/View.js';
     import PlayerView from '../../../src/views/PlayerView.js';
-    import ButtonView from '../../../src/views/ButtonView.js';
+    import TOCButtonView from '../../../src/views/TOCButtonView.js';
     import CloseButtonView from '../../../src/views/CloseButtonView.js';
     import NavButtonView from '../../../src/views/NavButtonView.js';
     import NavbarView from '../../../src/views/NavbarView.js';
@@ -131,7 +131,7 @@ describe('PlayerView', function() {
             });
 
             it('should be a ButtonView', function() {
-                expect(playerView.tocButton).toEqual(jasmine.any(ButtonView));
+                expect(playerView.tocButton).toEqual(jasmine.any(TOCButtonView));
             });
 
             describe('events:', function() {
@@ -158,7 +158,7 @@ describe('PlayerView', function() {
             });
 
             it('should be a ButtonView', function() {
-                expect(playerView.landscapeTocButton).toEqual(jasmine.any(ButtonView));
+                expect(playerView.landscapeTocButton).toEqual(jasmine.any(TOCButtonView));
             });
 
             describe('events:', function() {
@@ -364,38 +364,112 @@ describe('PlayerView', function() {
         describe('hideNavigation()', function() {
             beforeEach(function() {
                 Runner.run(() => playerView.create());
-                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.nextButtons, playerView.previousButtons, playerView.closeButtons).forEach(button => spyOn(button, 'hide'));
+                [playerView.tocButton, playerView.landscapeTocButton].forEach(button => spyOn(button, 'hide'));
+                spyOn(playerView, 'hidePaginators');
 
                 playerView.hideNavigation();
             });
 
-            it('should hide the next, previous and close buttons', function() {
-                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.nextButtons, playerView.previousButtons, playerView.closeButtons).forEach(button => expect(button.hide).toHaveBeenCalled());
+            it('should hide the toc buttons', function() {
+                [playerView.tocButton, playerView.landscapeTocButton].forEach(button => expect(button.hide).toHaveBeenCalled());
+            });
+
+            it('should hide the paginators', function() {
+                expect(playerView.hidePaginators).toHaveBeenCalled();
             });
         });
 
         describe('showNavigation()', function() {
             beforeEach(function() {
                 Runner.run(() => playerView.create());
-                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.nextButtons, playerView.previousButtons, playerView.closeButtons).forEach(button => spyOn(button, 'show'));
+                [playerView.tocButton, playerView.landscapeTocButton].forEach(button => spyOn(button, 'show'));
+                spyOn(playerView, 'showPaginators');
 
                 playerView.showNavigation();
             });
 
-            it('should show the next, previous and close buttons', function() {
-                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.previousButtons, playerView.closeButtons, playerView.nextButtons).forEach(button => expect(button.show).toHaveBeenCalled());
+            it('should show the toc buttons', function() {
+                [playerView.tocButton, playerView.landscapeTocButton].forEach(button => expect(button.show).toHaveBeenCalled());
+            });
+
+            it('should show the paginators', function() {
+                expect(playerView.showPaginators).toHaveBeenCalled();
+            });
+        });
+
+        describe('hideChrome()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.closeButtons).forEach(view => spyOn(view, 'hide'));
+                spyOn(playerView, 'hidePaginators');
+
+                playerView.hideChrome();
+            });
+
+            it('should hide the navigation', function() {
+                expect(playerView.hidePaginators).toHaveBeenCalled();
+            });
+
+            it('should hide the navbar, landscapeLeftSidebar and closeButtons', function() {
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.closeButtons).forEach(view => expect(view.hide).toHaveBeenCalled());
+            });
+        });
+
+        describe('showChrome()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.closeButtons).forEach(view => spyOn(view, 'show'));
+                spyOn(playerView, 'showPaginators');
+
+                playerView.showChrome();
+            });
+
+            it('should show the navigation', function() {
+                expect(playerView.showPaginators).toHaveBeenCalled();
+            });
+
+            it('should hide the navbar, landscapeLeftSidebar and closeButtons', function() {
+                [playerView.navbar, playerView.landscapeLeftSidebar].concat(playerView.closeButtons).forEach(view => expect(view.show).toHaveBeenCalled());
+            });
+        });
+
+        describe('hidePaginators()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                [].concat(playerView.nextButtons, playerView.previousButtons).forEach(view => spyOn(view, 'hide'));
+
+                playerView.hidePaginators();
+            });
+
+            it('should hide the next and previous buttons', function() {
+                [].concat(playerView.nextButtons, playerView.previousButtons).forEach(view => expect(view.hide).toHaveBeenCalled());
+            });
+        });
+
+        describe('showPaginators()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                [].concat(playerView.nextButtons, playerView.previousButtons).forEach(view => spyOn(view, 'show'));
+
+                playerView.showPaginators();
+            });
+
+            it('should hide the next and previous buttons', function() {
+                [].concat(playerView.nextButtons, playerView.previousButtons).forEach(view => expect(view.show).toHaveBeenCalled());
             });
         });
 
         describe('toggleNavigation()', function() {
             beforeEach(function() {
+                Runner.run(() => playerView.create());
+
                 spyOn(playerView, 'showNavigation').and.callThrough();
                 spyOn(playerView, 'hideNavigation').and.callThrough();
             });
 
             describe('when called initially', function() {
                 beforeEach(function() {
-                    playerView.toggleNavigation();
+                    Runner.run(() => playerView.toggleNavigation());
                 });
 
                 it('should hide the navigation', function() {
@@ -405,8 +479,8 @@ describe('PlayerView', function() {
 
             describe('when called after the navigation has been hidden', function() {
                 beforeEach(function() {
-                    playerView.hideNavigation();
-                    playerView.toggleNavigation();
+                    Runner.run(() => playerView.hideNavigation());
+                    Runner.run(() => playerView.toggleNavigation());
                 });
 
                 it('should show the navigation', function() {

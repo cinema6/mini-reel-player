@@ -119,23 +119,23 @@ describe('PlayerController', function() {
             describe('events:', function() {
                 describe('show', function() {
                     beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'hideNavigation');
+                        spyOn(PlayerCtrl.view, 'hideChrome');
                         PlayerCtrl.TableOfContentsViewCtrl.emit('show');
                     });
 
                     it('should hide the navigation', function() {
-                        expect(PlayerCtrl.view.hideNavigation).toHaveBeenCalled();
+                        expect(PlayerCtrl.view.hideChrome).toHaveBeenCalled();
                     });
                 });
 
                 describe('hide', function() {
                     beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'showNavigation');
+                        spyOn(PlayerCtrl.view, 'showChrome');
                         PlayerCtrl.TableOfContentsViewCtrl.emit('hide');
                     });
 
                     it('should show the navigation', function() {
-                        expect(PlayerCtrl.view.showNavigation).toHaveBeenCalled();
+                        expect(PlayerCtrl.view.showChrome).toHaveBeenCalled();
                     });
                 });
             });

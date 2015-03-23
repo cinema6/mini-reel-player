@@ -1,6 +1,6 @@
 import TemplateView from '../../lib/core/TemplateView.js';
 import View from '../../lib/core/View.js';
-import ButtonView from './ButtonView.js';
+import TOCButtonView from './TOCButtonView.js';
 import CloseButtonView from './CloseButtonView.js';
 import NavButtonView from './NavButtonView.js';
 import NavbarView from './NavbarView.js';
@@ -22,7 +22,7 @@ export default class PlayerView extends TemplateView {
         this.instantiates = {
             View,
             NavbarView,
-            ButtonView,
+            TOCButtonView,
             CloseButtonView,
             NavButtonView,
             SkipTimerView
@@ -47,20 +47,15 @@ export default class PlayerView extends TemplateView {
         this.nextButtons = [this.nextButton, this.landscapeNextButton];
         this.previousButtons = [this.previousButton, this.landscapePreviousButton];
         this.closeButtons = [this.closeButton, this.landscapeCloseButton];
+        this.tocButtons = [this.tocButton, this.landscapeTocButton];
 
-        this.navItems = [
-            this.navbar,
-            this.landscapeLeftSidebar
-        ].concat(
-            this.nextButtons,
-            this.previousButtons,
-            this.closeButtons
-        );
+        this.navItems = [].concat(this.nextButtons, this.previousButtons);
+        this.chromeItems = [this.navbar, this.landscapeLeftSidebar].concat(this.closeButtons);
 
         forEach(this.nextButtons, button => button.on('press', next));
         forEach(this.previousButtons, button => button.on('press', previous));
         forEach(this.closeButtons, button => button.on('press', close));
-        forEach([this.tocButton, this.landscapeTocButton], button => button.on('press', toggleToc));
+        forEach(this.tocButtons, button => button.on('press', toggleToc));
 
         this.enableNavigation();
     }
@@ -104,13 +99,33 @@ export default class PlayerView extends TemplateView {
     }
 
     hideNavigation() {
-        forEach(this.navItems, view => view.hide());
+        forEach(this.tocButtons, view => view.hide());
+        this.hidePaginators();
         _(this).navigationShown = false;
     }
 
     showNavigation() {
-        forEach(this.navItems, view => view.show());
+        forEach(this.tocButtons, view => view.show());
+        this.showPaginators();
         _(this).navigationShown = true;
+    }
+
+    hideChrome() {
+        this.hidePaginators();
+        forEach(this.chromeItems, view => view.hide());
+    }
+
+    showChrome() {
+        this.showPaginators();
+        forEach(this.chromeItems, view => view.show());
+    }
+
+    hidePaginators() {
+        forEach(this.navItems, view => view.hide());
+    }
+
+    showPaginators() {
+        forEach(this.navItems, view => view.show());
     }
 
     toggleNavigation() {

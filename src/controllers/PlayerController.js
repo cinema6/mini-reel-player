@@ -54,8 +54,8 @@ export default class PlayerController extends Controller {
         this.view.on('close', () => this.minireel.close());
         this.view.on('toggleToc', () => this.TableOfContentsViewCtrl.toggle());
 
-        this.TableOfContentsViewCtrl.on('show', () => this.view.hideNavigation());
-        this.TableOfContentsViewCtrl.on('hide', () => this.view.showNavigation());
+        this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
+        this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
     }
 
     updateView() {

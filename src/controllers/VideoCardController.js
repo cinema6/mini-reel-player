@@ -52,7 +52,8 @@ export default class VideoCardController extends CardController {
             player[this.model.data.autoplay ? 'play' : 'load']();
             dispatcher.addSource('video', player, [
                 'play', 'timeupdate', 'pause', 'ended', 'error',
-                'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
+                'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
+                'loadedmetadata'
             ], this.model);
         });
         this.model.on('deactivate', () => {

@@ -272,7 +272,8 @@ describe('VideoCardController', function() {
                     it('should add the player as an event source', function() {
                         expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, [
                             'play', 'timeupdate', 'pause', 'ended', 'error',
-                            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
+                            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
+                            'loadedmetadata'
                         ], card);
                     });
 

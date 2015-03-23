@@ -4,6 +4,7 @@ import ButtonView from './ButtonView.js';
 import CloseButtonView from './CloseButtonView.js';
 import NavButtonView from './NavButtonView.js';
 import NavbarView from './NavbarView.js';
+import SkipTimerView from './SkipTimerView.js';
 import {createKey} from 'private-parts';
 import {
     forEach
@@ -23,7 +24,8 @@ export default class PlayerView extends TemplateView {
             NavbarView,
             ButtonView,
             CloseButtonView,
-            NavButtonView
+            NavButtonView,
+            SkipTimerView
         };
 
         this.nextButtons = [];
@@ -59,6 +61,8 @@ export default class PlayerView extends TemplateView {
         forEach(this.previousButtons, button => button.on('press', previous));
         forEach(this.closeButtons, button => button.on('press', close));
         forEach([this.tocButton, this.landscapeTocButton], button => button.on('press', toggleToc));
+
+        this.enableNavigation();
     }
 
     update(data) {
@@ -83,6 +87,20 @@ export default class PlayerView extends TemplateView {
 
             button.setThumb(data.thumbs.previous);
         });
+    }
+
+    disableNavigation() {
+        forEach([this.skipTimer, this.landscapeSkipTimer], timer => timer.show());
+        this.hideNavigation();
+    }
+
+    enableNavigation() {
+        forEach([this.skipTimer, this.landscapeSkipTimer], timer => timer.hide());
+        this.showNavigation();
+    }
+
+    updateSkipTimer(time) {
+        forEach([this.skipTimer, this.landscapeSkipTimer], timer => timer.update(time));
     }
 
     hideNavigation() {

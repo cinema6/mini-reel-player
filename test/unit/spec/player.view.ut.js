@@ -6,6 +6,7 @@ describe('PlayerView', function() {
     import CloseButtonView from '../../../src/views/CloseButtonView.js';
     import NavButtonView from '../../../src/views/NavButtonView.js';
     import NavbarView from '../../../src/views/NavbarView.js';
+    import SkipTimerView from '../../../src/views/SkipTimerView.js';
     import Runner from '../../../lib/Runner.js';
     let playerView;
 
@@ -285,9 +286,81 @@ describe('PlayerView', function() {
                 });
             });
         });
+
+        describe('skipTimer', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a SkipTimerView', function() {
+                expect(playerView.skipTimer).toEqual(jasmine.any(SkipTimerView));
+            });
+        });
+
+        describe('landscapeSkipTimer', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+            });
+
+            it('should be a SkipTimerView', function() {
+                expect(playerView.landscapeSkipTimer).toEqual(jasmine.any(SkipTimerView));
+            });
+        });
     });
 
     describe('methods:', function() {
+        describe('disableNavigation()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                spyOn(playerView.skipTimer, 'show');
+                spyOn(playerView.landscapeSkipTimer, 'show');
+                spyOn(playerView, 'hideNavigation');
+
+                playerView.disableNavigation();
+            });
+
+            it('should show the skip timers', function() {
+                [playerView.skipTimer.show, playerView.landscapeSkipTimer.show].forEach(spy => expect(spy).toHaveBeenCalled());
+            });
+
+            it('should hide the navigation', function() {
+                expect(playerView.hideNavigation).toHaveBeenCalled();
+            });
+        });
+
+        describe('enableNavigation()', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                spyOn(playerView.skipTimer, 'hide');
+                spyOn(playerView.landscapeSkipTimer, 'hide');
+                spyOn(playerView, 'showNavigation');
+
+                playerView.enableNavigation();
+            });
+
+            it('should hide the skip timers', function() {
+                [playerView.skipTimer.hide, playerView.landscapeSkipTimer.hide].forEach(spy => expect(spy).toHaveBeenCalled());
+            });
+
+            it('should show the navigation', function() {
+                expect(playerView.showNavigation).toHaveBeenCalled();
+            });
+        });
+
+        describe('updateSkipTimer(time)', function() {
+            beforeEach(function() {
+                Runner.run(() => playerView.create());
+                spyOn(playerView.skipTimer, 'update');
+                spyOn(playerView.landscapeSkipTimer, 'update');
+
+                playerView.updateSkipTimer(5);
+            });
+
+            it('should update the skip timers', function() {
+                [playerView.skipTimer.update, playerView.landscapeSkipTimer.update].forEach(spy => expect(spy).toHaveBeenCalledWith(5));
+            });
+        });
+
         describe('hideNavigation()', function() {
             beforeEach(function() {
                 Runner.run(() => playerView.create());
@@ -442,6 +515,19 @@ describe('PlayerView', function() {
                     expect(playerView.previousButton.disable).toHaveBeenCalled();
                     expect(playerView.landscapePreviousButton.disable).toHaveBeenCalled();
                 });
+            });
+        });
+    });
+
+    describe('hooks:', function() {
+        describe('didCreateElement()', function() {
+            beforeEach(function() {
+                spyOn(playerView, 'enableNavigation');
+                Runner.run(() => playerView.create());
+            });
+
+            it('should enable navigation', function() {
+                expect(playerView.enableNavigation).toHaveBeenCalled();
             });
         });
     });

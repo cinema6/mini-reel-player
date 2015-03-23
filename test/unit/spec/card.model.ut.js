@@ -1,4 +1,5 @@
 import DisplayAd from '../../../src/models/DisplayAd.js';
+import Post from '../../../src/models/Post.js';
 
 describe('Card', function() {
     import Card from '../../../src/models/Card.js';
@@ -105,6 +106,20 @@ describe('Card', function() {
                 it('should add the DisplayAd module', function() {
                     expect(card.modules).toEqual({
                         displayAd: jasmine.any(DisplayAd)
+                    });
+                });
+            });
+
+            describe('if the post module is present', function() {
+                beforeEach(function() {
+                    data.modules = ['anotherFakeThing', 'post'];
+
+                    card = new Card(data, experience);
+                });
+
+                it('should add the Post module', function() {
+                    expect(card.modules).toEqual({
+                        post: jasmine.any(Post)
                     });
                 });
             });

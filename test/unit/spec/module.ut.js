@@ -1,6 +1,8 @@
 import module from '../../../src/services/module.js';
 import DisplayAd from '../../../src/models/DisplayAd.js';
 import DisplayAdController from '../../../src/controllers/DisplayAdController.js';
+import Post from '../../../src/models/Post.js';
+import PostController from '../../../src/controllers/PostController.js';
 
 describe('module', function() {
     let card;
@@ -9,7 +11,9 @@ describe('module', function() {
     beforeEach(function() {
         module.constructor();
 
-        card = {};
+        card = {
+            links: {}
+        };
         experience = { data: {} };
     });
 
@@ -28,7 +32,8 @@ describe('module', function() {
 
             beforeEach(function() {
                 modules = {
-                    displayAd: new DisplayAd(card, experience)
+                    displayAd: new DisplayAd(card, experience),
+                    post: new Post(card, experience)
                 };
 
                 result = module.getControllers(modules);
@@ -36,9 +41,11 @@ describe('module', function() {
 
             it('should return instantiated controllers for the given modules', function() {
                 expect(result).toEqual({
-                    displayAd: jasmine.any(DisplayAdController)
+                    displayAd: jasmine.any(DisplayAdController),
+                    post: jasmine.any(PostController)
                 });
                 expect(result.displayAd.model).toBe(modules.displayAd);
+                expect(result.post.model).toBe(modules.post);
             });
         });
     });

@@ -33,7 +33,8 @@ export default class VideoCardView extends CardView {
 
         this.replayContainer.hide();
         this.moduleOutlets = {
-            displayAd: this.displayAdOutlet
+            displayAd: this.displayAdOutlet,
+            post: this.postOutlet
         };
 
         this.replayButton.on('press', () => this.emit('replay'));

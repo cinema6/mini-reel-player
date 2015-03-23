@@ -1,4 +1,5 @@
 import DisplayAdController from '../controllers/DisplayAdController.js';
+import PostController from '../controllers/PostController.js';
 import {
     reduce
 } from '../../lib/utils.js';
@@ -11,6 +12,8 @@ class Module {
                 switch (type) {
                 case 'displayAd':
                     return new DisplayAdController(model);
+                case 'post':
+                    return new PostController(model);
                 default:
                     return undefined;
                 }

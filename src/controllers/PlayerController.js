@@ -45,6 +45,9 @@ export default class PlayerController extends Controller {
             Runner.runNext(() => forEach(this.cardCtrls.slice(1), Ctrl => Ctrl.render()));
         });
         this.minireel.on('close', () => cinema6.fullscreen(false));
+        this.minireel.on('becameUnskippable', () => this.view.disableNavigation());
+        this.minireel.on('becameSkippable', () => this.view.enableNavigation());
+        this.minireel.on('skippableProgress', remaining => this.view.updateSkipTimer(remaining));
 
         this.view.on('next', () => this.minireel.next());
         this.view.on('previous', () => this.minireel.previous());

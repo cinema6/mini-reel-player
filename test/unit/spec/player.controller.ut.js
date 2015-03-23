@@ -255,6 +255,42 @@ describe('PlayerController', function() {
                         expect(cinema6.fullscreen).toHaveBeenCalledWith(false);
                     });
                 });
+
+                describe('becameUnskippable', function() {
+                    beforeEach(function() {
+                        spyOn(PlayerCtrl.view, 'disableNavigation');
+
+                        PlayerCtrl.minireel.emit('becameUnskippable');
+                    });
+
+                    it('should disable the navigation', function() {
+                        expect(PlayerCtrl.view.disableNavigation).toHaveBeenCalled();
+                    });
+                });
+
+                describe('becameSkippable', function() {
+                    beforeEach(function() {
+                        spyOn(PlayerCtrl.view, 'enableNavigation');
+
+                        PlayerCtrl.minireel.emit('becameSkippable');
+                    });
+
+                    it('should enable the navigation', function() {
+                        expect(PlayerCtrl.view.enableNavigation).toHaveBeenCalled();
+                    });
+                });
+
+                describe('skippableProgress', function() {
+                    beforeEach(function() {
+                        spyOn(PlayerCtrl.view, 'updateSkipTimer');
+
+                        PlayerCtrl.minireel.emit('skippableProgress', 11);
+                    });
+
+                    it('should update the skip timer', function() {
+                        expect(PlayerCtrl.view.updateSkipTimer).toHaveBeenCalledWith(11);
+                    });
+                });
             });
         });
     });

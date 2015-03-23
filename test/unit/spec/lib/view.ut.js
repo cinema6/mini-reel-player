@@ -758,12 +758,17 @@ describe('View', function() {
                 view.create();
                 element = view.element;
                 spyOn(eventDelegator, 'removeListeners');
+                spyOn(view, 'removeAllListeners');
 
                 view.willRemoveElement();
             });
 
             it('should remove event listeners', function() {
                 expect(eventDelegator.removeListeners).toHaveBeenCalledWith(view);
+            });
+
+            it('should remove all of its event listeners', function() {
+                expect(view.removeAllListeners).toHaveBeenCalled();
             });
 
             it('should set inserted to false', function() {

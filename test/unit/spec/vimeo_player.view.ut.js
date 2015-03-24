@@ -10,7 +10,7 @@ import {
     defer
 } from '../../../lib/utils.js';
 
-describe('VimeoPlayer', function() {
+fdescribe('VimeoPlayer', function() {
     let player;
     let ServicePlayer;
     let vimeoPlayer;
@@ -123,7 +123,7 @@ describe('VimeoPlayer', function() {
                     vimeoPlayer.emit('playProgress', {
                         seconds: time.toString()
                     });
-                    expect(vimeoPlayer.call).not.toHaveBeenCalled();
+                    expect(vimeoPlayer.call).toHaveBeenCalledWith('getVolume');
                 });
             });
 

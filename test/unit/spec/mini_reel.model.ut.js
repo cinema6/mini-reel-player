@@ -3,6 +3,7 @@ describe('MiniReel', function() {
     import dispatcher from '../../../src/services/dispatcher.js';
     import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
     import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
+    import MoatHandler from '../../../src/handlers/MoatHandler.js';
     import {EventEmitter} from 'events';
     import cinema6 from '../../../src/services/cinema6.js';
     import adtech from '../../../src/services/adtech.js';
@@ -1033,6 +1034,7 @@ describe('MiniReel', function() {
 
         it('should add the GoogleAnalyticsHandler', function() {
             expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel, config);
+            expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler, config);
         });
     });
 

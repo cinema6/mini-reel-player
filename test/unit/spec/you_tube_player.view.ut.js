@@ -155,6 +155,12 @@ describe('YouTubePlayer', function() {
             });
         });
 
+        describe('volume', function() {
+            it('should be 0', function() {
+                expect(player.volume).toBe(0);
+            });
+        });
+
         describe('ended', function() {
             it('should be false', function() {
                 expect(player.ended).toBe(false);

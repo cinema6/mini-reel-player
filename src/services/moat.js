@@ -4,31 +4,36 @@ import {createKey} from 'private-parts';
 
 const _ = createKey();
 
-export default class MoatApi {
-    constructor(container, ids, duration, url, partnerCode) {
+class MoatApiTracker {
+    constructor(container, ids, duration ) {
         if (global.__karma__) { this._private_ = _(this); }
         const protocol = global.location.protocol;
         const sub = (protocol === 'https:') ? 'z' : 'js';
+        const self = this;
 
         _(this).events = [];
+        _(this).dispatched = {};
 
         _(this).tracker = {
             'adData' : {
                 'ids'       : ids,
-                'duration'  : duration,
-                'url'       : url
+                'duration'  : duration
             },
             'dispatchEvent' : function(ev) {
+                if (_(self).dispatched[ev.type]){
+                    return;
+                }
+                _(self).dispatched[ev.type] = true;
                 if(this.sendEvent) {
-                    if(_(this).events) {
-                        _(this).events.push(ev);
-                        ev = _(this).events;
-                        delete _(this).events;
+                    if(_(self).events) {
+                        _(self).events.push(ev);
+                        ev = _(self).events;
+                        delete _(self).events;
                     }
                     this.sendEvent(ev);
 
                 } else {
-                    _(this).events.push(ev);
+                    _(self).events.push(ev);
                 }
             }
         };
@@ -59,4 +64,40 @@ export default class MoatApi {
         return _(this).tracker.dispatchEvent(...params);
     }
 
-};
+}
+
+if (global.__karma__) { 
+    export { MoatApiTracker };
+}
+
+
+class MoatApi {
+    constructor() {
+        if (global.__karma__) { this._private_ = _(this); }
+        _(this).trackers = {};
+
+    }
+
+    initTracker(clientId, container, ids, duration ) {
+        let tracker = _(this).trackers[clientId];
+        if (tracker){
+            return;
+        }
+
+        tracker = new MoatApiTracker(container,ids,duration);
+        _(this).trackers[clientId] = tracker;
+    }
+
+    dispatchEvent(clientId,...params){
+        const tracker = _(this).trackers[clientId];
+        if (!tracker){
+            return;
+        }
+
+        tracker.dispatchEvent(...params);
+    }
+
+}
+
+export default new MoatApi();
+

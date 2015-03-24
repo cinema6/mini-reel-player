@@ -91,7 +91,7 @@ export default class VideoCardController extends CardController {
             }
         });
 
-        dispatcher.addSource('card', this.model, ['activate'], player);
+        dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
 
         _(this).player = player;
     }

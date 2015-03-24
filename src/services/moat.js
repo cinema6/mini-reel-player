@@ -7,7 +7,8 @@ const _ = createKey();
 class MoatApiTracker {
     constructor(container, ids, duration ) {
         if (global.__karma__) { this._private_ = _(this); }
-        const protocol = global.location.protocol;
+        const protocol = (global.location.protocol === 'javascript:' ?
+            'http:' : global.location.protocol);
         const sub = (protocol === 'https:') ? 'z' : 'js';
         const self = this;
 
@@ -46,8 +47,8 @@ class MoatApiTracker {
         global[_(this).name] = _(this).tracker;
 
         if (container && container.childNodes){
-            codeLoader.configure(_(this).name, {
-                src: _(this).src,
+            codeLoader.configure(_(self).name, {
+                src: _(self).src,
                 after() { return; }
             });
         

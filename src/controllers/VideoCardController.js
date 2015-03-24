@@ -55,6 +55,9 @@ export default class VideoCardController extends CardController {
                 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
                 'loadedmetadata'
             ], this.model);
+            if (player.readyState >= 1) {
+                player.emit('loadedmetadata');
+            }
         });
         this.model.on('deactivate', () => {
             if (PostCtrl) { PostCtrl.deactivate(); }

@@ -1,7 +1,6 @@
+/*jshint scripturl:true*/
 import codeLoader from './code_loader.js';
-import environment from '../environment.js';
 import {createKey} from 'private-parts';
-
 const _ = createKey();
 
 class MoatApiTracker {
@@ -39,7 +38,7 @@ class MoatApiTracker {
             }
         };
 
-        _(this).name = "_moatApi" + Math.floor(Math.random() * 100000000);
+        _(this).name = '_moatApi' + Math.floor(Math.random() * 100000000);
 
         _(this).src = protocol + '//' + sub +
             '.moatads.com/cinema6748895486244/moatvideo.js#' + _(this).name;
@@ -67,9 +66,7 @@ class MoatApiTracker {
 
 }
 
-if (global.__karma__) { 
-    export { MoatApiTracker };
-}
+export { MoatApiTracker };
 
 
 class MoatApi {

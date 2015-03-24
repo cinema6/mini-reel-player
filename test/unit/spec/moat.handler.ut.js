@@ -1,6 +1,5 @@
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
 import moatApi from '../../../src/services/moat.js';
-import BillingHandler from '../../../src/handlers/BillingHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';

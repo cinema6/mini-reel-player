@@ -498,6 +498,47 @@ describe('VideoCardController', function() {
                         });
                     });
 
+                    describe('timeupdate', function() {
+                        beforeEach(function() {
+                            player.currentTime = 0;
+                            spyOn(VideoCardCtrl.model, 'setPlaybackState');
+                        });
+
+                        describe('if the video has no duration', function() {
+                            beforeEach(function() {
+                                player.duration = 0;
+
+                                player.emit('timeupdate');
+                            });
+
+                            it('should not set the model\'s playback state', function() {
+                                expect(VideoCardCtrl.model.setPlaybackState).not.toHaveBeenCalled();
+                            });
+                        });
+
+                        describe('if the video has a duration', function() {
+                            beforeEach(function() {
+                                player.duration = 30;
+                            });
+
+                            it('should set the model\'s playback state', function() {
+                                player.emit('timeupdate');
+                                expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
+                                    currentTime: player.currentTime,
+                                    duration: player.duration
+                                });
+                                VideoCardCtrl.model.setPlaybackState.calls.reset();
+
+                                player.currentTime = 3;
+                                player.emit('timeupdate');
+                                expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
+                                    currentTime: player.currentTime,
+                                    duration: player.duration
+                                });
+                            });
+                        });
+                    });
+
                     describe('ended', function() {
                         beforeEach(function() {
                             spyOn(player, 'minimize');

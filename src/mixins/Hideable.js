@@ -10,9 +10,8 @@ function Hideable() {
 }
 Hideable.prototype = {
     hide() {
-        const element = this.element || this.create();
-
         if (!_(this).shown) { return; }
+        const element = this.element || this.create();
 
         _(this).shown = false;
         _(this).display = element.style.display;
@@ -24,6 +23,7 @@ Hideable.prototype = {
     },
 
     show() {
+        if (_(this).shown) { return; }
         const element = this.element || this.create();
 
         _(this).shown = true;

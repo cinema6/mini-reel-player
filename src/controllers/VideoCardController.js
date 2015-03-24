@@ -68,6 +68,12 @@ export default class VideoCardController extends CardController {
             if (DisplayAdCtrl) { DisplayAdCtrl.deactivate(); }
             if (PostCtrl) { PostCtrl.deactivate(); }
         });
+        player.on('timeupdate', () => {
+            const {currentTime, duration} = player;
+            if (!duration) { return; }
+
+            this.model.setPlaybackState({ currentTime, duration });
+        });
         player.on('ended', () => {
             const {displayAd, post} = this.model.modules;
 

@@ -35,7 +35,18 @@ describe('Hideable', function() {
                 expect(function() {
                     Runner.run(() => testView.show());
                 }).not.toThrow();
-                expect(testView.element.style.display).toBe('');
+            });
+
+            describe('if called before the view is hidden', function() {
+                beforeEach(function() {
+                    spyOn(animator, 'trigger').and.returnValue(new Promise(() => {}));
+
+                    Runner.run(() => testView.show());
+                });
+
+                it('should not trigger any animations', function() {
+                    expect(animator.trigger).not.toHaveBeenCalled();
+                });
             });
 
             describe('after the view is hidden', function() {

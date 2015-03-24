@@ -76,7 +76,8 @@ describe('timer', function() {
 
             beforeEach(function() {
                 spyOn(global, 'setInterval').and.callThrough();
-                fn = jasmine.createSpy('fn()');
+                spyOn(Runner, 'run').and.callThrough();
+                fn = jasmine.createSpy('fn()').and.callFake(() => Runner.schedule('render', () => {}));
 
                 result = timer.interval(fn, 50);
             });
@@ -88,9 +89,11 @@ describe('timer', function() {
             it('should call the fn every ms', function() {
                 jasmine.clock().tick(50);
                 expect(fn.calls.count()).toBe(1);
+                expect(Runner.run.calls.count()).toBe(1);
 
                 jasmine.clock().tick(50);
                 expect(fn.calls.count()).toBe(2);
+                expect(Runner.run.calls.count()).toBe(2);
             });
 
             describe('if canceled', function() {

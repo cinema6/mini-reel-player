@@ -729,6 +729,109 @@ describe('MiniReel', function() {
                     });
                 });
 
+                describe('when the currentCard emits "becameUnskippable"', function() {
+                    let becameUnskippable;
+
+                    beforeEach(function() {
+                        becameUnskippable = jasmine.createSpy('becameUnskippable()');
+
+                        minireel.moveToIndex(0);
+                        minireel.on('becameUnskippable', becameUnskippable);
+
+                        minireel.currentCard.emit('becameUnskippable');
+                    });
+
+                    it('should emit "becameUnskippable"', function() {
+                        expect(becameUnskippable).toHaveBeenCalled();
+                    });
+
+                    describe('if the last card emits "becameUnskippable"', function() {
+                        beforeEach(function() {
+                            becameUnskippable.calls.reset();
+
+                            minireel.moveToIndex(minireel.length - 1);
+                            minireel.currentCard.emit('becameUnskippable');
+                        });
+
+                        it('should emit "becameUnskippable"', function() {
+                            expect(becameUnskippable).toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('if a previous card emits "becameUnskippable"', function() {
+                        beforeEach(function() {
+                            becameUnskippable.calls.reset();
+
+                            minireel.moveToIndex(3);
+                            minireel.deck[0].emit('becameUnskippable');
+                        });
+
+                        it('should not emit "becameUnskippable"', function() {
+                            expect(becameUnskippable).not.toHaveBeenCalled();
+                        });
+                    });
+                });
+
+                describe('when the currentCard emits "becameSkippable"', function() {
+                    let becameSkippable;
+
+                    beforeEach(function() {
+                        becameSkippable = jasmine.createSpy('becameSkippable()');
+
+                        minireel.moveToIndex(0);
+                        minireel.on('becameSkippable', becameSkippable);
+
+                        minireel.currentCard.emit('becameSkippable');
+                    });
+
+                    it('should emit "becameSkippable"', function() {
+                        expect(becameSkippable).toHaveBeenCalled();
+                    });
+
+                    describe('if a previous card emits "becameSkippable"', function() {
+                        beforeEach(function() {
+                            becameSkippable.calls.reset();
+                            minireel.moveTo(4);
+
+                            minireel.deck[0].emit('becameSkippable');
+                        });
+
+                        it('should not emit "becameSkippable"', function() {
+                            expect(becameSkippable).not.toHaveBeenCalled();
+                        });
+                    });
+                });
+
+                describe('when the currentCard emits "skippableProgress"', function() {
+                    let skippableProgress;
+
+                    beforeEach(function() {
+                        skippableProgress = jasmine.createSpy('skippableProgress()');
+
+                        minireel.moveToIndex(0);
+                        minireel.on('skippableProgress', skippableProgress);
+
+                        minireel.currentCard.emit('skippableProgress', 3);
+                    });
+
+                    it('should emit "skippableProgress"', function() {
+                        expect(skippableProgress).toHaveBeenCalledWith(3);
+                    });
+
+                    describe('if a previous card emits "skippableProgress"', function() {
+                        beforeEach(function() {
+                            skippableProgress.calls.reset();
+                            minireel.moveToIndex(5);
+
+                            minireel.deck[0].emit('skippableProgress', 2);
+                        });
+
+                        it('should not emit "skippableProgress"', function() {
+                            expect(skippableProgress).not.toHaveBeenCalled();
+                        });
+                    });
+                });
+
                 describe('when the currentCard emits "canAdvance"', function() {
                     beforeEach(function() {
                         spyOn(minireel, 'next').and.callThrough();

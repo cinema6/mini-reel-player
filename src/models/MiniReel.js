@@ -76,6 +76,9 @@ export default class MiniReel extends EventEmitter {
         _(this).ready = false;
 
         _(this).cardCanAdvanceHandler = (() => this.next());
+        _(this).becameUnskippableHandler = (() => this.emit('becameUnskippable'));
+        _(this).becameSkippableHandler = (() => this.emit('becameSkippable'));
+        _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
 
         cinema6.getAppData().then(appData => initialize(this, appData.experience));
         cinema6.getSession().then(session => {
@@ -115,12 +118,21 @@ export default class MiniReel extends EventEmitter {
 
         if (currentCard === previousCard) { return; }
 
-        if (currentCard && !atTail) {
-            currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
+        if (currentCard) {
+            if (!atTail) {
+                currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
+            }
+
+            currentCard.on('becameUnskippable', _(this).becameUnskippableHandler);
+            currentCard.on('becameSkippable', _(this).becameSkippableHandler);
+            currentCard.on('skippableProgress', _(this).skippableProgressHandler);
         }
 
         if (previousCard) {
             previousCard.removeListener('canAdvance', _(this).cardCanAdvanceHandler);
+            previousCard.removeListener('becameUnskippable', _(this).becameUnskippableHandler);
+            previousCard.removeListener('becameSkippable', _(this).becameSkippableHandler);
+            previousCard.removeListener('skippableProgress', _(this).skippableProgressHandler);
         }
 
         if (!previousCard) {

@@ -53,7 +53,12 @@ describe('VideoCard', function() {
               "modestbranding": 0,
               "rel": 0,
               "videoid": "q3tq4-IXA0M",
-              "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M"
+              "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M",
+              "moat" : {
+                  "advertiser" : "Advertiser 1",
+                  "campaign" : "Campaign 1",
+                  "creative" : "Creative 1"
+                }
             },
             "type": "youtube",
             "title": "Aziz Ansari Live at Madison Square Garden",
@@ -214,6 +219,19 @@ describe('VideoCard', function() {
             });
         });
 
+        describe('moat',function(){
+            it('should be null', function() {
+                expect(card.data.moat).toBeNull();
+            });
+
+            describe('on a sponsored card', function() {
+                it('should be set', function() {
+                    expect(new VideoCard(sponsoredData, experience).data.moat)
+                        .toBe(sponsoredData.data.moat);
+                });
+            });
+        });
+
         describe('skippable', function() {
             it('should be true', function() {
                 expect(card.skippable).toBe(true);
@@ -230,7 +248,8 @@ describe('VideoCard', function() {
                     autoplay: true,
                     autoadvance: true,
                     hideSource: !!data.data.hideSource,
-                    controls: data.data.controls
+                    controls: data.data.controls,
+                    moat: null
                 });
             });
 

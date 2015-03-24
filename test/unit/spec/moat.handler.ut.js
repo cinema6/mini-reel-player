@@ -51,17 +51,18 @@ describe('MoatHandler', function() {
                     type: 'vimeo',
                     data: {
                         autoplay: true,
-                        href: 'http://www.vimeo.com/384895'
+                        href: 'http://www.vimeo.com/384895',
+                        moat: {
+                            advertiser: 'Guinness',
+                            campaign  : 'Guinness Hooley',
+                            creative  : 'The Black & Blonde'
+                        }
                     },
                     params: {},
                     collateral: {},
                     links: {},
                     sponsor: 'Guinness',
-                    campaign: {
-                        advertiserName : 'Guinness',
-                        campaignName : 'Guinness Hooley',
-                        creative : 'The Black & Blonde'
-                    }
+                    campaign: { }
                 }, experience);
                 player = new CorePlayer();
                 player.duration = 45;
@@ -93,7 +94,7 @@ describe('MoatHandler', function() {
                 });
 
                 it('should not initialize a tracker, if card is NOT sponsored',function(){
-                    card.campaign.campaignName = null;
+                    card.data.moat = null;
                     player.emit('loadedmetadata');
                     expect(moatApi.initTracker).not.toHaveBeenCalled();
                 });

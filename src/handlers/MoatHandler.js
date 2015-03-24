@@ -14,16 +14,14 @@ export default class MoatHandler extends BillingHandler {
         }
 
         register(({ target: player, data: card }) => {
-            if ( (!card.campaign) ||
-                 (!card.campaign.campaignName) ||
-                 (card.campaign.campaignName === null) ) {
+            if (!card.data.moat) {
                 return;
             }
             
             const ids = {
-                level1  : card.campaign.advertiserName,
-                level2  : card.campaign.campaignName,
-                level3  : card.campaign.creative,
+                level1  : card.data.moat.advertiser,
+                level2  : card.data.moat.campaign,
+                level3  : card.data.moat.creative,
                 slicer1 : site,
                 slicer2 : container
             };

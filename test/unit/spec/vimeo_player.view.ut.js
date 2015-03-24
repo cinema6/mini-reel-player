@@ -10,7 +10,7 @@ import {
     defer
 } from '../../../lib/utils.js';
 
-fdescribe('VimeoPlayer', function() {
+describe('VimeoPlayer', function() {
     let player;
     let ServicePlayer;
     let vimeoPlayer;

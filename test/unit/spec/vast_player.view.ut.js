@@ -109,6 +109,7 @@ describe('<vast-player>', function() {
         this.currentTime = 0;
         this.ended = false;
         this.duration = NaN;
+        this.volume = 0;
         this.paused = true;
         this.src = null;
         this.readyState = 0;
@@ -559,6 +560,31 @@ describe('<vast-player>', function() {
                 it('should throw an error when setting', function() {
                     expect(function() {
                         player.duration = 40;
+                    }).toThrow();
+                });
+            });
+
+            describe('volume', function() {
+                describe('before the player is loaded', function() {
+                    it('should be 0', function() {
+                        expect(player.volume).toBe(0);
+                    });
+                });
+
+                describe('after the player is loaded', function() {
+                    beforeEach(function() {
+                        Runner.run(() => player.load());
+                    });
+
+                    it('should return the player volume', function() {
+                        video.volume = 0.5;
+                        expect(player.volume).toEqual(0.5);
+                    });
+                });
+
+                it('should throw an error when setting', function() {
+                    expect(function() {
+                        player.volume = 0.7;
                     }).toThrow();
                 });
             });

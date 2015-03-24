@@ -197,6 +197,12 @@ export default class VASTPlayer extends CorePlayer {
         return video ? video.duration : 0;
     }
 
+    get volume() {
+        const {video} = _(this);
+
+        return video ? video.volume : 0;
+    }
+
     get paused() {
         const {video} = _(this);
 

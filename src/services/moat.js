@@ -1,13 +1,13 @@
 /*jshint scripturl:true*/
 import codeLoader from './code_loader.js';
+import environment from '../environment.js';
 import {createKey} from 'private-parts';
 const _ = createKey();
 
 class MoatApiTracker {
     constructor(container, ids, duration ) {
         if (global.__karma__) { this._private_ = _(this); }
-        const protocol = (global.location.protocol === 'javascript:' ?
-            'http:' : global.location.protocol);
+        const protocol = environment.protocol;
         const sub = (protocol === 'https:') ? 'z' : 'js';
         const self = this;
 

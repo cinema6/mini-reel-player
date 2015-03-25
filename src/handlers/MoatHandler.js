@@ -1,14 +1,11 @@
-import BillingHandler from './BillingHandler.js';
 import moatApi from '../services/moat.js';
+import environment from '../environment.js';
 
-export default class MoatHandler extends BillingHandler {
+export default class MoatHandler {
     constructor(register,config ) {
         const { container } = config;
-        const site = global.parent.location.hostname;
+        const site = environment.hostname;
 
-        super(...arguments);
-
-      
         function moatEvent(evtType,player){
             return { type : evtType, adVolume : player.volume };
         }

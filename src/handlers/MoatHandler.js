@@ -16,7 +16,7 @@ export default class MoatHandler {
             }
             
             const ids = {
-                level1  : card.data.moat.advertiser,
+                level1  : card.sponsor,
                 level2  : card.data.moat.campaign,
                 level3  : card.data.moat.creative,
                 slicer1 : site,

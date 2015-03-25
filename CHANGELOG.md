@@ -3,6 +3,8 @@
 ## v0.2.0 (March 25, 2015)
 * *[v0.2.0-rc2]*
   * [FIX]: Fix for an issue that could cause a video not to be visible
+  * [PERFORMANCE]: Allow Chrome to download and parse the player's code
+    at the same time
 
 * *[v0.2.0-rc1]*
   * [FEATURE]: Added support for text cards

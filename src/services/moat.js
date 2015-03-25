@@ -1,4 +1,3 @@
-/*jshint scripturl:true*/
 import codeLoader from './code_loader.js';
 import environment from '../environment.js';
 import {createKey} from 'private-parts';

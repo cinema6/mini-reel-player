@@ -1,3 +1,4 @@
+/*jshint scripturl:true*/
 const c6 = global.c6 || {};
 const $location = (() => {
     try {

@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 ## v0.2.0 (March 25, 2015)
+* *[v0.2.0-rc2]*
+  * [FIX]: Fix for an issue that could cause a video not to be visible
+
 * *[v0.2.0-rc1]*
   * [FEATURE]: Added support for text cards
   * [FEATURE]: Added support for VAST videos

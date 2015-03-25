@@ -558,6 +558,10 @@
             border:0;
             background:#000;
         }
+        .playerBox iframe,
+        .playerBox video {
+            z-index: 100;
+        }
         .player--fly-away {
             margin-left:-5000%;
             float:left;

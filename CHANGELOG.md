@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.2.0 (March 25, 2015)
+* *[v0.2.0-rc3]*
+  * [FIX]: Fix for an issue that caused an advertiser's name not to be
+    sent to Moat
+* *[v0.2.0-rc3]*
+
 * *[v0.2.0-rc2]*
   * [FIX]: Fix for an issue that could cause a video not to be visible
   * [PERFORMANCE]: Allow Chrome to download and parse the player's code

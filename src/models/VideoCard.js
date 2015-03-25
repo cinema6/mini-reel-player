@@ -2,7 +2,8 @@ import Card from './Card.js';
 import timer from '../../lib/timer.js';
 import {
     map,
-    filter
+    filter,
+    extend
 } from '../../lib/utils.js';
 import {createKey} from 'private-parts';
 
@@ -19,6 +20,8 @@ export default class VideoCard extends Card {
 
         this.type = 'video';
         this.skippable = true;
+
+        this.thumbs = this.thumbs || extend(data.data.thumbs);
 
         this.campaign = data.campaign;
         this.sponsor = data.params.sponsor;

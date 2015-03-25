@@ -21,7 +21,11 @@ describe('VideoCard', function() {
               "modestbranding": 0,
               "rel": 0,
               "videoid": "B5FcZrg_Nuo",
-              "href": "https://www.youtube.com/watch?v=B5FcZrg_Nuo"
+              "href": "https://www.youtube.com/watch?v=B5FcZrg_Nuo",
+              "thumbs": {
+                "small": "https://i.ytimg.com/vi/B5FcZrg_Nuo/default.jpg",
+                "large": "https://i.ytimg.com/vi/B5FcZrg_Nuo/maxresdefault.jpg"
+              }
             },
             "id": "rc-68e8e50d9ffcfe",
             "type": "youtube",
@@ -112,6 +116,27 @@ describe('VideoCard', function() {
         describe('type', function() {
             it('should be "video"', function() {
                 expect(card.type).toBe('video');
+            });
+        });
+
+        describe('thumbs', function() {
+            it('should be a copy of data.thumbs', function() {
+                expect(card.thumbs).toEqual(data.data.thumbs);
+                expect(card.thumbs).not.toBe(data.data.thumbs);
+            });
+
+            describe('if the card has custom thumbs', function() {
+                beforeEach(function() {
+                    data.thumbs = {
+                        small: 'my-custom-small.jpg',
+                        large: 'my-custom-large.jpg'
+                    };
+                    card = new VideoCard(data, experience);
+                });
+
+                it('should be the custom thumbs', function() {
+                    expect(card.thumbs).toEqual(data.thumbs);
+                });
             });
         });
 

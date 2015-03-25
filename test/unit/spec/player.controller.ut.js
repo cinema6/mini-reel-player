@@ -300,6 +300,7 @@ describe('PlayerController', function() {
             beforeEach(function() {
                 spyOn(PlayerCtrl.view, 'update');
 
+                PlayerCtrl.minireel.standalone = false;
                 PlayerCtrl.minireel.title = 'My Awesome MiniReel';
                 PlayerCtrl.minireel.deck = [
                     new Card({
@@ -336,6 +337,7 @@ describe('PlayerController', function() {
 
             it('should update its view', function() {
                 expect(PlayerCtrl.view.update).toHaveBeenCalledWith({
+                    closeable: !PlayerCtrl.minireel.standalone,
                     title: PlayerCtrl.minireel.title,
                     totalCards: PlayerCtrl.minireel.length,
                     currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
@@ -345,6 +347,23 @@ describe('PlayerController', function() {
                         next: 'fifth-thumb.jpg',
                         previous: 'third-thumb.jpg'
                     }
+                });
+            });
+
+            describe('if the middle of the minireel', function() {
+                beforeEach(function() {
+                    PlayerCtrl.view.update.calls.reset();
+                    PlayerCtrl.minireel.currentIndex = 2;
+                    PlayerCtrl.minireel.standalone = true;
+
+                    PlayerCtrl.updateView();
+                });
+
+                it('should allow the user to go forward or back', function() {
+                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        canGoForward: true,
+                        canGoBack: true
+                    }));
                 });
             });
 
@@ -370,6 +389,44 @@ describe('PlayerController', function() {
                         canGoForward: true,
                         canGoBack: false
                     }));
+                });
+            });
+
+            describe('if called on the first slide', function() {
+                beforeEach(function() {
+                    PlayerCtrl.view.update.calls.reset();
+
+                    PlayerCtrl.minireel.currentIndex = 0;
+                });
+
+                describe('if the player is not standalone', function() {
+                    beforeEach(function() {
+                        PlayerCtrl.minireel.standalone = false;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should allow the user to go back', function() {
+                        expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            closeable: true,
+                            canGoBack: true
+                        }));
+                    });
+                });
+
+                describe('if the player is standalone', function() {
+                    beforeEach(function() {
+                        PlayerCtrl.minireel.standalone = true;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should not allow the user to go back', function() {
+                        expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            closeable: false,
+                            canGoBack: false
+                        }));
+                    });
                 });
             });
 

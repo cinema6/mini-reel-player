@@ -587,6 +587,12 @@ describe('MiniReel', function() {
             });
         });
 
+        describe('standalone', function() {
+            it('should be null', function() {
+                expect(minireel.standalone).toBeNull();
+            });
+        });
+
         describe('title', function() {
             it('should be null', function() {
                 expect(minireel.title).toBeNull();
@@ -1151,12 +1157,17 @@ describe('MiniReel', function() {
             minireel.on('init', done);
 
             appDataDeferred.fulfill({
-                experience: experience
+                experience: experience,
+                standalone: true
             });
         });
 
         it('should emit the "init" event', function() {
             expect(done).toHaveBeenCalled();
+        });
+
+        it('should copy the standalone property', function() {
+            expect(minireel.standalone).toBe(true);
         });
 
         it('should copy the id', function() {

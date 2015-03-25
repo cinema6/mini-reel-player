@@ -98,6 +98,12 @@ export default class YouTubePlayer extends CorePlayer {
         return _(this).state.duration;
     }
 
+    get volume() {
+        const {player} = _(this);
+        
+        return player ? (player.getVolume() / 100) : 0;
+    }
+
     get ended() {
         return _(this).state.ended;
     }

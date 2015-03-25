@@ -15,6 +15,7 @@ function getInitialState() {
         buffered: 0,
         currentTime: 0,
         duration: 0,
+        volume: 0,
         ended: false,
         paused: true,
         readyState: 0,
@@ -62,6 +63,10 @@ export default class VimeoPlayer extends CorePlayer {
 
     get duration() {
         return _(this).state.duration;
+    }
+
+    get volume() {
+        return _(this).state.volume;
     }
 
     get ended() {
@@ -200,6 +205,10 @@ export default class VimeoPlayer extends CorePlayer {
             }
 
             this.emit('timeupdate');
+            
+            player.call('getVolume').then(volume => {
+                state.volume = volume;
+            });
         });
 
         player.once('ready', () => {
@@ -218,6 +227,11 @@ export default class VimeoPlayer extends CorePlayer {
                 this.emit('loadedmetadata');
                 state.readyState = 1;
                 state.duration = (Math.min(end, duration) -  start);
+            });
+
+            player.call('getVolume').then(volume => {
+                const {state} = _(this);
+                state.volume = volume;
             });
 
             _(this).state.ready = true;

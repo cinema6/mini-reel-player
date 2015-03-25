@@ -123,7 +123,7 @@ describe('VimeoPlayer', function() {
                     vimeoPlayer.emit('playProgress', {
                         seconds: time.toString()
                     });
-                    expect(vimeoPlayer.call).not.toHaveBeenCalled();
+                    expect(vimeoPlayer.call).toHaveBeenCalledWith('getVolume');
                 });
             });
 

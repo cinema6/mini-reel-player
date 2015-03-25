@@ -64,7 +64,7 @@ describe('codeLoader', function() {
             });
 
             it('should plop the script into the <head>', function() {
-                expect(document.head.appendChild).toHaveBeenCalledWith(script);
+                expect(document.head.appendChild).toHaveBeenCalledWith(script,undefined);
             });
 
             describe('if called again', function() {
@@ -78,6 +78,32 @@ describe('codeLoader', function() {
                     expect(nextResult).toBe(result);
                     expect(codeLoader.load('some/other/thing.js')).not.toBe(result);
                 });
+            });
+
+            describe('if passed an Element',function(){
+                let element;
+                beforeEach(function(){
+                    element = {
+                        insertBefore : jasmine.createSpy('insertBefore'),
+                        appendChild  : jasmine.createSpy('insertBefore')
+                    };
+                });
+                it('should insertBefore with null existingNode by default',function(){
+                    codeLoader.load('https://some.groovy.file/ha1',element,'insertBefore');
+                    expect(element.insertBefore).toHaveBeenCalledWith(script,undefined);
+                });
+
+                it('should use domMethod if passed',function(){
+                    codeLoader.load('https://some.groovy.file/ha2',element,'appendChild',null);
+                    expect(element.appendChild).toHaveBeenCalledWith(script,null);
+                });
+
+                it('should use domArg if passed',function(){
+                    var obj = {};
+                    codeLoader.load('https://some.groovy.file/ha3',element,null,obj);
+                    expect(element.appendChild).toHaveBeenCalledWith(script,obj);
+                });
+
             });
 
             describe('if there is an error', function() {

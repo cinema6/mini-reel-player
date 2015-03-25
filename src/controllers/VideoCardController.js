@@ -52,8 +52,12 @@ export default class VideoCardController extends CardController {
             player[this.model.data.autoplay ? 'play' : 'load']();
             dispatcher.addSource('video', player, [
                 'play', 'timeupdate', 'pause', 'ended', 'error',
-                'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
+                'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
+                'loadedmetadata'
             ], this.model);
+            if (player.readyState >= 1) {
+                player.emit('loadedmetadata');
+            }
         });
         this.model.on('deactivate', () => {
             if (PostCtrl) { PostCtrl.deactivate(); }
@@ -96,7 +100,7 @@ export default class VideoCardController extends CardController {
             }
         });
 
-        dispatcher.addSource('card', this.model, ['activate'], player);
+        dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
 
         _(this).player = player;
     }

@@ -103,7 +103,8 @@ describe('VideoCardController', function() {
     });
 
     it('should add its model as an event source', function() {
-        expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['activate'], player);
+        expect(dispatcher.addSource).toHaveBeenCalledWith('card', card,
+            ['activate','deactivate'], player);
     });
 
     describe('properties:', function() {
@@ -265,15 +266,38 @@ describe('VideoCardController', function() {
                     beforeEach(function() {
                         spyOn(player, 'play');
                         spyOn(player, 'load');
-
                         Runner.run(() => card.activate());
                     });
 
                     it('should add the player as an event source', function() {
                         expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, [
                             'play', 'timeupdate', 'pause', 'ended', 'error',
-                            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
+                            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
+                            'loadedmetadata'
                         ], card);
+                    });
+
+                    describe('if player readyState < 1', function(){
+                        beforeEach(function(){
+                            card.active = false;
+                            spyOn(player, 'emit');
+                            Runner.run(() => card.activate());
+                        });
+                        it('should not emit loadedmetadata',function(){
+                            expect(player.emit).not.toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('if player readyState >= 1', function(){
+                        beforeEach(function(){
+                            card.active = false;
+                            player.readyState = 1;
+                            spyOn(player, 'emit');
+                            Runner.run(() => card.activate());
+                        });
+                        it('should not emit loadedmetadata',function(){
+                            expect(player.emit).toHaveBeenCalledWith('loadedmetadata');
+                        });
                     });
 
                     describe('if autoplay is true', function() {

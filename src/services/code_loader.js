@@ -12,10 +12,12 @@ class CodeLoader {
         _(this).promises = {};
     }
 
-    load(src) {
+    load(src, ...elt) {
         const options = _(this).configs[src] || { src };
         const {promises} = _(this);
-
+        const domElement = elt[0] || document.head;
+        const domMethod  = elt[1] || 'appendChild';
+        const domArg     = elt[2];
         return promises[src] || (promises[src] = new RunnerPromise((fulfill, reject) => {
             const script = document.createElement('script');
 
@@ -25,7 +27,7 @@ class CodeLoader {
             script.onerror = (() => reject(new Error(`Failed to load script: [${src}].`)));
 
             (options.before || noop)();
-            document.head.appendChild(script);
+            domElement[domMethod](script,domArg);
         }).then(options.after));
     }
 

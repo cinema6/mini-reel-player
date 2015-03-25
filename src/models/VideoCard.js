@@ -42,7 +42,8 @@ export default class VideoCard extends Card {
             href: data.data.href,
             controls: data.data.controls,
             autoplay: 'autoplay' in data.data ? data.data.autoplay : autoplay,
-            autoadvance: 'autoadvance' in data.data ? data.data.autoadvance : autoadvance
+            autoadvance: 'autoadvance' in data.data ? data.data.autoadvance : autoadvance,
+            moat : data.data.moat || null
         };
     }
 

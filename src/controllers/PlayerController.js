@@ -62,13 +62,15 @@ export default class PlayerController extends Controller {
         const {minireel} = this;
         const nextCard = minireel.deck[minireel.currentIndex + 1];
         const prevCard = minireel.deck[minireel.currentIndex - 1];
+        const { currentIndex, standalone } = minireel;
 
         this.view.update({
             title: minireel.title,
             totalCards: minireel.length,
             currentCardNumber: (minireel.currentIndex + 1).toString(),
-            canGoForward: minireel.currentIndex < (minireel.length - 1),
-            canGoBack: minireel.currentIndex > -1,
+            canGoForward: currentIndex < (minireel.length - 1),
+            canGoBack: (currentIndex > 0 || !standalone) && currentIndex > -1,
+            closeable: !standalone,
             thumbs: {
                 next: (nextCard && nextCard.thumbs.small) || null,
                 previous: (prevCard && prevCard.thumbs.small) || null

@@ -18,7 +18,8 @@ import RecapCard from './RecapCard.js';
 
 const _ = createKey();
 
-function initialize(minireel, experience) {
+function initialize(minireel, { experience, standalone }) {
+    minireel.standalone = standalone;
     minireel.id = experience.id;
     minireel.title = experience.data.title;
     minireel.branding = experience.data.branding;
@@ -62,6 +63,8 @@ export default class MiniReel extends EventEmitter {
     constructor() {
         super(...arguments);
 
+        this.standalone = null;
+
         this.id = null;
         this.title = null;
         this.branding = null;
@@ -80,7 +83,7 @@ export default class MiniReel extends EventEmitter {
         _(this).becameSkippableHandler = (() => this.emit('becameSkippable'));
         _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
 
-        cinema6.getAppData().then(appData => initialize(this, appData.experience));
+        cinema6.getAppData().then(appData => initialize(this, appData));
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));
             session.on('initAnalytics', config => {

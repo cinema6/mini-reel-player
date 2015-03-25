@@ -52,15 +52,15 @@ describe('MoatHandler', function() {
                         autoplay: true,
                         href: 'http://www.vimeo.com/384895',
                         moat: {
-                            advertiser: 'Guinness',
                             campaign  : 'Guinness Hooley',
                             creative  : 'The Black & Blonde'
                         }
                     },
-                    params: {},
+                    params: {
+                        sponsor: 'Guinness'
+                    },
                     collateral: {},
                     links: {},
-                    sponsor: 'Guinness',
                     campaign: { }
                 }, experience);
                 player = new CorePlayer();

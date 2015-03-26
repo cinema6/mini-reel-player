@@ -120,7 +120,6 @@ module.exports = function(grunt) {
         'htmlmin:tmp',
         'cssmin:tmp',
         'browserify:tmp',
-        'closure-compiler:build',
         'copy:build',
         'compress:build',
         'replace:build'

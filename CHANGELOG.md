@@ -5,6 +5,7 @@
   * [FEATURE]: Add support for video start/end times
   * [FIX]: Fix for an issue that caused the VimeoPlayer to crash when
     its end time was reached
+* *[/v0.2.0-rc5]*
 
 * *[v0.2.0-rc4]*
   * [FIX]: Fix for an issue that caused YouTube videos set to autoplay

@@ -100,7 +100,7 @@ export default class YouTubePlayer extends CorePlayer {
 
     get volume() {
         const {player} = _(this);
-        
+
         return player ? (player.getVolume() / 100) : 0;
     }
 
@@ -136,20 +136,18 @@ export default class YouTubePlayer extends CorePlayer {
     }
 
     play() {
-        browser.test('autoplay').then(autoplayable => {
-            const play = () => {
-                if (autoplayable || _(this).hasPlayed) {
+        const play = (() => {
+            if (_(this).hasPlayed) { return _(this).player.playVideo(); }
+
+            browser.test('autoplay').then(autoplayable => {
+                if (autoplayable) {
                     _(this).player.playVideo();
                 }
-            };
-
-            if (_(this).player) {
-                return play();
-            }
-
-            this.once('canplay', play);
-            this.load();
+            });
         });
+
+        this.load();
+        if (_(this).player) { play(); } else { this.once('canplay', play); }
     }
 
     pause() {
@@ -159,21 +157,19 @@ export default class YouTubePlayer extends CorePlayer {
     }
 
     load() {
+        const element = this.element || this.create();
         if (_(this).iframe && _(this).iframe.getAttribute('data-videoid') === this.src) { return; }
 
+        if (_(this).iframe) {
+            element.removeChild(_(this).iframe);
+        }
+
+        const iframe = _(this).iframe = document.createElement('iframe');
+        iframe.setAttribute('data-videoid', this.src);
+        iframe.src = `https://www.youtube.com/embed/${this.src}` +
+            `?html5=1&wmode=opaque&rel=0&enablejsapi=1`;
+
         Runner.schedule('afterRender', () => {
-            const element = this.element || this.create();
-
-            if (_(this).iframe) {
-                element.removeChild(_(this).iframe);
-            }
-
-            const iframe = _(this).iframe = document.createElement('iframe');
-
-            iframe.src = `https://www.youtube.com/embed/${this.src}` +
-                `?html5=1&wmode=opaque&rel=0&enablejsapi=1`;
-            iframe.setAttribute('data-videoid', this.src);
-
             element.appendChild(iframe);
 
             fetcher.get(

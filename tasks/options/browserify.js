@@ -1,25 +1,33 @@
 module.exports = {
     options: {
+        browserifyOptions: {
+            debug: true
+        },
         transform: [
             ['babelify', require('../../tasks/resources/babel.config.js')],
             ['partialify']
         ]
     },
     tmp: {
+        options: {
+            plugin: [
+                ['minifyify', {
+                    map: 'main.js.map',
+                    output: '.tmp/<%= settings.distDir %>/<%= _version %>/main.js.map'
+                }]
+            ]
+        },
         files: [
             {
                 src: '.tmp/<%= package.main %>',
-                dest: '.tmp/<%= settings.distDir %>/<%= _version %>/main.js'
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/main.js'
             }
         ]
     },
     server: {
         options: {
             watch: true,
-            keepAlive: false,
-            browserifyOptions: {
-                debug: true
-            }
+            keepAlive: false
         },
         files: [
             {

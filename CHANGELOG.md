@@ -6,6 +6,7 @@
     to load during animations
   * [DEV]: Add ability to see and debug uncompressed ES2015 code in
     production
+* *[v0.2.0-rc4]*
 
 * *[v0.2.0-rc3]*
   * [FIX]: Fix for an issue that caused an advertiser's name not to be

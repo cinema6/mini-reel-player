@@ -263,81 +263,32 @@ describe('YouTubePlayer', function() {
                 spyOn(browser, 'test').and.returnValue(autoplayDeferred.promise);
 
                 player.src = 'VSL0vtRrTYk';
-                player.play();
             });
 
-            it('should check if the browser can autoplay', function() {
-                expect(browser.test).toHaveBeenCalledWith('autoplay');
-            });
-
-            describe('if the device can autoplay', function() {
-                beforeEach(function(done) {
-                    autoplayDeferred.promise.then(done, done);
-
-                    autoplayDeferred.fulfill(true);
+            describe('if the player has not been loaded', function() {
+                beforeEach(function() {
+                    Runner.run(() => player.play());
                 });
 
-                it('should load() the player', function() {
-                    expect(player.load).toHaveBeenCalled();
-                });
-
-                it('should not play the player', function() {
-                    expect(ytPlayer.playVideo).not.toHaveBeenCalled();
-                });
-
-                describe('when the player is ready', function() {
-                    beforeEach(function(done) {
-                        codeLoader.load('youtube').then(() => youtube.Player.calls.mostRecent().args[1].events.onReady()).then(done, done);
-                    });
-
-                    it('should play the video', function() {
-                        expect(ytPlayer.playVideo).toHaveBeenCalled();
-                    });
-
-                    describe('when called again', function() {
-                        beforeEach(function(done) {
-                            player.load.calls.reset();
-                            ytPlayer.playVideo.calls.reset();
-                            player.play();
-                            autoplayDeferred.promise.then(done, done);
-                        });
-
-                        it('should not load the video', function() {
-                            expect(player.load).not.toHaveBeenCalled();
-                        });
-
-                        it('should play the video', function() {
-                            expect(ytPlayer.playVideo).toHaveBeenCalled();
-                        });
-                    });
-                });
-            });
-
-            describe('if the device cannot autoplay', function() {
-                beforeEach(function(done) {
-                    autoplayDeferred.promise.then(done, done);
-
-                    autoplayDeferred.fulfill(false);
-                });
-
-                it('should load() the player', function() {
+                it('should load the player', function() {
                     expect(player.load).toHaveBeenCalled();
                 });
 
                 describe('when the player is ready', function() {
                     beforeEach(function(done) {
-                        codeLoader.load('youtube').then(() => youtube.Player.calls.mostRecent().args[1].events.onReady()).then(done, done);
+                        codeLoader.load('youtube').then(() => {
+                            expect(browser.test).not.toHaveBeenCalled();
+                            youtube.Player.calls.mostRecent().args[1].events.onReady();
+                        }).then(done, done);
                     });
 
-                    it('should not play the video', function() {
-                        expect(ytPlayer.playVideo).not.toHaveBeenCalled();
+                    it('should see if the device can autoplay', function() {
+                        expect(browser.test).toHaveBeenCalledWith('autoplay');
                     });
 
-                    describe('when the video has played', function() {
+                    describe('if the device can autoplay', function() {
                         beforeEach(function(done) {
-                            youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: youtube.PlayerState.PLAYING });
-
-                            player.play();
+                            autoplayDeferred.fulfill(true);
                             autoplayDeferred.promise.then(done, done);
                         });
 
@@ -346,22 +297,73 @@ describe('YouTubePlayer', function() {
                         });
                     });
 
-                    describe('when called again', function() {
+                    describe('if the device can\'t autoplay', function() {
                         beforeEach(function(done) {
-                            player.load.calls.reset();
-                            ytPlayer.playVideo.calls.reset();
-                            player.play();
+                            autoplayDeferred.fulfill(false);
                             autoplayDeferred.promise.then(done, done);
-                        });
-
-                        it('should not load the video', function() {
-                            expect(player.load).not.toHaveBeenCalled();
                         });
 
                         it('should not play the video', function() {
                             expect(ytPlayer.playVideo).not.toHaveBeenCalled();
                         });
                     });
+                });
+            });
+
+            describe('if the player is already ready to play', function() {
+                beforeEach(function(done) {
+                    Runner.run(() => player.load());
+                    codeLoader.load('youtube').then(() => {
+                        youtube.Player.calls.mostRecent().args[1].events.onReady();
+                        player.play();
+                    }).then(done, done);
+                });
+
+                it('should see if the device can autoplay', function() {
+                    expect(browser.test).toHaveBeenCalledWith('autoplay');
+                });
+
+                describe('if the device can autoplay', function() {
+                    beforeEach(function(done) {
+                        autoplayDeferred.fulfill(true);
+                        autoplayDeferred.promise.then(done, done);
+                    });
+
+                    it('should play the video', function() {
+                        expect(ytPlayer.playVideo).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the device can\'t autoplay', function() {
+                    beforeEach(function(done) {
+                        autoplayDeferred.fulfill(false);
+                        autoplayDeferred.promise.then(done, done);
+                    });
+
+                    it('should not play the video', function() {
+                        expect(ytPlayer.playVideo).not.toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if the video has already played', function() {
+                beforeEach(function(done) {
+                    Runner.run(() => player.load());
+                    codeLoader.load('youtube').then(() => {
+                        youtube.Player.calls.mostRecent().args[1].events.onReady();
+                        youtube.Player.calls.mostRecent().args[1].events.onStateChange({
+                            data: youtube.PlayerState.PLAYING
+                        });
+                        player.play();
+                    }).then(done, done);
+                });
+
+                it('should not test for autoplay ability', function() {
+                    expect(browser.test).not.toHaveBeenCalledWith('autoplay');
+                });
+
+                it('should play the video', function() {
+                    expect(ytPlayer.playVideo).toHaveBeenCalled();
                 });
             });
         });
@@ -1250,23 +1252,14 @@ describe('YouTubePlayer', function() {
                 expect(ytPlayer.getCurrentTime).not.toHaveBeenCalled();
             });
 
-            it('should cause play() to load the video again', function(done) {
-                spyOn(browser, 'test').and.returnValue(RunnerPromise.resolve(true));
-                spyOn(player, 'load');
-                player.play();
-
-                browser.test().then(() => expect(player.load).toHaveBeenCalled()).then(done, done);
-            });
-
-            it('should cause play() to require the video to autoplay again', function(done) {
+            it('should cause play() to require the video to autoplay again', function() {
                 ytPlayer.playVideo.calls.reset();
                 spyOn(browser, 'test').and.returnValue(RunnerPromise.resolve(false));
-                player.play();
+                spyOn(player, 'load');
+                Runner.run(() => player.play());
+                youtube.Player.calls.mostRecent().args[1].events.onReady();
 
-                browser.test().then(() => {
-                    youtube.Player.calls.mostRecent().args[1].events.onReady();
-                    expect(ytPlayer.playVideo).not.toHaveBeenCalled();
-                }).then(done, done);
+                expect(browser.test).toHaveBeenCalledWith('autoplay');
             });
 
             describe('if called initially', function() {

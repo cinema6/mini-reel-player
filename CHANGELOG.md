@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v0.2.0 (March 25, 2015)
+* *[v0.2.0-rc4]*
+  * [FIX]: Fix for an issue that caused YouTube videos set to autoplay
+    to load during animations
+
 * *[v0.2.0-rc3]*
   * [FIX]: Fix for an issue that caused an advertiser's name not to be
     sent to Moat

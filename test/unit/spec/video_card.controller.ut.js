@@ -46,7 +46,9 @@ describe('VideoCardController', function() {
               "modestbranding": 0,
               "rel": 0,
               "videoid": "q3tq4-IXA0M",
-              "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M"
+              "href": "https://www.youtube.com/watch?v=q3tq4-IXA0M",
+              "start": 10,
+              "end": 20
             },
             "type": "youtube",
             "title": "Aziz Ansari Live at Madison Square Garden",
@@ -481,6 +483,11 @@ describe('VideoCardController', function() {
 
                 it('should set the controls', function() {
                     expect(player.controls).toBe(card.data.controls);
+                });
+
+                it('should set the start and end times', function() {
+                    expect(player.start).toBe(card.data.start);
+                    expect(player.end).toBe(card.data.end);
                 });
 
                 describe('events', function() {

@@ -19,6 +19,8 @@ export default class VideoCardController extends CardController {
         player.poster = this.model.thumbs.large;
         player.src = this.model.data.videoid;
         player.controls = this.model.data.controls;
+        player.start = this.model.data.start;
+        player.end = this.model.data.end;
 
         this.view = new VideoCardView();
         this.moduleControllers = moduleService.getControllers(this.model.modules);

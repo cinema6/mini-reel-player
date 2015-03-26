@@ -25,7 +25,9 @@ describe('VideoCard', function() {
               "thumbs": {
                 "small": "https://i.ytimg.com/vi/B5FcZrg_Nuo/default.jpg",
                 "large": "https://i.ytimg.com/vi/B5FcZrg_Nuo/maxresdefault.jpg"
-              }
+              },
+              "start": 10,
+              "end": 20
             },
             "id": "rc-68e8e50d9ffcfe",
             "type": "youtube",
@@ -274,7 +276,9 @@ describe('VideoCard', function() {
                     autoadvance: true,
                     hideSource: !!data.data.hideSource,
                     controls: data.data.controls,
-                    moat: null
+                    moat: null,
+                    start: data.data.start,
+                    end: data.data.end
                 });
             });
 

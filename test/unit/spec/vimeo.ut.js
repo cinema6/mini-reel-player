@@ -42,6 +42,10 @@ describe('vimeo', function() {
         vimeo.constructor();
     });
 
+    afterEach(function() {
+        iframes.forEach(iframe => document.body.removeChild(iframe));
+    });
+
     afterAll(function() {
         vimeo.constructor();
     });
@@ -195,6 +199,24 @@ describe('vimeo', function() {
                 describe('call(method, data)', function() {
                     it('should return a RunnerPromise', function() {
                         expect(player.call('play')).toEqual(jasmine.any(RunnerPromise));
+                    });
+
+                    describe('if the iframe has been destroyed', function() {
+                        let success, failure;
+
+                        beforeEach(function(done) {
+                            failure = jasmine.createSpy('failure()');
+                            success = jasmine.createSpy('success()');
+
+                            iframes.forEach(iframe => document.body.removeChild(iframe));
+                            iframes.length = 0;
+
+                            player.call('pause').then(success, failure).then(done, done);
+                        });
+
+                        it('should reject with an error', function() {
+                            expect(failure).toHaveBeenCalledWith(new Error(`Cannot call pause() on VimeoPlayer [${player.id}] because it is destroyed.`));
+                        });
                     });
 
                     describe('without data', function() {

@@ -39,7 +39,15 @@ class Player extends EventEmitter {
     }
 
     call(method, data) {
-        const {pending, iframe} = _(this);
+        const {pending, iframe: { contentWindow } } = _(this);
+        if (!contentWindow) {
+            return RunnerPromise.reject(
+                new Error(
+                    `Cannot call ${method}() on VimeoPlayer [${this.id}] because it is destroyed.`
+                )
+            );
+        }
+
         const deferred = pending[method] || defer(RunnerPromise);
         const message = { method };
 
@@ -47,7 +55,7 @@ class Player extends EventEmitter {
             message.value = data;
         }
 
-        iframe.contentWindow.postMessage(JSON.stringify(message), '*');
+        contentWindow.postMessage(JSON.stringify(message), '*');
 
         switch (method) {
         case 'play':

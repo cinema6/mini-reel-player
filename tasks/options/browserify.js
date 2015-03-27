@@ -19,8 +19,8 @@ module.exports = {
         },
         files: [
             {
-                src: '.tmp/<%= package.main %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/main.js'
+                src: '<%= package.scripts.mobile %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/mobile.js'
             }
         ]
     },
@@ -31,8 +31,8 @@ module.exports = {
         },
         files: [
             {
-                src: '<%= package.main %>',
-                dest: 'server/.build/main.js'
+                src: '<%= package.scripts.mobile %>',
+                dest: 'server/.build/mobile.js'
             }
         ]
     }

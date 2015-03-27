@@ -1,7 +1,8 @@
+import NavButtonPreviewView from '../../../../src/views/mobile/NavButtonPreviewView.js';
+import View from '../../../../lib/core/View.js';
+import Runner from '../../../../lib/Runner.js';
+
 describe('NavButtonPreviewView', function() {
-    import NavButtonPreviewView from '../../../src/views/NavButtonPreviewView.js';
-    import View from '../../../lib/core/View.js';
-    import Runner from '../../../lib/Runner.js';
     let navButtonPreviewView;
 
     beforeEach(function() {

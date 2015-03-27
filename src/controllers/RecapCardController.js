@@ -1,16 +1,13 @@
 import CardController from './CardController.js';
-import RecapCardView from '../views/RecapCardView.js';
 import {
     map,
     find
 } from '../../lib/utils.js';
 
 export default class RecapCardController extends CardController {
-    constructor() {
-        super(...arguments);
+    addListeners() {
         const minireel = this.model.data;
 
-        this.view = new RecapCardView();
         this.view.on('selectCard', id => {
             minireel.moveTo(find(minireel.deck, card => card.id === id));
         });

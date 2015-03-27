@@ -1,9 +1,10 @@
+import TableOfContentsViewController from '../../../../src/controllers/mobile/TableOfContentsViewController.js';
+import ViewController from '../../../../src/controllers/ViewController.js';
+import cinema6 from '../../../../src/services/cinema6.js';
+import TableOfContentsView from '../../../../src/views/mobile/TableOfContentsView.js';
+import MiniReel from '../../../../src/models/MiniReel.js';
+
 describe('TableOfContentsViewController', function() {
-    import ViewController from '../../../src/controllers/ViewController.js';
-    import TableOfContentsViewController from '../../../src/controllers/TableOfContentsViewController.js';
-    import TableOfContentsView from '../../../src/views/TableOfContentsView.js';
-    import MiniReel from '../../../src/models/MiniReel.js';
-    import cinema6 from '../../../src/services/cinema6.js';
     let TableOfContentsViewCtrl;
     let minireel;
 

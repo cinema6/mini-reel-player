@@ -1,6 +1,6 @@
-import TableOfContentsListView from '../../../src/views/TableOfContentsListView.js';
-import ListView from '../../../src/views/ListView.js';
-import TableOfContentsCardView from '../../../src/views/TableOfContentsCardView.js';
+import TableOfContentsListView from '../../../../src/views/mobile/TableOfContentsListView.js';
+import ListView from '../../../../src/views/ListView.js';
+import TableOfContentsCardView from '../../../../src/views/mobile/TableOfContentsCardView.js';
 
 describe('TableOfContentsListView', function() {
     let view;

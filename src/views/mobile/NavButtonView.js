@@ -1,5 +1,5 @@
-import ButtonView from './ButtonView.js';
-import Hideable from '../mixins/Hideable.js';
+import ButtonView from '../ButtonView.js';
+import Hideable from '../../mixins/Hideable.js';
 import NavButtonPreviewView from './NavButtonPreviewView.js';
 
 class NavButtonView extends ButtonView {

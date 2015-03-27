@@ -1,11 +1,11 @@
-import ViewController from './ViewController.js';
-import TableOfContentsView from '../views/TableOfContentsView.js';
-import Runner from '../../lib/Runner.js';
 import {createKey} from 'private-parts';
+import ViewController from '../ViewController.js';
+import Runner from '../../../lib/Runner.js';
+import TableOfContentsView from '../../views/mobile/TableOfContentsView.js';
 import {
-    map,
-    find
-} from '../../lib/utils.js';
+    find,
+    map
+} from '../../../lib/utils.js';
 
 const _ = createKey();
 

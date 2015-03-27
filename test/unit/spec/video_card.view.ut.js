@@ -1,16 +1,13 @@
+import CardView from '../../../src/views/CardView.js';
+import VideoCardView from '../../../src/views/VideoCardView.js';
+import View from '../../../lib/core/View.js';
+import LinksListView from '../../../src/views/LinksListView.js';
 import {
     extend
 } from '../../../lib/utils.js';
-import PlayerOutletView from '../../../src/views/PlayerOutletView.js';
-import HideableView from '../../../src/views/HideableView.js';
-import ButtonView from '../../../src/views/ButtonView.js';
 import Runner from '../../../lib/Runner.js';
 
 describe('VideoCardView', function() {
-    import CardView from '../../../src/views/CardView.js';
-    import VideoCardView from '../../../src/views/VideoCardView.js';
-    import View from '../../../lib/core/View.js';
-    import LinksListView from '../../../src/views/LinksListView.js';
     let videoCardView;
 
     beforeEach(function() {
@@ -22,94 +19,6 @@ describe('VideoCardView', function() {
     });
 
     describe('properties:', function() {
-        describe('template', function() {
-            it('should be a VideoCardView.html', function() {
-                expect(videoCardView.template).toBe(require('../../../src/views/VideoCardView.html'));
-            });
-        });
-
-        describe('playerOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => videoCardView.create());
-            });
-
-            it('should be a PlayerOutletView', function() {
-                expect(videoCardView.playerOutlet).toEqual(jasmine.any(PlayerOutletView));
-            });
-        });
-
-        describe('displayAdOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => videoCardView.create());
-            });
-
-            it('should be a view', function() {
-                expect(videoCardView.displayAdOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('postOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => videoCardView.create());
-            });
-
-            it('should be a view', function() {
-                expect(videoCardView.postOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('links', function() {
-            beforeEach(function() {
-                Runner.run(() => videoCardView.create());
-            });
-
-            it('should be a LinksListView', function() {
-                expect(videoCardView.links).toEqual(jasmine.any(LinksListView));
-            });
-        });
-
-        describe('replayContainer', function() {
-            beforeEach(function() {
-                spyOn(HideableView.prototype, 'hide');
-                Runner.run(() => videoCardView.create());
-            });
-
-            it('should be a HideableView', function() {
-                expect(videoCardView.replayContainer).toEqual(jasmine.any(HideableView));
-            });
-
-            it('should be hidden', function() {
-                expect(videoCardView.replayContainer.hide).toHaveBeenCalled();
-            });
-        });
-
-        describe('replayButton', function() {
-            beforeEach(function() {
-                Runner.run(() => videoCardView.create());
-            });
-
-            it('should be a ButtonView', function() {
-                expect(videoCardView.replayButton).toEqual(jasmine.any(ButtonView));
-            });
-
-            describe('events:', function() {
-                describe('press', function() {
-                    let spy;
-
-                    beforeEach(function() {
-                        spy = jasmine.createSpy('replay()');
-                        videoCardView.on('replay', spy);
-
-                        videoCardView.replayButton.emit('press');
-                    });
-
-                    it('should emit the replay event', function() {
-                        expect(spy).toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-
         describe('moduleOutlets', function() {
             it('should be an empty object', function() {
                 expect(videoCardView.moduleOutlets).toEqual({});
@@ -117,6 +26,8 @@ describe('VideoCardView', function() {
 
             describe('after the view is created', function() {
                 beforeEach(function() {
+                    videoCardView.displayAdOutlet = new View();
+                    videoCardView.postOutlet = new View();
                     Runner.run(() => videoCardView.create());
                 });
 
@@ -131,11 +42,17 @@ describe('VideoCardView', function() {
     });
 
     describe('methods:', function() {
+        describe('addListeners()', function() {
+            it('should exist', function() {
+                expect(videoCardView.addListeners).toEqual(jasmine.any(Function));
+            });
+        });
+
         describe('update(data)', function() {
             let data;
 
             beforeEach(function() {
-                Runner.run(() => videoCardView.create());
+                videoCardView.links = new LinksListView();
 
                 spyOn(CardView.prototype, 'update');
                 spyOn(videoCardView.links, 'update');

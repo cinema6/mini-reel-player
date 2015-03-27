@@ -1,9 +1,10 @@
+import NavButtonView from '../../../../src/views/mobile/NavButtonView.js';
+import ButtonView from '../../../../src/views/ButtonView.js';
+import Hideable from '../../../../src/mixins/Hideable.js';
+import NavButtonPreviewView from '../../../../src/views/mobile/NavButtonPreviewView.js';
+import Runner from '../../../../lib/Runner.js';
+
 describe('NavButtonView', function() {
-    import NavButtonView from '../../../src/views/NavButtonView.js';
-    import ButtonView from '../../../src/views/ButtonView.js';
-    import NavButtonPreviewView from '../../../src/views/NavButtonPreviewView.js';
-    import Runner from '../../../lib/Runner.js';
-    import Hideable from '../../../src/mixins/Hideable.js';
     let navButtonView;
 
     beforeEach(function() {

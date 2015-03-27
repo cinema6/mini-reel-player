@@ -1,5 +1,5 @@
-import View from '../../lib/core/View.js';
-import Runner from '../../lib/Runner.js';
+import View from '../../../lib/core/View.js';
+import Runner from '../../../lib/Runner.js';
 
 export default class NavButtonPreviewView extends View {
     constructor() {

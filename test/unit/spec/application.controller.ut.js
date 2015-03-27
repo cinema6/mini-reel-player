@@ -2,7 +2,6 @@ describe('ApplicationController', function() {
     import ApplicationController from '../../../src/controllers/ApplicationController.js';
     import ApplicationView from '../../../src/views/ApplicationView.js';
     import Controller from '../../../lib/core/Controller.js';
-    import PlayerController from '../../../src/controllers/PlayerController.js';
     import Runner from '../../../lib/Runner.js';
     let ApplicationCtrl;
 
@@ -26,12 +25,6 @@ describe('ApplicationController', function() {
 
             it('should be for the root', function() {
                 expect(ApplicationCtrl.appView.element).toBe(root);
-            });
-        });
-
-        describe('PlayerCtrl', function() {
-            it('should be a PlayerController', function() {
-                expect(ApplicationCtrl.PlayerCtrl).toEqual(jasmine.any(PlayerController));
             });
         });
     });

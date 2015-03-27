@@ -1,15 +1,11 @@
 import CardController from './CardController.js';
-import VideoCardView from '../views/VideoCardView.js';
 import Runner from '../../lib/Runner.js';
 import playerFactory from '../services/player_factory.js';
 import moduleService from '../services/module.js';
-import {createKey} from 'private-parts';
 import dispatcher from '../services/dispatcher.js';
 import {
     forEach
 } from '../../lib/utils.js';
-
-const _ = createKey();
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -22,25 +18,18 @@ export default class VideoCardController extends CardController {
         player.start = this.model.data.start;
         player.end = this.model.data.end;
 
-        this.view = new VideoCardView();
+        this.player = player;
         this.moduleControllers = moduleService.getControllers(this.model.modules);
 
+        dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
+    }
+
+    addListeners() {
         /* Module events. */
         const {
-            displayAd: DisplayAdCtrl,
             post: PostCtrl
         } = this.moduleControllers;
-
-        if (DisplayAdCtrl) {
-            DisplayAdCtrl.on('activate', () => {
-                this.view.playerOutlet.hide();
-                this.view.replayContainer.show();
-            });
-            DisplayAdCtrl.on('deactivate', () => {
-                this.view.playerOutlet.show();
-                this.view.replayContainer.hide();
-            });
-        }
+        const { player } = this;
 
         if (PostCtrl) {
             PostCtrl.on('activate', () => this.view.playerOutlet.hide());
@@ -70,7 +59,6 @@ export default class VideoCardController extends CardController {
 
         /* Player events. */
         player.on('play', () => {
-            if (DisplayAdCtrl) { DisplayAdCtrl.deactivate(); }
             if (PostCtrl) { PostCtrl.deactivate(); }
         });
         player.on('timeupdate', () => {
@@ -80,31 +68,23 @@ export default class VideoCardController extends CardController {
             this.model.setPlaybackState({ currentTime, duration });
         });
         player.on('ended', () => {
-            const {displayAd, post} = this.model.modules;
+            const { post } = this.model.modules;
 
             if (player.minimize() instanceof Error) { player.reload(); }
 
-            if (displayAd && !displayAd.isDefault) {
-                DisplayAdCtrl.activate();
-            } else if (post) {
+            if (post) {
                 PostCtrl.activate();
-            } else {
-                this.model.complete();
             }
         });
 
         /* View events. */
         this.view.on('replay', () => {
             player.play();
-
-            if (DisplayAdCtrl) {
-                DisplayAdCtrl.deactivate();
-            }
         });
+    }
 
-        dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
-
-        _(this).player = player;
+    canAutoadvance() {
+        return !('post' in this.moduleControllers);
     }
 
     render() {
@@ -125,7 +105,7 @@ export default class VideoCardController extends CardController {
                 isText: card.action.type === 'text'
             }
         });
-        this.view.playerOutlet.append(_(this).player);
+        this.view.playerOutlet.append(this.player);
         forEach(Object.keys(this.moduleControllers), type => {
             this.moduleControllers[type].renderInto(this.view.moduleOutlets[type]);
         });

@@ -1,7 +1,8 @@
+import NavbarView from '../../../../src/views/mobile/NavbarView.js';
+import View from '../../../../lib/core/View.js';
+import Hideable from '../../../../src/mixins/Hideable.js';
+
 describe('NavbarView', function() {
-    import View from '../../../lib/core/View.js';
-    import Hideable from '../../../src/mixins/Hideable.js';
-    import NavbarView from '../../../src/views/NavbarView.js';
     let navbarView;
 
     beforeEach(function() {

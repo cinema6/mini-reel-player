@@ -1,15 +1,15 @@
 import {EventEmitter} from 'events';
+import HideableView from '../../../src/views/HideableView.js';
 
 describe('VideoCardController', function() {
     import VideoCardController from '../../../src/controllers/VideoCardController.js';
     import CardController from '../../../src/controllers/CardController.js';
     import VideoCard from '../../../src/models/VideoCard.js';
-    import VideoCardView from '../../../src/views/VideoCardView.js';
     import Runner from '../../../lib/Runner.js';
     import View from '../../../lib/core/View.js';
+    import VideoCardView from '../../../src/views/VideoCardView.js';
     import playerFactory from '../../../src/services/player_factory.js';
     import module from '../../../src/services/module.js';
-    import DisplayAd from '../../../src/models/DisplayAd.js';
     import Post from '../../../src/models/Post.js';
     import dispatcher from '../../../src/services/dispatcher.js';
     let VideoCardCtrl;
@@ -98,6 +98,7 @@ describe('VideoCardController', function() {
         spyOn(dispatcher, 'addSource');
 
         VideoCardCtrl = new VideoCardController(card, parentView);
+        VideoCardCtrl.view = new VideoCardView();
     });
 
     it('should be a CardController', function() {
@@ -110,36 +111,26 @@ describe('VideoCardController', function() {
     });
 
     describe('properties:', function() {
-        describe('view', function() {
-            it('should be a VideoCardView', function() {
-                expect(VideoCardCtrl.view).toEqual(jasmine.any(VideoCardView));
+        describe('player', function() {
+            it('should be the video player', function() {
+                expect(VideoCardCtrl.player).toBe(player);
             });
 
-            describe('events:', function() {
-                describe('replay', function() {
-                    beforeEach(function() {
-                        spyOn(player, 'play');
-                        VideoCardCtrl.view.emit('replay');
-                    });
+            it('should have a poster', function() {
+                expect(player.poster).toBe(card.thumbs.large);
+            });
 
-                    it('should play the video', function() {
-                        expect(player.play).toHaveBeenCalled();
-                    });
+            it('should have a src', function() {
+                expect(player.src).toBe(card.data.videoid);
+            });
 
-                    describe('if there is a DisplayAdCtrl', function() {
-                        beforeEach(function() {
-                            moduleControllers.displayAd = new EventEmitter();
-                            moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
+            it('should set the controls', function() {
+                expect(player.controls).toBe(card.data.controls);
+            });
 
-                            VideoCardCtrl = new VideoCardController(card, parentView);
-                            VideoCardCtrl.view.emit('replay');
-                        });
-
-                        it('should deactivate the DisplayAdCtrl', function() {
-                            expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
-                        });
-                    });
-                });
+            it('should set the start and end times', function() {
+                expect(player.start).toBe(card.data.start);
+                expect(player.end).toBe(card.data.end);
             });
         });
 
@@ -149,252 +140,372 @@ describe('VideoCardController', function() {
                 expect(module.getControllers.calls.mostRecent().args[0]).toBe(card.modules);
                 expect(VideoCardCtrl.moduleControllers).toBe(moduleControllers);
             });
+        });
+    });
 
-            describe(': displayAd', function() {
+    describe('events:', function() {
+        beforeEach(function() {
+            VideoCardCtrl.addListeners();
+        });
+
+        describe('view', function() {
+            describe('replay', function() {
                 beforeEach(function() {
-                    moduleControllers.displayAd = new EventEmitter();
-                    VideoCardCtrl = new VideoCardController(card, parentView);
+                    spyOn(player, 'play');
+                    VideoCardCtrl.view.emit('replay');
                 });
 
-                describe('events:', function() {
-                    describe('activate', function() {
-                        beforeEach(function() {
-                            Runner.run(() => VideoCardCtrl.view.create());
-                            spyOn(VideoCardCtrl.view.playerOutlet, 'hide');
-                            spyOn(VideoCardCtrl.view.replayContainer, 'show');
-
-                            moduleControllers.displayAd.emit('activate');
-                        });
-
-                        it('should hide the playerOutlet', function() {
-                            expect(VideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
-                        });
-
-                        it('should show the replayContainer', function() {
-                            expect(VideoCardCtrl.view.replayContainer.show).toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('deactivate', function() {
-                        beforeEach(function() {
-                            Runner.run(() => VideoCardCtrl.view.create());
-                            spyOn(VideoCardCtrl.view.playerOutlet, 'show');
-                            spyOn(VideoCardCtrl.view.replayContainer, 'hide');
-
-                            moduleControllers.displayAd.emit('deactivate');
-                        });
-
-                        it('should show the playerOutlet', function() {
-                            expect(VideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
-                        });
-
-                        it('should hide the replayContainer', function() {
-                            expect(VideoCardCtrl.view.replayContainer.hide).toHaveBeenCalled();
-                        });
-                    });
+                it('should play the video', function() {
+                    expect(player.play).toHaveBeenCalled();
                 });
             });
+        });
 
+        describe('moduleControllers', function() {
             describe(': post', function() {
                 beforeEach(function() {
                     moduleControllers.post = new EventEmitter();
                     VideoCardCtrl = new VideoCardController(card, parentView);
-                    Runner.run(() => VideoCardCtrl.view.create());
+                    VideoCardCtrl.view = new VideoCardView();
+                    VideoCardCtrl.addListeners();
+                    VideoCardCtrl.view.playerOutlet = new HideableView();
                 });
 
-                describe('events:', function() {
-                    describe('activate', function() {
-                        beforeEach(function() {
-                            spyOn(VideoCardCtrl.view.playerOutlet, 'hide');
+                describe('activate', function() {
+                    beforeEach(function() {
+                        spyOn(VideoCardCtrl.view.playerOutlet, 'hide');
 
-                            moduleControllers.post.emit('activate');
-                        });
-
-                        it('should hide the playerOutlet', function() {
-                            expect(VideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
-                        });
+                        moduleControllers.post.emit('activate');
                     });
 
-                    describe('deactivate', function() {
-                        beforeEach(function() {
-                            spyOn(VideoCardCtrl.view.playerOutlet, 'show');
+                    it('should hide the playerOutlet', function() {
+                        expect(VideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
+                    });
+                });
 
-                            moduleControllers.post.emit('deactivate');
-                        });
+                describe('deactivate', function() {
+                    beforeEach(function() {
+                        spyOn(VideoCardCtrl.view.playerOutlet, 'show');
 
-                        it('should hide the playerOutlet', function() {
-                            expect(VideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
-                        });
+                        moduleControllers.post.emit('deactivate');
                     });
 
-                    describe('replay', function() {
-                        beforeEach(function() {
-                            spyOn(player, 'play');
+                    it('should hide the playerOutlet', function() {
+                        expect(VideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
+                    });
+                });
 
-                            moduleControllers.post.emit('replay');
-                        });
+                describe('replay', function() {
+                    beforeEach(function() {
+                        spyOn(player, 'play');
 
-                        it('should play the video', function() {
-                            expect(player.play).toHaveBeenCalled();
-                        });
+                        moduleControllers.post.emit('replay');
+                    });
+
+                    it('should play the video', function() {
+                        expect(player.play).toHaveBeenCalled();
                     });
                 });
             });
         });
 
         describe('model', function() {
-            describe('events:', function() {
-                beforeEach(function() {
-                    Runner.run(() => VideoCardCtrl.view.create());
-                    spyOn(VideoCardCtrl.view, 'update');
+            beforeEach(function() {
+                VideoCardCtrl.view.playerOutlet = new HideableView();
+                spyOn(VideoCardCtrl.view, 'update');
 
-                    spyOn(VideoCardCtrl.view.playerOutlet, 'append');
-                    Runner.run(() => VideoCardCtrl.render());
+                spyOn(VideoCardCtrl.view.playerOutlet, 'append');
+                Runner.run(() => VideoCardCtrl.render());
+            });
+
+            describe('prepare', function() {
+                beforeEach(function() {
+                    spyOn(player, 'load');
+
+                    Runner.run(() => card.prepare());
                 });
 
-                describe('prepare', function() {
-                    beforeEach(function() {
-                        spyOn(player, 'load');
+                it('should load the player', function() {
+                    expect(player.load).toHaveBeenCalled();
+                });
+            });
 
-                        Runner.run(() => card.prepare());
+            describe('activate', function() {
+                beforeEach(function() {
+                    spyOn(player, 'play');
+                    spyOn(player, 'load');
+                    Runner.run(() => card.activate());
+                });
+
+                it('should add the player as an event source', function() {
+                    expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, [
+                        'play', 'timeupdate', 'pause', 'ended', 'error',
+                        'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
+                        'loadedmetadata'
+                    ], card);
+                });
+
+                describe('if player readyState < 1', function(){
+                    beforeEach(function(){
+                        card.active = false;
+                        spyOn(player, 'emit');
+                        Runner.run(() => card.activate());
+                    });
+                    it('should not emit loadedmetadata',function(){
+                        expect(player.emit).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if player readyState >= 1', function(){
+                    beforeEach(function(){
+                        card.active = false;
+                        player.readyState = 1;
+                        spyOn(player, 'emit');
+                        Runner.run(() => card.activate());
+                    });
+                    it('should not emit loadedmetadata',function(){
+                        expect(player.emit).toHaveBeenCalledWith('loadedmetadata');
+                    });
+                });
+
+                describe('if autoplay is true', function() {
+                    beforeEach(function() {
+                        player.play.calls.reset();
+                        player.load.calls.reset();
+                        card.active = false;
+                        card.data.autoplay = true;
+
+                        Runner.run(() => card.activate());
+                    });
+
+                    it('should play the player', function() {
+                        expect(player.play).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if autoplay is false', function() {
+                    beforeEach(function() {
+                        player.play.calls.reset();
+                        player.load.calls.reset();
+                        card.active = false;
+                        card.data.autoplay = false;
+
+                        Runner.run(() => card.activate());
+                    });
+
+                    it('should not play the player', function() {
+                        expect(player.play).not.toHaveBeenCalled();
                     });
 
                     it('should load the player', function() {
                         expect(player.load).toHaveBeenCalled();
                     });
                 });
+            });
 
-                describe('activate', function() {
-                    beforeEach(function() {
-                        spyOn(player, 'play');
-                        spyOn(player, 'load');
-                        Runner.run(() => card.activate());
-                    });
+            describe('deactivate', function() {
+                beforeEach(function() {
+                    card.active = true;
 
-                    it('should add the player as an event source', function() {
-                        expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, [
-                            'play', 'timeupdate', 'pause', 'ended', 'error',
-                            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
-                            'loadedmetadata'
-                        ], card);
-                    });
+                    spyOn(player, 'pause');
+                    spyOn(player, 'unload');
+                    spyOn(dispatcher, 'removeSource').and.callThrough();
 
-                    describe('if player readyState < 1', function(){
-                        beforeEach(function(){
-                            card.active = false;
-                            spyOn(player, 'emit');
-                            Runner.run(() => card.activate());
-                        });
-                        it('should not emit loadedmetadata',function(){
-                            expect(player.emit).not.toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if player readyState >= 1', function(){
-                        beforeEach(function(){
-                            card.active = false;
-                            player.readyState = 1;
-                            spyOn(player, 'emit');
-                            Runner.run(() => card.activate());
-                        });
-                        it('should not emit loadedmetadata',function(){
-                            expect(player.emit).toHaveBeenCalledWith('loadedmetadata');
-                        });
-                    });
-
-                    describe('if autoplay is true', function() {
-                        beforeEach(function() {
-                            player.play.calls.reset();
-                            player.load.calls.reset();
-                            card.active = false;
-                            card.data.autoplay = true;
-
-                            Runner.run(() => card.activate());
-                        });
-
-                        it('should play the player', function() {
-                            expect(player.play).toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if autoplay is false', function() {
-                        beforeEach(function() {
-                            player.play.calls.reset();
-                            player.load.calls.reset();
-                            card.active = false;
-                            card.data.autoplay = false;
-
-                            Runner.run(() => card.activate());
-                        });
-
-                        it('should not play the player', function() {
-                            expect(player.play).not.toHaveBeenCalled();
-                        });
-
-                        it('should load the player', function() {
-                            expect(player.load).toHaveBeenCalled();
-                        });
-                    });
+                    Runner.run(() => card.deactivate());
                 });
 
-                describe('deactivate', function() {
-                    beforeEach(function() {
-                        card.active = true;
+                it('should pause the player', function() {
+                    expect(player.pause).toHaveBeenCalled();
+                });
 
-                        spyOn(player, 'pause');
-                        spyOn(player, 'unload');
-                        spyOn(dispatcher, 'removeSource').and.callThrough();
+                it('should unload the player', function() {
+                    expect(player.unload).toHaveBeenCalled();
+                });
+
+                it('should remove the player as an event source', function() {
+                    expect(dispatcher.removeSource).toHaveBeenCalledWith(player);
+                });
+
+                describe('if the post module is present', function() {
+                    let post;
+                    let PostCtrl;
+
+                    beforeEach(function() {
+                        Runner.run(() => card.activate());
+                        player.removeAllListeners();
+                        post = new Post(card, experience);
+
+                        PostCtrl = new EventEmitter();
+                        PostCtrl.deactivate = jasmine.createSpy('PostCtrl.deactivate()');
+
+                        moduleControllers.post = PostCtrl;
+                        card.modules.post = post;
+
+                        VideoCardCtrl = new VideoCardController(card, parentView);
+                        VideoCardCtrl.view = new VideoCardView();
+                        VideoCardCtrl.addListeners();
 
                         Runner.run(() => card.deactivate());
                     });
 
-                    it('should pause the player', function() {
-                        expect(player.pause).toHaveBeenCalled();
+                    it('should deactivate the PostCtrl', function() {
+                        expect(PostCtrl.deactivate).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
+
+        describe('player', function() {
+            describe('play', function() {
+                beforeEach(function() {
+                    Runner.run(() => player.emit('play'));
+                });
+
+                it('should do nothing', function() {});
+
+                describe('if there is a PostCtrl', function() {
+                    beforeEach(function() {
+                        moduleControllers.post = new EventEmitter();
+                        moduleControllers.post.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
+
+                        VideoCardCtrl = new VideoCardController(card, parentView);
+                        VideoCardCtrl.view = new VideoCardView();
+                        VideoCardCtrl.addListeners();
+                        Runner.run(() => player.emit('play'));
                     });
 
-                    it('should unload the player', function() {
-                        expect(player.unload).toHaveBeenCalled();
+                    it('should deactivate the PostCtrl', function() {
+                        expect(moduleControllers.post.deactivate).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('timeupdate', function() {
+                beforeEach(function() {
+                    player.currentTime = 0;
+                    spyOn(VideoCardCtrl.model, 'setPlaybackState');
+                });
+
+                describe('if the video has no duration', function() {
+                    beforeEach(function() {
+                        player.duration = 0;
+
+                        player.emit('timeupdate');
                     });
 
-                    it('should remove the player as an event source', function() {
-                        expect(dispatcher.removeSource).toHaveBeenCalledWith(player);
+                    it('should not set the model\'s playback state', function() {
+                        expect(VideoCardCtrl.model.setPlaybackState).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the video has a duration', function() {
+                    beforeEach(function() {
+                        player.duration = 30;
                     });
 
-                    describe('if the post module is present', function() {
-                        let post;
-                        let PostCtrl;
-
-                        beforeEach(function() {
-                            Runner.run(() => card.activate());
-                            player.removeAllListeners();
-                            post = new Post(card, experience);
-
-                            PostCtrl = new EventEmitter();
-                            PostCtrl.deactivate = jasmine.createSpy('PostCtrl.deactivate()');
-
-                            moduleControllers.post = PostCtrl;
-                            card.modules.post = post;
-
-                            VideoCardCtrl = new VideoCardController(card, parentView);
-
-                            Runner.run(() => card.deactivate());
+                    it('should set the model\'s playback state', function() {
+                        player.emit('timeupdate');
+                        expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
+                            currentTime: player.currentTime,
+                            duration: player.duration
                         });
+                        VideoCardCtrl.model.setPlaybackState.calls.reset();
 
-                        it('should deactivate the PostCtrl', function() {
-                            expect(PostCtrl.deactivate).toHaveBeenCalled();
+                        player.currentTime = 3;
+                        player.emit('timeupdate');
+                        expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
+                            currentTime: player.currentTime,
+                            duration: player.duration
                         });
                     });
+                });
+            });
+
+            describe('ended', function() {
+                beforeEach(function() {
+                    spyOn(player, 'minimize');
+                    spyOn(card, 'complete');
+                    Runner.run(() => player.emit('ended'));
+                });
+
+                describe('if the post module is present', function() {
+                    let post;
+                    let PostCtrl;
+
+                    beforeEach(function() {
+                        card.complete.calls.reset();
+                        player.removeAllListeners();
+                        post = new Post(card, experience);
+
+                        PostCtrl = new EventEmitter();
+                        PostCtrl.activate = jasmine.createSpy('PostCtrl.activate()');
+
+                        moduleControllers.post = PostCtrl;
+                        card.modules.post = post;
+
+                        VideoCardCtrl = new VideoCardController(card, parentView);
+                        VideoCardCtrl.view = new VideoCardView();
+                        VideoCardCtrl.addListeners();
+
+                        Runner.run(() => player.emit('ended'));
+                    });
+
+                    it('should activate the PostCtrl', function() {
+                        expect(PostCtrl.activate).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the minimize() method returns an error', function() {
+                    beforeEach(function() {
+                        player.minimize.and.returnValue(new Error());
+                        spyOn(player, 'reload');
+
+                        Runner.run(() => player.emit('ended'));
+                    });
+
+                    it('should reload the player', function() {
+                        expect(player.reload).toHaveBeenCalled();
+                    });
+                });
+
+                it('should minimize the player', function() {
+                    expect(player.minimize).toHaveBeenCalled();
                 });
             });
         });
     });
 
     describe('methods:', function() {
+        describe('canAutoadvance()', function() {
+            describe('if there is no post module', function() {
+                beforeEach(function() {
+                    delete moduleControllers.post;
+
+                    VideoCardCtrl = new VideoCardController(card, parentView);
+                });
+
+                it('should be true', function() {
+                    expect(VideoCardCtrl.canAutoadvance()).toBe(true);
+                });
+            });
+
+            describe('if there is a post module', function() {
+                beforeEach(function() {
+                    moduleControllers.post = new EventEmitter();
+                    VideoCardCtrl = new VideoCardController(card, parentView);
+                });
+
+                it('should be false', function() {
+                    expect(VideoCardCtrl.canAutoadvance()).toBe(false);
+                });
+            });
+        });
+
         describe('render()', function() {
             let result;
 
             beforeEach(function() {
-                Runner.run(() => VideoCardCtrl.view.create());
+                VideoCardCtrl.view.playerOutlet = new HideableView();
 
                 ['displayAd', 'post'].forEach(type => {
                     moduleControllers[type] = new EventEmitter();
@@ -470,207 +581,6 @@ describe('VideoCardController', function() {
             it('should render its ModuleControllers into the proper outlets', function() {
                 expect(moduleControllers.displayAd.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.displayAd);
                 expect(moduleControllers.post.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.post);
-            });
-
-            describe('the player', function() {
-                it('should have a poster', function() {
-                    expect(player.poster).toBe(card.thumbs.large);
-                });
-
-                it('should have a src', function() {
-                    expect(player.src).toBe(card.data.videoid);
-                });
-
-                it('should set the controls', function() {
-                    expect(player.controls).toBe(card.data.controls);
-                });
-
-                it('should set the start and end times', function() {
-                    expect(player.start).toBe(card.data.start);
-                    expect(player.end).toBe(card.data.end);
-                });
-
-                describe('events', function() {
-                    describe('play', function() {
-                        beforeEach(function() {
-                            Runner.run(() => player.emit('play'));
-                        });
-
-                        it('should do nothing', function() {});
-
-                        describe('if there is a DisplayAdCtrl', function() {
-                            beforeEach(function() {
-                                moduleControllers.displayAd = new EventEmitter();
-                                moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
-
-                                VideoCardCtrl = new VideoCardController(card, parentView);
-                                Runner.run(() => player.emit('play'));
-                            });
-
-                            it('should deactivate the DisplayAdCtrl', function() {
-                                expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
-                            });
-                        });
-
-                        describe('if there is a DisplayAdCtrl', function() {
-                            beforeEach(function() {
-                                moduleControllers.post = new EventEmitter();
-                                moduleControllers.post.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
-
-                                VideoCardCtrl = new VideoCardController(card, parentView);
-                                Runner.run(() => player.emit('play'));
-                            });
-
-                            it('should deactivate the PostCtrl', function() {
-                                expect(moduleControllers.post.deactivate).toHaveBeenCalled();
-                            });
-                        });
-                    });
-
-                    describe('timeupdate', function() {
-                        beforeEach(function() {
-                            player.currentTime = 0;
-                            spyOn(VideoCardCtrl.model, 'setPlaybackState');
-                        });
-
-                        describe('if the video has no duration', function() {
-                            beforeEach(function() {
-                                player.duration = 0;
-
-                                player.emit('timeupdate');
-                            });
-
-                            it('should not set the model\'s playback state', function() {
-                                expect(VideoCardCtrl.model.setPlaybackState).not.toHaveBeenCalled();
-                            });
-                        });
-
-                        describe('if the video has a duration', function() {
-                            beforeEach(function() {
-                                player.duration = 30;
-                            });
-
-                            it('should set the model\'s playback state', function() {
-                                player.emit('timeupdate');
-                                expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
-                                    currentTime: player.currentTime,
-                                    duration: player.duration
-                                });
-                                VideoCardCtrl.model.setPlaybackState.calls.reset();
-
-                                player.currentTime = 3;
-                                player.emit('timeupdate');
-                                expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
-                                    currentTime: player.currentTime,
-                                    duration: player.duration
-                                });
-                            });
-                        });
-                    });
-
-                    describe('ended', function() {
-                        beforeEach(function() {
-                            spyOn(player, 'minimize');
-                            spyOn(card, 'complete');
-                            Runner.run(() => player.emit('ended'));
-                        });
-
-                        describe('if the post module is present', function() {
-                            let post;
-                            let PostCtrl;
-
-                            beforeEach(function() {
-                                card.complete.calls.reset();
-                                player.removeAllListeners();
-                                post = new Post(card, experience);
-
-                                PostCtrl = new EventEmitter();
-                                PostCtrl.activate = jasmine.createSpy('PostCtrl.activate()');
-
-                                moduleControllers.post = PostCtrl;
-                                card.modules.post = post;
-
-                                VideoCardCtrl = new VideoCardController(card, parentView);
-
-                                Runner.run(() => player.emit('ended'));
-                            });
-
-                            it('should not complete the card', function() {
-                                expect(card.complete).not.toHaveBeenCalled();
-                            });
-
-                            it('should activate the PostCtrl', function() {
-                                expect(PostCtrl.activate).toHaveBeenCalled();
-                            });
-                        });
-
-                        describe('if the displayAd module is present', function() {
-                            let displayAd;
-                            let DisplayAdCtrl;
-
-                            beforeEach(function() {
-                                player.removeAllListeners();
-                                displayAd = new DisplayAd(card, experience);
-
-                                DisplayAdCtrl = new EventEmitter();
-                                DisplayAdCtrl.activate = jasmine.createSpy('DisplayAdController.activate()');
-
-                                moduleControllers.displayAd = DisplayAdCtrl;
-                                card.modules.displayAd = displayAd;
-
-                                VideoCardCtrl = new VideoCardController(card, parentView);
-                            });
-
-                            describe('if the displayAd is the default placement', function() {
-                                beforeEach(function() {
-                                    displayAd.isDefault = true;
-                                    Runner.run(() => player.emit('ended'));
-                                });
-
-                                it('should not activate the DisplayAdCtrl', function() {
-                                    expect(DisplayAdCtrl.activate).not.toHaveBeenCalled();
-                                });
-                            });
-
-                            describe('if the displayAd is not the default placement', function() {
-                                beforeEach(function() {
-                                    displayAd.isDefault = false;
-                                    card.complete.calls.reset();
-                                    Runner.run(() => player.emit('ended'));
-                                });
-
-                                it('should activate the DisplayAdCtrl', function() {
-                                    expect(DisplayAdCtrl.activate).toHaveBeenCalled();
-                                });
-
-                                it('should not "complete" the card', function() {
-                                    expect(card.complete).not.toHaveBeenCalled();
-                                });
-                            });
-                        });
-
-                        describe('if the minimize() method returns an error', function() {
-                            beforeEach(function() {
-                                player.minimize.and.returnValue(new Error());
-                                spyOn(player, 'reload');
-
-                                Runner.run(() => player.emit('ended'));
-                            });
-
-                            it('should reload the player', function() {
-                                expect(player.reload).toHaveBeenCalled();
-                            });
-                        });
-
-                        it('should minimize the player', function() {
-                            expect(player.minimize).toHaveBeenCalled();
-                        });
-
-                        it('should call complete() on the card', function() {
-                            expect(card.complete).toHaveBeenCalled();
-                        });
-                    });
-                });
             });
         });
     });

@@ -3,24 +3,47 @@ describe('PlayerController', function() {
     import PlayerController from '../../../src/controllers/PlayerController.js';
     import Controller from '../../../lib/core/Controller.js';
     import ApplicationView from '../../../src/views/ApplicationView.js';
-    import PlayerView from '../../../src/views/PlayerView.js';
     import MiniReel from '../../../src/models/MiniReel.js';
     import TextCard from '../../../src/models/TextCard.js';
     import VideoCard from '../../../src/models/VideoCard.js';
     import RecapCard from '../../../src/models/RecapCard.js';
-    import CardController from '../../../src/controllers/CardController.js';
-    import TextCardController from '../../../src/controllers/TextCardController.js';
-    import VideoCardController from '../../../src/controllers/VideoCardController.js';
-    import RecapCardController from '../../../src/controllers/RecapCardController.js';
-    import TableOfContentsViewController from '../../../src/controllers/TableOfContentsViewController.js';
     import View from '../../../lib/core/View.js';
     import Card from '../../../src/models/Card.js';
     import Runner from '../../../lib/Runner.js';
+    import TemplateView from '../../../lib/core/TemplateView.js';
     let PlayerCtrl;
 
     let applicationView;
     let session;
     let experience;
+
+    class CardController {
+        constructor(model, parentView) {
+            this.model = model;
+            this.parentView = parentView;
+        }
+
+        render() {}
+    }
+
+    class VideoCardController extends CardController {}
+    class TextCardController extends CardController {}
+    class RecapCardController extends CardController {}
+
+    class PlayerView extends TemplateView {
+        constructor() {
+            super(...arguments);
+
+            this.tag = 'div';
+
+            this.cards = new View();
+            this.cards.tag = 'div';
+        }
+
+        disableNavigation() {}
+        enableNavigation() {}
+        updateSkipTimer() {}
+    }
 
     beforeEach(function() {
         cinema6.constructor();
@@ -39,6 +62,12 @@ describe('PlayerController', function() {
         applicationView = new ApplicationView(document.createElement('body'));
 
         Runner.run(() => PlayerCtrl = new PlayerController(applicationView));
+        PlayerCtrl.view = new PlayerView();
+        PlayerCtrl.CardControllers = {
+            text: TextCardController,
+            video: VideoCardController,
+            recap: RecapCardController
+        };
     });
 
     it('should be a controller', function() {
@@ -56,94 +85,19 @@ describe('PlayerController', function() {
             });
         });
 
-        describe('view', function() {
-            it('should be a PlayerView', function() {
-                expect(PlayerCtrl.view).toEqual(jasmine.any(PlayerView));
-            });
-
-            describe('events:', function() {
-                describe('next', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.minireel, 'next');
-                        PlayerCtrl.view.emit('next');
-                    });
-
-                    it('should go to the next card in the MiniReel', function() {
-                        expect(PlayerCtrl.minireel.next).toHaveBeenCalled();
-                    });
-                });
-
-                describe('previous', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.minireel, 'previous');
-                        PlayerCtrl.view.emit('previous');
-                    });
-
-                    it('should go to the previous card in the MiniReel', function() {
-                        expect(PlayerCtrl.minireel.previous).toHaveBeenCalled();
-                    });
-                });
-
-                describe('close', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.minireel, 'close');
-                        PlayerCtrl.view.emit('close');
-                    });
-
-                    it('should close the minireel', function() {
-                        expect(PlayerCtrl.minireel.close).toHaveBeenCalled();
-                    });
-                });
-
-                describe('toggleToc', function() {
-                    beforeEach(function() {
-                        PlayerCtrl.minireel.deck = [new TextCard({ data: {} }, experience)];
-                        Runner.run(() => PlayerCtrl.minireel.emit('init'));
-                        spyOn(PlayerCtrl.TableOfContentsViewCtrl, 'toggle');
-
-                        PlayerCtrl.view.emit('toggleToc');
-                    });
-
-                    it('should toggle the ToC', function() {
-                        expect(PlayerCtrl.TableOfContentsViewCtrl.toggle).toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-
-        describe('TableOfContentsViewCtrl', function() {
-            it('should be a TableOfContentsViewController', function() {
-                expect(PlayerCtrl.TableOfContentsViewCtrl).toEqual(jasmine.any(TableOfContentsViewController));
-            });
-
-            describe('events:', function() {
-                describe('show', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'hideChrome');
-                        PlayerCtrl.TableOfContentsViewCtrl.emit('show');
-                    });
-
-                    it('should hide the navigation', function() {
-                        expect(PlayerCtrl.view.hideChrome).toHaveBeenCalled();
-                    });
-                });
-
-                describe('hide', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'showChrome');
-                        PlayerCtrl.TableOfContentsViewCtrl.emit('hide');
-                    });
-
-                    it('should show the navigation', function() {
-                        expect(PlayerCtrl.view.showChrome).toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-
         describe('cardCtrls', function() {
             it('should be an empty array', function() {
                 expect(PlayerCtrl.cardCtrls).toEqual([]);
+            });
+        });
+
+        describe('CardControllers', function() {
+            beforeEach(function() {
+                PlayerCtrl = new PlayerController(applicationView);
+            });
+
+            it('should be an object', function() {
+                expect(PlayerCtrl.CardControllers).toEqual({});
             });
         });
 
@@ -151,145 +105,164 @@ describe('PlayerController', function() {
             it('should be a MiniReel', function() {
                 expect(PlayerCtrl.minireel).toEqual(jasmine.any(MiniReel));
             });
+        });
+    });
 
-            describe('events:', function() {
-                describe('init', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'appendTo');
-                        spyOn(PlayerCtrl, 'updateView');
+    describe('events:', function() {
+        beforeEach(function() {
+            PlayerCtrl.addListeners();
+        });
 
-                        PlayerCtrl.minireel.deck = [
-                            new TextCard({ data: {} }, experience),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                            new RecapCard({}, experience, PlayerCtrl.minireel)
-                        ];
-                        spyOn(CardController.prototype, 'render');
-                        spyOn(VideoCardController.prototype, 'render').and.callThrough();
-                        spyOn(RecapCardController.prototype, 'render').and.callThrough();
-                        PlayerCtrl.view.cards = new View();
-                        PlayerCtrl.view.toc = new View();
-                        spyOn(TableOfContentsViewController.prototype, 'renderInto');
+        describe('view', function() {
+            describe('next', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.minireel, 'next');
+                    PlayerCtrl.view.emit('next');
+                });
 
-                        Runner.run(() => PlayerCtrl.minireel.emit('init'));
-                    });
+                it('should go to the next card in the MiniReel', function() {
+                    expect(PlayerCtrl.minireel.next).toHaveBeenCalled();
+                });
+            });
 
-                    it('should update its view', function() {
-                        expect(PlayerCtrl.updateView).toHaveBeenCalled();
-                    });
+            describe('previous', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.minireel, 'previous');
+                    PlayerCtrl.view.emit('previous');
+                });
 
-                    it('should render the TableOfContentsViewCtrl into the view.toc', function() {
-                        expect(PlayerCtrl.TableOfContentsViewCtrl.renderInto).toHaveBeenCalledWith(PlayerCtrl.view.toc);
-                    });
+                it('should go to the previous card in the MiniReel', function() {
+                    expect(PlayerCtrl.minireel.previous).toHaveBeenCalled();
+                });
+            });
 
-                    it('should create a CardController based on the type of card', function() {
-                        expect(PlayerCtrl.cardCtrls).toEqual([
-                            jasmine.any(TextCardController),
-                            jasmine.any(VideoCardController),
-                            jasmine.any(VideoCardController),
-                            jasmine.any(VideoCardController),
-                            jasmine.any(RecapCardController)
-                        ]);
-                        PlayerCtrl.cardCtrls.forEach((Ctrl, index) => {
-                            expect(Ctrl.model).toBe(PlayerCtrl.minireel.deck[index]);
-                        });
-                    });
+            describe('close', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.minireel, 'close');
+                    PlayerCtrl.view.emit('close');
+                });
 
-                    it('should only render the first card', function() {
-                        expect(CardController.prototype.render.calls.count()).toBe(1);
-                        expect(PlayerCtrl.cardCtrls[0].render.calls.mostRecent().object).toBe(PlayerCtrl.cardCtrls[0]);
-                    });
+                it('should close the minireel', function() {
+                    expect(PlayerCtrl.minireel.close).toHaveBeenCalled();
+                });
+            });
+        });
 
-                    it('should append its view to the provided view', function() {
-                        expect(PlayerCtrl.view.appendTo).toHaveBeenCalledWith(applicationView);
+        describe('minireel', function() {
+            describe('init', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.view, 'appendTo');
+                    spyOn(PlayerCtrl, 'updateView');
+
+                    PlayerCtrl.minireel.deck = [
+                        new TextCard({ data: {} }, experience),
+                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                        new RecapCard({}, experience, PlayerCtrl.minireel)
+                    ];
+                    spyOn(CardController.prototype, 'render');
+
+                    Runner.run(() => PlayerCtrl.minireel.emit('init'));
+                });
+
+                it('should update its view', function() {
+                    expect(PlayerCtrl.updateView).toHaveBeenCalled();
+                });
+
+                it('should create a CardController based on the type of card', function() {
+                    expect(PlayerCtrl.cardCtrls).toEqual([
+                        jasmine.any(TextCardController),
+                        jasmine.any(VideoCardController),
+                        jasmine.any(VideoCardController),
+                        jasmine.any(VideoCardController),
+                        jasmine.any(RecapCardController)
+                    ]);
+                    PlayerCtrl.cardCtrls.forEach((Ctrl, index) => {
+                        expect(Ctrl.model).toBe(PlayerCtrl.minireel.deck[index]);
+                        expect(Ctrl.parentView).toBe(PlayerCtrl.view.cards);
                     });
                 });
 
-                describe('move', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl, 'updateView');
-                        PlayerCtrl.minireel.emit('move');
-                    });
-
-                    it('should call updateView()', function() {
-                        expect(PlayerCtrl.updateView).toHaveBeenCalled();
-                    });
+                it('should only render the first card', function() {
+                    expect(CardController.prototype.render.calls.count()).toBe(1);
+                    expect(PlayerCtrl.cardCtrls[0].render.calls.mostRecent().object).toBe(PlayerCtrl.cardCtrls[0]);
                 });
 
-                describe('launch', function() {
-                    beforeEach(function() {
-                        spyOn(cinema6, 'fullscreen');
+                it('should append its view to the provided view', function() {
+                    expect(PlayerCtrl.view.appendTo).toHaveBeenCalledWith(applicationView);
+                });
+            });
 
-                        PlayerCtrl.minireel.deck = [
-                            new TextCard({ data: {} }, experience),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                            new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                            new RecapCard({}, experience, PlayerCtrl.minireel)
-                        ];
-
-                        Runner.run(() => PlayerCtrl.minireel.emit('init'));
-
-                        PlayerCtrl.cardCtrls.forEach(Ctrl => spyOn(Ctrl, 'render'));
-                        Runner.run(() => PlayerCtrl.minireel.emit('launch'));
-                    });
-
-                    it('should enter fullscreen mode', function() {
-                        expect(cinema6.fullscreen).toHaveBeenCalledWith(true);
-                    });
-
-                    it('should render the remaining card ctrls', function() {
-                        expect(PlayerCtrl.cardCtrls[0].render).not.toHaveBeenCalled();
-                        PlayerCtrl.cardCtrls.slice(1).forEach(Ctrl => expect(Ctrl.render).toHaveBeenCalled());
-                    });
+            describe('move', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl, 'updateView');
+                    PlayerCtrl.minireel.emit('move');
                 });
 
-                describe('close', function() {
-                    beforeEach(function() {
-                        spyOn(cinema6, 'fullscreen');
-                        PlayerCtrl.minireel.emit('close');
-                    });
+                it('should call updateView()', function() {
+                    expect(PlayerCtrl.updateView).toHaveBeenCalled();
+                });
+            });
 
-                    it('should leave fullscreen mode', function() {
-                        expect(cinema6.fullscreen).toHaveBeenCalledWith(false);
-                    });
+            describe('launch', function() {
+                beforeEach(function() {
+                    spyOn(cinema6, 'fullscreen');
+                    spyOn(PlayerCtrl, 'updateView');
+
+                    PlayerCtrl.minireel.deck = [
+                        new TextCard({ data: {} }, experience),
+                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                        new RecapCard({}, experience, PlayerCtrl.minireel)
+                    ];
+
+                    Runner.run(() => PlayerCtrl.minireel.emit('init'));
+
+                    PlayerCtrl.cardCtrls.forEach(Ctrl => spyOn(Ctrl, 'render'));
+                    Runner.run(() => PlayerCtrl.minireel.emit('launch'));
                 });
 
-                describe('becameUnskippable', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'disableNavigation');
+                it('should render the remaining card ctrls', function() {
+                    expect(PlayerCtrl.cardCtrls[0].render).not.toHaveBeenCalled();
+                    PlayerCtrl.cardCtrls.slice(1).forEach(Ctrl => expect(Ctrl.render).toHaveBeenCalled());
+                });
+            });
 
-                        PlayerCtrl.minireel.emit('becameUnskippable');
-                    });
+            describe('becameUnskippable', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.view, 'disableNavigation');
 
-                    it('should disable the navigation', function() {
-                        expect(PlayerCtrl.view.disableNavigation).toHaveBeenCalled();
-                    });
+                    PlayerCtrl.minireel.emit('becameUnskippable');
                 });
 
-                describe('becameSkippable', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'enableNavigation');
+                it('should disable the navigation', function() {
+                    expect(PlayerCtrl.view.disableNavigation).toHaveBeenCalled();
+                });
+            });
 
-                        PlayerCtrl.minireel.emit('becameSkippable');
-                    });
+            describe('becameSkippable', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.view, 'enableNavigation');
 
-                    it('should enable the navigation', function() {
-                        expect(PlayerCtrl.view.enableNavigation).toHaveBeenCalled();
-                    });
+                    PlayerCtrl.minireel.emit('becameSkippable');
                 });
 
-                describe('skippableProgress', function() {
-                    beforeEach(function() {
-                        spyOn(PlayerCtrl.view, 'updateSkipTimer');
+                it('should enable the navigation', function() {
+                    expect(PlayerCtrl.view.enableNavigation).toHaveBeenCalled();
+                });
+            });
 
-                        PlayerCtrl.minireel.emit('skippableProgress', 11);
-                    });
+            describe('skippableProgress', function() {
+                beforeEach(function() {
+                    spyOn(PlayerCtrl.view, 'updateSkipTimer');
 
-                    it('should update the skip timer', function() {
-                        expect(PlayerCtrl.view.updateSkipTimer).toHaveBeenCalledWith(11);
-                    });
+                    PlayerCtrl.minireel.emit('skippableProgress', 11);
+                });
+
+                it('should update the skip timer', function() {
+                    expect(PlayerCtrl.view.updateSkipTimer).toHaveBeenCalledWith(11);
                 });
             });
         });
@@ -337,16 +310,11 @@ describe('PlayerController', function() {
 
             it('should update its view', function() {
                 expect(PlayerCtrl.view.update).toHaveBeenCalledWith({
-                    closeable: !PlayerCtrl.minireel.standalone,
                     title: PlayerCtrl.minireel.title,
                     totalCards: PlayerCtrl.minireel.length,
                     currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
                     canGoForward: jasmine.any(Boolean),
-                    canGoBack: jasmine.any(Boolean),
-                    thumbs: {
-                        next: 'fifth-thumb.jpg',
-                        previous: 'third-thumb.jpg'
-                    }
+                    canGoBack: jasmine.any(Boolean)
                 });
             });
 
@@ -375,15 +343,6 @@ describe('PlayerController', function() {
                     PlayerCtrl.updateView();
                 });
 
-                it('should make the previous thumb null', function() {
-                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        thumbs: {
-                            next: 'first-thumb.jpg',
-                            previous: null
-                        }
-                    }));
-                });
-
                 it('should tell the view it can\'t go back', function() {
                     expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
                         canGoForward: true,
@@ -408,7 +367,6 @@ describe('PlayerController', function() {
 
                     it('should allow the user to go back', function() {
                         expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                            closeable: true,
                             canGoBack: true
                         }));
                     });
@@ -423,7 +381,6 @@ describe('PlayerController', function() {
 
                     it('should not allow the user to go back', function() {
                         expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                            closeable: false,
                             canGoBack: false
                         }));
                     });
@@ -436,15 +393,6 @@ describe('PlayerController', function() {
                     PlayerCtrl.view.update.calls.reset();
 
                     PlayerCtrl.updateView();
-                });
-
-                it('should make the next thumb null', function() {
-                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        thumbs: {
-                            next: null,
-                            previous: 'fourth-thumb.jpg'
-                        }
-                    }));
                 });
 
                 it('should tell the view it can\'t go forward', function() {

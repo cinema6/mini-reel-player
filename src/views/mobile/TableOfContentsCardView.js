@@ -1,4 +1,4 @@
-import TemplateView from '../../lib/core/TemplateView.js';
+import TemplateView from '../../../lib/core/TemplateView.js';
 
 export default class TableOfContentsCardView extends TemplateView {
     constructor() {

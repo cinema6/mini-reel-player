@@ -1,9 +1,4 @@
 import CardView from './CardView.js';
-import View from '../../lib/core/View.js';
-import PlayerOutletView from './PlayerOutletView.js';
-import LinksListView from './LinksListView.js';
-import HideableView from './HideableView.js';
-import ButtonView from './ButtonView.js';
 import {
     extend
 } from '../../lib/utils.js';
@@ -11,9 +6,6 @@ import {
 export default class VideoCardView extends CardView {
     constructor() {
         super(...arguments);
-
-        this.instantiates = {View, LinksListView, PlayerOutletView, HideableView, ButtonView};
-        this.template = require('./VideoCardView.html');
 
         this.moduleOutlets = {};
     }
@@ -31,12 +23,11 @@ export default class VideoCardView extends CardView {
     didCreateElement() {
         super(...arguments);
 
-        this.replayContainer.hide();
         this.moduleOutlets = {
             displayAd: this.displayAdOutlet,
             post: this.postOutlet
         };
-
-        this.replayButton.on('press', () => this.emit('replay'));
     }
+
+    addListeners() {}
 }

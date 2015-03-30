@@ -3,8 +3,8 @@ describe('RecapCardController', function() {
     import CardController from '../../../src/controllers/CardController.js';
     import RecapCard from '../../../src/models/RecapCard.js';
     import VideoCard from '../../../src/models/VideoCard.js';
-    import RecapCardView from '../../../src/views/RecapCardView.js';
     import View from '../../../lib/core/View.js';
+    import CardView from '../../../src/views/CardView.js';
     import Runner from '../../../lib/Runner.js';
     import MiniReel from '../../../src/models/MiniReel.js';
     let RecapCardCtrl;
@@ -81,32 +81,11 @@ describe('RecapCardController', function() {
         minireel.deck.push(card);
 
         RecapCardCtrl = new RecapCardController(card, new View(document.createElement('ul')));
+        RecapCardCtrl.view = new CardView();
     });
 
     it('should be a CardController', function() {
         expect(RecapCardCtrl).toEqual(jasmine.any(CardController));
-    });
-
-    describe('properties:', function() {
-        describe('view', function() {
-            it('should be a RecapCardView', function() {
-                expect(RecapCardCtrl.view).toEqual(jasmine.any(RecapCardView));
-            });
-
-            describe('events:', function() {
-                describe('selectCard', function() {
-                    beforeEach(function() {
-                        spyOn(minireel, 'moveTo');
-
-                        RecapCardCtrl.view.emit('selectCard', minireel.deck[1].id);
-                    });
-
-                    it('should move the minireel to the selected card', function() {
-                        expect(minireel.moveTo).toHaveBeenCalledWith(minireel.deck[1]);
-                    });
-                });
-            });
-        });
     });
 
     describe('methods:', function() {
@@ -136,6 +115,24 @@ describe('RecapCardController', function() {
                         type: card.ad ? 'ad' : 'content'
                     }))
                 });
+            });
+        });
+    });
+
+    describe('events:', function() {
+        beforeEach(function() {
+            RecapCardCtrl.addListeners();
+        });
+
+        describe('selectCard', function() {
+            beforeEach(function() {
+                spyOn(minireel, 'moveTo');
+
+                RecapCardCtrl.view.emit('selectCard', minireel.deck[1].id);
+            });
+
+            it('should move the minireel to the selected card', function() {
+                expect(minireel.moveTo).toHaveBeenCalledWith(minireel.deck[1]);
             });
         });
     });

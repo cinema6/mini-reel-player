@@ -1,6 +1,6 @@
-import TOCButtonView from '../../../src/views/TOCButtonView.js';
-import ButtonView from '../../../src/views/ButtonView.js';
-import Hideable from '../../../src/mixins/Hideable.js';
+import TOCButtonView from '../../../../src/views/mobile/TOCButtonView.js';
+import ButtonView from '../../../../src/views/ButtonView.js';
+import Hideable from '../../../../src/mixins/Hideable.js';
 
 describe('TOCButtonView', function() {
     let view;

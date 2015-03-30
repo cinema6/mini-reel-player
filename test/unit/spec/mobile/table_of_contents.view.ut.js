@@ -1,9 +1,10 @@
+import TableOfContentsView from '../../../../src/views/mobile/TableOfContentsView.js';
+import TemplateView from '../../../../lib/core/TemplateView.js';
+import Hideable from '../../../../src/mixins/Hideable.js';
+import Runner from '../../../../lib/Runner.js';
+import TableOfContentsListView from '../../../../src/views/mobile/TableOfContentsListView.js';
+
 describe('TableOfContentsView', function() {
-    import TemplateView from '../../../lib/core/TemplateView.js';
-    import Hideable from '../../../src/mixins/Hideable.js';
-    import TableOfContentsView from '../../../src/views/TableOfContentsView.js';
-    import TableOfContentsListView from '../../../src/views/TableOfContentsListView.js';
-    import Runner from '../../../lib/Runner.js';
     let tableOfContentsView;
 
     beforeEach(function() {
@@ -39,7 +40,7 @@ describe('TableOfContentsView', function() {
 
         describe('template', function() {
             it('should be the TableOfContentsView.html template', function() {
-                expect(tableOfContentsView.template).toBe(require('../../../src/views/TableOfContentsView.html'));
+                expect(tableOfContentsView.template).toBe(require('../../../../src/views/mobile/TableOfContentsView.html'));
             });
         });
 

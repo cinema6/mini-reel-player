@@ -8,9 +8,6 @@ module.exports = {
             'test/**/*.js': ['jshint', 'browserify']
         },
 
-        // list of files to exclude
-        exclude: ['<%= package.main %>'],
-
         // web server port
         port: 8000,
 

@@ -1,7 +1,7 @@
 describe('RecapCardView', function() {
     import CardView from '../../../src/views/CardView.js';
+    import ListView from '../../../src/views/ListView.js';
     import RecapCardView from '../../../src/views/RecapCardView.js';
-    import RecapCardListView from '../../../src/views/RecapCardListView.js';
     import RecapCardItemView from '../../../src/views/RecapCardItemView.js';
     import Runner from '../../../lib/Runner.js';
     let recapCardView;
@@ -12,24 +12,6 @@ describe('RecapCardView', function() {
 
     it('should be a CardView', function() {
         expect(recapCardView).toEqual(jasmine.any(CardView));
-    });
-
-    describe('properties:', function() {
-        describe('template', function() {
-            it('should be the contents of RecapCardView.html', function() {
-                expect(recapCardView.template).toBe(require('../../../src/views/RecapCardView.html'));
-            });
-        });
-
-        describe('cards', function() {
-            beforeEach(function() {
-                Runner.run(() => recapCardView.create());
-            });
-
-            it('should be a RecapCardListView', function() {
-                expect(recapCardView.cards).toEqual(jasmine.any(RecapCardListView));
-            });
-        });
     });
 
     describe('methods:', function() {
@@ -53,7 +35,10 @@ describe('RecapCardView', function() {
                 };
                 cardViews = [];
 
-                spyOn(recapCardView, 'create').and.callThrough();
+                spyOn(recapCardView, 'create').and.callFake(() => {
+                    recapCardView.cards = new ListView();
+                    recapCardView.cards.template = '<div>Hello</div>';
+                });
 
                 Runner.run(() => recapCardView.update({}));
 

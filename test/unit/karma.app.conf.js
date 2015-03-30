@@ -8,7 +8,11 @@ module.exports = function(config) {
         files: [
             'test/main.js',
             'test/unit/main.js',
-            'test/unit/spec/*.ut.js'
+            'test/unit/spec/**/*.ut.js'
+        ],
+
+        exclude: [
+            'test/unit/spec/lib/**/*.js'
         ],
 
         // test results reporter to use

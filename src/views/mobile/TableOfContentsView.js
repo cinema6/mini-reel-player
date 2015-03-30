@@ -1,6 +1,6 @@
-import TemplateView from '../../lib/core/TemplateView.js';
-import Hideable from '../mixins/Hideable.js';
+import TemplateView from '../../../lib/core/TemplateView.js';
 import TableOfContentsListView from './TableOfContentsListView.js';
+import Hideable from '../../mixins/Hideable.js';
 
 class TableOfContentsView extends TemplateView {
     constructor() {

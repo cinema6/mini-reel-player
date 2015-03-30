@@ -7,11 +7,7 @@ import 'gsap/src/uncompressed/plugins/CSSPlugin.js';
 global.Promise = Promise;
 global.WeakMap = WeakMap;
 
-import Runner from '../lib/Runner.js';
-import ApplicationController from './controllers/ApplicationController.js';
 import tracker from './services/tracker.js';
 import './tests.js';
 
 tracker.api('c6Tracker');
-
-Runner.run(() => new ApplicationController(document.body));

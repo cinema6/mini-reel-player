@@ -1,6 +1,7 @@
+import TableOfContentsCardView from '../../../../src/views/mobile/TableOfContentsCardView.js';
+import TemplateView from '../../../../lib/core/TemplateView.js';
+
 describe('TableOfContentsCardView', function() {
-    import TableOfContentsCardView from '../../../src/views/TableOfContentsCardView.js';
-    import TemplateView from '../../../lib/core/TemplateView.js';
     let tableOfContentsCardView;
 
     beforeEach(function() {
@@ -26,7 +27,7 @@ describe('TableOfContentsCardView', function() {
 
         describe('template', function() {
             it('should be the TableOfContentsCardView.html template', function() {
-                expect(tableOfContentsCardView.template).toBe(require('../../../src/views/TableOfContentsCardView.html'));
+                expect(tableOfContentsCardView.template).toBe(require('../../../../src/views/mobile/TableOfContentsCardView.html'));
             });
         });
     });

@@ -2,6 +2,7 @@ import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
+import JumpRampHandler from '../handlers/JumpRampHandler.js';
 import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
@@ -89,6 +90,9 @@ export default class MiniReel extends EventEmitter {
             session.on('initAnalytics', config => {
                 dispatcher.addClient(GoogleAnalyticsHandler, this, config);
                 dispatcher.addClient(MoatHandler, config);
+                if (config.container === 'jumpramp'){
+                    dispatcher.addClient(JumpRampHandler );
+                }
             });
         });
 
@@ -96,7 +100,7 @@ export default class MiniReel extends EventEmitter {
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
-        dispatcher.addSource('navigation', this, ['move']);
+        dispatcher.addSource('navigation', this, ['move','close']);
     }
 
     moveToIndex(index) {

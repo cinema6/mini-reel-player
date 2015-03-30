@@ -287,7 +287,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should send an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile1'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 1'));
                 });
             });
 
@@ -297,7 +297,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should send an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile2'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 2'));
                 });
             });
 
@@ -307,7 +307,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should send an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile3'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 3'));
                 });
             });
 
@@ -317,7 +317,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should emit an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile4'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 4'));
                 });
             });
         });

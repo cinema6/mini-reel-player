@@ -4,6 +4,7 @@
 * *[v0.2.1-rc1]*
   * [FIX]: Fix for an issue that could cause play timeout errors to be
     sent to Google Analytics on a device that can't autoplay
+  * [FIX]: Fix improper Quartile event names sent to Google Analytics
 
 ## v0.2.0 (March 25, 2015)
 * *[v0.2.0-rc5]*

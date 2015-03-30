@@ -1,6 +1,7 @@
 import BillingHandler from './BillingHandler.js';
 import tracker from '../services/tracker.js';
 import timer from '../../lib/timer.js';
+import browser from '../services/browser.js';
 import {
     noop,
     extend
@@ -101,11 +102,20 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
 
         register(({ target: card, data: player }) => {
             if (card.data.autoplay) {
-                this.tracker.trackEvent(this.getVideoTrackingData(player, 'AutoPlayAttempt', true));
-                waitFor(player, 'play', 5000).catch(() => {
+                browser.test('autoplay').then(autoplayable => {
+                    if (!autoplayable) { return; }
+
                     this.tracker.trackEvent(
-                        this.getVideoTrackingData(player, 'Error', true, 'Video play timed out.')
+                        this.getVideoTrackingData(player, 'AutoPlayAttempt', true)
                     );
+                    waitFor(player, 'play', 5000).catch(() => {
+                        this.tracker.trackEvent(
+                            this.getVideoTrackingData(
+                                player,
+                                'Error', true, 'Video play timed out.'
+                            )
+                        );
+                    });
                 });
             }
         }, 'card', 'activate');

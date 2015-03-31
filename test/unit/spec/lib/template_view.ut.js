@@ -139,6 +139,135 @@ describe('TemplateView', function() {
                 expect(twobits.parse).toHaveBeenCalledWith(element);
             });
 
+            describe('if the template contains a data-class="" directive', function() {
+                let element;
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <p class="hello foo" data-class="button.type button.size"></p>';
+                    `;
+
+                    view.create();
+                    element = view.element.querySelector('p');
+                });
+
+                it('should not change the element\'s classes', function() {
+                    expect(element.className).toEqual('hello foo');
+                });
+
+                describe('when update is called', function() {
+                    beforeEach(function() {
+                        view.update({
+                            button: {
+                                type: 'success',
+                                size: 'small'
+                            }
+                        });
+                        queues.render.pop()();
+                    });
+
+                    it('should modify the element\'s classes', function() {
+                        expect(element.className).toEqual('hello foo success small');
+                    });
+
+                    describe('when called again', function() {
+                        beforeEach(function() {
+                            view.update({
+                                button: {
+                                    type: 'success',
+                                    size: 'large'
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should update the classes', function() {
+                            expect(element.className).toEqual('hello foo success large');
+                        });
+                    });
+                });
+
+                describe('if binding to boolean values', function() {
+                    describe('if just a truthy class is specified', function() {
+                        beforeEach(function() {
+                            view = new TemplateView();
+                            view.tag = 'span';
+                            view.template = `
+                                <button data-class="state.valid:btn--valid state.active:btn--active">Hey!</button>
+                            `;
+
+                            view.create();
+                            element = view.element.querySelector('button');
+                        });
+
+                        describe('when truthy', function() {
+                            beforeEach(function() {
+                                view.update({
+                                    state: {
+                                        valid: {},
+                                        active: true
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should add the specified class', function() {
+                                expect(element.className).toBe('btn--valid btn--active');
+                            });
+                        });
+
+                        describe('when falsy', function() {
+                            beforeEach(function() {
+                                view.update({
+                                    state: {
+                                        valid: true,
+                                        active: true
+                                    }
+                                });
+                                queues.render.pop()();
+
+                                view.update({
+                                    state: {
+                                        valid: null,
+                                        active: true
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should remove the class', function() {
+                                expect(element.className).toBe('btn--active');
+                            });
+                        });
+                    });
+
+                    describe('if a truthy and falsy class are specified', function() {
+                        beforeEach(function() {
+                            view = new TemplateView();
+                            view.tag = 'span';
+                            view.template = `
+                                <button data-class="state.valid:btn--valid:btn--invalid state.active:btn--active:btn--inactive">Hey!</button>
+                            `;
+
+                            view.create();
+                            element = view.element.querySelector('button');
+                        });
+
+                        it('should add the truthy or falsy class depending on the supplied value', function() {
+                            view.update({ state: { valid: 'hey', active: false } });
+                            queues.render.pop()();
+                            expect(element.className).toEqual('btn--valid btn--inactive');
+
+                            view.update({ state: { valid: '', active: true } });
+                            queues.render.pop()();
+                            expect(element.className).toEqual('btn--invalid btn--active');
+                        });
+                    });
+                });
+            });
+
             describe('if template contains a data-if="" directive', function() {
                 beforeEach(function() {
                     view = new TemplateView();

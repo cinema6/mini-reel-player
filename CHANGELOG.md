@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.2.1 (March 30, 2015)
+* *[v0.2.1-rc2]*
+  * [FIX]: Fix for an issue that caused quartile events not to be sent
+    to Google Analytics on YouTube videos without a custom end time
+* *[/v0.2.1-rc2]*
+
 * *[v0.2.1-rc1]*
   * [FIX]: Fix for an issue that could cause play timeout errors to be
     sent to Google Analytics on a device that can't autoplay

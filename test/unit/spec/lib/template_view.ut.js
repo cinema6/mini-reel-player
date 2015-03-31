@@ -234,6 +234,101 @@ describe('TemplateView', function() {
                 });
             });
 
+            describe('if the template contains a data-unless directive', function() {
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <div>Foo</div>
+                        <div data-unless="person.name"></div>
+                        <div>Bar</div>
+                    `;
+
+                    view.create();
+                });
+
+                it('should add a placeholder comment above the element with the directive', function() {
+                    const comment = view.element.querySelector('[data-unless]').previousSibling;
+
+                    expect(comment).toEqual(jasmine.any(window.Comment));
+                    expect(comment.nodeValue).toBe(' data-unless="person.name" ');
+                });
+
+                describe('when update() is called', function() {
+                    describe('if the specified value is truthy', function() {
+                        beforeEach(function() {
+                            view.update({
+                                person: {
+                                    name: 'Josh'
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should remove the element from the DOM', function() {
+                            expect(view.element.querySelector('[data-unless]')).not.toEqual(jasmine.any(Element));
+                        });
+
+                        describe('if the element has already been removed', function() {
+                            beforeEach(function() {
+                                spyOn(view.element, 'removeChild').and.callThrough();
+
+                                view.update({
+                                    person: {
+                                        name: 'Josh'
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should not remove the element again', function() {
+                                expect(view.element.removeChild).not.toHaveBeenCalled();
+                            });
+                        });
+                    });
+
+                    describe('if the specified value is falsy', function() {
+                        let element, comment;
+
+                        beforeEach(function() {
+                            element = view.element.querySelector('[data-unless]');
+                            comment = element.previousSibling;
+                            view.element.removeChild(element);
+
+                            view.update({
+                                person: {
+                                    name: null
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should add the element to the DOM', function() {
+                            expect(element.previousSibling).toBe(comment);
+                        });
+
+                        describe('if the element has already been added', function() {
+                            beforeEach(function() {
+                                spyOn(view.element, 'insertBefore').and.callThrough();
+                                spyOn(view.element, 'removeChild').and.callThrough();
+
+                                view.update({
+                                    person: {
+                                        name: null
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should not replace the element', function() {
+                                expect(view.element.insertBefore).not.toHaveBeenCalled();
+                                expect(view.element.removeChild).not.toHaveBeenCalled();
+                            });
+                        });
+                    });
+                });
+            });
+
             it('should create the child views declared in the templates', function() {
                 const [button, text] = view.children;
 

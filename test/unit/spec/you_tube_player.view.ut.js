@@ -518,6 +518,8 @@ describe('YouTubePlayer', function() {
 
                     player.on('loadedmetadata', loadedmetadata);
                     player.on('durationchange', durationchange);
+                    player.start = undefined;
+                    player.end = undefined;
 
                     fetcher.flush().then(() => process.nextTick(done));
                 });

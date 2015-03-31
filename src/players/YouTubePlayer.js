@@ -182,7 +182,7 @@ export default class YouTubePlayer extends CorePlayer {
                 state.readyState = Math.max(state.readyState, 1);
                 this.emit('loadedmetadata');
 
-                state.duration = Math.min(duration - this.start, this.end || Infinity);
+                state.duration = Math.min(duration - (this.start || 0), this.end || duration);
                 this.emit('durationchange');
             });
 

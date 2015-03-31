@@ -506,8 +506,14 @@ describe('VideoCardController', function() {
 
             beforeEach(function() {
                 VideoCardCtrl.view.playerOutlet = new HideableView();
+                VideoCardCtrl.view.displayAdOutlet = new View();
+                VideoCardCtrl.view.postOutlet = new View();
+                VideoCardCtrl.view.moduleOutlets = {
+                    displayAd: VideoCardCtrl.view.displayAdOutlet,
+                    post: VideoCardCtrl.view.postOutlet
+                };
 
-                ['displayAd', 'post'].forEach(type => {
+                ['displayAd', 'post', 'unsupported'].forEach(type => {
                     moduleControllers[type] = new EventEmitter();
                     moduleControllers[type].renderInto = jasmine.createSpy('ModuleController.renderInto()');
                     moduleControllers[type].deactivate = jasmine.createSpy('ModuleController.deactivate()');
@@ -516,6 +522,7 @@ describe('VideoCardController', function() {
                 spyOn(CardController.prototype, 'render').and.callThrough();
                 spyOn(VideoCardCtrl.view, 'update');
                 spyOn(VideoCardCtrl.view.playerOutlet, 'append');
+                spyOn(VideoCardCtrl.view, 'didCreateElement');
                 Runner.run(() => result = VideoCardCtrl.render());
             });
 
@@ -581,6 +588,7 @@ describe('VideoCardController', function() {
             it('should render its ModuleControllers into the proper outlets', function() {
                 expect(moduleControllers.displayAd.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.displayAd);
                 expect(moduleControllers.post.renderInto).toHaveBeenCalledWith(VideoCardCtrl.view.moduleOutlets.post);
+                expect(moduleControllers.unsupported.renderInto).not.toHaveBeenCalledWith(undefined);
             });
         });
     });

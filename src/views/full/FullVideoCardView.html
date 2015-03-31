@@ -1,0 +1,52 @@
+<article class="card__group">
+    <div data-view="skipTimer:SkipTimerView" class="adSkip__group--sponsored c6-fade">
+        <p class="adSkip__message">Skip in <strong>{{remaining}}</strong></p>
+    </div>
+
+    <div class="player__group player__height">
+        <div data-view="playerOutlet:PlayerOutletView" class="js-playerBox player"></div>
+    </div>
+
+    <div class="card__copy" data-class="isSponsored:card__copy--sponsored">
+        <h1 data-unless="isSponsored" class="card__title tk--hdr">
+            {{title}}
+            <span class="card__attributes tk--copy">
+                via&nbsp;<a href="{{href}}" target="_blank" class="textLink" title="{{source}}">{{source}}</a>
+            </span>
+        </h1>
+        <div data-if="isSponsored" class="sponsorProfile__group clearfix">
+            <a data-if="logo" href="{{website}}" title="Sponsor link" class="sponsorProfile__imgBox" target="_blank">
+                <img src="{{logo}}" alt="{{sponsor}}" class="sponsorProfile__img">
+            </a>
+            <div class="sponsorProfile__copy" data-class="action:sponsorProfile__copy--hasActions">
+                <h1 class="card__title tk--hdr">
+                    {{title}}
+                </h1>
+                <div data-if="sponsor" class="card__attributes sponsorProfile__tag">
+                    Sponsored by
+                    <a href="{{website}}" class="textLink" title="{{sponsor}}" target="_blank">
+                        {{sponsor}}
+                    </a>
+                </div>
+                <div data-if="links.length" data-view="links:LinksListView" class="sponsorProfile__links">
+                    <a title="{{label}}"
+                        href="{{href}}"
+                        target="_blank"
+                        class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
+                        <span class="ir">{{label}}</span>
+                    </a>
+                </div>
+            </div>
+            <div data-if="action" class="card__desc sponsor__actions">
+                <a data-if="action.isText" href="{{action.href}}" target="_blank" class="textLink">
+                    {{action.label}}
+                </a>
+                <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="sponsor__goBtn btnPrimary" title="{{action.label}}">
+                    <span class="btn__label tk--action">{{action.label}}</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="card__desc">{{note}}</div>
+    </div>
+</article>

@@ -21,6 +21,7 @@ describe('RecapCardController', function() {
             new VideoCard({
                 id: 'rc-720427f954b8a6',
                 title: 'Card 1',
+                note: 'How are you?',
                 source: 'YouTube',
                 thumbs: {
                     small: 'yt-thumb.jpg'
@@ -30,9 +31,13 @@ describe('RecapCardController', function() {
                     ad: true
                 },
                 links: {
-                    Website: 'http://www.netflix.com'
+                    Website: 'http://www.netflix.com',
+                    Facebook: 'fb.me/jdshf',
+                    Twitter: 'twitter.me/euwhfe'
                 },
-                collateral: {},
+                collateral: {
+                    logo: 'my-logo.jpg'
+                },
                 data: {
                     hideSource: true,
                     href: 'https://www.youtube.com/watch?v=3XxB6ma7qu8'
@@ -41,6 +46,7 @@ describe('RecapCardController', function() {
             new VideoCard({
                 id: 'rc-241b9cc66bcf19',
                 title: 'Card 2',
+                note: 'I\'m well, thanks.',
                 source: 'Vimeo',
                 thumbs: {
                     small: 'vimeo-thumb.jpg'
@@ -106,14 +112,93 @@ describe('RecapCardController', function() {
                     cards: card.data.deck.map(card => ({
                         id: card.id,
                         title: card.title,
+                        note: card.note,
                         source: card.data.source,
                         href: card.data.href,
                         thumb: card.thumbs.small,
                         showSource: !!card.data.source && !card.data.hideSource,
                         website: (card.links || {}).Website,
                         sponsor: card.sponsor,
-                        type: card.ad ? 'ad' : 'content'
+                        type: card.ad ? 'ad' : 'content',
+                        links: card.socialLinks || [],
+                        logo: card.logo,
+                        isSponsored: jasmine.any(Boolean)
                     }))
+                });
+            });
+
+            describe('isSponsored', function() {
+                let card;
+
+                beforeEach(function() {
+                    RecapCardCtrl.view.update.calls.reset();
+                    CardController.prototype.render.and.returnValue(undefined);
+
+                    card = minireel.deck[0];
+                });
+
+                describe('if the card has a sponsor', function() {
+                    beforeEach(function() {
+                        card.sponsor = 'Netflix';
+                        card.socialLinks.length = 0;
+                        card.logo = undefined;
+
+                        Runner.run(() => RecapCardCtrl.render());
+                    });
+
+                    it('should set isSponsored to true', function() {
+                        expect(RecapCardCtrl.view.update.calls.mostRecent().args[0].cards[0]).toEqual(jasmine.objectContaining({
+                            isSponsored: true
+                        }));
+                    });
+                });
+
+                describe('if the card has links', function() {
+                    beforeEach(function() {
+                        card.sponsor = undefined;
+                        card.socialLinks.length = 1;
+                        card.logo = undefined;
+
+                        Runner.run(() => RecapCardCtrl.render());
+                    });
+
+                    it('should set isSponsored to true', function() {
+                        expect(RecapCardCtrl.view.update.calls.mostRecent().args[0].cards[0]).toEqual(jasmine.objectContaining({
+                            isSponsored: true
+                        }));
+                    });
+                });
+
+                describe('if the card has a logo', function() {
+                    beforeEach(function() {
+                        card.sponsor = undefined;
+                        card.socialLinks.length = 0;
+                        card.logo = 'my-logo.jpg';
+
+                        Runner.run(() => RecapCardCtrl.render());
+                    });
+
+                    it('should set isSponsored to true', function() {
+                        expect(RecapCardCtrl.view.update.calls.mostRecent().args[0].cards[0]).toEqual(jasmine.objectContaining({
+                            isSponsored: true
+                        }));
+                    });
+                });
+
+                describe('if the card has no sponsored data', function() {
+                    beforeEach(function() {
+                        card.sponsor = undefined;
+                        card.socialLinks.length = 0;
+                        card.logo = undefined;
+
+                        Runner.run(() => RecapCardCtrl.render());
+                    });
+
+                    it('should set isSponsored to false', function() {
+                        expect(RecapCardCtrl.view.update.calls.mostRecent().args[0].cards[0]).toEqual(jasmine.objectContaining({
+                            isSponsored: false
+                        }));
+                    });
                 });
             });
         });

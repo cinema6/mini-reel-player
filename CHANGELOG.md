@@ -3,6 +3,12 @@
 * *[v0.3.0-rc1]*
   * [FEATURE]: JumpRamp handler
 
+## v0.2.1 (March 30, 2015)
+  * [FIX]: Fix for an issue that could cause play timeout errors to be
+    sent to Google Analytics on a device that can't autoplay
+  * [FIX]: Fix improper Quartile event names sent to Google Analytics
+* *[/v0.2.1-rc1]*
+
 ## v0.2.0 (March 25, 2015)
 * *[v0.2.0-rc5]*
   * [FEATURE]: Add support for video start/end times

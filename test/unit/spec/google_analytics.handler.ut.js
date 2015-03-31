@@ -5,9 +5,13 @@ import tracker from '../../../src/services/tracker.js';
 import {EventEmitter} from 'events';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';
+import browser from '../../../src/services/browser.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import timer from '../../../lib/timer.js';
 
 import {
-    noop
+    noop,
+    defer
 } from '../../../lib/utils.js';
 
 describe('GoogleAnalyticsHandler', function() {
@@ -283,7 +287,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should send an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile1'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 1'));
                 });
             });
 
@@ -293,7 +297,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should send an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile2'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 2'));
                 });
             });
 
@@ -303,7 +307,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should send an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile3'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 3'));
                 });
             });
 
@@ -313,7 +317,7 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should emit an event', function() {
-                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile4'));
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 4'));
                 });
             });
         });
@@ -339,47 +343,75 @@ describe('GoogleAnalyticsHandler', function() {
 
                 dispatcher.addSource('card', card, ['activate'], player);
                 spyOn(trckr, 'trackEvent');
-
-                jasmine.clock().install();
-            });
-
-            afterEach(function() {
-                jasmine.clock().uninstall();
             });
 
             describe('activate', function() {
+                let autoplayDeferred;
+
+                beforeEach(function() {
+                    autoplayDeferred = defer(RunnerPromise);
+                    spyOn(browser, 'test').and.returnValue(autoplayDeferred.promise);
+                });
+
                 describe('if the card is set to autoplay', function() {
                     beforeEach(function() {
                         card.data.autoplay = true;
                         card.emit('activate');
                     });
 
-                    it('should track an event', function() {
-                        expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'AutoPlayAttempt', true));
+                    it('should test to see if the device can autoplay', function() {
+                        expect(browser.test).toHaveBeenCalledWith('autoplay');
                     });
 
-                    describe('if the video plays before 5 seconds', function() {
-                        beforeEach(function() {
-                            trckr.trackEvent.calls.reset();
-                            jasmine.clock().tick(3000);
-                            player.emit('play');
-                            jasmine.clock().tick(2005);
+                    describe('if the browser can autoplay', function() {
+                        let waitDeferred;
+
+                        beforeEach(function(done) {
+                            waitDeferred = defer(RunnerPromise);
+
+                            autoplayDeferred.promise.then(done, done);
+                            autoplayDeferred.fulfill(true);
+                            spyOn(timer, 'wait').and.returnValue(waitDeferred.promise);
                         });
 
-                        it('should not fire any events', function() {
+                        it('should track an event', function() {
+                            expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'AutoPlayAttempt', true));
+                        });
+
+                        describe('if the video plays before 5 seconds', function() {
+                            beforeEach(function(done) {
+                                trckr.trackEvent.calls.reset();
+                                player.emit('play');
+                                waitDeferred.fulfill(player);
+                                waitDeferred.promise.then(done, done);
+                            });
+
+                            it('should not fire any events', function() {
+                                expect(trckr.trackEvent).not.toHaveBeenCalled();
+                            });
+                        });
+
+                        describe('if the video does not play before 5 seconds', function() {
+                            beforeEach(function(done) {
+                                trckr.trackEvent.calls.reset();
+                                waitDeferred.fulfill();
+                                waitDeferred.promise.then(() => {}).then(done, done);
+                            });
+
+                            it('should fire an error event', function() {
+                                expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Error', true, 'Video play timed out.'));
+                            });
+                        });
+                    });
+
+                    describe('if the browser can\'t autoplay', function() {
+                        beforeEach(function(done) {
+                            autoplayDeferred.promise.then(done, done);
+                            autoplayDeferred.fulfill(false);
+                        });
+
+                        it('should not track an event', function() {
                             expect(trckr.trackEvent).not.toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if the video does not play before 5 seconds', function() {
-                        beforeEach(function() {
-                            trckr.trackEvent.calls.reset();
-                            jasmine.clock().tick(5005);
-                            player.emit('play');
-                        });
-
-                        it('should fire an error event', function() {
-                            expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Error', true, 'Video play timed out.'));
                         });
                     });
                 });
@@ -388,6 +420,10 @@ describe('GoogleAnalyticsHandler', function() {
                     beforeEach(function() {
                         card.data.autoplay = false;
                         card.emit('activate');
+                    });
+
+                    it('should not bother testing for autoplay', function() {
+                        expect(browser.test).not.toHaveBeenCalled();
                     });
 
                     it('should not track an event', function() {

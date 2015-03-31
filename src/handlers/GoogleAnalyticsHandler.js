@@ -1,6 +1,7 @@
 import BillingHandler from './BillingHandler.js';
 import tracker from '../services/tracker.js';
 import timer from '../../lib/timer.js';
+import browser from '../services/browser.js';
 import {
     noop,
     extend
@@ -87,25 +88,34 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
         }, 'video', 'error');
 
         register(({ target: player }) => {
-            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile1'));
+            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile 1'));
         }, 'video', 'firstQuartile');
         register(({ target: player }) => {
-            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile2'));
+            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile 2'));
         }, 'video', 'midpoint');
         register(({ target: player }) => {
-            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile3'));
+            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile 3'));
         }, 'video', 'thirdQuartile');
         register(({ target: player }) => {
-            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile4'));
+            this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile 4'));
         }, 'video', 'complete');
 
         register(({ target: card, data: player }) => {
             if (card.data.autoplay) {
-                this.tracker.trackEvent(this.getVideoTrackingData(player, 'AutoPlayAttempt', true));
-                waitFor(player, 'play', 5000).catch(() => {
+                browser.test('autoplay').then(autoplayable => {
+                    if (!autoplayable) { return; }
+
                     this.tracker.trackEvent(
-                        this.getVideoTrackingData(player, 'Error', true, 'Video play timed out.')
+                        this.getVideoTrackingData(player, 'AutoPlayAttempt', true)
                     );
+                    waitFor(player, 'play', 5000).catch(() => {
+                        this.tracker.trackEvent(
+                            this.getVideoTrackingData(
+                                player,
+                                'Error', true, 'Video play timed out.'
+                            )
+                        );
+                    });
                 });
             }
         }, 'card', 'activate');

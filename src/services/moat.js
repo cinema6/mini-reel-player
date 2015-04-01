@@ -72,22 +72,36 @@ class MoatApi {
     constructor() {
         if (global.__karma__) { this._private_ = _(this); }
         _(this).trackers = {};
-
+        _(this).pending  = {};
     }
 
     initTracker(clientId, container, ids, duration ) {
         let tracker = _(this).trackers[clientId];
+        let pending =  _(this).pending[clientId], disp;
+
         if (tracker){
             return;
         }
 
         tracker = new MoatApiTracker(container,ids,duration);
         _(this).trackers[clientId] = tracker;
+
+        if (pending) {
+            while(pending.length){
+                disp = pending.shift();
+                this.dispatchEvent(clientId,disp);
+            }
+            delete _(this).pending[clientId];
+        }
     }
 
     dispatchEvent(clientId,...params){
         const tracker = _(this).trackers[clientId];
         if (!tracker){
+            if (!_(this).pending[clientId]){
+                _(this).pending[clientId] = [];
+            }
+            _(this).pending[clientId].push(...params);
             return;
         }
 

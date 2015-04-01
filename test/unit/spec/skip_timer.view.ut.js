@@ -17,14 +17,6 @@ describe('SkipTimerView', function() {
         expect(SkipTimerView.mixins).toContain(Hideable);
     });
 
-    describe('properties:', function() {
-        describe('template', function() {
-            it('should be the contents of SkipTimerView.html', function() {
-                expect(view.template).toBe(require('../../../src/views/SkipTimerView.html'));
-            });
-        });
-    });
-
     describe('methods:', function() {
         describe('update(time)', function() {
             beforeEach(function() {

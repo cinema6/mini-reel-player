@@ -31,6 +31,30 @@ class CodeLoader {
         }).then(options.after));
     }
 
+    loadStyles(src) {
+        const { promises } = _(this);
+
+        return promises[src] || (promises[src] = new RunnerPromise((fulfill, reject) => {
+            const link = document.createElement('link');
+            const image = new Image();
+
+            link.type = 'text/css';
+            link.href = src;
+            link.rel = 'stylesheet';
+
+            document.head.appendChild(link);
+
+            image.src = src;
+            image.onerror = (() => {
+                if (link.sheet) {
+                    fulfill(link.sheet);
+                } else {
+                    reject(new Error(`Failed to load styles: [${src}].`));
+                }
+            });
+        }));
+    }
+
     configure(name, config) {
         _(this).configs[name] = config;
     }

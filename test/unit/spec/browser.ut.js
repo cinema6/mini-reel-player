@@ -5,15 +5,6 @@ import {
 } from '../../../lib/utils.js';
 
 describe('browser', function() {
-    beforeEach(function() {
-        browser.constructor();
-    });
-
-    /* global afterAll */
-    afterAll(function() {
-        browser.constructor();
-    });
-
     it('should exist', function() {
         expect(browser).toEqual(jasmine.any(Object));
     });

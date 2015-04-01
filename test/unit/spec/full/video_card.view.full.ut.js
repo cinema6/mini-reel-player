@@ -4,6 +4,7 @@ import LinksListView from '../../../../src/views/LinksListView.js';
 import Runner from '../../../../lib/Runner.js';
 import PlayerOutletView from '../../../../src/views/PlayerOutletView.js';
 import SkipTimerView from '../../../../src/views/SkipTimerView.js';
+import View from '../../../../lib/core/View.js';
 
 describe('FullVideoCardView', function() {
     let view;
@@ -43,6 +44,12 @@ describe('FullVideoCardView', function() {
             describe('skipTimer', function() {
                 it('should be a SkipTimerView', function() {
                     expect(view.skipTimer).toEqual(jasmine.any(SkipTimerView));
+                });
+            });
+
+            describe('postOutlet', function() {
+                it('should be a View', function() {
+                    expect(view.postOutlet).toEqual(jasmine.any(View));
                 });
             });
         });

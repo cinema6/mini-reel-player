@@ -18,6 +18,8 @@ export default class PlayerView extends TemplateView {
         this.skipTimers = [];
         this.navItems = [];
 
+        this.navEnabled = false;
+
         _(this).navigationShown = true;
     }
 
@@ -52,11 +54,13 @@ export default class PlayerView extends TemplateView {
     disableNavigation() {
         forEach(this.skipTimers, timer => timer.show());
         this.hideNavigation();
+        this.navEnabled = false;
     }
 
     enableNavigation() {
         forEach(this.skipTimers, timer => timer.hide());
         this.showNavigation();
+        this.navEnabled = true;
     }
 
     updateSkipTimer(time) {

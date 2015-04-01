@@ -50,6 +50,12 @@ describe('PlayerView', function() {
                 expect(playerView.navItems).toEqual([]);
             });
         });
+
+        describe('navEnabled', function() {
+            it('should be false', function() {
+                expect(playerView.navEnabled).toBe(false);
+            });
+        });
     });
 
     describe('events:', function() {
@@ -129,6 +135,7 @@ describe('PlayerView', function() {
                 playerView.skipTimers = [new HideableView(), new HideableView()];
                 playerView.skipTimers.forEach(view => spyOn(view, 'show'));
                 spyOn(playerView, 'hideNavigation');
+                playerView.navEnabled = true;
 
                 playerView.disableNavigation();
             });
@@ -140,6 +147,10 @@ describe('PlayerView', function() {
             it('should hide the navigation', function() {
                 expect(playerView.hideNavigation).toHaveBeenCalled();
             });
+
+            it('should set navEnabled to false', function() {
+                expect(playerView.navEnabled).toBe(false);
+            });
         });
 
         describe('enableNavigation()', function() {
@@ -147,6 +158,7 @@ describe('PlayerView', function() {
                 playerView.skipTimers = [new HideableView(), new HideableView()];
                 playerView.skipTimers.forEach(view => spyOn(view, 'hide'));
                 spyOn(playerView, 'showNavigation');
+                playerView.navEnabled = false;
 
                 playerView.enableNavigation();
             });
@@ -157,6 +169,10 @@ describe('PlayerView', function() {
 
             it('should show the navigation', function() {
                 expect(playerView.showNavigation).toHaveBeenCalled();
+            });
+
+            it('should set navEnabled to true', function() {
+                expect(playerView.navEnabled).toBe(true);
             });
         });
 

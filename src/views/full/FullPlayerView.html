@@ -1,0 +1,35 @@
+<div class="MiniReel__group">
+    <header class="titleBar__group clearfix">
+        <div class="titleBar__disabler">&nbsp;</div>
+        <div class="titleBar__splashImg" style="background-image:url('{{splash}}')">
+            &nbsp;
+        </div>
+        <h1 class="titleBar__title">
+            <span class="titleBar__titleText tk--hdr">
+                {{title}}
+            </span>
+        </h1>
+    </header>
+
+    <ul data-view="cards:View" class="cards__list"></ul>
+
+    <button data-view="previousButton:ResizableNavButtonView" class="btnPrimary slideNav__btn slideNav__btn--prev c6-fade" type="button" title="Previous Page">
+        <svg class="slideNav__icon slideNav__icon--prev" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941" xml:space="preserve">
+            <path class="slideNav__iconPath" fill-rule="evenodd" clip-rule="evenodd" d="M22.971,0L0,22.971l22.971,22.97l4.243-4.243L8.485,22.971
+                L27.213,4.243L22.971,0z"/>
+        </svg>
+        <span class="slideNav__label slideNav__label--prev btn__label tk--action">Prev</span>
+    </button>
+    <button data-view="nextButton:ResizableNavButtonView" class="btnPrimary slideNav__btn slideNav__btn--next c6-fade" type="button" title="Next Page">
+        <svg class="slideNav__icon slideNav__icon--next" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941" xml:space="preserve">
+            <path class="slideNav__iconPath" fill-rule="evenodd" clip-rule="evenodd" d="M4.243,0l22.971,22.971L4.243,45.941L0,41.699l18.728-18.728L0,4.243
+            L4.243,0z"/>
+        </svg>
+        <span class="slideNav__label slideNav__label--next btn__label tk--action">Next</span>
+    </button>
+
+    <div data-view="playlistOutlet:View"></div>
+    <div data-view="displayAdOutlet:View"></div>
+</div><!--.MiniReel-->

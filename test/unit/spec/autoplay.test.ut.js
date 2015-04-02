@@ -103,7 +103,7 @@ describe('autoplay test', function() {
 
     describe('if the audio never plays', function() {
         beforeEach(function() {
-            jasmine.clock().tick(55);
+            jasmine.clock().tick(255);
         });
 
         it('should be false', function() {
@@ -113,9 +113,9 @@ describe('autoplay test', function() {
 
     describe('if the audio plays', function() {
         beforeEach(function() {
-            jasmine.clock().tick(30);
+            jasmine.clock().tick(245);
             audio.trigger('play');
-            jasmine.clock().tick(5);
+            jasmine.clock().tick(10);
         });
 
         it('should be true', function() {

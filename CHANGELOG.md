@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v0.4.0 (April 2, 2015)
+* *[v0.4.0-rc2]*
+  * [FIX]: Full player: Fix for an issue that caused cards without
+    descriptions not to appear
+
 * *[v0.4.0-rc1]*
   * [FEATURE]: Add standalone player
 * *[/v0.4.0-rc1]*

@@ -1,7 +1,6 @@
 function ResizingCard() {}
 ResizingCard.prototype.update = function({ title, note }) {
-    if (!title || !note) { return this.super(...arguments); }
-    const length = title.length + note.length;
+    const length = (title || '').length + (note || '').length;
 
     if (length <= 100) {
         this.addClass('text--low');

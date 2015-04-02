@@ -113,12 +113,13 @@ describe('TemplateView', function() {
 
             class ButtonView extends View {}
             class TextFieldView extends View {}
+            class MyTemplateView extends TemplateView {}
 
             beforeEach(function() {
                 element = document.createElement('span');
                 view.element = element;
 
-                view.instantiates = {ButtonView, TextFieldView};
+                view.instantiates = {ButtonView, TextFieldView, MyTemplateView};
 
                 element.innerHTML = `
                     <p>Hello {{name}}</p>
@@ -126,6 +127,7 @@ describe('TemplateView', function() {
                     <div>
                         <button data-view="button:ButtonView">My Button</button>
                         <input data-view="text:TextFieldView" />
+                        <div data-view="foo:MyTemplateView"></div>
                     </div>
                 `;
 
@@ -136,7 +138,14 @@ describe('TemplateView', function() {
             });
 
             it('should parse the element with TwoBits.js', function() {
-                expect(twobits.parse).toHaveBeenCalledWith(element);
+                expect(twobits.parse).toHaveBeenCalledWith(element, view);
+            });
+
+            it('should not cause update()s to throw errors', function() {
+                expect(function() {
+                    view.foo.update({});
+                    queues.render.pop()();
+                }).not.toThrow();
             });
 
             describe('if the template contains a data-class="" directive', function() {

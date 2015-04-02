@@ -6,6 +6,7 @@
     descriptions not to appear
   * [FIX]: Fix for an issue that could cause a video to never start
     autoplaying
+* *[/v0.4.0-rc2]*
 
 * *[v0.4.0-rc1]*
   * [FEATURE]: Add standalone player

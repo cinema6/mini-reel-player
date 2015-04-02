@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.4.0-rc1]*
+  * [FEATURE]: Add standalone player
+
 ## v0.3.0 (March 31, 2015)
 * *[v0.3.0-rc1]*
   * [FEATURE]: JumpRamp handler

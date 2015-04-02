@@ -18,13 +18,17 @@ export default class RecapCardController extends CardController {
             cards: map(this.model.data.deck, card => ({
                 id: card.id,
                 title: card.title,
+                note: card.note,
                 source: card.data.source,
                 href: card.data.href,
                 thumb: card.thumbs.small,
                 showSource: !!card.data.source && !card.data.hideSource,
                 website: (card.links || {}).Website,
                 sponsor: card.sponsor,
-                type: card.ad ? 'ad' : 'content'
+                type: card.ad ? 'ad' : 'content',
+                links: card.socialLinks || [],
+                logo: card.logo,
+                isSponsored: !!(card.sponsor || (card.socialLinks || []).length > 0 || card.logo)
             }))
         });
 

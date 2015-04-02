@@ -12,6 +12,30 @@ describe('codeLoader', function() {
         }
     }
 
+    class Link {
+        constructor() {
+            this.type = null;
+            this.href = null;
+            this.rel = null;
+            this.sheet = null;
+        }
+    }
+
+    class Img {
+        constructor() {
+            this.src = null;
+            this.onload = null;
+            this.onerror = null;
+        }
+    }
+
+    class StyleSheet {
+        constructor() {
+            this.cssRules = [];
+            this.type = 'css';
+        }
+    }
+
     beforeEach(function() {
         codeLoader.constructor();
     });
@@ -25,6 +49,87 @@ describe('codeLoader', function() {
     });
 
     describe('methods:', function() {
+        describe('loadStyles(src)', function() {
+            let success, failure;
+            let result;
+            let link, image;
+
+            beforeEach(function() {
+                success = jasmine.createSpy('success()');
+                failure = jasmine.createSpy('failure()');
+
+                spyOn(document, 'createElement').and.callFake(function() {
+                    return (link = new Link());
+                });
+                spyOn(global, 'Image').and.callFake(function() {
+                    return (image = new Img());
+                });
+                spyOn(document.head, 'appendChild');
+
+                result = codeLoader.loadStyles('css/full--hover.css');
+                result.then(success, failure);
+            });
+
+            it('should return a RunnerPromise', function() {
+                expect(result).toEqual(jasmine.any(RunnerPromise));
+            });
+
+            it('should create a link for the stylesheet', function() {
+                expect(document.createElement).toHaveBeenCalledWith('link');
+                expect(link.type).toBe('text/css');
+                expect(link.href).toBe('css/full--hover.css');
+                expect(link.rel).toBe('stylesheet');
+            });
+
+            it('should add the link to the head', function() {
+                expect(document.head.appendChild).toHaveBeenCalledWith(link);
+            });
+
+            it('should load the stylesheet with an image', function() {
+                expect(image).toEqual(jasmine.any(Img));
+                expect(image.src).toBe('css/full--hover.css');
+            });
+
+            describe('when the image emits "error" (which it will because it\'s trying to load CSS)', function() {
+                describe('if the sheet property is set', function() {
+                    beforeEach(function(done) {
+                        link.sheet = new StyleSheet();
+                        image.onerror();
+                        result.then(done, done);
+                    });
+
+                    it('should fulfill the promise with the sheet', function() {
+                        expect(success).toHaveBeenCalledWith(link.sheet);
+                    });
+                });
+
+                describe('if the sheet property is not set', function() {
+                    beforeEach(function(done) {
+                        image.onerror();
+                        result.then(done, done);
+                    });
+
+                    it('should reject the promise with an error', function() {
+                        expect(failure).toHaveBeenCalledWith(new Error('Failed to load styles: [css/full--hover.css].'));
+                    });
+                });
+            });
+
+            describe('if called again', function() {
+                describe('with the same src', function() {
+                    it('should return the same promise', function() {
+                        expect(codeLoader.loadStyles('css/full--hover.css')).toBe(result);
+                    });
+                });
+
+                describe('with a different src', function() {
+                    it('should return a different promise', function() {
+                        expect(codeLoader.loadStyles('foo.css')).not.toBe(result);
+                    });
+                });
+            });
+        });
+
         describe('load(src)', function() {
             let success, failure;
             let result;

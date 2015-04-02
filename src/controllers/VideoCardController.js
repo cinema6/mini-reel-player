@@ -107,7 +107,10 @@ export default class VideoCardController extends CardController {
         });
         this.view.playerOutlet.append(this.player);
         forEach(Object.keys(this.moduleControllers), type => {
-            this.moduleControllers[type].renderInto(this.view.moduleOutlets[type]);
+            const outlet = this.view.moduleOutlets[type];
+            const Ctrl = this.moduleControllers[type];
+
+            if (outlet) { Ctrl.renderInto(outlet); }
         });
 
         return super(...arguments);

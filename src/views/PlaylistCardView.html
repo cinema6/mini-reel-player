@@ -1,0 +1,25 @@
+<div class="playlist__thumbHolder" data-class="ad:playlist__thumbHolder--ad">
+    <div class="playlist__thumb" title="{{title}}" style="background-image:url('{{thumb}}');">
+        &nbsp;
+    </div>
+</div>
+<div class="playlist__copy">
+    <h3 class="playlist__title tk--hdr">
+        <span class="playlist__link" title="{{title}}">
+            {{title}}
+        </span>
+    </h3>
+    <p data-if="showSource" class="playlist__source">via 
+        <a href="{{href}}" onclick="arguments[0].stopPropagation()"
+        title="{{source}}"
+        class="playlist__sourceLink textLink"
+        target="_blank">{{source}}</a>
+    </p>
+    <p data-if="sponsor" class="playlist__source">Sponsored by 
+        <a href="{{website}}" 
+        onclick="arguments[0].stopPropagation()"
+        title="{{sponsor}}"
+        class="playlist__sourceLink textLink"
+        target="_blank">{{sponsor}}</a>
+    </p>
+</div>

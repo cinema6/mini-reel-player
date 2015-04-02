@@ -5,7 +5,8 @@
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
     "test": "grunt test:unit",
-    "mobile": "./src/mobile.js"
+    "mobile": "./src/mobile.js",
+    "full": "./src/full.js"
   },
   "repository": {
     "type": "git",

@@ -21,6 +21,10 @@ module.exports = {
             {
                 src: '<%= package.scripts.mobile %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/mobile.js'
+            },
+            {
+                src: '<%= package.scripts.full %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/full.js'
             }
         ]
     },
@@ -33,6 +37,10 @@ module.exports = {
             {
                 src: '<%= package.scripts.mobile %>',
                 dest: 'server/.build/mobile.js'
+            },
+            {
+                src: '<%= package.scripts.full %>',
+                dest: 'server/.build/full.js'
             }
         ]
     }

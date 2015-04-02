@@ -10,4 +10,9 @@ export default class TextCard extends Card {
             large: splash
         };
     }
+
+    complete() {
+        this.emit('canAdvance');
+        return super();
+    }
 }

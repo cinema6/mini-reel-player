@@ -59,3 +59,19 @@ browser.addTest('autoplay', () => {
         setTimeout(() => fulfill(false), 50);
     });
 });
+
+browser.addTest('mouse', () => {
+    return new Promise(fulfill => {
+        const mousemove = (() => {
+            fulfill(true);
+            document.body.removeEventListener('mousemove', mousemove, false);
+        });
+        const touchstart = (() => {
+            fulfill(false);
+            document.body.removeEventListener('touchstart', touchstart, false);
+        });
+
+        document.body.addEventListener('mousemove', mousemove, false);
+        document.body.addEventListener('touchstart', touchstart, false);
+    });
+});

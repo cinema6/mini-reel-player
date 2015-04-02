@@ -139,10 +139,14 @@ describe('moat',function(){
         });
 
         describe('dispatchEvent',function(){
-            let evt ;
+            let evt1, evt2 ;
             beforeEach(function(){
-                evt = {
+                evt1 = {
                     type : 'AdVideoFirstQuartile',
+                    adVolume : 0.5
+                };
+                evt2 = {
+                    type : 'AdVideoSecondQuartile',
                     adVolume : 0.5
                 };
             });
@@ -150,8 +154,26 @@ describe('moat',function(){
             it('passes the dispatchEvent call to the tracker if clientId exists',function(){
                 moatApi.initTracker('abc',container,ids,30);
                 spyOn(moatApi._private_.trackers.abc,'dispatchEvent'); 
-                moatApi.dispatchEvent('abc',evt);
-                expect(moatApi._private_.trackers.abc.dispatchEvent).toHaveBeenCalledWith(evt); 
+                moatApi.dispatchEvent('abc',evt1);
+                expect(moatApi._private_.trackers.abc.dispatchEvent)
+                    .toHaveBeenCalledWith(evt1); 
+            });
+
+            it('caches the dispatchEvent call if clientid does not exist', function(){
+                moatApi.dispatchEvent('abc',evt1);
+                moatApi.dispatchEvent('abc',evt2);
+                expect(moatApi._private_.pending.abc[0]).toBe(evt1); 
+                expect(moatApi._private_.pending.abc[1]).toBe(evt2); 
+            });
+
+            it('sends cached dispatchEvent calls after tracker is created', function(){
+                moatApi.dispatchEvent('abc',evt1);
+                moatApi.dispatchEvent('abc',evt2);
+                spyOn(moatApi,'dispatchEvent');
+                expect(moatApi.dispatchEvent).not.toHaveBeenCalled();
+                moatApi.initTracker('abc',container,ids,30);
+                expect(moatApi.dispatchEvent).toHaveBeenCalledWith('abc',evt1);
+                expect(moatApi.dispatchEvent).toHaveBeenCalledWith('abc',evt2);
             });
 
         });

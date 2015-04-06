@@ -15,12 +15,17 @@ describe('Controller', function() {
 
     describe('addView(view)', function() {
         let view;
+        let result;
 
         beforeEach(function() {
             view = new View();
 
-            controller.addView(view);
+            result = controller.addView(view);
             controller.doStuff = jasmine.createSpy('controller.doStuff()');
+        });
+
+        it('should return the view', function() {
+            expect(result).toBe(view);
         });
 
         describe('when the "action" event is emitted', function() {

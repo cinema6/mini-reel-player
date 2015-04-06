@@ -19,6 +19,7 @@ export default class ButtonView extends View {
         if (this.attributes.disabled) { return; }
 
         this.emit('press');
+        this.sendAction(this);
     }
 
     touchStart(event) {

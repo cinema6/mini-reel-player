@@ -33,27 +33,4 @@ describe('FullTextCardView', function() {
             });
         });
     });
-
-    describe('events:', function() {
-        beforeEach(function() {
-            Runner.run(() => view.create());
-        });
-
-        describe('startButton', function() {
-            describe('press', function() {
-                let advance;
-
-                beforeEach(function() {
-                    advance = jasmine.createSpy('advance()');
-                    view.on('advance', advance);
-
-                    view.startButton.emit('press');
-                });
-
-                it('should emit "advance"', function() {
-                    expect(advance).toHaveBeenCalled();
-                });
-            });
-        });
-    });
 });

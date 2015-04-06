@@ -7,6 +7,8 @@ describe('MobileTextCardController', function() {
     let MobileTextCardCtrl;
 
     beforeEach(function() {
+        spyOn(MobileTextCardController.prototype, 'addView').and.callThrough();
+
         MobileTextCardCtrl = new MobileTextCardController(new TextCard({ data: {} }, {
             data: {
                 collateral: {}
@@ -22,6 +24,7 @@ describe('MobileTextCardController', function() {
         describe('view', function() {
             it('should be a TextCardView', function() {
                 expect(MobileTextCardCtrl.view).toEqual(jasmine.any(MobileTextCardView));
+                expect(MobileTextCardCtrl.addView).toHaveBeenCalledWith(MobileTextCardCtrl.view);
             });
         });
     });

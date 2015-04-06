@@ -5,6 +5,6 @@ export default class MobileTextCardController extends TextCardController {
     constructor() {
         super(...arguments);
 
-        this.view = new MobileTextCardView();
+        this.view = this.addView(new MobileTextCardView());
     }
 }

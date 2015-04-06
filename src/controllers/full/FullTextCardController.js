@@ -5,12 +5,10 @@ export default class FullTextCardController extends TextCardController {
     constructor() {
         super(...arguments);
 
-        this.view = new FullTextCardView();
-
-        this.addListeners();
+        this.view = this.addView(new FullTextCardView());
     }
 
-    addListeners() {
-        this.view.on('advance', () => this.model.complete());
+    advance() {
+        this.model.complete();
     }
 }

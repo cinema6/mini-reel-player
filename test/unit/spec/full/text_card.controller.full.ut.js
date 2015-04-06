@@ -12,7 +12,7 @@ describe('FullTextCardController', function() {
     beforeEach(function() {
         card = new EventEmitter();
         parentView = new View();
-        spyOn(FullTextCardController.prototype, 'addListeners').and.callThrough();
+        spyOn(FullTextCardController.prototype, 'addView').and.callThrough();
 
         FullTextCardCtrl = new FullTextCardController(card, parentView);
     });
@@ -21,30 +21,25 @@ describe('FullTextCardController', function() {
         expect(FullTextCardCtrl).toEqual(jasmine.any(TextCardController));
     });
 
-    it('should add its listeners', function() {
-        expect(FullTextCardCtrl.addListeners).toHaveBeenCalled();
-    });
-
     describe('properties:', function() {
         describe('view', function() {
             it('should be a FullTextCardView', function() {
                 expect(FullTextCardCtrl.view).toEqual(jasmine.any(FullTextCardView));
+                expect(FullTextCardCtrl.addView).toHaveBeenCalledWith(FullTextCardCtrl.view);
             });
         });
     });
 
-    describe('events:', function() {
-        describe('view', function() {
-            describe('advance', function() {
-                beforeEach(function() {
-                    card.complete = jasmine.createSpy('card.complete()');
+    describe('methods:', function() {
+        describe('advance()', function() {
+            beforeEach(function() {
+                card.complete = jasmine.createSpy('card.complete()');
 
-                    FullTextCardCtrl.view.emit('advance');
-                });
+                FullTextCardCtrl.advance();
+            });
 
-                it('should call complete() on the card', function() {
-                    expect(card.complete).toHaveBeenCalled();
-                });
+            it('should call complete() on the card', function() {
+                expect(card.complete).toHaveBeenCalled();
             });
         });
     });

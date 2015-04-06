@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.4.1 (April 6, 2015)
+* *[v0.4.1-rc1]*
+  * [FIX]: Fix for an issue that caused the player not to load in
+    Internet Explorer
+* *[/v0.4.1-rc1]*
+
 ## v0.4.0 (April 2, 2015)
 * *[v0.4.0-rc2]*
   * [FIX]: Full player: Fix for an issue that caused cards without

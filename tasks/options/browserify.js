@@ -19,11 +19,11 @@ module.exports = {
         },
         files: [
             {
-                src: '<%= package.scripts.mobile %>',
+                src: '.tmp/<%= package.scripts.mobile %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/mobile.js'
             },
             {
-                src: '<%= package.scripts.full %>',
+                src: '.tmp/<%= package.scripts.full %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/full.js'
             }
         ]

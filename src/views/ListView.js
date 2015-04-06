@@ -46,7 +46,10 @@ export default class ListView extends View {
             }
 
             child.update(item);
-            this.append(child);
+
+            if (prevChildren[index] !== child) {
+                this.append(child);
+            }
 
             children[index] = child;
         });

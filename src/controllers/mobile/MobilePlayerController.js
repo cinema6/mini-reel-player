@@ -10,7 +10,7 @@ export default class MobilePlayerController extends PlayerController {
     constructor() {
         super(...arguments);
 
-        this.view = new MobilePlayerView();
+        this.view = this.addView(new MobilePlayerView());
         this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
         this.CardControllers = {
             text: MobileTextCardController,
@@ -18,17 +18,9 @@ export default class MobilePlayerController extends PlayerController {
             recap: MobileRecapCardController
         };
 
-        this.addListeners();
-    }
-
-    addListeners() {
-        super(...arguments);
-
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
         this.minireel.on('launch', () => cinema6.fullscreen(true));
         this.minireel.on('close', () => cinema6.fullscreen(false));
-
-        this.view.on('toggleToc', () => this.TableOfContentsViewCtrl.toggle());
 
         this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
         this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
@@ -49,5 +41,9 @@ export default class MobilePlayerController extends PlayerController {
         });
 
         return super();
+    }
+
+    toggleToc() {
+        this.TableOfContentsViewCtrl.toggle();
     }
 }

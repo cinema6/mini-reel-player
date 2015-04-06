@@ -10,7 +10,7 @@ export default class FullPlayerController extends PlayerController {
     constructor() {
         super(...arguments);
 
-        this.view = new FullPlayerView();
+        this.view = this.addView(new FullPlayerView());
 
         this.PlaylistViewCtrl = new PlaylistViewController(this.minireel);
         this.DisplayAdCtrl = new DisplayAdController();
@@ -20,12 +20,6 @@ export default class FullPlayerController extends PlayerController {
             video: FullVideoCardController,
             recap: FullRecapCardController
         };
-
-        this.addListeners();
-    }
-
-    addListeners() {
-        super();
 
         this.minireel.once('init', () => {
             this.PlaylistViewCtrl.renderInto(this.view.playlistOutlet);

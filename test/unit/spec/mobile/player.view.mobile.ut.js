@@ -7,7 +7,6 @@ import CloseButtonView from '../../../../src/views/CloseButtonView.js';
 import TOCButtonView from '../../../../src/views/mobile/TOCButtonView.js';
 import NavButtonView from '../../../../src/views/mobile/NavButtonView.js';
 import SkipTimerView from '../../../../src/views/SkipTimerView.js';
-import ButtonView from '../../../../src/views/ButtonView.js';
 import HideableView from '../../../../src/views/HideableView.js';
 
 describe('MobilePlayerView', function() {
@@ -181,39 +180,6 @@ describe('MobilePlayerView', function() {
         });
     });
 
-    describe('events:', function() {
-        beforeEach(function() {
-            mobilePlayerView.tocButtons = [new ButtonView(), new ButtonView()];
-            spyOn(PlayerView.prototype, 'addListeners');
-
-            mobilePlayerView.addListeners();
-        });
-
-        it('should listen to its parent\'s events', function() {
-            expect(PlayerView.prototype.addListeners).toHaveBeenCalled();
-        });
-
-        describe('tocButtons', function() {
-            describe('press', function() {
-                let spy;
-
-                beforeEach(function() {
-                    spy = jasmine.createSpy('spy()');
-                    mobilePlayerView.on('toggleToc', spy);
-                });
-
-                it('should emit the toggleToc event', function() {
-                    mobilePlayerView.tocButtons.forEach(button => {
-                        spy.calls.reset();
-
-                        button.emit('press');
-                        expect(spy).toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-    });
-
     describe('methods:', function() {
         describe('hideNavigation()', function() {
             beforeEach(function() {
@@ -335,7 +301,6 @@ describe('MobilePlayerView', function() {
     describe('hooks:', function() {
         describe('didCreateElement()', function() {
             beforeEach(function() {
-                spyOn(mobilePlayerView, 'addListeners');
                 spyOn(mobilePlayerView, 'enableNavigation');
                 Runner.run(() => mobilePlayerView.create());
             });
@@ -370,10 +335,6 @@ describe('MobilePlayerView', function() {
 
             it('should enable navigation', function() {
                 expect(mobilePlayerView.enableNavigation).toHaveBeenCalled();
-            });
-
-            it('should add the event listeners', function() {
-                expect(mobilePlayerView.addListeners).toHaveBeenCalled();
             });
         });
     });

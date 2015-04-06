@@ -35,8 +35,7 @@ describe('MobilePlayerController', function() {
             return (session = init.apply(cinema6, arguments));
         });
 
-        spyOn(PlayerController.prototype, 'addListeners');
-        spyOn(MobilePlayerController.prototype, 'addListeners').and.callThrough();
+        spyOn(MobilePlayerController.prototype, 'addView').and.callThrough();
 
         spyOn(TableOfContentsViewController.prototype, 'renderInto');
 
@@ -49,15 +48,11 @@ describe('MobilePlayerController', function() {
         expect(MobilePlayerCtrl).toEqual(jasmine.any(PlayerController));
     });
 
-    it('should add its listeners', function() {
-        expect(MobilePlayerController.prototype.addListeners).toHaveBeenCalled();
-        expect(PlayerController.prototype.addListeners).toHaveBeenCalled();
-    });
-
     describe('properties:', function() {
         describe('view', function() {
             it('should be a PlayerView', function() {
                 expect(MobilePlayerCtrl.view).toEqual(jasmine.any(MobilePlayerView));
+                expect(MobilePlayerCtrl.addView).toHaveBeenCalledWith(MobilePlayerCtrl.view);
             });
         });
 
@@ -77,22 +72,6 @@ describe('MobilePlayerController', function() {
     });
 
     describe('events:', function() {
-        describe('view', function() {
-            describe('toggleToc', function() {
-                beforeEach(function() {
-                    MobilePlayerCtrl.minireel.deck = [new TextCard({ data: {} }, experience)];
-                    Runner.run(() => MobilePlayerCtrl.minireel.emit('init'));
-                    spyOn(MobilePlayerCtrl.TableOfContentsViewCtrl, 'toggle');
-
-                    MobilePlayerCtrl.view.emit('toggleToc');
-                });
-
-                it('should toggle the ToC', function() {
-                    expect(MobilePlayerCtrl.TableOfContentsViewCtrl.toggle).toHaveBeenCalled();
-                });
-            });
-        });
-
         describe('TableOfContentsViewCtrl', function() {
             describe('show', function() {
                 beforeEach(function() {
@@ -131,6 +110,7 @@ describe('MobilePlayerController', function() {
                         new RecapCard({}, experience, MobilePlayerCtrl.minireel)
                     ];
                     MobilePlayerCtrl.view.toc = new View();
+                    MobilePlayerCtrl.view.cards = new View(document.createElement('span'));
 
                     Runner.run(() => MobilePlayerCtrl.minireel.emit('init'));
                 });
@@ -177,6 +157,18 @@ describe('MobilePlayerController', function() {
     });
 
     describe('methods', function() {
+        describe('toggleToc()', function() {
+            beforeEach(function() {
+                spyOn(MobilePlayerCtrl.TableOfContentsViewCtrl, 'toggle');
+
+                MobilePlayerCtrl.toggleToc();
+            });
+
+            it('should call toggle() on the TableOfContentsViewCtrl', function() {
+                expect(MobilePlayerCtrl.TableOfContentsViewCtrl.toggle).toHaveBeenCalled();
+            });
+        });
+
         describe('updateView()', function() {
             beforeEach(function() {
                 spyOn(MobilePlayerCtrl.view, 'update');

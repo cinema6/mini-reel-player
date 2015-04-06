@@ -21,9 +21,7 @@ export default class PlayerController extends Controller {
         this.session = cinema6.init();
         this.minireel = new MiniReel();
         this.cardCtrls = [];
-    }
 
-    addListeners() {
         this.minireel.on('init', () => {
             this.updateView();
 
@@ -41,10 +39,21 @@ export default class PlayerController extends Controller {
         this.minireel.on('becameUnskippable', () => this.view.disableNavigation());
         this.minireel.on('becameSkippable', () => this.view.enableNavigation());
         this.minireel.on('skippableProgress', remaining => this.view.updateSkipTimer(remaining));
+    }
 
-        this.view.on('next', () => this.minireel.next());
-        this.view.on('previous', () => this.minireel.previous());
-        this.view.on('close', () => this.minireel.close());
+    addListeners() {
+    }
+
+    next() {
+        this.minireel.next();
+    }
+
+    previous() {
+        this.minireel.previous();
+    }
+
+    close() {
+        this.minireel.close();
     }
 
     updateView() {

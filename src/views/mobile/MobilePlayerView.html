@@ -1,7 +1,11 @@
 <div class="MiniReel__group">
     <div data-view="landscapeLeftSidebar:NavbarView" class="navBarLeft__group c6-slide-bar--left css-promote">
         <div class="publisherProfile__logoBox publisherProfile__logoBox--landscape">&nbsp;</div>
-        <button data-view="landscapePreviousButton:NavButtonView" title="Previous Video" type="button" class="btnPrimary pager__btn landscapePager__btn landscapePager__btn--prev">
+        <button data-view="landscapePreviousButton:NavButtonView"
+            data-target="controller" data-action="previous"
+            title="Previous Video"
+            type="button"
+            class="btnPrimary pager__btn landscapePager__btn landscapePager__btn--prev">
             <svg class="pager__btnIcon landscapePager__btnIcon landscapePager__btnIcon--prev" 
             version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -21,13 +25,20 @@
     </div><!--.navBarLeft__group-->
 
     <div class="navBarRight__group css-promote">
-        <button data-view="tocButton:TOCButtonView" class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn--landscape"
-        title="View Table of Contents" type="button">
+        <button data-view="tocButton:TOCButtonView"
+            data-target="controller" data-action="toggleToc"
+            class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn--landscape"
+            title="View Table of Contents"
+            type="button">
             <span class="ir">Table of Contents</span>
             <span class="spriteBe uiIconsBe uiIconsBe--toc">&nbsp;</span>
         </button>
 
-        <button data-view="landscapeNextButton:NavButtonView" title="Next Video" type="button" class="btnPrimary pager__btn landscapePager__btn landscapePager__btn">
+        <button data-view="landscapeNextButton:NavButtonView"
+            data-target="controller" data-action="next"
+            title="Next Video"
+            type="button"
+            class="btnPrimary pager__btn landscapePager__btn landscapePager__btn">
             <svg class="pager__btnIcon landscapePager__btnIcon landscapePager__btnIcon--next" 
             version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -41,7 +52,12 @@
             </span>
         </button>
 
-        <button data-if="closeable" data-view="landscapeCloseButton:CloseButtonView" class="btnSecondary MiniReel__closeBtn MiniReel__closeBtn--landscape clearfix" title="Close" type="button">
+        <button data-if="closeable"
+            data-view="landscapeCloseButton:CloseButtonView"
+            data-target="controller" data-action="close"
+            class="btnSecondary MiniReel__closeBtn MiniReel__closeBtn--landscape clearfix"
+            title="Close"
+            type="button">
             <span class="btn__label tk--action">
                 Close
             </span>
@@ -56,7 +72,12 @@
 
     <div data-view="navbar:NavbarView" class="headerBar__group css-promote">
         <div class="publisherProfile__logoBox">&nbsp;</div>
-        <button data-if="closeable" data-view="closeButton:CloseButtonView" class="btnSecondary MiniReel__closeBtn clearfix" title="Close" type="button">
+        <button data-if="closeable"
+            data-target="controller" data-action="close"
+            data-view="closeButton:CloseButtonView"
+            class="btnSecondary MiniReel__closeBtn clearfix"
+            title="Close"
+            type="button">
             <span class="btn__label tk--action">
                 Close
             </span>
@@ -72,7 +93,11 @@
             <p class="adSkip__message"><strong>Skip in {{remaining}}</strong></p>
         </div>
 
-        <button data-view="previousButton:NavButtonView" title="Previous Video" type="button" class="btnPrimary pager__btn pager__btn--prev">
+        <button data-view="previousButton:NavButtonView"
+            data-target="controller" data-action="previous"
+            title="Previous Video"
+            type="button"
+            class="btnPrimary pager__btn pager__btn--prev">
             <svg class="pager__btnIcon pager__btnIcon--prev" version="1.1" 
             xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -85,11 +110,19 @@
                 Prev
             </span>
         </button>
-        <button data-view="landscapeTocButton:TOCButtonView" class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn" title="View Table of Contents" type="button">
+        <button data-view="landscapeTocButton:TOCButtonView"
+            data-target="controller" data-action="toggleToc"
+            class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn"
+            title="View Table of Contents"
+            type="button">
             <span class="ir">Table of Contents</span>
             <span class="spriteBe uiIconsBe uiIconsBe--toc">&nbsp;</span>
         </button>
-        <button data-view="nextButton:NavButtonView" title="Next Video" type="button" class="btnPrimary pager__btn pager__btn--next">
+        <button data-view="nextButton:NavButtonView"
+            data-target="controller" data-action="next"
+            title="Next Video"
+            type="button"
+            class="btnPrimary pager__btn pager__btn--next">
             <svg class="pager__btnIcon pager__btnIcon--next" version="1.1" 
             xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

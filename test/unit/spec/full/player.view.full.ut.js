@@ -269,14 +269,9 @@ describe('FullPlayerView', function() {
     describe('hooks:', function() {
         describe('didCreateElement()', function() {
             beforeEach(function() {
-                spyOn(view, 'addListeners');
                 spyOn(view, 'enableNavigation');
 
                 Runner.run(() => view.create());
-            });
-
-            it('should add its event listeners', function() {
-                expect(view.addListeners).toHaveBeenCalled();
             });
 
             it('should enable navigation', function() {

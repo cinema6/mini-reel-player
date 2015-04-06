@@ -44,15 +44,6 @@ export default class MobilePlayerView extends PlayerView {
         this.chromeItems.push(...chromeItems);
 
         this.enableNavigation();
-        this.addListeners();
-    }
-
-    addListeners() {
-        const toggleToc = () => this.emit('toggleToc');
-
-        super(...arguments);
-
-        forEach(this.tocButtons, button => button.on('press', toggleToc));
     }
 
     update(data) {

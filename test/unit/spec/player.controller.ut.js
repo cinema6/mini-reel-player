@@ -109,45 +109,6 @@ describe('PlayerController', function() {
     });
 
     describe('events:', function() {
-        beforeEach(function() {
-            PlayerCtrl.addListeners();
-        });
-
-        describe('view', function() {
-            describe('next', function() {
-                beforeEach(function() {
-                    spyOn(PlayerCtrl.minireel, 'next');
-                    PlayerCtrl.view.emit('next');
-                });
-
-                it('should go to the next card in the MiniReel', function() {
-                    expect(PlayerCtrl.minireel.next).toHaveBeenCalled();
-                });
-            });
-
-            describe('previous', function() {
-                beforeEach(function() {
-                    spyOn(PlayerCtrl.minireel, 'previous');
-                    PlayerCtrl.view.emit('previous');
-                });
-
-                it('should go to the previous card in the MiniReel', function() {
-                    expect(PlayerCtrl.minireel.previous).toHaveBeenCalled();
-                });
-            });
-
-            describe('close', function() {
-                beforeEach(function() {
-                    spyOn(PlayerCtrl.minireel, 'close');
-                    PlayerCtrl.view.emit('close');
-                });
-
-                it('should close the minireel', function() {
-                    expect(PlayerCtrl.minireel.close).toHaveBeenCalled();
-                });
-            });
-        });
-
         describe('minireel', function() {
             describe('init', function() {
                 beforeEach(function() {
@@ -269,6 +230,42 @@ describe('PlayerController', function() {
     });
 
     describe('methods', function() {
+        describe('next()', function() {
+            beforeEach(function() {
+                spyOn(PlayerCtrl.minireel, 'next');
+
+                PlayerCtrl.next();
+            });
+
+            it('should call next() on the minireel', function() {
+                expect(PlayerCtrl.minireel.next).toHaveBeenCalled();
+            });
+        });
+
+        describe('previous()', function() {
+            beforeEach(function() {
+                spyOn(PlayerCtrl.minireel, 'previous');
+
+                PlayerCtrl.previous();
+            });
+
+            it('should call previous() on the minireel', function() {
+                expect(PlayerCtrl.minireel.previous).toHaveBeenCalled();
+            });
+        });
+
+        describe('close()', function() {
+            beforeEach(function() {
+                spyOn(PlayerCtrl.minireel, 'close');
+
+                PlayerCtrl.close();
+            });
+
+            it('should call close() on the minireel', function() {
+                expect(PlayerCtrl.minireel.close).toHaveBeenCalled();
+            });
+        });
+
         describe('updateView()', function() {
             beforeEach(function() {
                 spyOn(PlayerCtrl.view, 'update');

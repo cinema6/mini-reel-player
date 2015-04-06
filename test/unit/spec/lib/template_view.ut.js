@@ -498,7 +498,7 @@ describe('TemplateView', function() {
                 it('should throw an error', function() {
                     expect(function() {
                         view.didCreateElement();
-                    }).toThrow(new Error('Unknown class (FooView). Make sure your class is in the \'instantiates\' array.'));
+                    }).toThrow(new Error('Unknown class (FooView). Make sure your class is in the \'instantiates\' object.'));
                 });
             });
         });

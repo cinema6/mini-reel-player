@@ -12,12 +12,5 @@ export default class PostView extends TemplateView {
 
         this.instantiates = {ButtonView};
     }
-
-    didInsertElement() {
-        this.replayButton.on('press', () => this.emit('replay'));
-        this.closeButton.on('press', () => this.emit('close'));
-
-        return super(...arguments);
-    }
 }
 PostView.mixin(Hideable); // jshint ignore:line

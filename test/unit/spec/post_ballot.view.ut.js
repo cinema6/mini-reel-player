@@ -40,54 +40,14 @@ describe('PostBallotView', function() {
             describe('choice1Button', function() {
                 it('should be a ButtonView', function() {
                     expect(view.choice1Button).toEqual(jasmine.any(ButtonView));
-                });
-
-                describe('events:', function() {
-                    beforeEach(function() {
-                        view.didInsertElement();
-                    });
-
-                    describe('press', function() {
-                        let vote;
-
-                        beforeEach(function() {
-                            vote = jasmine.createSpy('vote()');
-                            view.on('vote', vote);
-
-                            view.choice1Button.emit('press');
-                        });
-
-                        it('should emit the vote event with 0', function() {
-                            expect(vote).toHaveBeenCalledWith(0);
-                        });
-                    });
+                    expect(view.choice1Button.id).toBe('post-module-vote1');
                 });
             });
 
             describe('choice2Button', function() {
                 it('should be a ButtonView', function() {
                     expect(view.choice2Button).toEqual(jasmine.any(ButtonView));
-                });
-
-                describe('events:', function() {
-                    beforeEach(function() {
-                        view.didInsertElement();
-                    });
-
-                    describe('press', function() {
-                        let vote;
-
-                        beforeEach(function() {
-                            vote = jasmine.createSpy('vote()');
-                            view.on('vote', vote);
-
-                            view.choice2Button.emit('press');
-                        });
-
-                        it('should emit the vote event with 1', function() {
-                            expect(vote).toHaveBeenCalledWith(1);
-                        });
-                    });
+                    expect(view.choice2Button.id).toBe('post-module-vote2');
                 });
             });
         });

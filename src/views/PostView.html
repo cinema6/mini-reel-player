@@ -1,8 +1,11 @@
 <ul class="actionsModal__list">
     <li class="actionsModal__item">
-        <button data-view="replayButton:ButtonView" class="btnPrimary actionsModal__btn
-        spriteBe uiIconsBe uiIconsBe--replay"
-        type="button" title="Watch Video Again">
+        <button data-view="replayButton:ButtonView"
+            data-target="controller"
+            data-action="replay"
+            class="btnPrimary actionsModal__btn spriteBe uiIconsBe uiIconsBe--replay"
+            type="button"
+            title="Watch Video Again">
             <span class="actionsModal__btnLabel btn__label tk--action">Watch Video Again</span>
         </button>
     </li>
@@ -17,7 +20,10 @@
 </ul>
 
 <div class="overlay">
-    <button data-view="closeButton:ButtonView" class="sprite sprite--close overlay__closeBtn">
+    <button data-view="closeButton:ButtonView"
+        data-target="controller"
+        data-action="deactivate"
+        class="sprite sprite--close overlay__closeBtn">
         <span class="ir">Close</span>
     </button>
 </div>

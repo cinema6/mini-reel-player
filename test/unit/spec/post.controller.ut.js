@@ -5,6 +5,7 @@ import PostView from '../../../src/views/PostView.js';
 import PostBallotView from '../../../src/views/PostBallotView.js';
 import View from '../../../lib/core/View.js';
 import Runner from '../../../lib/Runner.js';
+import ButtonView from '../../../src/views/ButtonView.js';
 
 describe('PostController', function() {
     let PostCtrl;
@@ -18,6 +19,7 @@ describe('PostController', function() {
             data: {}
         };
         experience = { data: {} };
+        spyOn(PostController.prototype, 'addView').and.callThrough();
 
         post = new Post(card, experience);
         PostCtrl = new PostController(post);
@@ -31,107 +33,7 @@ describe('PostController', function() {
         describe('view', function() {
             it('should be a PostView', function() {
                 expect(PostCtrl.view).toEqual(jasmine.any(PostView));
-            });
-
-            describe('events:', function() {
-                let parentView;
-
-                beforeEach(function() {
-                    parentView = new View();
-                    parentView.tag = 'div';
-
-                    Runner.run(() => PostCtrl.renderInto(parentView));
-                });
-
-                describe('replay', function() {
-                    let replay;
-
-                    beforeEach(function() {
-                        replay = jasmine.createSpy('replay()');
-                        PostCtrl.on('replay', replay);
-                        spyOn(PostCtrl, 'deactivate');
-
-                        PostCtrl.view.emit('replay');
-                    });
-
-                    it('should emit the replay event', function() {
-                        expect(replay).toHaveBeenCalled();
-                    });
-
-                    it('should deactivate itself', function() {
-                        expect(PostCtrl.deactivate).toHaveBeenCalled();
-                    });
-                });
-
-                describe('close', function() {
-                    beforeEach(function() {
-                        spyOn(PostCtrl, 'deactivate');
-
-                        PostCtrl.view.emit('close');
-                    });
-
-                    it('should deactivate itself', function() {
-                        expect(PostCtrl.deactivate).toHaveBeenCalled();
-                    });
-                });
-
-                describe('vote', function() {
-                    let oldView;
-                    let parentView;
-
-                    beforeEach(function() {
-                        parentView = new View();
-                        parentView.tag = 'div';
-
-                        card.ballot = {
-                            prompt: 'How\'s it going?',
-                            choices: ['Awesome', 'Terrible']
-                        };
-                        post = new Post(card, experience);
-
-                        spyOn(post.ballot, 'cast');
-
-                        PostCtrl = new PostController(post);
-                        oldView = PostCtrl.view;
-                        Runner.run(() => PostCtrl.renderInto(parentView));
-                        spyOn(PostCtrl, 'deactivate');
-                        spyOn(oldView, 'remove');
-                        spyOn(PostCtrl, 'renderInto').and.callThrough();
-
-                        PostCtrl.view.emit('vote', 2);
-                    });
-
-                    it('should deactivate itself', function() {
-                        expect(PostCtrl.deactivate).toHaveBeenCalled();
-                    });
-
-                    it('should cast the ballot with the provided value', function() {
-                        post.ballot.cast.calls.reset();
-                        PostCtrl.constructor(post);
-                        Runner.run(() => PostCtrl.renderInto(parentView));
-
-                        PostCtrl.view.emit('vote', 0);
-                        expect(post.ballot.cast).toHaveBeenCalledWith(0);
-                        post.ballot.cast.calls.reset();
-                        PostCtrl.constructor(post);
-                        Runner.run(() => PostCtrl.renderInto(parentView));
-
-                        PostCtrl.view.emit('vote', 1);
-                        expect(post.ballot.cast).toHaveBeenCalledWith(1);
-                    });
-
-                    it('should remove its view', function() {
-                        expect(oldView.remove).toHaveBeenCalled();
-                    });
-
-                    it('should make its view a PostView', function() {
-                        expect(PostCtrl.view.constructor).toBe(PostView);
-                    });
-
-                    it('should render the new view into the old view\'s parent', function() {
-                        expect(PostCtrl.renderInto).toHaveBeenCalledWith(parentView);
-                    });
-                });
+                expect(PostCtrl.addView).toHaveBeenCalledWith(PostCtrl.view);
             });
 
             describe('if the post has a ballot', function() {
@@ -147,12 +49,96 @@ describe('PostController', function() {
 
                 it('should be a PostBallotView', function() {
                     expect(PostCtrl.view).toEqual(jasmine.any(PostBallotView));
+                    expect(PostCtrl.addView).toHaveBeenCalledWith(PostCtrl.view);
                 });
             });
         });
     });
 
     describe('methods:', function() {
+        describe('replay()', function() {
+            let replay;
+
+            beforeEach(function() {
+                replay = jasmine.createSpy('replay()');
+                PostCtrl.on('replay', replay);
+                spyOn(PostCtrl, 'deactivate');
+
+                PostCtrl.replay();
+            });
+
+            it('should emit the replay event', function() {
+                expect(replay).toHaveBeenCalled();
+            });
+
+            it('should deactivate itself', function() {
+                expect(PostCtrl.deactivate).toHaveBeenCalled();
+            });
+        });
+
+        describe('vote(button)', function() {
+            let oldView;
+            let parentView;
+            let buttonView;
+
+            beforeEach(function() {
+                parentView = new View();
+                parentView.tag = 'div';
+                buttonView = new ButtonView();
+
+                card.ballot = {
+                    prompt: 'How\'s it going?',
+                    choices: ['Awesome', 'Terrible']
+                };
+                post = new Post(card, experience);
+
+                spyOn(post.ballot, 'cast');
+
+                PostCtrl = new PostController(post);
+                oldView = PostCtrl.view;
+                Runner.run(() => PostCtrl.renderInto(parentView));
+                spyOn(PostCtrl, 'deactivate');
+                spyOn(oldView, 'remove');
+                spyOn(PostCtrl, 'renderInto').and.callThrough();
+
+                PostCtrl.vote(buttonView);
+            });
+
+            it('should deactivate itself', function() {
+                expect(PostCtrl.deactivate).toHaveBeenCalled();
+            });
+
+            it('should cast the ballot with the provided value', function() {
+                post.ballot.cast.calls.reset();
+                PostCtrl.constructor(post);
+                Runner.run(() => PostCtrl.renderInto(parentView));
+
+                buttonView.id = 'post-module-vote1';
+                PostCtrl.vote(buttonView);
+                expect(post.ballot.cast).toHaveBeenCalledWith(0);
+                post.ballot.cast.calls.reset();
+                PostCtrl.constructor(post);
+                Runner.run(() => PostCtrl.renderInto(parentView));
+
+                buttonView.id = 'post-module-vote2';
+                PostCtrl.vote(buttonView);
+                expect(post.ballot.cast).toHaveBeenCalledWith(1);
+            });
+
+            it('should remove its view', function() {
+                expect(oldView.remove).toHaveBeenCalled();
+            });
+
+            it('should make its view a PostView', function() {
+                expect(PostCtrl.view.constructor).toBe(PostView);
+                expect(PostCtrl.addView).toHaveBeenCalledWith(PostCtrl.view);
+            });
+
+            it('should render the new view into the old view\'s parent', function() {
+                expect(PostCtrl.renderInto).toHaveBeenCalledWith(parentView);
+            });
+        });
+
         describe('renderInto(view)', function() {
             let view;
 

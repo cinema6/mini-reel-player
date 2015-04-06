@@ -46,47 +46,11 @@ describe('PostView', function() {
                 it('should be a ButtonView', function() {
                     expect(view.replayButton).toEqual(jasmine.any(ButtonView));
                 });
-
-                describe('events:', function() {
-                    describe('press', function() {
-                        let replay;
-
-                        beforeEach(function() {
-                            replay = jasmine.createSpy('replay()');
-                            view.on('replay', replay);
-                            view.didInsertElement();
-
-                            view.replayButton.emit('press');
-                        });
-
-                        it('should emit the "replay" event', function() {
-                            expect(replay).toHaveBeenCalled();
-                        });
-                    });
-                });
             });
 
             describe('closeButton', function() {
                 it('should be a ButtonView', function() {
                     expect(view.closeButton).toEqual(jasmine.any(ButtonView));
-                });
-
-                describe('events:', function() {
-                    describe('press', function() {
-                        let closeSpy;
-
-                        beforeEach(function() {
-                            closeSpy = jasmine.createSpy('close()');
-                            view.on('close', closeSpy);
-                            view.didInsertElement();
-
-                            view.closeButton.emit('press');
-                        });
-
-                        it('should emit the "close" event', function() {
-                            expect(closeSpy).toHaveBeenCalled();
-                        });
-                    });
                 });
             });
         });

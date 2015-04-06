@@ -2,34 +2,50 @@ import ModuleController from './ModuleController.js';
 import PostView from '../views/PostView.js';
 import PostBallotView from '../views/PostBallotView.js';
 import Runner from '../../lib/Runner.js';
+import {createKey} from 'private-parts';
+
+const _ = createKey();
 
 export default class PostController extends ModuleController {
     constructor() {
         super(...arguments);
         const hasBallot = !!this.model.ballot;
 
-        this.view = hasBallot ? new PostBallotView() : new PostView();
+        this.view = this.addView(hasBallot ? new PostBallotView() : new PostView());
+
+        _(this).parentView = null;
+    }
+
+    replay() {
+        this.emit('replay');
+        this.deactivate();
+    }
+
+    vote(button) {
+        const vote = (() => {
+            switch (button.id) {
+            case 'post-module-vote1':
+                return 0;
+            case 'post-module-vote2':
+                return 1;
+            }
+        }());
+
+        this.model.ballot.cast(vote);
+        this.deactivate();
+
+        Runner.runNext(() => {
+            this.view.remove();
+
+            this.view = this.addView(new PostView());
+            this.renderInto(_(this).parentView);
+        });
     }
 
     renderInto(view) {
         const { ballot = null, website } = this.model; // jshint ignore:line
 
-        this.view.on('replay', () => {
-            this.emit('replay');
-            this.deactivate();
-        });
-        this.view.on('vote', vote => {
-            this.model.ballot.cast(vote);
-            this.deactivate();
-
-            Runner.runNext(() => {
-                this.view.remove();
-
-                this.view = new PostView();
-                this.renderInto(view);
-            });
-        });
-        this.view.on('close', () => this.deactivate());
+        _(this).parentView = view;
 
         this.view.update({
             website,

@@ -3,21 +3,34 @@
     <h2 class="ballot__title tk--hdr">{{ballot.prompt}}</h2>
     <ul class="ballot__list">
         <li class="ballot__item ballot__item0">
-            <button data-view="choice1Button:ButtonView" class="ballot__btn btnPrimary ballot__btn0"
-            type="button" title="{{ballot.choice1}}">
+            <button id="post-module-vote1"
+                data-view="choice1Button:ButtonView"
+                data-target="controller"
+                data-action="vote"
+                class="ballot__btn btnPrimary ballot__btn0"
+                type="button"
+                title="{{ballot.choice1}}">
                 <span class="ballot__btnLabel btn__label tk--action">{{ballot.choice1}}</span>
             </button>
         </li>
         <li class="ballot__item ballot__item1">
-            <button data-view="choice2Button:ButtonView" class="ballot__btn btnPrimary ballot__btn1"
-            type="button" title="{{ballot.choice2}}">
+            <button id="post-module-vote2"
+                data-view="choice2Button:ButtonView"
+                data-target="controller"
+                data-action="vote"
+                class="ballot__btn btnPrimary ballot__btn1"
+                type="button"
+                title="{{ballot.choice2}}">
                 <span class="ballot__btnLabel btn__label tk--action">{{ballot.choice2}}</span>
             </button>
         </li>
     </ul>
 
     <div class="ballot__textLinks">
-        <a data-view="replayButton:ButtonView" title="Watch Video Again"
+        <a data-view="replayButton:ButtonView"
+            data-target="controller"
+            data-action="replay"
+            title="Watch Video Again"
             class="ballot__textLink ballot__textLink--replay spriteBe uiIconsBe uiIconsBe--replay">
             <span class="textLink__label textLink">Watch Video Again</span>
         </a>
@@ -31,7 +44,10 @@
 </section>
 
 <div class="overlay">
-    <button data-view="closeButton:ButtonView" class="sprite sprite--close overlay__closeBtn">
+    <button data-view="closeButton:ButtonView"
+        data-target="controller"
+        data-action="deactivate"
+        class="sprite sprite--close overlay__closeBtn">
         <span class="ir">Close</span>
     </button>
 </div>

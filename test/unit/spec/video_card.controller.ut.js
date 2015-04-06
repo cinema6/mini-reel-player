@@ -144,30 +144,12 @@ describe('VideoCardController', function() {
     });
 
     describe('events:', function() {
-        beforeEach(function() {
-            VideoCardCtrl.addListeners();
-        });
-
-        describe('view', function() {
-            describe('replay', function() {
-                beforeEach(function() {
-                    spyOn(player, 'play');
-                    VideoCardCtrl.view.emit('replay');
-                });
-
-                it('should play the video', function() {
-                    expect(player.play).toHaveBeenCalled();
-                });
-            });
-        });
-
         describe('moduleControllers', function() {
             describe(': post', function() {
                 beforeEach(function() {
                     moduleControllers.post = new EventEmitter();
                     VideoCardCtrl = new VideoCardController(card, parentView);
                     VideoCardCtrl.view = new VideoCardView();
-                    VideoCardCtrl.addListeners();
                     VideoCardCtrl.view.playerOutlet = new HideableView();
                 });
 
@@ -343,7 +325,6 @@ describe('VideoCardController', function() {
 
                         VideoCardCtrl = new VideoCardController(card, parentView);
                         VideoCardCtrl.view = new VideoCardView();
-                        VideoCardCtrl.addListeners();
 
                         Runner.run(() => card.deactivate());
                     });
@@ -370,7 +351,6 @@ describe('VideoCardController', function() {
 
                         VideoCardCtrl = new VideoCardController(card, parentView);
                         VideoCardCtrl.view = new VideoCardView();
-                        VideoCardCtrl.addListeners();
                         Runner.run(() => player.emit('play'));
                     });
 
@@ -445,7 +425,6 @@ describe('VideoCardController', function() {
 
                         VideoCardCtrl = new VideoCardController(card, parentView);
                         VideoCardCtrl.view = new VideoCardView();
-                        VideoCardCtrl.addListeners();
 
                         Runner.run(() => player.emit('ended'));
                     });
@@ -476,6 +455,18 @@ describe('VideoCardController', function() {
     });
 
     describe('methods:', function() {
+        describe('replay()', function() {
+            beforeEach(function() {
+                spyOn(player, 'play');
+
+                VideoCardCtrl.replay();
+            });
+
+            it('should play the video', function() {
+                expect(player.play).toHaveBeenCalled();
+            });
+        });
+
         describe('canAutoadvance()', function() {
             describe('if there is no post module', function() {
                 beforeEach(function() {

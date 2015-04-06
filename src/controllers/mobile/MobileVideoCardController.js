@@ -5,13 +5,7 @@ export default class MobileVideoCardController extends VideoCardController {
     constructor() {
         super(...arguments);
 
-        this.view = new MobileVideoCardView();
-
-        this.addListeners();
-    }
-
-    addListeners() {
-        super();
+        this.view = this.addView(new MobileVideoCardView());
 
         /* Module events. */
         const {
@@ -43,13 +37,18 @@ export default class MobileVideoCardController extends VideoCardController {
 
             if (this.canAutoadvance()) { this.model.complete(); }
         });
+    }
 
-        /* View events. */
-        this.view.on('replay', () => {
-            if (DisplayAdCtrl) {
-                DisplayAdCtrl.deactivate();
-            }
-        });
+    replay() {
+        const {
+            displayAd: DisplayAdCtrl
+        } = this.moduleControllers;
+
+        if (DisplayAdCtrl) {
+            DisplayAdCtrl.deactivate();
+        }
+
+        return super();
     }
 
     canAutoadvance() {

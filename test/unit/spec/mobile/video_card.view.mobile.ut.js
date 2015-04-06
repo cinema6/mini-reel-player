@@ -90,34 +90,4 @@ describe('MobileVideoCardView', function() {
             });
         });
     });
-
-    describe('events:', function() {
-        beforeEach(function() {
-            spyOn(VideoCardView.prototype, 'addListeners');
-            mobileVideoCardView.replayButton = new ButtonView();
-
-            mobileVideoCardView.addListeners();
-        });
-
-        it('should add its parent\'s listeners', function() {
-            expect(VideoCardView.prototype.addListeners).toHaveBeenCalled();
-        });
-
-        describe('replayButton', function() {
-            describe('press', function() {
-                let spy;
-
-                beforeEach(function() {
-                    spy = jasmine.createSpy('replay()');
-                    mobileVideoCardView.on('replay', spy);
-
-                    mobileVideoCardView.replayButton.emit('press');
-                });
-
-                it('should emit the replay event', function() {
-                    expect(spy).toHaveBeenCalled();
-                });
-            });
-        });
-    });
 });

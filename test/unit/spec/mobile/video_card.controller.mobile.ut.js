@@ -91,8 +91,7 @@ describe('MobileVideoCardController', function() {
         moduleControllers = {};
         spyOn(moduleService, 'getControllers').and.returnValue(moduleControllers);
 
-        spyOn(VideoCardController.prototype, 'addListeners');
-        spyOn(MobileVideoCardController.prototype, 'addListeners').and.callThrough();
+        spyOn(MobileVideoCardController.prototype, 'addView').and.callThrough();
 
         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
     });
@@ -101,56 +100,21 @@ describe('MobileVideoCardController', function() {
         expect(MobileVideoCardCtrl).toEqual(jasmine.any(VideoCardController));
     });
 
-    it('should call addListeners()', function() {
-        expect(MobileVideoCardController.prototype.addListeners).toHaveBeenCalled();
-    });
-
     describe('properties:', function() {
         describe('view', function() {
             it('should be a VideoCardView', function() {
                 expect(MobileVideoCardCtrl.view).toEqual(jasmine.any(MobileVideoCardView));
+                expect(MobileVideoCardCtrl.addView).toHaveBeenCalledWith(MobileVideoCardCtrl.view);
             });
         });
     });
 
     describe('events:', function() {
-        beforeEach(function() {
-            MobileVideoCardCtrl.addListeners();
-        });
-
-        it('should add its parent\'s listeners', function() {
-            expect(VideoCardController.prototype.addListeners).toHaveBeenCalled();
-        });
-
-        describe('view', function() {
-            describe('replay', function() {
-                beforeEach(function() {
-                    MobileVideoCardCtrl.view.emit('replay');
-                });
-
-                describe('if there is a DisplayAdCtrl', function() {
-                    beforeEach(function() {
-                        moduleControllers.displayAd = new EventEmitter();
-                        moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
-
-                        MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
-                        MobileVideoCardCtrl.addListeners();
-                        MobileVideoCardCtrl.view.emit('replay');
-                    });
-
-                    it('should deactivate the DisplayAdCtrl', function() {
-                        expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-
         describe('moduleControllers', function() {
             describe(': displayAd', function() {
                 beforeEach(function() {
                     moduleControllers.displayAd = new EventEmitter();
                     MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
-                    MobileVideoCardCtrl.addListeners();
                 });
 
                 describe('activate', function() {
@@ -205,7 +169,6 @@ describe('MobileVideoCardController', function() {
                         moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
 
                         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
-                        MobileVideoCardCtrl.addListeners();
                         Runner.run(() => player.emit('play'));
                     });
 
@@ -258,7 +221,6 @@ describe('MobileVideoCardController', function() {
                         card.modules.displayAd = displayAd;
 
                         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
-                        MobileVideoCardCtrl.addListeners();
                     });
 
                     describe('if the displayAd is the default placement', function() {
@@ -289,6 +251,37 @@ describe('MobileVideoCardController', function() {
     });
 
     describe('methods:', function() {
+        describe('replay()', function() {
+            beforeEach(function() {
+                spyOn(VideoCardController.prototype, 'replay');
+
+                MobileVideoCardCtrl.replay();
+            });
+
+            it('should call super()', function() {
+                expect(VideoCardController.prototype.replay).toHaveBeenCalled();
+            });
+
+            describe('if there is a DisplayAdCtrl', function() {
+                beforeEach(function() {
+                    moduleControllers.displayAd = new EventEmitter();
+                    moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
+                    VideoCardController.prototype.replay.calls.reset();
+
+                    MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+                    MobileVideoCardCtrl.replay();
+                });
+
+                it('should deactivate the DisplayAdCtrl', function() {
+                    expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
+                });
+
+                it('should call super()', function() {
+                    expect(VideoCardController.prototype.replay).toHaveBeenCalled();
+                });
+            });
+        });
+
         describe('canAutoadvance()', function() {
             beforeEach(function() {
                 spyOn(VideoCardController.prototype, 'canAutoadvance').and.returnValue(true);

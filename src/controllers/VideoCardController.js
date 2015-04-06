@@ -22,14 +22,11 @@ export default class VideoCardController extends CardController {
         this.moduleControllers = moduleService.getControllers(this.model.modules);
 
         dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
-    }
 
-    addListeners() {
         /* Module events. */
         const {
             post: PostCtrl
         } = this.moduleControllers;
-        const { player } = this;
 
         if (PostCtrl) {
             PostCtrl.on('activate', () => this.view.playerOutlet.hide());
@@ -76,15 +73,14 @@ export default class VideoCardController extends CardController {
                 PostCtrl.activate();
             }
         });
-
-        /* View events. */
-        this.view.on('replay', () => {
-            player.play();
-        });
     }
 
     canAutoadvance() {
         return !('post' in this.moduleControllers);
+    }
+
+    replay() {
+        this.player.play();
     }
 
     render() {

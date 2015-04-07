@@ -1,0 +1,90 @@
+<div class="experience__group" data-class="sponsor:experience__group--brandedMR">
+    <div class="experience">
+        <div class="MiniReel__group">
+
+            <button data-view="closeButton:ButtonView" data-target="controller" data-action="close" class="MiniReel__closeBtn ui__btn" type="button">
+                <span class="sprite sprite--close"><span class="ir">Close</span></span>
+            </button><!--^this is the x button in the upper right corner-->
+
+            <div class="titleBar__group clearfix">
+                <a data-if="logo"
+                    href="{{website}}"
+                    title="{{sponsor}}"
+                    target="_blank"
+                    class="brandProfile__logoBox">
+                    <img class="brandProfile__logo" alt="{{sponsor}}" src="{{logo}}">
+                </a>
+                <h1 class="titleBar__title">
+                    <span data-if="sponsor" class="brandedMR__tagline">
+                        <a href="{{website}}"
+                            target="_blank"
+                            title="{{sponsor}}"
+                            class="brandedMR__taglineBrand textLink">
+                            {{sponsor}}
+                        </a>
+                        Presents
+                    </span>
+                    <span class="titleBar__titleText tk--hdr">
+                        {{title}}
+                    </span>
+                </h1>
+                <div class="publisherProfile__logoBox">&nbsp;</div>
+            </div>
+
+            <article class="cards__group">
+                <ul data-view="cards:View" class="cards__list"></ul>
+            </article>
+
+            <button data-view="previousButton:LightboxNavButtonView"
+                data-target="controller"
+                data-action="previous"
+                class="btnPrimary nav__btn nav__btn--prev nav__btn--{{cardType}}"
+                type="button"
+                title="Previous Page">
+                <svg class="nav__btnIcon nav__btnIcon--prev" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941" xml:space="preserve">
+                    <path class="nav__btnPath" fill-rule="evenodd" clip-rule="evenodd" d="M22.971,0L0,22.971l22.971,22.97l4.243-4.243L8.485,22.971
+                        L27.213,4.243L22.971,0z"/>
+                </svg>
+                <span class="btn__label nav__btnLabel nav__btnLabel--prev tk--action">Prev</span>
+            </button>
+            <button data-view="nextButton:LightboxNavButtonView"
+                data-target="controller"
+                data-action="next"
+                class=" btnPrimary nav__btn nav__btn--next nav__btn--{{cardType}}"
+                type="button"
+                title="Next Page">
+                <svg class="nav__btnIcon nav__btnIcon--next" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 27.213 45.941" enable-background="new 0 0 27.213 45.941" xml:space="preserve">
+                    <path class="nav__btnPath" fill-rule="evenodd" clip-rule="evenodd" d="M4.243,0l22.971,22.971L4.243,45.941L0,41.699l18.728-18.728L0,4.243
+                    L4.243,0z"/>
+                </svg>
+                <span class="btn__label nav__btnLabel nav__btnLabel--next tk--action">Next</span>
+            </button>
+
+            <div data-view="playlistOutlet:View"></div>
+            <div data-view="displayAdOutlet:View"></div>
+        </div><!--.MiniReel__group-->
+
+        <div data-if="hasLinks" class="brandProfile__linksBox">
+            <a data-if="website"
+                href="{{website}}"
+                title="{{sponsor}} - Official Website"
+                target="_blank"
+                class="brandProfile__link">
+                <span class="brandProfile__linkLabel">Official Website</span>
+            </a>
+            <span data-if="links.length" data-view="links:LinksListView">
+                <a href="{{href}}"
+                    title="{{label}}"
+                    target="_blank"
+                    class="brandProfile__link tk--{{type}} spriteBe socialIconsBe socialIconsBe__light--{{type}}">
+                    <span class="brandProfile__linkLabel">{{label}}</span>
+                </a>
+            </span>
+        </div>
+
+    </div><!--.experience-->
+</div>
+
+<div class="overlay">&nbsp;</div>

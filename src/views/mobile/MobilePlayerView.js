@@ -5,6 +5,7 @@ import TOCButtonView from './TOCButtonView.js';
 import NavButtonView from './NavButtonView.js';
 import SkipTimerView from '../SkipTimerView.js';
 import CloseButtonView from '../CloseButtonView.js';
+import LinksListView from '../LinksListView.js';
 import {
     forEach
 } from '../../../lib/utils.js';
@@ -21,7 +22,8 @@ export default class MobilePlayerView extends PlayerView {
             TOCButtonView,
             CloseButtonView,
             NavButtonView,
-            SkipTimerView
+            SkipTimerView,
+            LinksListView
         };
 
         this.tocButtons = [];

@@ -32,6 +32,8 @@ export default class PlayerView extends TemplateView {
     update(data) {
         super(...arguments);
 
+        this.links.update(data.links || []);
+
         forEach(this.nextButtons, button => {
             if (data.canGoForward) { button.enable(); } else { button.disable(); }
         });

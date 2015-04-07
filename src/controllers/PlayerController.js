@@ -62,7 +62,17 @@ export default class PlayerController extends Controller {
 
         this.view.update({
             title: minireel.title,
+            sponsor: minireel.sponsor,
+            logo: minireel.logo,
+            links: minireel.socialLinks,
+            website: (minireel.links || {}).Website,
+            isSponsored: !!(
+                minireel.sponsor ||
+                minireel.logo ||
+                (minireel.socialLinks || []).length > 0
+            ),
             totalCards: minireel.length,
+
             currentCardNumber: (minireel.currentIndex + 1).toString(),
             canGoForward: currentIndex < (minireel.length - 1),
             canGoBack: (currentIndex > 0 || !standalone) && currentIndex > -1

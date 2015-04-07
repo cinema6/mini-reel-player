@@ -1,6 +1,13 @@
-<div class="MiniReel__group">
+<div class="MiniReel__group" data-class="sponsor:MiniReel__group--brandedMR">
     <div data-view="landscapeLeftSidebar:NavbarView" class="navBarLeft__group c6-slide-bar--left css-promote">
         <div class="publisherProfile__logoBox publisherProfile__logoBox--landscape">&nbsp;</div>
+        <a data-if="logo"
+            href="{{website}}"
+            title="{{sponsor}}"
+            target="_blank"
+            class="brandProfile__logoBox brandProfile__logoBox--landscape">
+            <img class="brandProfile__logo brandProfile__logo--landscape" alt="{{sponsor}}" src="{{logo}}">
+        </a>
         <button data-view="landscapePreviousButton:NavButtonView"
             data-target="controller" data-action="previous"
             title="Previous Video"
@@ -72,6 +79,13 @@
 
     <div data-view="navbar:NavbarView" class="headerBar__group css-promote">
         <div class="publisherProfile__logoBox">&nbsp;</div>
+        <a data-if="logo"
+            href="{{website}}"
+            title="{{sponsor}}"
+            target="_blank"
+            class="brandProfile__logoBox">
+            <img class="brandProfile__logo" alt="{{sponsor}}" src="{{logo}}">
+        </a>
         <button data-if="closeable"
             data-target="controller" data-action="close"
             data-view="closeButton:CloseButtonView"
@@ -139,7 +153,24 @@
 
 
     <article class="cards__group">
+        <div data-if="sponsor" class="brandedMR__tagline tk--copy">
+            <a ng-href="{{website}}"
+                target="_blank"
+                title="{{sponsor}}"
+                class="brandedMR__taglineBrand textLink">
+                {{sponsor}}
+            </a> 
+            Presents
+        </div>
         <h3 class="MiniReel__title tk--hdr">{{title}}</h3>
+        <div data-if="links.length" data-view="links:LinksListView" class="brandProfile__linksBox">
+            <a href="{{href}}"
+                title="{{label}}"
+                target="_blank"
+                class="brandProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
+                <span class="ir">{{label}}</span>
+            </a>
+        </div>
         <ul data-view="cards:View" class="cards__list"></ul>
         <div data-view="toc:View"></div>
     </article>

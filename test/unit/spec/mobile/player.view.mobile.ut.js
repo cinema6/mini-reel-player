@@ -8,6 +8,7 @@ import TOCButtonView from '../../../../src/views/mobile/TOCButtonView.js';
 import NavButtonView from '../../../../src/views/mobile/NavButtonView.js';
 import SkipTimerView from '../../../../src/views/SkipTimerView.js';
 import HideableView from '../../../../src/views/HideableView.js';
+import LinksListView from '../../../../src/views/LinksListView.js';
 
 describe('MobilePlayerView', function() {
     let mobilePlayerView;
@@ -34,6 +35,16 @@ describe('MobilePlayerView', function() {
 
             it('should be a view', function() {
                 expect(mobilePlayerView.cards).toEqual(jasmine.any(View));
+            });
+        });
+
+        describe('links', function() {
+            beforeEach(function() {
+                Runner.run(() => mobilePlayerView.create());
+            });
+
+            it('should be a LinksListView', function() {
+                expect(mobilePlayerView.links).toEqual(jasmine.any(LinksListView));
             });
         });
 
@@ -282,7 +293,7 @@ describe('MobilePlayerView', function() {
                     Runner.run(() => mobilePlayerView.update(data));
                 });
 
-                it('shoudl call super()', function() {
+                it('should call super()', function() {
                     expect(PlayerView.prototype.update).toHaveBeenCalledWith(data);
                 });
             });

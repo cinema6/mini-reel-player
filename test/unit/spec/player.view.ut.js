@@ -1,9 +1,11 @@
+import TemplateView from '../../../lib/core/TemplateView.js';
+import PlayerView from '../../../src/views/PlayerView.js';
+import ButtonView from '../../../src/views/ButtonView.js';
+import HideableView from '../../../src/views/HideableView.js';
+import Runner from '../../../lib/Runner.js';
+import LinksListView from '../../../src/views/LinksListView.js';
+
 describe('PlayerView', function() {
-    import TemplateView from '../../../lib/core/TemplateView.js';
-    import PlayerView from '../../../src/views/PlayerView.js';
-    import ButtonView from '../../../src/views/ButtonView.js';
-    import HideableView from '../../../src/views/HideableView.js';
-    import Runner from '../../../lib/Runner.js';
     let playerView;
 
     beforeEach(function() {
@@ -211,9 +213,16 @@ describe('PlayerView', function() {
                     title: 'title',
                     foo: 'bar',
                     canGoForward: true,
-                    canGoBack: true
+                    canGoBack: true,
+                    links: [
+                        { type: 'youtube', label: 'YouTube', href: 'yt.com' },
+                        { type: 'facebook', label: 'Facebook', href: 'fb.com' }
+                    ]
                 };
                 spyOn(TemplateView.prototype, 'update').and.callThrough();
+
+                playerView.links = new LinksListView();
+                spyOn(playerView.links, 'update');
 
                 playerView.nextButtons = [new ButtonView(), new ButtonView()];
                 playerView.previousButtons = [new ButtonView(), new ButtonView()];
@@ -229,6 +238,10 @@ describe('PlayerView', function() {
 
             it('should call super()', function() {
                 expect(TemplateView.prototype.update).toHaveBeenCalledWith(data);
+            });
+
+            it('should udpate its links view with data', function() {
+                expect(playerView.links.update).toHaveBeenCalledWith(data.links);
             });
 
             it('should enable all of the buttons', function() {

@@ -43,7 +43,11 @@ describe('MiniReel', function() {
             "links": {
               "Website": "http://pando.com/2015/02/03/the-15-best-movies-of-the-decade-so-far-that-you-can-watch-on-netflix-right-now/",
               "Facebook": "https://www.facebook.com/pandodaily",
-              "Twitter": "https://twitter.com/pandodaily"
+              "Twitter": "https://twitter.com/pandodaily",
+              "YouTube": "https://www.youtube.com/user/PandoDaily",
+              "Vimeo": "https://vimeo.com/tag:pandodaily",
+              "Pinterest": "https://www.pinterest.com/daniellegeva/pandodaily-com/",
+              "Vine": "vine.co"
             },
             "params": {
               "sponsor": "PandoDaily (by David Holmes)"
@@ -610,6 +614,30 @@ describe('MiniReel', function() {
         describe('splash', function() {
             it('should be null', function() {
                 expect(minireel.splash).toBeNull();
+            });
+        });
+
+        describe('sponsor', function() {
+            it('should be null', function() {
+                expect(minireel.sponsor).toBeNull();
+            });
+        });
+
+        describe('logo', function() {
+            it('should be null', function() {
+                expect(minireel.sponsor).toBeNull();
+            });
+        });
+
+        describe('links', function() {
+            it('should be null', function() {
+                expect(minireel.links).toBeNull();
+            });
+        });
+
+        describe('socialLinks', function() {
+            it('should be null', function() {
+                expect(minireel.socialLinks).toBeNull();
             });
         });
 
@@ -1209,6 +1237,75 @@ describe('MiniReel', function() {
 
         it('should copy the adConfig', function() {
             expect(minireel.adConfig).toBe(experience.data.adConfig);
+        });
+
+        it('should copy the sponsor', function() {
+            expect(minireel.sponsor).toBe(experience.data.params.sponsor);
+        });
+
+        it('should copy the logo', function() {
+            expect(minireel.logo).toBe(experience.data.collateral.logo);
+        });
+
+        it('should copy the minireel\'s links', function() {
+            expect(minireel.links).toBe(experience.data.links);
+        });
+
+        it('should generate an array of socialLinks from the links', function() {
+            expect(minireel.socialLinks).toEqual([
+                {
+                    type: 'facebook',
+                    label: 'Facebook',
+                    href: experience.data.links.Facebook
+                },
+                {
+                    type: 'twitter',
+                    label: 'Twitter',
+                    href: experience.data.links.Twitter
+                },
+                {
+                    type: 'youtube',
+                    label: 'YouTube',
+                    href: experience.data.links.YouTube
+                },
+                {
+                    type: 'vimeo',
+                    label: 'Vimeo',
+                    href: experience.data.links.Vimeo
+                },
+                {
+                    type: 'pinterest',
+                    label: 'Pinterest',
+                    href: experience.data.links.Pinterest
+                }
+            ]);
+        });
+
+        describe('if the minireel is not sponsored', function() {
+            beforeEach(function(done) {
+                delete experience.data.params.sponsor;
+                delete experience.data.collateral.logo;
+                delete experience.data.links;
+
+                minireel = new MiniReel();
+                minireel.on('init', done);
+            });
+
+            it('should leave the sponsor as null', function() {
+                expect(minireel.sponsor).toBeNull();
+            });
+
+            it('should leave the logo as null', function() {
+                expect(minireel.logo).toBeNull();
+            });
+
+            it('should make the socialLinks an empty array', function() {
+                expect(minireel.socialLinks).toEqual([]);
+            });
+
+            it('should make the links an object', function() {
+                expect(minireel.links).toEqual({});
+            });
         });
 
         describe('if the experience has no adConfig', function() {

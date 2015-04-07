@@ -4,6 +4,8 @@ import Runner from '../../../../lib/Runner.js';
 import ResizableNavButtonView from '../../../../src/views/ResizableNavButtonView.js';
 import View from '../../../../lib/core/View.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
+import PlaylistPlayerView from '../../../../src/mixins/PlaylistPlayerView.js';
+import ResizingPlayerView from '../../../../src/mixins/ResizingPlayerView.js';
 
 describe('FullPlayerView', function() {
     let view;
@@ -14,6 +16,11 @@ describe('FullPlayerView', function() {
 
     it('should exist', function() {
         expect(view).toEqual(jasmine.any(PlayerView));
+    });
+
+    it('should mixin the PlaylistPlayerView and ResizingPlayerView', function() {
+        expect(FullPlayerView.mixins).toContain(PlaylistPlayerView);
+        expect(FullPlayerView.mixins).toContain(ResizingPlayerView);
     });
 
     describe('properties:', function() {
@@ -79,195 +86,6 @@ describe('FullPlayerView', function() {
             describe('displayAdOutlet', function() {
                 it('should be a View', function() {
                     expect(view.displayAdOutlet).toEqual(jasmine.any(View));
-                });
-            });
-        });
-    });
-
-    describe('methods:', function() {
-        describe('expand()', function() {
-            beforeEach(function() {
-                Runner.run(() => view.create());
-                spyOn(view.cards, 'addClass');
-                view.nextButtons.forEach(button => spyOn(button, 'hide'));
-
-                view.expand();
-            });
-
-            it('should add the "cards__list--fullWidth" class to the cards view', function() {
-                expect(view.cards.addClass).toHaveBeenCalledWith('cards__list--fullWidth');
-            });
-
-            it('should hide the nextButtons', function() {
-                view.nextButtons.forEach(button => expect(button.hide).toHaveBeenCalled());
-            });
-        });
-
-        describe('contract()', function() {
-            beforeEach(function() {
-                Runner.run(() => view.create());
-                spyOn(view.cards, 'removeClass');
-                view.nextButtons.forEach(button => spyOn(button, 'show'));
-
-                view.contract();
-            });
-
-            it('should remove the "cards__list--fullWidth" class from the cards view', function() {
-                expect(view.cards.removeClass).toHaveBeenCalledWith('cards__list--fullWidth');
-            });
-
-            it('should show the nextButtons', function() {
-                view.nextButtons.forEach(button => expect(button.show).toHaveBeenCalled());
-            });
-
-            describe('if the navigation is hidden', function() {
-                beforeEach(function() {
-                    view.nextButtons.forEach(button => button.show.calls.reset());
-                    Runner.run(() => view.hideNavigation());
-
-                    Runner.run(() => view.contract());
-                });
-
-                it('should not show the nextButtons', function() {
-                    view.nextButtons.forEach(button => expect(button.show).not.toHaveBeenCalled());
-                });
-
-                describe('if the navigation is shown again', function() {
-                    beforeEach(function() {
-                        Runner.run(() => view.showNavigation());
-                        view.nextButtons.forEach(button => button.show.calls.reset());
-
-                        Runner.run(() => view.contract());
-                    });
-
-                    it('should show the nextButtons', function() {
-                        view.nextButtons.forEach(button => expect(button.show).toHaveBeenCalled());
-                    });
-                });
-            });
-        });
-
-        describe('setButtonSize(size)', function() {
-            beforeEach(function() {
-                Runner.run(() => view.create());
-                view.navItems.forEach(button => spyOn(button, 'setSize'));
-
-                view.setButtonSize('small');
-            });
-
-            it('should set each nav button\'s size', function() {
-                view.navItems.forEach(button => expect(button.setSize).toHaveBeenCalledWith('small'));
-            });
-        });
-
-        describe('hideNavigation()', function() {
-            beforeEach(function() {
-                spyOn(PlayerView.prototype, 'hideNavigation');
-
-                view.hideNavigation();
-            });
-
-            it('should call super()', function() {
-                expect(PlayerView.prototype.hideNavigation).toHaveBeenCalled();
-            });
-        });
-
-        describe('showNavigation()', function() {
-            beforeEach(function() {
-                spyOn(PlayerView.prototype, 'showNavigation');
-
-                view.showNavigation();
-            });
-
-            it('should call super()', function() {
-                expect(PlayerView.prototype.showNavigation).toHaveBeenCalled();
-            });
-        });
-
-        describe('disableNavigation()', function() {
-            beforeEach(function() {
-                Runner.run(() => view.create());
-                spyOn(PlayerView.prototype, 'disableNavigation');
-                view.navItems.forEach(button => spyOn(button, 'disable'));
-                view.navEnabled = true;
-
-                view.disableNavigation();
-            });
-
-            it('should not call super()', function() {
-                expect(PlayerView.prototype.disableNavigation).not.toHaveBeenCalled();
-            });
-
-            it('should disable the nav buttons', function() {
-                view.navItems.forEach(button => expect(button.disable).toHaveBeenCalled());
-            });
-
-            it('should set navEnabled to false', function() {
-                expect(view.navEnabled).toBe(false);
-            });
-        });
-
-        describe('enableNavigation()', function() {
-            beforeEach(function() {
-                Runner.run(() => view.create());
-                spyOn(PlayerView.prototype, 'enableNavigation');
-                view.navItems.forEach(button => spyOn(button, 'enable'));
-                Runner.run(() => view.disableNavigation());
-                Runner.run(() => view.update({ title: 'hello', canGoBack: false, canGoForward: true }));
-                spyOn(view, 'update');
-
-                view.enableNavigation();
-            });
-
-            it('should not call super()', function() {
-                expect(PlayerView.prototype.enableNavigation).not.toHaveBeenCalled();
-            });
-
-            it('should enable the nav buttons', function() {
-                view.navItems.forEach(button => expect(button.enable).toHaveBeenCalled());
-            });
-
-            it('should call update() with the last value passed to update() for canGoBack and canGoForward', function() {
-                expect(view.update).toHaveBeenCalledWith({ canGoBack: false, canGoForward: true });
-            });
-
-            it('should set navEnabled to true', function() {
-                expect(view.navEnabled).toBe(true);
-            });
-        });
-
-        describe('update(data)', function() {
-            let data;
-
-            beforeEach(function() {
-                data = { title: 'Hello', totalCards: '5', canGoForward: true, canGoBack: false };
-                spyOn(PlayerView.prototype, 'update');
-            });
-
-            describe('if the navigation is enabled', function() {
-                beforeEach(function() {
-                    view.navEnabled = true;
-                    view.update(data);
-                });
-
-                it('should call super() with the data', function() {
-                    expect(PlayerView.prototype.update).toHaveBeenCalledWith(data);
-                });
-            });
-
-            describe('if the navigation is disabled', function() {
-                beforeEach(function() {
-                    view.navEnabled = false;
-                    view.update(data);
-                });
-
-                it('should call super() with the data but canGoBack and canGoForward set to false', function() {
-                    expect(PlayerView.prototype.update).toHaveBeenCalledWith({
-                        title: data.title,
-                        totalCards: data.totalCards,
-                        canGoForward: false,
-                        canGoBack: false
-                    });
                 });
             });
         });

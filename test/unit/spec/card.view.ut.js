@@ -17,6 +17,12 @@ describe('CardView', function() {
                 expect(cardView.tag).toBe('li');
             });
         });
+
+        describe('classes', function() {
+            it('should be the usual TemplateView classes + "cards__item"', function() {
+                expect(cardView.classes).toEqual(new TemplateView().classes.concat(['cards__item']));
+            });
+        });
     });
 
     describe('methods', function() {

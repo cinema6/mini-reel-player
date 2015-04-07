@@ -8,13 +8,4 @@ export default class FullTextCardView extends CardView {
         this.template = require('./FullTextCardView.html');
         this.instantiates = {ButtonView};
     }
-
-    didCreateElement() {
-        super(...arguments);
-        this.addListeners();
-    }
-
-    addListeners() {
-        this.startButton.on('press', () => this.emit('advance'));
-    }
 }

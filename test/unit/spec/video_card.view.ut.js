@@ -42,12 +42,6 @@ describe('VideoCardView', function() {
     });
 
     describe('methods:', function() {
-        describe('addListeners()', function() {
-            it('should exist', function() {
-                expect(videoCardView.addListeners).toEqual(jasmine.any(Function));
-            });
-        });
-
         describe('update(data)', function() {
             let data;
 

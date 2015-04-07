@@ -28,6 +28,4 @@ export default class VideoCardView extends CardView {
             post: this.postOutlet
         };
     }
-
-    addListeners() {}
 }

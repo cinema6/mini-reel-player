@@ -78,7 +78,5 @@ export default class FullPlayerView extends PlayerView {
         this.nextButtons.push(this.nextButton);
         this.previousButtons.push(this.previousButton);
         this.navItems.push(this.nextButton, this.previousButton);
-
-        this.addListeners();
     }
 }

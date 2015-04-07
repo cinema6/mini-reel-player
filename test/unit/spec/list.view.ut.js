@@ -151,8 +151,8 @@ describe('ListView', function() {
 
                 it('should emit "addChild" with the new children', function() {
                     expect(spy.calls.count()).toBe(2);
-                    expect(spy).toHaveBeenCalledWith(children[2], 2);
-                    expect(spy).toHaveBeenCalledWith(children[3], 3);
+                    expect(spy).toHaveBeenCalledWith(children[0], 2);
+                    expect(spy).toHaveBeenCalledWith(children[1], 3);
                 });
             });
 

@@ -5,13 +5,7 @@ export default class FullVideoCardController extends VideoCardController {
     constructor() {
         super(...arguments);
 
-        this.view = new FullVideoCardView();
-
-        this.addListeners();
-    }
-
-    addListeners() {
-        super();
+        this.view = this.addView(new FullVideoCardView());
 
         this.model.on('becameUnskippable', () => this.view.skipTimer.show());
         this.model.on('becameSkippable', () => this.view.skipTimer.hide());

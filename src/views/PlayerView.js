@@ -29,16 +29,6 @@ export default class PlayerView extends TemplateView {
         this.enableNavigation();
     }
 
-    addListeners() {
-        const next = () => this.emit('next');
-        const previous = () => this.emit('previous');
-        const close = () => this.emit('close');
-
-        forEach(this.nextButtons, button => button.on('press', next));
-        forEach(this.previousButtons, button => button.on('press', previous));
-        forEach(this.closeButtons, button => button.on('press', close));
-    }
-
     update(data) {
         super(...arguments);
 

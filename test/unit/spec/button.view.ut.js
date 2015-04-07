@@ -50,6 +50,7 @@ describe('ButtonView', function() {
             beforeEach(function() {
                 spy = jasmine.createSpy('spy()');
                 buttonView.on('press', spy);
+                spyOn(buttonView, 'sendAction').and.callThrough();
 
                 buttonView.click();
             });
@@ -58,16 +59,25 @@ describe('ButtonView', function() {
                 expect(spy).toHaveBeenCalled();
             });
 
+            it('should send its action', function() {
+                expect(buttonView.sendAction).toHaveBeenCalledWith(buttonView);
+            });
+
             describe('if the button is disabled', function() {
                 beforeEach(function() {
                     buttonView.disable();
                     spy.calls.reset();
+                    buttonView.sendAction.calls.reset();
 
                     buttonView.click();
                 });
 
                 it('should not emit the "press" event', function() {
                     expect(spy).not.toHaveBeenCalled();
+                });
+
+                it('should not send an action', function() {
+                    expect(buttonView.sendAction).not.toHaveBeenCalled();
                 });
             });
         });

@@ -113,30 +113,40 @@ describe('TemplateView', function() {
 
             class ButtonView extends View {}
             class TextFieldView extends View {}
+            class MyTemplateView extends TemplateView {}
 
             beforeEach(function() {
                 element = document.createElement('span');
                 view.element = element;
 
-                view.instantiates = {ButtonView, TextFieldView};
+                view.instantiates = {ButtonView, TextFieldView, MyTemplateView};
 
                 element.innerHTML = `
                     <p>Hello {{name}}</p>
                     We now have curlybracey templates!
                     <div>
-                        <button data-view="button:ButtonView">My Button</button>
+                        <button data-view="button:ButtonView" data-target="controller" data-action="doControllerStuff">My Button</button>
                         <input data-view="text:TextFieldView" />
+                        <div id="custom" data-view="foo:MyTemplateView" data-target="view" data-action="doSomething"></div>
                     </div>
                 `;
 
                 spyOn(ButtonView.prototype, 'create').and.callThrough();
                 spyOn(TextFieldView.prototype, 'create').and.callThrough();
+                spyOn(MyTemplateView.prototype, 'create').and.callThrough();
 
                 view.didCreateElement();
             });
 
             it('should parse the element with TwoBits.js', function() {
-                expect(twobits.parse).toHaveBeenCalledWith(element);
+                expect(twobits.parse).toHaveBeenCalledWith(element, view);
+            });
+
+            it('should not cause update()s to throw errors', function() {
+                expect(function() {
+                    view.foo.update({});
+                    queues.render.pop()();
+                }).not.toThrow();
             });
 
             describe('if the template contains a data-class="" directive', function() {
@@ -459,18 +469,80 @@ describe('TemplateView', function() {
             });
 
             it('should create the child views declared in the templates', function() {
-                const [button, text] = view.children;
+                const [button, text, custom] = view.children;
 
                 expect(button).toEqual(jasmine.any(ButtonView));
                 expect(button.element).toBe(element.querySelector('button'));
                 expect(button.create).toHaveBeenCalled();
+                expect(button.target).toBe('controller');
+                expect(button.action).toBe('doControllerStuff');
 
                 expect(text).toEqual(jasmine.any(TextFieldView));
                 expect(text.element).toBe(element.querySelector('input'));
                 expect(text.create).toHaveBeenCalled();
+                expect(text.target).toBeNull();
+                expect(text.action).toBeNull();
+
+                expect(custom).toEqual(jasmine.any(MyTemplateView));
+                expect(custom.element).toBe(element.querySelector('#custom'));
+                expect(custom.create).toHaveBeenCalled();
+                expect(custom.target).toBe('view');
+                expect(custom.action).toBe('doSomething');
 
                 expect(view.button).toBe(button);
                 expect(view.text).toBe(text);
+                expect(view.foo).toBe(custom);
+            });
+
+            describe('when a child emits the "action" event', function() {
+                let child;
+
+                describe('if its target is "view"', function() {
+                    beforeEach(function() {
+                        child = view.foo;
+                    });
+
+                    describe('if the TemplateView implements a method with the name of the action', function() {
+                        beforeEach(function() {
+                            view.doSomething = jasmine.createSpy('view.doSomething()');
+
+                            child.emit('action', child.target, child.action, ['how', 'are', 'you?']);
+                        });
+
+                        it('should call the TemplateView\'s method', function() {
+                            expect(view.doSomething).toHaveBeenCalledWith('how', 'are', 'you?');
+                        });
+                    });
+
+                    describe('if the TemplateView does not implement a method with the name of the action', function() {
+                        beforeEach(function() {
+                            view.doSomething = 42;
+                        });
+
+                        it('should throw an error', function() {
+                            expect(function() {
+                                child.emit('action', child.target, child.action, ['how', 'are', 'you?']);
+                            }).toThrow(new TypeError(`TemplateView [${view.id}] tried to respond to action [${child.action}] from View [${child.id}] but it does not implement ${child.action}().`));
+                        });
+                    });
+                });
+
+                describe('if its target is "controller"', function() {
+                    let action;
+
+                    beforeEach(function() {
+                        action = jasmine.createSpy('action()');
+                        view.on('action', action);
+
+                        child = view.button;
+
+                        child.emit('action', child.target, child.action, ['how', 'is', 'life?']);
+                    });
+
+                    it('should emit the action event on the TemplateView', function() {
+                        expect(action).toHaveBeenCalledWith(child.target, child.action, ['how', 'is', 'life?']);
+                    });
+                });
             });
 
             describe('if a child has an unknow constructor', function() {
@@ -489,7 +561,7 @@ describe('TemplateView', function() {
                 it('should throw an error', function() {
                     expect(function() {
                         view.didCreateElement();
-                    }).toThrow(new Error('Unknown class (FooView). Make sure your class is in the \'instantiates\' array.'));
+                    }).toThrow(new Error('Unknown class (FooView). Make sure your class is in the \'instantiates\' object.'));
                 });
             });
         });

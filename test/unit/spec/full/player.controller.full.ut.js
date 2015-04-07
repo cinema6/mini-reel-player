@@ -21,9 +21,8 @@ describe('FullPlayerController', function() {
     let rootView;
 
     beforeEach(function() {
-        rootView = new View();
-        spyOn(FullPlayerController.prototype, 'addListeners').and.callThrough();
-        spyOn(PlayerController.prototype, 'addListeners');
+        rootView = new View(document.createElement('body'));
+        spyOn(FullPlayerController.prototype, 'addView').and.callThrough();
 
         FullPlayerCtrl = new FullPlayerController(rootView);
     });
@@ -32,18 +31,11 @@ describe('FullPlayerController', function() {
         expect(FullPlayerCtrl).toEqual(jasmine.any(PlayerController));
     });
 
-    it('should add its listeners', function() {
-        expect(FullPlayerCtrl.addListeners).toHaveBeenCalled();
-    });
-
-    it('should add its parent\'s listeners', function() {
-        expect(PlayerController.prototype.addListeners).toHaveBeenCalled();
-    });
-
     describe('properties:', function() {
         describe('view', function() {
             it('should be a FullPlayerView', function() {
                 expect(FullPlayerCtrl.view).toEqual(jasmine.any(FullPlayerView));
+                expect(FullPlayerCtrl.addView).toHaveBeenCalledWith(FullPlayerCtrl.view);
             });
         });
 
@@ -106,7 +98,7 @@ describe('FullPlayerController', function() {
                     spyOn(FullPlayerCtrl.PlaylistViewCtrl, 'renderInto');
                     spyOn(FullPlayerCtrl.DisplayAdCtrl, 'renderInto');
 
-                    FullPlayerCtrl.minireel.emit('init');
+                    Runner.run(() => FullPlayerCtrl.minireel.emit('init'));
                 });
 
                 it('should render the playlist into its outlet', function() {
@@ -122,7 +114,7 @@ describe('FullPlayerController', function() {
                 beforeEach(function() {
                     spyOn(FullPlayerCtrl.PlaylistViewCtrl, 'disable');
 
-                    FullPlayerCtrl.minireel.emit('becameUnskippable');
+                    Runner.run(() => FullPlayerCtrl.minireel.emit('becameUnskippable'));
                 });
 
                 it('should disable the playlist', function() {
@@ -134,7 +126,7 @@ describe('FullPlayerController', function() {
                 beforeEach(function() {
                     spyOn(FullPlayerCtrl.PlaylistViewCtrl, 'enable');
 
-                    FullPlayerCtrl.minireel.emit('becameSkippable');
+                    Runner.run(() => FullPlayerCtrl.minireel.emit('becameSkippable'));
                 });
 
                 it('should enable the playlist', function() {
@@ -158,7 +150,7 @@ describe('FullPlayerController', function() {
                 describe('if the currentCard has the displayAd module', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { modules: { displayAd: {} } };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should set the DisplayAdCtrl\'s model to the displayAd module', function() {
@@ -174,7 +166,7 @@ describe('FullPlayerController', function() {
                 describe('if the currentCard does not have the displayAd module', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { modules: {} };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should deactivate the DisplayAdCtrl', function() {
@@ -186,7 +178,7 @@ describe('FullPlayerController', function() {
                 describe('if the current card is a TextCard', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { type: 'text', modules: {} };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should hide the navigation', function() {
@@ -198,7 +190,7 @@ describe('FullPlayerController', function() {
                 describe('if the currentCard is a recap card', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { type: 'recap', modules: {} };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should expand its view', function() {
@@ -215,7 +207,7 @@ describe('FullPlayerController', function() {
                 describe('if the currentCard is not a recap card', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { type: 'video', modules: {} };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should contract its view', function() {
@@ -232,7 +224,7 @@ describe('FullPlayerController', function() {
                 describe('if the current card is not a TextCard', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { type: 'video', modules: {} };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should show the navigation', function() {
@@ -245,7 +237,7 @@ describe('FullPlayerController', function() {
                     beforeEach(function() {
                         [[25, 10], [30, 55], [50, 50]].forEach(([titleLength, noteLength]) => {
                             FullPlayerCtrl.minireel.currentCard = { title: makeString(titleLength), note: makeString(noteLength), modules: {} };
-                            FullPlayerCtrl.minireel.emit('move');
+                            Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                         });
                     });
 
@@ -259,7 +251,7 @@ describe('FullPlayerController', function() {
                     beforeEach(function() {
                         [[100, 1], [110, 20], [100, 100]].forEach(([titleLength, noteLength]) => {
                             FullPlayerCtrl.minireel.currentCard = { title: makeString(titleLength), note: makeString(noteLength), modules: {} };
-                            FullPlayerCtrl.minireel.emit('move');
+                            Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                         });
                     });
 
@@ -273,7 +265,7 @@ describe('FullPlayerController', function() {
                     beforeEach(function() {
                         [[1, 200], [100, 200], [50, 700]].forEach(([titleLength, noteLength]) => {
                             FullPlayerCtrl.minireel.currentCard = { title: makeString(titleLength), note: makeString(noteLength), modules: {} };
-                            FullPlayerCtrl.minireel.emit('move');
+                            Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                         });
                     });
 
@@ -286,7 +278,7 @@ describe('FullPlayerController', function() {
                 describe('if the minireel is closed', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = null;
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should not set the button size', function() {
@@ -297,7 +289,7 @@ describe('FullPlayerController', function() {
                 describe('if the currentCard has no title or note', function() {
                     beforeEach(function() {
                         FullPlayerCtrl.minireel.currentCard = { title: null, note: null, modules: {} };
-                        FullPlayerCtrl.minireel.emit('move');
+                        Runner.run(() => FullPlayerCtrl.minireel.emit('move'));
                     });
 
                     it('should set the button size to small', function() {

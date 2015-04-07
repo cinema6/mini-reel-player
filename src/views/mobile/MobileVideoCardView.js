@@ -18,10 +18,4 @@ export default class MobileVideoCardView extends VideoCardView {
 
         this.replayContainer.hide();
     }
-
-    addListeners() {
-        super();
-
-        this.replayButton.on('press', () => this.emit('replay'));
-    }
 }

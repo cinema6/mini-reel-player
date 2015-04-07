@@ -212,6 +212,18 @@ describe('View', function() {
                 expect(view.inserted).toBe(false);
             });
         });
+
+        describe('target', function() {
+            it('should be null', function() {
+                expect(view.target).toBeNull();
+            });
+        });
+
+        describe('action', function() {
+            it('should be null', function() {
+                expect(view.action).toBeNull();
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -717,6 +729,50 @@ describe('View', function() {
                     it('should add the attribute with no value', function() {
                         expect(view.element.getAttribute('data-name')).toBe('');
                     });
+                });
+            });
+        });
+
+        describe('sendAction(...args)', function() {
+            let action;
+
+            beforeEach(function() {
+                action = jasmine.createSpy('action()');
+                view.on('action', action);
+
+                view.target = 'controller';
+                view.action = 'nextPage';
+
+                view.sendAction('greetings', 'from', 'princeton');
+            });
+
+            it('should emit the "action" event', function() {
+                expect(action).toHaveBeenCalledWith(view.target, view.action, ['greetings', 'from', 'princeton']);
+            });
+
+            describe('if there is no target', function() {
+                beforeEach(function() {
+                    action.calls.reset();
+                    view.target = null;
+
+                    view.sendAction('hello!');
+                });
+
+                it('should not emit "action"', function() {
+                    expect(action).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if there is no action', function() {
+                beforeEach(function() {
+                    action.calls.reset();
+                    view.action = null;
+
+                    view.sendAction('hello!');
+                });
+
+                it('should not emit "action"', function() {
+                    expect(action).not.toHaveBeenCalled();
                 });
             });
         });

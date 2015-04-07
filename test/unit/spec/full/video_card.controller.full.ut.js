@@ -18,8 +18,7 @@ describe('FullVideoCardController', function() {
         };
         card.thumbs = { large: 'large.jpg' };
         card.modules = {};
-        spyOn(FullVideoCardController.prototype, 'addListeners').and.callThrough();
-        spyOn(VideoCardController.prototype, 'addListeners');
+        spyOn(FullVideoCardController.prototype, 'addView').and.callThrough();
 
         FullVideoCardCtrl = new FullVideoCardController(card, parentView);
     });
@@ -28,18 +27,11 @@ describe('FullVideoCardController', function() {
         expect(FullVideoCardCtrl).toEqual(jasmine.any(VideoCardController));
     });
 
-    it('should add its listeners', function() {
-        expect(FullVideoCardCtrl.addListeners).toHaveBeenCalled();
-    });
-
-    it('should add its parent\'s listeners', function() {
-        expect(VideoCardController.prototype.addListeners).toHaveBeenCalled();
-    });
-
     describe('properties:', function() {
         describe('view', function() {
             it('should be a FullVideoCardView', function() {
                 expect(FullVideoCardCtrl.view).toEqual(jasmine.any(FullVideoCardView));
+                expect(FullVideoCardCtrl.addView).toHaveBeenCalledWith(FullVideoCardCtrl.view);
             });
         });
     });

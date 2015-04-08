@@ -7,6 +7,7 @@ export default class CardView extends TemplateView {
         super(...arguments);
 
         this.tag = 'li';
+        this.classes.push('cards__item');
     }
 
     show() {

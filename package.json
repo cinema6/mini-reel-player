@@ -6,7 +6,8 @@
   "scripts": {
     "test": "grunt test:unit",
     "mobile": "./src/mobile.js",
-    "full": "./src/full.js"
+    "full": "./src/full.js",
+    "lightbox-playlist": "./src/lightbox-playlist.js"
   },
   "repository": {
     "type": "git",

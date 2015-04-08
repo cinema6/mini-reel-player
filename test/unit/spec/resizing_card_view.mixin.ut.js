@@ -1,5 +1,5 @@
 import CardView from '../../../src/views/CardView.js';
-import ResizingCard from '../../../src/mixins/ResizingCard.js';
+import ResizingCardView from '../../../src/mixins/ResizingCardView.js';
 import Runner from '../../../lib/Runner.js';
 import {
     map
@@ -11,13 +11,13 @@ function makeString(length) {
     return map(new Array(length), () => 'c').join('');
 }
 
-describe('ResizingCard mixin', function() {
+describe('ResizingCardView mixin', function() {
     let view;
     let superUpdate;
 
     class MyCardView extends CardView {}
     MyCardView.prototype.update = superUpdate = jasmine.createSpy('MyCardView.prototype.update()');
-    MyCardView.mixin(ResizingCard);
+    MyCardView.mixin(ResizingCardView);
 
     beforeEach(function() {
         view = new MyCardView();

@@ -300,17 +300,4 @@ describe('PlayerView', function() {
             });
         });
     });
-
-    describe('hooks:', function() {
-        describe('didCreateElement()', function() {
-            beforeEach(function() {
-                spyOn(playerView, 'enableNavigation');
-                Runner.run(() => playerView.create());
-            });
-
-            it('should enable navigation', function() {
-                expect(playerView.enableNavigation).toHaveBeenCalled();
-            });
-        });
-    });
 });

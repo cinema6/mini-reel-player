@@ -13,6 +13,7 @@ import MobileTextCardController from '../../../../src/controllers/mobile/MobileT
 import MobileVideoCardController from '../../../../src/controllers/mobile/MobileVideoCardController.js';
 import MobileRecapCardController from '../../../../src/controllers/mobile/MobileRecapCardController.js';
 import View from '../../../../lib/core/View.js';
+import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 
 describe('MobilePlayerController', function() {
     let MobilePlayerCtrl;
@@ -41,11 +42,17 @@ describe('MobilePlayerController', function() {
 
         applicationView = new ApplicationView(document.createElement('body'));
 
+        spyOn(MobilePlayerController.prototype, 'initFullscreen').and.callThrough();
         Runner.run(() => MobilePlayerCtrl = new MobilePlayerController(applicationView));
     });
 
     it('should be a controller', function() {
         expect(MobilePlayerCtrl).toEqual(jasmine.any(PlayerController));
+    });
+
+    it('should mixin the FullscreenPlayerController', function() {
+        expect(MobilePlayerController.mixins).toContain(FullscreenPlayerController);
+        expect(MobilePlayerCtrl.initFullscreen).toHaveBeenCalled();
     });
 
     describe('properties:', function() {
@@ -117,40 +124,6 @@ describe('MobilePlayerController', function() {
 
                 it('should render the TableOfContentsViewCtrl into the view.toc', function() {
                     expect(MobilePlayerCtrl.TableOfContentsViewCtrl.renderInto).toHaveBeenCalledWith(MobilePlayerCtrl.view.toc);
-                });
-            });
-
-            describe('launch', function() {
-                beforeEach(function() {
-                    spyOn(cinema6, 'fullscreen');
-
-                    MobilePlayerCtrl.minireel.deck = [
-                        new TextCard({ data: {} }, experience),
-                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new RecapCard({}, experience, MobilePlayerCtrl.minireel)
-                    ];
-
-                    Runner.run(() => MobilePlayerCtrl.minireel.emit('init'));
-
-                    MobilePlayerCtrl.cardCtrls.forEach(Ctrl => spyOn(Ctrl, 'render'));
-                    Runner.run(() => MobilePlayerCtrl.minireel.emit('launch'));
-                });
-
-                it('should enter fullscreen mode', function() {
-                    expect(cinema6.fullscreen).toHaveBeenCalledWith(true);
-                });
-            });
-
-            describe('close', function() {
-                beforeEach(function() {
-                    spyOn(cinema6, 'fullscreen');
-                    MobilePlayerCtrl.minireel.emit('close');
-                });
-
-                it('should leave fullscreen mode', function() {
-                    expect(cinema6.fullscreen).toHaveBeenCalledWith(false);
                 });
             });
         });

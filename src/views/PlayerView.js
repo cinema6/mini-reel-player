@@ -23,12 +23,6 @@ export default class PlayerView extends TemplateView {
         _(this).navigationShown = true;
     }
 
-    didCreateElement() {
-        super(...arguments);
-
-        this.enableNavigation();
-    }
-
     update(data) {
         super(...arguments);
 

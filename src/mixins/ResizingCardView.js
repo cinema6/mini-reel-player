@@ -1,5 +1,5 @@
-function ResizingCard() {}
-ResizingCard.prototype.update = function({ title, note }) {
+function ResizingCardView() {}
+ResizingCardView.prototype.update = function({ title, note }) {
     const length = (title || '').length + (note || '').length;
 
     if (length <= 100) {
@@ -13,4 +13,4 @@ ResizingCard.prototype.update = function({ title, note }) {
     return this.super(...arguments);
 };
 
-export default ResizingCard;
+export default ResizingCardView;

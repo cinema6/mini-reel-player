@@ -1,5 +1,6 @@
 import VideoCardController from '../VideoCardController.js';
 import FullVideoCardView from '../../views/full/FullVideoCardView.js';
+import SkipTimerVideoCardController from '../../mixins/SkipTimerVideoCardController.js';
 
 export default class FullVideoCardController extends VideoCardController {
     constructor() {
@@ -7,8 +8,7 @@ export default class FullVideoCardController extends VideoCardController {
 
         this.view = this.addView(new FullVideoCardView());
 
-        this.model.on('becameUnskippable', () => this.view.skipTimer.show());
-        this.model.on('becameSkippable', () => this.view.skipTimer.hide());
-        this.model.on('skippableProgress', remaining => this.view.skipTimer.update(remaining));
+        this.initSkipTimer();
     }
 }
+FullVideoCardController.mixin(SkipTimerVideoCardController); // jshint ignore:line

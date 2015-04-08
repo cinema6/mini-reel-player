@@ -1,10 +1,10 @@
 import PlayerController from '../PlayerController.js';
 import MobilePlayerView from '../../views/mobile/MobilePlayerView.js';
 import TableOfContentsViewController from './TableOfContentsViewController.js';
-import cinema6 from '../../services/cinema6.js';
 import MobileTextCardController from './MobileTextCardController.js';
 import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
+import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
 export default class MobilePlayerController extends PlayerController {
     constructor() {
@@ -19,11 +19,11 @@ export default class MobilePlayerController extends PlayerController {
         };
 
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
-        this.minireel.on('launch', () => cinema6.fullscreen(true));
-        this.minireel.on('close', () => cinema6.fullscreen(false));
 
         this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
         this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
+
+        this.initFullscreen();
     }
 
     updateView() {
@@ -47,3 +47,4 @@ export default class MobilePlayerController extends PlayerController {
         this.TableOfContentsViewCtrl.toggle();
     }
 }
+MobilePlayerController.mixin(FullscreenPlayerController); // jshint ignore:line

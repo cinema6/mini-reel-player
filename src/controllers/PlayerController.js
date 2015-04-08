@@ -57,20 +57,23 @@ export default class PlayerController extends Controller {
     }
 
     updateView() {
-        const {minireel} = this;
+        const { minireel } = this;
         const { currentIndex, standalone } = minireel;
+        const socialLinks = minireel.socialLinks || [];
+        const links = minireel.links || {};
 
         this.view.update({
             title: minireel.title,
             sponsor: minireel.sponsor,
             logo: minireel.logo,
-            links: minireel.socialLinks,
-            website: (minireel.links || {}).Website,
+            links: socialLinks,
+            website: links.Website,
             isSponsored: !!(
                 minireel.sponsor ||
                 minireel.logo ||
-                (minireel.socialLinks || []).length > 0
+                socialLinks.length > 0
             ),
+            hasLinks: !!(links.Website || socialLinks.length > 0),
             totalCards: minireel.length,
 
             currentCardNumber: (minireel.currentIndex + 1).toString(),

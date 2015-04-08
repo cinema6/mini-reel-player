@@ -324,6 +324,7 @@ describe('PlayerController', function() {
                     links: PlayerCtrl.minireel.socialLinks,
                     website: PlayerCtrl.minireel.links.Website,
                     isSponsored: jasmine.any(Boolean),
+                    hasLinks: jasmine.any(Boolean),
                     totalCards: PlayerCtrl.minireel.length,
                     currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
                     canGoForward: jasmine.any(Boolean),
@@ -402,6 +403,63 @@ describe('PlayerController', function() {
                     it('should be false', function() {
                         expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
                             isSponsored: false
+                        }));
+                    });
+                });
+            });
+
+            describe('hasLinks', function() {
+                let minireel;
+                let view;
+
+                beforeEach(function() {
+                    minireel = PlayerCtrl.minireel;
+                    view = PlayerCtrl.view;
+
+                    view.update.calls.reset();
+                });
+
+                describe('if there are social links', function() {
+                    beforeEach(function() {
+                        minireel.socialLinks = [{}];
+                        delete minireel.links.Website;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            hasLinks: true
+                        }));
+                    });
+                });
+
+                describe('if there is a website', function() {
+                    beforeEach(function() {
+                        minireel.socialLinks = [];
+                        minireel.links.Website = 'cinema6.com';
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            hasLinks: true
+                        }));
+                    });
+                });
+
+                describe('if there is no website and no links', function() {
+                    beforeEach(function() {
+                        minireel.socialLinks = [];
+                        delete minireel.links.Website;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be false', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            hasLinks: false
                         }));
                     });
                 });

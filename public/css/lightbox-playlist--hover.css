@@ -182,29 +182,37 @@
     position transitions
     ================================================ */
     .nav__btnIcon {
-        -webkit-transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
-        transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
+        -webkit-transition:-webkit-transform 0.2s; 
+        transition:transform 0.2s; 
     }
 
     .nav__btn:hover .nav__btnIcon--prev {
-        left:44%;
+        transform: translateX(-40%);
+        -webkit-transform: translateX(-40%);
     }
     .nav__btn:hover .nav__btnIcon--next {
-        left:56%;
+        transform: translateX(40%);
+        -webkit-transform: translateX(40%);
     }
 
-    .nav__btn--condensed:hover .nav__btnIcon--prev {
-        left:8%;
+    .nav__btn--condensed:hover .nav__btnIcon--prev,
+    .nav__btn--recap:hover .nav__btnIcon--prev {
+        transform: translateX(-20%);
+        -webkit-transform: translateX(-20%);
     }
-    .nav__btn--condensed:hover .nav__btnIcon--next {
-        right:8%;
+    .nav__btn--condensed:hover .nav__btnIcon--next,
+    .nav__btn--recap:hover .nav__btnIcon--next {
+        transform: translateX(20%);
+        -webkit-transform: translateX(20%);
     }
 
     .nav__btn[disabled]:hover .nav__btnIcon--prev {
-        left:48%;
+        transform: translateX(0);
+        -webkit-transform: translateX(0);
     }
     .nav__btn[disabled]:hover .nav__btnIcon--next {
-        left:52%;
+        transform: translateX(0);
+        -webkit-transform: translateX(0);
     }
 
 
@@ -221,12 +229,12 @@
         transition: transform 0.3s;
     }
 
-    .sprite--close:hover,
+    .MiniReel__closeBtn:hover .sprite--close,
     .ballot__textLink:hover:before,
     .page__btn:hover .page__previewImg,
     .actionsModal__btn:hover:before {
-        -webkit-transform: scale(1.25);
-        transform: scale(1.25);
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
     }
         .page__btn--active:hover .page__previewImg {
             -webkit-transform: scale(1.12);

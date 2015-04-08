@@ -7,6 +7,7 @@ import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
 import adtech from '../services/adtech.js';
+import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
     forEach
@@ -50,6 +51,11 @@ function initialize(minireel, { experience, standalone }) {
         }
     };
 
+    minireel.sponsor = experience.data.params.sponsor || null;
+    minireel.logo = experience.data.collateral.logo || null;
+    minireel.links = experience.data.links || {};
+    minireel.socialLinks = makeSocialLinks(minireel.links);
+
     adtech.setDefaults({
         network: experience.data.adServer.network,
         server: experience.data.adServer.server,
@@ -73,6 +79,11 @@ export default class MiniReel extends EventEmitter {
         this.deck = [];
         this.length = 0;
         this.adConfig = null;
+
+        this.sponsor = null;
+        this.logo = null;
+        this.links = null;
+        this.socialLinks = null;
 
         this.currentIndex = -1;
         this.currentCard = null;

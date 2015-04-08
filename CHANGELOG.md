@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.5.0-rc1]*
+  * [FEATURE]: Add support for sponsored MiniReels
+
 ## v0.4.1 (April 6, 2015)
 * *[v0.4.1-rc1]*
   * [FIX]: Fix for an issue that caused the player not to load in

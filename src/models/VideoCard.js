@@ -1,13 +1,10 @@
 import Card from './Card.js';
 import timer from '../../lib/timer.js';
+import makeSocialLinks from '../fns/make_social_links.js';
 import {
-    map,
-    filter,
     extend
 } from '../../lib/utils.js';
 import {createKey} from 'private-parts';
-
-const SOCIAL_LINKS = ['Facebook', 'Pinterest', 'Twitter', 'YouTube', 'Vimeo'];
 
 const _ = createKey();
 
@@ -28,13 +25,7 @@ export default class VideoCard extends Card {
         this.action = data.params.action || {};
         this.logo = data.collateral.logo;
         this.links = data.links || {};
-        this.socialLinks = map(
-            filter(
-                Object.keys(this.links),
-                label => SOCIAL_LINKS.indexOf(label) > -1
-            ),
-            label => ({ type: label.toLowerCase(), label, href: data.links[label] })
-        );
+        this.socialLinks = makeSocialLinks(this.links);
         this.ad = !!data.params.ad;
 
         this.data = {

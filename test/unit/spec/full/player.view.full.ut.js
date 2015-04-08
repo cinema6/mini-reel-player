@@ -3,6 +3,7 @@ import PlayerView from '../../../../src/views/PlayerView.js';
 import Runner from '../../../../lib/Runner.js';
 import ResizableNavButtonView from '../../../../src/views/ResizableNavButtonView.js';
 import View from '../../../../lib/core/View.js';
+import LinksListView from '../../../../src/views/LinksListView.js';
 
 describe('FullPlayerView', function() {
     let view;
@@ -60,6 +61,12 @@ describe('FullPlayerView', function() {
             describe('cards', function() {
                 it('should be a View', function() {
                     expect(view.cards).toEqual(jasmine.any(View));
+                });
+            });
+
+            describe('links', function() {
+                it('should be a LinksListView', function() {
+                    expect(view.links).toEqual(jasmine.any(LinksListView));
                 });
             });
 

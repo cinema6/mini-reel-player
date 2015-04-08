@@ -1,5 +1,6 @@
 import PlayerView from '../PlayerView.js';
 import ResizableNavButtonView from '../ResizableNavButtonView.js';
+import LinksListView from '../LinksListView.js';
 import View from '../../../lib/core/View.js';
 import {
     forEach,
@@ -20,6 +21,7 @@ export default class FullPlayerView extends PlayerView {
         this.template = require('./FullPlayerView.html');
         this.instantiates = {
             ResizableNavButtonView,
+            LinksListView,
             View
         };
 

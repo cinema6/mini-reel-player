@@ -300,6 +300,17 @@ describe('PlayerController', function() {
                     })
                 ];
                 PlayerCtrl.minireel.length = 5;
+
+                PlayerCtrl.minireel.sponsor = 'Netflix';
+                PlayerCtrl.minireel.logo = 'http://www.images.com/netflix-logo.jpg';
+                PlayerCtrl.minireel.socialLinks = [
+                    { type: 'youtube', label: 'YouTube', href: 'yt.com' },
+                    { type: 'facebook', label: 'Facebook', href: 'fb.com' }
+                ];
+                PlayerCtrl.minireel.links = {
+                    Website: 'http://www.netflix.com'
+                };
+
                 PlayerCtrl.minireel.currentIndex = 3;
 
                 PlayerCtrl.updateView();
@@ -308,10 +319,91 @@ describe('PlayerController', function() {
             it('should update its view', function() {
                 expect(PlayerCtrl.view.update).toHaveBeenCalledWith({
                     title: PlayerCtrl.minireel.title,
+                    sponsor: PlayerCtrl.minireel.sponsor,
+                    logo: PlayerCtrl.minireel.logo,
+                    links: PlayerCtrl.minireel.socialLinks,
+                    website: PlayerCtrl.minireel.links.Website,
+                    isSponsored: jasmine.any(Boolean),
                     totalCards: PlayerCtrl.minireel.length,
                     currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
                     canGoForward: jasmine.any(Boolean),
                     canGoBack: jasmine.any(Boolean)
+                });
+            });
+
+            describe('isSponsored', function() {
+                let minireel;
+                let view;
+
+                beforeEach(function() {
+                    minireel = PlayerCtrl.minireel;
+                    view = PlayerCtrl.view;
+
+                    view.update.calls.reset();
+                });
+
+                describe('if there is a sponsor', function() {
+                    beforeEach(function() {
+                        minireel.sponsor = 'Target';
+                        minireel.logo = null;
+                        minireel.socialLinks = [];
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            isSponsored: true
+                        }));
+                    });
+                });
+
+                describe('if there is a logo', function() {
+                    beforeEach(function() {
+                        minireel.sponsor = null;
+                        minireel.logo = 'my-logo.jpg';
+                        minireel.socialLinks = [];
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            isSponsored: true
+                        }));
+                    });
+                });
+
+                describe('if there are links', function() {
+                    beforeEach(function() {
+                        minireel.sponsor = null;
+                        minireel.logo = null;
+                        minireel.socialLinks = [{}];
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            isSponsored: true
+                        }));
+                    });
+                });
+
+                describe('if there are no links, logo or sponsor', function() {
+                    beforeEach(function() {
+                        minireel.sponsor = null;
+                        minireel.logo = null;
+                        minireel.socialLinks = [];
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be false', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            isSponsored: false
+                        }));
+                    });
                 });
             });
 

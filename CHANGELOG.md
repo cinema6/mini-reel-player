@@ -2,7 +2,7 @@
 
 * *[v0.5.0-rc1]*
   * [FEATURE]: Add support for sponsored MiniReels
-  * [FIX]: Lightbox-playlist template styling fixes
+  * [FEATURE]: Add support for lightbox-playlist player
 
 ## v0.4.1 (April 6, 2015)
 * *[v0.4.1-rc1]*

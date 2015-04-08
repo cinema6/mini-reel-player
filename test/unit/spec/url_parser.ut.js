@@ -29,12 +29,12 @@ describe('urlParser', function() {
     it('should work for minimal urls', function() {
         expect(urlParser.parse('/hello/world.html')).toEqual(jasmine.objectContaining({
             href: location.origin + '/hello/world.html',
-            protocol: 'http',
-            host: 'localhost:8000',
+            protocol: location.protocol.replace(/:$/, ''),
+            host: location.host,
             search: '',
             hash: '',
-            hostname: 'localhost',
-            port: '8000',
+            hostname: location.hostname,
+            port: location.port,
             pathname: '/hello/world.html'
         }));
     });

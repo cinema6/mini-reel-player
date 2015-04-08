@@ -312,6 +312,7 @@ describe('PlayerController', function() {
                 };
 
                 PlayerCtrl.minireel.currentIndex = 3;
+                PlayerCtrl.minireel.currentCard = { type: 'recap' };
 
                 PlayerCtrl.updateView();
             });
@@ -328,7 +329,8 @@ describe('PlayerController', function() {
                     totalCards: PlayerCtrl.minireel.length,
                     currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
                     canGoForward: jasmine.any(Boolean),
-                    canGoBack: jasmine.any(Boolean)
+                    canGoBack: jasmine.any(Boolean),
+                    cardType: PlayerCtrl.minireel.currentCard.type
                 });
             });
 
@@ -485,6 +487,7 @@ describe('PlayerController', function() {
             describe('if called before the first slide', function() {
                 beforeEach(function() {
                     PlayerCtrl.minireel.currentIndex = -1;
+                    PlayerCtrl.minireel.currentCard = null;
                     PlayerCtrl.view.update.calls.reset();
 
                     PlayerCtrl.updateView();
@@ -494,6 +497,12 @@ describe('PlayerController', function() {
                     expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
                         canGoForward: true,
                         canGoBack: false
+                    }));
+                });
+
+                it('should make cardType null', function() {
+                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        cardType: null
                     }));
                 });
             });

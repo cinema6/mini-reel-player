@@ -62,42 +62,4 @@ describe('LightboxPlaylistPlayerController', function() {
             });
         });
     });
-
-    describe('updateView()', function() {
-        beforeEach(function() {
-            spyOn(PlayerController.prototype, 'updateView');
-            spyOn(LightboxPlaylistPlayerCtrl.view, 'update');
-
-            LightboxPlaylistPlayerCtrl.minireel.currentCard = {
-                type: 'recap'
-            };
-
-            LightboxPlaylistPlayerCtrl.updateView();
-        });
-
-        it('should call super()', function() {
-            expect(PlayerController.prototype.updateView).toHaveBeenCalled();
-        });
-
-        it('should update() the view with the type of the currentCard', function() {
-            expect(LightboxPlaylistPlayerCtrl.view.update).toHaveBeenCalledWith({
-                cardType: 'recap'
-            });
-        });
-
-        describe('if there is no currentCard', function() {
-            beforeEach(function() {
-                LightboxPlaylistPlayerCtrl.view.update.calls.reset();
-                LightboxPlaylistPlayerCtrl.minireel.currentCard = null;
-
-                LightboxPlaylistPlayerCtrl.updateView();
-            });
-
-            it('should set cardType to null', function() {
-                expect(LightboxPlaylistPlayerCtrl.view.update).toHaveBeenCalledWith({
-                    cardType: null
-                });
-            });
-        });
-    });
 });

@@ -30,6 +30,10 @@ module.exports = {
                 src: '.tmp/<%= grunt.config("package.scripts.lightbox-playlist") %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/' +
                     '<%= _version %>/lightbox-playlist.js'
+            },
+            {
+                src: '.tmp/<%= package.scripts.lightbox %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/lightbox.js'
             }
         ]
     },
@@ -50,6 +54,10 @@ module.exports = {
             {
                 src: '<%= grunt.config("package.scripts.lightbox-playlist") %>',
                 dest: 'server/.build/lightbox-playlist.js'
+            },
+            {
+                src: '<%= package.scripts.lightbox %>',
+                dest: 'server/.build/lightbox.js'
             }
         ]
     }

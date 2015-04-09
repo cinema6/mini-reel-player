@@ -1,5 +1,6 @@
 import codeLoader from '../../../src/services/code_loader.js';
-import moatApi, { MoatApiTracker } from '../../../src/services/moat.js';
+import moatApi from '../../../src/services/moat.js';
+import { MoatApiTracker } from '../../../src/services/moat.js';
 
 describe('moat',function(){
     let container, ids;

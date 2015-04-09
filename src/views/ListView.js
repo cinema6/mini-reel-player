@@ -42,6 +42,20 @@ export default class ListView extends View {
                 child = childrenById[id] = new this.itemViewClass(element);
                 child.id = `${this.id}--${id}`;
                 child.__listId__ = id;
+                child.target = child.attributes['data-target'] || null;
+                child.action = child.attributes['data-action'] || null;
+                child.on('action', (target, action, args) => {
+                    if (target !== 'view') { return this.emit('action', target, action, args); }
+
+                    if (typeof this[action] !== 'function') {
+                        throw new TypeError(
+                            `ListView [${this.id}] tried to handle action [${action}] of its ` +
+                            `child [${child.id}] but it does not implement ${action}().`
+                        );
+                    }
+
+                    this[action](...args);
+                });
 
                 this.emit('addChild', child, index);
             }

@@ -77,6 +77,10 @@ export default class VimeoPlayer extends CorePlayer {
         return _(this).state.paused;
     }
 
+    get muted() {
+        return _(this).state.volume === 0;
+    }
+
     get readyState() {
         return _(this).state.readyState;
     }

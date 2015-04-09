@@ -4,6 +4,7 @@ export default class PlayerInterface {
         this.duration = Number;
         this.ended = Boolean;
         this.paused = Boolean;
+        this.muted = Boolean;
         this.readyState = Number;
         this.seeking = Boolean;
         this.src = null;

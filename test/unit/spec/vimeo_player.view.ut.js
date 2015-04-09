@@ -636,6 +636,39 @@ describe('VimeoPlayer', function() {
             });
         });
 
+        describe('muted', function(){
+            describe('getting', function() {
+                it('should be true when the volume is 0', function(done) {
+                    vimeoPlayer.call.and.returnValue(RunnerPromise.resolve(0));
+                    vimeoPlayer.emit('ready');
+                    vimeoPlayer.call('foo').then(() => {
+                        expect(player.volume).toBe(0);
+                        expect(player.muted).toBe(true);
+                        done();
+                    });
+                });
+                
+                it('should be false when the volume is > 0', function(done) {
+                    vimeoPlayer.call.and.returnValue(RunnerPromise.resolve(0.5));
+                    vimeoPlayer.emit('ready');
+                    vimeoPlayer.call('foo').then(() => {
+                        expect(player.volume).toBe(0.5);
+                        expect(player.muted).toBe(false);
+                        done();
+                    });
+                });
+            });
+
+            describe('setting', function() {
+                it('should throw an error', function() {
+                    vimeoPlayer.emit('ready');
+                    expect(function() {
+                        player.muted = true;
+                    }).toThrow();
+                });
+            });
+        });
+
         describe('paused', function() {
             beforeEach(function() {
                 vimeoPlayer.emit('ready');

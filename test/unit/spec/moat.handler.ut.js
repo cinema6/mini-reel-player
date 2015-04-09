@@ -66,6 +66,7 @@ describe('MoatHandler', function() {
                 player = new CorePlayer();
                 player.duration = 45;
                 player.volume = 0.5;
+                player.muted = false;
                 player.element = {
                     childNodes : [ {} ]
                 };
@@ -129,6 +130,20 @@ describe('MoatHandler', function() {
                 });
 
                 it('sends AdVideoComplete for play',function(){
+                    player.emit('complete');
+                    expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
+                        'rc-abc123',{ type : 'AdVideoComplete', adVolume: 0.5 } );
+                });
+                
+                it('sends AdVideoComplete for play with volume 0 if player is muted',function(){
+                    player.muted = true;
+                    player.emit('complete');
+                    expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
+                        'rc-abc123',{ type : 'AdVideoComplete', adVolume: 0 } );
+                });
+                
+                it('sends AdVideoComplete for play with volume 0.5 if player.muted is undefined',function(){
+                    delete player.muted;
                     player.emit('complete');
                     expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
                         'rc-abc123',{ type : 'AdVideoComplete', adVolume: 0.5 } );

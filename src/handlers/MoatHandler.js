@@ -7,7 +7,11 @@ export default class MoatHandler {
         const site = environment.hostname;
 
         function moatEvent(evtType,player){
-            return { type : evtType, adVolume : player.volume };
+            var vol = player.volume;
+            if (!!player.muted) {
+                vol = 0;
+            }
+            return { type : evtType, adVolume : vol };
         }
 
         register(({ target: player, data: card }) => {

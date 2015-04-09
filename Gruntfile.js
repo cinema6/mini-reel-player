@@ -2,7 +2,12 @@ module.exports = function(grunt) {
     'use strict';
 
     var path = require('path'),
+        osType = require('os').type(),
         _ = require('underscore');
+
+    if (osType === 'Darwin'){
+        require('posix').setrlimit('nofile', { soft : 1048 }); 
+    }
 
     function loadGlobalConfig(relPath) {
         var configPath = path.join(process.env.HOME, relPath),

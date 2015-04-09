@@ -31,6 +31,12 @@ describe('PlayerInterface', function() {
             });
         });
 
+        describe('muted', function() {
+            it('should be Boolean', function() {
+                expect(iface.muted).toBe(Boolean);
+            });
+        });
+
         describe('readyState', function() {
             it('should be Number', function() {
                 expect(iface.readyState).toBe(Number);

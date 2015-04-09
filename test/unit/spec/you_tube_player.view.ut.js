@@ -18,7 +18,7 @@ describe('YouTubePlayer', function() {
         const deferred = defer(Promise);
 
         codeLoader.configure('youtube', {
-            src: 'https://www.youtube.com/iframe_api',
+            src: 'http://www.youtube.com/iframe_api',
 
             before() {
                 global.onYouTubeIframeAPIReady = () => {
@@ -40,7 +40,10 @@ describe('YouTubePlayer', function() {
         codeLoader.load('youtube').then(YT => {
             youtube = YT;
             done();
-        }, done);
+        }, err => {
+            console.log(err);
+            done();
+        });
         player = new YouTubePlayer();
 
         spyOn(global, 'setInterval').and.callFake(() => {
@@ -158,6 +161,12 @@ describe('YouTubePlayer', function() {
         describe('volume', function() {
             it('should be 0', function() {
                 expect(player.volume).toBe(0);
+            });
+        });
+
+        describe('muted', function() {
+            it('should be false', function() {
+                expect(player.muted).toBe(false);
             });
         });
 

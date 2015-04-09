@@ -25,11 +25,9 @@ describe('cinema6', function() {
             }
         };
 
-        session = {
-            request: jasmine.createSpy('session request').and.returnValue(requestPromise),
-            ping: jasmine.createSpy('session ping'),
-            on: jasmine.createSpy('session on')
-        };
+        session = new EventEmitter();
+        session.request = jasmine.createSpy('session request').and.returnValue(requestPromise);
+        session.ping = jasmine.createSpy('session ping');
 
         spyOn(postMessage, 'createSession').and.returnValue(session);
     });
@@ -86,6 +84,7 @@ describe('cinema6', function() {
                     done = jasmine.createSpy('done()').and.callFake(_done);
 
                     spyOn(cinema6, 'emit').and.callThrough();
+                    spyOn(session, 'emit').and.callThrough();
 
                     _private.appData.promise.then(done);
 
@@ -98,6 +97,7 @@ describe('cinema6', function() {
 
                 it('should emit the ready event', function() {
                     expect(cinema6.emit).toHaveBeenCalledWith('ready', true);
+                    expect(session.emit).toHaveBeenCalledWith('ready', true);
                 });
 
                 it('should send a ping to tell cinema6 it is ready', function() {

@@ -34,6 +34,10 @@ module.exports = {
             {
                 src: '.tmp/<%= package.scripts.lightbox %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/lightbox.js'
+            },
+            {
+                src: '.tmp/<%= package.scripts.light %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/light.js'
             }
         ]
     },
@@ -58,6 +62,10 @@ module.exports = {
             {
                 src: '<%= package.scripts.lightbox %>',
                 dest: 'server/.build/lightbox.js'
+            },
+            {
+                src: '<%= package.scripts.light %>',
+                dest: 'server/.build/light.js'
             }
         ]
     }

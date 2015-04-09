@@ -8,7 +8,8 @@
     "mobile": "./src/mobile.js",
     "full": "./src/full.js",
     "lightbox-playlist": "./src/lightbox-playlist.js",
-    "lightbox": "./src/lightbox.js"
+    "lightbox": "./src/lightbox.js",
+    "light": "./src/light.js"
   },
   "repository": {
     "type": "git",

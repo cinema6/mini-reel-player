@@ -1,0 +1,40 @@
+<div class="MiniReel__group" data-class="sponsor:MiniReel__group--brandedMR">
+    <div class="titleBar__group" data-if="isSponsored">
+        <a data-if="logo"
+            href="{{website}}"
+            title="{{sponsor}}"
+            target="_blank"
+            class="brandProfile__logoBox">
+            <img class="brandProfile__logo"
+                alt="{{sponsor}}"
+                src="{{logo}}">
+        </a>
+        <h1 class="titleBar__title">
+            <span data-if="sponsor" class="brandedMR__tagline">
+                <a href="{{website}}"
+                    target="_blank"
+                    title="{{sponsor}}"
+                    class="brandedMR__taglineBrand textLink">
+                    {{sponsor}}
+                </a>
+                Presents
+            </span>
+            <span class="titleBar__titleText tk--hdr">
+                {{title}}
+            </span>
+        </h1>
+
+        <div data-view="links:LinksListView" class="brandProfile__linksBox" data-if="links.length">
+            <a href="{{href}}"
+                title="{{label}}" target="_blank"
+                class="brandProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
+                <span class="ir">{{label}}</span>
+            </a>
+        </div>
+
+    </div>
+
+    <ul data-view="cards:View" class="cards__list"></ul>
+
+    <div data-view="pagerOutlet:View"></div><!--thumbnail navigator outlet-->
+</div><!--.MiniReel__group-->

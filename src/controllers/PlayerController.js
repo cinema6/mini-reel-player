@@ -58,7 +58,7 @@ export default class PlayerController extends Controller {
 
     updateView() {
         const { minireel } = this;
-        const { currentIndex, standalone } = minireel;
+        const { currentIndex, currentCard, standalone } = minireel;
         const socialLinks = minireel.socialLinks || [];
         const links = minireel.links || {};
 
@@ -76,6 +76,7 @@ export default class PlayerController extends Controller {
             hasLinks: !!(links.Website || socialLinks.length > 0),
             totalCards: minireel.length,
 
+            cardType: currentCard && currentCard.type,
             currentCardNumber: (minireel.currentIndex + 1).toString(),
             canGoForward: currentIndex < (minireel.length - 1),
             canGoBack: (currentIndex > 0 || !standalone) && currentIndex > -1

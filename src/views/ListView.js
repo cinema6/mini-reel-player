@@ -17,7 +17,8 @@ export default class ListView extends View {
         this.itemViewClass = TemplateView;
         this.itemIdentifier = 'id';
 
-        _(this).children = [];
+        this.children = [];
+
         _(this).childrenById = {};
     }
 
@@ -25,7 +26,7 @@ export default class ListView extends View {
         if (!this.element) { this.create(); }
 
         const {childrenById, childElement} = _(this);
-        const prevChildren = _(this).children;
+        const prevChildren = this.children;
         const children = new Array(collection.length);
 
         const getId = (item => item[this.itemIdentifier]);
@@ -41,6 +42,20 @@ export default class ListView extends View {
                 child = childrenById[id] = new this.itemViewClass(element);
                 child.id = `${this.id}--${id}`;
                 child.__listId__ = id;
+                child.target = child.attributes['data-target'] || null;
+                child.action = child.attributes['data-action'] || null;
+                child.on('action', (target, action, args) => {
+                    if (target !== 'view') { return this.emit('action', target, action, args); }
+
+                    if (typeof this[action] !== 'function') {
+                        throw new TypeError(
+                            `ListView [${this.id}] tried to handle action [${action}] of its ` +
+                            `child [${child.id}] but it does not implement ${action}().`
+                        );
+                    }
+
+                    this[action](...args);
+                });
 
                 this.emit('addChild', child, index);
             }
@@ -63,7 +78,7 @@ export default class ListView extends View {
             }
         });
 
-        _(this).children = children;
+        this.children = children;
     }
 
     didCreateElement() {

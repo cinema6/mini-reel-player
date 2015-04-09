@@ -35,6 +35,12 @@ describe('ListView', function() {
                 expect(listView.itemIdentifier).toBe('id');
             });
         });
+
+        describe('children', function() {
+            it('should be an array', function() {
+                expect(listView.children).toEqual([]);
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -74,7 +80,7 @@ describe('ListView', function() {
                 beforeEach(function() {
                     listView = new ListView();
                     listView.template = `
-                        <li>I will be repeated.</li>
+                        <li data-target="controller" data-action="doStuff">I will be repeated.</li>
                     `;
                     spyOn(listView, 'append').and.callThrough();
 
@@ -90,6 +96,8 @@ describe('ListView', function() {
                     children.forEach(child => {
                         expect(child.template).toEqual('I will be repeated.');
                         expect(child.tag).toBe('li');
+                        expect(child.target).toBe('controller');
+                        expect(child.action).toBe('doStuff');
                     });
                 });
             });
@@ -113,6 +121,7 @@ describe('ListView', function() {
             it('should create a child for each item in the collection', function() {
                 expect(listView.append.calls.count()).toBe(collection.length);
                 expect(children).toEqual(collection.map(() => jasmine.any(TemplateView)));
+                expect(listView.children).toEqual(children);
             });
 
             it('should emit the addChild event', function() {
@@ -120,11 +129,75 @@ describe('ListView', function() {
             });
 
             it('should create an id for each child', function() {
-                children.forEach((child, index) => expect(child.id).toBe(`${listView.id}--${collection[index][listView.itemIdentifier]}`));
+                children.forEach((child, index) => {
+                    expect(child.id).toBe(`${listView.id}--${collection[index][listView.itemIdentifier]}`);
+                    expect(child.target).toBeNull();
+                    expect(child.action).toBeNull();
+                });
             });
 
             it('should update each child with the collection item', function() {
                 children.forEach((child, index) => expect(child.update).toHaveBeenCalledWith(collection[index]));
+            });
+
+            describe('if a child emits the action event', function() {
+                let child;
+                let target;
+                let action;
+
+                beforeEach(function() {
+                    child = children[1];
+                });
+
+                describe('if the target is view', function() {
+                    beforeEach(function() {
+                        target = 'view';
+                    });
+
+                    describe('if there is a method for the action', function() {
+                        beforeEach(function() {
+                            listView.aMethod = jasmine.createSpy('listView.aMethod()');
+                            action = 'aMethod';
+
+                            child.emit('action', target, action, ['hello', 'world']);
+                        });
+
+                        it('should call the method on the ListView', function() {
+                            expect(listView.aMethod).toHaveBeenCalledWith('hello', 'world');
+                        });
+                    });
+
+                    describe('if there is no method for the action', function() {
+                        beforeEach(function() {
+                            listView.bigMistake = {};
+                            action = 'bigMistake';
+                        });
+
+                        it('should throw an error', function() {
+                            expect(function() {
+                                child.emit('action', target, action, ['sup?']);
+                            }).toThrow(new TypeError(`ListView [${listView.id}] tried to handle action [${action}] of its child [${child.id}] but it does not implement ${action}().`));
+                        });
+                    });
+                });
+
+                describe('if the target is not view', function() {
+                    let actionHandler;
+
+                    beforeEach(function() {
+                        actionHandler = jasmine.createSpy('action()');
+                        listView.on('action', actionHandler);
+
+                        target = 'controller';
+                        action = 'fooBar';
+
+                        child.emit('action', target, action, ['how', 'is', 'life?']);
+                    });
+
+                    it('should emit the action on itself', function() {
+                        expect(actionHandler).toHaveBeenCalledWith(target, action, ['how', 'is', 'life?']);
+                    });
+                });
             });
 
             describe('if an item is added', function() {

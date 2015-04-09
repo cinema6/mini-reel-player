@@ -22,14 +22,5 @@ export default class LightboxPlaylistPlayerController extends PlayerController {
         this.initPlaylist();
         this.initFullscreen();
     }
-
-    updateView() {
-        const { minireel: { currentCard } } = this;
-
-        this.view.update({
-            cardType: currentCard && currentCard.type
-        });
-        return super(...arguments);
-    }
 }
 LightboxPlaylistPlayerController.mixin(PlaylistPlayerController, FullscreenPlayerController); // jshint ignore:line

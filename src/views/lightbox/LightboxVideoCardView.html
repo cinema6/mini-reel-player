@@ -1,0 +1,57 @@
+<article class="card__group">
+    <div data-view="postOutlet:View"></div><!-- post module outlet-->
+    <div class="player__group playerHeight">
+        <div data-view="playerOutlet:PlayerOutletView" class="js-playerBox player"></div>
+    </div>
+
+    <div class="card__copy" data-class="hasDisplayAd:card__copy--companionAd">
+        <h1 class="card__title tk--hdr">
+            {{title}}
+            <span data-if="showSource" class="card__attributes tk--copy">
+                via&nbsp;<a href="{{href}}" target="_blank" class="textLink" title="{{source}}">{{source}}</a>
+            </span>
+        </h1>
+
+        <div class="sponsorProfile__group clearfix" data-if="isSponsored">
+            <a data-if="logo"
+                href="{{website}}"
+                target="_blank"
+                title="{{sponsor}}"
+                class="sponsorProfile__imgBox">
+                <img src="{{logo}}" alt="{{sponsor}}" class="sponsorProfile__img">
+            </a>
+            <div class="sponsorProfile__copy" data-if="hasSponsoredCopy">
+                <div class="card__attributes sponsorProfile__tag" data-if="sponsor">
+                    Sponsored by
+                    <a href="{{website}}"
+                        target="_blank"
+                        title="{{sponsor}}"
+                        class="textLink">
+                        {{sponsor}}
+                    </a>
+                </div>
+                <div data-view="links:LinksListView" class="sponsorProfile__links" data-if="links.length">
+                    <a title="{{label}}"
+                        href="{{href}}"
+                        target="_blank"
+                        class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
+                        <span class="ir">{{label}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card__desc">{{note}}</div>
+
+        <div class="card__desc sponsor__actions" data-if="action">
+            <a data-if="action.isText" title="{{action.label}}" href="{{action.href}}" target="_blank" class="textLink">
+                {{action.label}}
+            </a>
+            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="sponsor__goBtn btnPrimary" title="{{action.label}}">
+                <span class="btn__label tk--action">{{action.label}}</span>
+            </a>
+        </div>
+
+    </div>
+    <div data-view="displayAdOutlet:View"></div>
+</article>

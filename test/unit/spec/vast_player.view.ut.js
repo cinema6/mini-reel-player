@@ -111,6 +111,7 @@ describe('<vast-player>', function() {
         this.duration = NaN;
         this.volume = 0;
         this.paused = true;
+        this.muted = false;
         this.src = null;
         this.readyState = 0;
 
@@ -613,6 +614,32 @@ describe('<vast-player>', function() {
                     }).toThrow();
                 });
             });
+
+            describe('muted', function() {
+                describe('before the player is loaded', function() {
+                    it('should be true', function() {
+                        expect(player.muted).toBe(false);
+                    });
+                });
+
+                describe('after the player is loaded', function() {
+                    beforeEach(function() {
+                        Runner.run(() => player.load());
+                    });
+
+                    it('should return the muted prop of player', function() {
+                        video.muted = false;
+                        expect(player.muted).toBe(false);
+                    });
+                });
+
+                it('should throw an error when setting', function() {
+                    expect(function() {
+                        player.muted = true;
+                    }).toThrow();
+                });
+            });
+
 
             describe('seeking', function() {
                 describe('before the player is loaded', function() {

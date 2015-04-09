@@ -17,7 +17,8 @@ export default class ListView extends View {
         this.itemViewClass = TemplateView;
         this.itemIdentifier = 'id';
 
-        _(this).children = [];
+        this.children = [];
+
         _(this).childrenById = {};
     }
 
@@ -25,7 +26,7 @@ export default class ListView extends View {
         if (!this.element) { this.create(); }
 
         const {childrenById, childElement} = _(this);
-        const prevChildren = _(this).children;
+        const prevChildren = this.children;
         const children = new Array(collection.length);
 
         const getId = (item => item[this.itemIdentifier]);
@@ -63,7 +64,7 @@ export default class ListView extends View {
             }
         });
 
-        _(this).children = children;
+        this.children = children;
     }
 
     didCreateElement() {

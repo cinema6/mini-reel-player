@@ -35,6 +35,12 @@ describe('ListView', function() {
                 expect(listView.itemIdentifier).toBe('id');
             });
         });
+
+        describe('children', function() {
+            it('should be an array', function() {
+                expect(listView.children).toEqual([]);
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -113,6 +119,7 @@ describe('ListView', function() {
             it('should create a child for each item in the collection', function() {
                 expect(listView.append.calls.count()).toBe(collection.length);
                 expect(children).toEqual(collection.map(() => jasmine.any(TemplateView)));
+                expect(listView.children).toEqual(children);
             });
 
             it('should emit the addChild event', function() {

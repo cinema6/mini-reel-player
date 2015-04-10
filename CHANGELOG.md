@@ -1,11 +1,13 @@
 # MiniReel Player 2.0
 
+## v0.5.0 (April 10, 2015)
 * *[v0.5.0-rc1]*
   * [FEATURE]: Add support for sponsored MiniReels
   * [FEATURE]: Add support for lightbox-playlist player
   * [FIX]: Add support for muting of videos and reporting to Moat.
   * [FEATURE]: Add support for lightbox player
   * [FEATURE]: Add support for light player
+* *[/v0.5.0-rc1]*
 
 ## v0.4.1 (April 6, 2015)
 * *[v0.4.1-rc1]*

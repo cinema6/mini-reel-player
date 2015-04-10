@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.5.0 (April 10, 2015)
+* *[v0.5.0-rc2]*
+  * [FIX]: Fix for an issue that only caused autoadvance to work in the
+    mobile player
+* *[/v0.5.0-rc2]*
+
 * *[v0.5.0-rc1]*
   * [FEATURE]: Add support for sponsored MiniReels
   * [FEATURE]: Add support for lightbox-playlist player

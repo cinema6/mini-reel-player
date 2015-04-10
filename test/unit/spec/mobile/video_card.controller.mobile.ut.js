@@ -184,28 +184,6 @@ describe('MobileVideoCardController', function() {
                     spyOn(card, 'complete');
                 });
 
-                describe('if canAutoadvance() returns true', function() {
-                    beforeEach(function() {
-                        spyOn(MobileVideoCardCtrl, 'canAutoadvance').and.returnValue(true);
-                        Runner.run(() => player.emit('ended'));
-                    });
-
-                    it('should call complete() on the card', function() {
-                        expect(card.complete).toHaveBeenCalled();
-                    });
-                });
-
-                describe('if canAutoadvance() returns false', function() {
-                    beforeEach(function() {
-                        spyOn(MobileVideoCardCtrl, 'canAutoadvance').and.returnValue(false);
-                        Runner.run(() => player.emit('ended'));
-                    });
-
-                    it('should not call complete() on the card', function() {
-                        expect(card.complete).not.toHaveBeenCalled();
-                    });
-                });
-
                 describe('if the displayAd module is present', function() {
                     let displayAd;
                     let DisplayAdCtrl;

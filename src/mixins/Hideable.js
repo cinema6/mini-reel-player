@@ -4,6 +4,18 @@ import {createKey} from 'private-parts';
 
 const _ = createKey();
 
+function show(shown) {
+    const { element } = this;
+
+    if (shown) {
+        return animator.trigger('view:show', this)
+            .then(() => element.style.display = _(this).display);
+    } else {
+        return animator.trigger('view:hide', this)
+            .then(() => element.style.display = 'none');
+    }
+}
+
 function Hideable() {
     _(this).display = '';
     _(this).shown = true;
@@ -16,22 +28,14 @@ Hideable.prototype = {
         _(this).shown = false;
         _(this).display = element.style.display;
 
-        Runner.schedule('render', null, () => {
-            return animator.trigger('view:hide', this)
-                .then(() => element.style.display = 'none');
-        });
+        Runner.scheduleOnce('render', this, show, [false]);
     },
 
     show() {
         if (_(this).shown) { return; }
-        const element = this.element || this.create();
-
         _(this).shown = true;
 
-        Runner.schedule('render', null, () => {
-            return animator.trigger('view:show', this)
-                .then(() => element.style.display = _(this).display);
-        });
+        Runner.scheduleOnce('render', this, show, [true]);
     }
 };
 

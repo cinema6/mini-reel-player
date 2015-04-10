@@ -408,6 +408,30 @@ describe('VideoCardController', function() {
                     Runner.run(() => player.emit('ended'));
                 });
 
+                describe('if canAutoadvance() returns true', function() {
+                    beforeEach(function() {
+                        card.complete.calls.reset();
+                        spyOn(VideoCardCtrl, 'canAutoadvance').and.returnValue(true);
+                        Runner.run(() => player.emit('ended'));
+                    });
+
+                    it('should call complete() on the card', function() {
+                        expect(card.complete).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if canAutoadvance() returns false', function() {
+                    beforeEach(function() {
+                        card.complete.calls.reset();
+                        spyOn(VideoCardCtrl, 'canAutoadvance').and.returnValue(false);
+                        Runner.run(() => player.emit('ended'));
+                    });
+
+                    it('should not call complete() on the card', function() {
+                        expect(card.complete).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('if the post module is present', function() {
                     let post;
                     let PostCtrl;

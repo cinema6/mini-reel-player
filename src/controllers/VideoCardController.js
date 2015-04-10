@@ -72,6 +72,8 @@ export default class VideoCardController extends CardController {
             if (post) {
                 PostCtrl.activate();
             }
+
+            if (this.canAutoadvance()) { this.model.complete(); }
         });
     }
 

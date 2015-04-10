@@ -34,8 +34,6 @@ export default class MobileVideoCardController extends VideoCardController {
             if (displayAd && !displayAd.isDefault) {
                 DisplayAdCtrl.activate();
             }
-
-            if (this.canAutoadvance()) { this.model.complete(); }
         });
     }
 

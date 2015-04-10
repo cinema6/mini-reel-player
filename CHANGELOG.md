@@ -5,6 +5,7 @@
   * [FEATURE]: Add support for lightbox-playlist player
   * [FIX]: Add support for muting of videos and reporting to Moat.
   * [FEATURE]: Add support for lightbox player
+  * [FEATURE]: Add support for light player
 
 ## v0.4.1 (April 6, 2015)
 * *[v0.4.1-rc1]*

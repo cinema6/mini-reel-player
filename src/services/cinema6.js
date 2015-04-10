@@ -29,6 +29,7 @@ class Cinema6 extends EventEmitter {
             const completeHandshake = () => {
                 this.ready = true;
                 this.emit('ready', true);
+                session.emit('ready', true);
                 session.ping('ready', true);
                 _(this).session.fulfill(session);
             };

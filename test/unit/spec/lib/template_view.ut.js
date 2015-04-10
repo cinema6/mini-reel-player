@@ -27,6 +27,12 @@ describe('TemplateView', function() {
             const task = (() => fn.call(context, ...args));
             queues[queue].push(task);
         });
+
+        spyOn(Runner, 'scheduleOnce').and.callFake(function(queue, context, fn, args = []) {
+            if (typeof fn === 'string') { fn = context[fn]; }
+            const task = (() => fn.call(context, ...args));
+            queues[queue].push(task);
+        });
     });
 
     it('should be a view', function() {

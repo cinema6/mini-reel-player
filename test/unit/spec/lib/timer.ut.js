@@ -77,7 +77,7 @@ describe('timer', function() {
             beforeEach(function() {
                 spyOn(global, 'setInterval').and.callThrough();
                 spyOn(Runner, 'run').and.callThrough();
-                fn = jasmine.createSpy('fn()').and.callFake(() => Runner.schedule('render', () => {}));
+                fn = jasmine.createSpy('fn()').and.callFake(() => Runner.schedule('render', null, () => {}));
 
                 result = timer.interval(fn, 50);
             });

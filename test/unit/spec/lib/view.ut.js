@@ -14,7 +14,9 @@ describe('View', function() {
             render: []
         };
 
-        spyOn(Runner, 'schedule').and.callFake(function(queue, task) {
+        spyOn(Runner, 'schedule').and.callFake(function(queue, context, fn, args = []) {
+            if (typeof fn === 'string') { fn = context[fn]; }
+            const task = (() => fn.call(context, ...args));
             queues[queue].push(task);
         });
     });
@@ -551,6 +553,7 @@ describe('View', function() {
                 queues.render.pop()();
 
                 spyOn(view, 'willRemoveElement').and.callThrough();
+                spyOn(parentView.element, 'removeChild').and.callThrough();
 
                 element = view.element;
                 view.remove();
@@ -566,7 +569,7 @@ describe('View', function() {
 
             describe('in the render queue', function() {
                 beforeEach(function() {
-                    spyOn(parentView.element, 'removeChild').and.callThrough();
+                    expect(parentView.element.removeChild).not.toHaveBeenCalled();
                     queues.render.pop()();
                 });
 

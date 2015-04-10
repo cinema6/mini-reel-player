@@ -22,7 +22,9 @@ describe('TemplateView', function() {
             });
         }
 
-        spyOn(Runner, 'schedule').and.callFake(function(queue, task) {
+        spyOn(Runner, 'schedule').and.callFake(function(queue, context, fn, args = []) {
+            if (typeof fn === 'string') { fn = context[fn]; }
+            const task = (() => fn.call(context, ...args));
             queues[queue].push(task);
         });
     });
@@ -72,10 +74,10 @@ describe('TemplateView', function() {
                     view.update({
                         age: 23
                     });
-                    queues.render.pop()();
+                    queues.render.shift()();
                     tbCompileFn.calls.reset();
 
-                    queues.render.pop()();
+                    queues.render.shift()();
                 });
 
                 it('should extend the data each time', function() {

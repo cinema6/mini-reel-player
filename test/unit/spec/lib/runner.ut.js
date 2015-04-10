@@ -8,6 +8,7 @@ describe('Runner', function() {
             this.hasWork = false;
 
             this.add = jasmine.createSpy('queue.add()');
+            this.addOnce = jasmine.createSpy('queue.addOnce()');
             this.flush = jasmine.createSpy('queue.flush()');
         }
     }
@@ -57,6 +58,67 @@ describe('Runner', function() {
 
                             it('should set hasWork to true', function() {
                                 expect(queue.hasWork).toBe(true);
+                            });
+                        });
+
+                        describe('addOnce(context, fn, args)', function() {
+                            let fn1, fn2;
+                            let context;
+
+                            beforeEach(function() {
+                                context = {};
+
+                                fn1 = jasmine.createSpy('fn1()');
+                                fn2 = jasmine.createSpy('fn2()');
+
+                                queue.addOnce(context, fn1, ['hello']);
+                                queue.addOnce(context, fn1, ['nevermind']);
+                                queue.addOnce(context, fn2, ['HEY!']);
+                                queue.addOnce(context, fn1, ['got', 'it']);
+                                queue.add(context, fn2, ['Still call me!']);
+                                queue.addOnce(context, fn2, ['cool!']);
+
+                                queue.flush();
+                            });
+
+                            it('should call each function with the most recent arguments', function() {
+                                expect(fn1).toHaveBeenCalledWith('got', 'it');
+                                expect(fn1.calls.mostRecent().object).toBe(context);
+                                expect(fn1.calls.count()).toBe(1);
+
+                                expect(fn2).toHaveBeenCalledWith('cool!');
+                                expect(fn2).toHaveBeenCalledWith('Still call me!');
+                                fn2.calls.all().forEach(call => expect(call.object).toBe(context));
+                                expect(fn2.calls.count()).toBe(2);
+                            });
+
+                            describe('if the same function is called with different contexts', function() {
+                                let fn;
+                                let context1;
+                                let context2;
+
+                                beforeEach(function() {
+                                    fn = jasmine.createSpy('fn()');
+                                    context1 = {};
+                                    context2 = {};
+
+                                    queue.addOnce(context1, fn, ['foo']);
+                                    queue.addOnce(context1, fn, ['cool']);
+                                    queue.addOnce(context2, fn, ['another']);
+                                    queue.addOnce(context2, fn, ['beans']);
+
+                                    queue.flush();
+                                });
+
+                                it('should call the function once per context', function() {
+                                    expect(fn).toHaveBeenCalledWith('cool');
+                                    expect(fn.calls.first().object).toBe(context1);
+
+                                    expect(fn).toHaveBeenCalledWith('beans');
+                                    expect(fn.calls.mostRecent().object).toBe(context2);
+
+                                    expect(fn.calls.count()).toBe(2);
+                                });
                             });
                         });
 
@@ -180,6 +242,71 @@ describe('Runner', function() {
 
                         it('should set hasWork to true', function() {
                             expect(queue.hasWork).toBe(true);
+                        });
+                    });
+
+                    describe('addOnce(context, fn, args)', function() {
+                        let fn1, fn2;
+                        let context;
+
+                        beforeEach(function() {
+                            context = {};
+
+                            fn1 = jasmine.createSpy('fn1()');
+                            fn2 = jasmine.createSpy('fn2()');
+
+                            queue.addOnce(context, fn1, ['hello']);
+                            queue.addOnce(context, fn1, ['nevermind']);
+                            queue.addOnce(context, fn2, ['HEY!']);
+                            queue.addOnce(context, fn1, ['got', 'it']);
+                            queue.add(context, fn2, ['Still call me!']);
+                            queue.addOnce(context, fn2, ['cool!']);
+
+                            spyOn(global, 'requestAnimationFrame');
+
+                            queue.flush();
+                            global.requestAnimationFrame.calls.mostRecent().args[0]();
+                        });
+
+                        it('should call each function with the most recent arguments', function() {
+                            expect(fn1).toHaveBeenCalledWith('got', 'it');
+                            expect(fn1.calls.mostRecent().object).toBe(context);
+                            expect(fn1.calls.count()).toBe(1);
+
+                            expect(fn2).toHaveBeenCalledWith('cool!');
+                            expect(fn2).toHaveBeenCalledWith('Still call me!');
+                            fn2.calls.all().forEach(call => expect(call.object).toBe(context));
+                            expect(fn2.calls.count()).toBe(2);
+                        });
+
+                        describe('if the same function is called with different contexts', function() {
+                            let fn;
+                            let context1;
+                            let context2;
+
+                            beforeEach(function() {
+                                fn = jasmine.createSpy('fn()');
+                                context1 = {};
+                                context2 = {};
+
+                                queue.addOnce(context1, fn, ['foo']);
+                                queue.addOnce(context1, fn, ['cool']);
+                                queue.addOnce(context2, fn, ['another']);
+                                queue.addOnce(context2, fn, ['beans']);
+
+                                queue.flush();
+                                global.requestAnimationFrame.calls.mostRecent().args[0]();
+                            });
+
+                            it('should call the function once per context', function() {
+                                expect(fn).toHaveBeenCalledWith('cool');
+                                expect(fn.calls.first().object).toBe(context1);
+
+                                expect(fn).toHaveBeenCalledWith('beans');
+                                expect(fn.calls.mostRecent().object).toBe(context2);
+
+                                expect(fn.calls.count()).toBe(2);
+                            });
                         });
                     });
 
@@ -356,6 +483,41 @@ describe('Runner', function() {
                 });
             });
 
+            describe('scheduleOnce(queue, context, fn, args)', function() {
+                let fn1, context1, args1;
+                let fn2, context2, args2;
+                let fn3, context3, args3;
+
+                beforeEach(function() {
+                    spyOn(Runner.prototype, 'scheduleOnce');
+                    spyOn(Runner.prototype, 'flush');
+
+                    fn1 = function() {}; context1 = { foo: 'bar' }; args1 = ['hello', 'world'];
+                    fn2 = function() {}; context2 = null; args2 = ['hey'];
+                    fn3 = function() {}; context3 = { bar: 'foo' };
+
+                    Runner.run(function() {
+                        Runner.scheduleOnce('beforeRender', context1, fn1, args1);
+                        Runner.scheduleOnce('render', context2, fn2, args2);
+                        Runner.scheduleOnce('afterRender', context3, fn3, args3);
+                    });
+                });
+
+                it('should schedule actions on the current runner instance', function() {
+                    expect(Runner.prototype.scheduleOnce).toHaveBeenCalledWith('beforeRender', context1, fn1, args1);
+                    expect(Runner.prototype.scheduleOnce).toHaveBeenCalledWith('render', context2, fn2, args2);
+                    expect(Runner.prototype.scheduleOnce).toHaveBeenCalledWith('afterRender', context3, fn3, args3);
+                });
+
+                describe('if there is no open runner', function() {
+                    it('should throw an error', function() {
+                        expect(function() {
+                            Runner.scheduleOnce('beforeRender', null, function() {});
+                        }).toThrow(new Error('Cannot schedule task because there is no open runner instance.'));
+                    });
+                });
+            });
+
             describe('runNext(fn, ...args)', function() {
                 let runFn, arg1, arg2;
 
@@ -463,6 +625,40 @@ describe('Runner', function() {
                     expect(render.add).toHaveBeenCalledWith(context1, fn1, args1);
                     expect(afterRender.add).toHaveBeenCalledWith(context4, fn4, args4);
                     expect(render.add).toHaveBeenCalledWith(context3, fn3, args3);
+                });
+
+                describe('if called with an unknown queue', function() {
+                    it('should throw an error', function() {
+                        expect(function() {
+                            runner.schedule('foo', function() {});
+                        }).toThrow(new Error('Unknown queue: [foo].'));
+                    });
+                });
+            });
+
+            describe('scheduleOnce(queue, context, fn, args)', function() {
+                let fn1, context1, args1;
+                let fn2, context2, args2;
+                let fn3, context3, args3;
+                let fn4, context4, args4;
+
+                beforeEach(function() {
+                    fn1 = function() {}; context1 = { foo: 'bar' }; args1 = ['hello', 'world'];
+                    fn2 = function() {}; context2 = null; args2 = ['sup?'];
+                    fn3 = function() {}; context3 = { bar: 'foo' };
+                    fn4 = function() {};
+
+                    runner.scheduleOnce('beforeRender', context2, fn2, args2);
+                    runner.scheduleOnce('render', context1, fn1, args1);
+                    runner.scheduleOnce('afterRender', context4, fn4, args4);
+                    runner.scheduleOnce('render', context3, fn3, args3);
+                });
+
+                it('should add functions to the queue', function() {
+                    expect(beforeRender.addOnce).toHaveBeenCalledWith(context2, fn2, args2);
+                    expect(render.addOnce).toHaveBeenCalledWith(context1, fn1, args1);
+                    expect(afterRender.addOnce).toHaveBeenCalledWith(context4, fn4, args4);
+                    expect(render.addOnce).toHaveBeenCalledWith(context3, fn3, args3);
                 });
 
                 describe('if called with an unknown queue', function() {

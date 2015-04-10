@@ -74,6 +74,45 @@ describe('mock Runner', function() {
                     expect(afterRender2).toHaveBeenCalledWith();
                     expect(afterRender2.calls.mostRecent().object).toBe(afterRender2Context);
                 });
+
+                describe('when Runner.scheduleOnce() is called', function() {
+                    let fn1, fn2;
+                    let context1, context2;
+
+                    beforeEach(function() {
+                        fn1 = jasmine.createSpy('fn1()');
+                        context1 = {};
+
+                        fn2 = jasmine.createSpy('fn2()');
+                        context2 = {};
+
+                        MockRunner.run(() => {
+                            MockRunner.scheduleOnce('render', context1, fn1, ['hello']);
+                            MockRunner.schedule('render', context1, fn1, ['always leave a note!']);
+                            MockRunner.scheduleOnce('render', context1, fn1, ['greetings']);
+                            MockRunner.scheduleOnce('render', context2, fn1, ['coolness']);
+                            MockRunner.scheduleOnce('render', context1, fn2, ['HEY!']);
+                            MockRunner.scheduleOnce('render', context1, fn2, ['Sup?']);
+                            MockRunner.scheduleOnce('render', context2, fn2, ['NEATO!']);
+                        });
+                    });
+
+                    it('should only call each fn once for each context when scheduled with scheduleOnce()', function() {
+                        expect(fn1).toHaveBeenCalledWith('always leave a note!');
+                        expect(fn1).toHaveBeenCalledWith('greetings');
+                        expect(fn1).toHaveBeenCalledWith('coolness');
+                        expect(fn1.calls.all()[0].object).toBe(context1);
+                        expect(fn1.calls.all()[1].object).toBe(context1);
+                        expect(fn1.calls.all()[2].object).toBe(context2);
+                        expect(fn1.calls.count()).toBe(3);
+
+                        expect(fn2).toHaveBeenCalledWith('Sup?');
+                        expect(fn2).toHaveBeenCalledWith('NEATO!');
+                        expect(fn2.calls.first().object).toBe(context1);
+                        expect(fn2.calls.mostRecent().object).toBe(context2);
+                        expect(fn2.calls.count()).toBe(2);
+                    });
+                });
             });
         });
     });

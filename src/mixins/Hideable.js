@@ -16,7 +16,7 @@ Hideable.prototype = {
         _(this).shown = false;
         _(this).display = element.style.display;
 
-        Runner.schedule('render', () => {
+        Runner.schedule('render', null, () => {
             return animator.trigger('view:hide', this)
                 .then(() => element.style.display = 'none');
         });
@@ -28,7 +28,7 @@ Hideable.prototype = {
 
         _(this).shown = true;
 
-        Runner.schedule('render', () => {
+        Runner.schedule('render', null, () => {
             return animator.trigger('view:show', this)
                 .then(() => element.style.display = _(this).display);
         });

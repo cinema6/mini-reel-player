@@ -51,7 +51,7 @@ export default class ThumbnailNavigatorView extends TemplateView {
         _(this).data = null;
 
         _(this).resizeHandler = (() => {
-            Runner.run(() => Runner.schedule('afterRender', () => this.resize()));
+            Runner.run(() => Runner.schedule('afterRender', this, 'resize'));
         });
 
         this.tag = 'div';
@@ -133,7 +133,7 @@ export default class ThumbnailNavigatorView extends TemplateView {
 
         _(this).data = data;
 
-        Runner.schedule('afterRender', () => this.scrollToActiveItem());
+        Runner.schedule('afterRender', this, 'scrollToActiveItem');
 
         return super(data);
     }
@@ -143,7 +143,7 @@ export default class ThumbnailNavigatorView extends TemplateView {
 
         _(this).buttons = [this.previousButton, this.nextButton];
 
-        this.thumbs.on('addChild', () => Runner.schedule('afterRender', () => this.resize()));
+        this.thumbs.on('addChild', () => Runner.schedule('afterRender', this, 'resize'));
     }
 
     didInsertElement() {

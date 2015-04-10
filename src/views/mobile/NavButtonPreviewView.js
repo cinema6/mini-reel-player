@@ -12,7 +12,7 @@ export default class NavButtonPreviewView extends View {
     setThumb(url) {
         const element = this.element || this.create();
 
-        Runner.schedule('render', () => {
+        Runner.schedule('render', null, () => {
             element.style.backgroundImage = (url || '') && `url("${url}")`;
         });
     }

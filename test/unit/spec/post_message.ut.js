@@ -169,7 +169,7 @@ describe('postMessage', function() {
                     };
 
                     spyOn(session, 'emit').and.callThrough();
-                    session.on('test', () => Runner.schedule('render', () => {}));
+                    session.on('test', () => Runner.schedule('render', null, () => {}));
                 });
 
                 it('should do nothing when a non-cinema6 event comes in', function() {

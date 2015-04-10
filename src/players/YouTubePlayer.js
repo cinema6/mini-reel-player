@@ -175,7 +175,7 @@ export default class YouTubePlayer extends CorePlayer {
         iframe.src = `https://www.youtube.com/embed/${this.src}` +
             `?html5=1&wmode=opaque&rel=0&enablejsapi=1`;
 
-        Runner.schedule('afterRender', () => {
+        Runner.schedule('afterRender', null, () => {
             element.appendChild(iframe);
 
             fetcher.get(

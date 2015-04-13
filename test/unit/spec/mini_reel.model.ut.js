@@ -583,7 +583,7 @@ describe('MiniReel', function() {
 
     it('should add itself as a source', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel,
-            ['move','close']);
+            ['move','close','error']);
     });
 
     describe('properties:', function() {

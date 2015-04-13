@@ -110,7 +110,7 @@ describe('GoogleAnalyticsHandler', function() {
     describe('handlers:', function() {
         describe('navigation :', function() {
             beforeEach(function() {
-                dispatcher.addSource('navigation', minireel, ['move']);
+                dispatcher.addSource('navigation', minireel, ['move', 'error']);
                 spyOn(trckr, 'trackPage');
             });
 
@@ -167,6 +167,25 @@ describe('GoogleAnalyticsHandler', function() {
                     it('should not track anything', function() {
                         expect(trckr.trackPage).not.toHaveBeenCalled();
                     });
+                });
+            });
+
+            describe('error', function() {
+                let error;
+
+                beforeEach(function() {
+                    let foo;
+                    try { foo.bar = 'hey'; } catch (e) { error = e; }
+
+                    spyOn(trckr, 'trackEvent');
+                    minireel.emit('error', error);
+                });
+
+                it('should send an error event', function() {
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getTrackingData({
+                        category: 'Error',
+                        label: error.message
+                    }));
                 });
             });
         });

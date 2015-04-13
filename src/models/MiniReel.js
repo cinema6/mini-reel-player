@@ -113,7 +113,7 @@ export default class MiniReel extends EventEmitter {
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
-        dispatcher.addSource('navigation', this, ['move','close']);
+        dispatcher.addSource('navigation', this, ['move', 'close', 'error']);
     }
 
     moveToIndex(index) {

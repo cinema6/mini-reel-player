@@ -95,7 +95,9 @@ export default class MiniReel extends EventEmitter {
         _(this).becameSkippableHandler = (() => this.emit('becameSkippable'));
         _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
 
-        cinema6.getAppData().then(appData => initialize(this, appData));
+        cinema6.getAppData()
+            .then(appData => initialize(this, appData))
+            .catch(error => this.emit('error', error));
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));
             session.on('initAnalytics', config => {
@@ -111,7 +113,7 @@ export default class MiniReel extends EventEmitter {
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
-        dispatcher.addSource('navigation', this, ['move','close']);
+        dispatcher.addSource('navigation', this, ['move', 'close', 'error']);
     }
 
     moveToIndex(index) {

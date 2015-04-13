@@ -104,16 +104,18 @@ describe('Runner', function() {
                                 let error;
 
                                 beforeEach(function(done) {
-                                    spyOn(global.console, 'error');
-                                    error = new Error('I FAILED!');
+                                    let foo;
+
+                                    try { foo.bar = 'hey'; } catch (e) { error = e; }
                                     queue.add(() => Promise.reject(error));
+                                    spyOn(process, 'nextTick');
 
                                     queue.flush();
-                                    setTimeout(done, 5);
+                                    Promise.resolve().then(() => {}).then(() => {}).then(done);
                                 });
 
-                                it('should log the error', function() {
-                                    expect(global.console.error).toHaveBeenCalledWith(error);
+                                it('should throw the error in the next turn of the event loop', function() {
+                                    expect(process.nextTick.calls.mostRecent().args[0]).toThrow(error);
                                 });
                             });
 

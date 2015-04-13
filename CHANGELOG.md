@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.6.0-rc1]*
+  * [FEATURE]: Add additional error reporting
+
 ## v0.5.0 (April 10, 2015)
 * *[v0.5.0-rc2]*
   * [FIX]: Fix for an issue that only caused autoadvance to work in the

@@ -1,22 +1,22 @@
-describe('MiniReel', function() {
-    import MiniReel from '../../../src/models/MiniReel.js';
-    import dispatcher from '../../../src/services/dispatcher.js';
-    import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
-    import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
-    import MoatHandler from '../../../src/handlers/MoatHandler.js';
-    import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
-    import {EventEmitter} from 'events';
-    import cinema6 from '../../../src/services/cinema6.js';
-    import adtech from '../../../src/services/adtech.js';
-    import {
-        defer
-    } from '../../../lib/utils.js';
-    import RunnerPromise from '../../../lib/RunnerPromise.js';
-    import TextCard from '../../../src/models/TextCard.js';
-    import VideoCard from '../../../src/models/VideoCard.js';
-    import AdUnitCard from '../../../src/models/AdUnitCard.js';
-    import RecapCard from '../../../src/models/RecapCard.js';
+import MiniReel from '../../../src/models/MiniReel.js';
+import dispatcher from '../../../src/services/dispatcher.js';
+import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
+import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
+import MoatHandler from '../../../src/handlers/MoatHandler.js';
+import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
+import {EventEmitter} from 'events';
+import cinema6 from '../../../src/services/cinema6.js';
+import adtech from '../../../src/services/adtech.js';
+import {
+    defer
+} from '../../../lib/utils.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import TextCard from '../../../src/models/TextCard.js';
+import VideoCard from '../../../src/models/VideoCard.js';
+import AdUnitCard from '../../../src/models/AdUnitCard.js';
+import RecapCard from '../../../src/models/RecapCard.js';
 
+describe('MiniReel', function() {
     let experience;
     let minireel;
     let session;
@@ -583,7 +583,7 @@ describe('MiniReel', function() {
 
     it('should add itself as a source', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel,
-            ['move','close']);
+            ['move','close','error']);
     });
 
     describe('properties:', function() {
@@ -1279,6 +1279,29 @@ describe('MiniReel', function() {
                     href: experience.data.links.Pinterest
                 }
             ]);
+        });
+
+        describe('if something goes wrong', function() {
+            let error;
+
+            beforeEach(function(done) {
+                error = jasmine.createSpy('error()');
+
+                appDataDeferred = defer(RunnerPromise);
+                cinema6.getAppData.and.returnValue(appDataDeferred.promise);
+
+                minireel = new MiniReel();
+                minireel.on('error', error);
+
+                delete experience.data;
+
+                appDataDeferred.fulfill({ experience, standalone: false });
+                appDataDeferred.promise.then(() => {}).then(done);
+            });
+
+            it('should emit the "error" event', function() {
+                expect(error).toHaveBeenCalledWith(jasmine.any(TypeError));
+            });
         });
 
         describe('if the minireel is not sponsored', function() {

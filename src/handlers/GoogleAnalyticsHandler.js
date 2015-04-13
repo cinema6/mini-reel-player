@@ -69,6 +69,12 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
                 this.tracker.trackPage(this.getTrackingData());
             }
         }, 'navigation', 'move');
+        register((data, error) => {
+            this.tracker.trackEvent(this.getTrackingData({
+                category: 'Error',
+                label: error.message
+            }));
+        }, 'navigation', 'error');
 
         register(({ target: player, data: card }) => {
             this.tracker.trackEvent(this.getVideoTrackingData(player, 'Play', card.data.autoplay));

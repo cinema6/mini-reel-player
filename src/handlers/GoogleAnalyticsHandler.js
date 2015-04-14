@@ -2,6 +2,7 @@ import BillingHandler from './BillingHandler.js';
 import tracker from '../services/tracker.js';
 import timer from '../../lib/timer.js';
 import browser from '../services/browser.js';
+import Runner from '../../lib/Runner.js';
 import {
     noop,
     extend
@@ -58,6 +59,13 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
                 } catch(e) {}
             }())
         });
+
+        Runner.schedule('afterRender', null, () => this.tracker.trackTiming(this.getTrackingData({
+            timingCategory: 'Player',
+            timingVar: 'bootstrap',
+            timingLabel: 'null',
+            timingValue: Date.now() - global.performance.timing.domLoading
+        })));
 
         register(({ target: minireel }) => {
             const index = minireel.currentIndex;

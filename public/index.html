@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script>
+            if (!('performance' in window)) { window.performance = {}; }
+            if (!('timing' in window.performance)) {
+                window.performance.timing = {
+                    domLoading: new Date().getTime()
+                };
+            }
+        </script>
         <base href=""/>
         <link rel="stylesheet" href="css/${mode}.css" />
         <script type="text/javascript">

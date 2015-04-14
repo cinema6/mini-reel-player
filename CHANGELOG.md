@@ -5,6 +5,8 @@
   * [PERFORMANCE]: Add features to MiniReel Player Core Library that
     help prevent doing unnecessary DOM updates
   * Reorganized code surrounding the display ad and post modules
+  * [FEATURE]: Added GA timer to report the time it takes to bootstrap
+    the player
 
 ## v0.5.0 (April 10, 2015)
 * *[v0.5.0-rc2]*

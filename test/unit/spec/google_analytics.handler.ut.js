@@ -8,6 +8,7 @@ import VideoCard from '../../../src/models/VideoCard.js';
 import browser from '../../../src/services/browser.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import timer from '../../../lib/timer.js';
+import Runner from '../../../lib/Runner.js';
 
 import {
     noop,
@@ -56,7 +57,15 @@ describe('GoogleAnalyticsHandler', function() {
         spyOn(trckr, 'set');
         spyOn(trckr, 'alias');
 
-        dispatcher.addClient(MockHandler, minireel, config);
+        spyOn(Date, 'now').and.returnValue(new Date().getTime());
+        spyOn(trckr, 'trackTiming');
+        global.performance = {
+            timing: {
+                domLoading: Date.now() - 2005
+            }
+        };
+
+        Runner.run(() => dispatcher.addClient(MockHandler, minireel, config));
     });
 
     afterAll(function() {
@@ -97,6 +106,15 @@ describe('GoogleAnalyticsHandler', function() {
             href: global.parent.location.href,
             slideCount: minireel.length
         });
+    });
+
+    it('should send a timing event for the player bootstrap', function() {
+        expect(trckr.trackTiming).toHaveBeenCalledWith(handler.getTrackingData({
+            timingCategory: 'Player',
+            timingVar: 'bootstrap',
+            timingLabel: 'null',
+            timingValue: Date.now() - global.performance.timing.domLoading
+        }));
     });
 
     describe('properties:', function() {

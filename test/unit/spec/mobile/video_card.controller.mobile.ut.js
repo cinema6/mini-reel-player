@@ -6,8 +6,8 @@ import View from '../../../../lib/core/View.js';
 import VideoCard from '../../../../src/models/VideoCard.js';
 import playerFactory from '../../../../src/services/player_factory.js';
 import Runner from '../../../../lib/Runner.js';
-import moduleService from '../../../../src/services/module.js';
 import DisplayAd from '../../../../src/models/DisplayAd.js';
+import DisplayAdController from '../../../../src/controllers/DisplayAdController.js';
 
 describe('MobileVideoCardController', function() {
     let MobileVideoCardCtrl;
@@ -15,7 +15,6 @@ describe('MobileVideoCardController', function() {
     let experience;
     let player;
     let parentView;
-    let moduleControllers;
 
     class MockPlayer extends View {
         load() {}
@@ -88,9 +87,6 @@ describe('MobileVideoCardController', function() {
         player = new MockPlayer();
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
-        moduleControllers = {};
-        spyOn(moduleService, 'getControllers').and.returnValue(moduleControllers);
-
         spyOn(MobileVideoCardController.prototype, 'addView').and.callThrough();
 
         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
@@ -107,50 +103,84 @@ describe('MobileVideoCardController', function() {
                 expect(MobileVideoCardCtrl.addView).toHaveBeenCalledWith(MobileVideoCardCtrl.view);
             });
         });
+
+        describe('DisplayAdCtrl', function() {
+            it('should not exist', function() {
+                expect('DisplayAdCtrl' in MobileVideoCardCtrl).toBe(false);
+            });
+
+            describe('if there is a displayAd', function() {
+                beforeEach(function() {
+                    card.modules.displayAd = {};
+                });
+
+                describe('if the placement is the default', function() {
+                    beforeEach(function() {
+                        card.modules.displayAd.isDefault = true;
+
+                        MobileVideoCardCtrl = new MobileVideoCardController(card);
+                    });
+
+                    it('should not exist', function() {
+                        expect('DisplayAdCtrl' in MobileVideoCardCtrl).toBe(false);
+                    });
+                });
+
+                describe('if the placement is not the default', function() {
+                    beforeEach(function() {
+                        card.modules.displayAd.isDefault = false;
+
+                        MobileVideoCardCtrl = new MobileVideoCardController(card);
+                    });
+
+                    it('should be a DisplayAdController', function() {
+                        expect(MobileVideoCardCtrl.DisplayAdCtrl).toEqual(jasmine.any(DisplayAdController));
+                    });
+                });
+            });
+        });
     });
 
     describe('events:', function() {
-        describe('moduleControllers', function() {
-            describe(': displayAd', function() {
+        describe('DisplayAdCtrl', function() {
+            beforeEach(function() {
+                card.modules.displayAd = { isDefault: false };
+                MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+            });
+
+            describe('activate', function() {
                 beforeEach(function() {
-                    moduleControllers.displayAd = new EventEmitter();
-                    MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+                    Runner.run(() => MobileVideoCardCtrl.view.create());
+                    spyOn(MobileVideoCardCtrl.view.playerOutlet, 'hide');
+                    spyOn(MobileVideoCardCtrl.view.replayContainer, 'show');
+
+                    MobileVideoCardCtrl.DisplayAdCtrl.emit('activate');
                 });
 
-                describe('activate', function() {
-                    beforeEach(function() {
-                        Runner.run(() => MobileVideoCardCtrl.view.create());
-                        spyOn(MobileVideoCardCtrl.view.playerOutlet, 'hide');
-                        spyOn(MobileVideoCardCtrl.view.replayContainer, 'show');
-
-                        moduleControllers.displayAd.emit('activate');
-                    });
-
-                    it('should hide the playerOutlet', function() {
-                        expect(MobileVideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
-                    });
-
-                    it('should show the replayContainer', function() {
-                        expect(MobileVideoCardCtrl.view.replayContainer.show).toHaveBeenCalled();
-                    });
+                it('should hide the playerOutlet', function() {
+                    expect(MobileVideoCardCtrl.view.playerOutlet.hide).toHaveBeenCalled();
                 });
 
-                describe('deactivate', function() {
-                    beforeEach(function() {
-                        Runner.run(() => MobileVideoCardCtrl.view.create());
-                        spyOn(MobileVideoCardCtrl.view.playerOutlet, 'show');
-                        spyOn(MobileVideoCardCtrl.view.replayContainer, 'hide');
+                it('should show the replayContainer', function() {
+                    expect(MobileVideoCardCtrl.view.replayContainer.show).toHaveBeenCalled();
+                });
+            });
 
-                        moduleControllers.displayAd.emit('deactivate');
-                    });
+            describe('deactivate', function() {
+                beforeEach(function() {
+                    Runner.run(() => MobileVideoCardCtrl.view.create());
+                    spyOn(MobileVideoCardCtrl.view.playerOutlet, 'show');
+                    spyOn(MobileVideoCardCtrl.view.replayContainer, 'hide');
 
-                    it('should show the playerOutlet', function() {
-                        expect(MobileVideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
-                    });
+                    MobileVideoCardCtrl.DisplayAdCtrl.emit('deactivate');
+                });
 
-                    it('should hide the replayContainer', function() {
-                        expect(MobileVideoCardCtrl.view.replayContainer.hide).toHaveBeenCalled();
-                    });
+                it('should show the playerOutlet', function() {
+                    expect(MobileVideoCardCtrl.view.playerOutlet.show).toHaveBeenCalled();
+                });
+
+                it('should hide the replayContainer', function() {
+                    expect(MobileVideoCardCtrl.view.replayContainer.hide).toHaveBeenCalled();
                 });
             });
         });
@@ -165,63 +195,32 @@ describe('MobileVideoCardController', function() {
 
                 describe('if there is a DisplayAdCtrl', function() {
                     beforeEach(function() {
-                        moduleControllers.displayAd = new EventEmitter();
-                        moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
-
+                        card.modules.displayAd = { isDefault: false };
                         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+                        spyOn(MobileVideoCardCtrl.DisplayAdCtrl, 'deactivate');
+
                         Runner.run(() => player.emit('play'));
                     });
 
                     it('should deactivate the DisplayAdCtrl', function() {
-                        expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
+                        expect(MobileVideoCardCtrl.DisplayAdCtrl.deactivate).toHaveBeenCalled();
                     });
                 });
             });
 
             describe('ended', function() {
-                beforeEach(function() {
-                    spyOn(player, 'minimize');
-                    spyOn(card, 'complete');
-                });
-
                 describe('if the displayAd module is present', function() {
-                    let displayAd;
-                    let DisplayAdCtrl;
-
                     beforeEach(function() {
-                        player.removeAllListeners();
-                        displayAd = new DisplayAd(card, experience);
-
-                        DisplayAdCtrl = new EventEmitter();
-                        DisplayAdCtrl.activate = jasmine.createSpy('DisplayAdController.activate()');
-
-                        moduleControllers.displayAd = DisplayAdCtrl;
-                        card.modules.displayAd = displayAd;
+                        card.modules.displayAd = { isDefault: false };
 
                         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+                        spyOn(MobileVideoCardCtrl.DisplayAdCtrl, 'activate');
+
+                        Runner.run(() => player.emit('ended'));
                     });
 
-                    describe('if the displayAd is the default placement', function() {
-                        beforeEach(function() {
-                            displayAd.isDefault = true;
-                            Runner.run(() => player.emit('ended'));
-                        });
-
-                        it('should not activate the DisplayAdCtrl', function() {
-                            expect(DisplayAdCtrl.activate).not.toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if the displayAd is not the default placement', function() {
-                        beforeEach(function() {
-                            displayAd.isDefault = false;
-                            card.complete.calls.reset();
-                            Runner.run(() => player.emit('ended'));
-                        });
-
-                        it('should activate the DisplayAdCtrl', function() {
-                            expect(DisplayAdCtrl.activate).toHaveBeenCalled();
-                        });
+                    it('should activate the DisplayAdCtrl', function() {
+                        expect(MobileVideoCardCtrl.DisplayAdCtrl.activate).toHaveBeenCalled();
                     });
                 });
             });
@@ -242,16 +241,15 @@ describe('MobileVideoCardController', function() {
 
             describe('if there is a DisplayAdCtrl', function() {
                 beforeEach(function() {
-                    moduleControllers.displayAd = new EventEmitter();
-                    moduleControllers.displayAd.deactivate = jasmine.createSpy('DisplayAdCtrl.deactivate()');
-                    VideoCardController.prototype.replay.calls.reset();
-
+                    card.modules.displayAd = { isDefault: false };
                     MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+                    spyOn(MobileVideoCardCtrl.DisplayAdCtrl, 'deactivate');
+
                     MobileVideoCardCtrl.replay();
                 });
 
                 it('should deactivate the DisplayAdCtrl', function() {
-                    expect(moduleControllers.displayAd.deactivate).toHaveBeenCalled();
+                    expect(MobileVideoCardCtrl.DisplayAdCtrl.deactivate).toHaveBeenCalled();
                 });
 
                 it('should call super()', function() {
@@ -267,7 +265,7 @@ describe('MobileVideoCardController', function() {
 
             describe('if there is no displayAd module', function() {
                 beforeEach(function() {
-                    delete moduleControllers.displayAd;
+                    delete MobileVideoCardCtrl.DisplayAdCtrl;
                     delete card.modules.displayAd;
 
                     MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
@@ -290,7 +288,7 @@ describe('MobileVideoCardController', function() {
 
             describe('if there is a displayAd module', function() {
                 beforeEach(function() {
-                    moduleControllers.displayAd = new EventEmitter();
+                    MobileVideoCardCtrl.DisplayAdCtrl = new EventEmitter();
                     card.modules.displayAd = new DisplayAd(card, experience);
 
                     MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
@@ -314,6 +312,37 @@ describe('MobileVideoCardController', function() {
                     it('should be false', function() {
                         expect(MobileVideoCardCtrl.canAutoadvance()).toBe(false);
                     });
+                });
+            });
+        });
+
+        describe('render()', function() {
+            beforeEach(function() {
+                spyOn(VideoCardController.prototype, 'render');
+            });
+
+            describe('if there is no displayAd', function() {
+                beforeEach(function() {
+                    MobileVideoCardCtrl.render();
+                });
+
+                it('should call super()', function() {
+                    expect(VideoCardController.prototype.render).toHaveBeenCalled();
+                });
+            });
+
+            describe('if there is no displayAd', function() {
+                beforeEach(function() {
+                    card.modules.displayAd = { isDefault: false };
+                    MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
+                    Runner.run(() => MobileVideoCardCtrl.view.create());
+                    spyOn(MobileVideoCardCtrl.DisplayAdCtrl, 'renderInto');
+
+                    MobileVideoCardCtrl.render();
+                });
+
+                it('should call super()', function() {
+                    expect(MobileVideoCardCtrl.DisplayAdCtrl.renderInto).toHaveBeenCalledWith(MobileVideoCardCtrl.view.displayAdOutlet);
                 });
             });
         });

@@ -1,11 +1,8 @@
 import CardController from './CardController.js';
 import Runner from '../../lib/Runner.js';
 import playerFactory from '../services/player_factory.js';
-import moduleService from '../services/module.js';
 import dispatcher from '../services/dispatcher.js';
-import {
-    forEach
-} from '../../lib/utils.js';
+import PostVideoCardController from '../mixins/PostVideoCardController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -19,20 +16,8 @@ export default class VideoCardController extends CardController {
         player.end = this.model.data.end;
 
         this.player = player;
-        this.moduleControllers = moduleService.getControllers(this.model.modules);
 
         dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
-
-        /* Module events. */
-        const {
-            post: PostCtrl
-        } = this.moduleControllers;
-
-        if (PostCtrl) {
-            PostCtrl.on('activate', () => this.view.playerOutlet.hide());
-            PostCtrl.on('deactivate', () => this.view.playerOutlet.show());
-            PostCtrl.on('replay', () => player.play());
-        }
 
         /* VideoCard (model) events. */
         this.model.on('prepare', () =>  player.load());
@@ -48,16 +33,12 @@ export default class VideoCardController extends CardController {
             }
         });
         this.model.on('deactivate', () => {
-            if (PostCtrl) { PostCtrl.deactivate(); }
             player.pause();
             Runner.schedule('afterRender', player, 'unload');
             dispatcher.removeSource(player);
         });
 
         /* Player events. */
-        player.on('play', () => {
-            if (PostCtrl) { PostCtrl.deactivate(); }
-        });
         player.on('timeupdate', () => {
             const {currentTime, duration} = player;
             if (!duration) { return; }
@@ -65,20 +46,15 @@ export default class VideoCardController extends CardController {
             this.model.setPlaybackState({ currentTime, duration });
         });
         player.on('ended', () => {
-            const { post } = this.model.modules;
-
             if (player.minimize() instanceof Error) { player.reload(); }
-
-            if (post) {
-                PostCtrl.activate();
-            }
-
             if (this.canAutoadvance()) { this.model.complete(); }
         });
+
+        this.initPost();
     }
 
     canAutoadvance() {
-        return !('post' in this.moduleControllers);
+        return true;
     }
 
     replay() {
@@ -104,13 +80,8 @@ export default class VideoCardController extends CardController {
             }
         });
         this.view.playerOutlet.append(this.player);
-        forEach(Object.keys(this.moduleControllers), type => {
-            const outlet = this.view.moduleOutlets[type];
-            const Ctrl = this.moduleControllers[type];
-
-            if (outlet) { Ctrl.renderInto(outlet); }
-        });
 
         return super(...arguments);
     }
 }
+VideoCardController.mixin(PostVideoCardController); // jshint ignore:line

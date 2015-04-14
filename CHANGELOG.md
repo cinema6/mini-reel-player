@@ -4,6 +4,7 @@
   * [FEATURE]: Add additional error reporting
   * [PERFORMANCE]: Add features to MiniReel Player Core Library that
     help prevent doing unnecessary DOM updates
+  * Reorganized code surrounding the display ad and post modules
 
 ## v0.5.0 (April 10, 2015)
 * *[v0.5.0-rc2]*

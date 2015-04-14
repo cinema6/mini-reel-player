@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v0.6.0 (April 14, 2015)
 * *[v0.6.0-rc1]*
   * [FEATURE]: Add additional error reporting
   * [PERFORMANCE]: Add features to MiniReel Player Core Library that
@@ -7,6 +8,7 @@
   * Reorganized code surrounding the display ad and post modules
   * [FEATURE]: Added GA timer to report the time it takes to bootstrap
     the player
+* *[/v0.6.0-rc1]*
 
 ## v0.5.0 (April 10, 2015)
 * *[v0.5.0-rc2]*

@@ -1,5 +1,6 @@
 import VideoCardController from '../VideoCardController.js';
 import MobileVideoCardView from '../../views/mobile/MobileVideoCardView.js';
+import DisplayAdController from '../DisplayAdController.js';
 
 export default class MobileVideoCardController extends VideoCardController {
     constructor() {
@@ -7,13 +8,10 @@ export default class MobileVideoCardController extends VideoCardController {
 
         this.view = this.addView(new MobileVideoCardView());
 
-        /* Module events. */
-        const {
-            displayAd: DisplayAdCtrl
-        } = this.moduleControllers;
-        const { player } = this;
+        const { player, model: { modules: { displayAd } } } = this;
+        if (displayAd && !displayAd.isDefault) {
+            const DisplayAdCtrl = this.DisplayAdCtrl = new DisplayAdController(displayAd);
 
-        if (DisplayAdCtrl) {
             DisplayAdCtrl.on('activate', () => {
                 this.view.playerOutlet.hide();
                 this.view.replayContainer.show();
@@ -22,36 +20,24 @@ export default class MobileVideoCardController extends VideoCardController {
                 this.view.playerOutlet.show();
                 this.view.replayContainer.hide();
             });
+
+            player.on('play', () => DisplayAdCtrl.deactivate());
+            player.on('ended', () => DisplayAdCtrl.activate());
         }
-
-        /* Player events. */
-        player.on('play', () => {
-            if (DisplayAdCtrl) { DisplayAdCtrl.deactivate(); }
-        });
-        player.on('ended', () => {
-            const { displayAd } = this.model.modules;
-
-            if (displayAd && !displayAd.isDefault) {
-                DisplayAdCtrl.activate();
-            }
-        });
     }
 
     replay() {
-        const {
-            displayAd: DisplayAdCtrl
-        } = this.moduleControllers;
-
-        if (DisplayAdCtrl) {
-            DisplayAdCtrl.deactivate();
-        }
-
+        if (this.DisplayAdCtrl) { this.DisplayAdCtrl.deactivate(); }
         return super();
     }
 
     canAutoadvance() {
         const { displayAd } = this.model.modules;
-
         return super() && (!displayAd || displayAd.isDefault);
+    }
+
+    render() {
+        super(...arguments);
+        if (this.DisplayAdCtrl) { this.DisplayAdCtrl.renderInto(this.view.displayAdOutlet); }
     }
 }

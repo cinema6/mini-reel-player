@@ -5,6 +5,8 @@ import VideoCardView from '../../../src/views/VideoCardView.js';
 import Runner from '../../../lib/Runner.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import playerFactory from '../../../src/services/player_factory.js';
+import DisplayAdController from '../../../src/controllers/DisplayAdController.js';
+import View from '../../../lib/core/View.js';
 
 class MockPlayer extends CorePlayer {
     play() {}
@@ -48,29 +50,33 @@ describe('DisplayAdVideoCardController', function() {
                     Ctrl.initDisplayAd();
                 });
 
+                it('should give the controller a DisplayAdCtrl', function() {
+                    expect(Ctrl.DisplayAdCtrl).toEqual(jasmine.any(DisplayAdController));
+                });
+
                 describe('events:', function() {
                     describe('model', function() {
                         describe('activate', function() {
                             beforeEach(function() {
-                                spyOn(Ctrl.moduleControllers.displayAd, 'activate');
+                                spyOn(Ctrl.DisplayAdCtrl, 'activate');
 
                                 Runner.run(() => card.emit('activate'));
                             });
 
                             it('should activate the DisplayAdCtrl', function() {
-                                expect(Ctrl.moduleControllers.displayAd.activate).toHaveBeenCalled();
+                                expect(Ctrl.DisplayAdCtrl.activate).toHaveBeenCalled();
                             });
                         });
 
                         describe('deactivate', function() {
                             beforeEach(function() {
-                                spyOn(Ctrl.moduleControllers.displayAd, 'deactivate');
+                                spyOn(Ctrl.DisplayAdCtrl, 'deactivate');
 
                                 Runner.run(() => card.emit('deactivate'));
                             });
 
                             it('should deactivate the DisplayAdCtrl', function() {
-                                expect(Ctrl.moduleControllers.displayAd.deactivate).toHaveBeenCalled();
+                                expect(Ctrl.DisplayAdCtrl.deactivate).toHaveBeenCalled();
                             });
                         });
                     });
@@ -84,6 +90,10 @@ describe('DisplayAdVideoCardController', function() {
                     Ctrl = new MyVideoCardController(card);
                     Ctrl.view = new VideoCardView();
                     Ctrl.initDisplayAd();
+                });
+
+                it('should not give the controller a DisplayAdController', function() {
+                    expect('DisplayAdCtrl' in Ctrl).toBe(false);
                 });
 
                 describe('events:', function() {
@@ -110,12 +120,14 @@ describe('DisplayAdVideoCardController', function() {
 
         describe('render()', function() {
             beforeEach(function() {
+                Ctrl.view.displayAdOutlet = new View();
                 spyOn(Ctrl.view, 'update');
             });
 
             describe('if there is no displayAd module', function() {
                 beforeEach(function() {
                     delete card.modules.displayAd;
+                    Ctrl.initDisplayAd();
 
                     Ctrl.render();
                 });
@@ -132,12 +144,18 @@ describe('DisplayAdVideoCardController', function() {
             describe('if there is a displayAd module', function() {
                 beforeEach(function() {
                     card.modules.displayAd = {};
+                    Ctrl.initDisplayAd();
+                    spyOn(Ctrl.DisplayAdCtrl, 'renderInto');
 
                     Ctrl.render();
                 });
 
                 it('should update the view with hasDisplayAd set to true', function() {
                     expect(Ctrl.view.update).toHaveBeenCalledWith({ hasDisplayAd: true });
+                });
+
+                it('should render the DisplayAdCtrl into the displayAdOutlet', function() {
+                    expect(Ctrl.DisplayAdCtrl.renderInto).toHaveBeenCalledWith(Ctrl.view.displayAdOutlet);
                 });
 
                 it('should call this.super()', function() {

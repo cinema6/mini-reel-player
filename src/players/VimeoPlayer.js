@@ -209,7 +209,7 @@ export default class VimeoPlayer extends CorePlayer {
             }
 
             this.emit('timeupdate');
-            
+
             player.call('getVolume').then(volume => {
                 state.volume = volume;
             });
@@ -241,7 +241,7 @@ export default class VimeoPlayer extends CorePlayer {
             _(this).state.ready = true;
         });
 
-        Runner.schedule('afterRender', () => element.appendChild(iframe));
+        Runner.schedule('afterRender', element, 'appendChild', [iframe]);
 
         _(this).iframe = iframe;
         _(this).player = player;

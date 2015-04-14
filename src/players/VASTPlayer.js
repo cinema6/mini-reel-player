@@ -84,7 +84,7 @@ function initializeVideo(player) {
         video.poster = player.poster;
 
         video.load();
-        Runner.schedule('afterRender', () => element.appendChild(video));
+        Runner.schedule('afterRender', element, 'appendChild', [video]);
 
         return (_(player).video = video);
     }(document.createElement('video')));

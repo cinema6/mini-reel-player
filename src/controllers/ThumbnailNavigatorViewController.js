@@ -13,7 +13,7 @@ function set(Ctrl, prop, value, resize) {
     Ctrl.updateView();
 
     if (resize) {
-        Runner.schedule('afterRender', () => Ctrl.view.resize());
+        Runner.scheduleOnce('afterRender', Ctrl.view, 'resize');
     }
 }
 

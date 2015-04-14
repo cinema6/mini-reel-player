@@ -14,7 +14,15 @@ describe('View', function() {
             render: []
         };
 
-        spyOn(Runner, 'schedule').and.callFake(function(queue, task) {
+        spyOn(Runner, 'schedule').and.callFake(function(queue, context, fn, args = []) {
+            if (typeof fn === 'string') { fn = context[fn]; }
+            const task = (() => fn.call(context, ...args));
+            queues[queue].push(task);
+        });
+
+        spyOn(Runner, 'scheduleOnce').and.callFake(function(queue, context, fn, args = []) {
+            if (typeof fn === 'string') { fn = context[fn]; }
+            const task = (() => fn.call(context, ...args));
             queues[queue].push(task);
         });
     });
@@ -551,6 +559,7 @@ describe('View', function() {
                 queues.render.pop()();
 
                 spyOn(view, 'willRemoveElement').and.callThrough();
+                spyOn(parentView.element, 'removeChild').and.callThrough();
 
                 element = view.element;
                 view.remove();
@@ -566,7 +575,7 @@ describe('View', function() {
 
             describe('in the render queue', function() {
                 beforeEach(function() {
-                    spyOn(parentView.element, 'removeChild').and.callThrough();
+                    expect(parentView.element.removeChild).not.toHaveBeenCalled();
                     queues.render.pop()();
                 });
 
@@ -728,6 +737,40 @@ describe('View', function() {
 
                     it('should add the attribute with no value', function() {
                         expect(view.element.getAttribute('data-name')).toBe('');
+                    });
+                });
+
+                describe('if called multiple times', function() {
+                    beforeEach(function() {
+                        view.setAttribute('preload', true);
+                        queues.render.pop()();
+
+                        spyOn(view.element, 'setAttribute').and.callThrough();
+                        spyOn(view.element, 'removeAttribute').and.callThrough();
+
+                        view.setAttribute('data-name', 'Moo');
+                        view.setAttribute('data-name', 'Howard');
+                        view.setAttribute('data-name', 'Josh');
+                        view.setAttribute('preload', false);
+                        view.setAttribute('preload', true);
+                        view.setAttribute('preload', false);
+                        view.setAttribute('preload', false);
+                        view.setAttribute('data-age', '21');
+                        view.setAttribute('data-age', '22');
+                        view.setAttribute('data-age', '23');
+                        view.setAttribute('data-age', false);
+                        view.setAttribute('data-age', '23');
+
+                        queues.render.pop()();
+                    });
+
+                    it('should make the minimal number of changes', function() {
+                        expect(view.element.setAttribute.calls.count()).toBe(2);
+                        expect(view.element.setAttribute).toHaveBeenCalledWith('data-name', 'Josh');
+                        expect(view.element.setAttribute).toHaveBeenCalledWith('data-age', '23');
+
+                        expect(view.element.removeAttribute.calls.count()).toBe(1);
+                        expect(view.element.removeAttribute).toHaveBeenCalledWith('preload');
                     });
                 });
             });

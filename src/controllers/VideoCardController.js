@@ -50,7 +50,7 @@ export default class VideoCardController extends CardController {
         this.model.on('deactivate', () => {
             if (PostCtrl) { PostCtrl.deactivate(); }
             player.pause();
-            Runner.schedule('afterRender', () => player.unload());
+            Runner.schedule('afterRender', player, 'unload');
             dispatcher.removeSource(player);
         });
 

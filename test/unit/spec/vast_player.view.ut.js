@@ -246,7 +246,7 @@ describe('<vast-player>', function() {
 
         describe('ready', function() {
             it('should emit loadedmetadata is currentTime and duration is defined', function() {
-                player.on('loadedmetadata', () => Runner.schedule('render', () => {}));
+                player.on('loadedmetadata', () => Runner.schedule('render', null, () => {}));
                 video.emit('loadedmetadata');
                 expect(player.emit).toHaveBeenCalledWith('loadedmetadata');
             });
@@ -315,7 +315,7 @@ describe('<vast-player>', function() {
 
         describe('play', function() {
             beforeEach(function() {
-                player.on('play', () => Runner.schedule('render', () => {}));
+                player.on('play', () => Runner.schedule('render', null, () => {}));
                 video.emit('play');
             });
 
@@ -338,7 +338,7 @@ describe('<vast-player>', function() {
 
         describe('pause', function() {
             beforeEach(function() {
-                player.on('pause', () => Runner.schedule('render', () => {}));
+                player.on('pause', () => Runner.schedule('render', null, () => {}));
                 video.emit('pause');
             });
 
@@ -357,7 +357,7 @@ describe('<vast-player>', function() {
 
         describe('ended', function() {
             beforeEach(function() {
-                player.on('ended', () => Runner.schedule('render', () => {}));
+                player.on('ended', () => Runner.schedule('render', null, () => {}));
                 video.emit('ended');
             });
 
@@ -408,7 +408,7 @@ describe('<vast-player>', function() {
 
         describe('timeupdate', function() {
             it('should emit timeupdate on the player', function() {
-                player.on('timeupdate', () => Runner.schedule('render', () => {}));
+                player.on('timeupdate', () => Runner.schedule('render', null, () => {}));
                 video.emit('timeupdate');
                 expect(player.emit).toHaveBeenCalledWith('timeupdate');
             });

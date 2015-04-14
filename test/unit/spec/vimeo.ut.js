@@ -125,7 +125,7 @@ describe('vimeo', function() {
                     let ready = jasmine.createSpy('ready'),
                         play = jasmine.createSpy('play'),
                         playProgress = jasmine.createSpy('playProgress')
-                            .and.callFake(() => Runner.schedule('afterRender', () => {}));
+                            .and.callFake(() => Runner.schedule('afterRender', null, () => {}));
 
                     player.on('ready', ready)
                         .on('play', play)

@@ -3,6 +3,7 @@ import VideoCardController from '../../../../src/controllers/VideoCardController
 import LightboxPlaylistVideoCardView from '../../../../src/views/lightbox-playlist/LightboxPlaylistVideoCardView.js';
 import SkipTimerVideoCardController from '../../../../src/mixins/SkipTimerVideoCardController.js';
 import {EventEmitter} from 'events';
+import ModalBallotResultsVideoCardController from '../../../../src/mixins/ModalBallotResultsVideoCardController.js';
 
 describe('LightboxPlaylistVideoCardController', function() {
     let LightboxPlaylistVideoCardCtrl;
@@ -19,6 +20,7 @@ describe('LightboxPlaylistVideoCardController', function() {
         card.modules = {};
         spyOn(LightboxPlaylistVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(LightboxPlaylistVideoCardController.prototype, 'initSkipTimer').and.callThrough();
+        spyOn(LightboxPlaylistVideoCardController.prototype, 'initBallotResults').and.callThrough();
 
         LightboxPlaylistVideoCardCtrl = new LightboxPlaylistVideoCardController(card);
     });
@@ -30,6 +32,11 @@ describe('LightboxPlaylistVideoCardController', function() {
     it('should mix in the SkipTimerVideoCardController', function() {
         expect(LightboxPlaylistVideoCardController.mixins).toContain(SkipTimerVideoCardController);
         expect(LightboxPlaylistVideoCardCtrl.initSkipTimer).toHaveBeenCalled();
+    });
+
+    it('should mix in the ModalBallotResultsVideoCardController', function() {
+        expect(LightboxPlaylistVideoCardController.mixins).toContain(ModalBallotResultsVideoCardController);
+        expect(LightboxPlaylistVideoCardCtrl.initBallotResults).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

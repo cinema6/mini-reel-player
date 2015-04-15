@@ -58,6 +58,12 @@ describe('LightboxPlaylistVideoCardView', function() {
                     expect(view.ballotOutlet).toEqual(jasmine.any(View));
                 });
             });
+
+            describe('ballotResultsOutlet', function() {
+                it('should be a View', function() {
+                    expect(view.ballotResultsOutlet).toEqual(jasmine.any(View));
+                });
+            });
         });
     });
 

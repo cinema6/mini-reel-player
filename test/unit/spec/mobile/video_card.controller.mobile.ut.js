@@ -8,6 +8,7 @@ import playerFactory from '../../../../src/services/player_factory.js';
 import Runner from '../../../../lib/Runner.js';
 import DisplayAd from '../../../../src/models/DisplayAd.js';
 import DisplayAdController from '../../../../src/controllers/DisplayAdController.js';
+import InlineBallotResultsVideoCardController from '../../../../src/mixins/InlineBallotResultsVideoCardController.js';
 
 describe('MobileVideoCardController', function() {
     let MobileVideoCardCtrl;
@@ -88,12 +89,18 @@ describe('MobileVideoCardController', function() {
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
         spyOn(MobileVideoCardController.prototype, 'addView').and.callThrough();
+        spyOn(MobileVideoCardController.prototype, 'initBallotResults').and.callThrough();
 
         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
     });
 
     it('should be a VideoCardController', function() {
         expect(MobileVideoCardCtrl).toEqual(jasmine.any(VideoCardController));
+    });
+
+    it('should mixin the InlineBallotResultsVideoCardController', function() {
+        expect(MobileVideoCardController.mixins).toContain(InlineBallotResultsVideoCardController);
+        expect(MobileVideoCardCtrl.initBallotResults).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

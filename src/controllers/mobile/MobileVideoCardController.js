@@ -1,6 +1,8 @@
 import VideoCardController from '../VideoCardController.js';
 import MobileVideoCardView from '../../views/mobile/MobileVideoCardView.js';
 import DisplayAdController from '../DisplayAdController.js';
+import InlineBallotResultsVideoCardController
+    from '../../mixins/InlineBallotResultsVideoCardController.js';
 
 export default class MobileVideoCardController extends VideoCardController {
     constructor() {
@@ -24,6 +26,8 @@ export default class MobileVideoCardController extends VideoCardController {
             player.on('play', () => DisplayAdCtrl.deactivate());
             player.on('ended', () => DisplayAdCtrl.activate());
         }
+
+        this.initBallotResults();
     }
 
     replay() {
@@ -41,3 +45,4 @@ export default class MobileVideoCardController extends VideoCardController {
         if (this.DisplayAdCtrl) { this.DisplayAdCtrl.renderInto(this.view.displayAdOutlet); }
     }
 }
+MobileVideoCardController.mixin(InlineBallotResultsVideoCardController); // jshint ignore:line

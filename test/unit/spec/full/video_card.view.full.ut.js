@@ -52,6 +52,12 @@ describe('FullVideoCardView', function() {
                     expect(view.postOutlet).toEqual(jasmine.any(View));
                 });
             });
+
+            describe('ballotOutlet', function() {
+                it('should be a View', function() {
+                    expect(view.ballotOutlet).toEqual(jasmine.any(View));
+                });
+            });
         });
     });
 

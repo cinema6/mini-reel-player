@@ -1,5 +1,6 @@
 import Post from '../../../src/models/Post.js';
 import Ballot from '../../../src/models/Ballot.js';
+import election from '../../../src/services/election.js';
 
 describe('Post', function() {
     let post;
@@ -17,6 +18,8 @@ describe('Post', function() {
         experience = {
             data: {}
         };
+
+        spyOn(election, 'getResults').and.returnValue(new Promise(() => {}));
 
         post = new Post(card, experience);
     });

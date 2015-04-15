@@ -12,6 +12,8 @@ export default class Ballot extends EventEmitter {
         this.choices = card.ballot.choices.concat();
         this.results = map(this.choices, () => null);
 
+        this.choice = null;
+
         election.getResults(this.election, this.id).then(results => {
             this.results = results;
             this.emit('hasResults');
@@ -19,6 +21,7 @@ export default class Ballot extends EventEmitter {
     }
 
     cast(vote) {
+        this.choice = vote;
         return election.vote(this.election, this.id, vote);
     }
 }

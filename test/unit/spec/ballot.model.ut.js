@@ -110,6 +110,12 @@ describe('Ballot', function() {
                 expect(ballot.results).toEqual(ballot.choices.map(() => null));
             });
         });
+
+        describe('choice', function() {
+            it('should be null', function() {
+                expect(ballot.choice).toBeNull();
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -119,6 +125,9 @@ describe('Ballot', function() {
                 ballot.cast(1);
             });
 
+            it('should set the choice property', function() {
+                expect(ballot.choice).toBe(1);
+            });
 
             it('should send the vote to the election service', function() {
                 expect(election.vote).toHaveBeenCalledWith(ballot.election, ballot.id, 1);

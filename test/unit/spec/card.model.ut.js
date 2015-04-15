@@ -1,5 +1,7 @@
 import DisplayAd from '../../../src/models/DisplayAd.js';
 import Post from '../../../src/models/Post.js';
+import Ballot from '../../../src/models/Ballot.js';
+import election from '../../../src/services/election.js';
 
 describe('Card', function() {
     import Card from '../../../src/models/Card.js';
@@ -131,6 +133,22 @@ describe('Card', function() {
                 it('should add the Post module', function() {
                     expect(card.modules).toEqual({
                         post: jasmine.any(Post)
+                    });
+                });
+            });
+
+            describe('if the ballot module is present', function() {
+                beforeEach(function() {
+                    data.modules = ['whaddup', 'ballot'];
+                    data.ballot = { choices: [] };
+                    spyOn(election, 'getResults').and.returnValue(new Promise(() => {}));
+
+                    card = new Card(data, experience);
+                });
+
+                it('should add the Ballot module', function() {
+                    expect(card.modules).toEqual({
+                        ballot: jasmine.any(Ballot)
                     });
                 });
             });

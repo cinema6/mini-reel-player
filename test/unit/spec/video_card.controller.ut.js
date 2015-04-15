@@ -8,6 +8,7 @@ import VideoCardView from '../../../src/views/VideoCardView.js';
 import playerFactory from '../../../src/services/player_factory.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import PostVideoCardController from '../../../src/mixins/PostVideoCardController.js';
+import BallotVideoCardController from '../../../src/mixins/BallotVideoCardController.js';
 
 describe('VideoCardController', function() {
     let VideoCardCtrl;
@@ -92,6 +93,7 @@ describe('VideoCardController', function() {
         spyOn(dispatcher, 'addSource');
 
         spyOn(VideoCardController.prototype, 'initPost').and.callThrough();
+        spyOn(VideoCardController.prototype, 'initBallot').and.callThrough();
 
         VideoCardCtrl = new VideoCardController(card, parentView);
         VideoCardCtrl.view = new VideoCardView();
@@ -104,6 +106,11 @@ describe('VideoCardController', function() {
     it('should mixin the PostVideoCardController', function() {
         expect(VideoCardController.mixins).toContain(PostVideoCardController);
         expect(VideoCardCtrl.initPost).toHaveBeenCalled();
+    });
+
+    it('should mixin the BallotVideoCardController', function() {
+        expect(VideoCardController.mixins).toContain(BallotVideoCardController);
+        expect(VideoCardCtrl.initBallot).toHaveBeenCalled();
     });
 
     it('should add its model as an event source', function() {

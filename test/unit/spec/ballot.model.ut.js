@@ -132,6 +132,22 @@ describe('Ballot', function() {
             it('should send the vote to the election service', function() {
                 expect(election.vote).toHaveBeenCalledWith(ballot.election, ballot.id, 1);
             });
+
+            describe('if the index is -1', function() {
+                beforeEach(function() {
+                    election.vote.calls.reset();
+
+                    ballot.cast(-1);
+                });
+
+                it('should set the choice property', function() {
+                    expect(ballot.choice).toBe(-1);
+                });
+
+                it('should not send the vote to the election service', function() {
+                    expect(election.vote).not.toHaveBeenCalled();
+                });
+            });
         });
     });
 });

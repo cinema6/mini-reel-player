@@ -22,6 +22,9 @@ export default class Ballot extends EventEmitter {
 
     cast(vote) {
         this.choice = vote;
-        return election.vote(this.election, this.id, vote);
+
+        if (vote > -1) {
+            return election.vote(this.election, this.id, vote);
+        }
     }
 }

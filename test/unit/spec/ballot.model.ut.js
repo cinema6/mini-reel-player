@@ -1,10 +1,16 @@
 import Ballot from '../../../src/models/Ballot.js';
 import election from '../../../src/services/election.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import { EventEmitter } from 'events';
+import {
+    defer
+} from '../../../lib/utils.js';
 
 describe('Ballot', function() {
     let ballot;
     let card;
     let experience;
+    let resultsDeferred;
 
     beforeEach(function() {
         card = {
@@ -25,11 +31,41 @@ describe('Ballot', function() {
             }
         };
 
+        resultsDeferred = defer(RunnerPromise);
+        spyOn(election, 'getResults').and.returnValue(resultsDeferred.promise);
+
         ballot = new Ballot(card, experience);
     });
 
     it('should exist', function() {
-        expect(ballot).toEqual(jasmine.any(Object));
+        expect(ballot).toEqual(jasmine.any(EventEmitter));
+    });
+
+    it('should make a request for its results', function() {
+        expect(election.getResults).toHaveBeenCalledWith(ballot.election, ballot.id);
+    });
+
+    describe('when the results are fetched', function() {
+        let results;
+        let hasResults;
+
+        beforeEach(function(done) {
+            hasResults = jasmine.createSpy('hasResults()');
+            ballot.on('hasResults', hasResults);
+
+            results = [0.25, 0.75];
+
+            resultsDeferred.fulfill(results);
+            resultsDeferred.promise.then(done, done);
+        });
+
+        it('should populate the results property', function() {
+            expect(ballot.results).toBe(results);
+        });
+
+        it('should emit "hasResults"', function() {
+            expect(hasResults).toHaveBeenCalled();
+        });
     });
 
     describe('properties:', function() {
@@ -68,6 +104,18 @@ describe('Ballot', function() {
                 expect(ballot.choices).not.toBe(card.ballot.choices);
             });
         });
+
+        describe('results', function() {
+            it('should be an array of null with the same length as the choices', function() {
+                expect(ballot.results).toEqual(ballot.choices.map(() => null));
+            });
+        });
+
+        describe('choice', function() {
+            it('should be null', function() {
+                expect(ballot.choice).toBeNull();
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -77,9 +125,28 @@ describe('Ballot', function() {
                 ballot.cast(1);
             });
 
+            it('should set the choice property', function() {
+                expect(ballot.choice).toBe(1);
+            });
 
             it('should send the vote to the election service', function() {
                 expect(election.vote).toHaveBeenCalledWith(ballot.election, ballot.id, 1);
+            });
+
+            describe('if the index is -1', function() {
+                beforeEach(function() {
+                    election.vote.calls.reset();
+
+                    ballot.cast(-1);
+                });
+
+                it('should set the choice property', function() {
+                    expect(ballot.choice).toBe(-1);
+                });
+
+                it('should not send the vote to the election service', function() {
+                    expect(election.vote).not.toHaveBeenCalled();
+                });
             });
         });
     });

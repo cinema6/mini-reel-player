@@ -89,5 +89,25 @@ describe('MobileVideoCardView', function() {
                 expect(mobileVideoCardView.replayButton).toEqual(jasmine.any(ButtonView));
             });
         });
+
+        describe('ballotOutlet', function() {
+            beforeEach(function() {
+                Runner.run(() => mobileVideoCardView.create());
+            });
+
+            it('should be a View', function() {
+                expect(mobileVideoCardView.ballotOutlet).toEqual(jasmine.any(View));
+            });
+        });
+
+        describe('ballotResultsOutlet', function() {
+            beforeEach(function() {
+                Runner.run(() => mobileVideoCardView.create());
+            });
+
+            it('should be a View', function() {
+                expect(mobileVideoCardView.ballotResultsOutlet).toEqual(jasmine.any(View));
+            });
+        });
     });
 });

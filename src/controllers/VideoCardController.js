@@ -3,6 +3,7 @@ import Runner from '../../lib/Runner.js';
 import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
+import BallotVideoCardController from '../mixins/BallotVideoCardController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -51,6 +52,7 @@ export default class VideoCardController extends CardController {
         });
 
         this.initPost();
+        this.initBallot();
     }
 
     canAutoadvance() {
@@ -84,4 +86,4 @@ export default class VideoCardController extends CardController {
         return super(...arguments);
     }
 }
-VideoCardController.mixin(PostVideoCardController); // jshint ignore:line
+VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line

@@ -15,6 +15,7 @@ import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
+import election from '../../../src/services/election.js';
 
 describe('MiniReel', function() {
     let experience;
@@ -565,6 +566,8 @@ describe('MiniReel', function() {
 
         spyOn(dispatcher, 'addClient');
         spyOn(dispatcher, 'addSource');
+
+        spyOn(election, 'getResults').and.returnValue(new RunnerPromise(() => {}));
 
         minireel = new MiniReel();
 

@@ -3,6 +3,7 @@ import tracker from '../services/tracker.js';
 import timer from '../../lib/timer.js';
 import browser from '../services/browser.js';
 import Runner from '../../lib/Runner.js';
+import environment from '../environment.js';
 import {
     noop,
     extend
@@ -60,12 +61,23 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             }())
         });
 
-        Runner.schedule('afterRender', null, () => this.tracker.trackTiming(this.getTrackingData({
-            timingCategory: 'Player',
-            timingVar: 'bootstrap',
-            timingLabel: 'null',
-            timingValue: Date.now() - global.performance.timing.domLoading
-        })));
+        Runner.schedule('afterRender', null, () => {
+            const now = Date.now();
+
+            this.tracker.trackTiming(this.getTrackingData({
+                timingCategory: 'Player',
+                timingVar: 'jsBootstrap',
+                timingLabel: 'null',
+                timingValue: now - environment.initTime
+            }));
+
+            this.tracker.trackTiming(this.getTrackingData({
+                timingCategory: 'Player',
+                timingVar: 'bootstrap',
+                timingLabel: 'null',
+                timingValue: now - global.performance.timing.domLoading
+            }));
+        });
 
         register(({ target: minireel }) => {
             const index = minireel.currentIndex;

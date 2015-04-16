@@ -9,6 +9,7 @@ import browser from '../../../src/services/browser.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import timer from '../../../lib/timer.js';
 import Runner from '../../../lib/Runner.js';
+import environment from '../../../src/environment.js';
 
 import {
     noop,
@@ -46,6 +47,7 @@ describe('GoogleAnalyticsHandler', function() {
     beforeEach(function() {
         dispatcher.constructor();
         tracker.constructor();
+        environment.constructor();
 
         experience = { data: {} };
 
@@ -64,6 +66,7 @@ describe('GoogleAnalyticsHandler', function() {
                 domLoading: Date.now() - 2005
             }
         };
+        environment.initTime = Date.now() - 450;
 
         Runner.run(() => dispatcher.addClient(MockHandler, minireel, config));
     });
@@ -71,6 +74,7 @@ describe('GoogleAnalyticsHandler', function() {
     afterAll(function() {
         dispatcher.constructor();
         tracker.constructor();
+        environment.constructor();
     });
 
     it('should be a BillingHandler', function() {
@@ -114,6 +118,15 @@ describe('GoogleAnalyticsHandler', function() {
             timingVar: 'bootstrap',
             timingLabel: 'null',
             timingValue: Date.now() - global.performance.timing.domLoading
+        }));
+    });
+
+    it('should send a timing event for the player JS bootstrap', function() {
+        expect(trckr.trackTiming).toHaveBeenCalledWith(handler.getTrackingData({
+            timingCategory: 'Player',
+            timingVar: 'jsBootstrap',
+            timingLabel: 'null',
+            timingValue: Date.now() - environment.initTime
         }));
     });
 

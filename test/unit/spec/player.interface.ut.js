@@ -37,6 +37,12 @@ describe('PlayerInterface', function() {
             });
         });
 
+        describe('volume', function() {
+            it('should be Number', function() {
+                expect(iface.volume).toBe(Number);
+            });
+        });
+
         describe('readyState', function() {
             it('should be Number', function() {
                 expect(iface.readyState).toBe(Number);

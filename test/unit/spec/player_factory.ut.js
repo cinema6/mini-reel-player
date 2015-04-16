@@ -3,6 +3,7 @@ import VideoCard from '../../../src/models/VideoCard.js';
 import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
 import VimeoPlayer from '../../../src/players/VimeoPlayer.js';
 import VASTPlayer from '../../../src/players/VASTPlayer.js';
+import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -49,6 +50,23 @@ describe('playerFactory', function() {
 
                 it('should be a VimeoPlayer', function() {
                     expect(result).toEqual(jasmine.any(VimeoPlayer));
+                });
+            });
+
+            describe('if there card is from Dailymotion', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'dailymotion',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a DailymotionPlayer', function() {
+                    expect(result).toEqual(jasmine.any(DailymotionPlayer));
                 });
             });
 

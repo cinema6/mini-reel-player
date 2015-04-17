@@ -14,6 +14,7 @@ import RunnerPromise from '../../../lib/RunnerPromise.js';
 import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
+import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import election from '../../../src/services/election.js';
 
@@ -131,6 +132,40 @@ describe('MiniReel', function() {
                   "sponsor": "thebar.com",
                   "ad": true
                 }
+              },
+              {
+                "data": {
+                  "skip": true,
+                  "service": "yahoo",
+                  "videoid": "immigrant-tale-000000984",
+                  "code": "<iframe width=\"100%\"\n    height=\"100%\"\n    scrolling=\"no\"\n    frameborder=\"0\"\n    src=\"https://screen.yahoo.com/immigrant-tale-000000984.html?format=embed\"\n    allowfullscreen=\"true\"\n    mozallowfullscreen=\"true\"\n    webkitallowfullscreen=\"true\"\n    allowtransparency=\"true\">\n</iframe>",
+                  "href": "https://screen.yahoo.com/immigrant-tale-000000984.html",
+                  "thumbs": {
+                    "small": "https://s1.yimg.com/uu/api/res/1.2/JaJYkJd9poEvE2pPhcZTRQ--/dz02NDA7c209MTtmaT1maWxsO3B5b2ZmPTA7aD0zNjA7YXBwaWQ9eXRhY2h5b24-/http://media.zenfs.com/en-US/video/video.snl.com/SNL_1553_05_Immigrant_Tale.png",
+                    "large": "https://s1.yimg.com/uu/api/res/1.2/JaJYkJd9poEvE2pPhcZTRQ--/dz02NDA7c209MTtmaT1maWxsO3B5b2ZmPTA7aD0zNjA7YXBwaWQ9eXRhY2h5b24-/http://media.zenfs.com/en-US/video/video.snl.com/SNL_1553_05_Immigrant_Tale.png"
+                  }
+                },
+                "id": "rc-541cc592ddc110",
+                "type": "embedded",
+                "title": "Justin Timberlake is Funny",
+                "note": "He's coming to America!",
+                "source": "Yahoo! Screen",
+                "modules": [],
+                "thumbs": {
+                  "small": "https://s1.yimg.com/uu/api/res/1.2/JaJYkJd9poEvE2pPhcZTRQ--/dz02NDA7c209MTtmaT1maWxsO3B5b2ZmPTA7aD0zNjA7YXBwaWQ9eXRhY2h5b24-/http://media.zenfs.com/en-US/video/video.snl.com/SNL_1553_05_Immigrant_Tale.png",
+                  "large": "https://s1.yimg.com/uu/api/res/1.2/JaJYkJd9poEvE2pPhcZTRQ--/dz02NDA7c209MTtmaT1maWxsO3B5b2ZmPTA7aD0zNjA7YXBwaWQ9eXRhY2h5b24-/http://media.zenfs.com/en-US/video/video.snl.com/SNL_1553_05_Immigrant_Tale.png"
+                },
+                "placementId": null,
+                "templateUrl": null,
+                "sponsored": false,
+                "campaign": {
+                  "campaignId": null,
+                  "advertiserId": null,
+                  "minViewTime": null
+                },
+                "collateral": {},
+                "links": {},
+                "params": {}
               },
               {
                 "data": {
@@ -956,7 +991,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(18);
+                            minireel.moveToIndex(19);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -1083,12 +1118,13 @@ describe('MiniReel', function() {
                 expect(minireel.deck[15].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[16].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[17].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[18].prepare).not.toHaveBeenCalled();
             });
 
             describe('when moving to the last card', function() {
                 beforeEach(function() {
-                    minireel.currentIndex = 17;
-                    minireel.currentCard = minireel.deck[17];
+                    minireel.currentIndex = 18;
+                    minireel.currentCard = minireel.deck[18];
                 });
 
                 it('should not throw any errors', function() {
@@ -1150,6 +1186,9 @@ describe('MiniReel', function() {
 
                 expect(minireel.deck[17].deactivate).toHaveBeenCalled();
                 expect(minireel.deck[17].activate).not.toHaveBeenCalled();
+
+                expect(minireel.deck[18].deactivate).toHaveBeenCalled();
+                expect(minireel.deck[18].activate).not.toHaveBeenCalled();
             });
         });
     });
@@ -1360,6 +1399,7 @@ describe('MiniReel', function() {
             expect(minireel.deck).toEqual([
                 jasmine.any(TextCard),
                 jasmine.any(AdUnitCard),
+                jasmine.any(EmbeddedVideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
@@ -1400,7 +1440,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(18);
+            expect(minireel.length).toBe(19);
         });
 
         it('should set the adtech defaults', function() {

@@ -16,6 +16,7 @@ import {
 import TextCard from './TextCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
+import EmbeddedVideoCard from './EmbeddedVideoCard.js';
 import RecapCard from './RecapCard.js';
 
 const _ = createKey();
@@ -34,6 +35,8 @@ function initialize(minireel, { experience, standalone }) {
             return new RecapCard(card, experience, minireel);
         case 'adUnit':
             return new AdUnitCard(card, experience);
+        case 'embedded':
+            return new EmbeddedVideoCard(card, experience);
         default:
             return new VideoCard(card, experience);
         }

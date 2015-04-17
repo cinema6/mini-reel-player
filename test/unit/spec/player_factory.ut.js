@@ -5,6 +5,7 @@ import VimeoPlayer from '../../../src/players/VimeoPlayer.js';
 import VASTPlayer from '../../../src/players/VASTPlayer.js';
 import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../../../src/players/EmbeddedPlayer.js';
+import RumblePlayer from '../../../src/players/RumblePlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -54,7 +55,7 @@ describe('playerFactory', function() {
                 });
             });
 
-            describe('if there card is from Dailymotion', function() {
+            describe('if the card is from Dailymotion', function() {
                 beforeEach(function() {
                     card = new VideoCard({
                         type: 'dailymotion',
@@ -71,7 +72,7 @@ describe('playerFactory', function() {
                 });
             });
 
-            describe('if there card is an embedded video', function() {
+            describe('if the card is an embedded video', function() {
                 beforeEach(function() {
                     card = new VideoCard({
                         type: 'embedded',
@@ -85,6 +86,23 @@ describe('playerFactory', function() {
 
                 it('should be an EmbeddedPlayer', function() {
                     expect(result).toEqual(jasmine.any(EmbeddedPlayer));
+                });
+            });
+
+            describe('if the card is from Rumble.com', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'rumble',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a RumblePlayer', function() {
+                    expect(result).toEqual(jasmine.any(RumblePlayer));
                 });
             });
 

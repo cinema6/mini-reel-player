@@ -7,6 +7,7 @@
     the player's JavaScript
   * [FEATURE]: Added support for AOL and Yahoo! videos
   * [DEV]: Fix broken source maps in production/staging
+  * [FEATURE]: Add support for Rumble.com videos
 
 ## v0.6.0 (April 14, 2015)
 * *[v0.6.0-rc1]*

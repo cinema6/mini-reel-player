@@ -2,6 +2,7 @@ import YouTubePlayer from '../players/YouTubePlayer.js';
 import VimeoPlayer from '../players/VimeoPlayer.js';
 import VASTPlayer from '../players/VASTPlayer.js';
 import DailymotionPlayer from '../players/DailymotionPlayer.js';
+import EmbeddedPlayer from '../players/EmbeddedPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
@@ -14,6 +15,8 @@ class PlayerFactory {
             return new VASTPlayer();
         case 'dailymotion':
             return new DailymotionPlayer();
+        case 'embedded':
+            return new EmbeddedPlayer();
 
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);

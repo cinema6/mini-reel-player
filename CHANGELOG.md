@@ -5,6 +5,7 @@
   * [FEATURE]: Add support for Dailymotion videos
   * [FEATURE]: Added GA timer to report the time it takes to bootstrap
     the player's JavaScript
+  * [FEATURE]: Added support for AOL and Yahoo! videos
 
 ## v0.6.0 (April 14, 2015)
 * *[v0.6.0-rc1]*

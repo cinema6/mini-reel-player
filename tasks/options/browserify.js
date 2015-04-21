@@ -1,5 +1,9 @@
 'use strict';
 
+var grunt = require('grunt');
+var path = require('path');
+var iteration = 0;
+
 module.exports = {
     options: {
         browserifyOptions: {
@@ -16,12 +20,23 @@ module.exports = {
     },
     tmp: {
         options: {
-            plugin: [
-                ['minifyify', {
-                    map: 'main.js.map',
-                    output: '.tmp/<%= settings.distDir %>/<%= _version %>/main.js.map'
-                }]
-            ]
+            preBundleCB: function(browserify) {
+                var srcs = grunt.task.current.filesSrc;
+                var src = path.resolve(process.cwd(), srcs[iteration++]);
+                var basename = path.basename(src);
+                var output = grunt.config.process(
+                    path.resolve(
+                        process.cwd(),
+                        './.tmp/<%= settings.distDir %>/<%= _version %>/' + basename + '.map'
+                    )
+                );
+
+                browserify.plugin('minifyify', { map: basename + '.map', output: output });
+
+                if (iteration === srcs.length) {
+                    iteration = 0;
+                }
+            }
         },
         files: [
             {

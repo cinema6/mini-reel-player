@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v0.7.0 (April 21, 2015)
 * *[v0.7.0-rc1]*
   * [FEATURE]: Add support for questionnaires on non-sponsored cards
   * [FEATURE]: Add support for Dailymotion videos
@@ -11,6 +12,7 @@
   * [FIX]: Fix for an issue that could cause a MiniReel viewing session
     to count as a bounce even if the minViewTime of a sponsored card in
     that MiniReel was reached
+* *[/v0.7.0-rc1]*
 
 ## v0.6.0 (April 14, 2015)
 * *[v0.6.0-rc1]*

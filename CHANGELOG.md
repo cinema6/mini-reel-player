@@ -8,6 +8,9 @@
   * [FEATURE]: Added support for AOL and Yahoo! videos
   * [DEV]: Fix broken source maps in production/staging
   * [FEATURE]: Add support for Rumble.com videos
+  * [FIX]: Fix for an issue that could cause a MiniReel viewing session
+    to count as a bounce even if the minViewTime of a sponsored card in
+    that MiniReel was reached
 
 ## v0.6.0 (April 14, 2015)
 * *[v0.6.0-rc1]*

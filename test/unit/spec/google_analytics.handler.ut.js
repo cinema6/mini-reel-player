@@ -509,7 +509,7 @@ describe('GoogleAnalyticsHandler', function() {
             });
 
             it('should send an event', function() {
-                expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'AdCount', true));
+                expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'AdCount'));
             });
         });
     });

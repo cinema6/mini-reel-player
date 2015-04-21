@@ -147,7 +147,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
         }, 'card', 'activate');
 
         this.on('AdCount', (card, player) => {
-            this.tracker.trackEvent(this.getVideoTrackingData(player, 'AdCount', true));
+            this.tracker.trackEvent(this.getVideoTrackingData(player, 'AdCount'));
         });
     }
 

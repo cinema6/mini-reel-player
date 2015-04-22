@@ -18,6 +18,7 @@ import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
 import EmbeddedVideoCard from './EmbeddedVideoCard.js';
 import RecapCard from './RecapCard.js';
+import PrerollCard from './PrerollCard.js';
 
 const _ = createKey();
 
@@ -65,6 +66,12 @@ function initialize(minireel, { experience, standalone }) {
         kv: { mode: minireel.adConfig.display.waterfall || 'default' },
     });
 
+    minireel.prerollCard = new PrerollCard(
+        { data: {}, params: {}, collateral: {} },
+        experience,
+        minireel
+    );
+
     _(minireel).ready = true;
     minireel.emit('init');
 }
@@ -80,6 +87,7 @@ export default class MiniReel extends EventEmitter {
         this.branding = null;
         this.splash = null;
         this.deck = [];
+        this.prerollCard = null;
         this.length = 0;
         this.adConfig = null;
 
@@ -92,6 +100,9 @@ export default class MiniReel extends EventEmitter {
         this.currentCard = null;
 
         _(this).ready = false;
+        _(this).cardsShown = 0;
+        _(this).prerollShown = 0;
+        _(this).currentCardIndex = -1;
 
         _(this).cardCanAdvanceHandler = (() => this.next());
         _(this).becameUnskippableHandler = (() => this.emit('becameUnskippable'));
@@ -133,13 +144,37 @@ export default class MiniReel extends EventEmitter {
         }
 
         const previousCard = this.currentCard;
-        const currentCard = this.deck[index] || null;
+        let currentCard = this.deck[index] || null;
         const atTail = (index === this.length - 1);
 
         this.currentIndex = index;
         this.currentCard = currentCard;
 
         if (currentCard === previousCard) { return; }
+
+        const { cardsShown, prerollShown } = _(this);
+        const firstPlacement = this.adConfig.video.firstPlacement > -1 ?
+            this.adConfig.video.firstPlacement : Infinity;
+        const frequency = this.adConfig.video.frequency || Infinity;
+        const showedFirstPreroll = prerollShown > 0;
+        const cardsShownSinceFirstPreroll = (cardsShown - firstPlacement);
+        const shouldLoadPreroll = ((cardsShown + 1) === firstPlacement) ||
+            (((cardsShownSinceFirstPreroll + 1) % frequency) === 0);
+        const shouldShowPreroll = ((cardsShown === firstPlacement) && !showedFirstPreroll) ||
+            (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency)));
+
+        if (shouldLoadPreroll) {
+            this.prerollCard.prepare();
+        }
+
+        if (shouldShowPreroll) {
+            currentCard = this.currentCard = this.prerollCard;
+            this.currentIndex = null;
+            _(this).prerollShown++;
+        } else {
+            _(this).cardsShown++;
+            _(this).currentCardIndex = this.currentIndex;
+        }
 
         if (currentCard) {
             if (!atTail) {
@@ -174,11 +209,12 @@ export default class MiniReel extends EventEmitter {
     }
 
     next() {
-        return this.moveToIndex(this.currentIndex + 1);
+        return this.moveToIndex(_(this).currentCardIndex + 1);
     }
 
     previous() {
-        return this.moveToIndex(this.currentIndex - 1);
+        const moves = this.currentIndex === null ? 0 : 1;
+        return this.moveToIndex(_(this).currentCardIndex - moves);
     }
 
     close() {
@@ -186,7 +222,7 @@ export default class MiniReel extends EventEmitter {
     }
 
     didMove() {
-        forEach(this.deck, card => {
+        forEach(this.deck.concat([this.prerollCard]), card => {
             if (card === this.currentCard) {
                 card.activate();
             } else {
@@ -194,7 +230,7 @@ export default class MiniReel extends EventEmitter {
             }
         });
 
-        const nextCard = this.deck[this.currentIndex + 1];
+        const nextCard = (this.currentIndex !== null) && this.deck[this.currentIndex + 1];
 
         if (nextCard) {
             nextCard.prepare();

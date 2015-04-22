@@ -210,7 +210,7 @@ class IAB {
             vastDeferred.fulfill(new VAST(vast));
         });
 
-        fetchVAST(url).then(createVast);
+        fetchVAST(url).then(createVast).catch(error => vastDeferred.reject(error));
 
         return vastDeferred.promise;
     }

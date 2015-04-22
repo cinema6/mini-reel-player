@@ -357,6 +357,37 @@ describe('iab', function() {
                         });
                     });
                 });
+
+                describe('if the response is invalid XML', function() {
+                    let success, failure;
+
+                    beforeEach(function(done) {
+                        success = jasmine.createSpy('success()');
+                        failure = jasmine.createSpy('failure()');
+
+                        fetcher.expect('GET', 'http://u-ads.adap.tv/a/h/jSmRYUB6OAinZ1YEc6FP2fCQPSbU6FwIZz5J5C0Fsw2tnkCzhk2yTw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov')
+                            .respond(200, `
+                                <?xml version="1.0" encoding="UTF-8"?>
+
+                                <VAST version="2.0">
+                                    <Error>	</Error>
+
+                                    <Extensions>
+                                        <Extension type="adaptv_error">
+                                            <Error code="2"><![CDATA[No ad could be found matching this request.]]></Error>
+                                        </Extension>
+                                    </Extensions>
+                                </VAST>
+                            `);
+
+                        iab.getVAST('http://u-ads.adap.tv/a/h/jSmRYUB6OAinZ1YEc6FP2fCQPSbU6FwIZz5J5C0Fsw2tnkCzhk2yTw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov').then(success, failure).then(done, done);
+                        fetcher.flush();
+                    });
+
+                    it('should reject the promise', function() {
+                        expect(failure).toHaveBeenCalled();
+                    });
+                });
             });
         });
     });

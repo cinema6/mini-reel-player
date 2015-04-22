@@ -81,7 +81,7 @@ function initializeVideo(player) {
         }), false);
 
         video.controls = player.controls;
-        video.poster = player.poster;
+        if (player.poster) { video.poster = player.poster; }
 
         video.load();
         Runner.schedule('afterRender', element, 'appendChild', [video]);

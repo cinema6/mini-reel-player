@@ -842,6 +842,19 @@ describe('<vast-player>', function() {
                     expect(iab.getVAST).toHaveBeenCalledWith(player.src);
                 });
 
+                describe('if there is no poster', function() {
+                    beforeEach(function() {
+                        player = new VASTPlayer();
+                        player.src = 'http://i-am-an-adtag.com';
+
+                        Runner.run(() => player.load());
+                    });
+
+                    it('should not set the video\'s poster', function() {
+                        expect('poster' in video).toBe(false);
+                    });
+                });
+
                 describe('if called again', function() {
                     beforeEach(function() {
                         document.createElement.calls.reset();

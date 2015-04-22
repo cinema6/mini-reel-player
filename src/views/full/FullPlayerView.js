@@ -4,6 +4,7 @@ import ResizingPlayerView from '../../mixins/ResizingPlayerView.js';
 import ResizableNavButtonView from '../ResizableNavButtonView.js';
 import LinksListView from '../LinksListView.js';
 import View from '../../../lib/core/View.js';
+import DeckView from '../DeckView.js';
 
 export default class FullPlayerView extends PlayerView {
     constructor() {
@@ -13,7 +14,8 @@ export default class FullPlayerView extends PlayerView {
         this.instantiates = {
             ResizableNavButtonView,
             LinksListView,
-            View
+            View,
+            DeckView
         };
     }
 

@@ -5,18 +5,27 @@ import PlayerView from '../../../src/views/PlayerView.js';
 import View from '../../../lib/core/View.js';
 import Runner from '../../../lib/Runner.js';
 import LinksListView from '../../../src/views/LinksListView.js';
+import PrerollCardController from '../../../src/controllers/PrerollCardController.js';
+import PrerollCard from '../../../src/models/PrerollCard.js';
+class DeckView extends View {
+    show() {}
+    hide() {}
+}
 
 describe('ThumbnailNavigatorPlayerController', function() {
     let Ctrl;
     let view;
+    let experience;
 
     class MyPlayerController extends PlayerController {}
     MyPlayerController.mixin(ThumbnailNavigatorPlayerController);
 
     beforeEach(function() {
+        experience = { data: { collateral: {} } };
         view = new PlayerView();
 
         Ctrl = new MyPlayerController(new View(document.createElement('body')));
+        Ctrl.CardControllers.preroll = PrerollCardController;
         Ctrl.view = view;
     });
 
@@ -39,9 +48,16 @@ describe('ThumbnailNavigatorPlayerController', function() {
                 describe('minireel', function() {
                     describe('init', function() {
                         beforeEach(function() {
+                            Ctrl.view.cards = new DeckView();
+                            Ctrl.view.prerollOutlet = new DeckView();
                             view.pagerOutlet = new View();
                             view.links = new LinksListView();
                             spyOn(Ctrl.ThumbnailNavigatorViewCtrl, 'renderInto');
+                            spyOn(PrerollCardController.prototype, 'renderInto');
+                            Ctrl.minireel.adConfig = {
+                                video: {}
+                            };
+                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
                         });
@@ -53,6 +69,8 @@ describe('ThumbnailNavigatorPlayerController', function() {
 
                     describe('move', function() {
                         beforeEach(function() {
+                            Ctrl.view.cards = new DeckView();
+                            Ctrl.view.prerollOutlet = new DeckView();
                             view.links = new LinksListView();
                         });
 

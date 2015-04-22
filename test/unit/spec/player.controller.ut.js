@@ -1,16 +1,19 @@
+import cinema6 from '../../../src/services/cinema6.js';
+import PlayerController from '../../../src/controllers/PlayerController.js';
+import Controller from '../../../lib/core/Controller.js';
+import ApplicationView from '../../../src/views/ApplicationView.js';
+import MiniReel from '../../../src/models/MiniReel.js';
+import TextCard from '../../../src/models/TextCard.js';
+import VideoCard from '../../../src/models/VideoCard.js';
+import RecapCard from '../../../src/models/RecapCard.js';
+import PrerollCard from '../../../src/models/PrerollCard.js';
+import View from '../../../lib/core/View.js';
+import Card from '../../../src/models/Card.js';
+import Runner from '../../../lib/Runner.js';
+import TemplateView from '../../../lib/core/TemplateView.js';
+import DeckView from '../../../src/views/DeckView.js';
+
 describe('PlayerController', function() {
-    import cinema6 from '../../../src/services/cinema6.js';
-    import PlayerController from '../../../src/controllers/PlayerController.js';
-    import Controller from '../../../lib/core/Controller.js';
-    import ApplicationView from '../../../src/views/ApplicationView.js';
-    import MiniReel from '../../../src/models/MiniReel.js';
-    import TextCard from '../../../src/models/TextCard.js';
-    import VideoCard from '../../../src/models/VideoCard.js';
-    import RecapCard from '../../../src/models/RecapCard.js';
-    import View from '../../../lib/core/View.js';
-    import Card from '../../../src/models/Card.js';
-    import Runner from '../../../lib/Runner.js';
-    import TemplateView from '../../../lib/core/TemplateView.js';
     let PlayerCtrl;
 
     let applicationView;
@@ -29,6 +32,9 @@ describe('PlayerController', function() {
     class VideoCardController extends CardController {}
     class TextCardController extends CardController {}
     class RecapCardController extends CardController {}
+    class PrerollCardController extends CardController {
+        renderInto() {}
+    }
 
     class PlayerView extends TemplateView {
         constructor() {
@@ -66,7 +72,8 @@ describe('PlayerController', function() {
         PlayerCtrl.CardControllers = {
             text: TextCardController,
             video: VideoCardController,
-            recap: RecapCardController
+            recap: RecapCardController,
+            preroll: PrerollCardController
         };
     });
 
@@ -88,6 +95,12 @@ describe('PlayerController', function() {
         describe('cardCtrls', function() {
             it('should be an empty array', function() {
                 expect(PlayerCtrl.cardCtrls).toEqual([]);
+            });
+        });
+
+        describe('PrerollCardCtrl', function() {
+            it('should be null', function() {
+                expect(PlayerCtrl.PrerollCardCtrl).toBeNull();
             });
         });
 
@@ -114,6 +127,7 @@ describe('PlayerController', function() {
                 beforeEach(function() {
                     spyOn(PlayerCtrl.view, 'appendTo');
                     spyOn(PlayerCtrl, 'updateView');
+                    PlayerCtrl.view.prerollOutlet = new View();
 
                     PlayerCtrl.minireel.deck = [
                         new TextCard({ data: {} }, experience),
@@ -122,7 +136,14 @@ describe('PlayerController', function() {
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new RecapCard({}, experience, PlayerCtrl.minireel)
                     ];
+                    PlayerCtrl.minireel.adConfig = {
+                        video: {
+
+                        }
+                    };
+                    PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, PlayerCtrl.minireel);
                     spyOn(CardController.prototype, 'render');
+                    spyOn(PrerollCardController.prototype, 'renderInto');
 
                     Runner.run(() => PlayerCtrl.minireel.emit('init'));
                 });
@@ -145,6 +166,15 @@ describe('PlayerController', function() {
                     });
                 });
 
+                it('should create the PrerollCardCtrl', function() {
+                    expect(PlayerCtrl.PrerollCardCtrl).toEqual(jasmine.any(PrerollCardController));
+                    expect(PlayerCtrl.PrerollCardCtrl.model).toBe(PlayerCtrl.minireel.prerollCard);
+                });
+
+                it('should render the PrerollCardCtrl', function() {
+                    expect(PlayerCtrl.PrerollCardCtrl.renderInto).toHaveBeenCalledWith(PlayerCtrl.view.prerollOutlet);
+                });
+
                 it('should only render the first card', function() {
                     expect(CardController.prototype.render.calls.count()).toBe(1);
                     expect(PlayerCtrl.cardCtrls[0].render.calls.mostRecent().object).toBe(PlayerCtrl.cardCtrls[0]);
@@ -164,6 +194,7 @@ describe('PlayerController', function() {
                 it('should call updateView()', function() {
                     expect(PlayerCtrl.updateView).toHaveBeenCalled();
                 });
+
             });
 
             describe('launch', function() {
@@ -270,6 +301,14 @@ describe('PlayerController', function() {
             beforeEach(function() {
                 spyOn(PlayerCtrl.view, 'update');
 
+                Runner.run(() => PlayerCtrl.view.cards = new DeckView());
+                spyOn(PlayerCtrl.view.cards, 'show');
+                spyOn(PlayerCtrl.view.cards, 'hide');
+
+                Runner.run(() => PlayerCtrl.view.prerollOutlet = new DeckView());
+                spyOn(PlayerCtrl.view.prerollOutlet, 'show');
+                spyOn(PlayerCtrl.view.prerollOutlet, 'hide');
+
                 PlayerCtrl.minireel.standalone = false;
                 PlayerCtrl.minireel.title = 'My Awesome MiniReel';
                 PlayerCtrl.minireel.deck = [
@@ -300,6 +339,9 @@ describe('PlayerController', function() {
                     })
                 ];
                 PlayerCtrl.minireel.length = 5;
+                PlayerCtrl.minireel.adConfig = { video: {} };
+                PlayerCtrl.minireel.prerollCard = new PrerollCard({}, experience, PlayerCtrl.minireel);
+
 
                 PlayerCtrl.minireel.sponsor = 'Netflix';
                 PlayerCtrl.minireel.logo = 'http://www.images.com/netflix-logo.jpg';
@@ -315,6 +357,9 @@ describe('PlayerController', function() {
                 PlayerCtrl.minireel.currentCard = { type: 'recap' };
 
                 PlayerCtrl.updateView();
+
+                [PlayerCtrl.view.cards.show, PlayerCtrl.view.cards.hide, PlayerCtrl.view.prerollOutlet.show, PlayerCtrl.view.prerollOutlet.hide]
+                    .forEach(spy => spy.calls.reset());
             });
 
             it('should update its view', function() {
@@ -331,6 +376,38 @@ describe('PlayerController', function() {
                     canGoForward: jasmine.any(Boolean),
                     canGoBack: jasmine.any(Boolean),
                     cardType: PlayerCtrl.minireel.currentCard.type
+                });
+            });
+
+            describe('if the currentCard is not the prerollCard', function() {
+                beforeEach(function() {
+                    PlayerCtrl.minireel.currentCard = PlayerCtrl.minireel.deck[2];
+
+                    PlayerCtrl.updateView();
+                });
+
+                it('should show() the cards and hide the prerollOutlet', function() {
+                    expect(PlayerCtrl.view.cards.show).toHaveBeenCalled();
+                    expect(PlayerCtrl.view.cards.hide).not.toHaveBeenCalled();
+
+                    expect(PlayerCtrl.view.prerollOutlet.show).not.toHaveBeenCalled();
+                    expect(PlayerCtrl.view.prerollOutlet.hide).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the currentCard is the prerollCard', function() {
+                beforeEach(function() {
+                    PlayerCtrl.minireel.currentCard = PlayerCtrl.minireel.prerollCard;
+
+                    PlayerCtrl.updateView();
+                });
+
+                it('should show() the prerollOutlet and hide the cards', function() {
+                    expect(PlayerCtrl.view.cards.show).not.toHaveBeenCalled();
+                    expect(PlayerCtrl.view.cards.hide).toHaveBeenCalled();
+
+                    expect(PlayerCtrl.view.prerollOutlet.show).toHaveBeenCalled();
+                    expect(PlayerCtrl.view.prerollOutlet.hide).not.toHaveBeenCalled();
                 });
             });
 
@@ -467,6 +544,22 @@ describe('PlayerController', function() {
                 });
             });
 
+            describe('if not on a card in the deck', function() {
+                beforeEach(function() {
+                    PlayerCtrl.view.update.calls.reset();
+                    PlayerCtrl.minireel.currentIndex = null;
+                    PlayerCtrl.minireel.standalone = true;
+
+                    PlayerCtrl.updateView();
+                });
+
+                it('should allow the user to go back', function() {
+                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        canGoBack: true
+                    }));
+                });
+            });
+
             describe('if the middle of the minireel', function() {
                 beforeEach(function() {
                     PlayerCtrl.view.update.calls.reset();
@@ -480,29 +573,6 @@ describe('PlayerController', function() {
                     expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
                         canGoForward: true,
                         canGoBack: true
-                    }));
-                });
-            });
-
-            describe('if called before the first slide', function() {
-                beforeEach(function() {
-                    PlayerCtrl.minireel.currentIndex = -1;
-                    PlayerCtrl.minireel.currentCard = null;
-                    PlayerCtrl.view.update.calls.reset();
-
-                    PlayerCtrl.updateView();
-                });
-
-                it('should tell the view it can\'t go back', function() {
-                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        canGoForward: true,
-                        canGoBack: false
-                    }));
-                });
-
-                it('should make cardType null', function() {
-                    expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        cardType: null
                     }));
                 });
             });

@@ -15,6 +15,7 @@ class Environment {
         this.apiRoot = c6.kEnvUrlRoot || '//portal.cinema6.com';
         this.protocol = ($location.protocol === 'javascript:' ?  'http:' : $location.protocol);
         this.hostname = $location.hostname;
+        this.href = $location.href;
         this.initTime = c6.kStartTime;
     }
 }

@@ -72,18 +72,20 @@ export default class ThumbnailNavigatorViewController extends ViewController {
     }
 
     updateView() {
+        const { currentIndex, currentCard, standalone } = this.model;
+
         this.view.update({
             enabled: this.enabled,
             expanded: this.expanded,
             thumbsShown: this.thumbsShown,
-            enablePrevious: !this.model.standalone || this.model.currentIndex > 0,
+            enablePrevious: currentIndex === null || !standalone || currentIndex > 0,
             enableNext: this.model.currentIndex < (this.model.length - 1),
             items: map(this.model.deck, (card, index) => ({
                 id: card.id,
                 title: `Video ${index + 1} : ${card.title}`,
                 thumb: card.thumbs.small,
                 ad: card.ad,
-                active: this.model.currentCard === card
+                active: currentCard === card
             }))
         });
     }

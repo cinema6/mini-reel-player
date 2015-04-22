@@ -5,6 +5,7 @@ import ThumbnailNavigatorPlayerController from '../../../../src/mixins/Thumbnail
 import LightTextCardController from '../../../../src/controllers/light/LightTextCardController.js';
 import LightVideoCardController from '../../../../src/controllers/light/LightVideoCardController.js';
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightPrerollCardController from '../../../../src/controllers/light/LightPrerollCardController.js';
 
 describe('LightPlayerController', function() {
     let LightPlayerCtrl;
@@ -49,6 +50,12 @@ describe('LightPlayerController', function() {
             describe('.recap', function() {
                 it('should be LightboxPlaylistRecapCardController', function() {
                     expect(LightPlayerCtrl.CardControllers.recap).toBe(LightboxPlaylistRecapCardController);
+                });
+            });
+
+            describe('.preroll', function() {
+                it('should be LightPrerollCardController', function() {
+                    expect(LightPlayerCtrl.CardControllers.preroll).toBe(LightPrerollCardController);
                 });
             });
         });

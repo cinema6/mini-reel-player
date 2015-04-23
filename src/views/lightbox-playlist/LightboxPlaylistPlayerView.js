@@ -3,6 +3,7 @@ import View from '../../../lib/core/View.js';
 import ButtonView from '../ButtonView.js';
 import LightboxNavButtonView from '../LightboxNavButtonView.js';
 import LinksListView from '../LinksListView.js';
+import DeckView from '../DeckView.js';
 import PlaylistPlayerView from '../../mixins/PlaylistPlayerView.js';
 import ResizingPlayerView from '../../mixins/ResizingPlayerView.js';
 
@@ -16,6 +17,7 @@ export default class LightboxPlaylistPlayerView extends PlayerView {
             ButtonView,
             LightboxNavButtonView,
             LinksListView,
+            DeckView
         };
     }
 

@@ -7,6 +7,7 @@ import PrerollCard from '../../../src/models/PrerollCard.js';
 import Runner from '../../../lib/Runner.js';
 import PlayerView from '../../../src/views/PlayerView.js';
 import View from '../../../lib/core/View.js';
+import CardView from '../../../src/views/CardView.js';
 class MyPlayerController extends PlayerController {}
 MyPlayerController.mixin(PlaylistPlayerController);
 class DeckView extends View {
@@ -69,6 +70,33 @@ describe('PlaylistPlayerController mixin', function() {
 
                         it('should expand the Playlist', function() {
                             expect(Ctrl.PlaylistViewCtrl.expand).toHaveBeenCalled();
+                        });
+                    });
+                });
+
+                describe('PrerollCardCtrl', function() {
+                    beforeEach(function() {
+                        Ctrl.view.cards = new DeckView();
+                        Ctrl.view.prerollOutlet = new DeckView();
+                        Ctrl.minireel.adConfig = {
+                            video: {}
+                        };
+                        Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
+                        spyOn(PrerollCardController.prototype, 'renderInto');
+                        spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
+                        spyOn(Ctrl.DisplayAdCtrl, 'renderInto');
+                        Runner.run(() => Ctrl.minireel.emit('init'));
+                    });
+
+                    describe('showingCompanion', function() {
+                        beforeEach(function() {
+                            spyOn(Ctrl.PlaylistViewCtrl, 'contract');
+
+                            Ctrl.PrerollCardCtrl.emit('showingCompanion');
+                        });
+
+                        it('should contract() the playlist', function() {
+                            expect(Ctrl.PlaylistViewCtrl.contract).toHaveBeenCalled();
                         });
                     });
                 });
@@ -199,6 +227,34 @@ describe('PlaylistPlayerController mixin', function() {
                             it('should show the playlist', function() {
                                 expect(Ctrl.PlaylistViewCtrl.show).toHaveBeenCalled();
                                 expect(Ctrl.PlaylistViewCtrl.hide).not.toHaveBeenCalled();
+                            });
+                        });
+                    });
+
+                    describe('.prerollCard', function() {
+                        beforeEach(function() {
+                            Ctrl.view.cards = new DeckView();
+                            Ctrl.view.prerollOutlet = new DeckView();
+                            Ctrl.minireel.adConfig = {
+                                video: {}
+                            };
+                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
+                            spyOn(PrerollCardController.prototype, 'renderInto');
+                            spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
+                            spyOn(Ctrl.DisplayAdCtrl, 'renderInto');
+                            Runner.run(() => Ctrl.minireel.emit('init'));
+                            Ctrl.PrerollCardCtrl.view = new CardView();
+                        });
+
+                        describe('deactivate', function() {
+                            beforeEach(function() {
+                                spyOn(Ctrl.PlaylistViewCtrl, 'expand');
+
+                                Runner.run(() => Ctrl.minireel.prerollCard.emit('deactivate'));
+                            });
+
+                            it('should expand the playlist', function() {
+                                expect(Ctrl.PlaylistViewCtrl.expand).toHaveBeenCalled();
                             });
                         });
                     });

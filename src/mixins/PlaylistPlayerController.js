@@ -10,6 +10,9 @@ PlaylistPlayerController.prototype = {
         this.minireel.once('init', () => {
             this.PlaylistViewCtrl.renderInto(this.view.playlistOutlet);
             this.DisplayAdCtrl.renderInto(this.view.displayAdOutlet);
+
+            this.PrerollCardCtrl.on('showingCompanion', () => this.PlaylistViewCtrl.contract());
+            this.PrerollCardCtrl.model.on('deactivate', () => this.PlaylistViewCtrl.expand());
         });
         this.minireel.on('becameUnskippable', () => this.PlaylistViewCtrl.disable());
         this.minireel.on('becameSkippable', () => this.PlaylistViewCtrl.enable());

@@ -2,6 +2,7 @@ import DisplayAdView from '../../../src/views/DisplayAdView.js';
 import View from '../../../lib/core/View.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
 import Hidable from '../../../src/mixins/Hideable.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('DisplayAdView', function() {
     let view;
@@ -44,6 +45,44 @@ describe('DisplayAdView', function() {
 
             it('should be a view', function() {
                 expect(view.adContainer).toEqual(jasmine.any(View));
+            });
+        });
+    });
+
+    describe('methods:', function() {
+        describe('populateWith(html)', function() {
+            let html;
+
+            beforeEach(function() {
+                spyOn(view, 'create').and.callThrough();
+                html = '<p>Hello world!</p>';
+
+                Runner.run(() => view.populateWith(html));
+            });
+
+            it('should create the element', function() {
+                expect(view.create).toHaveBeenCalled();
+            });
+
+            it('should set the innerHTML of the adContainer', function() {
+                expect(view.adContainer.element.innerHTML).toBe(html);
+            });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    view.create.calls.reset();
+                    html = '<p>How is life?</p>';
+
+                    Runner.run(() => view.populateWith(html));
+                });
+
+                it('should not create the element', function() {
+                    expect(view.create).not.toHaveBeenCalled();
+                });
+
+                it('should set the adContainer\'s innerHTML', function() {
+                    expect(view.adContainer.element.innerHTML).toBe(html);
+                });
             });
         });
     });

@@ -1,6 +1,7 @@
 import PrerollCardController from '../PrerollCardController.js';
 import FullPrerollCardView from '../../views/full/FullPrerollCardView.js';
 import SkipTimerVideoCardController from '../../mixins/SkipTimerVideoCardController.js';
+import CompanionPrerollCardController from '../../mixins/CompanionPrerollCardController.js';
 
 export default class FullPrerollCardController extends PrerollCardController {
     constructor() {
@@ -9,6 +10,10 @@ export default class FullPrerollCardController extends PrerollCardController {
         this.view = new FullPrerollCardView();
 
         this.initSkipTimer();
+        this.initCompanion();
     }
 }
-FullPrerollCardController.mixin(SkipTimerVideoCardController); // jshint ignore:line
+FullPrerollCardController.mixin( // jshint ignore:line
+    SkipTimerVideoCardController,
+    CompanionPrerollCardController
+);

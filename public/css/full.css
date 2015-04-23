@@ -473,6 +473,14 @@
 /*  ================================================
     Companion Ad classes
     ================================================ */
+    .companionAd__holder {
+        width: 300px; height: 265px;
+        position: fixed;
+        bottom: 0; right: 0;
+    }
+    .ui--offscreen .companionAd__holder {
+        display: none;
+    }
     .companionAd__group {
         width:18.75em;
         position:absolute;

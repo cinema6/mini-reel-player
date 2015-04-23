@@ -2,6 +2,7 @@ import LightboxPlaylistPrerollCardController from '../../../../src/controllers/l
 import PrerollCardController from '../../../../src/controllers/PrerollCardController.js';
 import LightboxPlaylistPrerollCardView from '../../../../src/views/lightbox-playlist/LightboxPlaylistPrerollCardView.js';
 import SkipTimerVideoCardController from '../../../../src/mixins/SkipTimerVideoCardController.js';
+import CompanionPrerollCardController from '../../../../src/mixins/CompanionPrerollCardController.js';
 import { EventEmitter } from 'events';
 
 describe('LightboxPlaylistPrerollCardController', function() {
@@ -13,6 +14,7 @@ describe('LightboxPlaylistPrerollCardController', function() {
         card.data = {};
 
         spyOn(LightboxPlaylistPrerollCardController.prototype, 'initSkipTimer').and.callThrough();
+        spyOn(LightboxPlaylistPrerollCardController.prototype, 'initCompanion').and.callThrough();
 
         LightboxPlaylistPrerollCardCtrl = new LightboxPlaylistPrerollCardController(card);
     });
@@ -24,6 +26,11 @@ describe('LightboxPlaylistPrerollCardController', function() {
     it('should mixin the SkipTimerVideoCardController', function() {
         expect(LightboxPlaylistPrerollCardController.mixins).toContain(SkipTimerVideoCardController);
         expect(LightboxPlaylistPrerollCardCtrl.initSkipTimer).toHaveBeenCalled();
+    });
+
+    it('should mixin the CompanionPrerollCardController', function() {
+        expect(LightboxPlaylistPrerollCardController.mixins).toContain(CompanionPrerollCardController);
+        expect(LightboxPlaylistPrerollCardCtrl.initCompanion).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

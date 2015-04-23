@@ -3,6 +3,7 @@ import {createKey} from 'private-parts';
 import iab from '../services/iab.js';
 import browser from '../services/browser.js';
 import Runner from '../../lib/Runner.js';
+import RunnerPromise from '../../lib/RunnerPromise.js';
 
 const _ = createKey();
 
@@ -99,7 +100,7 @@ function load(player) {
     function loadFromCache() {
         var vast = vastCache[src];
 
-        return vast ? Promise.resolve(vast) : Promise.reject(null);
+        return vast ? RunnerPromise.resolve(vast) : RunnerPromise.reject(null);
     }
 
     function loadFromVASTService() {
@@ -113,11 +114,15 @@ function load(player) {
     }
 
     function setState(data) {
-        if (data !== _player.vast && data.getCompanion()) {
+        const isNew = data !== _player.vast;
+
+        _player.vast = data;
+
+        if (isNew && data.getCompanion()) {
             player.emit('companionsReady');
         }
 
-        return (_player.vast = data);
+        return data;
     }
 
     function setSrc(vast) {
@@ -249,6 +254,7 @@ export default class VASTPlayer extends CorePlayer {
 
         this.element.removeChild(_(this).video);
         _(this).video = null;
+        _(this).vast = null;
     }
     reload() {
         this.unload();

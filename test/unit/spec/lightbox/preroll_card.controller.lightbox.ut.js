@@ -2,6 +2,7 @@ import LightboxPrerollCardController from '../../../../src/controllers/lightbox/
 import PrerollCardController from '../../../../src/controllers/PrerollCardController.js';
 import LightboxPrerollCardView from '../../../../src/views/lightbox/LightboxPrerollCardView.js';
 import { EventEmitter } from 'events';
+import CompanionPrerollCardController from '../../../../src/mixins/CompanionPrerollCardController.js';
 
 describe('LightboxPrerollCardController', function() {
     let LightboxPrerollCardCtrl;
@@ -11,11 +12,18 @@ describe('LightboxPrerollCardController', function() {
         card = new EventEmitter();
         card.data = {};
 
+        spyOn(LightboxPrerollCardController.prototype, 'initCompanion').and.callThrough();
+
         LightboxPrerollCardCtrl = new LightboxPrerollCardController(card);
     });
 
     it('should exist', function() {
         expect(LightboxPrerollCardCtrl).toEqual(jasmine.any(PrerollCardController));
+    });
+
+    it('should mixin the CompanionPrerollCardController', function() {
+        expect(LightboxPrerollCardController.mixins).toContain(CompanionPrerollCardController);
+        expect(LightboxPrerollCardCtrl.initCompanion).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

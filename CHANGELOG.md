@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.8.0-rc1]*
+  * [FEATURE]: Add support for VAST preroll advertising
+
 ## v0.7.0 (April 21, 2015)
 * *[v0.7.0-rc1]*
   * [FEATURE]: Add support for questionnaires on non-sponsored cards

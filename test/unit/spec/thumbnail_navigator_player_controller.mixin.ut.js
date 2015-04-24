@@ -74,7 +74,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             view.links = new LinksListView();
                         });
 
-                        ['recap', 'text'].forEach(type => {
+                        ['recap', 'text', 'displayAd'].forEach(type => {
                             describe(`if the currentCard is a ${type} card`, function() {
                                 beforeEach(function() {
                                     Ctrl.minireel.currentCard = { type };

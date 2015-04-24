@@ -35,7 +35,7 @@ describe('DisplayAdController', function() {
     describe('methods:', function() {
         describe('activate()', function() {
             beforeEach(function() {
-                spyOn(ModuleController.prototype, 'activate');
+                spyOn(ModuleController.prototype, 'activate').and.callThrough();
                 spyOn(adtech, 'load');
                 spyOn(DisplayAdCtrl.view, 'create').and.callThrough();
 
@@ -60,12 +60,17 @@ describe('DisplayAdController', function() {
             describe('if called again', function() {
                 beforeEach(function() {
                     DisplayAdCtrl.view.create.calls.reset();
+                    adtech.load.calls.reset();
 
                     DisplayAdCtrl.activate();
                 });
 
                 it('should not create its view again', function() {
                     expect(DisplayAdCtrl.view.create).not.toHaveBeenCalled();
+                });
+
+                it('should not load an ad again', function() {
+                    expect(adtech.load).not.toHaveBeenCalled();
                 });
             });
         });

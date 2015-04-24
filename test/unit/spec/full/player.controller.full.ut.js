@@ -6,6 +6,7 @@ import FullTextCardController from '../../../../src/controllers/full/FullTextCar
 import FullVideoCardController from '../../../../src/controllers/full/FullVideoCardController.js';
 import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
 import FullPrerollCardController from '../../../../src/controllers/full/FullPrerollCardController.js';
+import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import PlaylistPlayerController from '../../../../src/mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerController.js';
 
@@ -50,6 +51,7 @@ describe('FullPlayerController', function() {
                 expect(FullPlayerCtrl.CardControllers.video).toBe(FullVideoCardController);
                 expect(FullPlayerCtrl.CardControllers.recap).toBe(FullRecapCardController);
                 expect(FullPlayerCtrl.CardControllers.preroll).toBe(FullPrerollCardController);
+                expect(FullPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
             });
         });
     });

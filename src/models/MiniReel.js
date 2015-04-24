@@ -102,7 +102,8 @@ export default class MiniReel extends EventEmitter {
         _(this).ready = false;
         _(this).cardsShown = 0;
         _(this).prerollShown = 0;
-        _(this).currentCardIndex = -1;
+        _(this).previousIndex = this.currentIndex - 1;
+        _(this).nextIndex = this.currentIndex + 1;
 
         _(this).cardCanAdvanceHandler = (() => this.next());
         _(this).becameUnskippableHandler = (() => this.emit('becameUnskippable'));
@@ -144,11 +145,15 @@ export default class MiniReel extends EventEmitter {
         }
 
         const previousCard = this.currentCard;
+        const previousIndex = this.currentIndex;
         let currentCard = this.deck[index] || null;
         const atTail = (index === this.length - 1);
 
         this.currentIndex = index;
         this.currentCard = currentCard;
+
+        _(this).previousIndex = index - 1;
+        _(this).nextIndex = index + 1;
 
         if (currentCard === previousCard) { return; }
 
@@ -171,9 +176,11 @@ export default class MiniReel extends EventEmitter {
             currentCard = this.currentCard = this.prerollCard;
             this.currentIndex = null;
             _(this).prerollShown++;
+
+            _(this).nextIndex = index;
+            _(this).previousIndex = previousIndex;
         } else {
             _(this).cardsShown++;
-            _(this).currentCardIndex = this.currentIndex;
         }
 
         if (currentCard) {
@@ -209,12 +216,11 @@ export default class MiniReel extends EventEmitter {
     }
 
     next() {
-        return this.moveToIndex(_(this).currentCardIndex + 1);
+        return this.moveToIndex(_(this).nextIndex);
     }
 
     previous() {
-        const moves = this.currentIndex === null ? 0 : 1;
-        return this.moveToIndex(_(this).currentCardIndex - moves);
+        return this.moveToIndex(_(this).previousIndex);
     }
 
     close() {

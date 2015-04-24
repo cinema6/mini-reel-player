@@ -1072,7 +1072,7 @@ describe('MiniReel', function() {
                                 minireel.moveToIndex(2);
 
                                 minireel.deck.forEach(card => spyOn(card, 'prepare'));
-                                minireel.moveToIndex(3);
+                                minireel.moveToIndex(8);
                                 expect(minireel.prerollCard.activate).toHaveBeenCalled();
 
                                 minireel.prerollCard.activate.calls.reset();
@@ -1090,8 +1090,8 @@ describe('MiniReel', function() {
                                     minireel.next();
                                 });
 
-                                it('should cause the MiniReel to proceed past the preroll card', function() {
-                                    expect(minireel.moveToIndex).toHaveBeenCalledWith(3);
+                                it('should cause the MiniReel to proceed past the preroll card to the card the user was trying to navigate to', function() {
+                                    expect(minireel.moveToIndex).toHaveBeenCalledWith(8);
                                 });
                             });
 
@@ -1102,7 +1102,7 @@ describe('MiniReel', function() {
                                     minireel.previous();
                                 });
 
-                                it('should cause the MiniReel to proceed past the preroll card', function() {
+                                it('should cause the MiniReel to proceed past the preroll card to the card the user was on before', function() {
                                     expect(minireel.moveToIndex).toHaveBeenCalledWith(2);
                                 });
                             });

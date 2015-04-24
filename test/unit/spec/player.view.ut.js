@@ -251,6 +251,19 @@ describe('PlayerView', function() {
                 });
             });
 
+            describe('if called without links', function() {
+                beforeEach(function() {
+                    playerView.links.update.calls.reset();
+                    delete data.links;
+
+                    Runner.run(() => playerView.update(data));
+                });
+
+                it('should not update its links', function() {
+                    expect(playerView.links.update).not.toHaveBeenCalled();
+                });
+            });
+
             describe('if the minireel can\'t go forward', function() {
                 beforeEach(function() {
                     data.canGoForward = false;

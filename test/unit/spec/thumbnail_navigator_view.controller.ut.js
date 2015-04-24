@@ -415,6 +415,18 @@ describe('ThumbnailNavigatorViewController', function() {
                         minireel.standalone = true;
                     });
 
+                    describe('if the currentIndex is null', function() {
+                        beforeEach(function() {
+                            minireel.currentIndex = null;
+
+                            ThumbnailNavigatorViewCtrl.updateView();
+                        });
+
+                        it('should be true', function() {
+                            expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ enablePrevious: true }));
+                        });
+                    });
+
                     describe('if on the first card', function() {
                         beforeEach(function() {
                             minireel.currentIndex = 0;
@@ -445,6 +457,18 @@ describe('ThumbnailNavigatorViewController', function() {
                 describe('if standalone is false', function() {
                     beforeEach(function() {
                         minireel.standalone = false;
+                    });
+
+                    describe('if the currentIndex is null', function() {
+                        beforeEach(function() {
+                            minireel.currentIndex = null;
+
+                            ThumbnailNavigatorViewCtrl.updateView();
+                        });
+
+                        it('should be true', function() {
+                            expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ enablePrevious: true }));
+                        });
                     });
 
                     describe('if on the first card', function() {

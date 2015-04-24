@@ -5,6 +5,7 @@ import LightTextCardController from './LightTextCardController.js';
 import LightVideoCardController from './LightVideoCardController.js';
 import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightPrerollCardController from './LightPrerollCardController.js';
 
 export default class LightPlayerController extends PlayerController {
     constructor() {
@@ -14,7 +15,8 @@ export default class LightPlayerController extends PlayerController {
         this.CardControllers = {
             text: LightTextCardController,
             video: LightVideoCardController,
-            recap: LightboxPlaylistRecapCardController
+            recap: LightboxPlaylistRecapCardController,
+            preroll: LightPrerollCardController
         };
 
         this.session.once('ready', () => {

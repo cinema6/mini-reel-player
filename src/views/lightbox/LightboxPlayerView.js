@@ -3,6 +3,7 @@ import ButtonView from '../ButtonView.js';
 import View from '../../../lib/core/View.js';
 import LightboxNavButtonView from '../LightboxNavButtonView.js';
 import LinksListView from '../LinksListView.js';
+import DeckView from '../DeckView.js';
 
 export default class LightboxPlayerView extends PlayerView {
     constructor() {
@@ -13,7 +14,8 @@ export default class LightboxPlayerView extends PlayerView {
             ButtonView,
             LightboxNavButtonView,
             View,
-            LinksListView
+            LinksListView,
+            DeckView
         };
     }
 

@@ -4,6 +4,7 @@ import LightboxPlayerView from '../../../../src/views/lightbox/LightboxPlayerVie
 import LightboxTextCardController from '../../../../src/controllers/lightbox/LightboxTextCardController.js';
 import LightboxVideoCardController from '../../../../src/controllers/lightbox/LightboxVideoCardController.js';
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 
@@ -54,6 +55,12 @@ describe('LightboxPlayerController', function() {
             describe('.recap', function() {
                 it('should be LightboxPlaylistRecapCardController', function() {
                     expect(LightboxPlayerCtrl.CardControllers.recap).toBe(LightboxPlaylistRecapCardController);
+                });
+            });
+
+            describe('.preroll', function() {
+                it('should be a LightboxPrerollCardController', function() {
+                    expect(LightboxPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
                 });
             });
         });

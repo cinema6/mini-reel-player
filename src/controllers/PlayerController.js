@@ -21,6 +21,7 @@ export default class PlayerController extends Controller {
         this.session = cinema6.init();
         this.minireel = new MiniReel();
         this.cardCtrls = [];
+        this.PrerollCardCtrl = null;
 
         this.minireel.on('init', () => {
             this.updateView();
@@ -28,7 +29,10 @@ export default class PlayerController extends Controller {
             this.cardCtrls = map(this.minireel.deck, card => {
                 return new this.CardControllers[card.type](card, this.view.cards);
             });
+            this.PrerollCardCtrl = new this.CardControllers.preroll(this.minireel.prerollCard);
+
             forEach(this.cardCtrls.slice(0, 1), Ctrl => Ctrl.render());
+            this.PrerollCardCtrl.renderInto(this.view.prerollOutlet);
 
             this.view.appendTo(_(this).parentView);
         });
@@ -79,7 +83,15 @@ export default class PlayerController extends Controller {
             cardType: currentCard && currentCard.type,
             currentCardNumber: (minireel.currentIndex + 1).toString(),
             canGoForward: currentIndex < (minireel.length - 1),
-            canGoBack: (currentIndex > 0 || !standalone) && currentIndex > -1
+            canGoBack: currentIndex === null || !standalone || currentIndex > 0
         });
+
+        if (minireel.currentCard !== minireel.prerollCard) {
+            this.view.cards.show();
+            this.view.prerollOutlet.hide();
+        } else {
+            this.view.cards.hide();
+            this.view.prerollOutlet.show();
+        }
     }
 }

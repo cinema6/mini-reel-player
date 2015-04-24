@@ -4,6 +4,7 @@ import LightboxPlaylistPlayerView
 import LightboxPlaylistTextCardController from './LightboxPlaylistTextCardController.js';
 import LightboxPlaylistVideoCardController from './LightboxPlaylistVideoCardController.js';
 import LightboxPlaylistRecapCardController from './LightboxPlaylistRecapCardController.js';
+import LightboxPlaylistPrerollCardController from './LightboxPlaylistPrerollCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
@@ -16,7 +17,8 @@ export default class LightboxPlaylistPlayerController extends PlayerController {
         this.CardControllers = {
             text: LightboxPlaylistTextCardController,
             video: LightboxPlaylistVideoCardController,
-            recap: LightboxPlaylistRecapCardController
+            recap: LightboxPlaylistRecapCardController,
+            preroll: LightboxPlaylistPrerollCardController
         };
 
         this.initPlaylist();

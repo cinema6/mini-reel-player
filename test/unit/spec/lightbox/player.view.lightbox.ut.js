@@ -5,6 +5,7 @@ import ButtonView from '../../../../src/views/ButtonView.js';
 import View from '../../../../lib/core/View.js';
 import LightboxNavButtonView from '../../../../src/views/LightboxNavButtonView.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
+import DeckView from '../../../../src/views/DeckView.js';
 
 describe('LightboxPlayerView', function() {
     let view;
@@ -36,8 +37,14 @@ describe('LightboxPlayerView', function() {
             });
 
             describe('cards', function() {
-                it('should be a View', function() {
-                    expect(view.cards).toEqual(jasmine.any(View));
+                it('should be a DeckView', function() {
+                    expect(view.cards).toEqual(jasmine.any(DeckView));
+                });
+            });
+
+            describe('prerollOutlet', function() {
+                it('should be a DeckView', function() {
+                    expect(view.prerollOutlet).toEqual(jasmine.any(DeckView));
                 });
             });
 

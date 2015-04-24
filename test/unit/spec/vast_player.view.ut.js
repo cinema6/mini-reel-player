@@ -199,6 +199,8 @@ describe('<vast-player>', function() {
             let vast;
 
             beforeEach(function() {
+                player = new VASTPlayer();
+
                 vast = {
                     getVideoSrc: jasmine.createSpy('vast.getVideoSrc()').and.returnValue(''),
                     getCompanion: jasmine.createSpy('vast.getCompanion()').and.returnValue({})
@@ -208,7 +210,7 @@ describe('<vast-player>', function() {
                 iab.getVAST.and.returnValue(vastDeferred.promise);
                 player.src = 'companion-test-tag.tag';
 
-                spy = jasmine.createSpy('spy()');
+                spy = jasmine.createSpy('spy()').and.callFake(() => Runner.schedule('render', null, () => expect(player.getCompanions()).toEqual([vast.getCompanion()])));
                 player.on('companionsReady', spy);
             });
 
@@ -842,6 +844,19 @@ describe('<vast-player>', function() {
                     expect(iab.getVAST).toHaveBeenCalledWith(player.src);
                 });
 
+                describe('if there is no poster', function() {
+                    beforeEach(function() {
+                        player = new VASTPlayer();
+                        player.src = 'http://i-am-an-adtag.com';
+
+                        Runner.run(() => player.load());
+                    });
+
+                    it('should not set the video\'s poster', function() {
+                        expect('poster' in video).toBe(false);
+                    });
+                });
+
                 describe('if called again', function() {
                     beforeEach(function() {
                         document.createElement.calls.reset();
@@ -954,12 +969,16 @@ describe('<vast-player>', function() {
             describe('unload()', function() {
                 let originalVideo;
 
-                beforeEach(function() {
+                beforeEach(function(done) {
                     Runner.run(() => player.load());
                     originalVideo = video;
                     spyOn(player.element, 'removeChild');
+                    vastDeferred.fulfill(vastObject);
 
-                    player.unload();
+                    setTimeout(() => {
+                        player.unload();
+                        done();
+                    }, 10);
                 });
 
                 describe('before the player was created', function() {
@@ -976,6 +995,10 @@ describe('<vast-player>', function() {
 
                 it('should remove the video', function() {
                     expect(player.element.removeChild).toHaveBeenCalledWith(video);
+                });
+
+                it('should cause getCompanions() to return null again', function() {
+                    expect(player.getCompanions()).toBeNull();
                 });
 
                 describe('when the player is loaded again', function() {

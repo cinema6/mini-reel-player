@@ -14,6 +14,8 @@ import MobileVideoCardController from '../../../../src/controllers/mobile/Mobile
 import MobileRecapCardController from '../../../../src/controllers/mobile/MobileRecapCardController.js';
 import View from '../../../../lib/core/View.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
+import MobilePrerollCardController from '../../../../src/controllers/mobile/MobilePrerollCardController.js';
+import PrerollCard from '../../../../src/models/PrerollCard.js';
 
 describe('MobilePlayerController', function() {
     let MobilePlayerCtrl;
@@ -68,6 +70,7 @@ describe('MobilePlayerController', function() {
                 expect(MobilePlayerCtrl.CardControllers.text).toBe(MobileTextCardController);
                 expect(MobilePlayerCtrl.CardControllers.video).toBe(MobileVideoCardController);
                 expect(MobilePlayerCtrl.CardControllers.recap).toBe(MobileRecapCardController);
+                expect(MobilePlayerCtrl.CardControllers.preroll).toBe(MobilePrerollCardController);
             });
         });
 
@@ -116,6 +119,13 @@ describe('MobilePlayerController', function() {
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new RecapCard({}, experience, MobilePlayerCtrl.minireel)
                     ];
+                    spyOn(MobilePrerollCardController.prototype, 'renderInto');
+
+                    MobilePlayerCtrl.minireel.adConfig = {
+                        video: {}
+                    };
+                    MobilePlayerCtrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, MobilePlayerCtrl.minireel);
+
                     MobilePlayerCtrl.view.toc = new View();
                     MobilePlayerCtrl.view.cards = new View(document.createElement('span'));
 

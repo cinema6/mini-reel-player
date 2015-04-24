@@ -9,6 +9,7 @@ import NavButtonView from '../../../../src/views/mobile/NavButtonView.js';
 import SkipTimerView from '../../../../src/views/SkipTimerView.js';
 import HideableView from '../../../../src/views/HideableView.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
+import DeckView from '../../../../src/views/DeckView.js';
 
 describe('MobilePlayerView', function() {
     let mobilePlayerView;
@@ -33,8 +34,18 @@ describe('MobilePlayerView', function() {
                 Runner.run(() => mobilePlayerView.create());
             });
 
-            it('should be a view', function() {
-                expect(mobilePlayerView.cards).toEqual(jasmine.any(View));
+            it('should be a DeckView', function() {
+                expect(mobilePlayerView.cards).toEqual(jasmine.any(DeckView));
+            });
+        });
+
+        describe('prerollOutlet', function() {
+            beforeEach(function() {
+                Runner.run(() => mobilePlayerView.create());
+            });
+
+            it('should be a DeckView', function() {
+                expect(mobilePlayerView.prerollOutlet).toEqual(jasmine.any(DeckView));
             });
         });
 

@@ -21,6 +21,12 @@ describe('ModuleController', function() {
     });
 
     describe('properties:', function() {
+        describe('active', function() {
+            it('should be false', function() {
+                expect(ModuleCtrl.active).toBe(false);
+            });
+        });
+
         describe('model', function() {
             it('should be null', function() {
                 expect(ModuleCtrl.model).toBeNull();
@@ -53,12 +59,30 @@ describe('ModuleController', function() {
                 ModuleCtrl.activate();
             });
 
+            it('should set active to true', function() {
+                expect(ModuleCtrl.active).toBe(true);
+            });
+
             it('should show its view', function() {
                 expect(view.show).toHaveBeenCalled();
             });
 
             it('should emit the activate event', function() {
                 expect(spy).toHaveBeenCalled();
+            });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    spy.calls.reset();
+                    view.show.calls.reset();
+
+                    ModuleCtrl.activate();
+                });
+
+                it('should do nothing', function() {
+                    expect(spy).not.toHaveBeenCalled();
+                    expect(view.show).not.toHaveBeenCalled();
+                });
             });
         });
 
@@ -69,8 +93,13 @@ describe('ModuleController', function() {
                 spy = jasmine.createSpy('spy()');
                 ModuleCtrl.on('deactivate', spy);
                 spyOn(view, 'hide');
+                ModuleCtrl.active = true;
 
                 ModuleCtrl.deactivate();
+            });
+
+            it('should set active to false', function() {
+                expect(ModuleCtrl.active).toBe(false);
             });
 
             it('should hide its view', function() {
@@ -79,6 +108,20 @@ describe('ModuleController', function() {
 
             it('should emit the deactivate event', function() {
                 expect(spy).toHaveBeenCalled();
+            });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    spy.calls.reset();
+                    view.hide.calls.reset();
+
+                    ModuleCtrl.deactivate();
+                });
+
+                it('should do nothing', function() {
+                    expect(spy).not.toHaveBeenCalled();
+                    expect(view.hide).not.toHaveBeenCalled();
+                });
             });
         });
 

@@ -5,6 +5,7 @@ import MobileTextCardController from './MobileTextCardController.js';
 import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
 import MobilePrerollCardController from './MobilePrerollCardController.js';
+import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
 export default class MobilePlayerController extends PlayerController {
@@ -17,7 +18,8 @@ export default class MobilePlayerController extends PlayerController {
             text: MobileTextCardController,
             video: MobileVideoCardController,
             recap: MobileRecapCardController,
-            preroll: MobilePrerollCardController
+            preroll: MobilePrerollCardController,
+            displayAd: DisplayAdCardController
         };
 
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));

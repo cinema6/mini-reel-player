@@ -4,6 +4,12 @@
   * [FEATURE]: Add support for VAST preroll advertising
   * [FEATURE]: Add support for display ad cards
 
+## v0.7.1 (April 24, 2015)
+* *[v0.7.1-rc1]*
+  * [FIX]: Fix for an issue that caused VAST videos to playback on iOS
+    in fullscreen mode when running in a web view (like Jun)
+* *[/v0.7.1-rc1]*
+
 ## v0.7.0 (April 21, 2015)
 * *[v0.7.0-rc1]*
   * [FEATURE]: Add support for questionnaires on non-sponsored cards

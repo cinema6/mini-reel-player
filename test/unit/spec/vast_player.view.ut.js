@@ -834,6 +834,7 @@ describe('<vast-player>', function() {
                     expect(player.element.appendChild).toHaveBeenCalledWith(video);
                     expect(video.controls).toBe(player.controls);
                     expect(video.poster).toBe(player.poster);
+                    expect(video.getAttribute('webkit-playsinline')).toBe('');
                 });
 
                 it('should load the video', function() {

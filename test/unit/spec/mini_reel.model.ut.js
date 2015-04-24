@@ -15,6 +15,7 @@ import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
+import DisplayAdCard from '../../../src/models/DisplayAdCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
 import election from '../../../src/services/election.js';
@@ -565,6 +566,37 @@ describe('MiniReel', function() {
                 "params": {}
               },
               {
+                "data": {
+                  "size": "300x250"
+                },
+                "id": "rc-984e8b8e4168d1",
+                "type": "displayAd",
+                "title": "How Goes It?",
+                "note": null,
+                "modules": [],
+                "placementId": "12345678",
+                "templateUrl": null,
+                "sponsored": false,
+                "campaign": {
+                  "campaignId": null,
+                  "advertiserId": null,
+                  "minViewTime": null
+                },
+                "collateral": {},
+                "links": {
+                  "Website": "http://www.mysite.com",
+                  "Twitter": "twitter.com/93rf443t",
+                  "YouTube": "youtube.com/watch?v=84ry943"
+                },
+                "thumbs": {
+                  "small": "http://www.apple.com/logo.png",
+                  "large": "http://www.apple.com/logo.png"
+                },
+                "params": {
+                  "sponsor": "My Sponsor"
+                }
+              },
+              {
                 "data": {},
                 "id": "rc-60b247489263c5",
                 "type": "recap",
@@ -1004,7 +1036,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(19);
+                            minireel.moveToIndex(20);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -1287,12 +1319,13 @@ describe('MiniReel', function() {
                 expect(minireel.deck[16].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[17].prepare).not.toHaveBeenCalled();
                 expect(minireel.deck[18].prepare).not.toHaveBeenCalled();
+                expect(minireel.deck[19].prepare).not.toHaveBeenCalled();
             });
 
             describe('when moving to the last card', function() {
                 beforeEach(function() {
-                    minireel.currentIndex = 18;
-                    minireel.currentCard = minireel.deck[18];
+                    minireel.currentIndex = 19;
+                    minireel.currentCard = minireel.deck[19];
                 });
 
                 it('should not throw any errors', function() {
@@ -1357,6 +1390,9 @@ describe('MiniReel', function() {
 
                 expect(minireel.deck[18].deactivate).toHaveBeenCalled();
                 expect(minireel.deck[18].activate).not.toHaveBeenCalled();
+
+                expect(minireel.deck[19].deactivate).toHaveBeenCalled();
+                expect(minireel.deck[19].activate).not.toHaveBeenCalled();
             });
 
             it('should call deactivate() on the prerollCard', function() {
@@ -1587,6 +1623,7 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
+                jasmine.any(DisplayAdCard),
                 jasmine.any(RecapCard)
             ]);
         });
@@ -1616,7 +1653,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(19);
+            expect(minireel.length).toBe(20);
         });
 
         it('should set the adtech defaults', function() {

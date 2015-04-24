@@ -17,6 +17,7 @@ import TextCard from './TextCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
 import EmbeddedVideoCard from './EmbeddedVideoCard.js';
+import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 
@@ -38,6 +39,8 @@ function initialize(minireel, { experience, standalone }) {
             return new AdUnitCard(card, experience);
         case 'embedded':
             return new EmbeddedVideoCard(card, experience);
+        case 'displayAd':
+            return new DisplayAdCard(card, experience);
         default:
             return new VideoCard(card, experience);
         }

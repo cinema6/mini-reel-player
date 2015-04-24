@@ -10,6 +10,7 @@ export default class DisplayAdController extends ModuleController {
     }
 
     activate() {
+        if (this.active) { return super(); }
         const { view, model } = this;
 
         if (!view.adContainer) {

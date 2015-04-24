@@ -2,6 +2,7 @@
 
 * *[v0.8.0-rc1]*
   * [FEATURE]: Add support for VAST preroll advertising
+  * [FEATURE]: Add support for display ad cards
 
 ## v0.7.0 (April 21, 2015)
 * *[v0.7.0-rc1]*

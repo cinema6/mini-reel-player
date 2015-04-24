@@ -837,6 +837,11 @@
         margin:-11.25em 0 0 0;
     }
 
+    .displayAdCard__adModule .companionAd__group {
+        position: relative;
+        margin: 0 auto;
+    }
+
 
         .displayAdBrand__tagline {
             font-size:0.875em;
@@ -1117,7 +1122,7 @@
             }
 
 
-        .nav__btn--centered {
+        .nav__btn--displayAd {
             top:50%; margin-top:-3em;
         }
 

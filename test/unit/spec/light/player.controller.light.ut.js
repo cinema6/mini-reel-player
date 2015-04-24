@@ -6,6 +6,7 @@ import LightTextCardController from '../../../../src/controllers/light/LightText
 import LightVideoCardController from '../../../../src/controllers/light/LightVideoCardController.js';
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightPrerollCardController from '../../../../src/controllers/light/LightPrerollCardController.js';
+import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 
 describe('LightPlayerController', function() {
     let LightPlayerCtrl;
@@ -56,6 +57,12 @@ describe('LightPlayerController', function() {
             describe('.preroll', function() {
                 it('should be LightPrerollCardController', function() {
                     expect(LightPlayerCtrl.CardControllers.preroll).toBe(LightPrerollCardController);
+                });
+            });
+
+            describe('.displayAd', function() {
+                it('should be DisplayAdCardController', function() {
+                    expect(LightPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
                 });
             });
         });

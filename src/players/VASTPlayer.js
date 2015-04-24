@@ -82,6 +82,7 @@ function initializeVideo(player) {
 
         video.controls = player.controls;
         video.poster = player.poster;
+        video.setAttribute('webkit-playsinline', '');
 
         video.load();
         Runner.schedule('afterRender', element, 'appendChild', [video]);

@@ -25,6 +25,7 @@ describe('PrerollCardController', function() {
         };
         card.setPlaybackState = jasmine.createSpy('card.setPlaybackState()');
         card.complete = jasmine.createSpy('card.complete()');
+        card.abort = jasmine.createSpy('card.abort()');
 
         environment.debug = false;
 
@@ -104,15 +105,14 @@ describe('PrerollCardController', function() {
                 describe('if there was an error', function() {
                     beforeEach(function() {
                         PrerollCardCtrl.player.emit('error');
-                        card.complete.calls.reset();
                         PrerollCardCtrl.view.show.calls.reset();
                         PrerollCardCtrl.player.play.calls.reset();
 
                         card.emit('activate');
                     });
 
-                    it('should complete() the card', function() {
-                        expect(card.complete).toHaveBeenCalled();
+                    it('should abort() the card', function() {
+                        expect(card.abort).toHaveBeenCalled();
                     });
 
                     it('should not show() the view', function() {
@@ -126,13 +126,13 @@ describe('PrerollCardController', function() {
                     describe('the next time the video is loaded', function() {
                         beforeEach(function() {
                             Runner.run(() => card.emit('deactivate'));
-                            card.complete.calls.reset();
+                            card.abort.calls.reset();
 
                             card.emit('activate');
                         });
 
-                        it('should not complete() the card', function() {
-                            expect(card.complete).not.toHaveBeenCalled();
+                        it('should not abort() the card', function() {
+                            expect(card.abort).not.toHaveBeenCalled();
                         });
                     });
                 });
@@ -216,8 +216,8 @@ describe('PrerollCardController', function() {
                     PrerollCardCtrl.player.emit('error');
                 });
 
-                it('should complete() the card', function() {
-                    expect(card.complete).toHaveBeenCalled();
+                it('should abort() the card', function() {
+                    expect(card.abort).toHaveBeenCalled();
                 });
             });
         });

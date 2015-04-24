@@ -27,7 +27,7 @@ export default class PrerollCardController extends ViewController {
         this.model.on('prepare', () => this.player.load());
         this.model.on('activate', () => {
             if (_(this).errorOccurred) {
-                return this.model.complete();
+                return this.model.abort();
             }
 
             this.view.show();
@@ -48,7 +48,7 @@ export default class PrerollCardController extends ViewController {
         player.on('ended', () => this.model.complete());
         player.on('error', () => {
             _(this).errorOccurred = true;
-            this.model.complete();
+            this.model.abort();
         });
     }
 

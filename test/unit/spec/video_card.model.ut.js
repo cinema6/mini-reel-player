@@ -675,6 +675,29 @@ describe('VideoCard', function() {
                 it('should emit "canAdvance"', function() {
                     expect(spy).toHaveBeenCalled();
                 });
+
+                describe('if the card is not skippable', function() {
+                    beforeEach(function() {
+                        card.skippable = false;
+                        spy.calls.reset();
+
+                        card.complete();
+                    });
+
+                    it('should not emit "canAdvance"', function() {
+                        expect(spy).not.toHaveBeenCalled();
+                    });
+
+                    describe('when the card becomes skippable', function() {
+                        beforeEach(function() {
+                            card.emit('becameSkippable');
+                        });
+
+                        it('should emit "canAdvance"', function() {
+                            expect(spy).toHaveBeenCalled();
+                        });
+                    });
+                });
             });
 
             describe('if autoadvance is true', function() {

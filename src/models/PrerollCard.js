@@ -27,4 +27,13 @@ export default class PrerollCard extends VideoCard {
             }
         }());
     }
+
+    abort() {
+        if (!this.skippable) {
+            this.skippable = true;
+            this.emit('becameSkippable');
+        }
+
+        this.emit('canAdvance');
+    }
 }

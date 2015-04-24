@@ -76,9 +76,10 @@ export default class VideoCard extends Card {
 
     complete() {
         super(...arguments);
+        const advance = (() => this.emit('canAdvance'));
 
         if (this.data.autoadvance) {
-            this.emit('canAdvance');
+            if (this.skippable) { advance(); } else { this.once('becameSkippable', advance); }
         }
     }
 

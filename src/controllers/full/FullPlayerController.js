@@ -4,6 +4,7 @@ import FullTextCardController from './FullTextCardController.js';
 import FullVideoCardController from './FullVideoCardController.js';
 import FullRecapCardController from './FullRecapCardController.js';
 import FullPrerollCardController from './FullPrerollCardController.js';
+import DisplayAdCardController from '../DisplayAdCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
 
@@ -17,7 +18,8 @@ export default class FullPlayerController extends PlayerController {
             text: FullTextCardController,
             video: FullVideoCardController,
             recap: FullRecapCardController,
-            preroll: FullPrerollCardController
+            preroll: FullPrerollCardController,
+            displayAd: DisplayAdCardController
         };
 
         this.initResizing();

@@ -5,6 +5,7 @@ import LightboxVideoCardController from './LightboxVideoCardController.js';
 import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightboxPrerollCardController from './LightboxPrerollCardController.js';
+import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
@@ -18,7 +19,8 @@ export default class LightboxPlayerController extends PlayerController {
             text: LightboxTextCardController,
             video: LightboxVideoCardController,
             recap: LightboxPlaylistRecapCardController,
-            preroll: LightboxPrerollCardController
+            preroll: LightboxPrerollCardController,
+            displayAd: DisplayAdCardController
         };
 
         this.initFullscreen();

@@ -12,6 +12,13 @@ import Card from '../../../src/models/Card.js';
 import Runner from '../../../lib/Runner.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
 import DeckView from '../../../src/views/DeckView.js';
+import codeLoader from '../../../src/services/code_loader.js';
+import environment from '../../../src/environment.js';
+import browser from '../../../src/services/browser.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import {
+    defer
+} from '../../../lib/utils.js';
 
 describe('PlayerController', function() {
     let PlayerCtrl;
@@ -53,6 +60,7 @@ describe('PlayerController', function() {
 
     beforeEach(function() {
         cinema6.constructor();
+        environment.constructor();
 
         experience = {
             data: {
@@ -75,6 +83,11 @@ describe('PlayerController', function() {
             recap: RecapCardController,
             preroll: PrerollCardController
         };
+    });
+
+    afterAll(function() {
+        cinema6.constructor();
+        environment.constructor();
     });
 
     it('should be a controller', function() {
@@ -124,11 +137,18 @@ describe('PlayerController', function() {
     describe('events:', function() {
         describe('minireel', function() {
             describe('init', function() {
+                let mouseDeferred;
+
                 beforeEach(function() {
                     spyOn(PlayerCtrl.view, 'appendTo');
                     spyOn(PlayerCtrl, 'updateView');
+                    environment.mode = 'some-mode';
                     PlayerCtrl.view.prerollOutlet = new View();
+                    spyOn(codeLoader, 'loadStyles');
+                    mouseDeferred = defer(RunnerPromise);
+                    spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
 
+                    PlayerCtrl.minireel.branding = 'my-branding';
                     PlayerCtrl.minireel.deck = [
                         new TextCard({ data: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
@@ -182,6 +202,60 @@ describe('PlayerController', function() {
 
                 it('should append its view to the provided view', function() {
                     expect(PlayerCtrl.view.appendTo).toHaveBeenCalledWith(applicationView);
+                });
+
+                it('should load the branding styles for the minireel', function() {
+                    expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${PlayerCtrl.minireel.branding}/styles/${environment.mode}/theme.css`);
+                    expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${PlayerCtrl.minireel.branding}/styles/core.css`);
+                });
+
+                it('should see if the browser has a mouse', function() {
+                    expect(browser.test).toHaveBeenCalledWith('mouse');
+                });
+
+                describe('if the device has no mouse', function() {
+                    beforeEach(function(done) {
+                        codeLoader.loadStyles.calls.reset();
+
+                        mouseDeferred.fulfill(false);
+                        mouseDeferred.promise.then(done, done);
+                    });
+
+                    it('should not load branding hover styles', function() {
+                        expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the device has a mouse', function() {
+                    beforeEach(function(done) {
+                        codeLoader.loadStyles.calls.reset();
+
+                        mouseDeferred.fulfill(true);
+                        mouseDeferred.promise.then(done, done);
+                    });
+
+                    it('should load branding hover styles', function() {
+                        expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${PlayerCtrl.minireel.branding}/styles/${environment.mode}/theme--hover.css`);
+                        expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${PlayerCtrl.minireel.branding}/styles/core--hover.css`);
+                    });
+                });
+
+                describe('if the minireel has no branding', function() {
+                    beforeEach(function() {
+                        PlayerCtrl.minireel.branding = null;
+                        browser.test.calls.reset();
+                        codeLoader.loadStyles.calls.reset();
+
+                        Runner.run(() => PlayerCtrl.minireel.emit('init'));
+                    });
+
+                    it('should not load styles', function() {
+                        expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+                    });
+
+                    it('should not test for a mouse', function() {
+                        expect(browser.test).not.toHaveBeenCalled();
+                    });
                 });
             });
 

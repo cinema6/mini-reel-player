@@ -95,11 +95,15 @@ export default class DailymotionPlayer extends CorePlayer {
         const { state: { ready, hasPlayed } } = _(this);
         this.load();
 
+        const callPlay = (() => {
+            this.emit('attemptPlay');
+            _(this).video.call('play');
+        });
         const play = (() => {
-            if (hasPlayed) { return _(this).video.call('play'); }
+            if (hasPlayed) { return callPlay(); }
 
             browser.test('autoplay').then(autoplayable => {
-                if (autoplayable) { _(this).video.call('play'); }
+                if (autoplayable) { return callPlay(); }
             });
         });
 

@@ -693,9 +693,13 @@ describe('<vast-player>', function() {
         describe('methods', function() {
             describe('play', function() {
                 var vast;
+                let attemptPlay;
 
                 beforeEach(function(done) {
                     player.src = 'adtag.org';
+
+                    attemptPlay = jasmine.createSpy('attemptPlay()');
+                    player.on('attemptPlay', attemptPlay);
 
                     vast = vastObject;
 
@@ -715,6 +719,10 @@ describe('<vast-player>', function() {
                     expect(video.play).toHaveBeenCalled();
                 });
 
+                it('should emit "attemptPlay"', function() {
+                    expect(attemptPlay).toHaveBeenCalled();
+                });
+
                 it('should not fetch any VAST', function() {
                     expect(iab.getVAST).not.toHaveBeenCalled();
                 });
@@ -729,6 +737,7 @@ describe('<vast-player>', function() {
                         iab.getVAST.and.returnValue(vastDeferred.promise);
 
                         video.play.calls.reset();
+                        attemptPlay.calls.reset();
 
                         player.src = 'new.adtag.org';
                         Runner.run(() => player.play());
@@ -737,6 +746,10 @@ describe('<vast-player>', function() {
 
                     it('should not play the video', function() {
                         expect(video.play).not.toHaveBeenCalled();
+                    });
+
+                    it('should emit "attemptPlay"', function() {
+                        expect(attemptPlay).toHaveBeenCalled();
                     });
 
                     it('should fetch the new VAST', function() {

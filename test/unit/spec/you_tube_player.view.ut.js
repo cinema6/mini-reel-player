@@ -234,6 +234,7 @@ describe('YouTubePlayer', function() {
         describe('play()', function() {
             let ytPlayer;
             let autoplayDeferred;
+            let attemptPlay;
 
             beforeEach(function() {
                 autoplayDeferred = defer(RunnerPromise);
@@ -271,6 +272,9 @@ describe('YouTubePlayer', function() {
                 spyOn(player, 'load').and.callThrough();
                 spyOn(browser, 'test').and.returnValue(autoplayDeferred.promise);
 
+                attemptPlay = jasmine.createSpy('attemptPlay()');
+                player.on('attemptPlay', attemptPlay);
+
                 player.src = 'VSL0vtRrTYk';
             });
 
@@ -304,6 +308,10 @@ describe('YouTubePlayer', function() {
                         it('should play the video', function() {
                             expect(ytPlayer.playVideo).toHaveBeenCalled();
                         });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
+                        });
                     });
 
                     describe('if the device can\'t autoplay', function() {
@@ -314,6 +322,10 @@ describe('YouTubePlayer', function() {
 
                         it('should not play the video', function() {
                             expect(ytPlayer.playVideo).not.toHaveBeenCalled();
+                        });
+
+                        it('should not emit "attemptPlay"', function() {
+                            expect(attemptPlay).not.toHaveBeenCalled();
                         });
                     });
                 });
@@ -341,6 +353,10 @@ describe('YouTubePlayer', function() {
                     it('should play the video', function() {
                         expect(ytPlayer.playVideo).toHaveBeenCalled();
                     });
+
+                    it('should emit "attemptPlay"', function() {
+                        expect(attemptPlay).toHaveBeenCalled();
+                    });
                 });
 
                 describe('if the device can\'t autoplay', function() {
@@ -351,6 +367,10 @@ describe('YouTubePlayer', function() {
 
                     it('should not play the video', function() {
                         expect(ytPlayer.playVideo).not.toHaveBeenCalled();
+                    });
+
+                    it('should not emit "attemptPlay"', function() {
+                        expect(attemptPlay).not.toHaveBeenCalled();
                     });
                 });
             });
@@ -373,6 +393,10 @@ describe('YouTubePlayer', function() {
 
                 it('should play the video', function() {
                     expect(ytPlayer.playVideo).toHaveBeenCalled();
+                });
+
+                it('should emit "attemptPlay"', function() {
+                    expect(attemptPlay).toHaveBeenCalled();
                 });
             });
         });

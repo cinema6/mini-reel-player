@@ -13,6 +13,7 @@ class Environment {
         this.debug = !!c6.kDebug;
         this.secure = $location.protocol === 'https:';
         this.apiRoot = c6.kEnvUrlRoot || '//portal.cinema6.com';
+        this.mode = c6.kMode;
         this.protocol = ($location.protocol === 'javascript:' ?  'http:' : $location.protocol);
         this.hostname = $location.hostname;
         this.href = $location.href;

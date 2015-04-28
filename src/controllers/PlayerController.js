@@ -3,10 +3,32 @@ import MiniReel from '../models/MiniReel.js';
 import cinema6 from '../services/cinema6.js';
 import Runner from '../../lib/Runner.js';
 import {createKey} from 'private-parts';
+import environment from '../environment.js';
+import codeLoader from '../services/code_loader.js';
+import browser from '../services/browser.js';
 import {
     map,
     forEach
 } from '../../lib/utils.js';
+
+function loadBranding(minireel) {
+    const { apiRoot, mode } = environment;
+    const { branding } = minireel;
+
+    if (!branding) { return; }
+
+    const base = `${apiRoot}/collateral/branding/${branding}/styles`;
+
+    codeLoader.loadStyles(`${base}/${mode}/theme.css`);
+    codeLoader.loadStyles(`${base}/core.css`);
+
+    browser.test('mouse').then(hasMouse => {
+        if (hasMouse) {
+            codeLoader.loadStyles(`${base}/${mode}/theme--hover.css`);
+            codeLoader.loadStyles(`${base}/core--hover.css`);
+        }
+    });
+}
 
 const _ = createKey();
 
@@ -35,6 +57,8 @@ export default class PlayerController extends Controller {
             this.PrerollCardCtrl.renderInto(this.view.prerollOutlet);
 
             this.view.appendTo(_(this).parentView);
+
+            loadBranding(this.minireel);
         });
         this.minireel.on('move', () => this.updateView());
         this.minireel.once('launch', () => {

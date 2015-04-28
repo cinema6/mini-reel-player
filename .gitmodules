@@ -1,0 +1,3 @@
+[submodule "server/mothership/collateral"]
+	path = server/mothership/collateral
+	url = git@github.com:cinema6/collateral.git

@@ -1,11 +1,13 @@
 # MiniReel Player 2.0
 
+## v0.8.0 (April 28, 2015)
 * *[v0.8.0-rc1]*
   * [FEATURE]: Add support for VAST preroll advertising
   * [FEATURE]: Add support for display ad cards
   * [FEATURE]: Add support for branding (custom styles)
   * [FIX]: Fix for an issue that caused GA AutoPlayAttempts to be
     under-reported
+* *[/v0.8.0-rc1]*
 
 ## v0.7.1 (April 24, 2015)
 * *[v0.7.1-rc1]*

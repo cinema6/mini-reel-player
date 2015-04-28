@@ -1,7 +1,6 @@
 import BillingHandler from './BillingHandler.js';
 import tracker from '../services/tracker.js';
 import timer from '../../lib/timer.js';
-import browser from '../services/browser.js';
 import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import {
@@ -126,23 +125,27 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             this.tracker.trackEvent(this.getVideoTrackingData(player, 'Quartile 4'));
         }, 'video', 'complete');
 
-        register(({ target: card, data: player }) => {
-            if (card.data.autoplay) {
-                browser.test('autoplay').then(autoplayable => {
-                    if (!autoplayable) { return; }
+        let currentPlayer = null;
+        const trackAutoplayAttempt = (() => {
+            this.tracker.trackEvent(
+                this.getVideoTrackingData(currentPlayer, 'AutoPlayAttempt', true)
+            );
+            waitFor(currentPlayer, 'play', 5000).catch(() => {
+                this.tracker.trackEvent(this.getVideoTrackingData(
+                    currentPlayer, 'Error', true, 'Video play timed out.'
+                ));
+            });
+        });
 
-                    this.tracker.trackEvent(
-                        this.getVideoTrackingData(player, 'AutoPlayAttempt', true)
-                    );
-                    waitFor(player, 'play', 5000).catch(() => {
-                        this.tracker.trackEvent(
-                            this.getVideoTrackingData(
-                                player,
-                                'Error', true, 'Video play timed out.'
-                            )
-                        );
-                    });
-                });
+        register(({ target: card, data: player }) => {
+            if (currentPlayer) {
+                currentPlayer.removeListener('attemptPlay', trackAutoplayAttempt);
+            }
+
+            currentPlayer = player;
+
+            if (card.data.autoplay) {
+                player.once('attemptPlay', trackAutoplayAttempt);
             }
         }, 'card', 'activate');
 

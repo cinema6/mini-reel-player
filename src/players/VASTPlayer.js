@@ -241,6 +241,8 @@ export default class VASTPlayer extends CorePlayer {
         }
     }
     play() {
+        this.emit('attemptPlay');
+
         load(this).then(function(video) {
             video.play();
         });

@@ -914,7 +914,11 @@ describe('VimeoPlayer', function() {
         });
 
         describe('play()', function() {
+            let attemptPlay;
+
             beforeEach(function() {
+                attemptPlay = jasmine.createSpy('attemptPlay()');
+                player.on('attemptPlay', attemptPlay);
                 spyOn(player, 'load').and.callThrough();
             });
 
@@ -931,6 +935,10 @@ describe('VimeoPlayer', function() {
                     expect(vimeoPlayer.call).not.toHaveBeenCalledWith('play');
                 });
 
+                it('should not emit "attemptPlay"', function() {
+                    expect(attemptPlay).not.toHaveBeenCalled();
+                });
+
                 describe('when the player is ready', function() {
                     describe('if the device can\'t autoplay', function() {
                         beforeEach(function(done) {
@@ -942,6 +950,10 @@ describe('VimeoPlayer', function() {
 
                         it('should not play the video', function() {
                             expect(vimeoPlayer.call).not.toHaveBeenCalledWith('play');
+                        });
+
+                        it('should not emit "attemptPlay"', function() {
+                            expect(attemptPlay).not.toHaveBeenCalled();
                         });
 
                         describe('after the video has played once', function() {
@@ -958,6 +970,10 @@ describe('VimeoPlayer', function() {
                             it('should play the video', function() {
                                 expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
                             });
+
+                            it('should emit "attemptPlay"', function() {
+                                expect(attemptPlay).toHaveBeenCalled();
+                            });
                         });
                     });
 
@@ -971,6 +987,10 @@ describe('VimeoPlayer', function() {
 
                         it('should play the video', function() {
                             expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
+                        });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
                         });
                     });
                 });
@@ -999,6 +1019,10 @@ describe('VimeoPlayer', function() {
                         expect(vimeoPlayer.call).not.toHaveBeenCalledWith('play');
                     });
 
+                    it('should not emit "attemptPlay"', function() {
+                        expect(attemptPlay).not.toHaveBeenCalled();
+                    });
+
                     describe('after the video has played once', function() {
                         beforeEach(function() {
                             vimeoPlayer.emit('play');
@@ -1012,6 +1036,10 @@ describe('VimeoPlayer', function() {
 
                         it('should play the video', function() {
                             expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
+                        });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
                         });
                     });
                 });
@@ -1030,6 +1058,10 @@ describe('VimeoPlayer', function() {
 
                     it('should play the video', function() {
                         expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
+                    });
+
+                    it('should emit "attemptPlay"', function() {
+                        expect(attemptPlay).toHaveBeenCalled();
                     });
                 });
             });

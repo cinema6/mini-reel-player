@@ -236,7 +236,11 @@ describe('DailymotionPlayer', function() {
         });
 
         describe('play()', function() {
+            let attemptPlay;
+
             beforeEach(function() {
+                attemptPlay = jasmine.createSpy('attemptPlay()');
+                player.on('attemptPlay', attemptPlay);
                 spyOn(player, 'load').and.callThrough();
                 spyOn(fetcher, 'get').and.returnValue(new Promise(() => {}));
             });
@@ -275,6 +279,10 @@ describe('DailymotionPlayer', function() {
                         it('should not play the video', function() {
                             expect(video.call).not.toHaveBeenCalled();
                         });
+
+                        it('should not emit "attemptPlay"', function() {
+                            expect(attemptPlay).not.toHaveBeenCalled();
+                        });
                     });
 
                     describe('if the device can autoplay', function() {
@@ -287,6 +295,10 @@ describe('DailymotionPlayer', function() {
 
                         it('should play the video', function() {
                             expect(video.call).toHaveBeenCalledWith('play');
+                        });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
                         });
                     });
                 });
@@ -331,6 +343,10 @@ describe('DailymotionPlayer', function() {
                             it('should not play the video', function() {
                                 expect(video.call).not.toHaveBeenCalled();
                             });
+
+                            it('should not emit "attemptPlay"', function() {
+                                expect(attemptPlay).not.toHaveBeenCalled();
+                            });
                         });
 
                         describe('if the device can autoplay', function() {
@@ -343,6 +359,10 @@ describe('DailymotionPlayer', function() {
 
                             it('should play the video', function() {
                                 expect(video.call).toHaveBeenCalledWith('play');
+                            });
+
+                            it('should emit "attemptPlay"', function() {
+                                expect(attemptPlay).toHaveBeenCalled();
                             });
                         });
                     });
@@ -378,6 +398,10 @@ describe('DailymotionPlayer', function() {
                             it('should not play the video', function() {
                                 expect(video.call).not.toHaveBeenCalled();
                             });
+
+                            it('should not emit "attemptPlay"', function() {
+                                expect(attemptPlay).not.toHaveBeenCalled();
+                            });
                         });
 
                         describe('if the device can autoplay', function() {
@@ -390,6 +414,10 @@ describe('DailymotionPlayer', function() {
 
                             it('should play the video', function() {
                                 expect(video.call).toHaveBeenCalledWith('play');
+                            });
+
+                            it('should emit "attemptPlay"', function() {
+                                expect(attemptPlay).toHaveBeenCalled();
                             });
                         });
                     });
@@ -404,6 +432,10 @@ describe('DailymotionPlayer', function() {
 
                         it('should play the video', function() {
                             expect(video.call).toHaveBeenCalledWith('play');
+                        });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
                         });
                     });
                 });

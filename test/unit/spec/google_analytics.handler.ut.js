@@ -5,7 +5,6 @@ import tracker from '../../../src/services/tracker.js';
 import {EventEmitter} from 'events';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';
-import browser from '../../../src/services/browser.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import timer from '../../../lib/timer.js';
 import Runner from '../../../lib/Runner.js';
@@ -244,7 +243,7 @@ describe('GoogleAnalyticsHandler', function() {
                 minireel.currentIndex = 2;
 
                 dispatcher.addSource('video', player, [
-                    'play', 'pause', 'ended', 'error',
+                    'attemptPlay', 'play', 'pause', 'ended', 'error',
                     'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
                 ], card);
                 spyOn(trckr, 'trackEvent');
@@ -373,111 +372,125 @@ describe('GoogleAnalyticsHandler', function() {
         });
 
         describe('card :', function() {
-            let card;
             let player;
+            let card;
 
             beforeEach(function() {
                 card = new VideoCard({
-                    data: { href: 'http://www.dailymotion.com/video/38ry3d', source: 'Dailymotion', autoplay: false },
+                    type: 'vimeo',
+                    data: {
+                        autoplay: true,
+                        href: 'http://www.vimeo.com/384895'
+                    },
                     params: {},
-                    logos: {},
                     collateral: {},
-                    type: 'dailymotion',
-                    id: 'rc-9823rd8932'
+                    links: {},
+                    campaign: {}
                 }, experience);
                 player = new CorePlayer();
-                player.duration = 22;
+                player.duration = 45;
 
                 minireel.currentCard = card;
-                minireel.currentIndex = 3;
+                minireel.currentIndex = 2;
 
-                dispatcher.addSource('card', card, ['activate'], player);
+                dispatcher.addSource('card', card, ['activate', 'deactivate'], player);
                 spyOn(trckr, 'trackEvent');
             });
 
             describe('activate', function() {
-                let autoplayDeferred;
-
                 beforeEach(function() {
-                    autoplayDeferred = defer(RunnerPromise);
-                    spyOn(browser, 'test').and.returnValue(autoplayDeferred.promise);
+                    spyOn(player, 'once').and.callThrough();
+
+                    card.emit('activate');
                 });
 
-                describe('if the card is set to autoplay', function() {
-                    beforeEach(function() {
-                        card.data.autoplay = true;
-                        card.emit('activate');
-                    });
-
-                    it('should test to see if the device can autoplay', function() {
-                        expect(browser.test).toHaveBeenCalledWith('autoplay');
-                    });
-
-                    describe('if the browser can autoplay', function() {
-                        let waitDeferred;
-
-                        beforeEach(function(done) {
-                            waitDeferred = defer(RunnerPromise);
-
-                            autoplayDeferred.promise.then(done, done);
-                            autoplayDeferred.fulfill(true);
-                            spyOn(timer, 'wait').and.returnValue(waitDeferred.promise);
-                        });
-
-                        it('should track an event', function() {
-                            expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'AutoPlayAttempt', true));
-                        });
-
-                        describe('if the video plays before 5 seconds', function() {
-                            beforeEach(function(done) {
-                                trckr.trackEvent.calls.reset();
-                                player.emit('play');
-                                waitDeferred.fulfill(player);
-                                waitDeferred.promise.then(done, done);
-                            });
-
-                            it('should not fire any events', function() {
-                                expect(trckr.trackEvent).not.toHaveBeenCalled();
-                            });
-                        });
-
-                        describe('if the video does not play before 5 seconds', function() {
-                            beforeEach(function(done) {
-                                trckr.trackEvent.calls.reset();
-                                waitDeferred.fulfill();
-                                waitDeferred.promise.then(() => {}).then(done, done);
-                            });
-
-                            it('should fire an error event', function() {
-                                expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Error', true, 'Video play timed out.'));
-                            });
-                        });
-                    });
-
-                    describe('if the browser can\'t autoplay', function() {
-                        beforeEach(function(done) {
-                            autoplayDeferred.promise.then(done, done);
-                            autoplayDeferred.fulfill(false);
-                        });
-
-                        it('should not track an event', function() {
-                            expect(trckr.trackEvent).not.toHaveBeenCalled();
-                        });
-                    });
+                it('should listen for "attemptPlay" on the player', function() {
+                    expect(player.once).toHaveBeenCalledWith('attemptPlay', jasmine.any(Function));
                 });
 
                 describe('if the card is not set to autoplay', function() {
                     beforeEach(function() {
+                        player.once.calls.reset();
                         card.data.autoplay = false;
+
                         card.emit('activate');
                     });
 
-                    it('should not bother testing for autoplay', function() {
-                        expect(browser.test).not.toHaveBeenCalled();
+                    it('should not listen for the "attemptPlay" event', function() {
+                        expect(player.once).not.toHaveBeenCalledWith('attemptPlay', jasmine.any(Function));
+                    });
+                });
+
+                describe('if another card is activated before the previous player emitted "attemptPlay"', function() {
+                    let newCard;
+                    let newPlayer;
+
+                    beforeEach(function() {
+                        newCard = new VideoCard({
+                            type: 'vimeo',
+                            data: {
+                                autoplay: true,
+                                href: 'http://www.vimeo.com/384895'
+                            },
+                            params: {},
+                            collateral: {},
+                            links: {},
+                            campaign: {}
+                        }, experience);
+                        newPlayer = new CorePlayer();
+                        newPlayer.duration = 45;
+
+                        dispatcher.addSource('card', newCard, ['activate', 'deactivate'], newPlayer);
+
+                        minireel.currentCard = newCard;
+                        minireel.currentIndex = 3;
+
+                        newCard.emit('activate');
+
+                        player.emit('attemptPlay');
                     });
 
-                    it('should not track an event', function() {
+                    it('should not track an event if the previous player emits "attemptPlay"', function() {
                         expect(trckr.trackEvent).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the player emits "attemptPlay"', function() {
+                    let waitDeferred;
+
+                    beforeEach(function() {
+                        waitDeferred = defer(RunnerPromise);
+                        spyOn(timer, 'wait').and.returnValue(waitDeferred.promise);
+
+                        player.emit('attemptPlay');
+                    });
+
+                    it('should track an event', function() {
+                        expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'AutoPlayAttempt', true));
+                    });
+
+                    describe('if the video plays before 5 seconds', function() {
+                        beforeEach(function(done) {
+                            player.emit('play');
+                            waitDeferred.fulfill(player);
+                            waitDeferred.promise.then(done, done);
+                        });
+
+                        it('should not fire an error event', function() {
+                            expect(trckr.trackEvent).not.toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Error', true, 'Video play timed out.'));
+                        });
+                    });
+
+                    describe('if the video does not play before 5 seconds', function() {
+                        beforeEach(function(done) {
+                            trckr.trackEvent.calls.reset();
+                            waitDeferred.fulfill();
+                            waitDeferred.promise.then(() => {}).then(done, done);
+                        });
+
+                        it('should fire an error event', function() {
+                            expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Error', true, 'Video play timed out.'));
+                        });
                     });
                 });
             });

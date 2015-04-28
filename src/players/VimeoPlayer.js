@@ -110,11 +110,15 @@ export default class VimeoPlayer extends CorePlayer {
         this.load();
 
         const {player, state: { ready, hasPlayed }} = _(this);
+        const callPlay = (() => {
+            this.emit('attemptPlay');
+            player.call('play');
+        });
         const play = (() => {
-            if (hasPlayed) { return player.call('play'); }
+            if (hasPlayed) { return callPlay(); }
 
             browser.test('autoplay').then(autoplayable => {
-                if (autoplayable) { player.call('play'); }
+                if (autoplayable) { return callPlay(); }
             });
         });
 

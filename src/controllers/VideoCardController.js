@@ -23,15 +23,15 @@ export default class VideoCardController extends CardController {
         /* VideoCard (model) events. */
         this.model.on('prepare', () =>  player.load());
         this.model.on('activate', () => {
-            player[this.model.data.autoplay ? 'play' : 'load']();
             dispatcher.addSource('video', player, [
-                'play', 'timeupdate', 'pause', 'ended', 'error',
+                'attemptPlay', 'play', 'timeupdate', 'pause', 'ended', 'error',
                 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
                 'loadedmetadata'
             ], this.model);
             if (player.readyState >= 1) {
                 player.emit('loadedmetadata');
             }
+            player[this.model.data.autoplay ? 'play' : 'load']();
         });
         this.model.on('deactivate', () => {
             player.pause();

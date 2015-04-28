@@ -914,7 +914,11 @@ describe('RumblePlayer', function() {
         });
 
         describe('play()', function() {
+            let attemptPlay;
+
             beforeEach(function() {
+                attemptPlay = jasmine.createSpy('attemptPlay()');
+                player.on('attemptPlay', attemptPlay);
                 spyOn(player, 'load').and.callThrough();
             });
 
@@ -944,6 +948,10 @@ describe('RumblePlayer', function() {
                             expect(rumblePlayer.call).not.toHaveBeenCalledWith('play');
                         });
 
+                        it('should not emit "attemptPlay"', function() {
+                            expect(attemptPlay).not.toHaveBeenCalled();
+                        });
+
                         describe('after the video has played once', function() {
                             beforeEach(function() {
                                 rumblePlayer.emit('play');
@@ -958,6 +966,10 @@ describe('RumblePlayer', function() {
                             it('should play the video', function() {
                                 expect(rumblePlayer.call).toHaveBeenCalledWith('play');
                             });
+
+                            it('should emit "attemptPlay"', function() {
+                                expect(attemptPlay).toHaveBeenCalled();
+                            });
                         });
                     });
 
@@ -971,6 +983,10 @@ describe('RumblePlayer', function() {
 
                         it('should play the video', function() {
                             expect(rumblePlayer.call).toHaveBeenCalledWith('play');
+                        });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
                         });
                     });
                 });
@@ -999,6 +1015,10 @@ describe('RumblePlayer', function() {
                         expect(rumblePlayer.call).not.toHaveBeenCalledWith('play');
                     });
 
+                    it('should not emit "attemptPlay"', function() {
+                        expect(attemptPlay).not.toHaveBeenCalled();
+                    });
+
                     describe('after the video has played once', function() {
                         beforeEach(function() {
                             rumblePlayer.emit('play');
@@ -1012,6 +1032,10 @@ describe('RumblePlayer', function() {
 
                         it('should play the video', function() {
                             expect(rumblePlayer.call).toHaveBeenCalledWith('play');
+                        });
+
+                        it('should emit "attemptPlay"', function() {
+                            expect(attemptPlay).toHaveBeenCalled();
                         });
                     });
                 });
@@ -1030,6 +1054,10 @@ describe('RumblePlayer', function() {
 
                     it('should play the video', function() {
                         expect(rumblePlayer.call).toHaveBeenCalledWith('play');
+                    });
+
+                    it('should emit "attemptPlay"', function() {
+                        expect(attemptPlay).toHaveBeenCalled();
                     });
                 });
             });

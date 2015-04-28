@@ -4,6 +4,8 @@
   * [FEATURE]: Add support for VAST preroll advertising
   * [FEATURE]: Add support for display ad cards
   * [FEATURE]: Add support for branding (custom styles)
+  * [FIX]: Fix for an issue that caused GA AutoPlayAttempts to be
+    under-reported
 
 ## v0.7.1 (April 24, 2015)
 * *[v0.7.1-rc1]*

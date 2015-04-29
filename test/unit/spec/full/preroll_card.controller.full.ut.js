@@ -11,7 +11,9 @@ describe('FullPrerollCardController', function() {
 
     beforeEach(function() {
         card = new EventEmitter();
-        card.data = {};
+        card.data = {
+            type: 'vast'
+        };
 
         spyOn(FullPrerollCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(FullPrerollCardController.prototype, 'initCompanion').and.callThrough();

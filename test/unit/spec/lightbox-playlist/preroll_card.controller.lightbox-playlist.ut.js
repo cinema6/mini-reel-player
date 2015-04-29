@@ -11,7 +11,9 @@ describe('LightboxPlaylistPrerollCardController', function() {
 
     beforeEach(function() {
         card = new EventEmitter();
-        card.data = {};
+        card.data = {
+            type: 'vast'
+        };
 
         spyOn(LightboxPlaylistPrerollCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(LightboxPlaylistPrerollCardController.prototype, 'initCompanion').and.callThrough();

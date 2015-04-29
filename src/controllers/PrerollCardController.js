@@ -1,6 +1,6 @@
 import ViewController from './ViewController.js';
-import VASTPlayer from '../players/VASTPlayer.js';
 import environment from '../environment.js';
+import playerFactory from '../services/player_factory.js';
 import { createKey } from 'private-parts';
 
 function parseTag(tag = '') {
@@ -20,7 +20,7 @@ export default class PrerollCardController extends ViewController {
         _(this).errorOccurred = false;
 
         this.model = card;
-        const player = this.player = new VASTPlayer();
+        const player = this.player = playerFactory.playerForCard(card);
         player.src = parseTag(card.data.videoid);
         player.controls = false;
 

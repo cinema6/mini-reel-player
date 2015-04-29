@@ -16,7 +16,9 @@ describe('CompanionPrerollCardController mixin', function() {
 
     beforeEach(function() {
         card = new EventEmitter();
-        card.data = {};
+        card.data = {
+            type: 'vast'
+        };
 
         Ctrl = new MyPrerollCardController(card);
         Ctrl.view = new CardView();

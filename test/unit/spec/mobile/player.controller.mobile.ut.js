@@ -6,9 +6,6 @@ import Runner from '../../../../lib/Runner.js';
 import MobilePlayerView from '../../../../src/views/mobile/MobilePlayerView.js';
 import TableOfContentsViewController from '../../../../src/controllers/mobile/TableOfContentsViewController.js';
 import Card from '../../../../src/models/Card.js';
-import TextCard from '../../../../src/models/TextCard.js';
-import VideoCard from '../../../../src/models/VideoCard.js';
-import RecapCard from '../../../../src/models/RecapCard.js';
 import MobileTextCardController from '../../../../src/controllers/mobile/MobileTextCardController.js';
 import MobileVideoCardController from '../../../../src/controllers/mobile/MobileVideoCardController.js';
 import MobileRecapCardController from '../../../../src/controllers/mobile/MobileRecapCardController.js';
@@ -114,19 +111,13 @@ describe('MobilePlayerController', function() {
                     spyOn(MobilePlayerCtrl.view, 'appendTo');
                     spyOn(MobilePlayerCtrl, 'updateView');
 
-                    MobilePlayerCtrl.minireel.deck = [
-                        new TextCard({ data: {} }, experience),
-                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new RecapCard({}, experience, MobilePlayerCtrl.minireel)
-                    ];
+                    MobilePlayerCtrl.minireel.deck = [];
                     spyOn(MobilePrerollCardController.prototype, 'renderInto');
 
                     MobilePlayerCtrl.minireel.adConfig = {
                         video: {}
                     };
-                    MobilePlayerCtrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, MobilePlayerCtrl.minireel);
+                    MobilePlayerCtrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, { flash: false }, MobilePlayerCtrl.minireel);
 
                     MobilePlayerCtrl.view.toc = new View();
                     MobilePlayerCtrl.view.cards = new View(document.createElement('span'));

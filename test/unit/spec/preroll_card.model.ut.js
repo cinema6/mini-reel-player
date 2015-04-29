@@ -5,6 +5,7 @@ describe('PrerollCard', function() {
     let card;
     let data;
     let experience;
+    let profile;
     let minireel;
 
     beforeEach(function() {
@@ -19,6 +20,7 @@ describe('PrerollCard', function() {
             },
             collateral: {}
         };
+        profile = { flash: false };
         minireel = {
             adConfig: {
                 video: {
@@ -33,7 +35,7 @@ describe('PrerollCard', function() {
             }
         };
 
-        card = new PrerollCard(data, experience, minireel);
+        card = new PrerollCard(data, experience, profile, minireel);
     });
 
     it('should exist', function() {
@@ -59,7 +61,7 @@ describe('PrerollCard', function() {
                     beforeEach(function() {
                         minireel.adConfig.video.waterfall = 'cinema6';
 
-                        card = new PrerollCard(data, experience, minireel);
+                        card = new PrerollCard(data, experience, profile, minireel);
                     });
 
                     it('should be the cinema6 VAST tag', function() {
@@ -71,7 +73,7 @@ describe('PrerollCard', function() {
                     beforeEach(function() {
                         minireel.adConfig.video.waterfall = 'publisher';
 
-                        card = new PrerollCard(data, experience, minireel);
+                        card = new PrerollCard(data, experience, profile, minireel);
                     });
 
                     it('should be the publisher VAST tag', function() {
@@ -83,7 +85,7 @@ describe('PrerollCard', function() {
                     beforeEach(function() {
                         minireel.adConfig.video.waterfall = 'cinema6-publisher';
 
-                        card = new PrerollCard(data, experience, minireel);
+                        card = new PrerollCard(data, experience, profile, minireel);
                     });
 
                     it('should be the cinema6-publisher VAST tag', function() {
@@ -95,7 +97,7 @@ describe('PrerollCard', function() {
                     beforeEach(function() {
                         minireel.adConfig.video.waterfall = 'publisher-cinema6';
 
-                        card = new PrerollCard(data, experience, minireel);
+                        card = new PrerollCard(data, experience, profile, minireel);
                     });
 
                     it('should be the publisher-cinema6 VAST tag', function() {

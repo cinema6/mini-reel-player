@@ -1,7 +1,7 @@
 import VideoCard from './VideoCard.js';
 
 export default class PrerollCard extends VideoCard {
-    constructor(card, experience, minireel) {
+    constructor(card, experience, profile, minireel) {
         super({
             params: {},
             collateral: {},

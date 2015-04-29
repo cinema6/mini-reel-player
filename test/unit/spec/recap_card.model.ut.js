@@ -7,6 +7,7 @@ describe('RecapCard', function() {
     const experience = {
         data: {}
     };
+    const profile = { flash: false };
 
     /* jshint quotmark:double */
     const data = {
@@ -40,7 +41,7 @@ describe('RecapCard', function() {
     beforeEach(function() {
         minireel = new MiniReel();
         minireel.splash = '/collateral/experiences/e-42108b552a05ea/splash';
-        card = new RecapCard(data, experience, minireel);
+        card = new RecapCard(data, experience, profile, minireel);
     });
 
     it('should exist', function() {

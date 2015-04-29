@@ -22,6 +22,7 @@ import election from '../../../src/services/election.js';
 
 describe('MiniReel', function() {
     let experience;
+    let profile;
     let minireel;
     let session;
     let appDataDeferred;
@@ -629,6 +630,8 @@ describe('MiniReel', function() {
           /* jshint quotmark:single */
         };
 
+        profile = { flash: false };
+
         session = new EventEmitter();
         session.ping = jasmine.createSpy('session.ping()');
 
@@ -794,7 +797,7 @@ describe('MiniReel', function() {
                     minireel.on('init', done);
                     spyOn(minireel, 'didMove').and.callThrough();
 
-                    appDataDeferred.fulfill({ experience: experience });
+                    appDataDeferred.fulfill({ experience: experience, profile: profile });
                 });
 
                 it('should set the currentIndex and currentCard and emit "move"', function() {
@@ -1202,7 +1205,7 @@ describe('MiniReel', function() {
                 spyOn(minireel, 'moveToIndex').and.callThrough();
                 minireel.on('init', done);
 
-                appDataDeferred.fulfill({ experience: experience });
+                appDataDeferred.fulfill({ experience: experience, profile: profile });
             });
 
             it('should call moveToIndex() with the index of the provided card', function() {
@@ -1221,7 +1224,7 @@ describe('MiniReel', function() {
                 spyOn(minireel, 'moveToIndex').and.callThrough();
                 minireel.on('init', done);
 
-                appDataDeferred.fulfill({ experience: experience });
+                appDataDeferred.fulfill({ experience: experience, profile: profile });
             });
 
             it('should call moveToIndex() with the next index', function() {
@@ -1244,7 +1247,7 @@ describe('MiniReel', function() {
                     done();
                 });
 
-                appDataDeferred.fulfill({ experience: experience });
+                appDataDeferred.fulfill({ experience: experience, profile: profile });
             });
 
             it('should call moveToIndex() with the previous index', function() {
@@ -1292,7 +1295,7 @@ describe('MiniReel', function() {
                 });
                 minireel.on('move', spy);
 
-                appDataDeferred.fulfill({ experience: experience });
+                appDataDeferred.fulfill({ experience: experience, profile: profile });
             });
 
             it('should emit the "move" event', function() {
@@ -1457,7 +1460,8 @@ describe('MiniReel', function() {
 
             appDataDeferred.fulfill({
                 experience: experience,
-                standalone: true
+                standalone: true,
+                profile: profile
             });
         });
 
@@ -1545,7 +1549,7 @@ describe('MiniReel', function() {
 
                 delete experience.data;
 
-                appDataDeferred.fulfill({ experience, standalone: false });
+                appDataDeferred.fulfill({ experience, standalone: false, profile: profile });
                 appDataDeferred.promise.then(() => {}).then(done);
             });
 

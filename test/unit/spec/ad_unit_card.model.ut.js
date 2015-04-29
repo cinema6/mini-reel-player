@@ -5,11 +5,14 @@ describe('AdUnitCard', function() {
     let card;
     let data;
     let experience;
+    let profile;
 
     beforeEach(function() {
         experience = {
             data: {}
         };
+
+        profile = {};
 
         data = {
             /* jshint quotmark:double */
@@ -19,7 +22,8 @@ describe('AdUnitCard', function() {
               "controls": false,
               "autoadvance": false,
               "skip": 40,
-              "vast": "//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0;ord=[timestamp];dcmt=text/xml"
+              "vast": "//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0;ord=[timestamp];dcmt=text/xml",
+              "vpaid": "//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6VPAIDINC/B8370514.113697085;sz=0x0;ord=[timestamp];dcmt=text/xml"
             },
             "id": "rc-c175fedab87e6f",
             "type": "adUnit",
@@ -53,7 +57,7 @@ describe('AdUnitCard', function() {
             /* jshint quotmark:single */
         };
 
-        card = new AdUnitCard(data, experience);
+        card = new AdUnitCard(data, experience, profile);
     });
 
     it('should be a VideoCard', function() {
@@ -62,9 +66,73 @@ describe('AdUnitCard', function() {
 
     describe('properties:', function() {
         describe('data', function() {
+            describe('.type', function() {
+                describe('if the profile supports flash', function() {
+                    beforeEach(function() {
+                        profile.flash = true;
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be "vpaid"', function() {
+                        expect(card.data.type).toBe('vpaid');
+                    });
+
+                    describe('if there is no vpaid tag', function() {
+                        beforeEach(function() {
+                            delete data.data.vpaid;
+                            card = new AdUnitCard(data, experience, profile);
+                        });
+
+                        it('should be "vast"', function() {
+                            expect(card.data.type).toBe('vast');
+                        });
+                    });
+                });
+
+                describe('if the profile does not support flash', function() {
+                    beforeEach(function() {
+                        profile.flash = false;
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be "vast"', function() {
+                        expect(card.data.type).toBe('vast');
+                    });
+                });
+            });
+
             describe('.videoid', function() {
-                it('should be the VAST', function() {
-                    expect(card.data.videoid).toBe(data.data.vast);
+                describe('if the profile supports flash', function() {
+                    beforeEach(function() {
+                        profile.flash = true;
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be the VPAID tag', function() {
+                        expect(card.data.videoid).toBe(data.data.vpaid);
+                    });
+
+                    describe('if there is no vpaid tag', function() {
+                        beforeEach(function() {
+                            delete data.data.vpaid;
+                            card = new AdUnitCard(data, experience, profile);
+                        });
+
+                        it('should be the VAST tag', function() {
+                            expect(card.data.videoid).toBe(data.data.vast);
+                        });
+                    });
+                });
+
+                describe('if the profile does not support flash', function() {
+                    beforeEach(function() {
+                        profile.flash = false;
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be the VAST', function() {
+                        expect(card.data.videoid).toBe(data.data.vast);
+                    });
                 });
             });
         });

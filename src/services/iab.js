@@ -1,14 +1,19 @@
 import media from './media.js';
 import imageLoader from './image_loader.js';
 import fetcher from '../../lib/fetcher.js';
+import Runner from '../../lib/Runner.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import {
     forEach,
     map,
     reduce,
+    filter,
     defer
 } from '../../lib/utils.js';
 import {createKey} from 'private-parts';
+import { EventEmitter } from 'events';
+
+let iab;
 
 function getNodeValue(node) {
     return node.firstChild.nodeValue || node.firstChild.firstChild.nodeValue;
@@ -157,9 +162,173 @@ class VAST {
     }
 }
 
+const SWF_URL = 'swf/vpaid.swf';
+
+let vpaidId = 0;
+
+function createFlashPlayer({ attributes, parameters }) {
+    const object = document.createElement('object');
+
+    forEach(attributes, ([name, value]) => object.setAttribute(name, value));
+    forEach(parameters, ([name, value]) => {
+        const param = document.createElement('param');
+        param.setAttribute('name', name);
+        param.setAttribute('value', value);
+        object.appendChild(param);
+    });
+
+    return object;
+}
+
+function toQueryParams(object) {
+    return map(Object.keys(object), key => {
+        return map([key, object[key]], encodeURIComponent).join('=');
+    }).join('&');
+}
+
+function getProp(player, prop) {
+    return ((player && player.getAdProperties) || undefined) && (() => {
+        try {
+            return player.getAdProperties()[prop];
+        } catch (e) {
+            return undefined;
+        }
+    }());
+}
+
+function callMethod(player, method, args, errorMessage) {
+    if (!player || typeof player[method] !== 'function') {
+        throw new Error(errorMessage);
+    }
+
+    return player[method](...args);
+}
+
+class VPAIDPlayer extends EventEmitter {
+    constructor(tag) {
+        super();
+
+        _(this).player = null;
+        _(this).banners = undefined;
+
+        this.id = `vpaid-${vpaidId++}`;
+        this.tag = tag;
+
+        this.once('displayBanners', () => {
+            _(this).banners = map(filter(_(this).player.getDisplayBanners(), banner => {
+                return banner.width === 300 && banner.height === 250;
+            }), banner => ({
+                adType: 'html',
+                width: banner.width,
+                height: banner.height,
+                fileURI: banner.sourceCode
+            }));
+        });
+        this.once('AdStopped', () => {
+            const { player } = _(this);
+
+            this.removeAllListeners();
+            _(iab).players[this.id] = undefined;
+            player.parentNode.removeChild(player);
+        });
+
+        _(iab).players[this.id] = this;
+    }
+
+    get adVolume() {
+        return getProp(_(this).player, 'adVolume');
+    }
+    set adVolume(value) {
+        return callMethod(
+            _(this).player, 'setVolume', [value],
+            'Cannot set adVolume before the player has been loaded.'
+        );
+    }
+
+    get adCurrentTime() {
+        return getProp(_(this).player, 'adCurrentTime');
+    }
+
+    get adDuration() {
+        return getProp(_(this).player, 'adDuration');
+    }
+
+    get adBanners() {
+        return _(this).banners;
+    }
+
+    load(container) {
+        const player = _(this).player = createFlashPlayer({
+            attributes: [
+                ['id', `${this.id}-player`],
+                ['class', 'c6VPAIDPlayer'],
+                ['type', 'application/x-shockwave-flash'],
+                ['data', SWF_URL]
+            ],
+            parameters: [
+                ['movie', SWF_URL],
+                ['quality', 'high'],
+                ['bgcolor', '#000000'],
+                ['play', false],
+                ['loop', false],
+                ['wmode', 'opaque'],
+                ['scale', 'noscale'],
+                ['salign', 'lt'],
+                ['flashvars', toQueryParams({ adXmlUrl: this.tag, playerId: this.id })],
+                ['allowScriptAccess', 'always'],
+                ['allowFullscreen', true]
+            ]
+        });
+
+        container.appendChild(player);
+
+        return new RunnerPromise(fulfill => {
+            return this.once('onAdResponse', () => fulfill(this));
+        });
+    }
+
+    initAd() {
+        return _(this).player.loadAd();
+    }
+
+    startAd() {
+        return _(this).player.startAd();
+    }
+
+    stopAd() {
+        return _(this).player.stopAd();
+    }
+
+    pauseAd() {
+        return _(this).player.pauseAd();
+    }
+
+    resumeAd() {
+        return _(this).player.resumeAd();
+    }
+}
+
 class IAB {
     constructor() {
         _(this).VAST = VAST;
+        _(this).players = {};
+
+        this.VPAIDPlayer = VPAIDPlayer;
+
+        global.addEventListener('message', event => {
+            const data = (() => {
+                try {
+                    const data = JSON.parse(event.data).__vpaid__;
+                    if (!data) { throw false; }
+                    return data;
+                } catch (e) {
+                    return { id: null, type: null };
+                }
+            }());
+            const player = _(this).players[data.id];
+
+            if (player) { Runner.run(() => player.emit(data.type)); }
+        }, false);
 
         if (!!global.__karma__) { this.__private__ = _(this); }
     }
@@ -216,4 +385,6 @@ class IAB {
     }
 }
 
-export default new IAB();
+iab = new IAB();
+
+export default iab;

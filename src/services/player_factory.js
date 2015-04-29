@@ -1,6 +1,7 @@
 import YouTubePlayer from '../players/YouTubePlayer.js';
 import VimeoPlayer from '../players/VimeoPlayer.js';
 import VASTPlayer from '../players/VASTPlayer.js';
+import VPAIDPlayer from '../players/VPAIDPlayer.js';
 import DailymotionPlayer from '../players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../players/EmbeddedPlayer.js';
 import RumblePlayer from '../players/RumblePlayer.js';
@@ -12,8 +13,10 @@ class PlayerFactory {
             return new YouTubePlayer();
         case 'vimeo':
             return new VimeoPlayer();
-        case 'adUnit':
+        case 'vast':
             return new VASTPlayer();
+        case 'vpaid':
+            return new VPAIDPlayer();
         case 'dailymotion':
             return new DailymotionPlayer();
         case 'embedded':

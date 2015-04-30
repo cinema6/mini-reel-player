@@ -4,6 +4,7 @@
 * *[v0.9.0-rc2]*
   * Make mysterious VAST XHR failures errors include the URL trying to
     be loaded
+* *[/v0.9.0-rc2]*
 
 * *[v0.9.0-rc1]*
   * [FEATURE]: Add support for single-video MiniReel player

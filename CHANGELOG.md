@@ -6,6 +6,9 @@
     player
   * [FIX]: For an issue that caused VAST error messages not to be sent
     to GA
+  * [FEATURE]: Add support for VPAID ad units
+  * Skip preroll ads if they take more than three seconds to start
+    playing
 
 ## v0.8.0 (April 28, 2015)
 * *[v0.8.0-rc1]*

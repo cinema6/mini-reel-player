@@ -390,6 +390,45 @@ describe('iab', function() {
                         expect(failure).toHaveBeenCalled();
                     });
                 });
+
+                describe('if the request for an ad tag fails', function() {
+                    let success, failure;
+                    let tag;
+
+                    beforeEach(function(done) {
+                        success = jasmine.createSpy('success()');
+                        failure = jasmine.createSpy('failure()');
+                        tag = 'http://u-ads.adap.tv/a/h/jSmRYUB6OAinZ1YEc6FP2fCQPSbU6FwIZz5J5C0Fsw2tnkCzhk2yTw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov';
+
+                        spyOn(fetcher, 'get').and.returnValue(RunnerPromise.reject(new TypeError('Network request failed.')));
+
+                        iab.getVAST(tag).then(success, failure).then(done, done);
+                    });
+
+                    it('should reject the promise with a useful error', function() {
+                        expect(failure).toHaveBeenCalledWith(new Error(`Could not load VAST [${tag}].`));
+                    });
+                });
+
+                describe('if the server\'s response indicates failure', function() {
+                    let success, failure;
+                    let tag;
+
+                    beforeEach(function(done) {
+                        success = jasmine.createSpy('success()');
+                        failure = jasmine.createSpy('failure()');
+                        tag = 'http://u-ads.adap.tv/a/h/jSmRYUB6OAinZ1YEc6FP2fCQPSbU6FwIZz5J5C0Fsw2tnkCzhk2yTw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov';
+
+                        fetcher.expect('GET', tag).respond(500, 'I failed!');
+
+                        iab.getVAST(tag).then(success, failure).then(done, done);
+                        fetcher.flush();
+                    });
+
+                    it('should reject the promise with the response', function() {
+                        expect(failure).toHaveBeenCalledWith(jasmine.any(global.Response));
+                    });
+                });
             });
         });
     });

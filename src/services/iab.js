@@ -367,6 +367,9 @@ class IAB {
             });
 
             return fetcher.get(url)
+                .catch(response => Promise.reject(response instanceof Error ?
+                    new Error(`Could not load VAST [${url}].`) : response
+                ))
                 .then(response => response.text())
                 .then(_(this).getXML)
                 .then(recurse);

@@ -2,6 +2,8 @@
 
 * *[v0.9.0-rc1]*
   * [FEATURE]: Add support for single-video MiniReel player
+  * [FEATURE]: Add support for single-video with display ad MiniReel
+    player
 
 ## v0.8.0 (April 28, 2015)
 * *[v0.8.0-rc1]*

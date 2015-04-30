@@ -10,7 +10,8 @@
     "lightbox-playlist": "./src/lightbox-playlist.js",
     "lightbox": "./src/lightbox.js",
     "light": "./src/light.js",
-    "solo": "./src/solo.js"
+    "solo": "./src/solo.js",
+    "solo-ads": "./src/solo-ads.js"
   },
   "repository": {
     "type": "git",

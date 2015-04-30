@@ -63,6 +63,10 @@ module.exports = {
             {
                 src: '.tmp/<%= package.scripts.solo %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/solo.js'
+            },
+            {
+                src: '.tmp/<%= grunt.config("package.scripts.solo-ads") %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/solo-ads.js'
             }
         ]
     },
@@ -95,6 +99,10 @@ module.exports = {
             {
                 src: '<%= package.scripts.solo %>',
                 dest: 'server/.build/solo.js'
+            },
+            {
+                src: '<%= grunt.config("package.scripts.solo-ads") %>',
+                dest: 'server/.build/solo-ads.js'
             }
         ]
     }

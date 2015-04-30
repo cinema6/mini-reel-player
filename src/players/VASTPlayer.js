@@ -146,10 +146,11 @@ function load(player) {
         .then(setState)
         .then(setSrc)
         .catch(function(error) {
-            state.error = new Error(
-                'VAST request failed: ' + JSON.stringify(error)
-            );
+            const message = error instanceof Error ? error.message : JSON.stringify(error);
+
+            state.error = new Error(`VAST request failed: ${message}`);
             player.emit('error');
+
             return Promise.reject(error);
         });
 }

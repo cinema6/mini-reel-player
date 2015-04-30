@@ -4,6 +4,8 @@
   * [FEATURE]: Add support for single-video MiniReel player
   * [FEATURE]: Add support for single-video with display ad MiniReel
     player
+  * [FIX]: For an issue that caused VAST error messages not to be sent
+    to GA
 
 ## v0.8.0 (April 28, 2015)
 * *[v0.8.0-rc1]*

@@ -1,0 +1,56 @@
+<div class="MiniReel" data-class="isSponsored:MiniReel--brandedMR">
+
+    <header class="titleBar__group clearfix" data-if="isSponsored">
+        <div class="brandProfile__group clearfix">
+            <a data-if="logo" href="{{website}}" target="_blank" title="Sponsor link" class="brandProfile__logoBox">
+                <img src="{{logo}}" alt="{{sponsor}}" class="brandProfile__logo">
+            </a>
+            <div data-if="hasSponsoredCopy" class="brandProfile__copy">
+                <p data-if="sponsor" class="brandProfile__tag">
+                    Sponsored by 
+                    <a href="{{website}}" class="textLink" target="_blank" title="{{sponsor}}">
+                        {{sponsor}}
+                    </a>
+                </p>
+                <div data-if="links.length" data-view="links:LinksListView" class="brandProfile__links">
+                    <a href="{{href}}"
+                        target="_blank"
+                        title="{{label}}"
+                        class="brandProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
+                        <span class="ir">{{label}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div data-if="action" class="brand__actions">
+            <a data-if="action.isText" href="{{action.href}}" target="_blank">{{action.label}}</a>
+            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{action.label}}">
+                <span class="btn__label tk--action">{{action.label}}</span>
+            </a>
+        </div>
+    </header>
+
+    <ul class="cards__list">
+        <li class="cards__item">
+            <article class="card__group">
+                <div data-view="postOutlet:View"></div><!-- post module outlet -->
+                <div data-view="playerOutlet:PlayerOutletView" class="player__group">
+                    <div class="player js-playerBox"></div>
+                </div>
+
+                <div class="card__copy">
+                    <h1 class="card__title tk--hdr">
+                        {{title}}
+                        <span data-if="showSource" class="card__attributes">
+                            via&nbsp;<a href="{{href}}" target="_blank" title="{{source}}">{{source}}</a>
+                        </span>
+                    </h1>
+
+                    <div class="card__desc">{{note}}</div>
+                </div>
+            </article>
+        </li>
+    </ul>
+
+    <div data-view="displayAdOutlet:View"></div><!-- display ad outlet -->
+</div><!--.MiniReel-->

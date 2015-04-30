@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v0.9.0 (April 30, 2015)
 * *[v0.9.0-rc1]*
   * [FEATURE]: Add support for single-video MiniReel player
   * [FEATURE]: Add support for single-video with display ad MiniReel
@@ -9,6 +10,7 @@
   * [FEATURE]: Add support for VPAID ad units
   * Skip preroll ads if they take more than three seconds to start
     playing
+* *[/v0.9.0-rc1]*
 
 ## v0.8.0 (April 28, 2015)
 * *[v0.8.0-rc1]*

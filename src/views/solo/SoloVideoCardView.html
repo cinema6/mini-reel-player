@@ -1,0 +1,71 @@
+<div class="MiniReel" data-class="sponsor:MiniReel--brandedMR">
+
+    <header class="titleBar__group clearfix">
+        <h1 class="brandedMR__tagline" data-if="sponsor">
+            Presented by
+            <a href="{{website}}" target="_blank" title="{{sponsor}}" class="textLink">
+                <strong>{{sponsor}}</strong>
+            </a>
+        </h1>
+    </header>
+
+    <ul class="cards__list">
+        <li class="cards__item text--med">
+            <article class="card__group">
+                <div data-view="postOutlet:View"></div><!-- post module outlet -->
+                <div class="playerSpace player__height">
+                    <div class="player__group">
+                        <div data-view="playerOutlet:PlayerOutletView" class="player js-playerBox"></div>
+                    </div>
+                </div>
+
+                <div class="card__copyBox">
+                    <a data-if="logo" href="{{website}}" target="_blank" title="{{sponsor}}" class="brandProfile__logoBox">
+                        <img src="{{logo}}" alt="{{sponsor}}" class="brandProfile__logo">
+                    </a>
+
+                    <div data-if="action" class="brand__actions">
+                        <a data-if="action.isText" href="{{action.href}}" target="_blank" class="textLink" title="{{action.label}}">
+                            {{action.label}}
+                        </a>
+                        <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{action.label}}">
+                            <span class="btn__label">{{action.label}}</span>
+                        </a>
+                    </div>
+
+                    <div class="card__copy">
+                        <h1 class="card__title tk--hdr">
+                            {{title}}
+                            <span data-if="showSource" class="card__attributes">
+                                via&nbsp;<a href="{{href}}" target="_blank" class="textLink" title="{{source}}">
+                                    {{source}}
+                                </a>
+                            </span>
+                        </h1>
+
+                        <div class="card__desc">{{note}}</div>
+                    </div>
+                </div>
+            </article>
+        </li>
+    </ul>
+
+    <div data-if="hasLinks" class="brandProfile__linksBox">
+        <a data-if="website"
+            href="{{website}}"
+            title="{{sponsor}} &mdash; Official Website"
+            target="_blank"
+            class="brandProfile__link">
+            <span class="brandProfile__linkLabel">{{sponsor}} Website</span>
+        </a>
+        <span data-view="links:LinksListView">
+            <a href="{{href}}"
+                title="{{label}}"
+                target="_blank"
+                class="brandProfile__link tk--{{type}} spriteBe socialIconsBe socialIconsBe--{{type}}">
+                <span class="brandProfile__linkLabel">{{label}}</span>
+            </a>
+        </span>
+    </div>
+
+</div>

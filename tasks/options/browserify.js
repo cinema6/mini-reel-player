@@ -59,6 +59,10 @@ module.exports = {
             {
                 src: '.tmp/<%= package.scripts.light %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/light.js'
+            },
+            {
+                src: '.tmp/<%= package.scripts.solo %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/solo.js'
             }
         ]
     },
@@ -87,6 +91,10 @@ module.exports = {
             {
                 src: '<%= package.scripts.light %>',
                 dest: 'server/.build/light.js'
+            },
+            {
+                src: '<%= package.scripts.solo %>',
+                dest: 'server/.build/solo.js'
             }
         ]
     }

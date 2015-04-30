@@ -934,6 +934,26 @@ describe('<vast-player>', function() {
                         ));
                     });
                 });
+
+                describe('if the vast fails to load and the reason is an Error', function() {
+                    let error;
+
+                    beforeEach(function(done) {
+                        error = new Error('I FAILED YOU MASTER.');
+                        vastDeferred.reject(error);
+                        vastDeferred.promise.then(null, wait(5)).then(done, done);
+                    });
+
+                    it('should emit the error event', function() {
+                        expect(errorSpy).toHaveBeenCalled();
+                    });
+
+                    it('should set the error property', function() {
+                        expect(player.error).toEqual(new Error(
+                            'VAST request failed: I FAILED YOU MASTER.'
+                        ));
+                    });
+                });
             });
 
             describe('getCompanions', function() {

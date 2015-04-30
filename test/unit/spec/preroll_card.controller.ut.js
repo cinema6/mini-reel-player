@@ -99,10 +99,17 @@ describe('PrerollCardController', function() {
         describe('model:', function() {
             describe('activate', function() {
                 beforeEach(function() {
+                    jasmine.clock().install();
                     spyOn(PrerollCardCtrl.view, 'show');
                     spyOn(PrerollCardCtrl.player, 'play');
 
                     card.emit('activate');
+                });
+
+                afterEach(function() {
+                    jasmine.clock().tick(5000);
+                    jasmine.clock().tick(1);
+                    jasmine.clock().uninstall();
                 });
 
                 it('should show the view', function() {
@@ -115,6 +122,30 @@ describe('PrerollCardController', function() {
 
                 it('should not complete() the card', function() {
                     expect(card.complete).not.toHaveBeenCalled();
+                });
+
+                describe('if the player does not player after 5 seconds', function() {
+                    beforeEach(function() {
+                        jasmine.clock().tick(5000);
+                        jasmine.clock().tick(1);
+                    });
+
+                    it('should abort() the card', function() {
+                        expect(card.abort).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the player plays before three seconds', function() {
+                    beforeEach(function() {
+                        jasmine.clock().tick(4500);
+                        player.emit('play');
+                        jasmine.clock().tick(500);
+                        jasmine.clock().tick(1);
+                    });
+
+                    it('should not abort() the card', function() {
+                        expect(card.abort).not.toHaveBeenCalled();
+                    });
                 });
 
                 describe('if there was an error', function() {

@@ -94,6 +94,21 @@ describe('timer', function() {
                 jasmine.clock().tick(50);
                 expect(fn.calls.count()).toBe(2);
                 expect(Runner.run.calls.count()).toBe(2);
+
+                fn.calls.all().forEach(call => expect(call.args[0]).toEqual(jasmine.any(Function)));
+            });
+
+            describe('if canceled with the done() function passed to the callback each time', function() {
+                beforeEach(function() {
+                    spyOn(timer, 'cancel');
+
+                    jasmine.clock().tick(50);
+                    fn.calls.mostRecent().args[0]();
+                });
+
+                it('should cancel the timer', function() {
+                    expect(timer.cancel).toHaveBeenCalledWith(result);
+                });
             });
 
             describe('if canceled', function() {

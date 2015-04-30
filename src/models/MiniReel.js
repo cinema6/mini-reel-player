@@ -23,7 +23,7 @@ import PrerollCard from './PrerollCard.js';
 
 const _ = createKey();
 
-function initialize(minireel, { experience, standalone }) {
+function initialize(minireel, { experience, standalone, profile }) {
     minireel.standalone = standalone;
     minireel.id = experience.id;
     minireel.title = experience.data.title;
@@ -32,17 +32,17 @@ function initialize(minireel, { experience, standalone }) {
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
         case 'text':
-            return new TextCard(card, experience);
+            return new TextCard(card, experience, profile);
         case 'recap':
-            return new RecapCard(card, experience, minireel);
+            return new RecapCard(card, experience, profile, minireel);
         case 'adUnit':
-            return new AdUnitCard(card, experience);
+            return new AdUnitCard(card, experience, profile);
         case 'embedded':
-            return new EmbeddedVideoCard(card, experience);
+            return new EmbeddedVideoCard(card, experience, profile);
         case 'displayAd':
-            return new DisplayAdCard(card, experience);
+            return new DisplayAdCard(card, experience, profile);
         default:
-            return new VideoCard(card, experience);
+            return new VideoCard(card, experience, profile);
         }
     });
     minireel.length = minireel.deck.length;
@@ -69,11 +69,7 @@ function initialize(minireel, { experience, standalone }) {
         kv: { mode: minireel.adConfig.display.waterfall || 'default' },
     });
 
-    minireel.prerollCard = new PrerollCard(
-        { data: {}, params: {}, collateral: {} },
-        experience,
-        minireel
-    );
+    minireel.prerollCard = new PrerollCard(null, experience, profile, minireel);
 
     _(minireel).ready = true;
     minireel.emit('init');

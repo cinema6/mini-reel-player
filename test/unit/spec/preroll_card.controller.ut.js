@@ -1,15 +1,25 @@
 import PrerollCardController from '../../../src/controllers/PrerollCardController.js';
 import ViewController from '../../../src/controllers/ViewController.js';
-import VASTPlayer from '../../../src/players/VASTPlayer.js';
 import { EventEmitter } from 'events';
 import CardView from '../../../src/views/CardView.js';
 import View from '../../../lib/core/View.js';
 import environment from '../../../src/environment.js';
 import Runner from '../../../lib/Runner.js';
+import CorePlayer from '../../../src/players/CorePlayer.js';
+import playerFactory from '../../../src/services/player_factory.js';
+
+class MockPlayer extends CorePlayer {
+    load() {}
+    play() {}
+    unload() {}
+    pause() {}
+    minimize() {}
+}
 
 describe('PrerollCardController', function() {
     let PrerollCardCtrl;
     let card;
+    let player;
 
     beforeAll(function() {
         jasmine.clock().install();
@@ -19,8 +29,12 @@ describe('PrerollCardController', function() {
         environment.constructor();
         jasmine.clock().mockDate();
 
+        player = new MockPlayer();
+        spyOn(playerFactory, 'playerForCard').and.returnValue(player);
+
         card = new EventEmitter();
         card.data = {
+            type: 'vast',
             videoid: 'http://ads.adaptv.advertising.com//a/h/DCQzzI0K2rv1k0TZythPvTfWmlP8j6NQnxBMIgFJa80=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov'
         };
         card.setPlaybackState = jasmine.createSpy('card.setPlaybackState()');
@@ -50,8 +64,9 @@ describe('PrerollCardController', function() {
         });
 
         describe('player', function() {
-            it('should be a VASTPlayer', function() {
-                expect(PrerollCardCtrl.player).toEqual(jasmine.any(VASTPlayer));
+            it('should be the player returned by playerFactory', function() {
+                expect(PrerollCardCtrl.player).toBe(player);
+                expect(playerFactory.playerForCard).toHaveBeenCalledWith(card);
             });
 
             describe('.src', function() {
@@ -84,10 +99,17 @@ describe('PrerollCardController', function() {
         describe('model:', function() {
             describe('activate', function() {
                 beforeEach(function() {
+                    jasmine.clock().install();
                     spyOn(PrerollCardCtrl.view, 'show');
                     spyOn(PrerollCardCtrl.player, 'play');
 
                     card.emit('activate');
+                });
+
+                afterEach(function() {
+                    jasmine.clock().tick(5000);
+                    jasmine.clock().tick(1);
+                    jasmine.clock().uninstall();
                 });
 
                 it('should show the view', function() {
@@ -100,6 +122,30 @@ describe('PrerollCardController', function() {
 
                 it('should not complete() the card', function() {
                     expect(card.complete).not.toHaveBeenCalled();
+                });
+
+                describe('if the player does not player after 5 seconds', function() {
+                    beforeEach(function() {
+                        jasmine.clock().tick(5000);
+                        jasmine.clock().tick(1);
+                    });
+
+                    it('should abort() the card', function() {
+                        expect(card.abort).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the player plays before three seconds', function() {
+                    beforeEach(function() {
+                        jasmine.clock().tick(4500);
+                        player.emit('play');
+                        jasmine.clock().tick(500);
+                        jasmine.clock().tick(1);
+                    });
+
+                    it('should not abort() the card', function() {
+                        expect(card.abort).not.toHaveBeenCalled();
+                    });
                 });
 
                 describe('if there was an error', function() {

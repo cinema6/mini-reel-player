@@ -10,7 +10,9 @@ describe('LightboxPrerollCardController', function() {
 
     beforeEach(function() {
         card = new EventEmitter();
-        card.data = {};
+        card.data = {
+            type: 'vast'
+        };
 
         spyOn(LightboxPrerollCardController.prototype, 'initCompanion').and.callThrough();
 

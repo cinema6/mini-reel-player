@@ -215,9 +215,12 @@ describe('TableOfContentsViewController', function() {
     };
     /* jshint quotmark:single */
 
+    const profile = { flash: false };
+
     beforeEach(function(done) {
         spyOn(cinema6, 'getAppData').and.returnValue(Promise.resolve({
-            experience: experience
+            experience: experience,
+            profile: profile
         }));
         minireel = new MiniReel();
         spyOn(TableOfContentsView.prototype, 'update');

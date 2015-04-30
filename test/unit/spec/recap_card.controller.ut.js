@@ -15,6 +15,8 @@ describe('RecapCardController', function() {
         data: {}
     };
 
+    const profile = { flash: false };
+
     beforeEach(function() {
         minireel = new MiniReel();
         minireel.deck = [
@@ -83,7 +85,7 @@ describe('RecapCardController', function() {
                 }
             }, experience)
         ];
-        card = new RecapCard({}, experience, minireel);
+        card = new RecapCard({}, experience, profile, minireel);
         minireel.deck.push(card);
 
         RecapCardCtrl = new RecapCardController(card, new View(document.createElement('ul')));

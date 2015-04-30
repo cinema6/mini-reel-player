@@ -9,7 +9,9 @@ describe('LightPrerollCardController', function() {
 
     beforeEach(function() {
         card = new EventEmitter();
-        card.data = {};
+        card.data = {
+            type: 'vast'
+        };
 
         LightPrerollCardCtrl = new LightPrerollCardController(card);
     });

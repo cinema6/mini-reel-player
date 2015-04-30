@@ -26,6 +26,7 @@ describe('PlayerController', function() {
     let applicationView;
     let session;
     let experience;
+    let profile;
 
     class CardController {
         constructor(model, parentView) {
@@ -67,6 +68,8 @@ describe('PlayerController', function() {
                 collateral: {}
             }
         };
+
+        profile = { flash: false };
 
         const init = cinema6.init;
         spyOn(cinema6, 'init').and.callFake(function() {
@@ -154,14 +157,14 @@ describe('PlayerController', function() {
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new RecapCard({}, experience, PlayerCtrl.minireel)
+                        new RecapCard({}, experience, profile, PlayerCtrl.minireel)
                     ];
                     PlayerCtrl.minireel.adConfig = {
                         video: {
 
                         }
                     };
-                    PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, PlayerCtrl.minireel);
+                    PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, { flash: false }, PlayerCtrl.minireel);
                     spyOn(CardController.prototype, 'render');
                     spyOn(PrerollCardController.prototype, 'renderInto');
 
@@ -281,7 +284,7 @@ describe('PlayerController', function() {
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
-                        new RecapCard({}, experience, PlayerCtrl.minireel)
+                        new RecapCard({}, experience, profile, PlayerCtrl.minireel)
                     ];
 
                     Runner.run(() => PlayerCtrl.minireel.emit('init'));
@@ -414,7 +417,7 @@ describe('PlayerController', function() {
                 ];
                 PlayerCtrl.minireel.length = 5;
                 PlayerCtrl.minireel.adConfig = { video: {} };
-                PlayerCtrl.minireel.prerollCard = new PrerollCard({}, experience, PlayerCtrl.minireel);
+                PlayerCtrl.minireel.prerollCard = new PrerollCard({}, experience, profile, PlayerCtrl.minireel);
 
 
                 PlayerCtrl.minireel.sponsor = 'Netflix';

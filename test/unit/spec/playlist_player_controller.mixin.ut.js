@@ -18,9 +18,11 @@ class DeckView extends View {
 describe('PlaylistPlayerController mixin', function() {
     let Ctrl;
     let experience;
+    let profile;
 
     beforeEach(function() {
         experience = { data: {} };
+        profile = { flash: false };
 
         Ctrl = new MyPlayerController(new View(document.createElement('body')));
         Ctrl.CardControllers.preroll = PrerollCardController;
@@ -81,7 +83,7 @@ describe('PlaylistPlayerController mixin', function() {
                         Ctrl.minireel.adConfig = {
                             video: {}
                         };
-                        Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
+                        Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
                         spyOn(PrerollCardController.prototype, 'renderInto');
                         spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
                         spyOn(Ctrl.DisplayAdCtrl, 'renderInto');
@@ -118,7 +120,7 @@ describe('PlaylistPlayerController mixin', function() {
                             Ctrl.minireel.adConfig = {
                                 video: {}
                             };
-                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
+                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
                         });
@@ -238,7 +240,7 @@ describe('PlaylistPlayerController mixin', function() {
                             Ctrl.minireel.adConfig = {
                                 video: {}
                             };
-                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
+                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
                             spyOn(PrerollCardController.prototype, 'renderInto');
                             spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
                             spyOn(Ctrl.DisplayAdCtrl, 'renderInto');

@@ -3,6 +3,8 @@ import media from '../../../src/services/media.js';
 import imageLoader from '../../../src/services/image_loader.js';
 import fetcher from '../../../lib/fetcher.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import Runner from '../../../lib/Runner.js';
+import { EventEmitter } from 'events';
 
 function wait(time) {
     return function() {
@@ -394,6 +396,614 @@ describe('iab', function() {
 
     describe('@private', function() {
         describe('contructors', function() {
+            describe('VPAIDPlayer(tag)', function() {
+                let player;
+                let tag;
+
+                beforeEach(function() {
+                    tag = `http://u-ads.adap.tv/a/h/DCQzzI0K2rv1k0TZythPvYyD60pQS_90o8grI6Qm2PI=?cb={${Date.now()}}&pageUrl=${location.href}&eov=eov`;
+
+                    player = new iab.VPAIDPlayer(tag);
+                });
+
+                it('should exist', function() {
+                    expect(player).toEqual(jasmine.any(EventEmitter));
+                });
+
+                describe('when the ad is stopped', function() {
+                    let container;
+                    let AdVideoStart;
+
+                    beforeEach(function(done) {
+                        AdVideoStart = jasmine.createSpy('AdVideoStart()');
+
+                        container = document.createElement('div');
+                        player.load(container).then(() => {
+                            spyOn(player, 'removeAllListeners').and.callThrough();
+                            player.emit('AdStopped');
+                            player.on('AdVideoStart', AdVideoStart);
+                        }).then(done, done);
+
+                        player.emit('onAdResponse');
+                    });
+
+                    it('should remove all the event listeners', function() {
+                        expect(player.removeAllListeners).toHaveBeenCalled();
+                    });
+
+                    it('should stop proxying postMessage events to the player', function() {
+                        const event = document.createEvent('CustomEvent');
+                        event.initCustomEvent('message');
+                        event.data = JSON.stringify({
+                            __vpaid__: {
+                                id: player.id,
+                                type: 'AdVideoStart'
+                            }
+                        });
+                        global.dispatchEvent(event);
+
+                        expect(AdVideoStart).not.toHaveBeenCalled();
+                    });
+
+                    it('should remove the object from the container', function() {
+                        expect(container.querySelector('object')).not.toEqual(jasmine.any(Element));
+                    });
+                });
+
+                describe('properties:', function() {
+                    describe('id', function() {
+                        it('should be a generated id', function() {
+                            expect(player.id).toMatch(/^vpaid-\d+$/);
+                        });
+
+                        it('should be incremented with each new player', function() {
+                            const previousInt = parseInt(player.id.match(/\d+$/)[0], 10);
+                            expect(new iab.VPAIDPlayer(tag).id).toBe(`vpaid-${previousInt + 1}`);
+                        });
+                    });
+
+                    describe('tag', function() {
+                        it('should be the provided tag', function() {
+                            expect(player.tag).toBe(tag);
+                        });
+                    });
+
+                    describe('adBanners', function() {
+                        it('should be undefined', function() {
+                            expect(player.adBanners).toBeUndefined();
+                        });
+
+                        describe('after the player is loaded', function() {
+                            let container;
+                            let object;
+
+                            beforeEach(function(done) {
+                                container = document.createElement('div');
+
+                                player.load(container).then(() => setTimeout(done, 1));
+                                object = container.querySelector('object');
+
+                                player.emit('onAdResponse');
+                            });
+
+                            it('should be undefined', function() {
+                                expect(player.adBanners).toBeUndefined();
+                            });
+
+                            describe('when the player emits "displayBanners"', function() {
+                                beforeEach(function() {
+                                    object.getDisplayBanners = jasmine.createSpy('object.getDisplayBanners()').and.returnValue([
+                                        {
+                                            width: 300,
+                                            height: 250,
+                                            sourceCode: '<p>Hello!</p>'
+                                        },
+                                        {
+                                            width: 300,
+                                            height: 100,
+                                            sourceCode: '<p>Not me!</p>'
+                                        },
+                                        {
+                                            width: 102,
+                                            height: 250,
+                                            sourceCode: '<p>Not me too!</p>'
+                                        },
+                                        {
+                                            width: 300,
+                                            height: 250,
+                                            sourceCode: '<p>Pick me!</p>'
+                                        }
+                                    ]);
+                                    player.emit('displayBanners');
+                                });
+
+                                it('should be an array of 300x250 display ads', function() {
+                                    expect(player.adBanners).toEqual([
+                                        {
+                                            adType: 'html',
+                                            width: 300,
+                                            height: 250,
+                                            fileURI: '<p>Hello!</p>'
+                                        },
+                                        {
+                                            adType: 'html',
+                                            width: 300,
+                                            height: 250,
+                                            fileURI: '<p>Pick me!</p>'
+                                        }
+                                    ]);
+                                });
+
+                                it('should return the same array instance every time', function() {
+                                    expect(player.adBanners).toBe(player.adBanners);
+                                });
+                            });
+                        });
+                    });
+
+                    describe('adVolume', function() {
+                        it('should be undefined', function() {
+                            expect(player.adVolume).toBeUndefined();
+                        });
+
+                        describe('after the player is loaded', function() {
+                            let container;
+                            let object;
+
+                            beforeEach(function(done) {
+                                container = document.createElement('div');
+
+                                player.load(container).then(() => setTimeout(done, 1));
+                                object = container.querySelector('object');
+
+                                player.emit('onAdResponse');
+                            });
+
+                            it('should be undefined', function() {
+                                expect(player.adVolume).toBeUndefined();
+                            });
+
+                            describe('when the player implements getAdProperties()', function() {
+                                beforeEach(function() {
+                                    object.getAdProperties = jasmine.createSpy('object.getAdProperties()').and.throwError(new Error('NOOO!!!'));
+                                });
+
+                                it('should be undefined', function() {
+                                    expect(player.adVolume).toBeUndefined();
+                                });
+
+                                describe('when getAdProperties() stops throwing errors', function() {
+                                    beforeEach(function() {
+                                        object.getAdProperties.and.returnValue({
+                                            adVolume: 0.64
+                                        });
+                                    });
+
+                                    it('should be the object\'s adVolume', function() {
+                                        expect(player.adVolume).toBe(0.64);
+                                    });
+                                });
+                            });
+                        });
+
+                        describe('setting', function() {
+                            it('should throw an error', function() {
+                                expect(() => player.adVolume = 0.5).toThrow(new Error('Cannot set adVolume before the player has been loaded.'));
+                            });
+
+                            describe('after the player is loaded', function() {
+                                let container;
+                                let object;
+
+                                beforeEach(function(done) {
+                                    container = document.createElement('div');
+
+                                    player.load(container).then(() => setTimeout(done, 1));
+                                    object = container.querySelector('object');
+
+                                    player.emit('onAdResponse');
+                                });
+
+                                it('should throw an error', function() {
+                                    expect(() => player.adVolume = 0.5).toThrow(new Error('Cannot set adVolume before the player has been loaded.'));
+                                });
+
+                                describe('when the player implements setVolume()', function() {
+                                    beforeEach(function() {
+                                        object.setVolume = jasmine.createSpy('object.setVolume()');
+
+                                        player.adVolume = 0.44;
+                                    });
+
+                                    it('should call setVolume() on the object', function() {
+                                        expect(object.setVolume).toHaveBeenCalledWith(0.44);
+                                    });
+                                });
+                            });
+                        });
+                    });
+
+                    describe('adCurrentTime', function() {
+                        it('should be undefined', function() {
+                            expect(player.adCurrentTime).toBeUndefined();
+                        });
+
+                        describe('after the player is loaded', function() {
+                            let container;
+                            let object;
+
+                            beforeEach(function(done) {
+                                container = document.createElement('div');
+
+                                player.load(container).then(() => setTimeout(done, 1));
+                                object = container.querySelector('object');
+
+                                player.emit('onAdResponse');
+                            });
+
+                            it('should be undefined', function() {
+                                expect(player.adCurrentTime).toBeUndefined();
+                            });
+
+                            describe('when the player implements getAdProperties()', function() {
+                                beforeEach(function() {
+                                    object.getAdProperties = jasmine.createSpy('object.getAdProperties()').and.returnValue({
+                                        adCurrentTime: 47
+                                    });
+                                });
+
+                                it('should be the object\'s adVolume', function() {
+                                    expect(player.adCurrentTime).toBe(47);
+                                });
+                            });
+                        });
+                    });
+
+                    describe('adDuration', function() {
+                        it('should be undefined', function() {
+                            expect(player.adDuration).toBeUndefined();
+                        });
+
+                        describe('after the player is loaded', function() {
+                            let container;
+                            let object;
+
+                            beforeEach(function(done) {
+                                container = document.createElement('div');
+
+                                player.load(container).then(() => setTimeout(done, 1));
+                                object = container.querySelector('object');
+
+                                player.emit('onAdResponse');
+                            });
+
+                            it('should be undefined', function() {
+                                expect(player.adDuration).toBeUndefined();
+                            });
+
+                            describe('when the player implements getAdProperties()', function() {
+                                beforeEach(function() {
+                                    object.getAdProperties = jasmine.createSpy('object.getAdProperties()').and.returnValue({
+                                        adDuration: 65
+                                    });
+                                });
+
+                                it('should be the object\'s adVolume', function() {
+                                    expect(player.adDuration).toBe(65);
+                                });
+                            });
+                        });
+                    });
+                });
+
+                describe('events:', function() {
+                    ['onAdResponse', 'AdLoaded', 'AdStarted', 'AdVideoStart', 'AdPlaying', 'AdPaused', 'AdError', 'AdVideoComplete', 'onAllAdsCompleted'].forEach(event => {
+                        describe(event, function() {
+                            let spy;
+
+                            beforeEach(function() {
+                                spy = jasmine.createSpy(`${event}()`).and.callFake(() => Runner.schedule('render', null, () => {}));
+                                player.on(event, spy);
+
+                                const evt = document.createEvent('CustomEvent');
+                                evt.initCustomEvent('message');
+                                evt.data = JSON.stringify({
+                                    __vpaid__: {
+                                        id: player.id,
+                                        type: event
+                                    }
+                                });
+
+                                global.dispatchEvent(evt);
+                            });
+
+                            it('should emit the event on the player', function() {
+                                expect(spy).toHaveBeenCalled();
+                            });
+
+                            describe('if intended for another player', function() {
+                                beforeEach(function() {
+                                    spy.calls.reset();
+
+                                    const evt = document.createEvent('CustomEvent');
+                                    evt.initCustomEvent('message');
+                                    evt.data = JSON.stringify({
+                                        __vpaid__: {
+                                            id: player.id + '1',
+                                            type: event
+                                        }
+                                    });
+
+                                    global.dispatchEvent(evt);
+                                });
+
+                                it('should not emit the event on the player', function() {
+                                    expect(spy).not.toHaveBeenCalled();
+                                });
+                            });
+                        });
+                    });
+
+                    describe('if a non-vpaid message comes in', function() {
+                        beforeEach(function() {
+                            spyOn(player, 'emit').and.callThrough();
+
+                            const evt = document.createEvent('CustomEvent');
+                            evt.initCustomEvent('message');
+                            evt.data = 'Hello world!';
+
+                            global.dispatchEvent(evt);
+                        });
+
+                        it('should do nothing', function() {
+                            expect(player.emit).not.toHaveBeenCalled();
+                        });
+                    });
+
+                    describe('if a non-vpaid JSON message comes in', function() {
+                        beforeEach(function() {
+                            spyOn(player, 'emit').and.callThrough();
+
+                            const evt = document.createEvent('CustomEvent');
+                            evt.initCustomEvent('message');
+                            evt.data = JSON.stringify({});
+
+                            global.dispatchEvent(evt);
+                        });
+
+                        it('should do nothing', function() {
+                            expect(player.emit).not.toHaveBeenCalled();
+                        });
+                    });
+                });
+
+                describe('methods:', function() {
+                    describe('load(container)', function() {
+                        let container;
+                        let result;
+                        let success, failure;
+
+                        beforeEach(function() {
+                            container = document.createElement('div');
+
+                            success = jasmine.createSpy('success()');
+                            failure = jasmine.createSpy('failure()');
+
+                            result = player.load(container);
+
+                            result.then(success, failure);
+                        });
+
+                        it('should return a RunnerPromise', function() {
+                            expect(result).toEqual(jasmine.any(RunnerPromise));
+                        });
+
+                        it('should put an object in the container', function() {
+                            expect(container.querySelector('object')).toEqual(jasmine.any(Element));
+                        });
+
+                        it('should resolve the promise when "onAdResponse" is emitted for the player', function(done) {
+                            Promise.resolve().then(() => {}).then(() => {
+                                expect(success).not.toHaveBeenCalled();
+                            }).then(() => {
+                                const event = document.createEvent('CustomEvent');
+                                event.initCustomEvent('message');
+                                event.data = JSON.stringify({
+                                    __vpaid__: {
+                                        id: player.id,
+                                        type: 'onAdResponse'
+                                    }
+                                });
+
+                                global.dispatchEvent(event);
+                            }).then(() => {}).then(() => {}).then(() => {
+                                expect(success).toHaveBeenCalledWith(player);
+                            }).then(done, done);
+                        });
+
+                        describe('the object\'s', function() {
+                            let object;
+
+                            beforeEach(function() {
+                                object = container.querySelector('object');
+                            });
+
+                            describe('attributes', function() {
+                                describe('type', function() {
+                                    it('should be "application/x-shockwave-flash"', function() {
+                                        expect(object.getAttribute('type')).toBe('application/x-shockwave-flash');
+                                    });
+                                });
+
+                                describe('data', function() {
+                                    it('should be "swf/vpaid.swf"', function() {
+                                        expect(object.getAttribute('data')).toBe('swf/vpaid.swf');
+                                    });
+                                });
+
+                                describe('id', function() {
+                                    it('should be derived from the id', function() {
+                                        expect(object.getAttribute('id')).toBe(`${player.id}-player`);
+                                    });
+                                });
+
+                                describe('class', function() {
+                                    it('should be "c6VPAIDPlayer"', function() {
+                                        expect(object.getAttribute('class')).toBe('c6VPAIDPlayer');
+                                    });
+                                });
+                            });
+
+                            describe('params', function() {
+                                function valueOf(name) {
+                                    const param = object.querySelector(`param[name="${name}"]`);
+                                    return param && param.getAttribute('value');
+                                }
+
+                                describe('movie', function() {
+                                    it('should be the same as the object\'s data', function() {
+                                        expect(valueOf('movie')).toBe(object.getAttribute('data'));
+                                    });
+                                });
+
+                                describe('quality', function() {
+                                    it('should be "high"', function() {
+                                        expect(valueOf('quality')).toBe('high');
+                                    });
+                                });
+
+                                describe('bgcolor', function() {
+                                    it('should be "#000000"', function() {
+                                        expect(valueOf('bgcolor')).toBe('#000000');
+                                    });
+                                });
+
+                                describe('play', function() {
+                                    it('should be "false"', function() {
+                                        expect(valueOf('play')).toBe('false');
+                                    });
+                                });
+
+                                describe('loop', function() {
+                                    it('should be "false"', function() {
+                                        expect(valueOf('loop')).toBe('false');
+                                    });
+                                });
+
+                                describe('wmode', function() {
+                                    it('should be "opaque"', function() {
+                                        expect(valueOf('wmode')).toBe('opaque');
+                                    });
+                                });
+
+                                describe('scale', function() {
+                                    it('should be "noscale"', function() {
+                                        expect(valueOf('scale')).toBe('noscale');
+                                    });
+                                });
+
+                                describe('salign', function() {
+                                    it('should be "lt"', function() {
+                                        expect(valueOf('salign')).toBe('lt');
+                                    });
+                                });
+
+                                describe('flashvars', function() {
+                                    it('should contain the ad tag and player id', function() {
+                                        expect(valueOf('flashvars')).toBe(`adXmlUrl=${encodeURIComponent(tag)}&playerId=${encodeURIComponent(player.id)}`);
+                                    });
+                                });
+
+                                describe('allowScriptAccess', function() {
+                                    it('should be "always"', function() {
+                                        expect(valueOf('allowScriptAccess')).toBe('always');
+                                    });
+                                });
+
+                                describe('allowFullscreen', function() {
+                                    it('should be "true"', function() {
+                                        expect(valueOf('allowFullscreen')).toBe('true');
+                                    });
+                                });
+                            });
+                        });
+                    });
+
+                    describe(null, function() {
+                        let object;
+                        let container;
+
+                        beforeEach(function(done) {
+                            container = document.createElement('div');
+                            player.load(container).then(done);
+
+                            object = container.querySelector('object');
+                            player.emit('onAdResponse');
+                        });
+
+                        describe('initAd()', function() {
+                            beforeEach(function() {
+                                object.loadAd = jasmine.createSpy('object.loadAd()');
+
+                                player.initAd();
+                            });
+
+                            it('should call loadAd() on the object', function() {
+                                expect(object.loadAd).toHaveBeenCalled();
+                            });
+                        });
+
+                        describe('startAd()', function() {
+                            beforeEach(function() {
+                                object.startAd = jasmine.createSpy('object.startAd()');
+
+                                player.startAd();
+                            });
+
+                            it('should call startAd() on the object', function() {
+                                expect(object.startAd).toHaveBeenCalled();
+                            });
+                        });
+
+                        describe('stopAd()', function() {
+                            beforeEach(function() {
+                                object.stopAd = jasmine.createSpy('object.stopAd()');
+
+                                player.stopAd();
+                            });
+
+                            it('should call stopAd() on the object', function() {
+                                expect(object.stopAd).toHaveBeenCalled();
+                            });
+                        });
+
+                        describe('pauseAd()', function() {
+                            beforeEach(function() {
+                                object.pauseAd = jasmine.createSpy('object.pauseAd()');
+
+                                player.pauseAd();
+                            });
+
+                            it('should call pauseAd() on the object', function() {
+                                expect(object.pauseAd).toHaveBeenCalled();
+                            });
+                        });
+
+                        describe('resumeAd()', function() {
+                            beforeEach(function() {
+                                object.resumeAd = jasmine.createSpy('object.resumeAd()');
+
+                                player.resumeAd();
+                            });
+
+                            it('should call resumeAd() on the object', function() {
+                                expect(object.resumeAd).toHaveBeenCalled();
+                            });
+                        });
+                    });
+                });
+            });
+
             describe('VAST', function() {
                 var vast,
                     parser,

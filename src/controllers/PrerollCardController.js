@@ -1,7 +1,8 @@
 import ViewController from './ViewController.js';
-import VASTPlayer from '../players/VASTPlayer.js';
 import environment from '../environment.js';
+import playerFactory from '../services/player_factory.js';
 import { createKey } from 'private-parts';
+import timer from '../../lib/timer.js';
 
 function parseTag(tag = '') {
     const pageUrl = environment.debug ? 'mutantplayground.com' : environment.href;
@@ -9,6 +10,16 @@ function parseTag(tag = '') {
 
     return tag.replace('{cachebreaker}', cachebreaker)
         .replace('{pageUrl}', encodeURIComponent(pageUrl));
+}
+
+function waitFor(emitter, event, timeout) {
+    const aborter = timer.wait(timeout);
+
+    emitter.once(event, () => timer.cancel(aborter));
+    return aborter.then(
+        () => Promise.reject(new Error(`Timeout out waiting for ${event}.`)),
+        () => emitter
+    );
 }
 
 const _ = createKey();
@@ -20,7 +31,7 @@ export default class PrerollCardController extends ViewController {
         _(this).errorOccurred = false;
 
         this.model = card;
-        const player = this.player = new VASTPlayer();
+        const player = this.player = playerFactory.playerForCard(card);
         player.src = parseTag(card.data.videoid);
         player.controls = false;
 
@@ -31,6 +42,8 @@ export default class PrerollCardController extends ViewController {
             }
 
             this.view.show();
+
+            waitFor(this.player, 'play', 5000).catch(() => this.model.abort());
             this.player.play();
         });
         this.model.on('deactivate', () => {

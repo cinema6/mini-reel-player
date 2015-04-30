@@ -9,7 +9,9 @@ describe('MobilePrerollCardController', function() {
 
     beforeEach(function() {
         card = new EventEmitter();
-        card.data = {};
+        card.data = {
+            type: 'vast'
+        };
 
         MobilePrerollCardCtrl = new MobilePrerollCardController(card);
     });

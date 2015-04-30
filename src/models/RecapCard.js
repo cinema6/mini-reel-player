@@ -1,7 +1,7 @@
 import Card from './Card.js';
 
 export default class RecapCard extends Card {
-    constructor(card, experience, minireel) {
+    constructor(card, experience, profile, minireel) {
         super(...arguments);
 
         const {splash} = minireel;

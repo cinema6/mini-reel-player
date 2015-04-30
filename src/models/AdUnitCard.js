@@ -1,9 +1,10 @@
 import VideoCard from './VideoCard.js';
 
 export default class AdUnitCard extends VideoCard {
-    constructor(card) {
+    constructor(card, experience, profile) {
         super(...arguments);
 
-        this.data.videoid = card.data.vast;
+        this.data.type = (profile.flash && card.data.vpaid) ? 'vpaid' : 'vast';
+        this.data.videoid = card.data[this.data.type];
     }
 }

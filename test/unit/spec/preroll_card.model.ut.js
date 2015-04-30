@@ -1,10 +1,11 @@
 import PrerollCard from '../../../src/models/PrerollCard.js';
-import VideoCard from '../../../src/models/VideoCard.js';
+import AdUnitCard from '../../../src/models/AdUnitCard.js';
 
 describe('PrerollCard', function() {
     let card;
     let data;
     let experience;
+    let profile;
     let minireel;
 
     beforeEach(function() {
@@ -19,6 +20,7 @@ describe('PrerollCard', function() {
             },
             collateral: {}
         };
+        profile = { flash: false };
         minireel = {
             adConfig: {
                 video: {
@@ -33,11 +35,11 @@ describe('PrerollCard', function() {
             }
         };
 
-        card = new PrerollCard(data, experience, minireel);
+        card = new PrerollCard(data, experience, profile, minireel);
     });
 
     it('should exist', function() {
-        expect(card).toEqual(jasmine.any(VideoCard));
+        expect(card).toEqual(jasmine.any(AdUnitCard));
     });
 
     describe('properties:', function() {
@@ -55,51 +57,111 @@ describe('PrerollCard', function() {
             });
 
             describe('.videoid', function() {
-                describe('if the waterfall is "cinema6"', function() {
+                describe('if the device does not support flash', function() {
                     beforeEach(function() {
-                        minireel.adConfig.video.waterfall = 'cinema6';
-
-                        card = new PrerollCard(data, experience, minireel);
+                        profile.flash = false;
                     });
 
-                    it('should be the cinema6 VAST tag', function() {
-                        expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com//a/h/DCQzzI0K2rv1k0TZythPvTfWmlP8j6NQnxBMIgFJa80=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                    describe('if the waterfall is "cinema6"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'cinema6';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the cinema6 VAST tag', function() {
+                            expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com//a/h/DCQzzI0K2rv1k0TZythPvTfWmlP8j6NQnxBMIgFJa80=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
+                    });
+
+                    describe('if the waterfall is "publisher"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'publisher';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the publisher VAST tag', function() {
+                            expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com/a/h/DCQzzI0K2runZ1YEc6FP2ey+WPdagwFmdz7a2uK_A_c=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
+                    });
+
+                    describe('if the waterfall is "cinema6-publisher"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'cinema6-publisher';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the cinema6-publisher VAST tag', function() {
+                            expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com/a/h/DCQzzI0K2rv1k0TZythPvadnVgRzoU_Z7L5Y91qDAWYoGast41+eSw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
+                    });
+
+                    describe('if the waterfall is "publisher-cinema6"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'publisher-cinema6';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the publisher-cinema6 VAST tag', function() {
+                            expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com/a/h/DCQzzI0K2runZ1YEc6FP2fCQPSbU6FwIZz5J5C0Fsw29iCueyXx8iw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
                     });
                 });
 
-                describe('if the waterfall is "publisher"', function() {
+                describe('if the device does support flash', function() {
                     beforeEach(function() {
-                        minireel.adConfig.video.waterfall = 'publisher';
-
-                        card = new PrerollCard(data, experience, minireel);
+                        profile.flash = true;
                     });
 
-                    it('should be the publisher VAST tag', function() {
-                        expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com/a/h/DCQzzI0K2runZ1YEc6FP2ey+WPdagwFmdz7a2uK_A_c=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
-                    });
-                });
+                    describe('if the waterfall is "cinema6"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'cinema6';
 
-                describe('if the waterfall is "cinema6-publisher"', function() {
-                    beforeEach(function() {
-                        minireel.adConfig.video.waterfall = 'cinema6-publisher';
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
 
-                        card = new PrerollCard(data, experience, minireel);
-                    });
-
-                    it('should be the cinema6-publisher VAST tag', function() {
-                        expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com/a/h/DCQzzI0K2rv1k0TZythPvadnVgRzoU_Z7L5Y91qDAWYoGast41+eSw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
-                    });
-                });
-
-                describe('if the waterfall is "publisher-cinema6"', function() {
-                    beforeEach(function() {
-                        minireel.adConfig.video.waterfall = 'publisher-cinema6';
-
-                        card = new PrerollCard(data, experience, minireel);
+                        it('should be the cinema6 VPAID tag', function() {
+                            expect(card.data.videoid).toBe('http://u-ads.adap.tv/a/h/DCQzzI0K2rv1k0TZythPvYyD60pQS_90o8grI6Qm2PI=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
                     });
 
-                    it('should be the publisher-cinema6 VAST tag', function() {
-                        expect(card.data.videoid).toBe('http://ads.adaptv.advertising.com/a/h/DCQzzI0K2runZ1YEc6FP2fCQPSbU6FwIZz5J5C0Fsw29iCueyXx8iw==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                    describe('if the waterfall is "publisher"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'publisher';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the publisher VPAID tag', function() {
+                            expect(card.data.videoid).toBe('http://u-ads.adap.tv/a/h/DCQzzI0K2runZ1YEc6FP2T65tHqs_Nwo9+XmsX4pnb4=?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
+                    });
+
+                    describe('if the waterfall is "cinema6-publisher"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'cinema6-publisher';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the cinema6-publisher VPAID tag', function() {
+                            expect(card.data.videoid).toBe('http://u-ads.adap.tv/a/h/DCQzzI0K2rv1k0TZythPvadnVgRzoU_ZPrm0eqz83CjfbcCg1uJO3w==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
+                    });
+
+                    describe('if the waterfall is "publisher-cinema6"', function() {
+                        beforeEach(function() {
+                            minireel.adConfig.video.waterfall = 'publisher-cinema6';
+
+                            card = new PrerollCard(data, experience, profile, minireel);
+                        });
+
+                        it('should be the publisher-cinema6 VPAID tag', function() {
+                            expect(card.data.videoid).toBe('http://u-ads.adap.tv/a/h/DCQzzI0K2runZ1YEc6FP2fCQPSbU6FwIdK4EW3jlLzbnPQftO7fDdA==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov');
+                        });
                     });
                 });
             });

@@ -16,12 +16,14 @@ describe('ThumbnailNavigatorPlayerController', function() {
     let Ctrl;
     let view;
     let experience;
+    let profile;
 
     class MyPlayerController extends PlayerController {}
     MyPlayerController.mixin(ThumbnailNavigatorPlayerController);
 
     beforeEach(function() {
         experience = { data: { collateral: {} } };
+        profile = { flash: false };
         view = new PlayerView();
 
         Ctrl = new MyPlayerController(new View(document.createElement('body')));
@@ -57,7 +59,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             Ctrl.minireel.adConfig = {
                                 video: {}
                             };
-                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, Ctrl.minireel);
+                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
                         });

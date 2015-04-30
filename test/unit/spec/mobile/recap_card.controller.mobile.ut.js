@@ -15,6 +15,8 @@ describe('MobileRecapCardController', function() {
         data: {}
     };
 
+    const profile = { flash: false };
+
     beforeEach(function() {
         minireel = new MiniReel();
         minireel.deck = [
@@ -77,7 +79,7 @@ describe('MobileRecapCardController', function() {
                 }
             }, experience)
         ];
-        card = new RecapCard({}, experience, minireel);
+        card = new RecapCard({}, experience, profile, minireel);
         minireel.deck.push(card);
 
         spyOn(MobileRecapCardController.prototype, 'addListeners');

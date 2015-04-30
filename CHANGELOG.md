@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.9.0-rc1]*
+  * [FEATURE]: Add support for single-video MiniReel player
+
 ## v0.8.0 (April 28, 2015)
 * *[v0.8.0-rc1]*
   * [FEATURE]: Add support for VAST preroll advertising

@@ -196,6 +196,57 @@ describe('VideoCardView', function() {
                     }));
                 });
             });
+
+            describe('if the card has links', function() {
+                beforeEach(function() {
+                    CardView.prototype.update.calls.reset();
+
+                    delete data.website;
+                    data.links.length = 1;
+
+                    videoCardView.update(data);
+                });
+
+                it('should send data with hasLinks: true', function() {
+                    expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        hasLinks: true
+                    }));
+                });
+            });
+
+            describe('if the card has a website', function() {
+                beforeEach(function() {
+                    CardView.prototype.update.calls.reset();
+
+                    data.website = 'mysite.com';
+                    data.links.length = 0;
+
+                    videoCardView.update(data);
+                });
+
+                it('should send data with hasLinks: true', function() {
+                    expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        hasLinks: true
+                    }));
+                });
+            });
+
+            describe('if the card has no website or links', function() {
+                beforeEach(function() {
+                    CardView.prototype.update.calls.reset();
+
+                    delete data.website;
+                    data.links.length = 0;
+
+                    videoCardView.update(data);
+                });
+
+                it('should send data with hasLinks: false', function() {
+                    expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        hasLinks: false
+                    }));
+                });
+            });
         });
     });
 });

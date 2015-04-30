@@ -9,7 +9,8 @@
     "full": "./src/full.js",
     "lightbox-playlist": "./src/lightbox-playlist.js",
     "lightbox": "./src/lightbox.js",
-    "light": "./src/light.js"
+    "light": "./src/light.js",
+    "solo": "./src/solo.js"
   },
   "repository": {
     "type": "git",

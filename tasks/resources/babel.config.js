@@ -7,5 +7,6 @@ module.exports = {
         'es6.forOf',
         'es6.templateLiterals'
     ],
-    optional: ['spec.protoToAssign']
+    optional: ['spec.protoToAssign'],
+    externalHelpers: true
 };

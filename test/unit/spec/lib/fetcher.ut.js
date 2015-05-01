@@ -1,9 +1,9 @@
-describe('fetcher', function() {
-    import fetcher from '../../../../lib/fetcher.js';
-    import RunnerPromise from '../../../../lib/RunnerPromise.js';
-    import global from '../../../../lib/global.js';
-    import {extend} from '../../../../lib/utils.js';
+import fetcher from '../../../../lib/fetcher.js';
+import RunnerPromise from '../../../../lib/RunnerPromise.js';
+import global from '../../../../lib/global.js';
+import {extend} from '../../../../lib/utils.js';
 
+describe('fetcher', function() {
     it('should exist', function() {
         expect(fetcher).toEqual(jasmine.any(Object));
     });

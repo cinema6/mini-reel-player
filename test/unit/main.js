@@ -1,6 +1,10 @@
 const realAddEventListener = global.addEventListener;
 const listeners = [];
 
+// jshint freeze:false
+Function.prototype.bind = require('function-bind');
+// jshint freeze:true
+
 global.addEventListener = function() {
     listeners.push(arguments);
     return realAddEventListener.apply(global, arguments);

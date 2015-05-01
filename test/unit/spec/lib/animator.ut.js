@@ -1,6 +1,6 @@
-describe('animator', function() {
-    import animator from '../../../../lib/animator.js';
+import animator from '../../../../lib/animator.js';
 
+describe('animator', function() {
     beforeEach(function() {
         animator.constructor();
     });

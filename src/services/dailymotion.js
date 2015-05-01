@@ -70,9 +70,9 @@ class Player extends EventEmitter {
             );
         }
 
-        _(dailymotion).players[params.id] = this;
-
         super();
+
+        _(dailymotion).players[params.id] = this;
 
         _(this).id = params.id;
         _(this).iframe = iframe;

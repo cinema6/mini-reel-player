@@ -1,5 +1,6 @@
+import Logger from '../../../../lib/Logger.js';
+
 describe('Logger', function() {
-    import Logger from '../../../../lib/Logger.js';
     let logger;
 
     beforeEach(function() {

@@ -1,7 +1,7 @@
-describe('mock Runner', function() {
-    import MockRunner from '../../../../../lib/mocks/Runner.js';
-    import Runner from '../../../../../.tmp/lib-real/Runner.js';
+import MockRunner from '../../../../../lib/mocks/Runner.js';
+import Runner from '../../../../../.tmp/lib-real/Runner.js';
 
+describe('mock Runner', function() {
     it('should be a subclass of the real Runner', function() {
         expect(new MockRunner([])).toEqual(jasmine.any(Runner));
     });

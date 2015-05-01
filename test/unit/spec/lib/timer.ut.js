@@ -1,9 +1,9 @@
-describe('timer', function() {
-    import timer from '../../../../lib/timer.js';
-    import global from '../../../../lib/global.js';
-    import RunnerPromise from '../../../../lib/RunnerPromise.js';
-    import Runner from '../../../../lib/Runner.js';
+import timer from '../../../../lib/timer.js';
+import global from '../../../../lib/global.js';
+import RunnerPromise from '../../../../lib/RunnerPromise.js';
+import Runner from '../../../../lib/Runner.js';
 
+describe('timer', function() {
     beforeEach(function() {
         timer.constructor();
         jasmine.clock().install();

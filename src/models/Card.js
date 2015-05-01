@@ -9,6 +9,8 @@ import {
 
 export default class Card extends EventEmitter {
     constructor(card, experience) {
+        super();
+
         this.id = card.id;
         this.title = card.title;
         this.note = card.note;

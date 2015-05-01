@@ -1,6 +1,7 @@
+import RunnerPromise from '../../../../lib/RunnerPromise.js';
+import Runner from '../../../../lib/Runner.js';
+
 describe('RunnerPromise', function() {
-    import RunnerPromise from '../../../../lib/RunnerPromise.js';
-    import Runner from '../../../../lib/Runner.js';
     let promise;
 
     let fulfillHandler, rejectHandler;

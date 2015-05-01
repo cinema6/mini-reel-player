@@ -145,6 +145,7 @@ export default class DailymotionPlayer extends CorePlayer {
             ['id', this.id],
             ['related', 0],
             ['chromeless', this.controls ? 0 : 1],
+            ['webkit-playsinline', 1]
         ].concat(!!media.bestVideoFormat(['video/mp4']) ? [['html']] : []));
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '100%');

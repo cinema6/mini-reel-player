@@ -634,7 +634,7 @@ describe('YouTubePlayer', function() {
             });
 
             it('should set the iframe src based on the player src', function() {
-                expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1`);
+                expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1`);
             });
 
             describe('when the api is ready', function() {

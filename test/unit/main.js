@@ -6,6 +6,8 @@ global.addEventListener = function() {
     return realAddEventListener.apply(global, arguments);
 };
 
+global.c6 = {};
+
 beforeEach(function() {
     jasmine.addMatchers({
         toImplement() {

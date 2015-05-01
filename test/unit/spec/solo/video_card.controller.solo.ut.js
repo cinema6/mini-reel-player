@@ -12,6 +12,7 @@ describe('SoloVideoCardController', function() {
         card.data = { type: 'youtube' };
         card.thumbs = {};
         card.modules = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         SoloVideoCardCtrl = new SoloVideoCardController(card);
     });

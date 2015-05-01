@@ -40,6 +40,7 @@ describe('PrerollCardController', function() {
         card.setPlaybackState = jasmine.createSpy('card.setPlaybackState()');
         card.complete = jasmine.createSpy('card.complete()');
         card.abort = jasmine.createSpy('card.abort()');
+        card.getSrc = jasmine.createSpy('card.getSrc()').and.returnValue(card.data.videoid + 'fhurieth4');
 
         environment.debug = false;
 
@@ -70,20 +71,8 @@ describe('PrerollCardController', function() {
             });
 
             describe('.src', function() {
-                it('should be the card\'s videoid with the dynamic segments replaced', function() {
-                    expect(PrerollCardCtrl.player.src).toBe(`http://ads.adaptv.advertising.com//a/h/DCQzzI0K2rv1k0TZythPvTfWmlP8j6NQnxBMIgFJa80=?cb=${Date.now()}&pageUrl=${encodeURIComponent(environment.href)}&eov=eov`);
-                });
-
-                describe('in debug mode', function() {
-                    beforeEach(function() {
-                        environment.debug = true;
-
-                        PrerollCardCtrl = new PrerollCardController(card);
-                    });
-
-                    it('should make the {pageUrl} "mutantplayground.com"', function() {
-                        expect(PrerollCardCtrl.player.src).toBe(`http://ads.adaptv.advertising.com//a/h/DCQzzI0K2rv1k0TZythPvTfWmlP8j6NQnxBMIgFJa80=?cb=${Date.now()}&pageUrl=${encodeURIComponent('mutantplayground.com')}&eov=eov`);
-                    });
+                it('should be the card\'s src', function() {
+                    expect(PrerollCardCtrl.player.src).toBe(card.getSrc());
                 });
             });
 

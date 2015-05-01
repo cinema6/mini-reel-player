@@ -21,6 +21,7 @@ describe('PostVideoCardController', function() {
         card.modules = {};
         card.data = { type: 'youtube' };
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
         card.complete = jasmine.createSpy('card.complete()');
 
         Ctrl = new MyVideoCardController(card);

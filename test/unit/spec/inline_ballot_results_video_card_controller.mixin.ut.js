@@ -18,6 +18,7 @@ describe('InlineBallotResultsVideoCardController mixin', function() {
         card.data = { type: 'youtube' };
         card.modules = {};
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         Ctrl = new MyVideoCardController(card);
         Ctrl.view = new VideoCardView();

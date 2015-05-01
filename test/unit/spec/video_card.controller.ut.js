@@ -120,6 +120,11 @@ describe('VideoCardController', function() {
 
     describe('properties:', function() {
         describe('player', function() {
+            beforeEach(function() {
+                spyOn(card, 'getSrc').and.returnValue(card.data.videoid + 'h39r8fh43');
+                VideoCardCtrl = new VideoCardController(card);
+            });
+
             it('should be the video player', function() {
                 expect(VideoCardCtrl.player).toBe(player);
             });
@@ -129,7 +134,7 @@ describe('VideoCardController', function() {
             });
 
             it('should have a src', function() {
-                expect(player.src).toBe(card.data.videoid);
+                expect(player.src).toBe(card.getSrc());
             });
 
             it('should set the controls', function() {

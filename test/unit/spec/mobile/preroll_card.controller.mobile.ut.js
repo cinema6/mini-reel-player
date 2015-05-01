@@ -12,6 +12,7 @@ describe('MobilePrerollCardController', function() {
         card.data = {
             type: 'vast'
         };
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         MobilePrerollCardCtrl = new MobilePrerollCardController(card);
     });

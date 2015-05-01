@@ -1,16 +1,7 @@
 import ViewController from './ViewController.js';
-import environment from '../environment.js';
 import playerFactory from '../services/player_factory.js';
 import { createKey } from 'private-parts';
 import timer from '../../lib/timer.js';
-
-function parseTag(tag = '') {
-    const pageUrl = environment.debug ? 'mutantplayground.com' : environment.href;
-    const cachebreaker = Date.now();
-
-    return tag.replace('{cachebreaker}', cachebreaker)
-        .replace('{pageUrl}', encodeURIComponent(pageUrl));
-}
 
 function waitFor(emitter, event, timeout) {
     const aborter = timer.wait(timeout);
@@ -32,7 +23,7 @@ export default class PrerollCardController extends ViewController {
 
         this.model = card;
         const player = this.player = playerFactory.playerForCard(card);
-        player.src = parseTag(card.data.videoid);
+        player.src = card.getSrc();
         player.controls = false;
 
         this.model.on('prepare', () => this.player.load());

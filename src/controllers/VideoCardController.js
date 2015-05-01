@@ -11,7 +11,7 @@ export default class VideoCardController extends CardController {
 
         const player = playerFactory.playerForCard(this.model);
         player.poster = this.model.thumbs.large;
-        player.src = this.model.data.videoid;
+        player.src = this.model.getSrc();
         player.controls = this.model.data.controls;
         player.start = this.model.data.start;
         player.end = this.model.data.end;

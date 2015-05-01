@@ -14,6 +14,7 @@ describe('LightboxPlaylistPrerollCardController', function() {
         card.data = {
             type: 'vast'
         };
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         spyOn(LightboxPlaylistPrerollCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(LightboxPlaylistPrerollCardController.prototype, 'initCompanion').and.callThrough();

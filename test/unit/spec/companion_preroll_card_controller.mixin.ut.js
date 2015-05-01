@@ -19,6 +19,7 @@ describe('CompanionPrerollCardController mixin', function() {
         card.data = {
             type: 'vast'
         };
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         Ctrl = new MyPrerollCardController(card);
         Ctrl.view = new CardView();

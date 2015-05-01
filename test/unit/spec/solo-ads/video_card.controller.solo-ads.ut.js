@@ -13,6 +13,7 @@ describe('SoloAdsVideoCardController', function() {
         card.data = { type: 'youtube' };
         card.thumbs = {};
         card.modules = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         spyOn(SoloAdsVideoCardController.prototype, 'initDisplayAd').and.callThrough();
 

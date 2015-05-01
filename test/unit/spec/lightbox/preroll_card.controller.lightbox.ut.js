@@ -13,6 +13,7 @@ describe('LightboxPrerollCardController', function() {
         card.data = {
             type: 'vast'
         };
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         spyOn(LightboxPrerollCardController.prototype, 'initCompanion').and.callThrough();
 

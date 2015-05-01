@@ -21,6 +21,7 @@ describe('BallotVideoCardController mixin', function() {
         card.data = { type: 'youtube' };
         card.modules = {};
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         canAutoadvance.and.returnValue(true);
 

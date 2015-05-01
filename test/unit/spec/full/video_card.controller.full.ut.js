@@ -19,6 +19,7 @@ describe('FullVideoCardController', function() {
         };
         card.thumbs = { large: 'large.jpg' };
         card.modules = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
         spyOn(FullVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(FullVideoCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(FullVideoCardController.prototype, 'initBallotResults').and.callThrough();

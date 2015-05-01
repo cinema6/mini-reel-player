@@ -101,5 +101,52 @@ describe('environment', function() {
                 expect(environment.initTime).toBe(c6.kStartTime);
             });
         });
+
+        describe('guid', function() {
+            describe('if there is no __c6_guid__ in localStorage', function() {
+                beforeEach(function() {
+                    spyOn(localStorage, 'getItem').and.returnValue(undefined);
+                    spyOn(localStorage, 'setItem');
+                    environment.constructor();
+                    expect(localStorage.getItem).toHaveBeenCalledWith('__c6_guid__');
+                });
+
+                it('should be a random alpha-numeric string', function() {
+                    expect(environment.guid).toMatch(/^(\d|\w){32}$/);
+                });
+
+                it('should save the guid in localStorage', function() {
+                    expect(localStorage.setItem).toHaveBeenCalledWith('__c6_guid__', environment.guid);
+                });
+            });
+
+            describe('if there is a __c6_guid__ in localStorage', function() {
+                let guid;
+
+                beforeEach(function() {
+                    guid = 'y6a7i2k9pzwh0qulcpglyur6of660k4x';
+
+                    spyOn(localStorage, 'getItem').and.returnValue(guid);
+                    environment.constructor();
+                    expect(localStorage.getItem).toHaveBeenCalledWith('__c6_guid__');
+                });
+
+                it('should be the value fetched from localStorage', function() {
+                    expect(environment.guid).toBe(guid);
+                });
+            });
+
+            describe('if calling localStorage methods throw', function() {
+                beforeEach(function() {
+                    spyOn(localStorage, 'getItem').and.throwError(new Error('I am broken!'));
+                    spyOn(localStorage, 'setItem').and.throwError(new Error('I am broken!'));
+                    environment.constructor();
+                });
+
+                it('should still set the guid', function() {
+                    expect(environment.guid).toMatch(/^(\d|\w){32}$/);
+                });
+            });
+        });
     });
 });

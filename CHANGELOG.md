@@ -1,6 +1,12 @@
 # MiniReel Player 2.0
 
 ## v0.9.0 (April 30, 2015)
+* *[v0.9.0-rc3]*
+  * [FEATURE]: Support inline playback for YouTube videos when the
+    player is in a UIWebView
+  * [FEATURE]: Support inline playback for Dailymotion videos when
+    the player is in a UIWebView
+
 * *[v0.9.0-rc2]*
   * Make mysterious VAST XHR failures errors include the URL trying to
     be loaded

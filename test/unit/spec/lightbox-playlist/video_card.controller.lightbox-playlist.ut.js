@@ -18,6 +18,7 @@ describe('LightboxPlaylistVideoCardController', function() {
             large: 'large.jpg'
         };
         card.modules = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
         spyOn(LightboxPlaylistVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(LightboxPlaylistVideoCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(LightboxPlaylistVideoCardController.prototype, 'initBallotResults').and.callThrough();

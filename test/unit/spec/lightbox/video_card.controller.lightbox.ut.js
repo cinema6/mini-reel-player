@@ -14,6 +14,7 @@ describe('LightboxVideoCardController', function() {
         card.data = { type: 'youtube' };
         card.modules = {};
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
         spyOn(LightboxVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(LightboxVideoCardController.prototype, 'initDisplayAd').and.callThrough();
         spyOn(LightboxVideoCardController.prototype, 'initBallotResults').and.callThrough();

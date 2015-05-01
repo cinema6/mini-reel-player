@@ -13,6 +13,7 @@ describe('LightVideoCardController', function() {
         card.data = { type: 'youtube' };
         card.modules = {};
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
         spyOn(LightVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(LightVideoCardController.prototype, 'initBallotResults').and.callThrough();
 

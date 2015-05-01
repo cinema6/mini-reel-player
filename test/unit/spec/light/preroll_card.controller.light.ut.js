@@ -12,6 +12,7 @@ describe('LightPrerollCardController', function() {
         card.data = {
             type: 'vast'
         };
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         LightPrerollCardCtrl = new LightPrerollCardController(card);
     });

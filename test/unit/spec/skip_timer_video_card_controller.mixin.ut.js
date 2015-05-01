@@ -17,6 +17,7 @@ describe('SkipTimerVideoCardController mixin', function() {
         };
         card.modules = {};
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         Ctrl = new MyVideoCardController(card);
         Ctrl.view = new VideoCardView();

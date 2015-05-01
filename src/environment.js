@@ -1,3 +1,7 @@
+import {
+    reduce
+} from '../lib/utils.js';
+
 /*jshint scripturl:true*/
 const c6 = global.c6 || {};
 const $location = (() => {
@@ -7,6 +11,25 @@ const $location = (() => {
         return global.location;
     }
 }());
+const GUID_KEY = '__c6_guid__';
+
+const POSSIBILITES = '0123456789abcdefghijklmnopqrstuvwxyz';
+const NUM_OF_POSSIBILITES = POSSIBILITES.length;
+function generateId(length) {
+    return reduce(new Array(length), result => {
+        return result + POSSIBILITES[Math.floor(Math.random() * NUM_OF_POSSIBILITES)];
+    }, '');
+}
+
+const storage = {
+    get(key) {
+        try { return localStorage.getItem(key); } catch(e) { return undefined; }
+    },
+
+    set(key, value) {
+        try { return localStorage.setItem(key, value); } catch(e) { return undefined; }
+    }
+};
 
 class Environment {
     constructor() {
@@ -18,6 +41,11 @@ class Environment {
         this.hostname = $location.hostname;
         this.href = $location.href;
         this.initTime = c6.kStartTime;
+        this.guid = (() => {
+            const guid = storage.get(GUID_KEY) || generateId(32);
+            storage.set(GUID_KEY, guid);
+            return guid;
+        }());
     }
 }
 

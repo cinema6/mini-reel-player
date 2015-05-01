@@ -28,6 +28,7 @@ describe('DisplayAdVideoCardController', function() {
         card.data = { type: 'youtube' };
         card.modules = {};
         card.thumbs = {};
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         spyOn(playerFactory, 'playerForCard').and.returnValue(new MockPlayer());
 

@@ -415,6 +415,12 @@ describe('VideoCard', function() {
     });
 
     describe('methods:', function() {
+        describe('getSrc()', function() {
+            it('should return the videoid', function() {
+                expect(card.getSrc()).toBe(card.data.videoid);
+            });
+        });
+
         describe('activate()', function() {
             let becameUnskippable;
             let skippableProgress;

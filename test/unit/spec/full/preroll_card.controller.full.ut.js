@@ -14,6 +14,7 @@ describe('FullPrerollCardController', function() {
         card.data = {
             type: 'vast'
         };
+        card.getSrc = jasmine.createSpy('card.getSrc()');
 
         spyOn(FullPrerollCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(FullPrerollCardController.prototype, 'initCompanion').and.callThrough();

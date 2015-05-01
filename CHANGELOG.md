@@ -8,6 +8,7 @@
     the player is in a UIWebView
   * [FIX]: Fix for an issue that could cause ADTECH ad tags not to load
     on the Android Browser
+* *[/v0.9.0-rc3]*
 
 * *[v0.9.0-rc2]*
   * Make mysterious VAST XHR failures errors include the URL trying to

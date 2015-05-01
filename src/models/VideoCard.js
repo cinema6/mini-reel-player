@@ -43,6 +43,10 @@ export default class VideoCard extends Card {
         };
     }
 
+    getSrc() {
+        return this.data.videoid;
+    }
+
     activate() {
         let {skip} = _(this);
         const {isUnskippable, canSkipAfterCountdown} = _(this);

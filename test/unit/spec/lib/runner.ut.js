@@ -1,7 +1,7 @@
-describe('Runner', function() {
-    import Runner from '../../../../lib/Runner.js';
-    import global from '../../../../lib/global.js';
+import Runner from '../../../../lib/Runner.js';
+import global from '../../../../lib/global.js';
 
+describe('Runner', function() {
     class Queue {
         constructor(name) {
             this.name = name;

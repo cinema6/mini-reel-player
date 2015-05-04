@@ -1,5 +1,6 @@
+import Mixable from '../../../../lib/core/Mixable.js';
+
 describe('Mixable', function() {
-    import Mixable from '../../../../lib/core/Mixable.js';
     let mixable;
 
     beforeEach(function() {

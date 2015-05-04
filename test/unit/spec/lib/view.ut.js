@@ -1,9 +1,10 @@
+import View from '../../../../lib/core/View.js';
+import Mixable from '../../../../lib/core/Mixable.js';
+import eventDelegator from '../../../../lib/event_delegator.js';
+import {EventEmitter} from 'events';
+import Runner from '../../../../lib/Runner.js';
+
 describe('View', function() {
-    import View from '../../../../lib/core/View.js';
-    import Mixable from '../../../../lib/core/Mixable.js';
-    import eventDelegator from '../../../../lib/event_delegator.js';
-    import {EventEmitter} from 'events';
-    import Runner from '../../../../lib/Runner.js';
     let view;
     let queues;
 

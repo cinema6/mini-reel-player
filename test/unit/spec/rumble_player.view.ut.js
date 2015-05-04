@@ -19,6 +19,8 @@ describe('RumblePlayer', function() {
         constructor(iframe) {
             var ready = false;
 
+            super();
+
             expect(iframe.tagName).toBe('IFRAME');
 
             this.call = jasmine.createSpy('player.call()')

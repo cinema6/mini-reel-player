@@ -6,6 +6,8 @@ import {
 
 export default class Ballot extends EventEmitter {
     constructor(card, experience) {
+        super();
+
         this.id = card.id;
         this.election = card.ballot.election || experience.data.election;
         this.prompt = card.ballot.prompt;

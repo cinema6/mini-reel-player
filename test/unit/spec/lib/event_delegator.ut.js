@@ -1,8 +1,8 @@
-describe('eventDelegator', function() {
-    import eventDelegator from '../../../../lib/event_delegator.js';
-    import View from '../../../../lib/core/View.js';
-    import Runner from '../../../../lib/Runner.js';
+import eventDelegator from '../../../../lib/event_delegator.js';
+import View from '../../../../lib/core/View.js';
+import Runner from '../../../../lib/Runner.js';
 
+describe('eventDelegator', function() {
     let listeners;
 
     beforeEach(function() {

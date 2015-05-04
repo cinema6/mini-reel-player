@@ -1,5 +1,6 @@
+import Logger from '../../../../../lib/mocks/Logger.js';
+
 describe('mock Logger', function() {
-    import Logger from '../../../../../lib/mocks/Logger.js';
     let logger;
 
     beforeEach(function() {

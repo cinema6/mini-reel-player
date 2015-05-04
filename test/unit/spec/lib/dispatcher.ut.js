@@ -1,7 +1,7 @@
-describe('dispatcher', function() {
-    import dispatcher from '../../../../lib/dispatcher.js';
-    import {EventEmitter} from 'events';
+import dispatcher from '../../../../lib/dispatcher.js';
+import {EventEmitter} from 'events';
 
+describe('dispatcher', function() {
     beforeEach(function() {
         spyOn(dispatcher, 'setMaxListeners').and.callThrough();
 

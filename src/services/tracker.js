@@ -24,7 +24,7 @@ class TrackerContext {
         _(this).api = api;
     }
 
-    alias(name, alias) {
+    alias(name, nameAlias) {
         const setAlias = ((name, value) => {
             if (value === null) {
                 delete this.aliases[name];
@@ -45,7 +45,7 @@ class TrackerContext {
             return this;
         }
 
-        return setAlias(name, alias);
+        return setAlias(name, nameAlias);
     }
 
     methodContext(method) {
@@ -168,9 +168,9 @@ class Tracker {
         if (global.__karma__) { this.__private__ = _(this); }
     }
 
-    api(api) {
-        if (api !== undefined) {
-            _(this).api = api;
+    api(value) {
+        if (value !== undefined) {
+            _(this).api = value;
         }
         return _(this).api;
     }

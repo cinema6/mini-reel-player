@@ -1,9 +1,9 @@
-describe('TemplateView', function() {
-    import Runner from '../../../../lib/Runner.js';
-    import View from '../../../../lib/core/View.js';
-    import TemplateView from '../../../../lib/core/TemplateView.js';
-    import twobits from 'twobits.js';
+import Runner from '../../../../lib/Runner.js';
+import View from '../../../../lib/core/View.js';
+import TemplateView from '../../../../lib/core/TemplateView.js';
+import twobits from 'twobits.js';
 
+describe('TemplateView', function() {
     let view;
     let tbCompileFn;
     let queues;

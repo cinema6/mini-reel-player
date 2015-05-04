@@ -21,6 +21,8 @@ describe('VimeoPlayer', function() {
 
             expect(iframe.tagName).toBe('IFRAME');
 
+            super();
+
             this.call = jasmine.createSpy('player.call()')
                 .and.returnValue(new RunnerPromise(() => {}));
             this.destroy = jasmine.createSpy('player.destroy()');

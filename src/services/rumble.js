@@ -14,6 +14,8 @@ let rumble;
 
 class Player extends EventEmitter {
     constructor(iframe) {
+        super();
+
         _(this).pending = {};
         _(this).iframe = iframe;
 

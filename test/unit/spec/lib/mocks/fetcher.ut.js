@@ -1,9 +1,9 @@
-describe('mock fetcher', function() {
-    import RunnerPromise from '../../../../../lib/RunnerPromise.js';
-    import mockFetcher from '../../../../../lib/mocks/fetcher.js';
-    import fetcher from '../../../../../.tmp/lib-real/fetcher.js';
-    import global from '../../../../../lib/global.js';
+import RunnerPromise from '../../../../../lib/RunnerPromise.js';
+import mockFetcher from '../../../../../lib/mocks/fetcher.js';
+import fetcher from '../../../../../.tmp/lib-real/fetcher.js';
+import global from '../../../../../lib/global.js';
 
+describe('mock fetcher', function() {
     beforeEach(function() {
         mockFetcher.constructor();
     });

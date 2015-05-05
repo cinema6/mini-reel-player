@@ -1,7 +1,9 @@
 # MiniReel Player 2.0
 
-* *[v0.10.0]*
+* *[v0.10.0-rc1]*
   * [FIX]: For mobile landscape player, fixed a bug where the ad countdown timer would render on top of the close button
+  * [HACK]: Hack in support for an auto-generated sponsored card
+    slideshow
 
 ## v0.9.0 (April 30, 2015)
 * *[v0.9.0-rc3]*

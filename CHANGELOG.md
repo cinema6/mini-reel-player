@@ -1,9 +1,7 @@
 # MiniReel Player 2.0
 
-## v0.9.1
-* *[v0.9.1]*
+* *[v0.10.0]*
   * [FIX]: For mobile landscape player, fixed a bug where the ad countdown timer would render on top of the close button
-* *[/v0.9.1]*
 
 ## v0.9.0 (April 30, 2015)
 * *[v0.9.0-rc3]*

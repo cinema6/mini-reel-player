@@ -7,6 +7,7 @@ import VPAIDPlayer from '../../../src/players/VPAIDPlayer.js';
 import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../../../src/players/EmbeddedPlayer.js';
 import RumblePlayer from '../../../src/players/RumblePlayer.js';
+import SlideshowBobPlayer from '../../../src/players/SlideshowBobPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -104,6 +105,23 @@ describe('playerFactory', function() {
 
                 it('should be a RumblePlayer', function() {
                     expect(result).toEqual(jasmine.any(RumblePlayer));
+                });
+            });
+
+            describe('if the card is from slideshow-bob', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'slideshow-bob',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a SlideshowBobPlayer', function() {
+                    expect(result).toEqual(jasmine.any(SlideshowBobPlayer));
                 });
             });
 

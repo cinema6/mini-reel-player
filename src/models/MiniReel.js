@@ -20,6 +20,7 @@ import EmbeddedVideoCard from './EmbeddedVideoCard.js';
 import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
+import SlideshowBobCard from './SlideshowBobCard.js';
 
 const _ = createKey();
 
@@ -41,6 +42,8 @@ function initialize(minireel, { experience, standalone, profile }) {
             return new EmbeddedVideoCard(card, experience, profile);
         case 'displayAd':
             return new DisplayAdCard(card, experience, profile);
+        case 'slideshow-bob':
+            return new SlideshowBobCard(card, experience, profile);
         default:
             return new VideoCard(card, experience, profile);
         }

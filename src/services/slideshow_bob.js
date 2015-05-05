@@ -2,11 +2,9 @@ import { EventEmitter } from 'events';
 import { createKey } from 'private-parts';
 import urlParser from './url_parser.js';
 import Runner from '../../lib/Runner.js';
-import environment from '../environment.js';
 import {
     map,
-    reduce,
-    filter
+    reduce
 } from '../../lib/utils.js';
 
 function objectify(query) {
@@ -32,23 +30,17 @@ function objectify(query) {
     );
 }
 
-function objectWithout(object, props) {
-    return reduce(filter(Object.keys(object), key => props.indexOf(key) < 0), (result, key) => {
-        result[key] = object[key];
-        return result;
-    }, {});
-}
-
 const _ = createKey({
     delegateMessage: function(event) {
-        const hostname = urlParser.parse(event.origin).hostname;
+        const data = (() => {
+            try { return JSON.parse(event.data); } catch(e) { return {}; }
+        }());
+        const player = this.players[data.id];
 
-        if (hostname !== environment.apiRoot) { return; }
-
-        const data = objectify(event.data);
+        if (!player) { return; }
 
         Runner.run(() => {
-            this.players[data.id].emit(data.event, objectWithout(data, ['id', 'event']));
+            player.emit(data.event, data.data);
         });
     }
 });
@@ -72,10 +64,12 @@ class Player extends EventEmitter {
         _(this).iframe = iframe;
     }
 
-    call(...args) {
+    call(method, ...args) {
         const playerWindow = _(this).iframe.contentWindow;
 
-        playerWindow.postMessage(map(args, encodeURIComponent).join('='), '*');
+        playerWindow.postMessage(JSON.stringify({
+            method, args
+        }), '*');
     }
 
     destroy() {

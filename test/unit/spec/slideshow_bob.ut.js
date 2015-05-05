@@ -66,7 +66,10 @@ describe('bob', function() {
                     });
 
                     it('should post a message to the iframe', function() {
-                        expect(postMessage).toHaveBeenCalledWith('play', '*');
+                        expect(postMessage).toHaveBeenCalledWith(JSON.stringify({
+                            method: 'play',
+                            args: []
+                        }), '*');
                     });
                 });
 
@@ -76,7 +79,10 @@ describe('bob', function() {
                     });
 
                     it('should post a message with data to the iframe', function() {
-                        expect(postMessage).toHaveBeenCalledWith('seek=1.34', '*');
+                        expect(postMessage).toHaveBeenCalledWith(JSON.stringify({
+                            method: 'seek',
+                            args: [1.34]
+                        }), '*');
                     });
                 });
             });
@@ -88,15 +94,6 @@ describe('bob', function() {
                     messageHandler = global.addEventListener.calls.mostRecent().args[1];
                     spyOn(player, 'removeAllListeners').and.callThrough();
                     player.destroy();
-                });
-
-                it('should not hold references to the player anymore', function() {
-                    expect(function() {
-                        messageHandler({
-                            origin: 'http://funkytown.com',
-                            data: 'id=foo23&event=play'
-                        });
-                    }).toThrow();
                 });
 
                 it('should remove all of the player\'s listeners', function() {
@@ -112,13 +109,7 @@ describe('bob', function() {
                     event.initEvent('message');
 
                     event.origin = 'http://funkytown.com';
-                    event.data = Object.keys(data)
-                        .map(function(key) {
-                            return [key, data[key]]
-                                .map(encodeURIComponent)
-                                .join('=');
-                        })
-                        .join('&');
+                    event.data = JSON.stringify(data);
 
                     global.dispatchEvent(event);
                 }
@@ -160,13 +151,15 @@ describe('bob', function() {
                 it('should make the player emit the event', function() {
                     trigger({
                         id: 'foo23',
-                        event: 'ready'
+                        event: 'ready',
+                        data: {}
                     });
                     expect(readySpy).toHaveBeenCalledWith({});
 
                     trigger({
                         id: 'foo23',
-                        event: 'play'
+                        event: 'play',
+                        data: {}
                     });
                     expect(playSpy).toHaveBeenCalledWith({});
                 });

@@ -1,9 +1,7 @@
 import CorePlayer from './CorePlayer.js';
 import bob from '../services/slideshow_bob.js';
-import fetcher from '../../lib/fetcher.js';
 import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
-import media from '../services/media.js';
 import {
     map
 } from '../../lib/utils.js';
@@ -68,15 +66,12 @@ export default class SlideshowBobPlayer extends CorePlayer {
     }
 
     play() {
-        const { state: { ready, hasPlayed } } = _(this);
+        const { state: { ready } } = _(this);
         this.load();
 
-        const callPlay = (() => {
+        const play = (() => {
             this.emit('attemptPlay');
             _(this).video.call('play');
-        });
-        const play = (() => {
-            return callPlay();
         });
 
         if (ready) { play(); } else { this.once('canplay', play); }
@@ -112,7 +107,7 @@ export default class SlideshowBobPlayer extends CorePlayer {
         _(this).state.controls = this.controls;
 
         const iframe = _(this).iframe = document.createElement('iframe');
-        iframe.src = `//${environment.apiRoot}/apps/sideshow-bob/?` + toParams([
+        iframe.src = `${environment.apiRoot}/apps/slideshow-bob/index.html?` + toParams([
             ['id', this.id],
         ]);
         iframe.setAttribute('width', '100%');
@@ -124,17 +119,18 @@ export default class SlideshowBobPlayer extends CorePlayer {
 
         const video = _(this).video = new bob.Player(iframe);
         video.on('ready', () => {
+            video.call('load', JSON.parse(this.src));
             _(this).state.ready = true;
             _(this).state.readyState = 3;
             this.emit('canplay');
         });
-        
+
         video.on('play', () => {
             _(this).state.hasPlayed = true;
             _(this).state.paused = false;
             this.emit('play');
         });
-        
+
         video.on('pause', () => {
             _(this).state.paused = true;
             this.emit('pause');

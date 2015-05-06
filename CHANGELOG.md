@@ -4,6 +4,7 @@
 * *[v0.10.0-rc2]*
   * [FIX]: Remove unnecessary UI elements from mobile player when
     showing a single-video MiniReel
+* *[/v0.10.0-rc2]*
 
 * *[v0.10.0-rc1]*
   * [FIX]: For mobile landscape player, fixed a bug where the ad countdown timer would render on top of the close button

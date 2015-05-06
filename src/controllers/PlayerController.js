@@ -103,6 +103,7 @@ export default class PlayerController extends Controller {
             ),
             hasLinks: !!(links.Website || socialLinks.length > 0),
             totalCards: minireel.length,
+            isSolo: minireel.length === 1,
 
             cardType: currentCard && currentCard.type,
             currentCardNumber: (minireel.currentIndex + 1).toString(),

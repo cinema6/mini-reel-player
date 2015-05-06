@@ -8,7 +8,8 @@
             class="brandProfile__logoBox brandProfile__logoBox--landscape">
             <img class="brandProfile__logo brandProfile__logo--landscape" alt="{{sponsor}}" src="{{logo}}">
         </a>
-        <button data-view="landscapePreviousButton:NavButtonView"
+        <button data-unless="isSolo"
+            data-view="landscapePreviousButton:NavButtonView"
             data-target="controller" data-action="previous"
             title="Previous Video"
             type="button"
@@ -26,13 +27,14 @@
             </span>
         </button>
 
-        <p class="nav__counter nav__counter--landscape">
+        <p data-unless="isSolo" class="nav__counter nav__counter--landscape">
             <span>{{currentCardNumber}} of {{totalCards}}</span>
         </p>
     </div><!--.navBarLeft__group-->
 
     <div class="navBarRight__group css-promote">
-        <button data-view="tocButton:TOCButtonView"
+        <button data-unless="isSolo"
+            data-view="tocButton:TOCButtonView"
             data-target="controller" data-action="toggleToc"
             class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn--landscape"
             title="View Table of Contents"
@@ -41,7 +43,8 @@
             <span class="spriteBe uiIconsBe uiIconsBe--toc">&nbsp;</span>
         </button>
 
-        <button data-view="landscapeNextButton:NavButtonView"
+        <button data-unless="isSolo"
+            data-view="landscapeNextButton:NavButtonView"
             data-target="controller" data-action="next"
             title="Next Video"
             type="button"
@@ -97,12 +100,12 @@
             </span>
             <span class="sprite sprite--close">&nbsp;</span>
         </button>
-        <p class="nav__counter">
+        <p data-unless="isSolo" class="nav__counter">
             <span>{{currentCardNumber}} of {{totalCards}}</span>
         </p>
     </div><!--.headerBar__group-->
 
-    <div class="navBar__group css-promote">
+    <div data-unless="isSolo" class="navBar__group css-promote">
         <div data-view="skipTimer:SkipTimerView" class="adSkip__group">
             <p class="adSkip__message"><strong>Skip in {{remaining}}</strong></p>
         </div>
@@ -152,7 +155,7 @@
     </div><!--.ui-control-->
 
 
-    <article class="cards__group">
+    <article class="cards__group" data-class="isSolo:cards__group--solo">
         <div data-if="sponsor" class="brandedMR__tagline tk--copy">
             <a ng-href="{{website}}"
                 target="_blank"

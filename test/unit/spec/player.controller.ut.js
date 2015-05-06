@@ -452,7 +452,8 @@ describe('PlayerController', function() {
                     currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
                     canGoForward: jasmine.any(Boolean),
                     canGoBack: jasmine.any(Boolean),
-                    cardType: PlayerCtrl.minireel.currentCard.type
+                    cardType: PlayerCtrl.minireel.currentCard.type,
+                    isSolo: jasmine.any(Boolean)
                 });
             });
 
@@ -559,6 +560,46 @@ describe('PlayerController', function() {
                     it('should be false', function() {
                         expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
                             isSponsored: false
+                        }));
+                    });
+                });
+            });
+
+            describe('isSolo', function() {
+                let minireel;
+                let view;
+
+                beforeEach(function() {
+                    minireel = PlayerCtrl.minireel;
+                    view = PlayerCtrl.view;
+
+                    view.update.calls.reset();
+                });
+
+                describe('if the minireel has more than one slides', function() {
+                    beforeEach(function() {
+                        minireel.length = 2;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be false', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            isSolo: false
+                        }));
+                    });
+                });
+
+                describe('if the minireel has only one slide', function() {
+                    beforeEach(function() {
+                        minireel.length = 1;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            isSolo: true
                         }));
                     });
                 });

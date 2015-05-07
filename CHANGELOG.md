@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.11.0-rc1]*
+  * [FEATURE]: Add support for MiniReel studio preview modal
+
 ## v0.10.0 (May 5, 2015)
 * *[v0.10.0-rc2]*
   * [FIX]: Remove unnecessary UI elements from mobile player when

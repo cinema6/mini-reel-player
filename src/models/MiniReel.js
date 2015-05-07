@@ -10,7 +10,8 @@ import adtech from '../services/adtech.js';
 import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
-    forEach
+    forEach,
+    find
 } from '../../lib/utils.js';
 
 import TextCard from './TextCard.js';
@@ -124,6 +125,7 @@ export default class MiniReel extends EventEmitter {
                     dispatcher.addClient(JumpRampHandler );
                 }
             });
+            session.on('showCard', id => this.moveTo(find(this.deck, card => card.id === id)));
         });
 
         this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));

@@ -1415,6 +1415,24 @@ describe('MiniReel', function() {
         });
     });
 
+    describe('when the session pings "showCard"', function() {
+        beforeEach(function() {
+            minireel.deck = [
+                { id: 'rc-a559bb3015e2f5' },
+                { id: 'rc-8a38720e81e1d1' },
+                { id: 'rc-cc22c2f8a3466b' },
+                { id: 'rc-835de0eb246c56' }
+            ];
+            spyOn(minireel, 'moveTo');
+
+            session.emit('showCard', minireel.deck[1].id);
+        });
+
+        it('should call moveTo() with the card with said id', function() {
+            expect(minireel.moveTo).toHaveBeenCalledWith(minireel.deck[1]);
+        });
+    });
+
     describe('when the session pings "initAnalytics" with container != jumpramp', function() {
         let config;
 

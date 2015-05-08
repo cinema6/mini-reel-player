@@ -6,8 +6,14 @@ import {
 } from '../../lib/utils.js';
 
 export default class ADTECHHandler extends BillingHandler {
-    constructor() {
+    constructor(register) {
         super(...arguments);
+
+        register(({ target: minireel }) => {
+            const { launchUrls } = minireel.campaign;
+
+            if (launchUrls) { imageLoader.load(...map(launchUrls, completeUrl)); }
+        }, 'navigation', 'launch');
 
         this.on('AdClick', card => {
             const {clickUrls} = card.campaign;

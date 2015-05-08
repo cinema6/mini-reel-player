@@ -30,6 +30,7 @@ function initialize(minireel, { experience, standalone, profile }) {
     minireel.id = experience.id;
     minireel.title = experience.data.title;
     minireel.branding = experience.data.branding;
+    minireel.campaign = experience.data.campaign;
     minireel.splash = experience.data.collateral.splash;
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
@@ -88,6 +89,7 @@ export default class MiniReel extends EventEmitter {
         this.id = null;
         this.title = null;
         this.branding = null;
+        this.campaign = null;
         this.splash = null;
         this.deck = [];
         this.prerollCard = null;
@@ -132,7 +134,7 @@ export default class MiniReel extends EventEmitter {
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
-        dispatcher.addSource('navigation', this, ['move', 'close', 'error']);
+        dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error']);
     }
 
     moveToIndex(index) {

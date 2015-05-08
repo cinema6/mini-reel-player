@@ -286,6 +286,7 @@ describe('PlayerController', function() {
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new RecapCard({}, experience, profile, PlayerCtrl.minireel)
                     ];
+                    PlayerCtrl.minireel.campaign = {};
 
                     Runner.run(() => PlayerCtrl.minireel.emit('init'));
 

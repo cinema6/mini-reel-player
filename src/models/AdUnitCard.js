@@ -1,8 +1,5 @@
 import VideoCard from './VideoCard.js';
-import environment from '../environment.js';
-import {
-    reduce
-} from '../../lib/utils.js';
+import completeUrl from '../fns/complete_url.js';
 
 export default class AdUnitCard extends VideoCard {
     constructor(card, experience, profile) {
@@ -13,15 +10,6 @@ export default class AdUnitCard extends VideoCard {
     }
 
     getSrc() {
-        const { debug, href, guid } = environment;
-        const data = [
-            ['pageUrl', debug ? 'mutantplayground.com' : href],
-            ['cachebreaker', Date.now()],
-            ['guid', guid]
-        ];
-
-        return reduce(data, (result, [key, value]) => {
-            return result.replace(new RegExp(`{${key}}`, 'g'), encodeURIComponent(value));
-        }, this.data.videoid || '');
+        return completeUrl(this.data.videoid);
     }
 }

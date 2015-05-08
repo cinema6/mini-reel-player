@@ -663,7 +663,7 @@ describe('MiniReel', function() {
 
     it('should add itself as a source', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel,
-            ['move','close','error']);
+            ['launch','move','close','error']);
     });
 
     describe('properties:', function() {
@@ -688,6 +688,12 @@ describe('MiniReel', function() {
         describe('branding', function() {
             it('should be null', function() {
                 expect(minireel.branding).toBeNull();
+            });
+        });
+
+        describe('campaign', function() {
+            it('should be null', function() {
+                expect(minireel.campaign).toBeNull();
             });
         });
 
@@ -1501,6 +1507,10 @@ describe('MiniReel', function() {
 
         it('should copy the branding', function() {
             expect(minireel.branding).toBe(experience.data.branding);
+        });
+
+        it('should copy the campaign', function() {
+            expect(minireel.campaign).toBe(experience.data.campaign);
         });
 
         it('should set the splash', function() {

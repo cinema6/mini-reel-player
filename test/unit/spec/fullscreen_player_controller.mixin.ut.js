@@ -50,6 +50,7 @@ describe('FullscreenPlayerController', function() {
                             };
                             Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, { flash: false }, Ctrl.minireel);
                             Ctrl.minireel.deck = [];
+                            Ctrl.minireel.campaign = {};
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
 

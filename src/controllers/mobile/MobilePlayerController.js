@@ -34,10 +34,11 @@ export default class MobilePlayerController extends PlayerController {
         const {minireel} = this;
         const nextCard = minireel.deck[minireel.currentIndex + 1];
         const prevCard = minireel.deck[minireel.currentIndex - 1];
-        const { standalone } = minireel;
+        const { standalone, currentIndex, length } = minireel;
 
         this.view.update({
             closeable: !standalone,
+            header: (currentIndex !== null) ? `${currentIndex + 1} of ${length}` : 'Ad',
             thumbs: {
                 next: (nextCard && nextCard.thumbs.small) || null,
                 previous: (prevCard && prevCard.thumbs.small) || null

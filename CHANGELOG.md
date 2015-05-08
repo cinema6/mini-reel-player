@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v0.11.0 (May 8, 2015)
 * *[v0.11.0-rc1]*
   * [FEATURE]: Add support for MiniReel studio preview modal
   * [FEATURE]: Add support for autoplaying VAST videos in the first card
@@ -7,6 +8,7 @@
   * [FIX]: Fix for an issue where the mobile player header bar printed
     "1 of x" instead of "Ad"
   * [FIX]: Fix for an issue that caused the VPAID player to never load
+* *[/v0.11.0-rc1]*
 
 ## v0.10.0 (May 5, 2015)
 * *[v0.10.0-rc2]*

@@ -1,6 +1,13 @@
 # MiniReel Player 2.0
 
 ## v0.11.0 (May 8, 2015)
+* *[v0.11.0-rc2]*
+  * [FIX]: Fix for an issue that could cause tracking pixels to be fired
+    without cachebusting
+  * [FEATURE]: Add support for firing tracking pixels when the MiniReel
+    is launched
+* *[/v0.11.0-rc2]*
+
 * *[v0.11.0-rc1]*
   * [FEATURE]: Add support for MiniReel studio preview modal
   * [FEATURE]: Add support for autoplaying VAST videos in the first card

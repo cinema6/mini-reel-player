@@ -2,6 +2,11 @@
 
 * *[v0.11.0-rc1]*
   * [FEATURE]: Add support for MiniReel studio preview modal
+  * [FEATURE]: Add support for autoplaying VAST videos in the first card
+    slot on mobile
+  * [FIX]: Fix for an issue where the mobile player header bar printed
+    "1 of x" instead of "Ad"
+  * [FIX]: Fix for an issue that caused the VPAID player to never load
 
 ## v0.10.0 (May 5, 2015)
 * *[v0.10.0-rc2]*

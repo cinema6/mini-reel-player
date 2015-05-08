@@ -179,8 +179,10 @@ describe('MobilePlayerController', function() {
                         }
                     })
                 ];
+                MobilePlayerCtrl.minireel.prerollCard = new Card({});
                 MobilePlayerCtrl.minireel.length = 5;
                 MobilePlayerCtrl.minireel.currentIndex = 3;
+                MobilePlayerCtrl.minireel.currentCard = MobilePlayerCtrl.minireel.deck[3];
 
                 MobilePlayerCtrl.updateView();
             });
@@ -192,10 +194,27 @@ describe('MobilePlayerController', function() {
             it('should update its view', function() {
                 expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith({
                     closeable: !MobilePlayerCtrl.minireel.standalone,
+                    header: '4 of 5',
                     thumbs: {
                         next: 'fifth-thumb.jpg',
                         previous: 'third-thumb.jpg'
                     }
+                });
+            });
+
+            describe('if the currentCard is the prerollCard', function() {
+                beforeEach(function() {
+                    MobilePlayerCtrl.view.update.calls.reset();
+                    MobilePlayerCtrl.minireel.currentIndex = null;
+                    MobilePlayerCtrl.minireel.currentCard = MobilePlayerCtrl.minireel.prerollCard;
+
+                    MobilePlayerCtrl.updateView();
+                });
+
+                it('should make the header "Ad"', function() {
+                    expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        header: 'Ad'
+                    }));
                 });
             });
 

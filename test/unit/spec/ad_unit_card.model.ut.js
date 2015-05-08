@@ -1,6 +1,6 @@
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
-import environment from '../../../src/environment.js';
+import completeUrl from '../../../src/fns/complete_url.js';
 
 describe('AdUnitCard', function() {
     let card;
@@ -9,8 +9,6 @@ describe('AdUnitCard', function() {
     let profile;
 
     beforeEach(function() {
-        environment.constructor();
-
         experience = {
             data: {}
         };
@@ -61,10 +59,6 @@ describe('AdUnitCard', function() {
         };
 
         card = new AdUnitCard(data, experience, profile);
-    });
-
-    afterAll(function() {
-        environment.constructor();
     });
 
     it('should be a VideoCard', function() {
@@ -150,7 +144,6 @@ describe('AdUnitCard', function() {
             beforeEach(function() {
                 jasmine.clock().install();
                 jasmine.clock().mockDate();
-                environment.debug = false;
 
                 card.data.videoid = '//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0;ord={cachebreaker};dcmt=text/xml;url={pageUrl};id={guid};cb={cachebreaker}';
             });
@@ -159,24 +152,8 @@ describe('AdUnitCard', function() {
                 jasmine.clock().uninstall();
             });
 
-            it('should be the videoid with the dynamic segments replaced', function() {
-                expect(card.getSrc()).toBe(
-                    `//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0` +
-                    `;ord=${encodeURIComponent(Date.now())};dcmt=text/xml;url` +
-                    `=${encodeURIComponent(environment.href)};id` +
-                    `=${encodeURIComponent(environment.guid)};cb=${encodeURIComponent(Date.now())}`
-                );
-            });
-
-            describe('if in debug mode', function() {
-                beforeEach(function() {
-                    environment.debug = true;
-                    card.data.videoid = '{pageUrl}';
-                });
-
-                it('should set the pageUrl to "mutantplayground.com"', function() {
-                    expect(card.getSrc()).toBe(encodeURIComponent('mutantplayground.com'));
-                });
+            it('should be the videoid passed through the completeUrl() function', function() {
+                expect(card.getSrc()).toBe(completeUrl(card.data.videoid));
             });
         });
     });

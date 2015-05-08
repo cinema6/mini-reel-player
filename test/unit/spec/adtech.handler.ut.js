@@ -4,6 +4,7 @@ import dispatcher from '../../../src/services/dispatcher.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import imageLoader from '../../../src/services/image_loader.js';
+import completeUrl from '../../../src/fns/complete_url.js';
 
 describe('ADTECHHandler', function() {
     let card;
@@ -37,8 +38,8 @@ describe('ADTECHHandler', function() {
             collateral: {},
             campaign: {
                 minViewTime: 7,
-                clickUrls: ['img1.jpg', 'img2.jpg'],
-                countUrls: ['img3.jpg', 'img4.jpg']
+                clickUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
+                countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}']
             }
         }, experience);
 
@@ -60,7 +61,8 @@ describe('ADTECHHandler', function() {
         });
 
         it('should load the clickUrls', function() {
-            expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.clickUrls);
+            const urls = card.campaign.clickUrls.map(completeUrl);
+            expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 
         describe('if there are no click urls', function() {
@@ -84,7 +86,8 @@ describe('ADTECHHandler', function() {
         });
 
         it('should fire the pixels', function() {
-            expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.countUrls);
+            const urls = card.campaign.countUrls.map(completeUrl);
+            expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 
         describe('if there are no countUrls', function() {

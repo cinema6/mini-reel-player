@@ -14,12 +14,16 @@ function makeCardState(shown) {
 animator.on('card:show', function(card, done) {
     currentCard = card;
     const element = card.element;
+    const cardgroup = element.getElementsByClassName('card__group');
+    console.log(cardgroup);
 
     showAnimation = new TimelineLite().set(element, {
         display: '',
         opacity: 0
     }).to(element, 0.5, {
         opacity: 1
+    }).to(cardgroup, 0.5, {
+        opacity: 0.5
     }).call(function() {
         showAnimation = null;
     }).call(done);

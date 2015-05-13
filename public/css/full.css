@@ -347,8 +347,8 @@
         .playlist__group--noAds {
             bottom:0.75em;
         }
-        @media screen and (max-height:25rem) {
-            /*  h: 0 - 400px */
+        @media screen and (max-height:31.25rem) {
+            /*  h: 0 - 500px */
             .playlist__group {
                 width:14.75em;
             }
@@ -525,8 +525,8 @@
         top:4em; right:20.25em; bottom:0.75em; left:0.75em;
         overflow: hidden;
     }
-        @media screen and (max-height:25rem) {
-            /*  h: 0 - 400px */
+        @media screen and (max-height:31.25rem) {
+            /*  h: 0 - 500px */
             .cards__list {
                 right:16.25em;
             }
@@ -622,8 +622,8 @@
             padding:0; margin:0.125rem 0 0 0; 
             line-height:1;
         }
-            @media screen and (max-height:25rem) {
-                /*  h: 0 - 400px */
+            @media screen and (max-height:31.25rem) {
+            /*  h: 0 - 500px */
                 .card__title {
                     font-size:1.25em;/*20px*/ 
                 }
@@ -759,8 +759,8 @@
             .mr-card__container--ad .slideNav__btn--next {
                 right:18.75rem;
             }
-            @media screen and (max-height:25rem) {
-                /*  h: 0 - 400px */
+            @media screen and (max-height:31.25rem) {
+            /*  h: 0 - 500px */
                 .slideNav__btn--next {
                     right:16.25em;
                 }

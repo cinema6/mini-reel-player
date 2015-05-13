@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.12.2 (May 13, 2015)
+* *[v0.12.2-rc1]*
+  * [FIX]: Fix for an issue that caused text to appear squished on a
+    sponsored card if there was no call to action
+* *[/v0.12.2-rc1]*
+
 ## v0.12.1 (May 13, 2015)
 * *[v0.12.1-rc1]*
   * [FIX]: Updated Full Player template tiny windows code to expand min-height

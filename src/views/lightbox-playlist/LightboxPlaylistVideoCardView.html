@@ -23,7 +23,7 @@
             target="_blank" title="{{sponsor}}" class="sponsorProfile__imgBox">
                 <img src="{{logo}}" alt="{{sponsor}}" class="sponsorProfile__img">
             </a>
-            <div class="sponsorProfile__copy" data-class="action:sponsorProfile__copy--hasActions" data-if="hasSponsoredCopy">
+            <div class="sponsorProfile__copy" data-class="action.label:sponsorProfile__copy--hasActions" data-if="hasSponsoredCopy">
                 <h1 class="card__title tk--hdr">
                     {{title}}
                 </h1>
@@ -41,7 +41,7 @@
                     </a>
                 </div>
             </div>
-            <div class="card__desc sponsor__actions" data-if="action">
+            <div class="card__desc sponsor__actions" data-if="action.label">
                 <a data-if="action.isText" title="{{action.label}}" target="_blank" href="{{action.href}}" class="textLink">
                     {{action.label}}
                 </a>

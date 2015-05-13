@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.12.1 (May 13, 2015)
+* *[v0.12.1-rc1]*
+  * [FIX]: Updated Full Player template tiny windows code to expand min-height
+    requirements from 400px to 500px tall
+* *[/v0.12.1-rc1]*
+
 ## v0.12.0 (May 13, 2015)
 * *[v0.12.0-rc1]*
   * [FIX]: Created Full Player template styles for better rendering inside tiny windows (smaller than 400px tall)

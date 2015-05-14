@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.12.3 (May 14, 2015)
+* *[v0.12.3-rc1]*
+  * [FIX]: Fix for an issue that caused the player not to load in IE <
+    10
+* *[/v0.12.3-rc1]*
+
 ## v0.12.2 (May 13, 2015)
 * *[v0.12.2-rc1]*
   * [FIX]: Fix for an issue that caused text to appear squished on a

@@ -1,4 +1,4 @@
-import 'babel-core/external-helpers';
+import '../ext/external-helpers.js';
 import { Promise } from 'es6-promise';
 import WeakMap from 'weak-map';
 import 'whatwg-fetch';

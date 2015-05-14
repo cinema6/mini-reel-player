@@ -57,6 +57,8 @@ module.exports = function(grunt) {
         var withTests = config === 'tdd';
         target = target || 'app';
 
+        grunt.task.run('babelhelpers:build');
+
         if (withTests) {
             grunt.task.run('clean:test');
             grunt.task.run('copy:test');
@@ -77,6 +79,7 @@ module.exports = function(grunt) {
      *********************************************************************************************/
 
     grunt.registerTask('test:unit', 'run unit tests', function() {
+        grunt.task.run('babelhelpers:build');
         grunt.task.run('resetbrowserify');
         grunt.task.run('clean:test');
         grunt.task.run('copy:test');
@@ -106,6 +109,7 @@ module.exports = function(grunt) {
     grunt.registerTask('tdd', 'run unit tests whenever files change', function(target) {
         target = target || 'app';
 
+        grunt.task.run('babelhelpers:build');
         grunt.task.run('clean:test');
         grunt.task.run('copy:test');
         grunt.task.run('karma:tdd:' + target);
@@ -120,6 +124,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', 'build app into distDir', [
         'test:unit',
         'git_describe_tags',
+        'babelhelpers:build',
         'clean:build',
         'copy:tmp',
         'htmlmin:tmp',

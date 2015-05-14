@@ -19,6 +19,14 @@ module.exports = {
             },
             {
                 expand: true,
+                cwd: 'ext',
+                src: [
+                    '**/*.js'
+                ],
+                dest: '.tmp/ext'
+            },
+            {
+                expand: true,
                 cwd: 'public',
                 src: [
                     '**/*.{png,jpg,jpeg,gif,webp,svg,swf}'

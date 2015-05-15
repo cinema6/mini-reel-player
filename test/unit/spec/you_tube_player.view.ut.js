@@ -1099,8 +1099,13 @@ describe('YouTubePlayer', function() {
                 describe('when the video ends', function() {
                     let ended;
                     let pause;
+                    let timeupdate;
 
                     beforeEach(function() {
+                        fetcher.flush();
+                        jasmine.clock().tick(1);
+                        jasmine.clock().tick(1);
+
                         config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
 
                         ended = jasmine.createSpy('ended()');
@@ -1108,6 +1113,9 @@ describe('YouTubePlayer', function() {
 
                         pause = jasmine.createSpy('pause()');
                         player.on('pause', pause);
+
+                        timeupdate = jasmine.createSpy('timeupdate()');
+                        player.on('timeupdate', timeupdate);
 
                         config.events.onStateChange({ data: youtube.PlayerState.ENDED });
                     });
@@ -1122,6 +1130,14 @@ describe('YouTubePlayer', function() {
 
                     it('should set ended to true', function() {
                         expect(player.ended).toBe(true);
+                    });
+
+                    it('should set the currentTime to the duration', function() {
+                        expect(player.currentTime).toBe(player.duration);
+                    });
+
+                    it('should emit timeupdate', function() {
+                        expect(timeupdate).toHaveBeenCalled();
                     });
 
                     it('should emit "ended"', function() {

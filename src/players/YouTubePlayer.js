@@ -5,6 +5,7 @@ import fetcher from '../../lib/fetcher.js';
 import timer from '../../lib/timer.js';
 import browser from '../../src/services/browser.js';
 import Runner from '../../lib/Runner.js';
+import { stringify } from 'querystring';
 import {
     map,
     reduce,
@@ -61,6 +62,7 @@ export default class YouTubePlayer extends CorePlayer {
         this.start = null;
         this.end = null;
         this.autoplay = false;
+        this.controls = true;
 
         _(this).state = extend(CLEAN_STATE, {
             src: null,
@@ -173,9 +175,16 @@ export default class YouTubePlayer extends CorePlayer {
         }
 
         const iframe = _(this).iframe = document.createElement('iframe');
+        const params = {
+            html5: 1,
+            wmode: 'opaque',
+            rel: 0,
+            enablejsapi: 1,
+            playsinline: 1,
+            controls: Number(this.controls)
+        };
         iframe.setAttribute('data-videoid', this.src);
-        iframe.src = `https://www.youtube.com/embed/${this.src}` +
-            `?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1`;
+        iframe.src = `https://www.youtube.com/embed/${this.src}?${stringify(params)}`;
 
         Runner.schedule('afterRender', null, () => {
             element.appendChild(iframe);

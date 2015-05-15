@@ -236,6 +236,12 @@ describe('YouTubePlayer', function() {
                 expect(player.autoplay).toBe(false);
             });
         });
+
+        describe('controls', function() {
+            it('should be true', function() {
+                expect(player.controls).toBe(true);
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -642,7 +648,47 @@ describe('YouTubePlayer', function() {
             });
 
             it('should set the iframe src based on the player src', function() {
-                expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1`);
+                expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1&controls=1`);
+            });
+
+            describe('if controls is false', function() {
+                beforeEach(function() {
+                    player = new YouTubePlayer();
+                    player.src = 'DcylVx2ex78';
+                    player.controls = false;
+
+                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                        /* jshint quotmark:double */
+                        .respond(200, {
+                            "kind": "youtube#videoListResponse",
+                            "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
+                            "pageInfo": {
+                                "totalResults": 1,
+                                "resultsPerPage": 1
+                            },
+                            "items": [
+                                {
+                                    "kind": "youtube#video",
+                                    "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
+                                    "id": "DcylVx2ex78",
+                                    "contentDetails": {
+                                        "duration": "PT7M5S",
+                                        "dimension": "2d",
+                                        "definition": "hd",
+                                        "caption": "false",
+                                        "licensedContent": true
+                                    }
+                                }
+                            ]
+                        });
+                        /* jshint quotmark:single */
+
+                    Runner.run(() => player.load());
+                });
+
+                it('should set the iframe src with no controls', function() {
+                    expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1&controls=0`);
+                });
             });
 
             describe('when the api is ready', function() {

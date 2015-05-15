@@ -6,6 +6,8 @@ const _ = createKey();
 
 export default class CorePlayer extends View {
     constructor() {
+        super(...arguments);
+
         const events = [];
 
         const fireEventOnce = ((event, predicate) => {
@@ -14,8 +16,6 @@ export default class CorePlayer extends View {
                 events.push(event);
             }
         });
-
-        super(...arguments);
 
         this.tag = 'div';
         this.classes.push('playerBox');

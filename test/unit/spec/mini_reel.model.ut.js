@@ -1,6 +1,7 @@
 import MiniReel from '../../../src/models/MiniReel.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
+import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
 import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
@@ -659,6 +660,10 @@ describe('MiniReel', function() {
 
     it('should add the ADTECHHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(ADTECHHandler);
+    });
+
+    it('should add the PostMessageHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).toHaveBeenCalledWith(PostMessageHandler, window.parent.postMessage);
     });
 
     it('should add itself as a source', function() {

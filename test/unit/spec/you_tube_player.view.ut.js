@@ -758,6 +758,23 @@ describe('YouTubePlayer', function() {
                     expect(timeupdate).toHaveBeenCalled();
                 });
 
+                describe('when the video ends', function() {
+                    beforeEach(function() {
+                        fetcher.flush();
+                        jasmine.clock().tick(1);
+                        jasmine.clock().tick(1);
+
+                        ytPlayer.getCurrentTime.and.returnValue(player.duration - 0.2);
+                        config.events.onStateChange({ data: youtube.PlayerState.ENDED });
+                        jasmine.clock().tick(250);
+                    });
+
+                    it('should set the currentTime to the duration', function() {
+                        expect(timeupdate).toHaveBeenCalled();
+                        expect(player.currentTime).toBe(player.duration);
+                    });
+                });
+
                 describe('if there is a start time', function() {
                     beforeEach(function() {
                         player.start = 15;

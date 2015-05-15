@@ -212,7 +212,8 @@ export default class YouTubePlayer extends CorePlayer {
                             this.emit('canplay');
 
                             _(this).interval = timer.interval(() => {
-                                const currentTime = player.getCurrentTime();
+                                const currentTime = this.ended ?
+                                    this.duration : player.getCurrentTime();
                                 const {state} = _(this);
                                 const end = this.end || Infinity;
                                 const start = this.start || 0;

@@ -33,6 +33,14 @@ describe('YouTubePlayer', function() {
         });
     });
 
+    beforeAll(function() {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    });
+
+    afterAll(function() {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
+    });
+
     beforeEach(function(done) {
         const setInterval = global.setInterval;
 
@@ -1073,6 +1081,7 @@ describe('YouTubePlayer', function() {
 
                 describe('when the video ends', function() {
                     let ended;
+                    let pause;
 
                     beforeEach(function() {
                         config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
@@ -1080,11 +1089,18 @@ describe('YouTubePlayer', function() {
                         ended = jasmine.createSpy('ended()');
                         player.on('ended', ended);
 
+                        pause = jasmine.createSpy('pause()');
+                        player.on('pause', pause);
+
                         config.events.onStateChange({ data: youtube.PlayerState.ENDED });
                     });
 
                     it('should set paused to true', function() {
                         expect(player.paused).toBe(true);
+                    });
+
+                    it('should emit "pause"', function() {
+                        expect(pause).toHaveBeenCalled();
                     });
 
                     it('should set ended to true', function() {

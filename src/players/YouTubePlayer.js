@@ -266,6 +266,7 @@ export default class YouTubePlayer extends CorePlayer {
                                 state.paused = true;
                                 state.ended = true;
 
+                                this.emit('pause');
                                 this.emit('ended');
                                 break;
                             }

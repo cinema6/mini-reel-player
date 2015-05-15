@@ -199,6 +199,36 @@ export default class YouTubePlayer extends CorePlayer {
                 const {state} = _(this);
                 const playerStates = [];
 
+                const syncCurrentTime = (() => {
+                    const currentTime = this.ended ? this.duration : player.getCurrentTime();
+                    const {state} = _(this);
+                    const end = this.end || Infinity;
+                    const start = this.start || 0;
+
+                    if (currentTime === this.currentTime) { return; }
+
+                    if (!this.paused) {
+                        if (currentTime < (start - 2)) {
+                            player.seekTo(start);
+                        }
+
+                        if (currentTime >= end) {
+                            player.pauseVideo();
+                            state.ended = true;
+                            this.emit('ended');
+                        }
+                    }
+
+                    state.currentTime = Math.max(0, currentTime - start);
+                    this.emit('timeupdate');
+
+                    if (state.seeking && state.currentTime !== _(this).seekStart) {
+                        state.seeking = false;
+                        this.emit('seeked');
+                        _(this).seekStart = null;
+                    }
+                });
+
                 function interruptedByBuffer(STATE) {
                     return playerStates[0] === BUFFERING && playerStates[1] === STATE;
                 }
@@ -211,35 +241,7 @@ export default class YouTubePlayer extends CorePlayer {
                             _(this).state.readyState = 3;
                             this.emit('canplay');
 
-                            _(this).interval = timer.interval(() => {
-                                const currentTime = player.getCurrentTime();
-                                const {state} = _(this);
-                                const end = this.end || Infinity;
-                                const start = this.start || 0;
-
-                                if (currentTime === this.currentTime) { return; }
-
-                                if (!this.paused) {
-                                    if (currentTime < start) {
-                                        player.seekTo(start);
-                                    }
-
-                                    if (currentTime >= end) {
-                                        player.pauseVideo();
-                                        state.ended = true;
-                                        this.emit('ended');
-                                    }
-                                }
-
-                                state.currentTime = Math.max(0, currentTime - start);
-                                this.emit('timeupdate');
-
-                                if (state.seeking && state.currentTime !== _(this).seekStart) {
-                                    state.seeking = false;
-                                    this.emit('seeked');
-                                    _(this).seekStart = null;
-                                }
-                            }, 250);
+                            _(this).interval = timer.interval(syncCurrentTime, 250);
                         }),
 
                         onStateChange: event => Runner.run(() => {
@@ -266,6 +268,9 @@ export default class YouTubePlayer extends CorePlayer {
                                 state.paused = true;
                                 state.ended = true;
 
+                                syncCurrentTime();
+
+                                this.emit('pause');
                                 this.emit('ended');
                                 break;
                             }

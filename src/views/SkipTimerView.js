@@ -7,5 +7,11 @@ export default class SkipTimerView extends TemplateView {
             remaining: time.toString()
         });
     }
+
+    didCreateElement() {
+        super();
+
+        this.update('...');
+    }
 }
 SkipTimerView.mixin(Hideable); // jshint ignore:line

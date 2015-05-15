@@ -33,6 +33,14 @@ describe('YouTubePlayer', function() {
         });
     });
 
+    beforeAll(function() {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    });
+
+    afterAll(function() {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
+    });
+
     beforeEach(function(done) {
         const setInterval = global.setInterval;
 
@@ -750,6 +758,23 @@ describe('YouTubePlayer', function() {
                     expect(timeupdate).toHaveBeenCalled();
                 });
 
+                describe('when the video ends', function() {
+                    beforeEach(function() {
+                        fetcher.flush();
+                        jasmine.clock().tick(1);
+                        jasmine.clock().tick(1);
+
+                        ytPlayer.getCurrentTime.and.returnValue(player.duration - 0.2);
+                        config.events.onStateChange({ data: youtube.PlayerState.ENDED });
+                        jasmine.clock().tick(250);
+                    });
+
+                    it('should set the currentTime to the duration', function() {
+                        expect(timeupdate).toHaveBeenCalled();
+                        expect(player.currentTime).toBe(player.duration);
+                    });
+                });
+
                 describe('if there is a start time', function() {
                     beforeEach(function() {
                         player.start = 15;
@@ -821,18 +846,18 @@ describe('YouTubePlayer', function() {
                             config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
                         });
 
-                        it('should call seekTo() with the start time if the currentTime is less than the start time', function() {
+                        it('should call seekTo() with the start time if the currentTime is less than the start time - 2 seconds', function() {
                             ytPlayer.getCurrentTime.and.returnValue(10);
                             jasmine.clock().tick(250);
                             expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
                             ytPlayer.seekTo.calls.reset();
 
-                            ytPlayer.getCurrentTime.and.returnValue(14.99);
+                            ytPlayer.getCurrentTime.and.returnValue(12.99);
                             jasmine.clock().tick(250);
                             expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
                             ytPlayer.seekTo.calls.reset();
 
-                            ytPlayer.getCurrentTime.and.returnValue(15);
+                            ytPlayer.getCurrentTime.and.returnValue(13);
                             jasmine.clock().tick(250);
                             expect(ytPlayer.seekTo).not.toHaveBeenCalled();
                         });
@@ -1073,12 +1098,24 @@ describe('YouTubePlayer', function() {
 
                 describe('when the video ends', function() {
                     let ended;
+                    let pause;
+                    let timeupdate;
 
                     beforeEach(function() {
+                        fetcher.flush();
+                        jasmine.clock().tick(1);
+                        jasmine.clock().tick(1);
+
                         config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
 
                         ended = jasmine.createSpy('ended()');
                         player.on('ended', ended);
+
+                        pause = jasmine.createSpy('pause()');
+                        player.on('pause', pause);
+
+                        timeupdate = jasmine.createSpy('timeupdate()');
+                        player.on('timeupdate', timeupdate);
 
                         config.events.onStateChange({ data: youtube.PlayerState.ENDED });
                     });
@@ -1087,8 +1124,20 @@ describe('YouTubePlayer', function() {
                         expect(player.paused).toBe(true);
                     });
 
+                    it('should emit "pause"', function() {
+                        expect(pause).toHaveBeenCalled();
+                    });
+
                     it('should set ended to true', function() {
                         expect(player.ended).toBe(true);
+                    });
+
+                    it('should set the currentTime to the duration', function() {
+                        expect(player.currentTime).toBe(player.duration);
+                    });
+
+                    it('should emit timeupdate', function() {
+                        expect(timeupdate).toHaveBeenCalled();
                     });
 
                     it('should emit "ended"', function() {

@@ -1,6 +1,17 @@
 # MiniReel Player 2.0
 
 ## v0.13.0 (May 15, 2015)
+* *[v0.13.0-rc2]*
+  * [FIX]: Fix for an issue that caused ballots not to appear when a
+    YouTube video ends
+  * [FIX]: Fix for an issue that caused YouTube videos with a start time
+    to enter an inifite loop of the first second of video
+  * [FIX]: Fix for an issue that could cause YouTube videos that must be
+    watched in their entirety to never auto-advance
+  * [FIX]: Fix for an issue that caused the skip timer to display "Skip
+    in {{remaining}}" before counting down
+* *[/v0.13.0-rc2]*
+
 * *[v0.13.0-rc1]*
   * [FIX]: Fix for an issues that caused VAST videos not to autoplay on
     mobile when they should

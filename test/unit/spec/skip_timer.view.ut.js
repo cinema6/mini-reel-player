@@ -1,6 +1,7 @@
 import SkipTimerView from '../../../src/views/SkipTimerView.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
 import Hideable from '../../../src/mixins/Hideable.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('SkipTimerView', function() {
     let view;
@@ -30,6 +31,24 @@ describe('SkipTimerView', function() {
                     remaining: (5).toString()
                 });
             });
+        });
+    });
+
+    describe('didCreateElement()', function() {
+        beforeEach(function() {
+            spyOn(TemplateView.prototype, 'didCreateElement').and.callThrough();
+            view.tag = 'span';
+            spyOn(view, 'update').and.callThrough();
+
+            Runner.run(() => view.create());
+        });
+
+        it('should call super()', function() {
+            expect(TemplateView.prototype.didCreateElement).toHaveBeenCalled();
+        });
+
+        it('should update itself with elipses', function() {
+            expect(view.update).toHaveBeenCalledWith('...');
         });
     });
 });

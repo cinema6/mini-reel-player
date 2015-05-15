@@ -1,5 +1,6 @@
 import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
+import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
 import JumpRampHandler from '../handlers/JumpRampHandler.js';
@@ -135,6 +136,7 @@ export default class MiniReel extends EventEmitter {
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         dispatcher.addClient(ADTECHHandler);
+        dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error']);
     }
 

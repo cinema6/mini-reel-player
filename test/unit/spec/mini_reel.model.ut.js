@@ -800,8 +800,10 @@ describe('MiniReel', function() {
 
             describe('if called after initialization', function() {
                 beforeEach(function(done) {
-                    minireel.on('init', done);
-                    spyOn(minireel, 'didMove').and.callThrough();
+                    minireel.on('init', () => {
+                        spyOn(minireel, 'didMove').and.callThrough();
+                        done();
+                    });
 
                     appDataDeferred.fulfill({ experience: experience, profile: profile });
                 });
@@ -1479,8 +1481,9 @@ describe('MiniReel', function() {
         beforeEach(function(_done) {
             done = jasmine.createSpy('done()').and.callFake(_done);
             spyOn(adtech, 'setDefaults');
+            spyOn(minireel, 'didMove').and.callThrough();
 
-            minireel.on('init', done);
+            minireel.on('init', () => process.nextTick(done));
 
             appDataDeferred.fulfill({
                 experience: experience,
@@ -1491,6 +1494,10 @@ describe('MiniReel', function() {
 
         it('should emit the "init" event', function() {
             expect(done).toHaveBeenCalled();
+        });
+
+        it('should call didMove()', function() {
+            expect(minireel.didMove).toHaveBeenCalled();
         });
 
         it('should copy the standalone property', function() {

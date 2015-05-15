@@ -78,6 +78,7 @@ function initialize(minireel, { experience, standalone, profile }) {
 
     _(minireel).ready = true;
     minireel.emit('init');
+    minireel.didMove();
 }
 
 export default class MiniReel extends EventEmitter {

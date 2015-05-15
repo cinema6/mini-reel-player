@@ -829,18 +829,18 @@ describe('YouTubePlayer', function() {
                             config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
                         });
 
-                        it('should call seekTo() with the start time if the currentTime is less than the start time', function() {
+                        it('should call seekTo() with the start time if the currentTime is less than the start time - 2 seconds', function() {
                             ytPlayer.getCurrentTime.and.returnValue(10);
                             jasmine.clock().tick(250);
                             expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
                             ytPlayer.seekTo.calls.reset();
 
-                            ytPlayer.getCurrentTime.and.returnValue(14.99);
+                            ytPlayer.getCurrentTime.and.returnValue(12.99);
                             jasmine.clock().tick(250);
                             expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
                             ytPlayer.seekTo.calls.reset();
 
-                            ytPlayer.getCurrentTime.and.returnValue(15);
+                            ytPlayer.getCurrentTime.and.returnValue(13);
                             jasmine.clock().tick(250);
                             expect(ytPlayer.seekTo).not.toHaveBeenCalled();
                         });

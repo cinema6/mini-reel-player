@@ -220,7 +220,7 @@ export default class YouTubePlayer extends CorePlayer {
                                 if (currentTime === this.currentTime) { return; }
 
                                 if (!this.paused) {
-                                    if (currentTime < start) {
+                                    if (currentTime < (start - 2)) {
                                         player.seekTo(start);
                                     }
 

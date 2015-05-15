@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.13.0 (May 15, 2015)
+* *[v0.13.0-rc3]*
+  * [FIX]: Fix for an issue that caused the YouTube player controls to
+    always appear (even if set not to)
+* *[/v0.13.0-rc3]*
+
 * *[v0.13.0-rc2]*
   * [FIX]: Fix for an issue that caused ballots not to appear when a
     YouTube video ends

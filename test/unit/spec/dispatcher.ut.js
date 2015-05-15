@@ -16,23 +16,22 @@ describe('dispatcher', function() {
 
     describe('methods:', function() {
         describe('addClient(Module, ...args)', function() {
-            let Module;
             let register;
             let mod;
             let args;
             let argumentsSpy;
 
+            class Module {
+                constructor(_register_, ...args) {
+                    register = _register_;
+                    argumentsSpy(...args);
+                    mod = this;
+                }
+            }
+
             beforeEach(function() {
                 args = ['arg1', 'arg2', 'arg3'];
                 argumentsSpy = jasmine.createSpy('argumentsSpy()');
-
-                Module = class Module {
-                    constructor(_register_, ...args) {
-                        register = _register_;
-                        argumentsSpy(...args);
-                        mod = this;
-                    }
-                };
 
                 dispatcher.addClient(Module, ...args);
             });

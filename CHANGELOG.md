@@ -1,9 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.13.0 (May 15, 2015)
 * *[v0.13.0-rc1]*
   * [FIX]: Fix for an issues that caused VAST videos not to autoplay on
     mobile when they should
   * [FEATURE]: Emit player events via window.postMessage()
+* *[/v0.13.0-rc1]*
 
 ## v0.12.3 (May 14, 2015)
 * *[v0.12.3-rc1]*

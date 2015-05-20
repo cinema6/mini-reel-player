@@ -522,7 +522,7 @@
     }
     .cards__list {
         position: absolute;
-        top:4em; right:20.25em; bottom:0.75em; left:0.75em;
+        top:4em; right:0.75em; bottom:0.75em; left:0.75em;
         overflow: hidden;
     }
         @media screen and (max-height:31.25rem) {
@@ -557,7 +557,7 @@
     ================================================ */
     .player__group {
         margin:0; padding:0;
-        width:100%;  position:relative;
+        width:calc(100% - 19.5em);  position:relative;
         background:black url('../img/default_square.jpg') 50% 50% / cover no-repeat;
     }
         
@@ -602,17 +602,20 @@
             }
 
     .card__copy { 
-        margin:0.75em 6.75em 0;
+        margin:0.75em 0 0;
         overflow-y: auto; overflow-x:hidden;
         -webkit-transition:height 0.25s; transition:height 0.25s;
+        position:absolute;
+        top:0; right:0;
+        width:18.75em; height:100%;
     }
-        .text--low .card__copy {
+        .text--low .card__copy2 {
             height:3.75em;
         }
-        .text--med .card__copy {
+        .text--med .card__copy2 {
             height:5em;
         }
-        .text--high .card__copy {
+        .text--high .card__copy2 {
             height:7.5em;
         }
 
@@ -641,15 +644,15 @@
             /*  w: 1200px -  1696px
             /   h: 720px ++ */
             .card__copy { 
-                margin:0.75em 11.75em 0;
+                margin:0.75em 0 0;
             }
-                .text--low .card__copy {
+                .text--low .card__copy2 {
                     height:4.875em;
                 }
-                .text--med .card__copy {
+                .text--med .card__copy2 {
                     height:6.375em;
                 }
-                .text--high .card__copy {
+                .text--high .card__copy2 {
                     height:9.625em;
                 }
 
@@ -669,15 +672,15 @@
             /*  w: 1697px ++ 
             /   h: 720px ++ */
             .card__copy { 
-                margin:0.75em 16.75em 0;
+                margin:0.75em 0 0;
             }
-                .text--low .card__copy {
+                .text--low .card__copy2 {
                     height:6em;
                 }
-                .text--med .card__copy {
+                .text--med .card__copy2 {
                     height:7.875em;
                 }
-                .text--high .card__copy {
+                .text--high .card__copy2 {
                     height:11.75em;
                 }
 

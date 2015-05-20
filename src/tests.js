@@ -56,7 +56,7 @@ browser.addTest('autoplay', () => {
         audio.src = audio.canPlayType('audio/ogg') ? OGG : MP3;
         process.nextTick(() => audio.play());
 
-        setTimeout(() => fulfill(false), 250);
+        setTimeout(() => fulfill(false), 500);
     });
 });
 

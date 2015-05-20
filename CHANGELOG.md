@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+* *[v0.14.0-rc1]*
+  * [FIX]: Try to improve autoplay attempt => success rate for iframe
+    players
+
+
 ## v0.13.0 (May 15, 2015)
 * *[v0.13.0-rc3]*
   * [FIX]: Fix for an issue that caused the YouTube player controls to

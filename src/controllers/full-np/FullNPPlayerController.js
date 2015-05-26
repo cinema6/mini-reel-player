@@ -6,6 +6,7 @@ import FullRecapCardController from '../full/FullRecapCardController.js';
 import FullPrerollCardController from '../full/FullPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
+import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
 export default class FullPlayerController extends PlayerController {
     constructor() {
@@ -22,6 +23,7 @@ export default class FullPlayerController extends PlayerController {
         };
 
         this.initResizing();
+        this.initThumbnailNavigator();
     }
 
     updateView() {
@@ -29,4 +31,4 @@ export default class FullPlayerController extends PlayerController {
         return super(...arguments);
     }
 }
-FullPlayerController.mixin(ResizingPlayerController); // jshint ignore:line
+FullPlayerController.mixin(ThumbnailNavigatorPlayerController, ResizingPlayerController); // jshint ignore:line

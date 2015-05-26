@@ -8,8 +8,9 @@ import FullPrerollCardController from '../../../../src/controllers/full/FullPrer
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerController.js';
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
+import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 
-describe('FullNPPlayerController', function() {
+fdescribe('FullNPPlayerController', function() {
     let FullNPPlayerCtrl;
     let rootView;
 
@@ -17,6 +18,7 @@ describe('FullNPPlayerController', function() {
         rootView = new View(document.createElement('body'));
         spyOn(FullNPPlayerController.prototype, 'addView').and.callThrough();
         spyOn(FullNPPlayerController.prototype, 'initResizing').and.callThrough();
+        spyOn(FullNPPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();
 
         FullNPPlayerCtrl = new FullNPPlayerController(rootView);
     });
@@ -25,12 +27,17 @@ describe('FullNPPlayerController', function() {
         expect(FullNPPlayerCtrl).toEqual(jasmine.any(PlayerController));
     });
 
+    it('should mixin the ThumbnailNavigatorPlayerController', function() {
+        expect(FullNPPlayerController.mixins).toContain(ThumbnailNavigatorPlayerController);
+    });
+
     it('should mixin the PlaylistPlayerController and ResizingPlayerController', function() {
         expect(FullNPPlayerController.mixins).toContain(ResizingPlayerController);
     });
 
     it('should initialize its mixins', function() {
         expect(FullNPPlayerCtrl.initResizing).toHaveBeenCalled();
+        expect(FullNPPlayerCtrl.initThumbnailNavigator).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

@@ -6,8 +6,9 @@ import LinksListView from '../../../../src/views/LinksListView.js';
 import PlaylistPlayerView from '../../../../src/mixins/PlaylistPlayerView.js';
 import ResizingPlayerView from '../../../../src/mixins/ResizingPlayerView.js';
 import DeckView from '../../../../src/views/DeckView.js';
+import View from '../../../../lib/core/View.js';
 
-describe('FullNPPlayerView', function() {
+fdescribe('FullNPPlayerView', function() {
     let view;
 
     beforeEach(function() {
@@ -80,6 +81,12 @@ describe('FullNPPlayerView', function() {
             describe('links', function() {
                 it('should be a LinksListView', function() {
                     expect(view.links).toEqual(jasmine.any(LinksListView));
+                });
+            });
+
+            describe('pagerOutlet', function() {
+                it('should be a View', function() {
+                    expect(view.pagerOutlet).toEqual(jasmine.any(View));
                 });
             });
         });

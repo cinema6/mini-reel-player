@@ -525,12 +525,6 @@
         top:4em; right:0.75em; bottom:0.75em; left:0.75em;
         overflow: hidden;
     }
-        @media screen and (max-height:31.25rem) {
-            /*  h: 0 - 500px */
-            .cards__list {
-                right:16.25em;
-            }
-        }
 
         .cards__list--fullWidth {
             right:0.75em;
@@ -560,6 +554,13 @@
         width:calc(100% - 19.5em);  position:relative;
         background:black url('../img/default_square.jpg') 50% 50% / cover no-repeat;
     }
+        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+            /*  w: 0 - 800px
+                h: 0 - 500px */
+            .player__group {
+                width:calc(100% - 15.5em);
+            }
+        }
         
         .player, .player__thumbnail {
             position:absolute; width:100%; height:100%;
@@ -606,17 +607,15 @@
         overflow-y: auto; overflow-x:hidden;
         -webkit-transition:height 0.25s; transition:height 0.25s;
         position:absolute;
-        top:0; right:0;
-        width:18.75em; height:100%;
+        top:0; right:0; bottom:0;
+        width:18.75em;
     }
-        .text--low .card__copy2 {
-            height:3.75em;
-        }
-        .text--med .card__copy2 {
-            height:5em;
-        }
-        .text--high .card__copy2 {
-            height:7.5em;
+        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+            /*  w: 0 - 800px
+                h: 0 - 500px */
+            .card__copy {
+                width:14.75em;
+            }
         }
 
         .card__title {
@@ -625,7 +624,7 @@
             padding:0; margin:0.125rem 0 0 0; 
             line-height:1;
         }
-            @media screen and (max-height:31.25rem) {
+            @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
             /*  h: 0 - 500px */
                 .card__title {
                     font-size:1.25em;/*20px*/ 
@@ -646,15 +645,6 @@
             .card__copy { 
                 margin:0.75em 0 0;
             }
-                .text--low .card__copy2 {
-                    height:4.875em;
-                }
-                .text--med .card__copy2 {
-                    height:6.375em;
-                }
-                .text--high .card__copy2 {
-                    height:9.625em;
-                }
 
             .card__title {
                 font-size:1.625em;
@@ -674,15 +664,6 @@
             .card__copy { 
                 margin:0.75em 0 0;
             }
-                .text--low .card__copy2 {
-                    height:6em;
-                }
-                .text--med .card__copy2 {
-                    height:7.875em;
-                }
-                .text--high .card__copy2 {
-                    height:11.75em;
-                }
 
             .card__title {
                 font-size:1.75em;
@@ -740,173 +721,7 @@
 
 
 
-/*  ================================================
-    .slideNav__btn classes
-    ================================================ */
-    .slideNav__btn {
-        width:6rem; height:7.5rem; 
-        margin:0; padding:0;
-        position:absolute; 
-        z-index:2;
-        bottom:0.75rem; left:0.75rem;
-        color:#fff;
-        text-transform:uppercase;
-        cursor:pointer;
-        -webkit-transition:height 0.25s, background 0.25s; 
-        transition:height 0.25s, background 0.25s;
-        
-    }
-        .slideNav__btn--next {
-            right:20.25rem; left:auto;
-        }
-            .mr-card__container--ad .slideNav__btn--next {
-                right:18.75rem;
-            }
-            @media screen and (max-height:31.25rem) {
-            /*  h: 0 - 500px */
-                .slideNav__btn--next {
-                    right:16.25em;
-                }
-            }
-        .slideNav__icon {
-            display:block; 
-            width:1.5rem; 
-            height:2.5rem;
-            position:absolute; 
-            top:50%; left:50%; 
-            margin:-2.25rem 0 0 -0.875rem;
-        }
-            .slideNav__icon--next {
-                margin-right:-0.875rem;
-                margin-left:0;
-                right:50%; left:auto;
-            }
-            .slideNav__iconPath {
-                fill: #fff;
-            }
-            .slideNav__label {
-                width:5.625rem;
-                margin:1.5rem 0 0 0;
-                position:absolute;
-                top:50%; left:0; right:0;
-            }
 
-
-    .slideNav__btn--small {
-        height:3.75rem;
-    }
-        .slideNav__btn--small .slideNav__icon {
-            width:0.75rem;
-            height:1.25rem;
-            margin:-0.625rem 0 0 0;
-            left:16%;
-        }
-            .slideNav__btn--small .slideNav__icon--next {
-                margin:-0.625rem 0 0 0;
-                left:auto; right:16%;
-            }
-        .slideNav__btn--small .slideNav__label--prev {
-            padding:0 18% 0 0;
-            text-align: right;
-            position:static;
-        }
-        .slideNav__btn--small .slideNav__label--next {
-            padding:0 0 0 20%; 
-            text-align: left;
-            position:static;
-        }
-
-
-    .slideNav__btn--med {
-        height:5rem;
-    }
-        .slideNav__btn--med .slideNav__icon {
-            width:1.125rem; 
-            height:1.875rem;
-            margin:-1.5rem 0 0 -0.6875rem;
-        }
-            .slideNav__btn--med .slideNav__icon--next {
-                margin-left:0;
-                margin-right:-0.6875rem;
-            }
-        .slideNav__btn--med .slideNav__label {
-            margin:0.8125rem 0 0 0;
-            position:absolute;
-            top:50%; left:0; right:0;
-        }
-
-
-    .slideNav__btn--displayAdCard {
-        bottom:50%;
-        margin-bottom:-3.75rem;
-    }
-        .slideNav__btn--displayAdCard.slideNav__btn--small {
-            margin-bottom:-1.875rem;
-        }
-        .slideNav__btn--displayAdCard.slideNav__btn--med {
-            margin-bottom:-2.25rem;
-        }
-
-
-    @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
-        /*  w: 1200px -  1696px
-        /   h: 720px ++ */
-        .slideNav__btn {
-            height:9.625em;
-            width:11rem;
-        }
-        .slideNav__label {
-            width:10.625rem;
-        }
-        .slideNav__btn--small {
-            height:4.875em;
-        }
-        .slideNav__btn--med {
-            height:6.375em;
-        }
-    }
-    @media screen and (min-width:75rem) and (min-height:45rem) {
-        /*  w: 1200px ++
-        /   h: 720px ++ */
-        .slideNav__btn--med .slideNav__icon {
-            margin:-1em 0 0 0;
-            left:25%;
-        }
-            .slideNav__btn--med .slideNav__icon--next {
-                left:auto; right:25%;
-            }
-
-        .slideNav__btn--small .slideNav__label--prev,
-        .slideNav__btn--med .slideNav__label--prev {
-            padding:0 28% 0 0;
-            text-align: right;
-            position:static;
-        }
-        .slideNav__btn--small .slideNav__label--next,
-        .slideNav__btn--med .slideNav__label--next {
-            padding:0 0 0 30%; 
-            text-align: left;
-            position:static;
-        }
-
-    }
-    @media screen and (min-width:106.0625rem) and (min-height:45rem) {
-        /*  w: 1697px ++ 
-        /   h: 720px ++ */
-        .slideNav__btn {
-            height:11.75em;
-            width:16rem;
-        }
-        .slideNav__label {
-            width:15.625rem;
-        }
-        .slideNav__btn--small {
-            height:6em;
-        }
-        .slideNav__btn--med {
-            height:7.875em;
-        }
-    }
 
 
 
@@ -935,10 +750,8 @@
         .sponsorProfile__copy {
             float:left;
             width:calc(100% - 3.625em);
+            margin-bottom:0.75rem;
         }
-            .sponsorProfile__copy--hasActions {
-                width:calc(100% - 12.25em);
-            }
 
         .sponsorProfile__links {
             line-height: 1;
@@ -955,14 +768,12 @@
             }
 
 
-        .sponsor__actions { 
-            float:left;
-            width:8.5rem;
-            margin:0;
+        .sponsor__actions {
+            margin:0 0 0.5em 0;
         }
             .sponsor__goBtn {
                 margin:0;
-                padding:0.25em;
+                padding:0.5em 0;
                 border-radius:3px;
                 display:table;
                 width:100%;
@@ -971,10 +782,17 @@
 
         .adSkip__group--sponsored {
             position:absolute; z-index: 2;
-            top:0; width:100%;
+            top:0; left:0; right:19.5rem;
             height:1.5em;
             text-align: center;
         }
+            @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+                /*  w: 0 - 800px
+                    h: 0 - 500px */
+                .adSkip__group--sponsored {
+                    right:15.5rem;
+                }
+            }
             .adSkip__group--sponsored .adSkip__message {
                 font-size:0.875em;
                 color:#ccc;
@@ -1355,9 +1173,16 @@
     ================================================ */
     .adSkip__group {
         position:absolute; z-index: 2;
-        bottom:0.75em; left:0; right:0;
+        bottom:0.75em; left:0; right:19.5em;
         height:3.75em;
     }
+        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+            /*  w: 0 - 800px
+                h: 0 - 500px */
+            .adSkip__group {
+                right:15.5rem;
+            }
+        }
         @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
             /*  w: 1200px -  1696px
             /   h: 720px ++ */
@@ -1376,8 +1201,8 @@
         .adSkip__message {
             position:absolute;
             top:50%; left:0; right:0;
-            margin:-0.5rem 0 0 0;
-            text-align: center; 
+            margin:-1rem 0 0 0;
+            text-align: center;
             font-size:1em;
             line-height: 1;
             color:#6c6c6c;
@@ -1389,14 +1214,22 @@
         .adVideo__group {
             position: absolute;
             min-height:10em;
-            top:0; bottom:4.5em; left:0; right:0;
+            top:0; bottom:4.5em; left:0; right:19.5em;
         }
         .adVideo__label {
             font-size: 0.75em; color: #6c6c6c; text-align: center;
             margin:0;
             position:absolute; 
-            left:0; right:0; bottom:1.25rem;
+            left:0; right:19.5rem; bottom:1.25rem;
         }
+            @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+                /*  w: 0 - 800px
+                    h: 0 - 500px */
+                .adVideo__group,
+                .adVideo__label {
+                    right:15.5rem;
+                }
+            }
         .adVideo__videoHolder {
             position:relative;
             width:100%; height:100%;

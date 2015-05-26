@@ -338,19 +338,28 @@
     Pager Nav classes
     ================================================ */ 
     .pager__group {
-        height:3em;/*48px*/
+        height:4em;/*64px*/
         margin:0; display: block; 
         position: absolute; z-index: 1;
-        left:0.5em; right:19.5em; bottom:0.5em;/*8px*/
+        left:0.75em; right:20.25em; bottom:0.75em;
     }
+
+        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+            /*  w: 0 - 800px
+                h: 0 - 500px */
+            .pager__group {
+                right:16.25rem;
+            }
+        }
+
         .pager__group--fullWidth,
         .pager__group--recap {
-            right:0.5em;
+            right:0.75em;
         }
 
 
     .pager__btn {
-        min-width:6em; height:3em; 
+        min-width:7em; height:4em; 
         position:absolute;
         background:#d94040;
     }
@@ -366,11 +375,11 @@
             display:block;
             width:0.8125em; height:1.5em;
             position:absolute;
-            top:50%; left:12.5%;
+            top:50%; left:18.5%;
             margin:-0.75em 0 0 0;
         }
             .pager__btnIcon--next {
-                right:12.5%; left:auto;
+                right:18.5%; left:auto;
             }
                 .pager__btnIconPath {
                     fill: #fff;
@@ -378,36 +387,15 @@
 
         .pager__label {
             position:absolute; z-index: 1; 
-            top:50%; left:40%;
-            margin-top:-0.4375rem;
+            top:50%; left:46%;
+            margin-top:-0.5rem;
+                
         }
-            .pager__btn--next .pager__label {
-                right:40%; left:auto;
-            }
-
-
-        @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
-            /*  w: 1200px -  1696px
-            /   h: 720px ++ */
-            .pager__group,
-            .pager__btn {
-                height:4em;
-                min-width:7em;
-            }
-            .pager__btnIcon {
-                left:18.5%;
-            }
-                .pager__btnIcon--next {
-                    right:18.5%; left:auto;
-                }
-            .pager__label {
-                margin-top:-0.5rem;
-                left:46%;
-            }
             .pager__btn--next .pager__label {
                 right:46%; left:auto;
             }
-        }
+
+
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 
             /   h: 720px ++ */
@@ -437,7 +425,7 @@
     /* pages styles */
     .pages__group {
         position:absolute;
-        height:3em; overflow: hidden; 
+        height:4em; overflow: hidden; 
         margin:0;
     }
         .pager__group--recap .pages__group {
@@ -455,7 +443,7 @@
             }
                 .pages__item {
                     float:left;
-                    width:5em; height:3em;
+                    width:6em; height:4em;
                     margin:0 1px; padding:0;
                     position:relative;
                     overflow: hidden;
@@ -499,7 +487,7 @@
                         .page__previewImg {
                             position:absolute; top:0;
                             width:100%; height:100%; display: block;
-                            background:no-repeat 50% 50% / 100%;
+                            background:no-repeat 50% 50% / cover;
                             -webkit-transition: -webkit-transform 0.3s ease; 
                             transition: 0.3s transform;
                         }
@@ -753,42 +741,14 @@
         }
 
     .player__height {
-        -webkit-transition:height 0.25s; transition:height 0.25s;
+        height:calc(100% - 4.5em);
     }
-        .text--low .player__height {
-            height:calc(100% - 4.5em);
-        }
-        .text--med .player__height {
-            height:calc(100% - 5.75em);
-        }
-        .text--high .player__height {
-            height:calc(100% - 8.25em);
-        }
 
-        @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
-            /*  w: 1200px -  1696px
-            /   h: 720px ++ */
-            .text--low .player__height {
-                height:calc(100% - 5.625em);
-            }
-            .text--med .player__height {
-                height:calc(100% - 7.125em);
-            }
-            .text--high .player__height {
-                height:calc(100% - 10.375em);
-            }
-        }
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 
             /   h: 720px ++ */
-            .text--low .player__height {
-                height:calc(100% - 6.75em);
-            }
-            .text--med .player__height {
-                height:calc(100% - 8.625em);
-            }
-            .text--high .player__height {
-                height:calc(100% - 12.5em);
+            .player__height {
+                height:calc(100% - 5.5em);
             }
         }
 
@@ -1044,7 +1004,7 @@
     ================================================ */
     .ballot__group {
         position:absolute; z-index:2;
-        top:0; left:0; right:0;
+        top:0; left:0; right:19.5;
         overflow: hidden;
     }
     .ballot__box {
@@ -1249,20 +1209,13 @@
         background:rgba(256,256,256,0.84);
         position:absolute; z-index: 100;
         bottom:0; left:0; right:0;
-        height:100%;
+        height:4em;
     }
         @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
             /*  w: 0 - 800px
                 h: 0 - 500px */
-            .adSkip__group {
+            .adSkip__group2 {
                 right:15.5rem;
-            }
-        }
-        @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
-            /*  w: 1200px -  1696px
-            /   h: 720px ++ */
-            .adSkip__group {
-                height:4.875em;
             }
         }
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
@@ -1276,7 +1229,7 @@
         .adSkip__message {
             position:absolute;
             top:50%; left:0; right:0;
-            margin:-1rem 0 0 0;
+            margin:-0.5em 0 0 0;
             text-align: center;
             font-size:1em;
             line-height: 1;
@@ -1316,19 +1269,11 @@
                 position:absolute; top:0; left:0;
             }
 
-        @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
-            /*  w: 1200px -  1696px
-            /   h: 720px ++ */
-            .adVideo__group {
-                bottom:5.625em;
-            }
-            
-        }
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 
             /   h: 720px ++ */
             .adVideo__group {
-                bottom:6.75em;
+                bottom:5.5em;
             }
         }
     

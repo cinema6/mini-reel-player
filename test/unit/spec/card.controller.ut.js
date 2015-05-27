@@ -1,9 +1,10 @@
+import Controller from '../../../lib/core/Controller.js';
+import CardController from '../../../src/controllers/CardController.js';
+import Card from '../../../src/models/Card.js';
+import CardView from '../../../src/views/CardView.js';
+import View from '../../../lib/core/View.js';
+
 describe('CardController', function() {
-    import Controller from '../../../lib/core/Controller.js';
-    import CardController from '../../../src/controllers/CardController.js';
-    import Card from '../../../src/models/Card.js';
-    import CardView from '../../../src/views/CardView.js';
-    import View from '../../../lib/core/View.js';
     let CardCtrl;
 
     let card;
@@ -48,7 +49,7 @@ describe('CardController', function() {
             beforeEach(function() {
                 CardCtrl.view = new CardView();
 
-                spyOn(CardCtrl.view, 'appendTo');
+                spyOn(deckView, 'append');
                 spyOn(CardCtrl.view, 'update');
                 spyOn(CardCtrl.view, 'hide');
 
@@ -68,7 +69,7 @@ describe('CardController', function() {
             });
 
             it('should place its CardView in the deck', function() {
-                expect(CardCtrl.view.appendTo).toHaveBeenCalledWith(deckView);
+                expect(deckView.append).toHaveBeenCalledWith(CardCtrl.view);
             });
         });
     });

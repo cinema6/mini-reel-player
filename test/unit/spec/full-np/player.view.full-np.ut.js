@@ -1,7 +1,6 @@
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
 import PlayerView from '../../../../src/views/PlayerView.js';
 import Runner from '../../../../lib/Runner.js';
-import ResizableNavButtonView from '../../../../src/views/ResizableNavButtonView.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
 import PlaylistPlayerView from '../../../../src/mixins/PlaylistPlayerView.js';
 import ResizingPlayerView from '../../../../src/mixins/ResizingPlayerView.js';
@@ -34,36 +33,6 @@ fdescribe('FullNPPlayerView', function() {
         describe('child views:', function() {
             beforeEach(function() {
                 Runner.run(() => view.create());
-            });
-
-            describe('nextButton', function() {
-                it('should be a ResizableNavButtonView', function() {
-                    expect(view.nextButton).toEqual(jasmine.any(ResizableNavButtonView));
-                });
-            });
-
-            describe('previousButton', function() {
-                it('should be a ResizableNavButtonView', function() {
-                    expect(view.previousButton).toEqual(jasmine.any(ResizableNavButtonView));
-                });
-            });
-
-            describe('nextButtons', function() {
-                it('should contain the nextButton', function() {
-                    expect(view.nextButtons).toEqual([view.nextButton]);
-                });
-            });
-
-            describe('previousButtons', function() {
-                it('should contain the previousButton', function() {
-                    expect(view.previousButtons).toEqual([view.previousButton]);
-                });
-            });
-
-            describe('navButtons', function() {
-                it('should contain the nextButton and previousButton', function() {
-                    expect(view.navItems).toEqual([view.nextButton, view.previousButton]);
-                });
             });
 
             describe('cards', function() {

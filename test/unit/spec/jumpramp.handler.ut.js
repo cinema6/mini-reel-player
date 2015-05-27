@@ -20,7 +20,7 @@ describe('JumpRampHandler', function() {
             handler = this;
         }
     }
-    
+
     class MiniReel extends EventEmitter {
         constructor() {
             super(...arguments);
@@ -89,6 +89,36 @@ describe('JumpRampHandler', function() {
 
         it('should fire the pixels', function() {
             expect(fetcher.get).toHaveBeenCalledWith('http://webview_message/close');
+        });
+    });
+
+    describe('when the video completes', function() {
+        beforeEach(function() {
+            spyOn(fetcher, 'get');
+        });
+
+        describe('if the card is sposnored', function() {
+            beforeEach(function() {
+                card.sponsor = 'Buy n Large';
+
+                player.emit('complete');
+            });
+
+            it('should fire the sponsor complete URL', function() {
+                expect(fetcher.get).toHaveBeenCalledWith('http://webview_message/complete/sponsor');
+            });
+        });
+
+        describe('if the card is not sposnored', function() {
+            beforeEach(function() {
+                card.sponsor = null;
+
+                player.emit('complete');
+            });
+
+            it('should fire the content complete URL', function() {
+                expect(fetcher.get).toHaveBeenCalledWith('http://webview_message/complete/content');
+            });
         });
     });
 });

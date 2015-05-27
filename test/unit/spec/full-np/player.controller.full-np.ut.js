@@ -4,7 +4,7 @@ import View from '../../../../lib/core/View.js';
 import FullTextCardController from '../../../../src/controllers/full/FullTextCardController.js';
 import FullVideoCardController from '../../../../src/controllers/full/FullVideoCardController.js';
 import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
-import FullPrerollCardController from '../../../../src/controllers/full/FullPrerollCardController.js';
+import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerController.js';
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
@@ -52,7 +52,7 @@ fdescribe('FullNPPlayerController', function() {
                 expect(FullNPPlayerCtrl.CardControllers.text).toBe(FullTextCardController);
                 expect(FullNPPlayerCtrl.CardControllers.video).toBe(FullVideoCardController);
                 expect(FullNPPlayerCtrl.CardControllers.recap).toBe(FullRecapCardController);
-                expect(FullNPPlayerCtrl.CardControllers.preroll).toBe(FullPrerollCardController);
+                expect(FullNPPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
                 expect(FullNPPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
             });
         });

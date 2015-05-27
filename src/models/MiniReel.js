@@ -12,7 +12,8 @@ import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
     forEach,
-    find
+    find,
+    filter
 } from '../../lib/utils.js';
 
 import TextCard from './TextCard.js';
@@ -24,21 +25,39 @@ import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 
+const CARD_WHITELIST = ['text', 'video', 'displayAd', 'slideshow-bob', 'recap'];
+
 const _ = createKey();
 
-function initialize(minireel, { experience, standalone, profile }) {
-    minireel.standalone = standalone;
-    minireel.id = experience.id;
-    minireel.title = experience.data.title;
-    minireel.branding = experience.data.branding;
-    minireel.campaign = experience.data.campaign;
-    minireel.splash = experience.data.collateral.splash;
-    minireel.deck = map(experience.data.deck, card => {
+function getCardType(card) {
+    switch (card.type) {
+    case 'youtube':
+    case 'vimeo':
+    case 'dailymotion':
+    case 'rumble':
+    case 'embedded':
+    case 'adUnit':
+        return 'video';
+    default:
+        return card.type;
+    }
+}
+
+function initialize(whitelist, { experience, standalone, profile }) {
+    const deck = filter(experience.data.deck, card => whitelist.indexOf(getCardType(card)) > -1);
+
+    this.standalone = standalone;
+    this.id = experience.id;
+    this.title = experience.data.title;
+    this.branding = experience.data.branding;
+    this.campaign = experience.data.campaign;
+    this.splash = experience.data.collateral.splash;
+    this.deck = map(deck, card => {
         switch (card.type) {
         case 'text':
             return new TextCard(card, experience, profile);
         case 'recap':
-            return new RecapCard(card, experience, profile, minireel);
+            return new RecapCard(card, experience, profile, this);
         case 'adUnit':
             return new AdUnitCard(card, experience, profile);
         case 'embedded':
@@ -51,8 +70,8 @@ function initialize(minireel, { experience, standalone, profile }) {
             return new VideoCard(card, experience, profile);
         }
     });
-    minireel.length = minireel.deck.length;
-    minireel.adConfig = experience.data.adConfig || {
+    this.length = this.deck.length;
+    this.adConfig = experience.data.adConfig || {
         video: {
             firstPlacement: 1,
             frequency: 3,
@@ -64,26 +83,26 @@ function initialize(minireel, { experience, standalone, profile }) {
         }
     };
 
-    minireel.sponsor = experience.data.params.sponsor || null;
-    minireel.logo = experience.data.collateral.logo || null;
-    minireel.links = experience.data.links || {};
-    minireel.socialLinks = makeSocialLinks(minireel.links);
+    this.sponsor = experience.data.params.sponsor || null;
+    this.logo = experience.data.collateral.logo || null;
+    this.links = experience.data.links || {};
+    this.socialLinks = makeSocialLinks(this.links);
 
     adtech.setDefaults({
         network: experience.data.adServer.network,
         server: experience.data.adServer.server,
-        kv: { mode: minireel.adConfig.display.waterfall || 'default' },
+        kv: { mode: this.adConfig.display.waterfall || 'default' },
     });
 
-    minireel.prerollCard = new PrerollCard(null, experience, profile, minireel);
+    this.prerollCard = new PrerollCard(null, experience, profile, this);
 
-    _(minireel).ready = true;
-    minireel.emit('init');
-    minireel.didMove();
+    _(this).ready = true;
+    this.emit('init');
+    this.didMove();
 }
 
 export default class MiniReel extends EventEmitter {
-    constructor() {
+    constructor(whitelist = CARD_WHITELIST) {
         super(...arguments);
 
         this.standalone = null;
@@ -105,6 +124,7 @@ export default class MiniReel extends EventEmitter {
 
         this.currentIndex = -1;
         this.currentCard = null;
+        this.skippable = true;
 
         _(this).ready = false;
         _(this).cardsShown = 0;
@@ -113,12 +133,18 @@ export default class MiniReel extends EventEmitter {
         _(this).nextIndex = this.currentIndex + 1;
 
         _(this).cardCanAdvanceHandler = (() => this.next());
-        _(this).becameUnskippableHandler = (() => this.emit('becameUnskippable'));
-        _(this).becameSkippableHandler = (() => this.emit('becameSkippable'));
+        _(this).becameUnskippableHandler = (() => {
+            this.skippable = false;
+            this.emit('becameUnskippable');
+        });
+        _(this).becameSkippableHandler = (() => {
+            this.skippable = true;
+            this.emit('becameSkippable');
+        });
         _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
 
         cinema6.getAppData()
-            .then(appData => initialize(this, appData))
+            .then(appData => initialize.call(this, whitelist, appData))
             .catch(error => this.emit('error', error));
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));

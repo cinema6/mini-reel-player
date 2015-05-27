@@ -287,6 +287,29 @@ describe('TemplateView', function() {
                             expect(element.className).toEqual('btn--invalid btn--active');
                         });
                     });
+
+                    describe('if just a falsy class is specified', function() {
+                        beforeEach(function() {
+                            view = new TemplateView();
+                            view.tag = 'span';
+                            view.template = `
+                                <button data-class="state.valid::btn--invalid state.active::btn--inactive">Hey!</button>
+                            `;
+
+                            view.create();
+                            element = view.element.querySelector('button');
+                        });
+
+                        it('should add the falsy class if the value is falsy', function() {
+                            view.update({ state: { valid: 'hey', active: false } });
+                            queues.render.pop()();
+                            expect(element.className).toEqual('btn--inactive');
+
+                            view.update({ state: { valid: '', active: true } });
+                            queues.render.pop()();
+                            expect(element.className).toEqual('btn--invalid');
+                        });
+                    });
                 });
             });
 

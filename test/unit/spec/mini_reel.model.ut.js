@@ -178,6 +178,10 @@ describe('MiniReel', function() {
                 "params": {}
               },
               {
+                "data": {},
+                "type": "wildcard"
+              },
+              {
                 "data": {
                   "controls": true,
                   "skip": true,
@@ -744,6 +748,12 @@ describe('MiniReel', function() {
             });
         });
 
+        describe('skippable', function() {
+            it('should be true', function() {
+                expect(minireel.skippable).toBe(true);
+            });
+        });
+
         describe('deck', function() {
             it('should be an empty array', function() {
                 expect(minireel.deck).toEqual([]);
@@ -870,6 +880,7 @@ describe('MiniReel', function() {
                     beforeEach(function() {
                         becameUnskippable = jasmine.createSpy('becameUnskippable()');
 
+                        minireel.skippable = true;
                         minireel.moveToIndex(0);
                         minireel.on('becameUnskippable', becameUnskippable);
 
@@ -878,6 +889,10 @@ describe('MiniReel', function() {
 
                     it('should emit "becameUnskippable"', function() {
                         expect(becameUnskippable).toHaveBeenCalled();
+                    });
+
+                    it('should set skippable to false', function() {
+                        expect(minireel.skippable).toBe(false);
                     });
 
                     describe('if the last card emits "becameUnskippable"', function() {
@@ -913,6 +928,7 @@ describe('MiniReel', function() {
                     beforeEach(function() {
                         becameSkippable = jasmine.createSpy('becameSkippable()');
 
+                        minireel.skippable = false;
                         minireel.moveToIndex(0);
                         minireel.on('becameSkippable', becameSkippable);
 
@@ -921,6 +937,10 @@ describe('MiniReel', function() {
 
                     it('should emit "becameSkippable"', function() {
                         expect(becameSkippable).toHaveBeenCalled();
+                    });
+
+                    it('should set skippable to true', function() {
+                        expect(minireel.skippable).toBe(true);
                     });
 
                     describe('if a previous card emits "becameSkippable"', function() {
@@ -1721,6 +1741,41 @@ describe('MiniReel', function() {
                     kv: { mode: 'cinema6' }
                 }));
             });
+        });
+    });
+
+    describe('if the minireel is instantiated with a whitelist of card types', function() {
+        beforeEach(function(done) {
+            appDataDeferred = defer(RunnerPromise);
+            cinema6.getAppData.and.returnValue(appDataDeferred.promise);
+
+            minireel = new MiniReel(['text', 'video']);
+            minireel.once('init', done);
+
+            appDataDeferred.fulfill({ experience, profile });
+        });
+
+        it('should create a deck with only the cards of those types', function() {
+            expect(minireel.deck).toEqual([
+                jasmine.any(TextCard),
+                jasmine.any(AdUnitCard),
+                jasmine.any(EmbeddedVideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard)
+            ]);
         });
     });
 });

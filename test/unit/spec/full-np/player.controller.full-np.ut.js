@@ -10,7 +10,7 @@ import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerContr
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 
-fdescribe('FullNPPlayerController', function() {
+describe('FullNPPlayerController', function() {
     let FullNPPlayerCtrl;
     let rootView;
 

@@ -7,7 +7,7 @@ import ResizingPlayerView from '../../../../src/mixins/ResizingPlayerView.js';
 import DeckView from '../../../../src/views/DeckView.js';
 import View from '../../../../lib/core/View.js';
 
-fdescribe('FullNPPlayerView', function() {
+describe('FullNPPlayerView', function() {
     let view;
 
     beforeEach(function() {

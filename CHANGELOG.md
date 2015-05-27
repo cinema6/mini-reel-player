@@ -3,7 +3,7 @@
 * *[v0.14.0-rc1]*
   * [FIX]: Try to improve autoplay attempt => success rate for iframe
     players
-
+  * Send new messages to JumpRamp when videos are completed
 
 ## v0.13.0 (May 15, 2015)
 * *[v0.13.0-rc3]*

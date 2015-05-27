@@ -10,6 +10,7 @@ BallotVideoCardController.prototype = {
 
         BallotCtrl.on('activate', () => this.view.playerOutlet.hide());
         BallotCtrl.on('deactivate', () => this.view.playerOutlet.show());
+        BallotCtrl.on('vote', () => BallotCtrl.deactivate());
 
         this.player.on('play', () => BallotCtrl.deactivate());
         this.player.on('pause', () => {

@@ -552,7 +552,7 @@
     .companionAd__group {
         width:18.75em;
         position:absolute;
-        right:0.75em; bottom:0.75em;
+        right:0; bottom:0;
     }
         .displayAd__label {
             font-size:0.625em;
@@ -740,14 +740,16 @@
             }
         }
 
-    .player__height {
+    .player__height,
+    .playerHeight {
         height:calc(100% - 4.5em);
     }
 
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 
             /   h: 720px ++ */
-            .player__height {
+            .player__height,
+            .playerHeight {
                 height:calc(100% - 5.5em);
             }
         }
@@ -1222,7 +1224,7 @@
             /*  w: 1697px ++ 
             /   h: 720px ++ */
             .adSkip__group {
-                height:6em;
+                height:5em;
             }
         }
 
@@ -1268,6 +1270,18 @@
                 width:100%; height:100%;
                 position:absolute; top:0; left:0;
             }
+
+
+        .videoAd__label {
+            position:absolute;
+            z-index: 1;
+            color:#ccc;
+            width:100%;
+            text-align:center;
+            margin:0.25em 0 0 0;
+            font-weight:normal;
+            font-size:0.75em;
+        }
 
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 

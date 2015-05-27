@@ -4,6 +4,7 @@
   * [FIX]: Try to improve autoplay attempt => success rate for iframe
     players
   * Send new messages to JumpRamp when videos are completed
+  * [FEATURE]: Add new full-page player with no playlist on the side
 
 ## v0.13.0 (May 15, 2015)
 * *[v0.13.0-rc3]*

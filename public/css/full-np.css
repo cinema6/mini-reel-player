@@ -498,7 +498,7 @@
                                 position:absolute;
                                 top:0; left:0;
                                 width:100%; height:100%;
-                                opacity:0.4;
+                                opacity:0.5;
                                 -webkit-transition:opacity 0.3s; 
                                 transition:opacity 0.3s;
                             }
@@ -1006,9 +1006,16 @@
     ================================================ */
     .ballot__group {
         position:absolute; z-index:2;
-        top:0; left:0; right:19.5;
+        top:0; left:0; right:19.5em;
         overflow: hidden;
     }
+        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+            /*  w: 0 - 800px
+                h: 0 - 500px */
+            .ballot__group {
+                right:15.5em;
+            }
+        }
     .ballot__box {
         position:absolute; z-index:2;
         top:45%; left:50%; 

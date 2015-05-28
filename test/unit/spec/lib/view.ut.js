@@ -820,6 +820,34 @@ describe('View', function() {
                 });
             });
         });
+
+        describe('reflow()', function() {
+            let element;
+            let offsetHeight;
+
+            beforeEach(function() {
+                offsetHeight = jasmine.createSpy('offsetHeight()');
+                element = {};
+                Object.defineProperty(element, 'offsetHeight', { get: offsetHeight });
+                view.element = element;
+
+                view.reflow();
+            });
+
+            it('should access the element\'s offsetHeight', function() {
+                expect(offsetHeight).toHaveBeenCalled();
+            });
+
+            describe('if the view has no element', function() {
+                beforeEach(function() {
+                    view.element = null;
+                });
+
+                it('should do nothing', function() {
+                    expect(() => view.reflow()).not.toThrow();
+                });
+            });
+        });
     });
 
     describe('hooks:', function() {

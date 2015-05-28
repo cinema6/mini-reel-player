@@ -1,0 +1,149 @@
+/*  ================================================
+    background transitions
+    ================================================ */
+    .btnPrimary,
+    .recap__item,
+    .ballot__btn:before,
+    .player__playBtn,
+    .actionsModal__btn:after {
+        -webkit-transition:background 0.3s; 
+        transition:background 0.3s;
+    }
+
+    .ballot__btn:hover:before,
+    .playlist__item.playlist__item--current:hover,
+    .player__playBtn:hover,
+    .actionsModal__btn:hover:after {
+        background-color:#d94040;
+    }
+    .btnPrimary:hover {
+        background-color:#fff;
+    }
+    .playlist__item:hover,
+    .recap__item:hover {
+        background-color:#eee;
+    }
+
+    .ballot__btn1:hover:before {
+        background-color:#1789cb;
+    }
+
+
+
+
+/*  ================================================
+    color transitions
+    ================================================ */
+    .titleBar__titleText,
+    .btnPrimary .btnLabel {
+        -webkit-transition:color 0.3s; transition:color 0.3s;
+    }
+
+    .titleBar__titleText:hover,
+    .btnPrimary:hover .btn__label {
+        color:#d94040;
+    }
+
+    .ballot__btn1:hover .ballot__btnLabel {
+        color:#1789cb;
+    }
+
+
+
+
+
+/*  ================================================
+    fill transitions
+    ================================================ */
+    .pager__btnIconPath {
+        -webkit-transition:fill 0.3s; transition:fill 0.3s;
+    }
+
+    .pager__btn:hover .pager__btnIconPath {
+        fill:#d94040;
+    }
+
+    .pager__btn[disabled]:hover .pager__btnIconPath {
+        fill:#fff;
+    }
+
+
+
+
+
+/*  ================================================
+    border transitions
+    ================================================ */
+    .sponsorProfile__imgBox,
+    .brandProfile__logoBox {
+        -webkit-transition:border 0.5s;
+        transition:border 0.5s;
+    }
+    .sponsorProfile__imgBox:hover,
+    .brandProfile__logoBox:hover {
+        border:1px solid #d94040;
+    }
+    .recap__item:hover {
+        border-left:3px solid #d94040;
+    }
+
+    .textLink:hover,
+    a:hover .textLink,
+    .displayAdBrand__link:hover .displayAdBrand__linkLabel {
+        border-bottom:1px dotted #d94040;
+    }
+        .tk--youtube:hover .displayAdBrand__linkLabel {
+            border-color:#e22d24;
+        }
+        .tk--vimeo:hover .displayAdBrand__linkLabel {
+            border-color:#445566;
+        }
+        .tk--facebook:hover .displayAdBrand__linkLabel {
+            border-color:#3b5998;
+        }
+        .tk--twitter:hover .displayAdBrand__linkLabel {
+            border-color:#00b0ed;
+        }
+        .tk--pinterest:hover .displayAdBrand__linkLabel {
+            border-color:#c92228;
+        }
+
+
+
+
+/*  ================================================
+    opacity transitions
+    ================================================ */
+    .page__btn:hover .page__previewImg:before {
+        opacity:0;
+    }
+
+
+
+
+/*  ================================================
+    transform transitions
+    ================================================ */
+    .ballot__textLink:before,
+    .sprite--close,
+    .actionsModal__btn:before {
+        -webkit-transition: -webkit-transform 0.3s; 
+        transition: 0.3s transform;
+    }
+    .sprite--close:hover,
+    .ballot__textLink:hover:before,
+    .actionsModal__btn:hover:before {
+        -webkit-transform: scale(1.25);
+        transform: scale(1.25);
+    }
+
+
+
+
+
+/*  ================================================
+    misc transitions
+    ================================================ */
+    .btnPrimary:hover .btn__label {
+        text-shadow: none;
+    }

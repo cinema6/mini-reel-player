@@ -2,8 +2,6 @@ import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js'
 import PlayerView from '../../../../src/views/PlayerView.js';
 import Runner from '../../../../lib/Runner.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
-import PlaylistPlayerView from '../../../../src/mixins/PlaylistPlayerView.js';
-import ResizingPlayerView from '../../../../src/mixins/ResizingPlayerView.js';
 import DeckView from '../../../../src/views/DeckView.js';
 import View from '../../../../lib/core/View.js';
 
@@ -16,11 +14,6 @@ describe('FullNPPlayerView', function() {
 
     it('should exist', function() {
         expect(view).toEqual(jasmine.any(PlayerView));
-    });
-
-    it('should mixin the PlaylistPlayerView and ResizingPlayerView', function() {
-        expect(FullNPPlayerView.mixins).toContain(PlaylistPlayerView);
-        expect(FullNPPlayerView.mixins).toContain(ResizingPlayerView);
     });
 
     describe('properties:', function() {

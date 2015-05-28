@@ -6,7 +6,6 @@ import FullVideoCardController from '../../../../src/controllers/full/FullVideoC
 import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
 import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
-import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerController.js';
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 
@@ -17,7 +16,6 @@ describe('FullNPPlayerController', function() {
     beforeEach(function() {
         rootView = new View(document.createElement('body'));
         spyOn(FullNPPlayerController.prototype, 'addView').and.callThrough();
-        spyOn(FullNPPlayerController.prototype, 'initResizing').and.callThrough();
         spyOn(FullNPPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();
 
         FullNPPlayerCtrl = new FullNPPlayerController(rootView);
@@ -31,12 +29,7 @@ describe('FullNPPlayerController', function() {
         expect(FullNPPlayerController.mixins).toContain(ThumbnailNavigatorPlayerController);
     });
 
-    it('should mixin the PlaylistPlayerController and ResizingPlayerController', function() {
-        expect(FullNPPlayerController.mixins).toContain(ResizingPlayerController);
-    });
-
     it('should initialize its mixins', function() {
-        expect(FullNPPlayerCtrl.initResizing).toHaveBeenCalled();
         expect(FullNPPlayerCtrl.initThumbnailNavigator).toHaveBeenCalled();
     });
 

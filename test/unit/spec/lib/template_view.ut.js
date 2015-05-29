@@ -5,10 +5,11 @@ import twobits from 'twobits.js';
 
 describe('TemplateView', function() {
     let view;
-    let tbCompileFn;
+    let tbCompileFns;
     let queues;
 
     beforeEach(function() {
+        tbCompileFns = [];
         queues = { render: [] };
 
         view = new TemplateView();
@@ -18,7 +19,9 @@ describe('TemplateView', function() {
             const {parse} = twobits;
 
             spyOn(twobits, 'parse').and.callFake(function() {
-                return (tbCompileFn = jasmine.createSpy('compile()').and.callFake(parse.apply(twobits, arguments)));
+                const spy = jasmine.createSpy(`compile${tbCompileFns.length}()`).and.callFake(parse.apply(twobits, arguments));
+                tbCompileFns.push(spy);
+                return spy;
             });
         }
 
@@ -61,6 +64,7 @@ describe('TemplateView', function() {
                 data = {
                     company: 'Cinema6'
                 };
+                view.template = '<span>Hello!</span><span>World!</span>';
 
                 view.create();
 
@@ -69,7 +73,7 @@ describe('TemplateView', function() {
             });
 
             it('should compile the template', function() {
-                expect(tbCompileFn).toHaveBeenCalledWith(data);
+                tbCompileFns.forEach(fn => expect(fn).toHaveBeenCalledWith(data));
             });
 
             describe('if called again', function() {
@@ -81,23 +85,23 @@ describe('TemplateView', function() {
                         age: 23
                     });
                     queues.render.shift()();
-                    tbCompileFn.calls.reset();
+                    tbCompileFns.forEach(spy => spy.calls.reset());
 
                     queues.render.shift()();
                 });
 
                 it('should extend the data each time', function() {
-                    expect(tbCompileFn).toHaveBeenCalledWith({
+                    tbCompileFns.forEach(fn => expect(fn).toHaveBeenCalledWith({
                         company: 'Cinema6',
                         name: 'Josh',
                         age: 23
-                    });
+                    }));
                 });
             });
 
             describe('if the view was not created yet', function() {
                 beforeEach(function() {
-                    tbCompileFn = undefined;
+                    tbCompileFns = [];
                     view.constructor();
                     view.tag = 'span';
 
@@ -109,7 +113,7 @@ describe('TemplateView', function() {
 
                 it('should create and compile the element', function() {
                     expect(view.create).toHaveBeenCalled();
-                    expect(tbCompileFn).toHaveBeenCalledWith(data);
+                    tbCompileFns.forEach(fn => expect(fn).toHaveBeenCalledWith(data));
                 });
             });
         });
@@ -147,7 +151,7 @@ describe('TemplateView', function() {
             });
 
             it('should parse the element with TwoBits.js', function() {
-                expect(twobits.parse).toHaveBeenCalledWith(element, view);
+                Array.prototype.slice.call(element.childNodes).forEach(child => expect(twobits.parse).toHaveBeenCalledWith(child, view));
             });
 
             it('should not cause update()s to throw errors', function() {

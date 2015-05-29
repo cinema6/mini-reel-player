@@ -1,6 +1,12 @@
 # MiniReel Player 2.0
 
 ## v0.14.0 (May 28, 2015)
+* *[v0.14.0-rc2]*
+  * [FIX]: Fix an issue that caused the skip timer in the thumbnail
+    navigation widget to stay visible if a preroll card was skipped
+    without being shown
+* *[/v0.14.0-rc2]*
+
 * *[v0.14.0-rc1]*
   * [FIX]: Try to improve autoplay attempt => success rate for iframe
     players

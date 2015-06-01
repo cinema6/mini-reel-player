@@ -179,6 +179,8 @@ export default class MiniReel extends EventEmitter {
             throw new RangeError('Cannot move past the last index.');
         }
 
+        if (!this.skippable) { return; }
+
         const previousCard = this.currentCard;
         const previousIndex = this.currentIndex;
         let currentCard = this.deck[index] || null;

@@ -12,10 +12,10 @@ export default class VideoCard extends Card {
     constructor(data, { data: { autoplay = true, autoadvance = true } }) { // jshint ignore:line
         super(...arguments);
         _(this).skip = data.data.skip === undefined ? true : data.data.skip;
-        _(this).isUnskippable = _(this).skip !== true;
         _(this).canSkipAfterCountdown = _(this).skip !== false;
 
         this.type = 'video';
+        this.hasSkipControl = _(this).skip !== true;
         this.skippable = true;
 
         this.thumbs = this.thumbs || extend(data.data.thumbs);
@@ -49,9 +49,10 @@ export default class VideoCard extends Card {
 
     activate() {
         let {skip} = _(this);
-        const {isUnskippable, canSkipAfterCountdown} = _(this);
+        const { canSkipAfterCountdown } = _(this);
+        const { hasSkipControl } = this;
 
-        if (isUnskippable) {
+        if (hasSkipControl) {
             this.skippable = false;
             this.emit('becameUnskippable');
 

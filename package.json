@@ -6,6 +6,7 @@
   "scripts": {
     "test": "grunt test:unit",
     "mobile": "./src/mobile.js",
+    "swipe": "./src/swipe.js",
     "full": "./src/full.js",
     "full-np": "./src/full-np.js",
     "lightbox-playlist": "./src/lightbox-playlist.js",

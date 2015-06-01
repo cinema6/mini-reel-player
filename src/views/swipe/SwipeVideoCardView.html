@@ -1,0 +1,51 @@
+<div class="card__holder" data-class="flipped:card__holder--flipped">
+    <div class="card__group card__group--front">
+        <div data-view="playerOutlet:PlayerOutletView" class="player__group"></div>
+
+        <div data-if="sponsor" class="cardSponsor__profile clearfix">
+            <a data-if="logo" href="{{website}}" class="sponsor__logo cardSponsor__logo" title="{{sponsor}}" target="_blank">
+                <img src="{{logo}}" alt="Star Wars" class="sponsor__logoImg">
+            </a>
+            <p class="cardSponsor__tag">
+                Sponsored by <br>
+                <a href="{{website}}" title="{{sponsor}}" target="_blank">{{sponsor}}</a>
+            </p>
+        </div>
+
+        <h1 class="card__title card__title--secondary tk--hdr">
+            {{title}}
+            <span data-if="showSource" class="card__source tk--copy">&mdash;&nbsp;<a href="{{href}}" title="YouTube" target="_blank">{{source}}</a></span>
+        </h1>
+
+        <a data-if="action.label" href="{{action.href}}" class="actionBtn cardSponsor__action" target="_blank" title="More Info">
+            <span class="actionBtn__label">{{action.label}}</span>
+        </a>
+
+        <div data-view="ballotOutlet:View"></div>
+        <div data-view="postOutlet:View"></div>
+    </div>
+    <div class="card__group card__group--back">
+        <p class="card__count">{{number}} of {{total}}</p>
+
+        <div data-if="sponsor" class="cardSponsor__profile clearfix">
+            <a data-if="logo" href="{{website}}" class="sponsor__logo cardSponsor__logo" target="_blank" title="{{sponsor}}">
+                <img src="{{logo}}" alt="Star Wars" class="sponsor__logoImg">
+            </a>
+            <p class="cardSponsor__tag">
+                Sponsored by <br>
+                <a href="{{website}}" title="{{sponsor}}" target="_blank">{{sponsor}}</a>
+            </p>
+        </div>
+
+        <h1 class="card__title card__title--secondary tk--hdr">{{title}}</h1>
+
+        <div class="card__copy">{{note}}</div>
+
+        <div data-if="hasLinks" class="sponsor__links">
+            <a data-if="website" href="{{website}}" target="_blank" title="Official Website" class="sponsor__iconLink fa fa-link"><span class="ir">Website</span></a>
+            <span data-if="links.length" data-view="links:LinksListView">
+                <span><a href="{{href}}" target="_blank" title="Official {{label}}" class="sponsor__iconLink sponsor__iconLink--{{type}} fa fa-{{type}}"><span class="ir">{{label}}</span></a></span>
+            </span>
+        </div>
+    </div>
+</div>

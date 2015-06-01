@@ -1,0 +1,42 @@
+<div class="cardQuestion__group">
+    <p class="cardQuestion__intro">Please answer this Question:</p>
+    <h1 class="card__title tk--hdr">{{prompt}}</h1>
+    <div class="cardQuestion__options" data-class="resultsShown::cardQuestion__options--show">
+        <button data-view="choice1Button:ButtonView"
+            data-target="controller" data-action="vote" data-vote="0"
+            class="actionBtn cardQuestion__btn cardQuestion--optA"
+            type="button"
+            title="{{choices.0}}">
+            <span class="actionBtn__label">{{choices.0}}</span>
+        </button>
+        <button data-view="choice2Button:ButtonView"
+            data-target="controller" data-action="vote" data-vote="1"
+            class="actionBtn cardQuestion__btn cardQuestion--optB"
+            type="button"
+            title="{{choices.1}}">
+            <span class="actionBtn__label">{{choices.1}}</span>
+        </button>
+    </div>
+    <div class="cardQuestion__results" data-class="resultsShown:cardQuestion__results--show">
+        <div class="questionResult cardQuestion--optA">
+            <span class="questionResult__label">{{results.0.choice}}:</span>
+            <span class="questionResult__count">{{results.0.result}}</span>
+            <div class="questionResult__bar cardQuestion--optA"
+            style="width: {{results.0.result}};">&nbsp;</div>
+        </div>
+        <div class="questionResult cardQuestion--optB">
+            <span class="questionResult__label">{{results.1.choice}}:</span>
+            <span class="questionResult__count">{{results.1.result}}</span>
+            <div class="questionResult__bar cardQuestion--optB"
+            style="width: {{results.1.result}};">&nbsp;</div>
+        </div>
+    </div>
+    <button data-view="returnButton:ButtonView"
+        data-target="controller" data-action="deactivate"
+        class="cardQuestion__closeBtn"
+        type="button"
+        title="Return to Video">
+        Return to Video
+    </button>
+</div>
+<div class="card__bg" style="background-image: url('{{background}}');">&nbsp;</div>

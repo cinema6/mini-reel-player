@@ -835,6 +835,19 @@ describe('MiniReel', function() {
                     expect(minireel.didMove.calls.count()).toBe(2);
                 });
 
+                describe('if the minireel is not skippable', function() {
+                    beforeEach(function() {
+                        minireel.skippable = false;
+
+                        minireel.moveToIndex(3);
+                    });
+
+                    it('should do nothing', function() {
+                        expect(minireel.currentIndex).not.toBe(3);
+                        expect(minireel.didMove).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when moving from no card', function() {
                     let spy;
 
@@ -911,6 +924,7 @@ describe('MiniReel', function() {
                     describe('if a previous card emits "becameUnskippable"', function() {
                         beforeEach(function() {
                             becameUnskippable.calls.reset();
+                            minireel.skippable = true;
 
                             minireel.moveToIndex(3);
                             minireel.deck[0].emit('becameUnskippable');
@@ -928,9 +942,9 @@ describe('MiniReel', function() {
                     beforeEach(function() {
                         becameSkippable = jasmine.createSpy('becameSkippable()');
 
-                        minireel.skippable = false;
                         minireel.moveToIndex(0);
                         minireel.on('becameSkippable', becameSkippable);
+                        minireel.skippable = false;
 
                         minireel.currentCard.emit('becameSkippable');
                     });
@@ -1119,8 +1133,11 @@ describe('MiniReel', function() {
 
                         it('should call activate() on the card when the minireel has been navigated that number of times + 1', function() {
                             minireel.moveToIndex(0);
+                            minireel.skippable = true;
                             minireel.moveToIndex(1);
+                            minireel.skippable = true;
                             minireel.moveToIndex(3);
+                            minireel.skippable = true;
                             expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
                             expect(minireel.didMove.calls.count()).toBe(3);
                             expect(minireel.currentCard).toBe(minireel.deck[3]);
@@ -1136,8 +1153,11 @@ describe('MiniReel', function() {
                         describe('after the first preroll video has been shown', function() {
                             beforeEach(function() {
                                 minireel.moveToIndex(0);
+                                minireel.skippable = true;
                                 minireel.moveToIndex(1);
+                                minireel.skippable = true;
                                 minireel.moveToIndex(2);
+                                minireel.skippable = true;
 
                                 minireel.deck.forEach(card => spyOn(card, 'prepare'));
                                 minireel.moveToIndex(8);

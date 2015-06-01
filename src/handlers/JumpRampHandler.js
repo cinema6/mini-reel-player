@@ -18,8 +18,7 @@ export default class JumpRampHandler extends BillingHandler {
         });
 
         register(({ data: card }) => {
-            const type = !!card.sponsor ? 'sponsor' : 'content';
-            return send(`complete/${type}`);
+            if (!card.sponsor) { return send(`complete/content`); }
         }, 'video', 'complete');
     }
 }

@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v0.14.1 (June 1, 2015)
+* *[v0.14.1-rc1]*
+  * Stop sending complete event to JumpRamp for sponsored videos
+* *[/v0.14.1-rc1]*
+
 ## v0.14.0 (May 28, 2015)
 * *[v0.14.0-rc2]*
   * [FIX]: Fix an issue that caused the skip timer in the thumbnail

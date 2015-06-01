@@ -44,6 +44,10 @@ module.exports = {
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/mobile.js'
             },
             {
+                src: '.tmp/<%= package.scripts.swipe %>',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/swipe.js'
+            },
+            {
                 src: '.tmp/<%= package.scripts.full %>',
                 dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/full.js'
             },
@@ -83,6 +87,10 @@ module.exports = {
             {
                 src: '<%= package.scripts.mobile %>',
                 dest: 'server/.build/mobile.js'
+            },
+            {
+                src: '<%= package.scripts.swipe %>',
+                dest: 'server/.build/swipe.js'
             },
             {
                 src: '<%= package.scripts.full %>',

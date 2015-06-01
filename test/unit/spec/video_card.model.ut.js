@@ -265,6 +265,44 @@ describe('VideoCard', function() {
             });
         });
 
+        describe('hasSkipControl', function() {
+            describe('if data.skip is false', function() {
+                beforeEach(function() {
+                    data.data.skip = false;
+
+                    card = new VideoCard(data, experience);
+                });
+
+                it('should be true', function() {
+                    expect(card.hasSkipControl).toBe(true);
+                });
+            });
+
+            describe('if data.skip is a Number', function() {
+                beforeEach(function() {
+                    data.data.skip = 6;
+
+                    card = new VideoCard(data, experience);
+                });
+
+                it('should be true', function() {
+                    expect(card.hasSkipControl).toBe(true);
+                });
+            });
+
+            describe('if data.skip is true', function() {
+                beforeEach(function() {
+                    data.data.skip = true;
+
+                    card = new VideoCard(data, experience);
+                });
+
+                it('should be false', function() {
+                    expect(card.hasSkipControl).toBe(false);
+                });
+            });
+        });
+
         describe('data', function() {
             it('should be an object with the video data', function() {
                 expect(card.data).toEqual({

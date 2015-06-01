@@ -104,8 +104,8 @@ describe('JumpRampHandler', function() {
                 player.emit('complete');
             });
 
-            it('should fire the sponsor complete URL', function() {
-                expect(fetcher.get).toHaveBeenCalledWith('http://webview_message/complete/sponsor');
+            it('should not fire any messages', function() {
+                expect(fetcher.get).not.toHaveBeenCalled();
             });
         });
 

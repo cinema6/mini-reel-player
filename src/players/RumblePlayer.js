@@ -151,7 +151,6 @@ export default class RumblePlayer extends CorePlayer {
         const end = this.end || Infinity;
 
         const onceLoadProgress = (() => {
-            this.emit('canplay');
             this.emit('loadstart');
             _(this).state.readyState = 3;
         });
@@ -220,6 +219,8 @@ export default class RumblePlayer extends CorePlayer {
         });
 
         player.once('ready', () => {
+            const { state } = _(this);
+
             player.once('loadProgress', onceLoadProgress);
             player.on('loadProgress', checkIfCanPlayThrough);
             player.on('loadProgress', onLoadProgress);
@@ -233,7 +234,6 @@ export default class RumblePlayer extends CorePlayer {
                 const {state} = _(this);
 
                 this.emit('loadedmetadata');
-                state.readyState = 1;
                 state.duration = (Math.min(end, duration) -  start);
             });
 
@@ -242,7 +242,9 @@ export default class RumblePlayer extends CorePlayer {
                 state.volume = volume;
             });
 
-            _(this).state.ready = true;
+            state.ready = true;
+            state.readyState = 3;
+            this.emit('canplay');
         });
 
         Runner.schedule('afterRender', element, 'appendChild', [iframe]);
@@ -253,14 +255,16 @@ export default class RumblePlayer extends CorePlayer {
 
     unload() {
         const {player, iframe} = _(this);
-        if (!player) { return; }
+        if (!player) { return super(); }
 
         player.destroy();
-        this.element.removeChild(iframe);
+        Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
         _(this).state = getInitialState();
 
         _(this).iframe = null;
         _(this).player = null;
+
+        return super();
     }
 
     reload() {

@@ -300,7 +300,7 @@ export default class YouTubePlayer extends CorePlayer {
         _(this).state = extend(state, CLEAN_STATE);
 
         if (iframe) {
-            this.element.removeChild(iframe);
+            Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
             _(this).iframe = null;
         }
 
@@ -311,6 +311,8 @@ export default class YouTubePlayer extends CorePlayer {
 
         _(this).player = null;
         _(this).hasPlayed = false;
+
+        return super();
     }
 
     reload() {

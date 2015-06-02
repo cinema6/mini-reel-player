@@ -76,6 +76,18 @@ describe('CorePlayer', function() {
     });
 
     describe('event handlers:', function() {
+        describe('canplay', function() {
+            beforeEach(function() {
+                spyOn(player, 'addClass');
+
+                player.emit('canplay');
+            });
+
+            it('should add the class "playerBox--canplay"', function() {
+                expect(player.addClass).toHaveBeenCalledWith('playerBox--canplay');
+            });
+        });
+
         describe('timeupdate', function() {
             describe('firing quartile events', function() {
                 let firstQuartile, midpoint, thirdQuartile;
@@ -228,8 +240,14 @@ describe('CorePlayer', function() {
 
     describe('methods:', function() {
         describe('unload()', function() {
-            it('should exist', function() {
-                expect(player.unload).toEqual(jasmine.any(Function));
+            beforeEach(function() {
+                spyOn(player, 'removeClass');
+
+                player.unload();
+            });
+
+            it('should remove the class "playerBox--canplay"', function() {
+                expect(player.removeClass).toHaveBeenCalledWith('playerBox--canplay');
             });
         });
     });

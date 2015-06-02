@@ -50,6 +50,9 @@ function initializeVideo(player) {
         video.addEventListener('loadedmetadata', () => Runner.run(() => {
             player.emit('loadedmetadata');
         }), false);
+        video.addEventListener('canplay', () => Runner.run(() => {
+            player.emit('canplay');
+        }), false);
         video.addEventListener('play', () => Runner.run(() => {
             const {vast} = _player;
 
@@ -256,12 +259,16 @@ export default class VASTPlayer extends CorePlayer {
     unload() {
         const {video} = _(this);
 
-        if (!video) { return; }
+        if (!video) { return super(); }
 
         media.unloadMedia(video);
-        this.element.removeChild(video);
+
         _(this).video = null;
         _(this).vast = null;
+
+        Runner.schedule('afterRender', this.element, 'removeChild', [video]);
+
+        return super();
     }
     reload() {
         this.unload();

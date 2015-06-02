@@ -1256,7 +1256,7 @@ describe('YouTubePlayer', function() {
                             });
                             /* jshint quotmark:single */
 
-                        player.src = 'w_x7rSZ5aJQ';
+                        Runner.run(() => player.src = 'w_x7rSZ5aJQ');
                         Runner.run(() => player.load());
                         codeLoader.load('youtube').then(done);
                     });
@@ -1314,6 +1314,7 @@ describe('YouTubePlayer', function() {
                     seekTo: jasmine.createSpy('Player.seekTo()')
                 };
                 spyOn(youtube, 'Player').and.returnValue(ytPlayer);
+                spyOn(CorePlayer.prototype, 'unload');
 
                 jasmine.clock().install();
 
@@ -1326,7 +1327,7 @@ describe('YouTubePlayer', function() {
                     ytPlayer.getCurrentTime.calls.reset();
                 }), fetcher.flush()]).then(() => {
                     player.currentTime = 2;
-                    player.unload();
+                    Runner.run(() => player.unload());
                     done();
                 }).catch(done);
             });
@@ -1338,7 +1339,7 @@ describe('YouTubePlayer', function() {
             describe('if the player was playing', function() {
                 beforeEach(function() {
                     youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: youtube.PlayerState.PLAYING });
-                    player.unload();
+                    Runner.run(() => player.unload());
                 });
 
                 it('should reset paused', function() {
@@ -1349,12 +1350,16 @@ describe('YouTubePlayer', function() {
             describe('if the player had ended', function() {
                 beforeEach(function() {
                     youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: youtube.PlayerState.ENDED });
-                    player.unload();
+                    Runner.run(() => player.unload());
                 });
 
                 it('should reset ended', function() {
                     expect(player.ended).toBe(false);
                 });
+            });
+
+            it('should call super()', function() {
+                expect(CorePlayer.prototype.unload).toHaveBeenCalled();
             });
 
             it('should reset seeking', function() {
@@ -1394,14 +1399,13 @@ describe('YouTubePlayer', function() {
 
             describe('if called initially', function() {
                 beforeEach(function() {
-                    player.unload();
                     player = new YouTubePlayer();
+
+                    Runner.run(() => player.unload());
                 });
 
-                it('should not throw', function() {
-                    expect(function() {
-                        player.unload();
-                    }).not.toThrow();
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
             });
         });

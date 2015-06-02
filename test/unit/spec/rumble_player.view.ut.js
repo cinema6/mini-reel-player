@@ -45,6 +45,7 @@ describe('RumblePlayer', function() {
 
     beforeEach(function() {
         rumble.constructor();
+        spyOn(CorePlayer.prototype, 'addClass');
 
         ServicePlayer = rumble.Player;
         spyOn(rumble, 'Player').and.callFake(iframe => {
@@ -260,20 +261,17 @@ describe('RumblePlayer', function() {
         });
 
         describe('canplay', function() {
+            let canplay;
+
             beforeEach(function() {
+                canplay = jasmine.createSpy('canplay');
+                player.on('canplay', canplay);
+
                 rumblePlayer.emit('ready');
             });
 
-            it('should be emitted the first time the "loadProgress" event is emitted', function() {
-                var canplay = jasmine.createSpy('canplay');
-
-                player.on('canplay', canplay);
-
-                rumblePlayer.emit('loadProgress', {});
+            it('should be emitted when "ready" is emitted', function() {
                 expect(canplay).toHaveBeenCalled();
-
-                rumblePlayer.emit('loadProgress', {});
-                expect(canplay.calls.count()).toBe(1);
             });
         });
 
@@ -703,7 +701,7 @@ describe('RumblePlayer', function() {
                     expect(player.readyState).toBe(0);
                 });
 
-                it('should be 1 when the duration is fetched', function(done) {
+                it('should be 3 when the duration is fetched', function(done) {
                     var deferred = defer(RunnerPromise);
 
                     rumblePlayer.call.and.returnValue(deferred.promise);
@@ -711,13 +709,12 @@ describe('RumblePlayer', function() {
                     deferred.fulfill(45);
 
                     deferred.promise.then(() => {
-                        expect(player.readyState).toBe(1);
+                        expect(player.readyState).toBe(3);
                     }).then(done, done);
                 });
 
-                it('should be 3 on the first loadProgress event', function() {
+                it('should be 3 when the api is ready', function() {
                     rumblePlayer.emit('ready');
-                    rumblePlayer.emit('loadProgress', {});
 
                     expect(player.readyState).toBe(3);
                 });
@@ -1107,14 +1104,18 @@ describe('RumblePlayer', function() {
 
         describe('unload()', function() {
             beforeEach(function() {
+                spyOn(CorePlayer.prototype, 'unload');
+
                 player.src = 'foo';
             });
 
             describe('if the player has not been loaded yet', function() {
-                it('should do nothing', function() {
-                    expect(function() {
-                        player.unload();
-                    }).not.toThrow();
+                beforeEach(function() {
+                    Runner.run(() => player.unload());
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
             });
 
@@ -1125,7 +1126,11 @@ describe('RumblePlayer', function() {
                     rumblePlayer.emit('loadProgress', { percent: '0.3' });
                     rumblePlayer.emit('play');
                     rumblePlayer.emit('finish');
-                    player.unload();
+                    Runner.run(() => player.unload());
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
 
                 it('should destroy the player', function() {

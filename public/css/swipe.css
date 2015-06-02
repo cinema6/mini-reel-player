@@ -371,7 +371,15 @@
                             top:0; left:0;
                             border:0;
                             background:#000;
+                            -webkit-transition:opacity 0.5s;
+                            transition:opacity 0.5s;
+                            opacity:0;
                         }
+                            .playerBox--canplay video,
+                            .playerBox--canplay object,
+                            .playerBox--canplay iframe {
+                                opacity:1;
+                            }
                     .card__title {
                         color:#222;
                         font-size:1.5em;

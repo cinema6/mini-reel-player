@@ -370,6 +370,7 @@
                             position:absolute;
                             top:0; left:0;
                             border:0;
+                            background:#000;
                         }
                     .card__title {
                         color:#222;

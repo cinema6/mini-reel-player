@@ -1,6 +1,5 @@
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import View from '../../../lib/core/View.js';
-import PlayerPosterView from '../../../src/views/PlayerPosterView.js';
 import Runner from '../../../lib/Runner.js';
 
 describe('CorePlayer', function() {
@@ -24,6 +23,48 @@ describe('CorePlayer', function() {
         describe('poster', function() {
             it('should be null', function() {
                 expect(player.poster).toBeNull();
+            });
+
+            describe('setting', function() {
+                it('should change the value', function() {
+                    player.poster = 'foo';
+                    expect(player.poster).toBe('foo');
+                });
+
+                describe('when the element is created', function() {
+                    beforeEach(function() {
+                        player.poster = 'http://cinema6.com/assets/img/c6-logo@2x.png';
+                        Runner.run(() => player.create());
+                    });
+
+                    it('should set the background image to be the poster', function() {
+                        expect(player.element.style.backgroundImage).toBe(`url(${player.poster})`);
+                    });
+
+                    describe('when the poster is changed', function() {
+                        beforeEach(function() {
+                            Runner.run(() => player.poster = 'http://cinema6.com/assets/img/people/team_howardEngelhart.jpg');
+                        });
+
+                        it('should change the value', function() {
+                            expect(player.poster).toBe('http://cinema6.com/assets/img/people/team_howardEngelhart.jpg');
+                        });
+
+                        it('should set the background image to be the poster', function() {
+                            expect(player.element.style.backgroundImage).toBe(`url(${player.poster})`);
+                        });
+
+                        describe('to null', function() {
+                            beforeEach(function() {
+                                Runner.run(() => player.poster = null);
+                            });
+
+                            it('should remove the backgroundImage', function() {
+                                expect(player.element.style.backgroundImage).toBe('');
+                            });
+                        });
+                    });
+                });
             });
         });
 
@@ -212,36 +253,6 @@ describe('CorePlayer', function() {
         });
 
         describe('didCreateElement()', function() {
-            let posterView;
-
-            beforeEach(function() {
-                player.poster = 'https://i.ytimg.com/vi/B5FcZrg_Nuo/maxresdefault.jpg';
-
-                spyOn(PlayerPosterView.prototype, 'setImage').and.callThrough();
-                spyOn(player, 'append').and.callThrough();
-                Runner.run(() => player.create());
-                posterView = player.append.calls.mostRecent().args[0];
-            });
-
-            it('should append a view for its poster', function() {
-                expect(player.append).toHaveBeenCalledWith(jasmine.any(PlayerPosterView));
-            });
-
-            it('should set the poster\'s image', function() {
-                expect(posterView.setImage).toHaveBeenCalledWith(player.poster);
-            });
-
-            describe('when the poster is changed', function() {
-                beforeEach(function() {
-                    posterView.setImage.calls.reset();
-
-                    Runner.run(() => player.poster = 'https://i.ytimg.com/vi/B5FcZrg_Nuo/low.jpg');
-                });
-
-                it('should set the poster\'s image again', function() {
-                    expect(posterView.setImage).toHaveBeenCalledWith(player.poster);
-                });
-            });
         });
     });
 });

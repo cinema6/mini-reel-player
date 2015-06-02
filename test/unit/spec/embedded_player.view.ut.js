@@ -190,7 +190,6 @@ describe('EmbeddedPlayer', function() {
 
             describe('if load() has been called', function() {
                 let embedCode;
-                let poster;
                 let children;
 
                 beforeEach(function() {
@@ -198,7 +197,6 @@ describe('EmbeddedPlayer', function() {
                     Runner.run(() => player.load());
 
                     embedCode = player.element.querySelector('#code');
-                    poster = player.element.querySelector('.c6-view');
 
                     Runner.run(() => player.unload());
                     children = Array.prototype.slice.call(player.element.childNodes);
@@ -206,10 +204,6 @@ describe('EmbeddedPlayer', function() {
 
                 it('should remove the embed code', function() {
                     expect(children).not.toContain(embedCode);
-                });
-
-                it('should not remove the poster', function() {
-                    expect(children).toContain(poster);
                 });
 
                 it('should make load() do something again', function() {

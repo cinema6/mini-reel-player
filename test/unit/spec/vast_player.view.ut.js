@@ -129,6 +129,7 @@ describe('<vast-player>', function() {
     }
 
     beforeEach(function() {
+        global.c6.html5Videos = [];
         spyOn(media, 'bestVideoFormat').and.returnValue('video/mp4');
         spyOn(global, 'open');
 
@@ -365,6 +366,17 @@ describe('<vast-player>', function() {
 
             it('should emit ended on the player', function() {
                 expect(player.emit).toHaveBeenCalledWith('ended');
+            });
+        });
+
+        describe('canplay', function() {
+            beforeEach(function() {
+                player.on('canplay', () => Runner.schedule('render', null, () => {}));
+                video.emit('canplay');
+            });
+
+            it('should emit "canplay" on the player', function() {
+                expect(player.emit).toHaveBeenCalledWith('canplay');
             });
         });
 
@@ -1009,6 +1021,8 @@ describe('<vast-player>', function() {
                 let originalVideo;
 
                 beforeEach(function(done) {
+                    spyOn(CorePlayer.prototype, 'unload');
+
                     Runner.run(() => player.load());
                     originalVideo = video;
                     spyOn(player.element, 'removeChild');
@@ -1016,7 +1030,7 @@ describe('<vast-player>', function() {
                     spyOn(media, 'unloadMedia');
 
                     setTimeout(() => {
-                        player.unload();
+                        Runner.run(() => player.unload());
                         done();
                     }, 10);
                 });
@@ -1024,13 +1038,18 @@ describe('<vast-player>', function() {
                 describe('before the player was created', function() {
                     beforeEach(function() {
                         player = new VASTPlayer();
+                        CorePlayer.prototype.unload.calls.reset();
+
+                        Runner.run(() => player.unload());
                     });
 
-                    it('should do nothing', function() {
-                        expect(function() {
-                            player.unload();
-                        }).not.toThrow();
+                    it('should call super()', function() {
+                        expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                     });
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
 
                 it('should remove the video', function() {

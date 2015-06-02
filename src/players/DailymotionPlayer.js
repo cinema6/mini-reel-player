@@ -112,14 +112,17 @@ export default class DailymotionPlayer extends CorePlayer {
 
     unload() {
         const { video, iframe } = _(this);
-        if (!video) { return; }
+        if (!video) { return super(); }
 
         video.destroy();
         _(this).state = getInitialState();
-        this.element.removeChild(iframe);
 
         _(this).video = null;
         _(this).iframe = null;
+
+        Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
+
+        return super();
     }
 
     reload() {

@@ -17,6 +17,7 @@ describe('DailymotionPlayer', function() {
 
     beforeEach(function() {
         fetcher.constructor();
+        spyOn(DailymotionPlayer.prototype, 'addClass');
 
         player = new DailymotionPlayer();
 
@@ -443,9 +444,17 @@ describe('DailymotionPlayer', function() {
         });
 
         describe('unload()', function() {
+            beforeEach(function() {
+                spyOn(CorePlayer.prototype, 'unload');
+            });
+
             describe('before load() is called', function() {
-                it('should do nothing', function() {
-                    expect(() => player.unload()).not.toThrow();
+                beforeEach(function() {
+                    player.unload();
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
             });
 
@@ -461,6 +470,10 @@ describe('DailymotionPlayer', function() {
                     spyOn(video, 'destroy');
 
                     Runner.run(() => player.unload());
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
 
                 it('should destroy the video', function() {

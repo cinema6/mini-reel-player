@@ -2,6 +2,8 @@ import View from '../../lib/core/View.js';
 import {createKey} from 'private-parts';
 import Runner from '../../lib/Runner.js';
 
+const CANPLAY_CLASS = 'playerBox--canplay';
+
 const _ = createKey();
 
 function updatePoster() {
@@ -49,6 +51,7 @@ export default class CorePlayer extends View {
                 return currentTime >= (duration - 1);
             });
         });
+        this.on('canplay', () => this.addClass(CANPLAY_CLASS));
     }
 
     get poster() {
@@ -60,7 +63,9 @@ export default class CorePlayer extends View {
         if (this.element) { Runner.scheduleOnce('render', this, updatePoster); }
     }
 
-    unload() {}
+    unload() {
+        this.removeClass(CANPLAY_CLASS);
+    }
 
     didCreateElement() {
         Runner.scheduleOnce('render', this, updatePoster);

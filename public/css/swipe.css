@@ -170,6 +170,8 @@
         padding:0.75em 2em;
         display:block;
         text-align: center;
+        -webkit-transition:background 0.5s;
+        transition:background 0.5s;
     }
         .actionBtn:disabled {
             background:#ccc;
@@ -320,7 +322,22 @@
                     .player__group {
                         width:100%; height:12em;
                         background:center center / cover no-repeat;
+                        position: relative;
+                        overflow: hidden;
                     }
+                        .playerBox {
+                            position: relative;
+                            width:100%; height:100%;
+                        }
+                        .playerBox video,
+                        .playerBox object,
+                        .playerBox iframe {
+                            width:100% !important;
+                            height:100% !important;
+                            position:absolute;
+                            top:0; left:0;
+                            border:0;
+                        }
                     .card__title {
                         color:#222;
                         font-size:1.5em;
@@ -529,7 +546,7 @@
             top:0; left:0;
             opacity:0;
             width:100%; height:100%;
-            background:center center / cover no-repeat;
+            background:#000 center center / cover no-repeat;
             -webkit-transition: opacity 0.5s;
             transition: opacity 0.5s;
         }
@@ -757,11 +774,12 @@
         margin:1em 0 0 0;
     }
         .sponsor__iconLink {
-            width:32px; height:32px;
+            width:2em; height:2em;
             display: inline-block;
             background:#00c0ff;
             color:#fff;
             line-height: 2;
+            margin:0 0.1875em;
         }
             .sponsor__iconLink--youtube {
                 background:#e22d24;

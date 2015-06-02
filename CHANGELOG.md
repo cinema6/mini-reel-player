@@ -13,6 +13,7 @@
 * *[/v0.14.0-rc2]*
 
 * *[v0.14.0-rc1]*
+  * [FIX]: CSS Styles added to properly render video players
   * [FIX]: Try to improve autoplay attempt => success rate for iframe
     players
   * Send new messages to JumpRamp when videos are completed

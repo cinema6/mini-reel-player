@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.14.2 (June 2, 2015)
+* *[v0.14.2-rc1]*
+  * [FIX]: Fix for an issue that caused social meda links to not appear
+    on sponsored cards/MiniReels
+* *[/v0.14.2-rc1]*
+
 ## v0.14.1 (June 1, 2015)
 * *[v0.14.1-rc1]*
   * Stop sending complete event to JumpRamp for sponsored videos

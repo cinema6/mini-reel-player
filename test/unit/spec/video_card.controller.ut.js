@@ -258,10 +258,6 @@ describe('VideoCardController', function() {
                     expect(player.pause).toHaveBeenCalled();
                 });
 
-                it('should unload the player', function() {
-                    expect(player.unload).toHaveBeenCalled();
-                });
-
                 it('should remove the player as an event source', function() {
                     expect(dispatcher.removeSource).toHaveBeenCalledWith(player);
                 });

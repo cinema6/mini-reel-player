@@ -34,7 +34,6 @@ export default class VideoCardController extends CardController {
         });
         this.model.on('deactivate', () => {
             player.pause();
-            player.unload();
             dispatcher.removeSource(player);
         });
 

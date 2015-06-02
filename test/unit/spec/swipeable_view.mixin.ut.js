@@ -33,8 +33,8 @@ describe('SwipeableView mixin', function() {
 
     describe('properties:', function() {
         describe('decelerationRate', function() {
-            it('should be -20000', function() {
-                expect(view.decelerationRate).toBe(-20000);
+            it('should be -7500', function() {
+                expect(view.decelerationRate).toBe(-7500);
             });
         });
 

@@ -87,7 +87,7 @@ function SwipeableView() {
 
     this.animating = false;
     this.snapPoints = [];
-    this.decelerationRate = -20000; // px/s
+    this.decelerationRate = -7500; // px/s
     this.bounds = {
         min: -Infinity,
         max: Infinity

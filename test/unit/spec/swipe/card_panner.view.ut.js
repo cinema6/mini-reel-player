@@ -227,6 +227,17 @@ describe('CardPannerView', function() {
                 view.on('swipe', swipe);
             });
 
+            describe('if locked', function() {
+                beforeEach(function() {
+                    view.locked = true;
+                    view.currentIndex = 2;
+                });
+
+                it('should return the offset of the the current position', function() {
+                    expect(view.validateSnap(-335)).toBe(-535);
+                });
+            });
+
             describe('if there is no delegate', function() {
                 let result;
 

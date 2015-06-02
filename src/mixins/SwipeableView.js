@@ -162,7 +162,6 @@ SwipeableView.prototype = {
             const snapPoint = this.validateSnap(
                 snapPoints[distances.indexOf(Math.min(...distances))]
             );
-            const distance = Math.abs(scrolledPosition - snapPoint);
             const time = Math.max(
                 SNAP_SPEED,
                 -velocity / this.decelerationRate

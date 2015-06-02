@@ -91,6 +91,8 @@ export default class CardPannerView extends View {
     }
 
     validateSnap(offset) {
+        if (this.locked) { return this.snapPoints[this.currentIndex]; }
+
         const { delegate } = this;
         const index = delegate && delegate.getSnapCardIndex ?
             delegate.getSnapCardIndex(this.snapPoints.indexOf(offset)) :

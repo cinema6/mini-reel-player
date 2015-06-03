@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.15.0-rc1]*
+  * [FEATURE]: Add new mobile player with swipe gestures
+
 ## v0.14.2 (June 2, 2015)
 * *[v0.14.2-rc1]*
   * [FIX]: Fix for an issue that caused social meda links to not appear

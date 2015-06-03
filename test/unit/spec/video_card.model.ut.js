@@ -581,6 +581,10 @@ describe('VideoCard', function() {
                         expect(card.skippable).toBe(true);
                     });
 
+                    it('should set hasSkipControl to false', function() {
+                        expect(card.hasSkipControl).toBe(false);
+                    });
+
                     it('should emit the becameSkippable event', function() {
                         expect(becameSkippable).toHaveBeenCalled();
                         expect(becameSkippable.calls.count()).toBe(1);
@@ -650,6 +654,10 @@ describe('VideoCard', function() {
 
                         it('should set skippable to true', function() {
                             expect(card.skippable).toBe(true);
+                        });
+
+                        it('should set hasSkipControl to false', function() {
+                            expect(card.hasSkipControl).toBe(false);
                         });
 
                         it('should emit becameSkippable', function() {

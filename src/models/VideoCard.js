@@ -50,9 +50,8 @@ export default class VideoCard extends Card {
     activate() {
         let {skip} = _(this);
         const { canSkipAfterCountdown } = _(this);
-        const { hasSkipControl } = this;
 
-        if (hasSkipControl) {
+        if (this.hasSkipControl) {
             this.skippable = false;
             this.emit('becameUnskippable');
 
@@ -74,6 +73,8 @@ export default class VideoCard extends Card {
                     this.emit('becameSkippable');
                 });
             }
+
+            this.once('becameSkippable', () => this.hasSkipControl = false);
         }
 
         return super(...arguments);

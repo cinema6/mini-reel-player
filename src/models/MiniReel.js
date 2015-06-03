@@ -1,3 +1,4 @@
+import environment from '../environment.js';
 import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import PostMessageHandler from '../handlers/PostMessageHandler.js';
@@ -8,6 +9,8 @@ import {EventEmitter} from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
 import adtech from '../services/adtech.js';
+import browser from '../services/browser.js';
+import codeLoader from '../services/code_loader.js';
 import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
@@ -95,6 +98,22 @@ function initialize(whitelist, { experience, standalone, profile }) {
     });
 
     this.prerollCard = new PrerollCard(null, experience, profile, this);
+
+
+    if (this.branding) {
+        const { apiRoot, mode } = environment;
+        const base = `${apiRoot}/collateral/branding/${this.branding}/styles`;
+
+        codeLoader.loadStyles(`${base}/${mode}/theme.css`);
+        codeLoader.loadStyles(`${base}/core.css`);
+
+        browser.test('mouse').then(hasMouse => {
+            if (hasMouse) {
+                codeLoader.loadStyles(`${base}/${mode}/theme--hover.css`);
+                codeLoader.loadStyles(`${base}/core--hover.css`);
+            }
+        });
+    }
 
     _(this).ready = true;
     this.emit('init');

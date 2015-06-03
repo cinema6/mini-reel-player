@@ -20,6 +20,9 @@ import DisplayAdCard from '../../../src/models/DisplayAdCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
 import election from '../../../src/services/election.js';
+import browser from '../../../src/services/browser.js';
+import codeLoader from '../../../src/services/code_loader.js';
+import environment from '../../../src/environment.js';
 
 describe('MiniReel', function() {
     let experience;
@@ -637,6 +640,8 @@ describe('MiniReel', function() {
 
         profile = { flash: false };
 
+        environment.constructor();
+
         session = new EventEmitter();
         session.ping = jasmine.createSpy('session.ping()');
 
@@ -656,6 +661,10 @@ describe('MiniReel', function() {
         sessionDeferred.fulfill(session);
 
         sessionDeferred.promise.then(done);
+    });
+
+    afterAll(function() {
+        environment.constructor();
     });
 
     it('should be an event emitter', function() {
@@ -1522,11 +1531,16 @@ describe('MiniReel', function() {
 
     describe('when the appData is available', function() {
         let done;
+        let mouseDeferred;
 
         beforeEach(function(_done) {
             done = jasmine.createSpy('done()').and.callFake(_done);
             spyOn(adtech, 'setDefaults');
             spyOn(minireel, 'didMove').and.callThrough();
+
+            mouseDeferred = defer(RunnerPromise);
+            spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
+            spyOn(codeLoader, 'loadStyles');
 
             minireel.on('init', () => process.nextTick(done));
 
@@ -1613,6 +1627,61 @@ describe('MiniReel', function() {
                     href: experience.data.links.Pinterest
                 }
             ]);
+        });
+
+        it('should load the branding styles for the minireel', function() {
+            expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme.css`);
+            expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core.css`);
+        });
+
+        it('should see if the browser has a mouse', function() {
+            expect(browser.test).toHaveBeenCalledWith('mouse');
+        });
+
+        describe('if the device has no mouse', function() {
+            beforeEach(function(done) {
+                codeLoader.loadStyles.calls.reset();
+
+                mouseDeferred.fulfill(false);
+                mouseDeferred.promise.then(done, done);
+            });
+
+            it('should not load branding hover styles', function() {
+                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('if the device has a mouse', function() {
+            beforeEach(function(done) {
+                codeLoader.loadStyles.calls.reset();
+
+                mouseDeferred.fulfill(true);
+                mouseDeferred.promise.then(done, done);
+            });
+
+            it('should load branding hover styles', function() {
+                expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme--hover.css`);
+                expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core--hover.css`);
+            });
+        });
+
+        describe('if the minireel has no branding', function() {
+            beforeEach(function(done) {
+                delete experience.data.branding;
+                codeLoader.loadStyles.calls.reset();
+                browser.test.calls.reset();
+
+                minireel = new MiniReel();
+                minireel.on('init', done);
+            });
+
+            it('should not load styles', function() {
+                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+            });
+
+            it('should not test for a mouse', function() {
+                expect(browser.test).not.toHaveBeenCalled();
+            });
         });
 
         describe('if something goes wrong', function() {

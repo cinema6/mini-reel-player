@@ -330,10 +330,6 @@ describe('SwipePlayerController', function() {
                 }));
             });
 
-            it('should set its view\'s cards\' delegate to itself', function() {
-                expect(view.cards.delegate).toBe(SwipePlayerCtrl);
-            });
-
             it('should append its view to the parentView', function() {
                 expect(view.appendTo).toHaveBeenCalledWith(parentView);
             });

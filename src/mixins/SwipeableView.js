@@ -87,7 +87,7 @@ function SwipeableView() {
 
     this.animating = false;
     this.snapPoints = [];
-    this.decelerationRate = -7500; // px/s
+    this.decelerationRate = -10000; // px/s
     this.bounds = {
         min: -Infinity,
         max: Infinity
@@ -121,8 +121,8 @@ SwipeableView.prototype = {
         this.element.style[prefix('transform')] = this.element.style[prefix('transform')];
     }),
 
-    validateSnap: function validateSnap(offset) {
-        return this.super ? this.super(offset) : offset;
+    validateSnap: function validateSnap(offset, event) {
+        return this.super ? this.super(offset, event) : offset;
     },
 
     swipe: function swipe(event) {
@@ -144,6 +144,7 @@ SwipeableView.prototype = {
         const position = Math.min(max, Math.max(min, desiredPosition)) + modifier;
 
         if (phase === MOVE) {
+            event.original.preventDefault();
             this.setOffset(position);
         } else if (phase === END && snapPoints.length > 0) {
             const velocity = velocityX * 1000; // px/s
@@ -160,7 +161,8 @@ SwipeableView.prototype = {
             const scrolledPosition = position + extraDistance;
             const distances = map(snapPoints, point => Math.abs(scrolledPosition - point));
             const snapPoint = this.validateSnap(
-                snapPoints[distances.indexOf(Math.min(...distances))]
+                snapPoints[distances.indexOf(Math.min(...distances))],
+                event
             );
             const time = Math.max(
                 SNAP_SPEED,
@@ -171,8 +173,6 @@ SwipeableView.prototype = {
         }
 
         _(this).offset = offset;
-
-        event.original.preventDefault();
 
         if (this.super) { this.super(event); }
     },

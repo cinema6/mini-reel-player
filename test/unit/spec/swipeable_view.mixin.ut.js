@@ -33,8 +33,8 @@ describe('SwipeableView mixin', function() {
 
     describe('properties:', function() {
         describe('decelerationRate', function() {
-            it('should be -7500', function() {
-                expect(view.decelerationRate).toBe(-7500);
+            it('should be -10000', function() {
+                expect(view.decelerationRate).toBe(-10000);
             });
         });
 
@@ -297,15 +297,17 @@ describe('SwipeableView mixin', function() {
 
             describe('if there is a super() implementation', function() {
                 let result;
+                let evt;
 
                 beforeEach(function() {
                     view.super = jasmine.createSpy('this.super()').and.returnValue(233);
+                    evt = { phase: 'END', velocityX: 0.22, deltaX: 384 };
 
-                    result = view.validateSnap(122);
+                    result = view.validateSnap(122, evt);
                 });
 
                 it('should use its return value', function() {
-                    expect(view.super).toHaveBeenCalledWith(122);
+                    expect(view.super).toHaveBeenCalledWith(122, evt);
                     expect(result).toBe(233);
                 });
             });
@@ -358,7 +360,7 @@ describe('SwipeableView mixin', function() {
                 view.swipe({ phase: 'move', deltaX: -5, original: { preventDefault } });
                 expect(view.setOffset).toHaveBeenCalledWith(25);
 
-                expect(preventDefault.calls.count()).toBe(3);
+                expect(preventDefault.calls.count()).toBe(2);
             });
 
             describe('when moving out of bounds', function() {
@@ -483,10 +485,12 @@ describe('SwipeableView mixin', function() {
                 describe('if validateSnap() returns something other than what it wants to snap to', function() {
                     beforeEach(function() {
                         spyOn(view, 'validateSnap').and.returnValue(-750);
+                        spyOn(view, 'swipe').and.callThrough();
                         swipe(-250, -600);
                     });
 
                     it('should snap to that value', function() {
+                        expect(view.validateSnap).toHaveBeenCalledWith(-500, view.swipe.calls.mostRecent().args[0]);
                         expect(view.animateOffset).toHaveBeenCalledWith(-750, ANIMATION_SPEED, ANIMATION_EASING);
                     });
                 });

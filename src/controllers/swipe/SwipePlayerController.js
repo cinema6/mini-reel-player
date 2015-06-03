@@ -78,7 +78,6 @@ export default class SwipePlayerController extends Controller {
             title: this.model.title,
             standalone: this.model.standalone
         });
-        this.view.cards.delegate = this;
 
         this.view.cards.on('swipe', () => this.model.moveToIndex(this.view.cards.currentIndex));
         this.view.cards.on('animationEnd', () => this.updateView());

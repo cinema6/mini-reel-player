@@ -45,7 +45,6 @@ export default class CardPannerView extends View {
 
         this.locked = false;
         this.currentIndex = 0;
-        this.delegate = null;
 
         Object.defineProperties(this.bounds, {
             min: {
@@ -90,13 +89,22 @@ export default class CardPannerView extends View {
         return super();
     }
 
-    validateSnap(offset) {
-        if (this.locked) { return this.snapPoints[this.currentIndex]; }
+    validateSnap(offset, { deltaX, velocityX }) {
+        const { currentIndex, snapPoints } = this;
+        const currentOffset = snapPoints[currentIndex];
+        const index = (() => {
+            if (velocityX > 0.2) {
+                const lastIndex = this.snapPoints.length - 1;
+                const firstIndex = 0;
+                const modifier = deltaX > 0 ? -1 : 1;
 
-        const { delegate } = this;
-        const index = delegate && delegate.getSnapCardIndex ?
-            delegate.getSnapCardIndex(this.snapPoints.indexOf(offset)) :
-            this.snapPoints.indexOf(offset);
+                return Math.max(Math.min(currentIndex + modifier, lastIndex), firstIndex);
+            } else {
+                return snapPoints.indexOf(offset);
+            }
+        }());
+
+        if (this.locked) { return currentOffset; }
 
         this.once('animationStart', () => {
             this.currentIndex = index;

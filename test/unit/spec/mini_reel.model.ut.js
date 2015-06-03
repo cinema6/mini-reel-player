@@ -13,6 +13,7 @@ import {
 } from '../../../lib/utils.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import TextCard from '../../../src/models/TextCard.js';
+import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
@@ -575,6 +576,27 @@ describe('MiniReel', function() {
                 "params": {}
               },
               {
+                  "data": {
+                      "embedCode": "<div>some embed</div>"
+                  },
+                  "id": "rc-4b3dc315c3573f",
+                  "type": "image",
+                  "title": "Check These Out!",
+                  "note": "These people play the trumpet like you've never heard before.",
+                  "modules": [],
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                      "campaignId": null,
+                       "advertiserId": null,
+                       "minViewTime": null
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "params": {}
+              },
+              {
                 "data": {
                   "size": "300x250"
                 },
@@ -1095,7 +1117,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(20);
+                            minireel.moveToIndex(21);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -1558,7 +1580,7 @@ describe('MiniReel', function() {
         it('should add the GoogleAnalytics and Moat Handlers', function() {
             expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel, config);
             expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler, config);
-            
+
             expect(dispatcher.addClient).not.toHaveBeenCalledWith(JumpRampHandler );
         });
     });
@@ -1575,7 +1597,7 @@ describe('MiniReel', function() {
         it('should add the GoogleAnalytics, Moat and JumpRamp Handlers', function() {
             expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel, config);
             expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler, config);
-            
+
             expect(dispatcher.addClient).toHaveBeenCalledWith(JumpRampHandler );
         });
     });
@@ -1827,6 +1849,7 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
+                jasmine.any(ImageCard),
                 jasmine.any(DisplayAdCard),
                 jasmine.any(RecapCard)
             ]);
@@ -1857,7 +1880,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(20);
+            expect(minireel.length).toBe(21);
         });
 
         it('should set the adtech defaults', function() {

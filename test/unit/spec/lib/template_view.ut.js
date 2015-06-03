@@ -161,6 +161,81 @@ describe('TemplateView', function() {
                 }).not.toThrow();
             });
 
+            describe('if the template contains a data-attributes="" directive', function() {
+                let element;
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <button data-attributes="type:button.type disabled:button.disabled"></button>
+                    `;
+
+                    view.create();
+                    element = view.element.querySelector('button');
+                });
+
+                describe('when update is called', function() {
+                    beforeEach(function() {
+                        view.update({
+                            button: {
+                                type: 'button',
+                                disabled: true
+                            }
+                        });
+                        queues.render.pop()();
+                    });
+
+                    it('should set the non-boolean values to the associated attribute', function() {
+                        expect(element.getAttribute('type')).toBe('button');
+                    });
+
+                    it('should add attributes if a boolean value is true', function() {
+                        expect(element.getAttribute('disabled')).toBe('');
+                    });
+
+                    describe('when update is called again', function() {
+                        beforeEach(function() {
+                            view.update({
+                                button: {
+                                    type: 'link',
+                                    disabled: false
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should change the non-boolean values', function() {
+                            expect(element.getAttribute('type')).toBe('link');
+                        });
+
+                        it('should remove attributes if a boolean value is false', function() {
+                            expect(element.getAttribute('disabled')).toBe(null);
+                        });
+
+                        describe('with the same values', function() {
+                            beforeEach(function() {
+                                spyOn(element, 'setAttribute').and.callThrough();
+                                spyOn(element, 'removeAttribute').and.callThrough();
+
+                                view.update({
+                                    button: {
+                                        type: 'link',
+                                        disabled: false
+                                    }
+                                });
+                                queues.render.pop()();
+                            });
+
+                            it('should not modify the element', function() {
+                                expect(element.setAttribute).not.toHaveBeenCalled();
+                                expect(element.removeAttribute).not.toHaveBeenCalled();
+                            });
+                        });
+                    });
+                });
+            });
+
             describe('if the template contains a data-class="" directive', function() {
                 let element;
 

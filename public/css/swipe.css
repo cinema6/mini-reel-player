@@ -352,7 +352,7 @@
                     }
 
                     .player__group {
-                        width:100%; height:12em;
+                        width:100%; height:14em;
                         background:center center / cover no-repeat;
                         position: relative;
                         overflow: hidden;
@@ -382,13 +382,13 @@
                             }
                     .card__title {
                         color:#222;
-                        font-size:1.5em;
+                        font-size:1.75em;
                         margin:0.625em 0.9375rem 0 0.9375rem;
                         font-weight:normal;
                         line-height:1.25;
                     }
                         .card__title--secondary {
-                            font-size:1.125em;
+                            font-size:1.25em;
                         }
                         .card__source {
                             font-size:0.75em;
@@ -919,17 +919,17 @@
     ================================================ */
     @media only screen and (max-device-width : 340px) { 
         .card__title {
-            font-size:1em;
+            font-size:1.25em;
         }
             .card__title--secondary {
-                font-size:0.875em;
+                font-size:1em;
             }
         .card__copy {
             font-size:0.75em;
         }
 
         .player__group {
-            height:9em;
+            height:11em;
         }
 
         .flyOver__box {
@@ -948,17 +948,17 @@
     ================================================ */
     @media only screen and (min-device-width : 400px) { 
         .card__title {
-            font-size:1.75em;
+            font-size:2em;
         }
             .card__title--secondary {
-                font-size:1.25em;
+                font-size:1.5em;
             }
         .card__copy {
             font-size:1.125em;
         }
 
         .player__group {
-            height:15em;
+            height:17em;
         }
 
         .flyOver__box {

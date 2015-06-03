@@ -422,23 +422,6 @@ describe('DailymotionPlayer', function() {
                             });
                         });
                     });
-
-                    describe('and the video has already played', function() {
-                        beforeEach(function() {
-                            video.emit('playing');
-                            spyOn(video, 'call');
-
-                            Runner.run(() => player.play());
-                        });
-
-                        it('should play the video', function() {
-                            expect(video.call).toHaveBeenCalledWith('play');
-                        });
-
-                        it('should emit "attemptPlay"', function() {
-                            expect(attemptPlay).toHaveBeenCalled();
-                        });
-                    });
                 });
             });
         });

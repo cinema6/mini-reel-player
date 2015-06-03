@@ -950,26 +950,6 @@ describe('RumblePlayer', function() {
                         it('should not emit "attemptPlay"', function() {
                             expect(attemptPlay).not.toHaveBeenCalled();
                         });
-
-                        describe('after the video has played once', function() {
-                            beforeEach(function() {
-                                rumblePlayer.emit('play');
-                                browser.test.calls.reset();
-                                Runner.run(() => player.play());
-                            });
-
-                            it('should not check if the browser can autoplay', function() {
-                                expect(browser.test).not.toHaveBeenCalled();
-                            });
-
-                            it('should play the video', function() {
-                                expect(rumblePlayer.call).toHaveBeenCalledWith('play');
-                            });
-
-                            it('should emit "attemptPlay"', function() {
-                                expect(attemptPlay).toHaveBeenCalled();
-                            });
-                        });
                     });
 
                     describe('if the device can autoplay', function() {
@@ -1016,26 +996,6 @@ describe('RumblePlayer', function() {
 
                     it('should not emit "attemptPlay"', function() {
                         expect(attemptPlay).not.toHaveBeenCalled();
-                    });
-
-                    describe('after the video has played once', function() {
-                        beforeEach(function() {
-                            rumblePlayer.emit('play');
-                            browser.test.calls.reset();
-                            Runner.run(() => player.play());
-                        });
-
-                        it('should not check if the browser can autoplay', function() {
-                            expect(browser.test).not.toHaveBeenCalled();
-                        });
-
-                        it('should play the video', function() {
-                            expect(rumblePlayer.call).toHaveBeenCalledWith('play');
-                        });
-
-                        it('should emit "attemptPlay"', function() {
-                            expect(attemptPlay).toHaveBeenCalled();
-                        });
                     });
                 });
 

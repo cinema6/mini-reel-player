@@ -388,31 +388,6 @@ describe('YouTubePlayer', function() {
                     });
                 });
             });
-
-            describe('if the video has already played', function() {
-                beforeEach(function(done) {
-                    Runner.run(() => player.load());
-                    codeLoader.load('youtube').then(() => {
-                        youtube.Player.calls.mostRecent().args[1].events.onReady();
-                        youtube.Player.calls.mostRecent().args[1].events.onStateChange({
-                            data: youtube.PlayerState.PLAYING
-                        });
-                        player.play();
-                    }).then(done, done);
-                });
-
-                it('should not test for autoplay ability', function() {
-                    expect(browser.test).not.toHaveBeenCalledWith('autoplay');
-                });
-
-                it('should play the video', function() {
-                    expect(ytPlayer.playVideo).toHaveBeenCalled();
-                });
-
-                it('should emit "attemptPlay"', function() {
-                    expect(attemptPlay).toHaveBeenCalled();
-                });
-            });
         });
 
         describe('pause()', function() {

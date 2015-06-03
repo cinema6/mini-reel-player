@@ -954,26 +954,6 @@ describe('VimeoPlayer', function() {
                         it('should not emit "attemptPlay"', function() {
                             expect(attemptPlay).not.toHaveBeenCalled();
                         });
-
-                        describe('after the video has played once', function() {
-                            beforeEach(function() {
-                                vimeoPlayer.emit('play');
-                                browser.test.calls.reset();
-                                Runner.run(() => player.play());
-                            });
-
-                            it('should not check if the browser can autoplay', function() {
-                                expect(browser.test).not.toHaveBeenCalled();
-                            });
-
-                            it('should play the video', function() {
-                                expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
-                            });
-
-                            it('should emit "attemptPlay"', function() {
-                                expect(attemptPlay).toHaveBeenCalled();
-                            });
-                        });
                     });
 
                     describe('if the device can autoplay', function() {
@@ -1020,26 +1000,6 @@ describe('VimeoPlayer', function() {
 
                     it('should not emit "attemptPlay"', function() {
                         expect(attemptPlay).not.toHaveBeenCalled();
-                    });
-
-                    describe('after the video has played once', function() {
-                        beforeEach(function() {
-                            vimeoPlayer.emit('play');
-                            browser.test.calls.reset();
-                            Runner.run(() => player.play());
-                        });
-
-                        it('should not check if the browser can autoplay', function() {
-                            expect(browser.test).not.toHaveBeenCalled();
-                        });
-
-                        it('should play the video', function() {
-                            expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
-                        });
-
-                        it('should emit "attemptPlay"', function() {
-                            expect(attemptPlay).toHaveBeenCalled();
-                        });
                     });
                 });
 

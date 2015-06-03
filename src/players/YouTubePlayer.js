@@ -149,8 +149,6 @@ export default class YouTubePlayer extends CorePlayer {
             _(this).player.playVideo();
         });
         const play = (() => {
-            if (_(this).hasPlayed) { return callPlay(); }
-
             browser.test('autoplay').then(autoplayable => {
                 if (autoplayable) { return callPlay(); }
             });

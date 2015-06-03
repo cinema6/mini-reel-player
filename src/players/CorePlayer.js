@@ -1,8 +1,16 @@
 import View from '../../lib/core/View.js';
-import PlayerPosterView from '../../src/views/PlayerPosterView.js';
 import {createKey} from 'private-parts';
+import Runner from '../../lib/Runner.js';
+
+const CANPLAY_CLASS = 'playerBox--canplay';
 
 const _ = createKey();
+
+function updatePoster() {
+    const { poster } = _(this);
+
+    this.element.style.backgroundImage = (poster || '') && `url('${_(this).poster}')`;
+}
 
 export default class CorePlayer extends View {
     constructor() {
@@ -20,8 +28,7 @@ export default class CorePlayer extends View {
         this.tag = 'div';
         this.classes.push('playerBox');
 
-        _(this).posterSrc = null;
-        _(this).poster = new PlayerPosterView();
+        _(this).poster = null;
 
         this.on('timeupdate', () => {
             const {currentTime, duration} = this;
@@ -44,24 +51,24 @@ export default class CorePlayer extends View {
                 return currentTime >= (duration - 1);
             });
         });
+        this.on('canplay', () => this.addClass(CANPLAY_CLASS));
     }
 
     get poster() {
-        return _(this).posterSrc;
+        return _(this).poster;
     }
     set poster(value) {
-        _(this).posterSrc = value;
-        _(this).poster.setImage(value);
+        _(this).poster = value;
+
+        if (this.element) { Runner.scheduleOnce('render', this, updatePoster); }
     }
 
-    unload() {}
+    unload() {
+        this.removeClass(CANPLAY_CLASS);
+    }
 
     didCreateElement() {
-        const {poster} = _(this);
-
-        this.append(poster);
-        poster.setImage(this.poster);
-
+        Runner.scheduleOnce('render', this, updatePoster);
         return super(...arguments);
     }
 

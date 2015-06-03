@@ -27,6 +27,6 @@ export default class CardController extends Controller {
         });
         this.view.hide();
 
-        this.view.appendTo(_(this).deck);
+        _(this).deck.append(this.view);
     }
 }

@@ -45,6 +45,7 @@ describe('VimeoPlayer', function() {
 
     beforeEach(function() {
         vimeo.constructor();
+        spyOn(CorePlayer.prototype, 'addClass');
 
         ServicePlayer = vimeo.Player;
         spyOn(vimeo, 'Player').and.callFake(iframe => {
@@ -260,20 +261,17 @@ describe('VimeoPlayer', function() {
         });
 
         describe('canplay', function() {
+            let canplay;
+
             beforeEach(function() {
+                canplay = jasmine.createSpy('canplay');
+                player.on('canplay', canplay);
+
                 vimeoPlayer.emit('ready');
             });
 
-            it('should be emitted the first time the "loadProgress" event is emitted', function() {
-                var canplay = jasmine.createSpy('canplay');
-
-                player.on('canplay', canplay);
-
-                vimeoPlayer.emit('loadProgress', {});
+            it('should be emitted when the player is ready', function() {
                 expect(canplay).toHaveBeenCalled();
-
-                vimeoPlayer.emit('loadProgress', {});
-                expect(canplay.calls.count()).toBe(1);
             });
         });
 
@@ -703,7 +701,7 @@ describe('VimeoPlayer', function() {
                     expect(player.readyState).toBe(0);
                 });
 
-                it('should be 1 when the duration is fetched', function(done) {
+                it('should be 3 when the duration is fetched', function(done) {
                     var deferred = defer(RunnerPromise);
 
                     vimeoPlayer.call.and.returnValue(deferred.promise);
@@ -711,13 +709,12 @@ describe('VimeoPlayer', function() {
                     deferred.fulfill(45);
 
                     deferred.promise.then(() => {
-                        expect(player.readyState).toBe(1);
+                        expect(player.readyState).toBe(3);
                     }).then(done, done);
                 });
 
-                it('should be 3 on the first loadProgress event', function() {
+                it('should be 3 when the player is ready', function() {
                     vimeoPlayer.emit('ready');
-                    vimeoPlayer.emit('loadProgress', {});
 
                     expect(player.readyState).toBe(3);
                 });
@@ -957,26 +954,6 @@ describe('VimeoPlayer', function() {
                         it('should not emit "attemptPlay"', function() {
                             expect(attemptPlay).not.toHaveBeenCalled();
                         });
-
-                        describe('after the video has played once', function() {
-                            beforeEach(function() {
-                                vimeoPlayer.emit('play');
-                                browser.test.calls.reset();
-                                Runner.run(() => player.play());
-                            });
-
-                            it('should not check if the browser can autoplay', function() {
-                                expect(browser.test).not.toHaveBeenCalled();
-                            });
-
-                            it('should play the video', function() {
-                                expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
-                            });
-
-                            it('should emit "attemptPlay"', function() {
-                                expect(attemptPlay).toHaveBeenCalled();
-                            });
-                        });
                     });
 
                     describe('if the device can autoplay', function() {
@@ -1023,26 +1000,6 @@ describe('VimeoPlayer', function() {
 
                     it('should not emit "attemptPlay"', function() {
                         expect(attemptPlay).not.toHaveBeenCalled();
-                    });
-
-                    describe('after the video has played once', function() {
-                        beforeEach(function() {
-                            vimeoPlayer.emit('play');
-                            browser.test.calls.reset();
-                            Runner.run(() => player.play());
-                        });
-
-                        it('should not check if the browser can autoplay', function() {
-                            expect(browser.test).not.toHaveBeenCalled();
-                        });
-
-                        it('should play the video', function() {
-                            expect(vimeoPlayer.call).toHaveBeenCalledWith('play');
-                        });
-
-                        it('should emit "attemptPlay"', function() {
-                            expect(attemptPlay).toHaveBeenCalled();
-                        });
                     });
                 });
 
@@ -1111,14 +1068,18 @@ describe('VimeoPlayer', function() {
 
         describe('unload()', function() {
             beforeEach(function() {
+                spyOn(CorePlayer.prototype, 'unload');
+
                 player.src = 'foo';
             });
 
             describe('if the player has not been loaded yet', function() {
-                it('should do nothing', function() {
-                    expect(function() {
-                        player.unload();
-                    }).not.toThrow();
+                beforeEach(function() {
+                    Runner.run(() => player.unload());
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
             });
 
@@ -1129,7 +1090,11 @@ describe('VimeoPlayer', function() {
                     vimeoPlayer.emit('loadProgress', { percent: '0.3' });
                     vimeoPlayer.emit('play');
                     vimeoPlayer.emit('finish');
-                    player.unload();
+                    Runner.run(() => player.unload());
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
 
                 it('should destroy the player', function() {

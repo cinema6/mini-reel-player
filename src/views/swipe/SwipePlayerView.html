@@ -1,0 +1,68 @@
+<div class="viewPane" data-class="standalone:c6MiniReel--standalone locked:viewPane--skipLock isSponsored:c6MiniReel--sponsored">
+    <div data-view="infoOutlet:View"></div>
+
+    <div class="headerBar__group">
+        <button data-view="infoButton:ButtonView"
+            data-target="controller"
+            data-action="showInfoPanel"
+            class="navBtn headerBar__infoBtn c6sprite c6sprite--infoIcon"
+            type="button"
+            title="Info">
+            <span class="ir">Info</span>
+        </button>
+        <h1 class="mrTitle__group skipLock--fadeOut">
+            {{title}}
+        </h1>
+        <button data-view="closeButton:ButtonView" class="navBtn headerBar__closeBtn c6sprite c6sprite--closeIcon" type="button" title="Close">
+            <span class="ir">Close</span>
+        </button>
+    </div>
+
+    <div data-if="isSponsored" class="mrSponsor__header">
+        <h2 data-if="sponsor" class="mrSponsor__sponsorTag">
+            Sponsored by <a href="{{website}}" target="_blank" title="{{sponsor}}">{{sponsor}}</a>
+        </h2>
+        <a data-if="logo" href="{{website}}" class="mrSponsor__headerLogo sponsor__logo skipLock--fadeOut" title="{{sponsor}}" target="_blank">
+            <img src="{{logo}}" alt="{{sponsor}}" class="sponsor__logoImg">
+        </a>
+    </div>
+
+    <span data-view="prerollOutlet:View"></span><!-- preroll outlet -->
+    <ul data-view="cards:CardPannerView" class="cards__list"></ul>
+
+    <div data-view="skipTimer:SkipProgressTimerView" class="skipTimer__group">
+        <div class="skipTimer__text tk--alert">Skip in {{remaining}}</div>
+        <div class="skipTimer__meter" style="width: {{width}};">&nbsp;</div>
+    </div>
+
+    <nav class="navBar__group">
+        <button data-view="previousButton:ButtonView"
+            data-target="controller" data-action="previous"
+            data-attributes="disabled:disablePrevious"
+            class="navBtn navBar__prevBtn c6sprite c6sprite--leftArrowIcon"
+            type="button"
+            title="Previous Card">
+            <span class="ir">Previous Card</span>
+        </button>
+        <button data-if="flippable"
+            data-view="flipButton:ButtonView"
+            data-target="controller" data-action="toggleFlip"
+            class="navBtn navBar__flipBtn c6sprite c6sprite--flipIcon"
+            type="button"
+            title="Flip Card">
+            <span class="navBtn__label">Flip Card</span>
+        </button>
+        <button data-view="nextButton:ButtonView"
+            data-target="controller" data-action="next"
+            data-attributes="disabled:disableNext"
+            class="navBtn navBar__nextBtn c6sprite c6sprite--rightArrowIcon"
+            type="button"
+            title="Next Card">
+            <span class="ir">Next Card</span>
+        </button>
+    </nav>
+</div>
+
+<div class="viewPane viewPane--landscape">
+    <h2 class="landscape__msg tk--hdr">Please rotate your device to portrait mode</h2>
+</div>

@@ -90,6 +90,18 @@ describe('BallotVideoCardController mixin', function() {
                                 expect(Ctrl.view.playerOutlet.show).toHaveBeenCalled();
                             });
                         });
+
+                        describe('vote', function() {
+                            beforeEach(function() {
+                                spyOn(Ctrl.BallotCtrl, 'deactivate');
+
+                                Ctrl.BallotCtrl.emit('vote');
+                            });
+
+                            it('should deactivate() the BallotCtrl', function() {
+                                expect(Ctrl.BallotCtrl.deactivate).toHaveBeenCalled();
+                            });
+                        });
                     });
 
                     describe('player:', function() {

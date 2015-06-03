@@ -6,6 +6,7 @@
   "scripts": {
     "test": "grunt test:unit",
     "mobile": "./src/mobile.js",
+    "swipe": "./src/swipe.js",
     "full": "./src/full.js",
     "full-np": "./src/full-np.js",
     "lightbox-playlist": "./src/lightbox-playlist.js",
@@ -63,6 +64,7 @@
     "es6-promise": "^2.0.1",
     "escape-regexp": "0.0.1",
     "gsap": "^1.15.1",
+    "prefix": "^0.2.1",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",
     "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js#v0.2.0",

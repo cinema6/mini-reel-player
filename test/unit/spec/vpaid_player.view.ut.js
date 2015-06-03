@@ -31,6 +31,7 @@ describe('VPAIDPlayer', function() {
     }
 
     beforeEach(function() {
+        spyOn(CorePlayer.prototype, 'addClass');
         jasmine.clock().install();
         const setInterval = global.setInterval;
         spyOn(global, 'setInterval').and.callFake(function(...args) {

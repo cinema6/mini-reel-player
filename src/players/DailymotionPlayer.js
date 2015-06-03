@@ -92,7 +92,7 @@ export default class DailymotionPlayer extends CorePlayer {
     }
 
     play() {
-        const { state: { ready, hasPlayed } } = _(this);
+        const { state: { ready } } = _(this);
         this.load();
 
         const callPlay = (() => {
@@ -100,8 +100,6 @@ export default class DailymotionPlayer extends CorePlayer {
             _(this).video.call('play');
         });
         const play = (() => {
-            if (hasPlayed) { return callPlay(); }
-
             browser.test('autoplay').then(autoplayable => {
                 if (autoplayable) { return callPlay(); }
             });
@@ -112,14 +110,17 @@ export default class DailymotionPlayer extends CorePlayer {
 
     unload() {
         const { video, iframe } = _(this);
-        if (!video) { return; }
+        if (!video) { return super(); }
 
         video.destroy();
         _(this).state = getInitialState();
-        this.element.removeChild(iframe);
 
         _(this).video = null;
         _(this).iframe = null;
+
+        Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
+
+        return super();
     }
 
     reload() {

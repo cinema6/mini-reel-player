@@ -23,6 +23,5 @@ export default class BallotController extends ModuleController {
     vote(button) {
         this.model.cast(parseInt(button.attributes['data-vote'], 10));
         this.emit('voted');
-        return this.deactivate();
     }
 }

@@ -1,5 +1,4 @@
 import CardController from './CardController.js';
-import Runner from '../../lib/Runner.js';
 import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
@@ -35,7 +34,6 @@ export default class VideoCardController extends CardController {
         });
         this.model.on('deactivate', () => {
             player.pause();
-            Runner.schedule('afterRender', player, 'unload');
             dispatcher.removeSource(player);
         });
 

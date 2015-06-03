@@ -1,0 +1,36 @@
+<button data-view="closeButton:ButtonView"
+    data-target="controller" data-action="close"
+    class="navBtn infoPanel__closeBtn actionBtn__closeInfo c6sprite c6sprite--closeIcon"
+    type="button"
+    title="Close">
+    <span class="ir">Close</span>
+</button>
+<button data-view="backButton:ButtonView"
+    data-target="controller" data-action="close"
+    class="navBtn infoPanel__backBtn actionBtn__closeInfo c6sprite"
+    type="button"
+    title="Back">
+    <i class="fa fa-chevron-left"></i> Back
+</button>
+<div class="infoPanel">
+    <a data-if="logo" href="{{website}}" class="sponsor__logo sponsor__logo--large" target="_blank" title="{{sposnor}}">
+        <img src="{{logo}}" alt="{{sponsor}}" class="sponsor__logoImg sponsor__logoImg--large">
+    </a>
+
+    <h1 class="infoPanel__title">{{title}}</h1>
+
+    <div data-if="sponsor" class="sponsor__links">
+        <h2 class="mrSponsor__introText">
+            Presented by 
+            <a href="{{website}}" target="_blank" title="{{sponsor}}">{{sponsor}}</a>
+        </h2>
+        <a data-if="website" href="{{website}}" target="_blank" title="Official Website" class="sponsor__iconLink c6icon c6icon--link"><span class="ir">Website</span></a><!--
+        --><span data-if="links.length" data-view="links:LinksListView">
+            <span><a href="{{href}}" target="_blank" title="Official {{label}}" class="sponsor__iconLink sponsor__iconLink--{{type}} c6icon c6icon--{{type}}"><span class="ir">{{label}}</span></a></span>
+        </span>
+    </div>
+</div>
+
+<div class="c6Powered__text">Powered by <a href="http://www.cinema6.com" target="_blank" title="Cinema6.com">Cinema6</a></div>
+
+<div class="infoPanel__img" style="background-image:url('{{splash}}');">&nbsp;</div>

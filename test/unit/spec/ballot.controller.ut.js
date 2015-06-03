@@ -73,7 +73,6 @@ describe('BallotController', function() {
                 button.attributes['data-vote'] = '1';
                 voted = jasmine.createSpy('voted()');
                 BallotCtrl.on('voted', voted);
-                spyOn(BallotCtrl, 'deactivate');
 
                 BallotCtrl.vote(button);
             });
@@ -84,10 +83,6 @@ describe('BallotController', function() {
 
             it('should emit "voted"', function() {
                 expect(voted).toHaveBeenCalled();
-            });
-
-            it('should deactivate itself', function() {
-                expect(BallotCtrl.deactivate).toHaveBeenCalled();
             });
         });
     });

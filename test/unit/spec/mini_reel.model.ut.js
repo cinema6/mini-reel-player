@@ -20,6 +20,9 @@ import DisplayAdCard from '../../../src/models/DisplayAdCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
 import election from '../../../src/services/election.js';
+import browser from '../../../src/services/browser.js';
+import codeLoader from '../../../src/services/code_loader.js';
+import environment from '../../../src/environment.js';
 
 describe('MiniReel', function() {
     let experience;
@@ -176,6 +179,10 @@ describe('MiniReel', function() {
                 "collateral": {},
                 "links": {},
                 "params": {}
+              },
+              {
+                "data": {},
+                "type": "wildcard"
               },
               {
                 "data": {
@@ -633,6 +640,8 @@ describe('MiniReel', function() {
 
         profile = { flash: false };
 
+        environment.constructor();
+
         session = new EventEmitter();
         session.ping = jasmine.createSpy('session.ping()');
 
@@ -652,6 +661,10 @@ describe('MiniReel', function() {
         sessionDeferred.fulfill(session);
 
         sessionDeferred.promise.then(done);
+    });
+
+    afterAll(function() {
+        environment.constructor();
     });
 
     it('should be an event emitter', function() {
@@ -744,6 +757,12 @@ describe('MiniReel', function() {
             });
         });
 
+        describe('skippable', function() {
+            it('should be true', function() {
+                expect(minireel.skippable).toBe(true);
+            });
+        });
+
         describe('deck', function() {
             it('should be an empty array', function() {
                 expect(minireel.deck).toEqual([]);
@@ -825,6 +844,19 @@ describe('MiniReel', function() {
                     expect(minireel.didMove.calls.count()).toBe(2);
                 });
 
+                describe('if the minireel is not skippable', function() {
+                    beforeEach(function() {
+                        minireel.skippable = false;
+
+                        minireel.moveToIndex(3);
+                    });
+
+                    it('should do nothing', function() {
+                        expect(minireel.currentIndex).not.toBe(3);
+                        expect(minireel.didMove).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when moving from no card', function() {
                     let spy;
 
@@ -870,6 +902,7 @@ describe('MiniReel', function() {
                     beforeEach(function() {
                         becameUnskippable = jasmine.createSpy('becameUnskippable()');
 
+                        minireel.skippable = true;
                         minireel.moveToIndex(0);
                         minireel.on('becameUnskippable', becameUnskippable);
 
@@ -878,6 +911,10 @@ describe('MiniReel', function() {
 
                     it('should emit "becameUnskippable"', function() {
                         expect(becameUnskippable).toHaveBeenCalled();
+                    });
+
+                    it('should set skippable to false', function() {
+                        expect(minireel.skippable).toBe(false);
                     });
 
                     describe('if the last card emits "becameUnskippable"', function() {
@@ -896,6 +933,7 @@ describe('MiniReel', function() {
                     describe('if a previous card emits "becameUnskippable"', function() {
                         beforeEach(function() {
                             becameUnskippable.calls.reset();
+                            minireel.skippable = true;
 
                             minireel.moveToIndex(3);
                             minireel.deck[0].emit('becameUnskippable');
@@ -915,12 +953,17 @@ describe('MiniReel', function() {
 
                         minireel.moveToIndex(0);
                         minireel.on('becameSkippable', becameSkippable);
+                        minireel.skippable = false;
 
                         minireel.currentCard.emit('becameSkippable');
                     });
 
                     it('should emit "becameSkippable"', function() {
                         expect(becameSkippable).toHaveBeenCalled();
+                    });
+
+                    it('should set skippable to true', function() {
+                        expect(minireel.skippable).toBe(true);
                     });
 
                     describe('if a previous card emits "becameSkippable"', function() {
@@ -1099,8 +1142,11 @@ describe('MiniReel', function() {
 
                         it('should call activate() on the card when the minireel has been navigated that number of times + 1', function() {
                             minireel.moveToIndex(0);
+                            minireel.skippable = true;
                             minireel.moveToIndex(1);
+                            minireel.skippable = true;
                             minireel.moveToIndex(3);
+                            minireel.skippable = true;
                             expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
                             expect(minireel.didMove.calls.count()).toBe(3);
                             expect(minireel.currentCard).toBe(minireel.deck[3]);
@@ -1116,8 +1162,11 @@ describe('MiniReel', function() {
                         describe('after the first preroll video has been shown', function() {
                             beforeEach(function() {
                                 minireel.moveToIndex(0);
+                                minireel.skippable = true;
                                 minireel.moveToIndex(1);
+                                minireel.skippable = true;
                                 minireel.moveToIndex(2);
+                                minireel.skippable = true;
 
                                 minireel.deck.forEach(card => spyOn(card, 'prepare'));
                                 minireel.moveToIndex(8);
@@ -1482,11 +1531,16 @@ describe('MiniReel', function() {
 
     describe('when the appData is available', function() {
         let done;
+        let mouseDeferred;
 
         beforeEach(function(_done) {
             done = jasmine.createSpy('done()').and.callFake(_done);
             spyOn(adtech, 'setDefaults');
             spyOn(minireel, 'didMove').and.callThrough();
+
+            mouseDeferred = defer(RunnerPromise);
+            spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
+            spyOn(codeLoader, 'loadStyles');
 
             minireel.on('init', () => process.nextTick(done));
 
@@ -1573,6 +1627,61 @@ describe('MiniReel', function() {
                     href: experience.data.links.Pinterest
                 }
             ]);
+        });
+
+        it('should load the branding styles for the minireel', function() {
+            expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme.css`);
+            expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core.css`);
+        });
+
+        it('should see if the browser has a mouse', function() {
+            expect(browser.test).toHaveBeenCalledWith('mouse');
+        });
+
+        describe('if the device has no mouse', function() {
+            beforeEach(function(done) {
+                codeLoader.loadStyles.calls.reset();
+
+                mouseDeferred.fulfill(false);
+                mouseDeferred.promise.then(done, done);
+            });
+
+            it('should not load branding hover styles', function() {
+                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('if the device has a mouse', function() {
+            beforeEach(function(done) {
+                codeLoader.loadStyles.calls.reset();
+
+                mouseDeferred.fulfill(true);
+                mouseDeferred.promise.then(done, done);
+            });
+
+            it('should load branding hover styles', function() {
+                expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme--hover.css`);
+                expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core--hover.css`);
+            });
+        });
+
+        describe('if the minireel has no branding', function() {
+            beforeEach(function(done) {
+                delete experience.data.branding;
+                codeLoader.loadStyles.calls.reset();
+                browser.test.calls.reset();
+
+                minireel = new MiniReel();
+                minireel.on('init', done);
+            });
+
+            it('should not load styles', function() {
+                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+            });
+
+            it('should not test for a mouse', function() {
+                expect(browser.test).not.toHaveBeenCalled();
+            });
         });
 
         describe('if something goes wrong', function() {
@@ -1721,6 +1830,41 @@ describe('MiniReel', function() {
                     kv: { mode: 'cinema6' }
                 }));
             });
+        });
+    });
+
+    describe('if the minireel is instantiated with a whitelist of card types', function() {
+        beforeEach(function(done) {
+            appDataDeferred = defer(RunnerPromise);
+            cinema6.getAppData.and.returnValue(appDataDeferred.promise);
+
+            minireel = new MiniReel(['text', 'video']);
+            minireel.once('init', done);
+
+            appDataDeferred.fulfill({ experience, profile });
+        });
+
+        it('should create a deck with only the cards of those types', function() {
+            expect(minireel.deck).toEqual([
+                jasmine.any(TextCard),
+                jasmine.any(AdUnitCard),
+                jasmine.any(EmbeddedVideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard),
+                jasmine.any(VideoCard)
+            ]);
         });
     });
 });

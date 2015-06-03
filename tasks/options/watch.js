@@ -9,7 +9,7 @@ module.exports = {
         options: {
             livereload: true
         },
-        tasks: ['jshint', 'copy:server']
+        tasks: ['copy:server', 'jshint']
     },
     'livereload-tdd': {
         files: [

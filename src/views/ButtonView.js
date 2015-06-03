@@ -16,7 +16,7 @@ export default class ButtonView extends View {
     }
 
     click() {
-        if (this.attributes.disabled) { return; }
+        if (this.element.getAttribute('disabled') !== null) { return; }
 
         this.emit('press');
         this.sendAction(this);

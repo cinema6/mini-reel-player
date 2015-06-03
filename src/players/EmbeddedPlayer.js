@@ -34,6 +34,8 @@ export default class EmbeddedPlayer extends CorePlayer {
         this.src = null;
         this.currentTime = 0;
 
+        _(this).readyState = 0;
+
         _(this).src = null;
         _(this).workspace = document.createElement('div');
         _(this).embedChildren = [];
@@ -60,7 +62,7 @@ export default class EmbeddedPlayer extends CorePlayer {
     }
 
     get readyState() {
-        return 0;
+        return _(this).readyState;
     }
 
     get seeking() {
@@ -112,19 +114,29 @@ export default class EmbeddedPlayer extends CorePlayer {
 
         Runner.schedule('afterRender', null, () => {
             forEach(children, child => element.appendChild(child));
+            Runner.runNext(() => {
+                _(this).readyState = 3;
+                this.emit('canplay');
+            });
         });
     }
 
     unload() {
         const { element } = this;
-        if (!element) { return; }
+        if (!element) { return super(); }
 
         _(this).src = null;
+        _(this).readyState = 0;
 
-        let child;
-        while (child = _(this).embedChildren.pop()) {
-            element.removeChild(child);
-        }
+        const children = _(this).embedChildren.slice();
+
+        Runner.schedule('afterRender', null, () => {
+            forEach(children, child => element.removeChild(child));
+        });
+
+        _(this).embedChildren.length = 0;
+
+        return super();
     }
 
     reload() {

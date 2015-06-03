@@ -1,6 +1,8 @@
+import ButtonView from '../../../src/views/ButtonView.js';
+import View from '../../../lib/core/View.js';
+import Runner from '../../../lib/Runner.js';
+
 describe('ButtonView', function() {
-    import ButtonView from '../../../src/views/ButtonView.js';
-    import View from '../../../lib/core/View.js';
     let buttonView;
 
     beforeEach(function() {
@@ -51,6 +53,7 @@ describe('ButtonView', function() {
                 spy = jasmine.createSpy('spy()');
                 buttonView.on('press', spy);
                 spyOn(buttonView, 'sendAction').and.callThrough();
+                Runner.run(() => buttonView.create());
 
                 buttonView.click();
             });
@@ -65,7 +68,7 @@ describe('ButtonView', function() {
 
             describe('if the button is disabled', function() {
                 beforeEach(function() {
-                    buttonView.disable();
+                    buttonView.element.setAttribute('disabled', '');
                     spy.calls.reset();
                     buttonView.sendAction.calls.reset();
 

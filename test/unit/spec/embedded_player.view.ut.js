@@ -81,7 +81,12 @@ describe('EmbeddedPlayer', function() {
         });
 
         describe('load()', function() {
+            let canplay;
+
             beforeEach(function() {
+                canplay = jasmine.createSpy('canplay()');
+                player.on('canplay', canplay);
+
                 spyOn(player, 'create').and.callThrough();
                 spyOn(player, 'unload').and.callThrough();
                 player.src = '<p>Hello world!</p><p>What\'s up?!</p>';
@@ -99,6 +104,14 @@ describe('EmbeddedPlayer', function() {
 
             it('should innerHTML the src', function() {
                 expect(player.element.innerHTML).toContain(player.src);
+            });
+
+            it('should emit "canplay"', function() {
+                expect(canplay).toHaveBeenCalled();
+            });
+
+            it('should make the readyState 3', function() {
+                expect(player.readyState).toBe(3);
             });
 
             describe('if called again with the same src', function() {
@@ -182,15 +195,22 @@ describe('EmbeddedPlayer', function() {
         });
 
         describe('unload()', function() {
+            beforeEach(function() {
+                spyOn(CorePlayer.prototype, 'unload');
+            });
+
             describe('if load() has not been called yet', function() {
-                it('should do nothing', function() {
-                    expect(() => Runner.run(() => player.unload())).not.toThrow();
+                beforeEach(function() {
+                    player.unload();
+                });
+
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
             });
 
             describe('if load() has been called', function() {
                 let embedCode;
-                let poster;
                 let children;
 
                 beforeEach(function() {
@@ -198,18 +218,21 @@ describe('EmbeddedPlayer', function() {
                     Runner.run(() => player.load());
 
                     embedCode = player.element.querySelector('#code');
-                    poster = player.element.querySelector('.c6-view');
 
                     Runner.run(() => player.unload());
                     children = Array.prototype.slice.call(player.element.childNodes);
                 });
 
-                it('should remove the embed code', function() {
-                    expect(children).not.toContain(embedCode);
+                it('should call super()', function() {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                 });
 
-                it('should not remove the poster', function() {
-                    expect(children).toContain(poster);
+                it('should make the readyState 0', function() {
+                    expect(player.readyState).toBe(0);
+                });
+
+                it('should remove the embed code', function() {
+                    expect(children).not.toContain(embedCode);
                 });
 
                 it('should make load() do something again', function() {

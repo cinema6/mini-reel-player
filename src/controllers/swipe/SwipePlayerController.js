@@ -10,8 +10,7 @@ import { createKey } from 'private-parts';
 import Runner from '../../../lib/Runner.js';
 import {
     map,
-    forEach,
-    find
+    forEach
 } from '../../../lib/utils.js';
 
 const _ = createKey();
@@ -144,22 +143,5 @@ export default class SwipePlayerController extends Controller {
         const CardCtrl = this.CardCtrls[this.model.currentIndex];
 
         return CardCtrl.toggleFlip();
-    }
-
-    getSnapCardIndex(index) {
-        const { model: { currentIndex, deck } } = this;
-        const startIndex = Math.min(currentIndex, index) + 1;
-        const endIndex = Math.max(currentIndex, index);
-        const subDeck = deck.slice(startIndex, endIndex);
-
-        if (index < currentIndex) {
-            subDeck.reverse();
-        }
-
-        if (subDeck.some(card => !!card.hasSkipControl)) {
-            return deck.indexOf(find(subDeck, card => !!card.hasSkipControl));
-        }
-
-        return index;
     }
 }

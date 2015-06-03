@@ -806,57 +806,5 @@ describe('SwipePlayerController', function() {
                 expect(SwipePlayerCtrl.CardCtrls[minireel.currentIndex].toggleFlip).toHaveBeenCalled();
             });
         });
-
-        describe('getSnapCardIndex(index)', function() {
-            let result;
-            let minireel;
-
-            beforeEach(function() {
-                minireel = SwipePlayerCtrl.model;
-
-                minireel.deck = ['text', 'video', 'video', 'video', 'video', 'video']
-                    .map(type => new MockCard(type));
-                minireel.deck[4].hasSkipControl = true;
-                minireel.currentIndex = 1;
-                minireel.currentCard = minireel.deck[1];
-            });
-
-            describe('if none of the cards in-between the currentIndex and the index being snapped to have hasSkipControl as true', function() {
-                beforeEach(function() {
-                    result = SwipePlayerCtrl.getSnapCardIndex(3);
-                });
-
-                it('should return the index passed to it', function() {
-                    expect(result).toBe(3);
-                });
-            });
-
-            describe('if a card in-between the currentIndex and the index being snapped to has hasSkipControl as true', function() {
-                it('should return the index of that card', function() {
-                    expect(SwipePlayerCtrl.getSnapCardIndex(5)).toBe(4);
-
-                    minireel.deck[2].hasSkipControl = true;
-                    expect(SwipePlayerCtrl.getSnapCardIndex(3)).toBe(2);
-
-                    minireel.currentIndex = 5;
-                    expect(SwipePlayerCtrl.getSnapCardIndex(1)).toBe(4);
-
-                    minireel.currentIndex = 3;
-                    expect(SwipePlayerCtrl.getSnapCardIndex(0)).toBe(2);
-                });
-            });
-
-            describe('if the currentCard has skip controls', function() {
-                beforeEach(function() {
-                    minireel.currentIndex = 4;
-                    minireel.currentCard = minireel.deck[4];
-                });
-
-                it('should allow that card to be skipped', function() {
-                    expect(SwipePlayerCtrl.getSnapCardIndex(5)).toBe(5);
-                    expect(SwipePlayerCtrl.getSnapCardIndex(3)).toBe(3);
-                });
-            });
-        });
     });
 });

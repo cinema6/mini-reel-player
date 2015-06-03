@@ -16,6 +16,7 @@ import {
 } from '../../lib/utils.js';
 
 import TextCard from './TextCard.js';
+import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
 import EmbeddedVideoCard from './EmbeddedVideoCard.js';
@@ -37,6 +38,8 @@ function initialize(minireel, { experience, standalone, profile }) {
         switch (card.type) {
         case 'text':
             return new TextCard(card, experience, profile);
+        case 'image':
+            return new ImageCard(card, experience, profile);
         case 'recap':
             return new RecapCard(card, experience, profile, minireel);
         case 'adUnit':

@@ -189,8 +189,13 @@ describe('SwipePlayerController', function() {
                         beforeEach(function() {
                             SwipePlayerCtrl.CardCtrls.forEach(Ctrl => Ctrl.render.calls.reset());
                             spyOn(SwipePlayerCtrl.view.cards, 'refresh');
+                            spyOn(cinema6, 'fullscreen');
 
                             minireel.emit('launch');
+                        });
+
+                        it('should fullscreen the player', function() {
+                            expect(cinema6.fullscreen).toHaveBeenCalledWith(true);
                         });
 
                         it('should render the rest of the cards', function() {
@@ -206,6 +211,18 @@ describe('SwipePlayerController', function() {
                         it('should refresh the cards', function() {
                             expect(SwipePlayerCtrl.view.cards.refresh).toHaveBeenCalled();
                         });
+                    });
+                });
+
+                describe('close', function() {
+                    beforeEach(function() {
+                        spyOn(cinema6, 'fullscreen');
+
+                        minireel.emit('close');
+                    });
+
+                    it('should close the player', function() {
+                        expect(cinema6.fullscreen).toHaveBeenCalledWith(false);
                     });
                 });
 

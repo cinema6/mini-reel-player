@@ -141,6 +141,10 @@ export default class SwipePlayerController extends Controller {
         this.model.previous();
     }
 
+    close() {
+        this.model.close();
+    }
+
     toggleFlip() {
         const CardCtrl = this.CardCtrls[this.model.currentIndex];
 

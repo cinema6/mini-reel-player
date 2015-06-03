@@ -66,6 +66,8 @@ export default class SwipePlayerController extends Controller {
                 this.view.cards.refresh();
             });
         });
+        this.model.on('launch', () => cinema6.fullscreen(true));
+        this.model.on('close', () => cinema6.fullscreen(false));
         this.model.on('move', updateView);
         this.model.on('becameUnskippable', updateView);
         this.model.on('becameSkippable', updateView);

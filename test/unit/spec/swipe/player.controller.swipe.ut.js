@@ -316,6 +316,9 @@ describe('SwipePlayerController', function() {
                 view = SwipePlayerCtrl.view;
 
                 minireel.title = 'My Awesome MiniReel';
+                minireel.sponsor = 'Buy n Large';
+                minireel.logo = 'buy-n-large__logo.jpg';
+                minireel.links = { Website: 'buynlarge.com' };
                 spyOn(view, 'update').and.callFake(function() {
                     view.cards = new CardPannerView();
                 });
@@ -326,12 +329,63 @@ describe('SwipePlayerController', function() {
 
             it('should update the view with some info about the minireel', function() {
                 expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                    title: minireel.title
+                    title: minireel.title,
+                    sponsor: minireel.sponsor,
+                    logo: minireel.logo,
+                    website: minireel.links.Website
                 }));
             });
 
             it('should append its view to the parentView', function() {
                 expect(view.appendTo).toHaveBeenCalledWith(parentView);
+            });
+
+            describe('if the minireel has no sponsor', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.logo = 'foo.jpg';
+                    minireel.sponsor = null;
+
+                    SwipePlayerCtrl.render();
+                });
+
+                it('should call update() with isSponsored: true', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        isSponsored: true
+                    }));
+                });
+            });
+
+            describe('if the minireel has no logo', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.logo = null;
+                    minireel.sponsor = 'Buy n Large';
+
+                    SwipePlayerCtrl.render();
+                });
+
+                it('should call update() with isSponsored: true', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        isSponsored: true
+                    }));
+                });
+            });
+
+            describe('if the minireel has no logo or sponsor', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.logo = null;
+                    minireel.sponsor = null;
+
+                    SwipePlayerCtrl.render();
+                });
+
+                it('should call update() with isSponsored: false', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        isSponsored: true
+                    }));
+                });
             });
 
             describe('if the minireel is standalone', function() {

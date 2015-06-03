@@ -1,4 +1,4 @@
-<div class="viewPane" data-class="standalone:c6MiniReel--standalone locked:viewPane--skipLock">
+<div class="viewPane" data-class="standalone:c6MiniReel--standalone locked:viewPane--skipLock isSponsored:c6MiniReel--sponsored">
     <div data-view="infoOutlet:View"></div>
 
     <div class="headerBar__group">
@@ -18,6 +18,14 @@
         </button>
     </div>
 
+    <div data-if="isSponsored" class="mrSponsor__header">
+        <h2 data-if="sponsor" class="mrSponsor__sponsorTag">
+            Sponsored by <a href="{{website}}" target="_blank" title="{{sponsor}}">{{sponsor}}</a>
+        </h2>
+        <a data-if="logo" href="{{website}}" class="mrSponsor__headerLogo sponsor__logo skipLock--fadeOut" title="{{sponsor}}" target="_blank">
+            <img src="{{logo}}" alt="{{sponsor}}" class="sponsor__logoImg">
+        </a>
+    </div>
 
     <span data-view="prerollOutlet:View"></span><!-- preroll outlet -->
     <ul data-view="cards:CardPannerView" class="cards__list"></ul>

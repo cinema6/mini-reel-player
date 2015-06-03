@@ -413,6 +413,7 @@ describe('SwipePlayerController', function() {
                 };
                 minireel.deck = ['text', 'video', 'video', 'video', 'video']
                     .map(type => new MockCard(type));
+                minireel.length = minireel.deck.length;
                 minireel.currentIndex = 2;
 
                 Runner.run(() => minireel.emit('init'));
@@ -429,6 +430,73 @@ describe('SwipePlayerController', function() {
 
             it('should scrollTo() the index of the MiniReel', function() {
                 expect(SwipePlayerCtrl.view.cards.scrollTo).toHaveBeenCalledWith(minireel.currentIndex);
+            });
+
+            describe('if on the first card', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+
+                    minireel.currentIndex = 0;
+                });
+
+                describe('if the minireel is not standalone', function() {
+                    beforeEach(function() {
+                        minireel.standalone = false;
+
+                        SwipePlayerCtrl.updateView();
+                    });
+
+                    it('should update() with disablePrevious: false', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            disablePrevious: false
+                        }));
+                    });
+                });
+
+                describe('if the minireel is standalone', function() {
+                    beforeEach(function() {
+                        minireel.standalone = true;
+
+                        SwipePlayerCtrl.updateView();
+                    });
+
+                    it('should update() with disablePrevious: true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            disablePrevious: true
+                        }));
+                    });
+                });
+            });
+
+            describe('if in the middle of the minireel', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.currentIndex = 2;
+
+                    SwipePlayerCtrl.updateView();
+                });
+
+                it('should update() with disablePrevious: false and disableNext: false', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        disablePrevious: false,
+                        disableNext: false
+                    }));
+                });
+            });
+
+            describe('if on the last card', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.currentIndex = minireel.deck.length - 1;
+
+                    SwipePlayerCtrl.updateView();
+                });
+
+                it('should update() with disableNext: true', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        disableNext: true
+                    }));
+                });
             });
 
             describe('if the minireel is skippable', function() {

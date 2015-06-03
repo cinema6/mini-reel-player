@@ -86,10 +86,22 @@ export default class SwipePlayerController extends Controller {
     }
 
     updateView() {
-        const { showInfo, model: { currentIndex, currentCard, skippable, prerollCard } } = this;
+        const {
+            showInfo,
+            model: {
+                currentIndex,
+                currentCard,
+                length,
+                skippable,
+                standalone,
+                prerollCard
+            }
+        } = this;
         const CardCtrl = this.CardCtrls[currentIndex];
         const locked = !skippable && currentCard !== prerollCard;
         const flippable = CardCtrl && CardCtrl.flippable;
+        const atTail = currentIndex === (length - 1);
+        const atHead = currentIndex === 0;
 
         this.InfoPanelCtrl.activate(showInfo);
 
@@ -99,7 +111,9 @@ export default class SwipePlayerController extends Controller {
 
         this.view.update({
             flippable,
-            locked: locked && !this.view.cards.animating
+            locked: locked && !this.view.cards.animating,
+            disableNext: atTail,
+            disablePrevious: atHead && standalone
         });
         this.view.cards.lock(locked);
 

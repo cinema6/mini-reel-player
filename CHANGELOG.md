@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.15.0 (June 3, 2015)
+* *[v0.15.0-rc2]*
+  * [FIX]: Fix for an issue that caused the swipe player not to enter
+    fullscreen mode when embedded
+* *[/v0.15.0-rc2]*
+
 * *[v0.15.0-rc1]*
   * [FEATURE]: Add new mobile player with swipe gestures
 * *[/v0.15.0-rc1]*

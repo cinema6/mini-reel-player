@@ -203,7 +203,6 @@ export default class MiniReel extends EventEmitter {
         const previousCard = this.currentCard;
         const previousIndex = this.currentIndex;
         let currentCard = this.deck[index] || null;
-        const atTail = (index === this.length - 1);
 
         this.currentIndex = index;
         this.currentCard = currentCard;
@@ -240,7 +239,7 @@ export default class MiniReel extends EventEmitter {
         }
 
         if (currentCard) {
-            if (!atTail) {
+            if (this.currentIndex !== (this.length - 1)) {
                 currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
             }
 

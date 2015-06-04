@@ -69,4 +69,6 @@ export default class Card extends EventEmitter {
     complete() {
         this.emit('complete');
     }
+
+    reset() {}
 }

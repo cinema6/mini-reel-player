@@ -45,6 +45,11 @@ export default class PrerollCard extends AdUnitCard {
         }, experience, profile);
     }
 
+    deactivate() {
+        this.reset();
+        return super();
+    }
+
     abort() {
         if (!this.skippable) {
             this.skippable = true;

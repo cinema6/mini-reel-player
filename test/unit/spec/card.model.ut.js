@@ -245,5 +245,13 @@ describe('Card', function() {
                 expect(spy).toHaveBeenCalled();
             });
         });
+
+        describe('reset()', function() {
+            beforeEach(function() {
+                card.reset();
+            });
+
+            it('should do nothing', function() {});
+        });
     });
 });

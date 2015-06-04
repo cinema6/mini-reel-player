@@ -764,5 +764,46 @@ describe('VideoCard', function() {
                 });
             });
         });
+
+        describe('reset()', function() {
+            beforeEach(function() {
+                spyOn(Card.prototype, 'reset').and.callThrough();
+            });
+
+            describe('if the card had skip controls', function() {
+                beforeEach(function() {
+                    data.data.skip = false;
+                    card = new VideoCard(data, experience);
+                    card.hasSkipControl = false;
+
+                    card.reset();
+                });
+
+                it('should call super()', function() {
+                    expect(Card.prototype.reset).toHaveBeenCalled();
+                });
+
+                it('should set hasSkipControl to true', function() {
+                    expect(card.hasSkipControl).toBe(true);
+                });
+            });
+
+            describe('if the card had no skip controls', function() {
+                beforeEach(function() {
+                    data.data.skip = true;
+                    card = new VideoCard(data, experience);
+
+                    card.reset();
+                });
+
+                it('should call super()', function() {
+                    expect(Card.prototype.reset).toHaveBeenCalled();
+                });
+
+                it('should set hasSkipControl to false', function() {
+                    expect(card.hasSkipControl).toBe(false);
+                });
+            });
+        });
     });
 });

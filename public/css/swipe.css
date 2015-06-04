@@ -173,9 +173,10 @@
     /* Landscape */
     @media only screen and (orientation: landscape) {
         .viewPane {
-            display:none;
+            opacity:0;
         }
             .viewPane--landscape {
+                opacity:1;
                 display:block;
             }
     }

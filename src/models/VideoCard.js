@@ -15,7 +15,6 @@ export default class VideoCard extends Card {
         _(this).canSkipAfterCountdown = _(this).skip !== false;
 
         this.type = 'video';
-        this.hasSkipControl = _(this).skip !== true;
         this.skippable = true;
 
         this.thumbs = this.thumbs || extend(data.data.thumbs);
@@ -41,6 +40,8 @@ export default class VideoCard extends Card {
             end: data.data.end,
             start: data.data.start
         };
+
+        this.reset();
     }
 
     getSrc() {
@@ -87,6 +88,11 @@ export default class VideoCard extends Card {
         if (this.data.autoadvance) {
             if (this.skippable) { advance(); } else { this.once('becameSkippable', advance); }
         }
+    }
+
+    reset() {
+        this.hasSkipControl = _(this).skip !== true;
+        return super();
     }
 
     setPlaybackState({ currentTime, duration }) {

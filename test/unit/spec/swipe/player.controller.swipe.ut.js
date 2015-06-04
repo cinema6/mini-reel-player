@@ -791,6 +791,18 @@ describe('SwipePlayerController', function() {
             });
         });
 
+        describe('close()', function() {
+            beforeEach(function() {
+                spyOn(SwipePlayerCtrl.model, 'close');
+
+                SwipePlayerCtrl.close();
+            });
+
+            it('should call close() on the minireel', function() {
+                expect(SwipePlayerCtrl.model.close).toHaveBeenCalled();
+            });
+        });
+
         describe('toggleFlip()', function() {
             let minireel;
 

@@ -190,6 +190,23 @@ describe('PrerollCard', function() {
             });
         });
 
+        describe('deactivate()', function() {
+            beforeEach(function() {
+                spyOn(AdUnitCard.prototype, 'deactivate').and.callThrough();
+                spyOn(card, 'reset').and.callThrough();
+
+                card.deactivate();
+            });
+
+            it('should call super()', function() {
+                expect(AdUnitCard.prototype.deactivate).toHaveBeenCalled();
+            });
+
+            it('should call reset()', function() {
+                expect(card.reset).toHaveBeenCalled();
+            });
+        });
+
         describe('abort()', function() {
             let becameSkippable;
             let canAdvance;

@@ -1159,6 +1159,21 @@ describe('MiniReel', function() {
                             expect(minireel.currentIndex).toBe(null);
                         });
 
+                        it('should listen for the canAdvance event on the preroll card when going to the last card', function() {
+                            minireel.moveToIndex(0);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(1);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(3);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(minireel.length - 1);
+                            minireel.skippable = true;
+                            spyOn(minireel, 'next');
+                            minireel.prerollCard.emit('canAdvance');
+
+                            expect(minireel.next).toHaveBeenCalled();
+                        });
+
                         describe('after the first preroll video has been shown', function() {
                             beforeEach(function() {
                                 minireel.moveToIndex(0);

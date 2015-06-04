@@ -1,6 +1,16 @@
 # MiniReel Player 2.0
 
 ## v0.15.0 (June 3, 2015)
+* *[v0.15.0-rc3]*
+  * [FIX]: Fix for an issue that caused the skip timer on preroll to
+    only appear the first time preroll is shown
+  * [FIX]: Fix for an issue that made it impossible to dismiss a preroll
+    card if it appeared before the last card
+  * [FIX]: Fix for an issue that caused the cards in the MiniReel to
+    sometimes not move when swiped
+  * [FIX]: Enable the close button on a non-standalone MiniReel
+* *[/v0.15.0-rc3]*
+
 * *[v0.15.0-rc2]*
   * [FIX]: Fix for an issue that caused the swipe player not to enter
     fullscreen mode when embedded

@@ -253,5 +253,20 @@ describe('Card', function() {
 
             it('should do nothing', function() {});
         });
+
+        describe('cleanup()', function() {
+            let cleanup;
+
+            beforeEach(function() {
+                cleanup = jasmine.createSpy('cleanup()');
+                card.on('cleanup', cleanup);
+
+                card.cleanup();
+            });
+
+            it('should emit "cleanup"', function() {
+                expect(cleanup).toHaveBeenCalled();
+            });
+        });
     });
 });

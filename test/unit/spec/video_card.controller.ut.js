@@ -262,6 +262,18 @@ describe('VideoCardController', function() {
                     expect(dispatcher.removeSource).toHaveBeenCalledWith(player);
                 });
             });
+
+            describe('cleanup', function() {
+                beforeEach(function() {
+                    spyOn(player, 'unload');
+
+                    Runner.run(() => card.cleanup());
+                });
+
+                it('should unload() the player', function() {
+                    expect(player.unload).toHaveBeenCalled();
+                });
+            });
         });
 
         describe('player', function() {

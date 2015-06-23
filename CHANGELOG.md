@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.15.1-rc1]*
+  * [FIX]: Fix for an issue that caused videos to continue to play
+    after the lightbox player was closed
+
 ## v0.15.0 (June 3, 2015)
 * *[v0.15.0-rc3]*
   * [FIX]: Fix for an issue that caused the skip timer on preroll to

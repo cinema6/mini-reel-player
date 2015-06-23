@@ -283,20 +283,27 @@ export default class MiniReel extends EventEmitter {
     }
 
     didMove() {
-        forEach(this.deck.concat([this.prerollCard]), card => {
-            if (card === this.currentCard) {
+        const { currentIndex, currentCard, deck, prerollCard } = this;
+        const cards = deck.concat([prerollCard]);
+
+        forEach(cards, card => {
+            if (card === currentCard) {
                 card.activate();
             } else {
                 card.deactivate();
             }
         });
 
-        const nextCard = (this.currentIndex !== null) && this.deck[this.currentIndex + 1];
+        const nextCard = (currentIndex !== null) && deck[currentIndex + 1];
 
         if (nextCard) {
             nextCard.prepare();
         }
 
         this.emit('move');
+
+        if (currentIndex === -1) {
+            forEach(cards, card => card.cleanup());
+        }
     }
 }

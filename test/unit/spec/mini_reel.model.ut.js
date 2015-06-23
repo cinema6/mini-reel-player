@@ -1368,6 +1368,14 @@ describe('MiniReel', function() {
                     minireel.currentIndex = 2;
                     minireel.didMove();
 
+                    minireel.adConfig = {
+                        video: {
+                            firstPlacement: -1,
+                            frequency: 0
+                        },
+                        display: {}
+                    };
+
                     done();
                 });
                 minireel.on('move', spy);
@@ -1477,6 +1485,34 @@ describe('MiniReel', function() {
 
             it('should call deactivate() on the prerollCard', function() {
                 expect(minireel.prerollCard.deactivate).toHaveBeenCalled();
+            });
+
+            describe('when moving to any index other than -1', function() {
+                beforeEach(function() {
+                    minireel.deck.forEach(card => spyOn(card, 'cleanup'));
+                    spyOn(minireel.prerollCard, 'cleanup');
+
+                    minireel.deck.forEach((card, index) => minireel.moveToIndex(index));
+                });
+
+                it('should not cleanup any of the cards', function() {
+                    minireel.deck.forEach(card => expect(card.cleanup).not.toHaveBeenCalled());
+                    expect(minireel.prerollCard.cleanup).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when moving to -1', function() {
+                beforeEach(function() {
+                    minireel.deck.forEach(card => spyOn(card, 'cleanup'));
+                    spyOn(minireel.prerollCard, 'cleanup');
+
+                    minireel.moveToIndex(-1);
+                });
+
+                it('should cleanup all of the cards', function() {
+                    minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled());
+                    expect(minireel.prerollCard.cleanup).toHaveBeenCalled();
+                });
             });
         });
     });

@@ -36,6 +36,7 @@ export default class VideoCardController extends CardController {
             player.pause();
             dispatcher.removeSource(player);
         });
+        this.model.on('cleanup', () => player.unload());
 
         /* Player events. */
         player.on('timeupdate', () => {

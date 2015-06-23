@@ -169,6 +169,8 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
                 query.cx = config.context;
                 query.ct = config.container;
                 query.gp = config.group;
+                query.ex = config.experiment;
+                query.vr = config.variant;
             }
 
             if (card) {

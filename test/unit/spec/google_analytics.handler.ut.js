@@ -636,6 +636,18 @@ describe('GoogleAnalyticsHandler', function() {
                         }));
                 });
 
+                it('should use experiment and variant if set', function() {
+                    delete config.group;
+                    delete config.container;
+                    config.experiment = 'my-experiment';
+                    config.variant = 'my-variant';
+
+                    expect(handler.getTrackingData())
+                        .toEqual(jasmine.objectContaining({
+                            page: `/mr/${minireel.id}/${card.id}/?cx=howard1&ex=my-experiment&vr=my-variant&ix=3&bd=urbantimes`,
+                        }));
+                });
+
                 it('should set context without card',function() {
                     minireel.currentCard = null;
                     minireel.currentIndex = -1;

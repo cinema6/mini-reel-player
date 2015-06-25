@@ -161,12 +161,30 @@ describe('VideoCardController', function() {
             describe('prepare', function() {
                 beforeEach(function() {
                     spyOn(player, 'load');
-
-                    Runner.run(() => card.prepare());
                 });
 
-                it('should load the player', function() {
-                    expect(player.load).toHaveBeenCalled();
+                describe('if the card can be preloaded', function() {
+                    beforeEach(function() {
+                        card.data.preload = true;
+
+                        Runner.run(() => card.prepare());
+                    });
+
+                    it('should load the player', function() {
+                        expect(player.load).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the card can\'t be preloaded', function() {
+                    beforeEach(function() {
+                        card.data.preload = false;
+
+                        Runner.run(() => card.prepare());
+                    });
+
+                    it('should not load the player', function() {
+                        expect(player.load).not.toHaveBeenCalled();
+                    });
                 });
             });
 

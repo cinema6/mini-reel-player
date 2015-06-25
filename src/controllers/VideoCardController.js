@@ -20,7 +20,9 @@ export default class VideoCardController extends CardController {
         dispatcher.addSource('card', this.model, ['activate','deactivate'], player);
 
         /* VideoCard (model) events. */
-        this.model.on('prepare', () =>  player.load());
+        this.model.on('prepare', () =>  {
+            if (this.model.data.preload) { player.load(); }
+        });
         this.model.on('activate', () => {
             dispatcher.addSource('video', player, [
                 'attemptPlay', 'play', 'timeupdate', 'pause', 'ended', 'error',

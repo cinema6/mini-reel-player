@@ -137,10 +137,13 @@ export default class VPAIDPlayer extends CorePlayer {
         player.once('AdLoaded', () => {
             _(this).interval = timer.interval(() => {
                 const { adDuration, adCurrentTime } = player;
+                const duration = Math.max(adDuration, 0);
 
-                if (adDuration && !this.duration) {
-                    _(this).state.duration = adDuration;
+                if (duration && !this.duration) {
+                    _(this).state.duration = duration;
                     this.emit('loadedmetadata');
+                } else if (duration) {
+                    _(this).state.duration = duration;
                 }
 
                 if (adCurrentTime && (this.currentTime !== adCurrentTime)) {

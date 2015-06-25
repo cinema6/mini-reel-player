@@ -312,6 +312,7 @@ describe('VideoCard', function() {
                     videoid: data.data.videoid,
                     autoplay: true,
                     autoadvance: true,
+                    preload: true,
                     hideSource: !!data.data.hideSource,
                     controls: data.data.controls,
                     moat: null,

@@ -326,6 +326,11 @@ describe('VPAIDPlayer', function() {
                     expect(loadedmetadata).not.toHaveBeenCalled();
                     expect(player.duration).toBe(0);
 
+                    vpaid.adDuration = -2;
+                    jasmine.clock().tick(250);
+                    expect(loadedmetadata).not.toHaveBeenCalled();
+                    expect(player.duration).toBe(0);
+
                     vpaid.adDuration = 30;
                     jasmine.clock().tick(250);
                     expect(loadedmetadata).toHaveBeenCalled();
@@ -335,6 +340,11 @@ describe('VPAIDPlayer', function() {
                     jasmine.clock().tick(250);
                     expect(loadedmetadata).not.toHaveBeenCalled();
                     expect(player.duration).toBe(30);
+
+                    vpaid.adDuration = 35;
+                    jasmine.clock().tick(250);
+                    expect(loadedmetadata).not.toHaveBeenCalled();
+                    expect(player.duration).toBe(35);
                 });
 
                 it('should emit "timeupdate" and set the currentTime whenever the adCurrentTime changes', function() {

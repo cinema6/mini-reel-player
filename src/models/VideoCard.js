@@ -36,6 +36,7 @@ export default class VideoCard extends Card {
             controls: data.data.controls,
             autoplay: 'autoplay' in data.data ? data.data.autoplay : autoplay,
             autoadvance: 'autoadvance' in data.data ? data.data.autoadvance : autoadvance,
+            preload: true,
             moat : data.data.moat || null,
             end: data.data.end,
             start: data.data.start

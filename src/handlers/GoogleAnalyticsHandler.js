@@ -8,6 +8,10 @@ import {
     extend
 } from '../../lib/utils.js';
 
+function existy(value) {
+    return value !== undefined && value !== null;
+}
+
 function waitFor(emitter, event, timeout = 1000) {
     return new Promise((fulfill, reject) => {
         emitter.once(event, () => fulfill(emitter));
@@ -178,7 +182,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             }
             query.bd = branding;
 
-            for (let p in query){ if(query[p]!==undefined){qf.push(p + '=' + query[p]);} }
+            for (let p in query){ if(existy(query[p])){qf.push(p + '=' + query[p]);} }
             if (qf.length){ result += '?' + qf.join('&'); }
 
             return result;

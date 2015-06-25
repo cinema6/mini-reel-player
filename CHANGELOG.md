@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.16.0 (June 24, 2015)
+* *[v0.16.0-rc2]*
+  * [FIX]: Fix for an issue that caused unnecessary data to get into the
+    data warehouse
+* *[/v0.16.0-rc2]*
+
 * *[v0.16.0-rc1]*
   * [FIX]: Fix for an issue that caused videos to continue to play
     after the lightbox player was closed

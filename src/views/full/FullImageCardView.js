@@ -1,11 +1,12 @@
-import ImageCardView from '../ImageCardView.js';
-import View from '../../../lib/core/View.js';
+import CardView from '../CardView.js';
+import TemplateView from '../../../lib/core/TemplateView.js';
 
-export default class FullImageCardView extends ImageCardView {
+export default class FullImageCardView extends CardView {
     constructor() {
         super(...arguments);
 
         this.template = require('./FullImageCardView.html');
-        this.instantiates = {View: View};
+        this.instantiates = { TemplateView: TemplateView };
+
     }
 }

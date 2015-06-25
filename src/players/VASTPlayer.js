@@ -132,17 +132,17 @@ function load(player) {
     }
 
     function setSrc(vast) {
-        var src = vast.getVideoSrc();
+        var source = vast.getVideoSrc();
 
-        if (!src) {
+        if (!source) {
             return Promise.reject(vast);
         }
 
-        if (src === video.src) {
+        if (source === video.src) {
             return Promise.resolve(video);
         }
 
-        video.src = src;
+        video.src = source;
         return Promise.resolve(video);
     }
 

@@ -1,7 +1,7 @@
 import FullImageCardView from '../../../../src/views/full/FullImageCardView.js';
 import CardView from '../../../../src/views/CardView.js';
 import Runner from '../../../../lib/Runner.js';
-import View from '../../../../lib/core/View.js';
+import TemplateView from '../../../../lib/core/TemplateView.js';
 
 describe('FullImageCardView', function() {
     let view;
@@ -26,9 +26,9 @@ describe('FullImageCardView', function() {
                 Runner.run(() => view.create());
             });
 
-            describe('embed', function() {
+            describe('imageOutlet', function() {
                 it('should be a View', function() {
-                    expect(view.embed).toEqual(jasmine.any(View));
+                    expect(view.imageOutlet).toEqual(jasmine.any(TemplateView));
                 });
             });
         });

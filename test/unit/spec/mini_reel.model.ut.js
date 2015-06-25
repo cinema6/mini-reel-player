@@ -570,7 +570,15 @@ describe('MiniReel', function() {
               },
               {
                   "data": {
-                      "embedCode": "<div>some embed</div>"
+                      "imageid": "12345",
+                      "service": "flickr",
+                      "width": "100",
+                      "height": "100",
+                      "href": "https://flic.kr/p/12345",
+                      "thumbs": {
+                          "small": "www.site.com/small.jpg",
+                          "large": "www.large.com/large.jpg"
+                      }
                   },
                   "id": "rc-4b3dc315c3573f",
                   "type": "image",
@@ -1511,6 +1519,9 @@ describe('MiniReel', function() {
             spyOn(minireel, 'didMove').and.callThrough();
 
             minireel.on('init', () => process.nextTick(done));
+            minireel.on('error', (error) => {
+                console.error(error);
+            });
 
             appDataDeferred.fulfill({
                 experience: experience,

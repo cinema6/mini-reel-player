@@ -1,15 +1,21 @@
 import Card from './Card.js';
 
 export default class ImageCard extends Card {
-    constructor(data, { data: { collateral: { splash } } }) {
+    constructor(data) {
         super(...arguments);
 
         this.type = 'image';
         this.thumbs = {
-            small: splash,
-            large: splash
+            small: data.data.thumbs.small,
+            large: data.data.thumbs.large
         };
-        this.embedCode = data.data.embedCode;
+        this.data = {
+            service: data.data.service,
+            imageid: data.data.imageid,
+            href: data.data.href,
+            width: data.data.width,
+            height: data.data.height
+        };
     }
 
     complete() {

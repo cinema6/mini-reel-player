@@ -208,6 +208,7 @@ export default class YouTubePlayer extends CorePlayer {
                 const {state} = _(this);
                 const playerStates = [];
 
+                let player;
                 const syncCurrentTime = (() => {
                     const currentTime = this.ended ? this.duration : player.getCurrentTime();
                     const {state} = _(this);
@@ -242,7 +243,7 @@ export default class YouTubePlayer extends CorePlayer {
                     return playerStates[0] === BUFFERING && playerStates[1] === STATE;
                 }
 
-                const player = new youtube.Player(iframe, {
+                player = new youtube.Player(iframe, {
                     events: {
                         onReady: () => Runner.run(() => {
                             _(this).player = player;

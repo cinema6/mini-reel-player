@@ -7,6 +7,8 @@ describe('autoplay test', function() {
     let realAudio, audio;
     let spy;
     let ticks;
+    let timeoutFn;
+    let promise;
 
     function flushTicks() {
         let fn;
@@ -48,23 +50,18 @@ describe('autoplay test', function() {
 
     afterAll(function() {
         global.Audio = realAudio;
-
-        jasmine.clock().uninstall();
     });
 
     beforeEach(function() {
         spy = jasmine.createSpy('spy()');
         ticks = [];
 
-        jasmine.clock().install();
         spyOn(process, 'nextTick').and.callFake(fn => ticks.push(fn));
+        spyOn(global, 'setTimeout').and.callFake(fn => {
+            timeoutFn = fn;
+        });
 
-        browser.test('autoplay', true).then(spy);
-    });
-
-    afterEach(function() {
-        jasmine.clock().tick(1000);
-        jasmine.clock().uninstall();
+        promise = browser.test('autoplay', true).then(spy);
     });
 
     it('should create a new Audio() element', function() {
@@ -101,9 +98,14 @@ describe('autoplay test', function() {
         expect(audio.play).toHaveBeenCalled();
     });
 
+    it('should wait 500ms', function() {
+        expect(global.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), 500);
+    });
+
     describe('if the audio never plays', function() {
-        beforeEach(function() {
-            jasmine.clock().tick(505);
+        beforeEach(function(done) {
+            timeoutFn();
+            promise.then(done, done);
         });
 
         it('should be false', function() {
@@ -112,10 +114,10 @@ describe('autoplay test', function() {
     });
 
     describe('if the audio plays', function() {
-        beforeEach(function() {
-            jasmine.clock().tick(495);
+        beforeEach(function(done) {
             audio.trigger('play');
-            jasmine.clock().tick(10);
+            timeoutFn();
+            promise.then(done, done);
         });
 
         it('should be true', function() {

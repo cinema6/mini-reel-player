@@ -17,7 +17,15 @@ describe('ImageCard', function() {
         data = {
             /* jshint quotmark:double */
             "data": {
-                "embedCode": "<div>embed code</div>"
+                "href": "https://flic.kr/p/12345",
+                "width": "100",
+                "height": "100",
+                "service": "flickr",
+                "imageid": "12345",
+                "thumbs": {
+                    "small": "www.site.com/small.jpg",
+                    "large": "www.site.com/large.jpg"
+                }
             },
             "id": "rc-4b3dc304c3573f",
             "type": "image",
@@ -55,15 +63,21 @@ describe('ImageCard', function() {
         describe('thumbs', function() {
             it('should be copied from the passed-in value', function() {
                 expect(imageCard.thumbs).toEqual({
-                    small: experience.data.collateral.splash,
-                    large: experience.data.collateral.splash
+                    small: data.data.thumbs.small,
+                    large: data.data.thumbs.large
                 });
             });
         });
 
-        describe('embedCode', function() {
+        describe('data', function() {
             it('should be copied from the passed-in value', function() {
-                expect(imageCard.embedCode).toBe('<div>embed code</div>');
+                expect(imageCard.data).toEqual({
+                    href: 'https://flic.kr/p/12345',
+                    width: '100',
+                    height: '100',
+                    service: 'flickr',
+                    imageid: '12345'
+                });
             });
         });
 

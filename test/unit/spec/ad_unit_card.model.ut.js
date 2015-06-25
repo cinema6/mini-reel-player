@@ -136,6 +136,41 @@ describe('AdUnitCard', function() {
                     });
                 });
             });
+
+            describe('.preload', function() {
+                describe('if the profile supports flash', function() {
+                    beforeEach(function() {
+                        profile.flash = true;
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be false', function() {
+                        expect(card.data.preload).toBe(false);
+                    });
+
+                    describe('if there is no vpaid tag', function() {
+                        beforeEach(function() {
+                            delete data.data.vpaid;
+                            card = new AdUnitCard(data, experience, profile);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.preload).toBe(true);
+                        });
+                    });
+                });
+
+                describe('if the profile does not support flash', function() {
+                    beforeEach(function() {
+                        profile.flash = false;
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be true', function() {
+                        expect(card.data.preload).toBe(true);
+                    });
+                });
+            });
         });
     });
 

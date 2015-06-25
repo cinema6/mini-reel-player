@@ -610,6 +610,8 @@ describe('GoogleAnalyticsHandler', function() {
 
             describe('if analyticsConfig has been set',function() {
                 beforeEach(function() {
+                    config.experiment = null;
+                    config.variant = null;
                     config.context = 'howard1';
                     config.container = 'cont1';
                     config.group = 'grp1';

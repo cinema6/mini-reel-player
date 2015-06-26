@@ -8,7 +8,7 @@ export default class ImageCardController extends CardController {
     }
 
     appendEmbedView(embedView) {
-        this.view.imageOutlet.append(embedView);
+        this.view.playerOutlet.append(embedView);
         const data = this.model.data;
         embedView.update({
             href: data.href,
@@ -30,5 +30,20 @@ export default class ImageCardController extends CardController {
                 this.appendEmbedView(gettyEmbedView);
                 break;
         }
+        let viewUpdate = { };
+        switch(this.model.data.service) {
+            case 'flickr':
+                viewUpdate.source = 'Flickr';
+                viewUpdate.href = 'https://www.flickr.com';
+                break;
+            case 'getty':
+                viewUpdate.source = 'GettyImages';
+                viewUpdate.href = 'http://www.gettyimages.com';
+                break;
+            default:
+                viewUpdate.source = 'unknown';
+                viewUpdate.href = '';
+        }
+        this.view.update(viewUpdate);
     }
 }

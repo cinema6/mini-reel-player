@@ -1,31 +1,31 @@
-import FullImageCardController from '../../../../src/controllers/full/FullImageCardController.js';
+import MobileImageCardController from '../../../../src/controllers/mobile/MobileImageCardController.js';
 import ImageCardController from '../../../../src/controllers/ImageCardController.js';
 import View from '../../../../lib/core/View.js';
-import FullVideoCardView from '../../../../src/views/full/FullVideoCardView.js';
+import MobileVideoCardView from '../../../../src/views/mobile/MobileVideoCardView.js';
 import {EventEmitter} from 'events';
 
-describe('FullImageCardController', function() {
-    let FullImageCardCtrl;
+describe('MobileImageCardController', function() {
+    let MobileImageCardCtrl;
     let card;
     let parentView;
 
     beforeEach(function() {
         card = new EventEmitter();
         parentView = new View();
-        spyOn(FullImageCardController.prototype, 'addView').and.callThrough();
+        spyOn(MobileImageCardController.prototype, 'addView').and.callThrough();
 
-        FullImageCardCtrl = new FullImageCardController(card, parentView);
+        MobileImageCardCtrl = new MobileImageCardController(card, parentView);
     });
 
     it('should exist', function() {
-        expect(FullImageCardCtrl).toEqual(jasmine.any(ImageCardController));
+        expect(MobileImageCardCtrl).toEqual(jasmine.any(ImageCardController));
     });
 
     describe('properties:', function() {
         describe('view', function() {
-            it('should be a FullVideoCardView', function() {
-                expect(FullImageCardCtrl.view).toEqual(jasmine.any(FullVideoCardView));
-                expect(FullImageCardCtrl.addView).toHaveBeenCalledWith(FullImageCardCtrl.view);
+            it('should be a MobileVideoCardView', function() {
+                expect(MobileImageCardCtrl.view).toEqual(jasmine.any(MobileVideoCardView));
+                expect(MobileImageCardCtrl.addView).toHaveBeenCalledWith(MobileImageCardCtrl.view);
             });
         });
     });
@@ -35,7 +35,7 @@ describe('FullImageCardController', function() {
             beforeEach(function() {
                 card.complete = jasmine.createSpy('card.complete()');
 
-                FullImageCardCtrl.advance();
+                MobileImageCardCtrl.advance();
             });
 
             it('should call complete() on the card', function() {

@@ -1,6 +1,7 @@
 import PlayerController from '../PlayerController.js';
 import LightboxPlayerView from '../../views/lightbox/LightboxPlayerView.js';
 import LightboxTextCardController from './LightboxTextCardController.js';
+import LightboxImageCardController from './LightboxImageCardController.js';
 import LightboxVideoCardController from './LightboxVideoCardController.js';
 import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
@@ -17,6 +18,7 @@ export default class LightboxPlayerController extends PlayerController {
 
         this.CardControllers = {
             text: LightboxTextCardController,
+            image: LightboxImageCardController,
             video: LightboxVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightboxPrerollCardController,

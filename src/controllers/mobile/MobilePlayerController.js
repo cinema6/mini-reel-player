@@ -2,6 +2,7 @@ import PlayerController from '../PlayerController.js';
 import MobilePlayerView from '../../views/mobile/MobilePlayerView.js';
 import TableOfContentsViewController from './TableOfContentsViewController.js';
 import MobileTextCardController from './MobileTextCardController.js';
+import MobileImageCardController from './MobileImageCardController.js';
 import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
 import MobilePrerollCardController from './MobilePrerollCardController.js';
@@ -16,6 +17,7 @@ export default class MobilePlayerController extends PlayerController {
         this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
         this.CardControllers = {
             text: MobileTextCardController,
+            image: MobileImageCardController,
             video: MobileVideoCardController,
             recap: MobileRecapCardController,
             preroll: MobilePrerollCardController,

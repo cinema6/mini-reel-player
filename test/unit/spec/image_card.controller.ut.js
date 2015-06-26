@@ -1,10 +1,11 @@
 import ImageCardController from '../../../src/controllers/ImageCardController.js';
 import CardController from '../../../src/controllers/CardController.js';
-import CardView from '../../../src/views/CardView.js';
+import FullVideoCardView from '../../../src/views/full/FullVideoCardView.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import FlickrEmbedView from '../../../src/views/image_embeds/FlickrEmbedView.js';
 import GettyEmbedView from '../../../src/views/image_embeds/GettyEmbedView.js';
-import TemplateView from '../../../lib/core/TemplateView.js';
+import PlayerOutletView from '../../../src/views/PlayerOutletView.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('ImageCardController', function() {
     let ImageCardCtrl;
@@ -27,8 +28,8 @@ describe('ImageCardController', function() {
 
         ImageCardCtrl = new ImageCardController(card);
         ImageCardCtrl.model = card;
-        ImageCardCtrl.view = new CardView();
-        ImageCardCtrl.view.imageOutlet = new TemplateView();
+        ImageCardCtrl.view = new FullVideoCardView();
+        ImageCardCtrl.view.playerOutlet = new PlayerOutletView();
 
     });
 
@@ -43,13 +44,13 @@ describe('ImageCardController', function() {
 
             beforeEach(function() {
                 embedView = new FlickrEmbedView();
-                spyOn(ImageCardCtrl.view.imageOutlet, 'append');
+                spyOn(ImageCardCtrl.view.playerOutlet, 'append');
                 spyOn(embedView, 'update');
                 ImageCardCtrl.appendEmbedView(embedView);
             });
 
-            it('should append the view to the imageOutlet', function() {
-                expect(ImageCardCtrl.view.imageOutlet.append).toHaveBeenCalledWith(embedView);
+            it('should append the view to the videoOutlet', function() {
+                expect(ImageCardCtrl.view.playerOutlet.append).toHaveBeenCalledWith(embedView);
             });
 
             it('should update the embed view', function() {
@@ -67,7 +68,10 @@ describe('ImageCardController', function() {
 
             beforeEach(function() {
                 spyOn(CardController.prototype, 'render');
-                result = ImageCardCtrl.render();
+                spyOn(ImageCardCtrl.view, 'update');
+                Runner.run(function() {
+                    result = ImageCardCtrl.render();
+                });
             });
 
             it('should call super', function() {
@@ -83,11 +87,21 @@ describe('ImageCardController', function() {
                         }
                     }, { data: { collateral: {  } } });
                     spyOn(ImageCardCtrl, 'appendEmbedView');
-                    result = ImageCardCtrl.render();
+                    Runner.run(function() {
+                        result = ImageCardCtrl.render();
+                    });
                 });
 
                 it('should load a flickr embed view', function() {
                     expect(ImageCardCtrl.appendEmbedView).toHaveBeenCalledWith(jasmine.any(FlickrEmbedView));
+                });
+
+                it('should update the source on the template', function() {
+                    var expectedOutput = {
+                        source: 'Flickr',
+                        href: 'https://www.flickr.com'
+                    };
+                    expect(ImageCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
                 });
             });
 
@@ -100,11 +114,21 @@ describe('ImageCardController', function() {
                         }
                     }, { data: { collateral: {  } } });
                     spyOn(ImageCardCtrl, 'appendEmbedView');
-                    result = ImageCardCtrl.render();
+                    Runner.run(function() {
+                        result = ImageCardCtrl.render();
+                    });
                 });
 
                 it('should load a getty embed view', function() {
                     expect(ImageCardCtrl.appendEmbedView).toHaveBeenCalledWith(jasmine.any(GettyEmbedView));
+                });
+
+                it('should update the source on the template', function() {
+                    var expectedOutput = {
+                        source: 'GettyImages',
+                        href: 'http://www.gettyimages.com'
+                    };
+                    expect(ImageCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
                 });
             });
         });

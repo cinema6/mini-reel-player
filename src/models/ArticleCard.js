@@ -1,21 +1,16 @@
 import Card from './Card.js';
 
-export default class ImageCard extends Card {
+export default class ArticleCard extends Card {
     constructor(data) {
         super(...arguments);
 
-        this.type = 'image';
+        this.type = 'article';
         this.thumbs = {
             small: data.data.thumbs.small,
             large: data.data.thumbs.large
         };
         this.data = {
-            service: data.data.service,
-            imageid: data.data.imageid,
-            src: data.data.src,
-            href: data.data.href,
-            width: data.data.width,
-            height: data.data.height
+            src: data.data.src
         };
     }
 

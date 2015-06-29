@@ -14,7 +14,7 @@ import {
     forEach,
     find
 } from '../../lib/utils.js';
-
+import ArticleCard from './ArticleCard.js';
 import TextCard from './TextCard.js';
 import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
@@ -36,6 +36,8 @@ function initialize(minireel, { experience, standalone, profile }) {
     minireel.splash = experience.data.collateral.splash;
     minireel.deck = map(experience.data.deck, card => {
         switch (card.type) {
+         case 'article':
+            return new ArticleCard(card, experience, profile);
         case 'text':
             return new TextCard(card, experience, profile);
         case 'image':

@@ -1,31 +1,31 @@
-import FullArticleCardController from '../../../../src/controllers/full/FullArticleCardController.js';
+import LightArticleCardController from '../../../../src/controllers/light/LightArticleCardController.js';
 import ArticleCardController from '../../../../src/controllers/ArticleCardController.js';
 import View from '../../../../lib/core/View.js';
-import FullArticleCardView from '../../../../src/views/full/FullArticleCardView.js';
+import LightArticleCardView from '../../../../src/views/light/LightArticleCardView.js';
 import {EventEmitter} from 'events';
 
-describe('FullArticleCardController', function() {
-    let FullArticleCardCtrl;
+describe('LightArticleCardController', function() {
+    let LightArticleCardCtrl;
     let card;
     let parentView;
 
     beforeEach(function() {
         card = new EventEmitter();
         parentView = new View();
-        spyOn(FullArticleCardController.prototype, 'addView').and.callThrough();
+        spyOn(LightArticleCardController.prototype, 'addView').and.callThrough();
 
-        FullArticleCardCtrl = new FullArticleCardController(card, parentView);
+        LightArticleCardCtrl = new LightArticleCardController(card, parentView);
     });
 
     it('should exist', function() {
-        expect(FullArticleCardCtrl).toEqual(jasmine.any(ArticleCardController));
+        expect(LightArticleCardCtrl).toEqual(jasmine.any(ArticleCardController));
     });
 
     describe('properties:', function() {
         describe('view', function() {
-            it('should be a FullArticleCardView', function() {
-                expect(FullArticleCardCtrl.view).toEqual(jasmine.any(FullArticleCardView));
-                expect(FullArticleCardCtrl.addView).toHaveBeenCalledWith(FullArticleCardCtrl.view);
+            it('should be a LightArticleCardView', function() {
+                expect(LightArticleCardCtrl.view).toEqual(jasmine.any(LightArticleCardView));
+                expect(LightArticleCardCtrl.addView).toHaveBeenCalledWith(LightArticleCardCtrl.view);
             });
         });
     });
@@ -35,7 +35,7 @@ describe('FullArticleCardController', function() {
             beforeEach(function() {
                 card.complete = jasmine.createSpy('card.complete()');
 
-                FullArticleCardCtrl.advance();
+                LightArticleCardCtrl.advance();
             });
 
             it('should call complete() on the card', function() {

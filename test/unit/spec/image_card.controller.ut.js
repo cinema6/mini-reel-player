@@ -14,7 +14,7 @@ describe('ImageCardController', function() {
     beforeEach(function() {
         card = new ImageCard({
             data: {
-                href: 'https://flic.kr/p/12345',
+                src: 'www.flickr.com/image.jpg',
                 width: '100',
                 height: '100',
                 imageid: '12345',
@@ -55,7 +55,7 @@ describe('ImageCardController', function() {
 
             it('should update the embed view', function() {
                 expect(embedView.update).toHaveBeenCalledWith({
-                    href: 'https://flic.kr/p/12345',
+                    src: 'www.flickr.com/image.jpg',
                     width: '100',
                     height: '100',
                     imageid: '12345'

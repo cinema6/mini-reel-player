@@ -13,6 +13,7 @@ import {
 } from '../../../lib/utils.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import Card from '../../../src/models/Card.js';
+import ArticleCard from '../../../src/models/ArticleCard.js';
 import TextCard from '../../../src/models/TextCard.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
@@ -563,6 +564,31 @@ describe('MiniReel', function() {
                 "title": "1. Holy Motors",
                 "note": "No performance in the 2010’s is more impressive than Denis Lavant’s in Holy Motors. Over the course of nearly two hours, his character is taxied around Paris in an Uber from hell, donning different outfits and identities as disparate as an old beggar woman, a motion-capture actor in a CGI erotic film, and a grotesque leprechaun who spirits a model (Eva Mendes) away to an underground sewer lair. Through these bizarre personas, Lavant and the filmmaker Leos Carax probe the various ways our sexual and psychological identities are shaped and mutilated to meet the expectations of unseen forces. It’s a boldly experimental and often impenetrable film, but one that never fails to offer excitement and surprise in nearly every frame.",
                 "source": "YouTube",
+                "modules": [],
+                "placementId": null,
+                "templateUrl": null,
+                "sponsored": false,
+                "campaign": {
+                  "campaignId": null,
+                  "advertiserId": null,
+                  "minViewTime": null
+                },
+                "collateral": {},
+                "links": {},
+                "params": {}
+              },
+              {
+                "data": {
+                    "src": "http://www.cinema6.com",
+                    "thumbs": {
+                        "small": "https://farm8.staticflickr.com/7646/16767833635_9459b8ee35_t.jpg",
+                        "large": "https://farm8.staticflickr.com/7646/16767833635_9459b8ee35_m.jpg"
+                    }
+                },
+                "id": "rc-cac446a3593e92",
+                "type": "article",
+                "title": "Article Card",
+                "note": "This is an article card!",
                 "modules": [],
                 "placementId": null,
                 "templateUrl": null,
@@ -1144,7 +1170,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(21);
+                            minireel.moveToIndex(22);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -1882,6 +1908,7 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
+                jasmine.any(ArticleCard),
                 jasmine.any(ImageCard),
                 jasmine.any(DisplayAdCard),
                 jasmine.any(RecapCard)
@@ -1913,7 +1940,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(21);
+            expect(minireel.length).toBe(22);
         });
 
         it('should set the adtech defaults', function() {

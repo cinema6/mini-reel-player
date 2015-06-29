@@ -17,6 +17,7 @@ describe('ImageCard', function() {
         data = {
             /* jshint quotmark:double */
             "data": {
+                "src": "www.flickr.com/image.jpg",
                 "href": "https://flic.kr/p/12345",
                 "width": "100",
                 "height": "100",
@@ -72,6 +73,7 @@ describe('ImageCard', function() {
         describe('data', function() {
             it('should be copied from the passed-in value', function() {
                 expect(imageCard.data).toEqual({
+                    src: 'www.flickr.com/image.jpg',
                     href: 'https://flic.kr/p/12345',
                     width: '100',
                     height: '100',

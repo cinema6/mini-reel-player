@@ -6,6 +6,7 @@ import Runner from '../../../../lib/Runner.js';
 import MobilePlayerView from '../../../../src/views/mobile/MobilePlayerView.js';
 import TableOfContentsViewController from '../../../../src/controllers/mobile/TableOfContentsViewController.js';
 import Card from '../../../../src/models/Card.js';
+import MobileArticleCardController from '../../../../src/controllers/mobile/MobileArticleCardController.js';
 import MobileTextCardController from '../../../../src/controllers/mobile/MobileTextCardController.js';
 import MobileImageCardController from '../../../../src/controllers/mobile/MobileImageCardController.js';
 import MobileVideoCardController from '../../../../src/controllers/mobile/MobileVideoCardController.js';
@@ -66,6 +67,7 @@ describe('MobilePlayerController', function() {
 
         describe('CardControllers', function() {
             it('should be a mapping of CardControllers', function() {
+                expect(MobilePlayerCtrl.CardControllers.article).toBe(MobileArticleCardController);
                 expect(MobilePlayerCtrl.CardControllers.text).toBe(MobileTextCardController);
                 expect(MobilePlayerCtrl.CardControllers.image).toBe(MobileImageCardController);
                 expect(MobilePlayerCtrl.CardControllers.video).toBe(MobileVideoCardController);

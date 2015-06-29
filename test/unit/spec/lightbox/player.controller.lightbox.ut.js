@@ -1,6 +1,7 @@
 import LightboxPlayerController from '../../../../src/controllers/lightbox/LightboxPlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import LightboxPlayerView from '../../../../src/views/lightbox/LightboxPlayerView.js';
+import LightboxArticleCardController from '../../../../src/controllers/lightbox/LightboxArticleCardController.js';
 import LightboxTextCardController from '../../../../src/controllers/lightbox/LightboxTextCardController.js';
 import LightboxImageCardController from '../../../../src/controllers/lightbox/LightboxImageCardController.js';
 import LightboxVideoCardController from '../../../../src/controllers/lightbox/LightboxVideoCardController.js';
@@ -42,6 +43,12 @@ describe('LightboxPlayerController', function() {
         });
 
         describe('CardControllers', function() {
+            describe('.article', function() {
+                it('should be LightboxArticleCardController', function() {
+                    expect(LightboxPlayerCtrl.CardControllers.article).toBe(LightboxArticleCardController);
+                });
+            });
+
             describe('.text', function() {
                 it('should be LightboxTextCardController', function() {
                     expect(LightboxPlayerCtrl.CardControllers.text).toBe(LightboxTextCardController);

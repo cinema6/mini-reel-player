@@ -11,7 +11,7 @@ export default class ImageCardController extends CardController {
         this.view.playerOutlet.append(embedView);
         const data = this.model.data;
         embedView.update({
-            href: data.href,
+            src: data.src,
             width: data.width,
             height: data.height,
             imageid: data.imageid

@@ -18,7 +18,7 @@ import {
     find,
     filter
 } from '../../lib/utils.js';
-
+import ArticleCard from './ArticleCard.js';
 import TextCard from './TextCard.js';
 import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
@@ -58,6 +58,8 @@ function initialize(whitelist, { experience, standalone, profile }) {
     this.splash = experience.data.collateral.splash;
     this.deck = map(deck, card => {
         switch (card.type) {
+         case 'article':
+            return new ArticleCard(card, experience, profile);
         case 'text':
             return new TextCard(card, experience, profile);
         case 'image':

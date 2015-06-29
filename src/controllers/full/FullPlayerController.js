@@ -1,5 +1,6 @@
 import PlayerController from '../PlayerController.js';
 import FullPlayerView from '../../views/full/FullPlayerView.js';
+import FullArticleCardController from './FullArticleCardController.js';
 import FullTextCardController from './FullTextCardController.js';
 import FullImageCardController from './FullImageCardController.js';
 import FullVideoCardController from './FullVideoCardController.js';
@@ -16,6 +17,7 @@ export default class FullPlayerController extends PlayerController {
         this.view = this.addView(new FullPlayerView());
 
         this.CardControllers = {
+            article: FullArticleCardController,
             text: FullTextCardController,
             image: FullImageCardController,
             video: FullVideoCardController,

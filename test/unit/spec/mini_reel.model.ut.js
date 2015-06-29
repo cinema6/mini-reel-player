@@ -12,6 +12,7 @@ import {
     defer
 } from '../../../lib/utils.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import ArticleCard from '../../../src/models/ArticleCard.js';
 import TextCard from '../../../src/models/TextCard.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
@@ -576,6 +577,31 @@ describe('MiniReel', function() {
                 "params": {}
               },
               {
+                "data": {
+                    "src": "http://www.cinema6.com",
+                    "thumbs": {
+                        "small": "https://farm8.staticflickr.com/7646/16767833635_9459b8ee35_t.jpg",
+                        "large": "https://farm8.staticflickr.com/7646/16767833635_9459b8ee35_m.jpg"
+                    }
+                },
+                "id": "rc-cac446a3593e92",
+                "type": "article",
+                "title": "Article Card",
+                "note": "This is an article card!",
+                "modules": [],
+                "placementId": null,
+                "templateUrl": null,
+                "sponsored": false,
+                "campaign": {
+                  "campaignId": null,
+                  "advertiserId": null,
+                  "minViewTime": null
+                },
+                "collateral": {},
+                "links": {},
+                "params": {}
+              },
+              {
                   "data": {
                       "imageid": "12345",
                       "service": "flickr",
@@ -1125,7 +1151,7 @@ describe('MiniReel', function() {
                 describe('if called with a number greater than the last index', function() {
                     it('should throw an error', function() {
                         expect(function() {
-                            minireel.moveToIndex(21);
+                            minireel.moveToIndex(22);
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
@@ -1860,6 +1886,7 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
+                jasmine.any(ArticleCard),
                 jasmine.any(ImageCard),
                 jasmine.any(DisplayAdCard),
                 jasmine.any(RecapCard)
@@ -1891,7 +1918,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(21);
+            expect(minireel.length).toBe(22);
         });
 
         it('should set the adtech defaults', function() {

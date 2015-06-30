@@ -1,7 +1,6 @@
 import SoloPlayerController from '../../../../src/controllers/solo/SoloPlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import SoloPlayerView from '../../../../src/views/solo/SoloPlayerView.js';
-import SoloImageCardController from '../../../../src/controllers/solo/SoloImageCardController.js';
 import SoloVideoCardController from '../../../../src/controllers/solo/SoloVideoCardController.js';
 import FullPrerollCardController from '../../../../src/controllers/full/FullPrerollCardController.js';
 import Runner from '../../../../lib/Runner.js';
@@ -25,12 +24,6 @@ describe('SoloPlayerController', function() {
         });
 
         describe('CardControllers', function() {
-            describe('.image', function() {
-                it('should be SoloImageCardController', function() {
-                    expect(SoloPlayerCtrl.CardControllers.image).toBe(SoloImageCardController);
-                });
-            });
-
             describe('.video', function() {
                 it('should be SoloVideoCardController', function() {
                     expect(SoloPlayerCtrl.CardControllers.video).toBe(SoloVideoCardController);

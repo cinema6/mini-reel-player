@@ -49,6 +49,14 @@ module.exports = {
                 options: {
                     CacheControl: 'max-age=15'
                 }
+            },
+            {
+                src: 'docs/**',
+                dest: '<%= settings.s3.staging.app %>docs/<%= _version %>/',
+                rel : 'docs/',
+                options: {
+                    CacheControl: 'max-age=31556926'
+                }
             }
         ]
     },
@@ -96,6 +104,14 @@ module.exports = {
                 rel : '<%= settings.distDir %>/',
                 options: {
                     CacheControl: 'max-age=60'
+                }
+            },
+            {
+                src: 'docs/**',
+                dest: '<%= settings.s3.production.app %>docs/<%= _version %>/',
+                rel : 'docs/',
+                options: {
+                    CacheControl: 'max-age=31556926'
                 }
             }
         ]

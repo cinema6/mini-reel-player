@@ -39,6 +39,7 @@
     "grunt-contrib-htmlmin": "^0.3.0",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-yuidoc": "^0.8.0",
     "grunt-git-assist": "git+ssh://git@github.com:cinema6/grunt-git-assist",
     "grunt-karma": "^0.10.1",
     "grunt-open": "^0.2.3",

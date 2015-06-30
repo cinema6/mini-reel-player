@@ -24,5 +24,15 @@ module.exports = {
         },
         tasks: ['copy:server', 'karma:server:run:<%= grunt.task.current.args[1] %>']
 
+    },
+    docs: {
+        files: [
+            'src/**/*.js',
+            'lib/**/*.js'
+        ],
+        options: {
+            livereload: true
+        },
+        tasks: ['yuidoc:compile']
     }
 };

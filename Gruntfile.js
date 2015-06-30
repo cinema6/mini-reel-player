@@ -72,6 +72,13 @@ module.exports = function(grunt) {
         grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
     });
 
+    grunt.registerTask('server:docs', 'start a YUIDoc server', [
+        'yuidoc:compile',
+        'connect:docs',
+        'open:docs',
+        'watch:docs'
+    ]);
+
     /*********************************************************************************************
      *
      * TEST TASKS
@@ -135,6 +142,10 @@ module.exports = function(grunt) {
         'replace:build'
     ]);
 
+    grunt.registerTask('build:docs', 'build YUIDocs', [
+        'yuidoc:compile'
+    ]);
+
     /*********************************************************************************************
      *
      * UPLOAD TASKS
@@ -143,6 +154,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('publish', 'build and upload the application to s3', function(target) {
         grunt.task.run('build');
+        grunt.task.run('build:docs');
         grunt.task.run('s3:' + target);
     });
 };

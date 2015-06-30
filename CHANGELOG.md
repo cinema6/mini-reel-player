@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.17.0-rc1]*
+  * [DEV]: Add YUIDoc documentation for the core MRPCL classes
+
 ## v0.16.0 (June 24, 2015)
 * *[v0.16.0-rc2]*
   * [FIX]: Fix for an issue that caused unnecessary data to get into the

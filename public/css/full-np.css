@@ -341,16 +341,9 @@
         height:4em;/*64px*/
         margin:0; display: block; 
         position: absolute; z-index: 1;
-        left:0.75em; right:20.25em; bottom:0.75em;
+        left:0.75em; right:0.75em; bottom:0.75em;
     }
 
-        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
-            /*  w: 0 - 800px
-                h: 0 - 500px */
-            .pager__group {
-                right:16.25rem;
-            }
-        }
 
         .pager__group--fullWidth,
         .pager__group--recap {
@@ -552,8 +545,15 @@
     .companionAd__group {
         width:18.75em;
         position:absolute;
-        right:0; bottom:0;
+        right:0; bottom:2.25em;
     }
+        @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+            /*  w: 1697px ++ 
+            /   h: 720px ++ */
+            .companionAd__group {
+                bottom:2.75em;
+            }
+        }
         .displayAd__label {
             font-size:0.625em;
             color:#999;
@@ -665,7 +665,7 @@
             }
 
     .card__copy { 
-        margin:0.75em 0 0;
+        padding:0.75em 0 0; margin:0;
         overflow-y: auto; overflow-x:hidden;
         -webkit-transition:height 0.25s; transition:height 0.25s;
         position:absolute;
@@ -704,9 +704,6 @@
         @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
             /*  w: 1200px -  1696px
             /   h: 720px ++ */
-            .card__copy { 
-                margin:0.75em 0 0;
-            }
 
             .card__title {
                 font-size:1.625em;
@@ -723,9 +720,6 @@
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 
             /   h: 720px ++ */
-            .card__copy { 
-                margin:0.75em 0 0;
-            }
 
             .card__title {
                 font-size:1.75em;
@@ -757,7 +751,59 @@
 
 
 
+/*  ================================================
+    article card classes
+    ================================================ */
+    .article__group {
+        margin:0; padding:0;
+        width:100%;  position:relative;
+    }
 
+        .article__group iframe {
+            width:100%; height:100%;
+            border:0; 
+        }
+
+
+
+/*  ================================================
+    image card classes
+    ================================================ */
+    .imgCard {
+        width:100%; height:100%;
+        background:#fff;
+    }
+        .imgCard--getty {
+            overflow: auto;
+        }
+
+        .imgCard__img {
+            background:50% 0% / contain no-repeat;
+            width:100%; height:100%;
+        }
+
+
+
+        .imgCard__gettyEmbed {
+            max-width:594px;
+            margin:0 auto;
+        }
+
+            .imgCard__iframeHolder {
+                width:100%; height:0;
+                padding:66% 0 0 0;
+                position: relative;
+            }
+
+            .imgCard__iframe--getty {
+                width:100%; height:100%;
+                position: absolute;
+                top:0; left:0;
+            }
+
+        .gettyFooter {
+            text-align: center;
+        }
 
 
 

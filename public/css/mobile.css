@@ -633,7 +633,6 @@
     .imgCard {
         width:100%; height:100%;
         background:#fff;
-        position:absolute;
     }
         @media screen and (orientation:landscape) {
             .article__group {
@@ -646,9 +645,12 @@
         }
 
         .imgCard__imgBox {
-            background:50% 0% / contain no-repeat;
+            background:none !important;
             width:100%; height:100%;
         }
+            .imgCard__img {
+                display: block;
+            }
 
 
 

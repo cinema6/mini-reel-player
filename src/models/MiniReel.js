@@ -29,7 +29,7 @@ import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'displayAd', 'slideshow-bob', 'recap'];
+const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap'];
 
 const _ = createKey();
 

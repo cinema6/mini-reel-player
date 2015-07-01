@@ -1,11 +1,11 @@
-import VideoCardView from '../VideoCardView.js';
+import CardView from '../CardView.js';
 import View from '../../../lib/core/View.js';
 import LinksListView from '../LinksListView.js';
 import PlayerOutletView from '../PlayerOutletView.js';
 import HideableView from '../HideableView.js';
 import ButtonView from '../ButtonView.js';
 
-export default class MobileImageCardView extends VideoCardView {
+export default class MobileImageCardView extends CardView {
     constructor() {
         super(...arguments);
 

@@ -1,6 +1,3 @@
-<div data-view="postOutlet:View"></div>
-<div data-view="ballotOutlet:View"></div>
-
 <section class="card__group clearfix">
     <h1 class="card__title tk--hdr">
         {{title}}
@@ -10,7 +7,7 @@
         </span>
     </h1>
 
-    <div data-view="playerOutlet:PlayerOutletView" class="player js-playerBox"></div>
+    <div data-view="playerOutlet:PlayerOutletView"></div>
 
     <div data-view="displayAdOutlet:View" class="displayAdCard__adModule"></div>
     <p data-view="replayContainer:HideableView" style="text-align:center;">
@@ -24,7 +21,6 @@
         </button>
     </p>
 
-    <div data-view="ballotResultsOutlet:View"></div>
 
     <div data-if="isSponsored" class="sponsorProfile__group clearfix">
         <a data-if="logo" href="{{website}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">

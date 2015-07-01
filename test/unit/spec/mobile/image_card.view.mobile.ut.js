@@ -1,5 +1,5 @@
-import MobileImageCardView from '../../../../src/views/mobile/MobileVideoCardView.js';
-import VideoCardView from '../../../../src/views/VideoCardView.js';
+import MobileImageCardView from '../../../../src/views/mobile/MobileImageCardView.js';
+import CardView from '../../../../src/views/CardView.js';
 import Runner from '../../../../lib/Runner.js';
 import PlayerOutletView from '../../../../src/views/PlayerOutletView.js';
 import View from '../../../../lib/core/View.js';
@@ -14,8 +14,8 @@ describe('MobileImageCardView', function() {
         mobileImageCardView = new MobileImageCardView();
     });
 
-    it('should be a VideoCardView', function() {
-        expect(mobileImageCardView).toEqual(jasmine.any(VideoCardView));
+    it('should be a CardView', function() {
+        expect(mobileImageCardView).toEqual(jasmine.any(CardView));
     });
 
     describe('properties:', function() {
@@ -42,16 +42,6 @@ describe('MobileImageCardView', function() {
 
             it('should be a view', function() {
                 expect(mobileImageCardView.displayAdOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('postOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileImageCardView.create());
-            });
-
-            it('should be a view', function() {
-                expect(mobileImageCardView.postOutlet).toEqual(jasmine.any(View));
             });
         });
 
@@ -87,26 +77,6 @@ describe('MobileImageCardView', function() {
 
             it('should be a ButtonView', function() {
                 expect(mobileImageCardView.replayButton).toEqual(jasmine.any(ButtonView));
-            });
-        });
-
-        describe('ballotOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileImageCardView.create());
-            });
-
-            it('should be a View', function() {
-                expect(mobileImageCardView.ballotOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('ballotResultsOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileImageCardView.create());
-            });
-
-            it('should be a View', function() {
-                expect(mobileImageCardView.ballotResultsOutlet).toEqual(jasmine.any(View));
             });
         });
     });

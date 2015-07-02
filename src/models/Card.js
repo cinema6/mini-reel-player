@@ -72,6 +72,8 @@ export default class Card extends EventEmitter {
 
     reset() {}
 
+    abort() {}
+
     cleanup() {
         this.emit('cleanup');
     }

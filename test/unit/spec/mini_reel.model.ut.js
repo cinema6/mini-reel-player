@@ -846,6 +846,8 @@ describe('MiniReel', function() {
 
                 describe('if the minireel is not skippable', function() {
                     beforeEach(function() {
+                        minireel.currentIndex = 2;
+                        minireel.currentCard = minireel.deck[2];
                         minireel.skippable = false;
 
                         minireel.moveToIndex(3);
@@ -854,6 +856,22 @@ describe('MiniReel', function() {
                     it('should do nothing', function() {
                         expect(minireel.currentIndex).not.toBe(3);
                         expect(minireel.didMove).not.toHaveBeenCalled();
+                    });
+
+                    describe('if the MiniReel is closing', function() {
+                        beforeEach(function() {
+                            spyOn(minireel.currentCard, 'abort');
+                            minireel.moveToIndex(-1);
+                        });
+
+                        it('should abort() the currentCard', function() {
+                            expect(minireel.deck[2].abort).toHaveBeenCalled();
+                        });
+
+                        it('should close the minireel', function() {
+                            expect(minireel.currentIndex).toBe(-1);
+                            expect(minireel.didMove).toHaveBeenCalled();
+                        });
                     });
                 });
 

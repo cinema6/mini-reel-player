@@ -766,6 +766,53 @@ describe('VideoCard', function() {
             });
         });
 
+        describe('abort()', function() {
+            let becameSkippable;
+
+            beforeEach(function() {
+                becameSkippable = jasmine.createSpy('becameSkippable()');
+                card.on('becameSkippable', becameSkippable);
+
+                spyOn(Card.prototype, 'abort').and.callThrough();
+            });
+
+            describe('if the card is skippable', function() {
+                beforeEach(function() {
+                    card.skippable = true;
+
+                    card.abort();
+                });
+
+                it('should call super()', function() {
+                    expect(Card.prototype.abort).toHaveBeenCalled();
+                });
+
+                it('should not emit becameSkippable', function() {
+                    expect(becameSkippable).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if the card is not skippable', function() {
+                beforeEach(function() {
+                    card.skippable = false;
+
+                    card.abort();
+                });
+
+                it('should call super()', function() {
+                    expect(Card.prototype.abort).toHaveBeenCalled();
+                });
+
+                it('should set skippable to true', function() {
+                    expect(card.skippable).toBe(true);
+                });
+
+                it('should emit becameSkippable', function() {
+                    expect(becameSkippable).toHaveBeenCalled();
+                });
+            });
+        });
+
         describe('reset()', function() {
             beforeEach(function() {
                 spyOn(Card.prototype, 'reset').and.callThrough();

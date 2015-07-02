@@ -96,6 +96,15 @@ export default class VideoCard extends Card {
         return super();
     }
 
+    abort() {
+        if (!this.skippable) {
+            this.skippable = true;
+            this.emit('becameSkippable');
+        }
+
+        return super();
+    }
+
     setPlaybackState({ currentTime, duration }) {
         const {canSkipAfterCountdown} = _(this);
         if (this.skippable || canSkipAfterCountdown) { return; }

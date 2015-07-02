@@ -254,6 +254,14 @@ describe('Card', function() {
             it('should do nothing', function() {});
         });
 
+        describe('abort()', function() {
+            beforeEach(function() {
+                card.abort();
+            });
+
+            it('should do nothing', function() {});
+        });
+
         describe('cleanup()', function() {
             let cleanup;
 

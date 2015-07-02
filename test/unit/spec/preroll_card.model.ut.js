@@ -208,51 +208,23 @@ describe('PrerollCard', function() {
         });
 
         describe('abort()', function() {
-            let becameSkippable;
             let canAdvance;
 
             beforeEach(function() {
-                becameSkippable = jasmine.createSpy('becameSkippable()');
-                card.on('becameSkippable', becameSkippable);
-
                 canAdvance = jasmine.createSpy('canAdvance()');
                 card.on('canAdvance', canAdvance);
+
+                spyOn(AdUnitCard.prototype, 'abort').and.callThrough();
+
+                card.abort();
             });
 
-            describe('if the card is skippable', function() {
-                beforeEach(function() {
-                    card.skippable = true;
-
-                    card.abort();
-                });
-
-                it('should not emit becameSkippable', function() {
-                    expect(becameSkippable).not.toHaveBeenCalled();
-                });
-
-                it('should emit canAdvance', function() {
-                    expect(canAdvance).toHaveBeenCalled();
-                });
+            it('should call super()', function() {
+                expect(AdUnitCard.prototype.abort).toHaveBeenCalled();
             });
 
-            describe('if the card is not skippable', function() {
-                beforeEach(function() {
-                    card.skippable = false;
-
-                    card.abort();
-                });
-
-                it('should set skippable to true', function() {
-                    expect(card.skippable).toBe(true);
-                });
-
-                it('should emit becameSkippable', function() {
-                    expect(becameSkippable).toHaveBeenCalled();
-                });
-
-                it('should emit canAdvance', function() {
-                    expect(canAdvance).toHaveBeenCalled();
-                });
+            it('should emit canAdvance', function() {
+                expect(canAdvance).toHaveBeenCalled();
             });
         });
     });

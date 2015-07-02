@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.16.1-rc1]*
+  * [FIX]: Allow MiniReel to be closed even if the current card is not
+    skippable
+
 ## v0.16.0 (June 24, 2015)
 * *[v0.16.0-rc2]*
   * [FIX]: Fix for an issue that caused unnecessary data to get into the

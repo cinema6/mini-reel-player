@@ -117,7 +117,7 @@ function initialize(whitelist, { experience, standalone, profile }) {
 
     _(this).ready = true;
     this.emit('init');
-    this.didMove();
+    this.deck[0].prepare();
 }
 
 export default class MiniReel extends EventEmitter {

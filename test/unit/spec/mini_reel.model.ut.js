@@ -12,6 +12,7 @@ import {
     defer
 } from '../../../lib/utils.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import Card from '../../../src/models/Card.js';
 import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
@@ -1613,6 +1614,8 @@ describe('MiniReel', function() {
 
             minireel.on('init', () => process.nextTick(done));
 
+            spyOn(Card.prototype, 'prepare');
+
             appDataDeferred.fulfill({
                 experience: experience,
                 standalone: true,
@@ -1624,8 +1627,8 @@ describe('MiniReel', function() {
             expect(done).toHaveBeenCalled();
         });
 
-        it('should call didMove()', function() {
-            expect(minireel.didMove).toHaveBeenCalled();
+        it('should call prepare() on the first card', function() {
+            expect(minireel.deck[0].prepare).toHaveBeenCalled();
         });
 
         it('should copy the standalone property', function() {

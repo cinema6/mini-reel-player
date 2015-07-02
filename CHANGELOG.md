@@ -4,6 +4,8 @@
   * [FIX]: Allow MiniReel to be closed even if the current card is not
     skippable
   * Skip timer will be appear again after the MiniReel is closed
+  * [FIX]: Fix for an issue that caused embedded MiniReels not to
+    autoplay on mobile
 
 ## v0.16.0 (June 24, 2015)
 * *[v0.16.0-rc2]*

@@ -4,6 +4,7 @@
 * *[v0.16.1-rc2]*
   * [FIX]: Allow the first mobile embed video to be autoplayed if the
     MiniReel is closed and reopened
+* *[/v0.16.1-rc2]*
 
 * *[v0.16.1-rc1]*
   * [FIX]: Allow MiniReel to be closed even if the current card is not

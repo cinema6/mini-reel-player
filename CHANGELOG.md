@@ -3,6 +3,7 @@
 * *[v0.16.1-rc1]*
   * [FIX]: Allow MiniReel to be closed even if the current card is not
     skippable
+  * Skip timer will be appear again after the MiniReel is closed
 
 ## v0.16.0 (June 24, 2015)
 * *[v0.16.0-rc2]*

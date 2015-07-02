@@ -268,8 +268,13 @@ describe('Card', function() {
             beforeEach(function() {
                 cleanup = jasmine.createSpy('cleanup()');
                 card.on('cleanup', cleanup);
+                spyOn(card, 'reset');
 
                 card.cleanup();
+            });
+
+            it('should call reset()', function() {
+                expect(card.reset).toHaveBeenCalled();
             });
 
             it('should emit "cleanup"', function() {

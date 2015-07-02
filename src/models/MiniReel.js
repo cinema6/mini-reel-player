@@ -117,7 +117,7 @@ function initialize(whitelist, { experience, standalone, profile }) {
 
     _(this).ready = true;
     this.emit('init');
-    this.didMove();
+    this.deck[0].prepare();
 }
 
 export default class MiniReel extends EventEmitter {
@@ -198,7 +198,13 @@ export default class MiniReel extends EventEmitter {
             throw new RangeError('Cannot move past the last index.');
         }
 
-        if (!this.skippable) { return; }
+        if (!this.skippable) {
+            if (index === -1) {
+                this.currentCard.abort();
+            } else {
+                return;
+            }
+        }
 
         const previousCard = this.currentCard;
         const previousIndex = this.currentIndex;

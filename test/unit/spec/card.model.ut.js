@@ -254,14 +254,27 @@ describe('Card', function() {
             it('should do nothing', function() {});
         });
 
+        describe('abort()', function() {
+            beforeEach(function() {
+                card.abort();
+            });
+
+            it('should do nothing', function() {});
+        });
+
         describe('cleanup()', function() {
             let cleanup;
 
             beforeEach(function() {
                 cleanup = jasmine.createSpy('cleanup()');
                 card.on('cleanup', cleanup);
+                spyOn(card, 'reset');
 
                 card.cleanup();
+            });
+
+            it('should call reset()', function() {
+                expect(card.reset).toHaveBeenCalled();
             });
 
             it('should emit "cleanup"', function() {

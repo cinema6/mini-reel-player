@@ -12,6 +12,7 @@ import {
     defer
 } from '../../../lib/utils.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import Card from '../../../src/models/Card.js';
 import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
@@ -846,6 +847,8 @@ describe('MiniReel', function() {
 
                 describe('if the minireel is not skippable', function() {
                     beforeEach(function() {
+                        minireel.currentIndex = 2;
+                        minireel.currentCard = minireel.deck[2];
                         minireel.skippable = false;
 
                         minireel.moveToIndex(3);
@@ -854,6 +857,22 @@ describe('MiniReel', function() {
                     it('should do nothing', function() {
                         expect(minireel.currentIndex).not.toBe(3);
                         expect(minireel.didMove).not.toHaveBeenCalled();
+                    });
+
+                    describe('if the MiniReel is closing', function() {
+                        beforeEach(function() {
+                            spyOn(minireel.currentCard, 'abort');
+                            minireel.moveToIndex(-1);
+                        });
+
+                        it('should abort() the currentCard', function() {
+                            expect(minireel.deck[2].abort).toHaveBeenCalled();
+                        });
+
+                        it('should close the minireel', function() {
+                            expect(minireel.currentIndex).toBe(-1);
+                            expect(minireel.didMove).toHaveBeenCalled();
+                        });
                     });
                 });
 
@@ -1595,6 +1614,8 @@ describe('MiniReel', function() {
 
             minireel.on('init', () => process.nextTick(done));
 
+            spyOn(Card.prototype, 'prepare');
+
             appDataDeferred.fulfill({
                 experience: experience,
                 standalone: true,
@@ -1606,8 +1627,8 @@ describe('MiniReel', function() {
             expect(done).toHaveBeenCalled();
         });
 
-        it('should call didMove()', function() {
-            expect(minireel.didMove).toHaveBeenCalled();
+        it('should call prepare() on the first card', function() {
+            expect(minireel.deck[0].prepare).toHaveBeenCalled();
         });
 
         it('should copy the standalone property', function() {

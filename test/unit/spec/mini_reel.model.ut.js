@@ -1523,6 +1523,7 @@ describe('MiniReel', function() {
             describe('when moving to -1', function() {
                 beforeEach(function() {
                     minireel.deck.forEach(card => spyOn(card, 'cleanup'));
+                    minireel.deck[0].prepare.and.callFake(() => minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled()));
                     spyOn(minireel.prerollCard, 'cleanup');
 
                     minireel.moveToIndex(-1);

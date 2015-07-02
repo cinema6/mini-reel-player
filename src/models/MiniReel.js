@@ -300,6 +300,10 @@ export default class MiniReel extends EventEmitter {
             }
         });
 
+        if (currentIndex === -1) {
+            forEach(cards, card => card.cleanup());
+        }
+
         const nextCard = (currentIndex !== null) && deck[currentIndex + 1];
 
         if (nextCard) {
@@ -307,9 +311,5 @@ export default class MiniReel extends EventEmitter {
         }
 
         this.emit('move');
-
-        if (currentIndex === -1) {
-            forEach(cards, card => card.cleanup());
-        }
     }
 }

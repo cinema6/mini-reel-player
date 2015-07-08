@@ -4,16 +4,15 @@ export default class ArticleCardController extends CardController {
     constructor() {
         super(...arguments);
         this.isRendered = false;
-        this.model.on('prepare', () => {
+
+        const doRender = () => {
             if(!this.isRendered) {
                 this.renderArticle();
             }
-        });
-        this.model.on('activate', () => {
-            if(!this.isRendered) {
-                this.renderArticle();
-            }
-        });
+        };
+
+        this.model.on('prepare', doRender);
+        this.model.on('activate', doRender);
     }
 
     renderArticle() {

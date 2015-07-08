@@ -18,9 +18,4 @@ export default class ImageCard extends Card {
             height: data.data.height
         };
     }
-
-    complete() {
-        this.emit('canAdvance');
-        return super();
-    }
 }

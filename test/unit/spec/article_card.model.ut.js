@@ -57,7 +57,19 @@ describe('ImageCard', function() {
         });
 
         describe('thumbs', function() {
-            it('should be copied from the passed-in value', function() {
+            it('should default to the user specified thumbs', function() {
+                data.thumbs = {
+                    small: 'http://www.cinema6.com/logo.jpg',
+                    large: 'http://www.cinema6.com/logo.jpg',
+                };
+                articleCard = new ArticleCard(data, experience);
+                expect(articleCard.thumbs).toEqual({
+                    small: 'http://www.cinema6.com/logo.jpg',
+                    large: 'http://www.cinema6.com/logo.jpg',
+                });
+            });
+
+            it('should be copied from the passed-in value if not already defined', function() {
                 expect(articleCard.thumbs).toEqual({
                     small: data.data.thumbs.small,
                     large: data.data.thumbs.large
@@ -73,27 +85,5 @@ describe('ImageCard', function() {
             });
         });
 
-    });
-
-    describe('methods:', function() {
-        describe('complete()', function() {
-            let canAdvance;
-
-            beforeEach(function() {
-                canAdvance = jasmine.createSpy('canAdvance()');
-                articleCard.on('canAdvance', canAdvance);
-                spyOn(Card.prototype, 'complete');
-
-                articleCard.complete();
-            });
-
-            it('should call super()', function() {
-                expect(Card.prototype.complete).toHaveBeenCalled();
-            });
-
-            it('should emit "canAdvance"', function() {
-                expect(canAdvance).toHaveBeenCalled();
-            });
-        });
     });
 });

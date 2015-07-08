@@ -5,17 +5,14 @@ export default class ArticleCard extends Card {
         super(...arguments);
 
         this.type = 'article';
-        this.thumbs = {
-            small: data.data.thumbs.small,
-            large: data.data.thumbs.large
-        };
+        if(!this.thumbs) {
+            this.thumbs = {
+                small: data.data.thumbs.small,
+                large: data.data.thumbs.large
+            };
+        }
         this.data = {
             src: data.data.src
         };
-    }
-
-    complete() {
-        this.emit('canAdvance');
-        return super();
     }
 }

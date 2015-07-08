@@ -7,8 +7,4 @@ export default class MobileArticleCardController extends ArticleCardController {
 
         this.view = this.addView(new MobileArticleCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

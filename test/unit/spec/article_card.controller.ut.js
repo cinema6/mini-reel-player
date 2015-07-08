@@ -2,7 +2,6 @@ import ArticleCardController from '../../../src/controllers/ArticleCardControlle
 import CardController from '../../../src/controllers/CardController.js';
 import FullArticleCardView from '../../../src/views/full/FullArticleCardView.js';
 import ArticleCard from '../../../src/models/ArticleCard.js';
-import Runner from '../../../lib/Runner.js';
 
 describe('ArticleCardController', function() {
     let ArticleCardCtrl;
@@ -30,20 +29,34 @@ describe('ArticleCardController', function() {
         expect(ArticleCardCtrl).toEqual(jasmine.any(CardController));
     });
 
-    describe('methods', function() {
-        describe('render()', function() {
-            let result;
+    describe('events', function() {
+        describe('model', function() {
 
             beforeEach(function() {
-                spyOn(CardController.prototype, 'render');
-                spyOn(ArticleCardCtrl.view, 'update');
-                Runner.run(function() {
-                    result = ArticleCardCtrl.render();
+                spyOn(ArticleCardCtrl, 'renderArticle');
+            });
+
+            describe('prepare', function() {
+                it('should call renderArticle', function() {
+                    card.prepare();
+                    expect(ArticleCardCtrl.renderArticle).toHaveBeenCalled();
                 });
             });
 
-            it('should call super', function() {
-                expect(CardController.prototype.render).toHaveBeenCalled();
+            describe('activate', function() {
+                it('should call renderArticle', function() {
+                    card.activate();
+                    expect(ArticleCardCtrl.renderArticle).toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
+    describe('methods', function() {
+        describe('renderArticle', function() {
+            beforeEach(function() {
+                spyOn(ArticleCardCtrl.view, 'update');
+                ArticleCardCtrl.renderArticle();
             });
 
             it('should update the source on the template', function() {

@@ -8,8 +8,4 @@ export default class LightboxPlaylistArticleCardController extends ArticleCardCo
 
         this.view = this.addView(new LightboxPlaylistArticleCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

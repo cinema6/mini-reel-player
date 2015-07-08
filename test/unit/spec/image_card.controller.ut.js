@@ -5,7 +5,6 @@ import ImageCard from '../../../src/models/ImageCard.js';
 import FlickrEmbedView from '../../../src/views/image_embeds/FlickrEmbedView.js';
 import GettyEmbedView from '../../../src/views/image_embeds/GettyEmbedView.js';
 import PlayerOutletView from '../../../src/views/PlayerOutletView.js';
-import Runner from '../../../lib/Runner.js';
 
 describe('ImageCardController', function() {
     let ImageCardCtrl;
@@ -37,8 +36,29 @@ describe('ImageCardController', function() {
         expect(ImageCardCtrl).toEqual(jasmine.any(CardController));
     });
 
-    describe('methods', function() {
+    describe('events', function() {
+        describe('model', function() {
+            beforeEach(function() {
+                spyOn(ImageCardCtrl, 'renderImage');
+            });
 
+            describe('prepare', function() {
+                it('should call render image', function() {
+                    card.prepare();
+                    expect(ImageCardCtrl.renderImage).toHaveBeenCalled();
+                });
+            });
+
+            describe('activate', function() {
+                it('should call render image', function() {
+                    card.activate();
+                    expect(ImageCardCtrl.renderImage).toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
+    describe('methods', function() {
         describe('appendEmbedView', function() {
             let embedView;
 
@@ -63,19 +83,9 @@ describe('ImageCardController', function() {
             });
         });
 
-        describe('render()', function() {
-            let result;
-
+        describe('renderImage', function() {
             beforeEach(function() {
-                spyOn(CardController.prototype, 'render');
                 spyOn(ImageCardCtrl.view, 'update');
-                Runner.run(function() {
-                    result = ImageCardCtrl.render();
-                });
-            });
-
-            it('should call super', function() {
-                expect(CardController.prototype.render).toHaveBeenCalled();
             });
 
             describe('flickr', function() {
@@ -87,9 +97,7 @@ describe('ImageCardController', function() {
                         }
                     }, { data: { collateral: {  } } });
                     spyOn(ImageCardCtrl, 'appendEmbedView');
-                    Runner.run(function() {
-                        result = ImageCardCtrl.render();
-                    });
+                    ImageCardCtrl.renderImage();
                 });
 
                 it('should load a flickr embed view', function() {
@@ -114,9 +122,7 @@ describe('ImageCardController', function() {
                         }
                     }, { data: { collateral: {  } } });
                     spyOn(ImageCardCtrl, 'appendEmbedView');
-                    Runner.run(function() {
-                        result = ImageCardCtrl.render();
-                    });
+                    ImageCardCtrl.renderImage();
                 });
 
                 it('should load a getty embed view', function() {

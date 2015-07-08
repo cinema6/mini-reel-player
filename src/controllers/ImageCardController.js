@@ -3,6 +3,12 @@ import FlickrEmbedView from '../views/image_embeds/FlickrEmbedView.js';
 import GettyEmbedView from '../views/image_embeds/GettyEmbedView.js';
 
 export default class ImageCardController extends CardController {
+    constructor() {
+        super(...arguments);
+        this.model.on('prepare', () => { this.renderImage(); });
+        this.model.on('activate', () => { this.renderImage(); });
+    }
+
     appendEmbedView(embedView) {
         this.view.playerOutlet.append(embedView);
         const data = this.model.data;
@@ -14,8 +20,7 @@ export default class ImageCardController extends CardController {
         });
     }
 
-    render() {
-        super(...arguments);
+    renderImage() {
         switch(this.model.data.service) {
         case 'flickr':
             const flickrEmbedView = new FlickrEmbedView();
@@ -42,4 +47,5 @@ export default class ImageCardController extends CardController {
         }
         this.view.update(viewUpdate);
     }
+
 }

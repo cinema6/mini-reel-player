@@ -7,8 +7,4 @@ export default class LightboxArticleCardController extends ArticleCardController
 
         this.view = this.addView(new LightboxArticleCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

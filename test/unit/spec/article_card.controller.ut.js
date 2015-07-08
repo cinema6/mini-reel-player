@@ -29,6 +29,14 @@ describe('ArticleCardController', function() {
         expect(ArticleCardCtrl).toEqual(jasmine.any(CardController));
     });
 
+    describe('properties', function() {
+        describe('isRendered', function() {
+            it('should be initialized to false', function() {
+                expect(ArticleCardCtrl.isRendered).toBe(false);
+            });
+        });
+    });
+
     describe('events', function() {
         describe('model', function() {
 
@@ -37,16 +45,28 @@ describe('ArticleCardController', function() {
             });
 
             describe('prepare', function() {
-                it('should call renderArticle', function() {
+                it('should call renderArticle if not already rendered', function() {
                     card.prepare();
                     expect(ArticleCardCtrl.renderArticle).toHaveBeenCalled();
+                });
+
+                it('should not call renderArticle if already rendered', function() {
+                    ArticleCardCtrl.isRendered = true;
+                    card.prepare();
+                    expect(ArticleCardCtrl.renderArticle).not.toHaveBeenCalled();
                 });
             });
 
             describe('activate', function() {
-                it('should call renderArticle', function() {
+                it('should call renderArticle if not already rendered', function() {
                     card.activate();
                     expect(ArticleCardCtrl.renderArticle).toHaveBeenCalled();
+                });
+
+                it('should not call renderArticle if already rendered', function() {
+                    ArticleCardCtrl.isRendered = true;
+                    card.prepare();
+                    expect(ArticleCardCtrl.renderArticle).not.toHaveBeenCalled();
                 });
             });
         });
@@ -64,6 +84,10 @@ describe('ArticleCardController', function() {
                     src: 'http://www.cinema6.com'
                 };
                 expect(ArticleCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
+            });
+
+            it('should set the isRendered property to true', function() {
+                expect(ArticleCardCtrl.isRendered).toBe(true);
             });
         });
     });

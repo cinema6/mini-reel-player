@@ -5,8 +5,17 @@ import GettyEmbedView from '../views/image_embeds/GettyEmbedView.js';
 export default class ImageCardController extends CardController {
     constructor() {
         super(...arguments);
-        this.model.on('prepare', () => { this.renderImage(); });
-        this.model.on('activate', () => { this.renderImage(); });
+        this.isRendered = false;
+        this.model.on('prepare', () => {
+            if(!this.isRendered) {
+                this.renderImage();
+            }
+        });
+        this.model.on('activate', () => {
+            if(!this.isRendered) {
+                this.renderImage();
+            }
+        });
     }
 
     appendEmbedView(embedView) {
@@ -21,6 +30,7 @@ export default class ImageCardController extends CardController {
     }
 
     renderImage() {
+        this.isRendered = true;
         switch(this.model.data.service) {
         case 'flickr':
             const flickrEmbedView = new FlickrEmbedView();

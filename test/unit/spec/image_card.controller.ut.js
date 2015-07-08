@@ -36,6 +36,14 @@ describe('ImageCardController', function() {
         expect(ImageCardCtrl).toEqual(jasmine.any(CardController));
     });
 
+    describe('properties', function() {
+        describe('isRendered', function() {
+            it('should be initialized to false', function() {
+                expect(ImageCardCtrl.isRendered).toBe(false);
+            });
+        });
+    });
+
     describe('events', function() {
         describe('model', function() {
             beforeEach(function() {
@@ -43,16 +51,28 @@ describe('ImageCardController', function() {
             });
 
             describe('prepare', function() {
-                it('should call render image', function() {
+                it('should call renderImage if not already rendered', function() {
                     card.prepare();
                     expect(ImageCardCtrl.renderImage).toHaveBeenCalled();
+                });
+
+                it('should not call renderImage if already rendered', function() {
+                    ImageCardCtrl.isRendered = true;
+                    card.prepare();
+                    expect(ImageCardCtrl.renderImage).not.toHaveBeenCalled();
                 });
             });
 
             describe('activate', function() {
-                it('should call render image', function() {
+                it('should call renderImage if not already rendered', function() {
                     card.activate();
                     expect(ImageCardCtrl.renderImage).toHaveBeenCalled();
+                });
+
+                it('should not call renderImage if already rendered', function() {
+                    ImageCardCtrl.isRendered = true;
+                    card.prepare();
+                    expect(ImageCardCtrl.renderImage).not.toHaveBeenCalled();
                 });
             });
         });
@@ -86,6 +106,11 @@ describe('ImageCardController', function() {
         describe('renderImage', function() {
             beforeEach(function() {
                 spyOn(ImageCardCtrl.view, 'update');
+            });
+
+            it('should set the isRendered property to true', function() {
+                ImageCardCtrl.renderImage();
+                expect(ImageCardCtrl.isRendered).toBe(true);
             });
 
             describe('flickr', function() {

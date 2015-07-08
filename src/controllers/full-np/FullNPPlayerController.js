@@ -1,6 +1,8 @@
 import PlayerController from '../PlayerController.js';
 import FullNPPlayerView from '../../views/full-np/FullNPPlayerView.js';
+import FullArticleCardController from '../full/FullArticleCardController.js';
 import FullTextCardController from '../full/FullTextCardController.js';
+import FullImageCardController from '../full/FullImageCardController.js';
 import FullVideoCardController from '../full/FullVideoCardController.js';
 import FullRecapCardController from '../full/FullRecapCardController.js';
 import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardController.js';
@@ -14,7 +16,9 @@ export default class FullPlayerController extends PlayerController {
         this.view = this.addView(new FullNPPlayerView());
 
         this.CardControllers = {
+            article: FullArticleCardController,
             text: FullTextCardController,
+            image: FullImageCardController,
             video: FullVideoCardController,
             recap: FullRecapCardController,
             preroll: LightboxPrerollCardController,

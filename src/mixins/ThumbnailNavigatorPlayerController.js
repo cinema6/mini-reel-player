@@ -12,7 +12,7 @@ ThumbnailNavigatorPlayerController.prototype = {
             if (!this.minireel.currentCard) { return; }
             const { currentCard: { type } } = this.minireel;
 
-            if ((/^(text|recap|displayAd)$/).test(type)) {
+            if ((/^(article|text|recap|displayAd)$/).test(type)) {
                 this.ThumbnailNavigatorViewCtrl.expand();
             } else {
                 this.ThumbnailNavigatorViewCtrl.contract();

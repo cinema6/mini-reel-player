@@ -7,7 +7,6 @@ describe('autoplay test', function() {
     let realAudio, audio;
     let spy;
     let ticks;
-    let timeoutFn;
     let promise;
 
     function flushTicks() {
@@ -57,9 +56,7 @@ describe('autoplay test', function() {
         ticks = [];
 
         spyOn(process, 'nextTick').and.callFake(fn => ticks.push(fn));
-        spyOn(global, 'setTimeout').and.callFake(fn => {
-            timeoutFn = fn;
-        });
+        spyOn(global, 'setTimeout').and.callThrough();
 
         promise = browser.test('autoplay', true).then(spy);
     });
@@ -104,7 +101,6 @@ describe('autoplay test', function() {
 
     describe('if the audio never plays', function() {
         beforeEach(function(done) {
-            timeoutFn();
             promise.then(done, done);
         });
 
@@ -115,8 +111,7 @@ describe('autoplay test', function() {
 
     describe('if the audio plays', function() {
         beforeEach(function(done) {
-            audio.trigger('play');
-            timeoutFn();
+            setTimeout(() => audio.trigger('play'), 400);
             promise.then(done, done);
         });
 

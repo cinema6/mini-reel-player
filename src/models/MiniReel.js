@@ -18,8 +18,9 @@ import {
     find,
     filter
 } from '../../lib/utils.js';
-
+import ArticleCard from './ArticleCard.js';
 import TextCard from './TextCard.js';
+import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
 import EmbeddedVideoCard from './EmbeddedVideoCard.js';
@@ -28,7 +29,7 @@ import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'displayAd', 'slideshow-bob', 'recap'];
+const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap'];
 
 const _ = createKey();
 
@@ -57,8 +58,12 @@ function initialize(whitelist, { experience, standalone, profile }) {
     this.splash = experience.data.collateral.splash;
     this.deck = map(deck, card => {
         switch (card.type) {
+         case 'article':
+            return new ArticleCard(card, experience, profile);
         case 'text':
             return new TextCard(card, experience, profile);
+        case 'image':
+            return new ImageCard(card, experience, profile);
         case 'recap':
             return new RecapCard(card, experience, profile, this);
         case 'adUnit':

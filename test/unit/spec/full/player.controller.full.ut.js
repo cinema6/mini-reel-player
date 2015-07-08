@@ -2,7 +2,9 @@ import FullPlayerController from '../../../../src/controllers/full/FullPlayerCon
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import FullPlayerView from '../../../../src/views/full/FullPlayerView.js';
 import View from '../../../../lib/core/View.js';
+import FullArticleCardController from '../../../../src/controllers/full/FullArticleCardController.js';
 import FullTextCardController from '../../../../src/controllers/full/FullTextCardController.js';
+import FullImageCardController from '../../../../src/controllers/full/FullImageCardController.js';
 import FullVideoCardController from '../../../../src/controllers/full/FullVideoCardController.js';
 import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
 import FullPrerollCardController from '../../../../src/controllers/full/FullPrerollCardController.js';
@@ -47,7 +49,9 @@ describe('FullPlayerController', function() {
 
         describe('CardControllers', function() {
             it('should have a Controller for each card type', function() {
+                expect(FullPlayerCtrl.CardControllers.article).toBe(FullArticleCardController);
                 expect(FullPlayerCtrl.CardControllers.text).toBe(FullTextCardController);
+                expect(FullPlayerCtrl.CardControllers.image).toBe(FullImageCardController);
                 expect(FullPlayerCtrl.CardControllers.video).toBe(FullVideoCardController);
                 expect(FullPlayerCtrl.CardControllers.recap).toBe(FullRecapCardController);
                 expect(FullPlayerCtrl.CardControllers.preroll).toBe(FullPrerollCardController);

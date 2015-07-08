@@ -3,6 +3,7 @@ import PlayerController from '../../../../src/controllers/PlayerController.js';
 import LightPlayerView from '../../../../src/views/light/LightPlayerView.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 import LightTextCardController from '../../../../src/controllers/light/LightTextCardController.js';
+import LightImageCardController from '../../../../src/controllers/light/LightImageCardController.js';
 import LightVideoCardController from '../../../../src/controllers/light/LightVideoCardController.js';
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightPrerollCardController from '../../../../src/controllers/light/LightPrerollCardController.js';
@@ -39,6 +40,12 @@ describe('LightPlayerController', function() {
             describe('.text', function() {
                 it('should be LightTextCardController', function() {
                     expect(LightPlayerCtrl.CardControllers.text).toBe(LightTextCardController);
+                });
+            });
+
+            describe('.image', function() {
+                it('should be LightImageCardController', function() {
+                    expect(LightPlayerCtrl.CardControllers.image).toBe(LightImageCardController);
                 });
             });
 

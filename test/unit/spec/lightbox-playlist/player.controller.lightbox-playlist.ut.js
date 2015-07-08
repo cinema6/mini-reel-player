@@ -1,7 +1,9 @@
 import LightboxPlaylistPlayerController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistPlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import LightboxPlaylistPlayerView from '../../../../src/views/lightbox-playlist/LightboxPlaylistPlayerView.js';
+import LightboxPlaylistArticleCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistArticleCardController.js';
 import LightboxPlaylistTextCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistTextCardController.js';
+import LightboxPlaylistImageCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistImageCardController.js';
 import LightboxPlaylistVideoCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistVideoCardController.js';
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightboxPlaylistPrerollCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistPrerollCardController.js';
@@ -45,9 +47,21 @@ describe('LightboxPlaylistPlayerController', function() {
         });
 
         describe('CardControllers', function() {
+            describe('.article', function() {
+                it('should be LightboxPlaylistArticleCardController', function() {
+                    expect(LightboxPlaylistPlayerCtrl.CardControllers.article).toBe(LightboxPlaylistArticleCardController);
+                });
+            });
+
             describe('.text', function() {
                 it('should be LightboxPlaylistTextCardController', function() {
                     expect(LightboxPlaylistPlayerCtrl.CardControllers.text).toBe(LightboxPlaylistTextCardController);
+                });
+            });
+
+            describe('.image', function() {
+                it('should be LightboxPlaylistImageCardController', function() {
+                    expect(LightboxPlaylistPlayerCtrl.CardControllers.image).toBe(LightboxPlaylistImageCardController);
                 });
             });
 

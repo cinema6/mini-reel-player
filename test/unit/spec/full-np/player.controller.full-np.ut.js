@@ -1,7 +1,9 @@
 import FullNPPlayerController from '../../../../src/controllers/full-np/FullNPPlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import View from '../../../../lib/core/View.js';
+import FullArticleCardController from '../../../../src/controllers/full/FullArticleCardController.js';
 import FullTextCardController from '../../../../src/controllers/full/FullTextCardController.js';
+import FullImageCardController from '../../../../src/controllers/full/FullImageCardController.js';
 import FullVideoCardController from '../../../../src/controllers/full/FullVideoCardController.js';
 import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
 import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
@@ -42,7 +44,9 @@ describe('FullNPPlayerController', function() {
 
         describe('CardControllers', function() {
             it('should have a Controller for each card type', function() {
+                expect(FullNPPlayerCtrl.CardControllers.article).toBe(FullArticleCardController);
                 expect(FullNPPlayerCtrl.CardControllers.text).toBe(FullTextCardController);
+                expect(FullNPPlayerCtrl.CardControllers.image).toBe(FullImageCardController);
                 expect(FullNPPlayerCtrl.CardControllers.video).toBe(FullVideoCardController);
                 expect(FullNPPlayerCtrl.CardControllers.recap).toBe(FullRecapCardController);
                 expect(FullNPPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);

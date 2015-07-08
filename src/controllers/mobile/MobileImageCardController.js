@@ -7,8 +7,4 @@ export default class MobileImageCardController extends ImageCardController {
 
         this.view = this.addView(new MobileImageCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

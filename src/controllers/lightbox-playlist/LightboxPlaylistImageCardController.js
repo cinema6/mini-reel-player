@@ -8,8 +8,4 @@ export default class LightboxPlaylistImageCardController extends ImageCardContro
 
         this.view = this.addView(new LightboxPlaylistVideoCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

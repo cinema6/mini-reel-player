@@ -29,18 +29,4 @@ describe('LightImageCardController', function() {
             });
         });
     });
-
-    describe('methods:', function() {
-        describe('advance()', function() {
-            beforeEach(function() {
-                card.complete = jasmine.createSpy('card.complete()');
-
-                LightImageCardCtrl.advance();
-            });
-
-            it('should call complete() on the card', function() {
-                expect(card.complete).toHaveBeenCalled();
-            });
-        });
-    });
 });

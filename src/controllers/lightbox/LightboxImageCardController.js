@@ -7,8 +7,4 @@ export default class LightboxImageCardController extends ImageCardController {
 
         this.view = this.addView(new LightboxVideoCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

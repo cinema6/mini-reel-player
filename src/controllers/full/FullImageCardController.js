@@ -7,8 +7,4 @@ export default class FullImageCardController extends ImageCardController {
 
         this.view = this.addView(new FullVideoCardView());
     }
-
-    advance() {
-        this.model.complete();
-    }
 }

@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 * *[v0.17.0-rc1]*
+  * [FEATURE]: Added support for webpage cards
+  * [FEATURE]: Added support for GettyImages image cards
+  * [FEATURE]: Added support for Flickr image cards
   * [DEV]: Add YUIDoc documentation for the core MRPCL classes
 
 ## v0.16.1 (July 2, 2015)

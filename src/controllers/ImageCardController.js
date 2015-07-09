@@ -59,7 +59,6 @@ export default class ImageCardController extends CardController {
             viewUpdate.href = '';
         }
         this.view.update(viewUpdate);
-
     }
 
 }

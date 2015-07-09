@@ -23,6 +23,12 @@ describe('LightPlayerController', function() {
         expect(LightPlayerCtrl).toEqual(jasmine.any(PlayerController));
     });
 
+    it('should remove the article card type from the whitelist', function() {
+        expect(LightPlayerCtrl.minireel.whitelist).toEqual(
+            ['text', 'video', 'image', 'displayAd',
+             'slideshow-bob', 'recap']);
+    });
+
     it('should mixin the ThumbnailNavigatorPlayerController', function() {
         expect(LightPlayerController.mixins).toContain(ThumbnailNavigatorPlayerController);
         expect(LightPlayerCtrl.initThumbnailNavigator).toHaveBeenCalled();

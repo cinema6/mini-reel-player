@@ -13,6 +13,8 @@ export default class LightPlayerController extends PlayerController {
     constructor() {
         super(...arguments);
 
+        this.minireel.whitelist = this.minireel.whitelist.filter(type => type!=='article');
+
         this.view = this.addView(new LightPlayerView());
         this.CardControllers = {
             text: LightTextCardController,

@@ -3,6 +3,7 @@
 ## v0.17.0 (July 8, 2015)
 * *[v0.17.0-rc2]*
   * [FIX]: Fix for an issue that caused an image card not to be rendered
+* *[/v0.17.0-rc2]*
 
 * *[v0.17.0-rc1]*
   * [FEATURE]: Added support for webpage cards

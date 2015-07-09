@@ -84,16 +84,33 @@ describe('ImageCardController', function() {
 
             beforeEach(function() {
                 embedView = new FlickrEmbedView();
-                spyOn(ImageCardCtrl.view.playerOutlet, 'append');
                 spyOn(embedView, 'update');
+                spyOn(ImageCardCtrl.view, 'create');
+                spyOn(ImageCardCtrl.view.playerOutlet, 'append');
+            });
+
+            it('should not create the view if playerOutlet is defined', function() {
                 ImageCardCtrl.appendEmbedView(embedView);
+                expect(ImageCardCtrl.view.create).not.toHaveBeenCalled();
+            });
+
+            it('should create the view if playerOutlet is not defined', function() {
+                var playerOutlet = ImageCardCtrl.view.playerOutlet;
+                ImageCardCtrl.view.playerOutlet = undefined;
+                ImageCardCtrl.view.create.and.callFake(function() {
+                    ImageCardCtrl.view.playerOutlet = playerOutlet;
+                });
+                ImageCardCtrl.appendEmbedView(embedView);
+                expect(ImageCardCtrl.view.create).toHaveBeenCalled();
             });
 
             it('should append the view to the videoOutlet', function() {
+                ImageCardCtrl.appendEmbedView(embedView);
                 expect(ImageCardCtrl.view.playerOutlet.append).toHaveBeenCalledWith(embedView);
             });
 
             it('should update the embed view', function() {
+                ImageCardCtrl.appendEmbedView(embedView);
                 expect(embedView.update).toHaveBeenCalledWith({
                     src: 'www.flickr.com/image.jpg',
                     width: '100',

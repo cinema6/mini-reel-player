@@ -18,6 +18,10 @@ export default class ImageCardController extends CardController {
     }
 
     appendEmbedView(embedView) {
+        if (!this.view.playerOutlet) {
+            this.view.create();
+        }
+
         this.view.playerOutlet.append(embedView);
         const data = this.model.data;
         embedView.update({

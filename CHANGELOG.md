@@ -3,6 +3,7 @@
 ## v0.17.0 (July 8, 2015)
 * *[v0.17.0-rc4]*
   * [FEATURE]: Added support for webpage cards in the embedded player
+* *[/v0.17.0-rc4]*
 
 * *[v0.17.0-rc3]*
   * [FIX]: Fix for an issue where the embedded player would try to display an article card.

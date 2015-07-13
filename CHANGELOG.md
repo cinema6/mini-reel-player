@@ -1,8 +1,10 @@
 # MiniReel Player 2.0
 
+## v0.18.0 (July 13, 2015)
 * *[v0.18.0-rc1]*
   * Stop sending dimensions to GA that we don't use
   * Send origin of all parent iframes (when possible) to GA
+* *[/v0.18.0-rc1]*
 
 ## v0.17.0 (July 8, 2015)
 * *[v0.17.0-rc4]*

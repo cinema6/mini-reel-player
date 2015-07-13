@@ -47,9 +47,8 @@ function getCardType(card) {
     }
 }
 
-function initialize({ experience, standalone, profile }) {
-    const deck = filter(experience.data.deck,
-        card => this.whitelist.indexOf(getCardType(card)) > -1);
+function initialize(whitelist, { experience, standalone, profile }) {
+    const deck = filter(experience.data.deck, card => whitelist.indexOf(getCardType(card)) > -1);
 
     this.standalone = standalone;
     this.id = experience.id;
@@ -131,7 +130,6 @@ export default class MiniReel extends EventEmitter {
         super(...arguments);
 
         this.standalone = null;
-        this.whitelist = whitelist;
 
         this.id = null;
         this.title = null;
@@ -170,7 +168,7 @@ export default class MiniReel extends EventEmitter {
         _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
 
         cinema6.getAppData()
-            .then(appData => initialize.call(this, appData))
+            .then(appData => initialize.call(this, whitelist, appData))
             .catch(error => this.emit('error', error));
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));

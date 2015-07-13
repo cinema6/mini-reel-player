@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.18.0-rc1]*
+  * Stop sending dimensions to GA that we don't use
+  * Send origin of all parent iframes (when possible) to GA
+
 ## v0.17.0 (July 8, 2015)
 * *[v0.17.0-rc3]*
   * [FIX]: Fix for an issue where the embedded player would try to display an article card.

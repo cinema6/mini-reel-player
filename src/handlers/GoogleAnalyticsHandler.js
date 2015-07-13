@@ -43,20 +43,12 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             category: 'eventCategory',
             action: 'eventAction',
             label: 'eventLabel',
-            href: 'dimension11'
+            origins: 'dimension11'
         });
         this.tracker.set({
             checkProtocolTask: noop,
-            hostname: (function() {
-                try {
-                    return global.parent.location.hostname;
-                } catch (e) {}
-            }()),
-            href: (function() {
-                try {
-                    return global.parent.location.href;
-                } catch(e) {}
-            }())
+            hostname: environment.hostname,
+            origins: environment.ancestorOrigins.join('|')
         });
 
         Runner.schedule('afterRender', null, () => {

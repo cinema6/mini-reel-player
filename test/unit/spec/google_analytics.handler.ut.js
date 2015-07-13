@@ -67,6 +67,9 @@ describe('GoogleAnalyticsHandler', function() {
         };
         environment.initTime = Date.now() - 450;
 
+        environment.ancestorOrigins = ['http://localhost:8000', 'http://cinema6.com', 'http://minireel.tv'];
+        environment.hostname = 'cinema6.com';
+
         Runner.run(() => dispatcher.addClient(MockHandler, minireel, config));
     });
 
@@ -94,15 +97,15 @@ describe('GoogleAnalyticsHandler', function() {
             category: 'eventCategory',
             action: 'eventAction',
             label: 'eventLabel',
-            href: 'dimension11'
+            origins: 'dimension11'
         });
     });
 
     it('should set some initial props', function() {
         expect(trckr.set).toHaveBeenCalledWith({
             checkProtocolTask: noop,
-            hostname: global.parent.location.hostname,
-            href: global.parent.location.href
+            hostname: environment.hostname,
+            origins: environment.ancestorOrigins.join('|')
         });
     });
 

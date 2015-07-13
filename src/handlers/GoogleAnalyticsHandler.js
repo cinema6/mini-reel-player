@@ -43,25 +43,12 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             category: 'eventCategory',
             action: 'eventAction',
             label: 'eventLabel',
-            href: 'dimension11',
-            slideCount: 'dimension4',
-            slideIndex: 'dimension7',
-            videoDuration: 'dimension8',
-            videoSource: 'dimension9'
+            origins: 'dimension11'
         });
         this.tracker.set({
             checkProtocolTask: noop,
-            slideCount: minireel.length,
-            hostname: (function() {
-                try {
-                    return global.parent.location.hostname;
-                } catch (e) {}
-            }()),
-            href: (function() {
-                try {
-                    return global.parent.location.href;
-                } catch(e) {}
-            }())
+            hostname: environment.hostname,
+            origins: environment.ancestorOrigins.join('|')
         });
 
         Runner.schedule('afterRender', null, () => {
@@ -190,8 +177,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
 
         return extend(params, {
             page: pagePath,
-            title: `${title}${card ? (' - ' + card.title) : ''}`,
-            slideIndex: index
+            title: `${title}${card ? (' - ' + card.title) : ''}`
         });
     }
 
@@ -202,8 +188,6 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             category: 'Video',
             action: event,
             label: label || card.data.href || 'null',
-            videoSource: card.data.source || card.data.type,
-            videoDuration: player.duration,
             nonInteraction: Number(nonInteractive)
         });
     }

@@ -36,6 +36,7 @@ class URL {
         this.port = parser.port;
         this.pathname = ((parser.pathname.charAt(0) === '/') ? '' : '/') +
             parser.pathname;
+        this.origin = `${this.protocol}://${this.host}`;
 
         _(this).parser = parser;
     }
@@ -43,8 +44,7 @@ class URL {
     sameOriginAs(url) {
         const parsed = new this.constructor(_(this).parser, url);
 
-        return (this.protocol === parsed.protocol) &&
-            (this.host === parsed.host);
+        return this.origin === parsed.origin;
     }
 }
 

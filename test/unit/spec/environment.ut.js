@@ -6,7 +6,17 @@ describe('environment', function() {
     beforeEach(function() {
         c6 = global.c6;
 
+        window.location.ancestorOrigins = {
+            0: 'http://localhost:8000',
+            1: 'http://cinema6.com',
+            length: 2
+        };
+
         environment.constructor();
+    });
+
+    afterEach(function() {
+        delete window.location.ancestorOrigins;
     });
 
     afterAll(function() {
@@ -88,6 +98,35 @@ describe('environment', function() {
         describe('href', function() {
             it('should be the parent\'s location.href', function() {
                 expect(environment.href).toBe(window.parent.location.href);
+            });
+        });
+
+        describe('protocol', function() {
+            it('should be the parent\'s location.protocol', function() {
+                expect(environment.protocol).toBe(window.parent.location.protocol);
+            });
+        });
+
+        describe('origin', function() {
+            it('should be the parent\'s location.origin', function() {
+                expect(environment.origin).toBe(window.parent.location.origin);
+            });
+        });
+
+        describe('ancestorOrigins', function() {
+            it('should be the page\'s ancestorOrigins as an Array', function() {
+                expect(environment.ancestorOrigins).toEqual(Array.prototype.slice.call(window.location.ancestorOrigins));
+            });
+
+            describe('if the ancestorOrigins property does not exist', function() {
+                beforeEach(function() {
+                    delete window.location.ancestorOrigins;
+                    environment.constructor();
+                });
+
+                it('should be the origin in an array', function() {
+                    expect(environment.ancestorOrigins).toEqual([environment.origin]);
+                });
             });
         });
 

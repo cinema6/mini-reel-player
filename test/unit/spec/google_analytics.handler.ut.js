@@ -67,6 +67,9 @@ describe('GoogleAnalyticsHandler', function() {
         };
         environment.initTime = Date.now() - 450;
 
+        environment.ancestorOrigins = ['http://localhost:8000', 'http://cinema6.com', 'http://minireel.tv'];
+        environment.hostname = 'cinema6.com';
+
         Runner.run(() => dispatcher.addClient(MockHandler, minireel, config));
     });
 
@@ -94,20 +97,15 @@ describe('GoogleAnalyticsHandler', function() {
             category: 'eventCategory',
             action: 'eventAction',
             label: 'eventLabel',
-            href: 'dimension11',
-            slideCount: 'dimension4',
-            slideIndex: 'dimension7',
-            videoDuration: 'dimension8',
-            videoSource: 'dimension9'
+            origins: 'dimension11'
         });
     });
 
     it('should set some initial props', function() {
         expect(trckr.set).toHaveBeenCalledWith({
             checkProtocolTask: noop,
-            hostname: global.parent.location.hostname,
-            href: global.parent.location.href,
-            slideCount: minireel.length
+            hostname: environment.hostname,
+            origins: environment.ancestorOrigins.join('|')
         });
     });
 
@@ -558,8 +556,7 @@ describe('GoogleAnalyticsHandler', function() {
             it('should return something containing additional data', function() {
                 expect(result).toEqual(jasmine.objectContaining({
                     page: '/mr/' + minireel.id + '/' + card.id + '/?ix=3&bd=urbantimes',
-                    title: minireel.title + ' - ' + card.title,
-                    slideIndex: 3
+                    title: minireel.title + ' - ' + card.title
                 }));
             });
 
@@ -571,8 +568,7 @@ describe('GoogleAnalyticsHandler', function() {
                 it('should still work', function() {
                     expect(result).toEqual({
                         page: '/mr/' + minireel.id + '/'+card.id+'/?ix=3&bd=urbantimes',
-                        title: minireel.title + ' - ' + card.title,
-                        slideIndex: 3
+                        title: minireel.title + ' - ' + card.title
                     });
                 });
             });
@@ -587,8 +583,7 @@ describe('GoogleAnalyticsHandler', function() {
                 it('should return data for the MiniReel', function() {
                     expect(result).toEqual({
                         page: '/mr/' + minireel.id + '/?bd=urbantimes',
-                        title: minireel.title,
-                        slideIndex: -1
+                        title: minireel.title
                     });
                 });
             });
@@ -602,8 +597,7 @@ describe('GoogleAnalyticsHandler', function() {
                 it('should return data for the MiniReel', function() {
                     expect(result).toEqual({
                         page: '/mr/' + minireel.id + '/?bd=urbantimes',
-                        title: minireel.title,
-                        slideIndex: 3
+                        title: minireel.title
                     });
                 });
             });
@@ -683,8 +677,6 @@ describe('GoogleAnalyticsHandler', function() {
                         category: 'Video',
                         action: 'Play',
                         label: card.data.href,
-                        videoSource: card.data.source,
-                        videoDuration: player.duration,
                         nonInteraction: 0
                     }));
                 });
@@ -697,17 +689,6 @@ describe('GoogleAnalyticsHandler', function() {
 
                     it('should set the label to null', function() {
                         expect(result.label).toBe('null');
-                    });
-                });
-
-                describe('if the card has no source', function() {
-                    beforeEach(function() {
-                        delete card.data.source;
-                        result = handler.getVideoTrackingData(player, 'Play');
-                    });
-
-                    it('should set the videoSource to the type', function() {
-                        expect(result.videoSource).toBe(card.data.type);
                     });
                 });
             });

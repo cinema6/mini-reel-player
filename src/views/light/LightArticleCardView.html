@@ -1,0 +1,43 @@
+<article class="card__group">
+
+    <div class="player__group player__height" data-class="isSponsored:player__height--hasSponsor">
+        <iframe src="{{src}}" sandbox="allow-same-origin allow-forms allow-popups allow-scripts"></iframe>
+    </div>
+
+    <div class="card__copyBox">
+        <a data-if="logo" href="{{website}}" target="_blank" title="{{sponsor}}" class="sponsorProfile__imgBox">
+            <img src="{{logo}}" class="sponsorProfile__img" alt="{{sponsor}}">
+        </a>
+        <div class="card__copy" data-class="isSponsored:card__copy--hasSponsor">
+            <h1 class="card__title tk--hdr">
+                {{title}}
+                <span data-if="showSource"
+                    class="card__attributes tk--copy">
+                    via&nbsp;
+                    <a href="{{href}}"
+                        target="_blank"
+                        class="textLink"
+                        title="{{source}}">
+                        {{source}}
+                    </a>
+                </span>
+                <span data-if="sponsor" class="card__attributes sponsorProfile__tag tk--copy">
+                    Sponsored by
+                    <a href="{{website}}" class="textLink" title="{{config.params.sponsor}}">{{sponsor}}</a>
+                </span>
+            </h1>
+
+            <div class="card__desc">{{note}}</div>
+        </div>
+
+        <div class="sponsor__actions" data-if="action.label">
+            <a data-if="action.isText" title="{{action.label}}" href="{{action.href}}" target="_blank" class="textLink">
+                {{action.label}}
+            </a>
+            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="sponsor__goBtn btnPrimary" title="{{action.label}}">
+                <span class="btn__label tk--action">{{action.label}}</span>
+            </a>
+        </div>
+
+    </div>
+</article>

@@ -754,14 +754,6 @@ describe('MiniReel', function() {
             });
         });
 
-        describe('whitelist', function() {
-            it('should be the default whitelist', function() {
-                expect(minireel.whitelist).toEqual(
-                    ['text', 'video', 'article', 'image',
-                    'displayAd', 'slideshow-bob', 'recap']);
-            });
-        });
-
         describe('title', function() {
             it('should be null', function() {
                 expect(minireel.title).toBeNull();
@@ -1984,10 +1976,6 @@ describe('MiniReel', function() {
             minireel.once('init', done);
 
             appDataDeferred.fulfill({ experience, profile });
-        });
-
-        it('should set the whitelist property to the passed in value', function() {
-            expect(minireel.whitelist).toEqual(['text', 'video']);
         });
 
         it('should create a deck with only the cards of those types', function() {

@@ -22,7 +22,8 @@ describe('urlParser', function() {
             hash: 'foo',
             hostname: 'www.apple.com',
             port: '9000',
-            pathname: '/foo/test.json'
+            pathname: '/foo/test.json',
+            origin: 'http://www.apple.com:9000'
         }));
     });
 
@@ -35,7 +36,8 @@ describe('urlParser', function() {
             hash: '',
             hostname: location.hostname,
             port: location.port,
-            pathname: '/hello/world.html'
+            pathname: '/hello/world.html',
+            origin: location.protocol + '//' + location.host
         }));
     });
 

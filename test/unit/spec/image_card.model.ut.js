@@ -23,6 +23,7 @@ describe('ImageCard', function() {
                 "height": "100",
                 "service": "flickr",
                 "imageid": "12345",
+                "source": "Flickr",
                 "thumbs": {
                     "small": "www.site.com/small.jpg",
                     "large": "www.site.com/large.jpg"
@@ -78,7 +79,8 @@ describe('ImageCard', function() {
                     width: '100',
                     height: '100',
                     service: 'flickr',
-                    imageid: '12345'
+                    imageid: '12345',
+                    source: 'Flickr'
                 });
             });
         });

@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.18.1-rc1]*
+  * Change the Image source links to point to the page of the image
+  * Always show Image source links on mobile
+
 ## v0.18.0 (July 13, 2015)
 * *[v0.18.0-rc1]*
   * Stop sending dimensions to GA that we don't use

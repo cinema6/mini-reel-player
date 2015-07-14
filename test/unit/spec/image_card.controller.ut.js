@@ -135,6 +135,9 @@ describe('ImageCardController', function() {
                     ImageCardCtrl.model = new ImageCard({
                         data: {
                             service: 'flickr',
+                            dource: 'Flickr',
+                            href: 'https://www.flickr.com',
+                            source: 'Flickr',
                             thumbs: { }
                         }
                     }, { data: { collateral: {  } } });
@@ -160,6 +163,8 @@ describe('ImageCardController', function() {
                     ImageCardCtrl.model = new ImageCard({
                         data: {
                             service: 'getty',
+                            href: 'http://www.gettyimages.com',
+                            source: 'gettyimages',
                             thumbs: { }
                         }
                     }, { data: { collateral: {  } } });
@@ -173,7 +178,7 @@ describe('ImageCardController', function() {
 
                 it('should update the source on the template', function() {
                     var expectedOutput = {
-                        source: 'GettyImages',
+                        source: 'gettyimages',
                         href: 'http://www.gettyimages.com'
                     };
                     expect(ImageCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);

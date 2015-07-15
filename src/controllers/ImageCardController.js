@@ -44,21 +44,10 @@ export default class ImageCardController extends CardController {
             this.appendEmbedView(gettyEmbedView);
             break;
         }
-        let viewUpdate = { };
-        switch(this.model.data.service) {
-        case 'flickr':
-            viewUpdate.source = 'Flickr';
-            viewUpdate.href = 'https://www.flickr.com';
-            break;
-        case 'getty':
-            viewUpdate.source = 'GettyImages';
-            viewUpdate.href = 'http://www.gettyimages.com';
-            break;
-        default:
-            viewUpdate.source = 'unknown';
-            viewUpdate.href = '';
-        }
-        this.view.update(viewUpdate);
+        this.view.update({
+            href: this.model.data.href,
+            source: this.model.data.source
+        });
     }
 
 }

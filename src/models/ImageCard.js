@@ -13,9 +13,10 @@ export default class ImageCard extends Card {
             service: data.data.service,
             imageid: data.data.imageid,
             src: data.data.src,
-            href: data.data.href,
             width: data.data.width,
-            height: data.data.height
+            height: data.data.height,
+            href: data.data.href,
+            source: data.data.source
         };
     }
 }

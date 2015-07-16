@@ -1,6 +1,7 @@
 import CardController from './CardController.js';
 import FlickrEmbedView from '../views/image_embeds/FlickrEmbedView.js';
 import GettyEmbedView from '../views/image_embeds/GettyEmbedView.js';
+import WebEmbedView from '../views/image_embeds/WebEmbedView.js';
 
 export default class ImageCardController extends CardController {
     constructor() {
@@ -43,10 +44,14 @@ export default class ImageCardController extends CardController {
             const gettyEmbedView = new GettyEmbedView();
             this.appendEmbedView(gettyEmbedView);
             break;
+        case 'web':
+            const webEmbedView = new WebEmbedView();
+            this.appendEmbedView(webEmbedView);
         }
         this.view.update({
             href: this.model.data.href,
-            source: this.model.data.source
+            source: this.model.data.source,
+            showSource: (this.model.data.service !== 'web')
         });
     }
 

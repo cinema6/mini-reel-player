@@ -4,6 +4,7 @@ import FullVideoCardView from '../../../src/views/full/FullVideoCardView.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import FlickrEmbedView from '../../../src/views/image_embeds/FlickrEmbedView.js';
 import GettyEmbedView from '../../../src/views/image_embeds/GettyEmbedView.js';
+import WebEmbedView from '../../../src/views/image_embeds/WebEmbedView.js';
 import PlayerOutletView from '../../../src/views/PlayerOutletView.js';
 
 describe('ImageCardController', function() {
@@ -152,7 +153,8 @@ describe('ImageCardController', function() {
                 it('should update the source on the template', function() {
                     var expectedOutput = {
                         source: 'Flickr',
-                        href: 'https://www.flickr.com'
+                        href: 'https://www.flickr.com',
+                        showSource: true
                     };
                     expect(ImageCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
                 });
@@ -179,7 +181,34 @@ describe('ImageCardController', function() {
                 it('should update the source on the template', function() {
                     var expectedOutput = {
                         source: 'gettyimages',
-                        href: 'http://www.gettyimages.com'
+                        href: 'http://www.gettyimages.com',
+                        showSource: true
+                    };
+                    expect(ImageCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
+                });
+            });
+
+            describe('web', function() {
+                beforeEach(function() {
+                    ImageCardCtrl.model = new ImageCard({
+                        data: {
+                            service: 'web',
+                            thumbs: { }
+                        }
+                    }, { data: { collateral: {  } } });
+                    spyOn(ImageCardCtrl, 'appendEmbedView');
+                    ImageCardCtrl.renderImage();
+                });
+
+                it('should load a web embed view', function() {
+                    expect(ImageCardCtrl.appendEmbedView).toHaveBeenCalledWith(jasmine.any(WebEmbedView));
+                });
+
+                it('should update the source on the template', function() {
+                    var expectedOutput = {
+                        source: undefined,
+                        href: undefined,
+                        showSource: false
                     };
                     expect(ImageCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
                 });

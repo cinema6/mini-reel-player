@@ -1,6 +1,7 @@
 # MiniReel Player 2.0
 
-* *[v0.18.1-rc1]*
+* *[v0.19.0-rc1]*
+  * [FEATURE]: Added support for image cards created from any web image url
   * Change the Image source links to point to the page of the image
   * Always show Image source links on mobile
 

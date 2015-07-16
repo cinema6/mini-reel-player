@@ -13,7 +13,7 @@
     <div class="card__copy player__height" data-class="isSponsored:card__copy--sponsored">
         <h1 data-unless="isSponsored" class="card__title tk--hdr">
             {{title}}
-            <span class="card__attributes tk--copy">
+            <span data-if="showSource" class="card__attributes tk--copy">
                 via&nbsp;<a href="{{href}}" target="_blank" class="textLink" title="{{source}}">{{source}}</a>
             </span>
         </h1>

@@ -6,7 +6,9 @@ ThumbnailNavigatorPlayerController.prototype = {
         this.ThumbnailNavigatorViewCtrl = new ThumbnailNavigatorViewController(this.minireel);
 
         this.minireel.once('init', () => {
-            this.ThumbnailNavigatorViewCtrl.renderInto(this.view.pagerOutlet);
+            if (this.minireel.length > 1) {
+                this.ThumbnailNavigatorViewCtrl.renderInto(this.view.pagerOutlet);
+            }
         });
         this.minireel.on('move', () => {
             if (!this.minireel.currentCard) { return; }

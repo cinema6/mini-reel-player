@@ -446,6 +446,17 @@
             .text--high .card__copy {
                 height:6.25rem;
             }
+
+            .MiniReel__group--soloMR .text--low .card__copy {
+                height:6rem;
+            }
+            .MiniReel__group--soloMR .text--med .card__copy {
+                height:7rem;
+            }
+            .MiniReel__group--soloMR .text--high .card__copy {
+                height:8.25rem;
+            }
+
             .card__title {
                 color:#000;
                 font-size:1.375em;
@@ -470,6 +481,16 @@
         }
         .text--high .player__height {
             height:calc(100% - 10.125rem);
+        }
+
+        .MiniReel__group--soloMR .text--low .player__height {
+            height:calc(100% - 6.5rem);
+        }
+        .MiniReel__group--soloMR .text--med .player__height {
+            height:calc(100% - 7.5rem);
+        }
+        .MiniReel__group--soloMR .text--high .player__height {
+            height:calc(100% - 8.75rem);
         }
 
             
@@ -597,6 +618,13 @@
             }
             .text--low .player__height--hasSponsor {
                 height:calc(100% - 8.875rem);
+            }
+
+            .MiniReel__group--soloMR .text--low .card__copy--hasSponsor {
+                height:7rem;
+            }
+            .MiniReel__group--soloMR .text--low .player__height--hasSponsor {
+                height:calc(100% - 7.5rem);
             }
     
     .sponsorProfile__imgBox {

@@ -60,12 +60,27 @@ describe('ThumbnailNavigatorPlayerController', function() {
                                 video: {}
                             };
                             Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
+                            Ctrl.minireel.length = 5;
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
                         });
 
                         it('should render the navigator', function() {
                             expect(Ctrl.ThumbnailNavigatorViewCtrl.renderInto).toHaveBeenCalledWith(view.pagerOutlet);
+                        });
+
+                        describe('if the MiniReel only has one card', function() {
+                            beforeEach(function() {
+                                Ctrl.initThumbnailNavigator();
+                                spyOn(Ctrl.ThumbnailNavigatorViewCtrl, 'renderInto');
+
+                                Ctrl.minireel.length = 1;
+                                Runner.run(() => Ctrl.minireel.emit('init'));
+                            });
+
+                            it('should not render the navigator', function() {
+                                expect(Ctrl.ThumbnailNavigatorViewCtrl.renderInto).not.toHaveBeenCalled();
+                            });
                         });
                     });
 

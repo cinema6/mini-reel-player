@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.19.0 (July 16, 2015)
+* *[v0.19.0-rc2]*
+  * [FIX]: Fix for an issue which caused the source link to be displayed for a web image in the
+    mobile player.
+* *[/v0.19.0-rc2]*
+
 * *[v0.19.0-rc1]*
   * [FEATURE]: Added support for image cards created from any web image url
   * Change the Image source links to point to the page of the image

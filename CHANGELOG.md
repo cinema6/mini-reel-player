@@ -6,6 +6,7 @@
 
 ## v0.20.0 (July 29, 2015)
 * *[v0.20.0-rc1]*
+  * [FEATURE]: Added support for Vine video cards
   * [FIX]: Remove prev/next buttons that hover over the video in a
     single-video lightbox MiniReel
   * [FEATURE]: Allow video preloading to be disabled via MiniReel

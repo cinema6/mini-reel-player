@@ -72,49 +72,69 @@ describe('VinePlayer', function() {
     });
 
     describe('methods:', function() {
-        ['minimize'].forEach(method => {
-            describe(`${method}()`, function() {
-                it('should return an Error', function() {
-                    expect(player[method]()).toEqual(new Error(`VinePlayer cannot ${method}.`));
+
+        describe('private', function() {
+            describe('loadEmbed(id, audio)', function() {
+                let canplay;
+                let script;
+
+                beforeEach(function() {
+                    const createElement = document.createElement;
+
+                    canplay = jasmine.createSpy('canplay()');
+                    player.on('canplay', canplay);
+
+                    spyOn(player, 'create').and.callThrough();
+                    spyOn(player, 'unload').and.callThrough();
+                    spyOn(document, 'createElement').and.callFake(type => (script = createElement.call(document, type)));
+
+                    player.src = 'abc123';
+
+                    Runner.run(() => player.__private__.loadEmbed(player.src, false));
+                });
+
+                it('should create the element', function() {
+                    expect(player.create).toHaveBeenCalled();
+                });
+
+                it('should call unload()', function() {
+                    expect(player.unload).toHaveBeenCalled();
+                });
+
+                it('should ultimately set the innerHTML to the Vine embed code', function() {
+                    expect(player.element.innerHTML).toEqual(
+                        '<iframe src="https://vine.co/v/abc123/embed/simple" ' +
+                        'style="width:100%;height:100%" frameborder="0"></iframe>' +
+                        '<script src="https://platform.vine.co/static/scripts/embed.js"></script>'
+                    );
+                });
+
+                it('should emit "canplay"', function() {
+                    expect(canplay).toHaveBeenCalled();
+                });
+
+                it('should make the readyState 3', function() {
+                    expect(player.readyState).toBe(3);
+                });
+
+                it('should create a new script', function() {
+                    expect(document.createElement).toHaveBeenCalledWith('script');
+                });
+
+                it('should copy the script\'s attributes to the new element', function() {
+                    expect(script.src).toBe('https://platform.vine.co/static/scripts/embed.js');
+                });
+
+                it('should inject its script into the player', function() {
+                    expect(player.element.querySelector('script')).toBe(script);
                 });
             });
         });
 
-        describe('play', function() {
-            beforeEach(function() {
-                spyOn(player, 'loadSrc');
-            });
-
-            describe('if the src doesn\'t exist', function() {
-                beforeEach(function() {
-                    player.src = null;
-                    player.play();
-                });
-
-                it('shouldn\'t load the src of the player', function() {
-                    expect(player.loadSrc).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if the src is invalid', function() {
-                beforeEach(function() {
-                    player.src = 'invalid src';
-                    player.play();
-                });
-
-                it('shouldn\'t load the src of the player', function() {
-                    expect(player.loadSrc).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if the src is valid', function() {
-                beforeEach(function() {
-                    player.src = '<iframe src="https://vine.co/v/12345/embed/simple"></iframe>';
-                    player.play();
-                });
-
-                it('should add the autoplay query param to the src of the player', function() {
-                    expect(player.loadSrc).toHaveBeenCalledWith('<iframe src="https://vine.co/v/12345/embed/simple?audio=1"></iframe>');
+        ['minimize'].forEach(method => {
+            describe(`${method}()`, function() {
+                it('should return an Error', function() {
+                    expect(player[method]()).toEqual(new Error(`VinePlayer cannot ${method}.`));
                 });
             });
         });
@@ -125,134 +145,32 @@ describe('VinePlayer', function() {
                 player.pause();
             });
 
-            it('should unload the player', function() {
+            it('should unload the embed', function() {
                 expect(player.unload).toHaveBeenCalled();
+            });
+        });
+
+        describe('play', function() {
+            beforeEach(function() {
+                spyOn(player.__private__, 'loadEmbed');
+                player.src = 'abc123';
+                player.play();
+            });
+
+            it('should load the embed with audio', function() {
+                expect(player.__private__.loadEmbed).toHaveBeenCalledWith('abc123', true);
             });
         });
 
         describe('load', function() {
             beforeEach(function() {
-                spyOn(player, 'loadSrc');
-                player.src = '<p>Hello world!</p><p>What\'s up?!</p>';
+                spyOn(player.__private__, 'loadEmbed');
+                player.src = 'abc123';
                 player.load();
             });
 
-            it('should load the src of the player', function() {
-                expect(player.loadSrc).toHaveBeenCalledWith('<p>Hello world!</p><p>What\'s up?!</p>');
-            });
-        });
-
-        describe('loadSrc(src)', function() {
-            let canplay;
-
-            beforeEach(function() {
-                canplay = jasmine.createSpy('canplay()');
-                player.on('canplay', canplay);
-
-                spyOn(player, 'create').and.callThrough();
-                spyOn(player, 'unload').and.callThrough();
-                player.src = '<p>Hello world!</p><p>What\'s up?!</p>';
-
-                Runner.run(() => player.loadSrc(player.src));
-            });
-
-            it('should create the element', function() {
-                expect(player.create).toHaveBeenCalled();
-            });
-
-            it('should call unload()', function() {
-                expect(player.unload).toHaveBeenCalled();
-            });
-
-            it('should innerHTML the src', function() {
-                expect(player.element.innerHTML).toContain(player.src);
-            });
-
-            it('should emit "canplay"', function() {
-                expect(canplay).toHaveBeenCalled();
-            });
-
-            it('should make the readyState 3', function() {
-                expect(player.readyState).toBe(3);
-            });
-
-            describe('if called again with the same src', function() {
-                let oldChildren, newChildren;
-
-                beforeEach(function() {
-                    player.create.calls.reset();
-                    player.unload.calls.reset();
-                    oldChildren = Array.prototype.slice.call(player.element.childNodes);
-
-                    Runner.run(() => player.load());
-                    newChildren = Array.prototype.slice.call(player.element.childNodes);
-                });
-
-                it('should not create the element', function() {
-                    expect(player.create).not.toHaveBeenCalled();
-                });
-
-                it('should not unload the player', function() {
-                    expect(player.unload).not.toHaveBeenCalled();
-                });
-
-                it('should not replace the contents', function() {
-                    expect(newChildren).toEqual(oldChildren);
-                    oldChildren.forEach((oldChild, index) => expect(newChildren[index]).toBe(oldChild));
-                });
-            });
-
-            describe('if called again with a different src', function() {
-                let poster;
-
-                beforeEach(function() {
-                    player.create.calls.reset();
-                    player.unload.calls.reset();
-                    player.src = '<span>Hello!</span>';
-                    poster = player.element.querySelector('.c6-view');
-
-                    Runner.run(() => player.load());
-                });
-
-                it('should not create the element', function() {
-                    expect(player.create).not.toHaveBeenCalled();
-                });
-
-                it('should unload() the player', function() {
-                    expect(player.unload).toHaveBeenCalled();
-                });
-
-                it('should replace the contents', function() {
-                    expect(player.element.innerHTML).toContain(player.src);
-                });
-
-                it('should not re-create its poster', function() {
-                    expect(player.element.querySelector('.c6-view')).toBe(poster);
-                });
-            });
-
-            describe('if the src has a script in it', function() {
-                let script;
-
-                beforeEach(function() {
-                    const createElement = document.createElement;
-                    player.src = '<div style=\"text-align:center\">\n    <script src=\"http://pshared.5min.com/Scripts/PlayerSeed.js?sid=281&width=560&height=450&playList=517914408\"><\/script>\n    <br/>\n<\/div>';
-                    spyOn(document, 'createElement').and.callFake(type => (script = createElement.call(document, type)));
-
-                    Runner.run(() => player.load());
-                });
-
-                it('should create a new script', function() {
-                    expect(document.createElement).toHaveBeenCalledWith('script');
-                });
-
-                it('should copy the script\'s attributes to the new element', function() {
-                    expect(script.src).toBe('http://pshared.5min.com/Scripts/PlayerSeed.js?sid=281&width=560&height=450&playList=517914408');
-                });
-
-                it('should inject its script into the player', function() {
-                    expect(player.element.querySelector('script')).toBe(script);
-                });
+            it('should load the embed without audio', function() {
+                expect(player.__private__.loadEmbed).toHaveBeenCalledWith('abc123', false);
             });
         });
 
@@ -276,10 +194,10 @@ describe('VinePlayer', function() {
                 let children;
 
                 beforeEach(function() {
-                    player.src = '<p id="code">The embed code.</p>';
+                    player.src = 'abc123';
                     Runner.run(() => player.load());
 
-                    embedCode = player.element.querySelector('#code');
+                    embedCode = player.element.querySelector('iframe');
 
                     Runner.run(() => player.unload());
                     children = Array.prototype.slice.call(player.element.childNodes);
@@ -300,7 +218,11 @@ describe('VinePlayer', function() {
                 it('should make load() do something again', function() {
                     Runner.run(() => player.load());
 
-                    expect(player.element.innerHTML).toContain(player.src);
+                    expect(player.element.innerHTML).toEqual(
+                        '<iframe src="https://vine.co/v/abc123/embed/simple" ' +
+                        'style="width:100%;height:100%" frameborder="0"></iframe>' +
+                        '<script src="https://platform.vine.co/static/scripts/embed.js"></script>'
+                    );
                 });
             });
         });

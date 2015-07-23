@@ -20,12 +20,44 @@ function noMethodError(method) {
     return new Error(`VinePlayer cannot ${method}.`);
 }
 
-function forEachNode(node, iterator) {
-    iterator(node);
-    forEach(node.childNodes, child => forEachNode(child, iterator));
+let _;
+
+class Private {
+    constructor(instance) {
+        this.__public__ = instance;
+    }
+
+    loadEmbed(id, audio) {
+        const vineSrc = 'https://vine.co/v/' + id + '/embed/simple' + ((audio)?'?audio=1':'');
+        const embed = '<iframe src="' + vineSrc + '" ' +
+                        'style="width:100%;height:100%" ' +
+                        'frameborder="0">' +
+                      '</iframe>';
+        const scriptSrc = 'https://platform.vine.co/static/scripts/embed.js';
+
+        this.__public__.unload();
+
+        const { workspace } = this;
+        const element = this.__public__.element || this.__public__.create();
+
+        workspace.innerHTML = embed;
+        const script = document.createElement('script');
+        script.setAttribute('src', scriptSrc);
+        workspace.appendChild(script);
+
+        const children = this.embedChildren = arrayFrom(workspace.childNodes);
+
+        Runner.schedule('afterRender', null, () => {
+            forEach(children, child => element.appendChild(child));
+            Runner.runNext(() => {
+                this.readyState = 3;
+                this.__public__.emit('canplay');
+            });
+        });
+    }
 }
 
-const _ = createKey();
+_ = createKey(instance => new Private(instance));
 
 export default class VinePlayer extends CorePlayer {
     constructor() {
@@ -36,9 +68,10 @@ export default class VinePlayer extends CorePlayer {
 
         _(this).readyState = 0;
 
-        _(this).src = null;
         _(this).workspace = document.createElement('div');
         _(this).embedChildren = [];
+
+        if (global.__karma__) { this.__private__ = _(this); }
     }
 
     get duration() {
@@ -74,12 +107,7 @@ export default class VinePlayer extends CorePlayer {
     }
 
     play() {
-        if (!this.src) { return; }
-        var frameSrc = (this.src.match(/src="[^"]+"/) || [null])[0];
-        if(!frameSrc) { return; }
-        var autoplayFrameSrc = frameSrc.substring(0, frameSrc.length - 1).concat('?audio=1"');
-        var autoplaySrc = this.src.replace(frameSrc, autoplayFrameSrc);
-        this.loadSrc(autoplaySrc);
+        _(this).loadEmbed(this.src, true);
     }
 
     pause() {
@@ -90,44 +118,8 @@ export default class VinePlayer extends CorePlayer {
         return noMethodError('minimize');
     }
 
-    loadSrc(src) {
-        if (src === _(this).src) { return; }
-
-        this.unload();
-
-        _(this).src = src;
-
-        const { workspace } = _(this);
-        const element = this.element || this.create();
-
-        workspace.innerHTML = src;
-        // If a script is inserted as part of an innerHTML it never downloads or executes its
-        // playload. To make that happen, we look for scripts in the DOM and replace them with ones
-        // created by calls to document.createElement().
-        forEachNode(workspace, node => {
-            if (node.tagName !== 'SCRIPT') { return; }
-
-            const script = document.createElement('script');
-            forEach(node.attributes, attribute => {
-                script.setAttribute(attribute.name, attribute.value);
-            });
-
-            node.parentNode.replaceChild(script, node);
-        });
-
-        const children = _(this).embedChildren = arrayFrom(workspace.childNodes);
-
-        Runner.schedule('afterRender', null, () => {
-            forEach(children, child => element.appendChild(child));
-            Runner.runNext(() => {
-                _(this).readyState = 3;
-                this.emit('canplay');
-            });
-        });
-    }
-
     load() {
-        this.loadSrc(this.src);
+        _(this).loadEmbed(this.src, false);
     }
 
     unload() {
@@ -152,4 +144,5 @@ export default class VinePlayer extends CorePlayer {
         this.unload();
         this.load();
     }
+
 }

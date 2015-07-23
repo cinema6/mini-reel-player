@@ -796,6 +796,196 @@
 
 
 
+
+
+
+
+/*  ================================================
+    social media cards
+    ================================================ */
+
+
+    /*  instagram card
+        ================================================ */
+
+        .player__group {
+            background:none;
+            background-color:#fff;
+            border:1px solid #eeefef;
+            padding:1em;
+        }
+
+            .inCard__profile {
+                background-color:#fafafa;
+                border-radius:4px;
+                border:1px solid #eeefef;
+                width:17.25em;
+                padding:0.75em;
+                font-family: proxima-nova, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+
+                .inCard__profileAuthor {
+                    width:100%;
+
+                }
+
+                    .inCard__profilePic {
+                        width:25%;
+                        border-radius:100%;
+                        border:1px solid #eeefef;
+                        float:left;
+                    }
+
+                    .inCard__profileName {
+                        font-size:0.875em;
+                        font-weight:300;
+                        color:#4b4f54;
+                        margin:1.375em 0 0 0.75em;
+                        float:left;
+                    }
+
+                    .inCard__profileFollow {
+                        background-color:#fafafa;
+                        border:1px solid #4090db;
+                        border-radius:3px;
+                        padding:0.5em 0.75em;
+                        color:#4090db;
+                        text-transform:uppercase;
+                        font-size:0.75em;
+                        margin-top:1.3125em;
+                        float:right;
+                    }
+
+                .inCard__profileInfo {
+                    width:100%;
+                    margin-top:1em;
+                }
+
+                    .inCard__profileDesc {
+                        font-size:0.75em;
+                        color:#4b4f54;
+                        margin:0;
+                        line-height:1.375;
+                    }
+
+                    .inCard__profileDescName {
+                        font-weight:600;
+                    }
+
+                    .inCard__profileLink {
+                        color:#125688;
+                    }
+
+                    .inCard__profileData {
+                        list-style:none;
+                        margin:1.125em 0 0;
+                        padding:0;
+                        color:#34373b;
+                        font-size:0.75em;
+
+                    }
+                        .inCard__profileDatum {
+                            margin-top:0.5em;
+                        }
+
+                        .inCard__profileStat {
+                            font-weight:600;
+                        }
+
+
+            .inCard__media {
+                border-radius:4px;
+                border:1px solid #eeefef;
+                position: absolute;
+                top: 1em;
+                left: 19em;
+                right:31em;
+                height: 100%;
+                background-size: contain;
+                margin: 0 auto;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+
+            }
+                .inCard__mediaImg {
+                    
+                    width: 100%;
+               
+                    display:block;
+                    border-radius:4px;
+                    border:none;
+                }
+
+
+            .inCard__post {
+                border-radius:4px;
+                border:1px solid #eeefef;
+                position:absolute;
+                right:1em;
+                top:1em;
+                width:30em;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*  twitter card
+        ================================================ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*  ================================================
     .slideNav__btn classes
     ================================================ */

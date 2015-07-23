@@ -19,39 +19,39 @@
 
     /*  video card classes
             Ballot/actions Modal group classes
-        ============================================= */    
+        ============================================= */
         @import url('full/video-card.css');
 
     /*  article card classes
-        ============================================= */    
+        ============================================= */
         @import url('full/article-card.css');
 
     /*  image card classes
-        ============================================= */   
+        ============================================= */
         @import url('full/image-card.css');
 
     /*  text only card classes
-        ============================================= */ 
+        ============================================= */
         @import url('full/text-card.css');
 
     /*  sponsored card classes
-        ============================================= */ 
+        ============================================= */
         @import url('full/sponsored-card.css');
 
     /*  recap card classes
-        ============================================= */ 
+        ============================================= */
         @import url('full/recap-card.css');
 
     /*  video/display ad _card_ classes
         display ad classes
         companion ad classes
-        ============================================= */ 
+        ============================================= */
         @import url('full/ad-styles.css');
 
     /*  branded MR classes
-        ============================================= */ 
+        ============================================= */
         @import url('full/branded-mr.css');
 
-    /*  slide nav button classes 
-        ============================================= */ 
+    /*  slide nav button classes
+        ============================================= */
         @import url('full/slide-nav-btn.css');

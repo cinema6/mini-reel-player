@@ -1,23 +1,44 @@
 <article class="card__group">
-    <div class="card__copy player__height">
-        <h1 class="card__title tk--hdr">
-            {{title}}
-        </h1>
-        <div class="card__desc">{{note}}</div>
-        <p>{{href}}</p>
-        <ul data-view="tags:ListView">
-            <li>{{tag}}</li>
-        </ul>
-        <p>{{timeCreated}}</p>
-        <p>{{caption}}</p>
-        <p>{{user.fullname}}</p>
-        <ul data-view="comments:ListView">
-            <li>{{text}}</li>
-        </ul>
-        <ul data-view="likes:ListView">
-            <li>{{username}}</li>
-        </ul>
-        <p>{{type}}</p>
-        <p>{{src}}</p>
-    </div>
+    <div class="player__group player__height">
+
+        <section class="inCard__profile">
+            <div class="inCard__profileAuthor clearfix">
+                <img class="inCard__profilePic" src="https://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/10617008_540121486120445_1609281390_a.jpg">
+                <h3 class="inCard__profileName">taylorswift</h3>
+                <button class="inCard__profileFollow">Follow</button>
+            </div>
+            <div class="inCard__profileInfo">
+                <p class="inCard__profileDesc"><span class="inCard__profileDescName">Taylor Swift</span> Born in 1989. <a class="inCard__profileLink" href="http://www.taylorswift.com">www.taylorswift.com</a></p>
+                <ul class="inCard__profileData">
+                    <li class="inCard__profileDatum"><span class="inCard__profileStat">615</span> posts</li>
+                    <li class="inCard__profileDatum"><span class="inCard__profileStat">36.8m</span> followers</li>
+                    <li class="inCard__profileDatum"><span class="inCard__profileStat">68</span> following</li>
+                </ul>
+
+            </div>
+        </section> <!--.inCard__profile-->
+
+        <section class="inCard__media">
+            <img class="inCard__mediaImg" src="https://igcdn-photos-d-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11325339_933284150046251_803891579_n.jpg">
+        </section>
+
+        <section class="inCard__post">
+            <div class="inCard__postAccount">
+                <img class="inCard__postAccountPic" src="https://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/10617008_540121486120445_1609281390_a.jpg">
+                <h3 class="inCard__postAccountName">taylorswift</h3>
+            </div>
+
+            <div class="inCard__postInfo">
+                <span class="postInfo__likes">2m likes</span><span class="postInfo__date">2 weeks</span>
+                <p class="postInfo__copy"><span class="postInfo__name">taylorswift</span> When Ed shows up in a red coat for the 4th of July because he just can't let it go.</p>
+                <a class="postInfo__userTag" href="/">teddysphotos</a>
+                <a class="postInfo__comments"href="/">view 27,522 comments</a>
+            </div>
+
+            <a class="inCard__postFeedback" href="/">
+                <span class="inCard__postComment">Add a comment...</span>
+            </a>
+        </section>
+
+    </div> <!--.player__group .player__height-->
 </article>

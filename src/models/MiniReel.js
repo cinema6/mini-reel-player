@@ -28,8 +28,10 @@ import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
+import InstagramCard from './InstagramCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap'];
+const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
+                        'instagram'];
 
 const _ = createKey();
 
@@ -75,6 +77,8 @@ function initialize(whitelist, { experience, standalone, profile }) {
             return new DisplayAdCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
+        case 'instagram':
+            return new InstagramCard(card, experience, profile);
         default:
             return new VideoCard(card, experience, profile);
         }

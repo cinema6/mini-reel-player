@@ -893,43 +893,184 @@
                         }
 
 
-            .inCard__media {
-                border-radius:4px;
-                border:1px solid #eeefef;
-                position: absolute;
-                top: 1em;
-                left: 19em;
+            .inCard__mediaPositionGroup {
+                position:absolute;
+                top:1em; 
+                bottom:1em;
+                left:19em;
                 right:31em;
-                height: 100%;
-                background-size: contain;
-                margin: 0 auto;
-                background-repeat: no-repeat;
-                background-position: 50% 50%;
+                overflow:hidden;
+            } 
 
-            }
-                .inCard__mediaImg {
-                    
-                    width: 100%;
-               
-                    display:block;
+                .inCard__mediaPosition {
+                    width:100%;
+                    height:100%;
+                    position:absolute;
                     border-radius:4px;
-                    border:none;
-                }
+                    border-top-right-radius:none;
+                    border-bottom-right-radius:none;
+                    border:1px solid #eeefef;
+                    border-right:none;
+                }           
+
+                    .inCard__mediaHeight {
+                        width:100%;
+                        height:100%;
+                        position:relative;
+                        background-color:#FAFAFA;
+
+                    }
+
+                        .inCard__media {
+                            position:absolute;
+                            top:0;
+                            left:0;
+                            width:100%;
+                            height:100%;
+                            transform:translateX(50%);
+                            transform:translateY(50%);
+
+                            
+                        }
+                        
+
+                            .inCard__mediaImg {
+                                
+                                width:100%;
+                                position:absolute;
+                                border-radius:4px;
+                                transform:translateX(-50%);
+                                transform:translateY(-50%);
+                            }
 
 
             .inCard__post {
                 border-radius:4px;
+                border-top-left-radius:none;
+                border-bottom-left-radius:none;
                 border:1px solid #eeefef;
+                border-left:none;
+                background-color:#fff;
                 position:absolute;
                 right:1em;
                 top:1em;
+                bottom:1em;
+                padding:1em;
                 width:30em;
+                font-family: proxima-nova, 'Helvetica Neue', Arial, Helvetica, sans-serif;
             }
 
+                .inCard__postAccount {
+                    width:100%;
+                    border-bottom:1px solid #eeefef;
+                    padding-bottom:1em;
+                    margin-bottom:1.1875em;
+                    position:relative;
+                }
+
+                    .inCard__postAccountPic {
+                        width:13.75%;
+                        border-radius:100%;
+                        float:left;
+                    }
+
+                    .inCard__postAccountName {
+                        margin:0.8125em 1em 0;
+                        float:left;
+                        font-size:1em;
+                        color:#125688;
+                    }
+
+                    .inCard__postAccountName:after {
+                        content:'';
+                        background:url('../img/social-card-sprites.png') -1em -1em;
+                        width:5em;
+                        height:2em;
+                        position:absolute;
+                        right:0;
+                        top:0.8125em;
+                    }
 
 
+            .inCard__postInfo {
+                width:100%;
+                position:relative;
+            }
 
+                .postInfo__likes {
+                    color:#4b4f54;
+                    font-size:0.75em;
+                    font-weight:600;
+                    position:absolute;
+                    left:0;
+                    
+                }
 
+                .postInfo__date {
+                    color:#a5a7aa;
+                    font-size:0.75em;
+                    position:absolute;
+                    right:0;
+
+                }
+
+                .postInfo__copy {
+                    margin:2.125em 0 0;
+                    color:#000;
+                    font-size:0.875em;
+                    line-height:1.5;
+                }
+
+                .postInfo__name {
+                    color:#125688; 
+                }
+
+                .postInfo__userTag {
+                    font-size:0.875em;
+                    color:#125688; 
+                    display:block;
+                }
+
+                .postInfo__comments {
+                    display:block;
+                    color:#a5a7aa;
+                    font-size:0.75em;
+                    margin-top:1em;
+                }
+
+            .inCard__postFeedback {
+                position:absolute;
+                bottom:2.25em;
+                left:1em;
+                right:1em;
+                padding:2em 0 0 3.5em;
+                border-top:1px solid #eeefef;
+                font-size:0.8125em;
+                color:#a5a7aa;
+            }
+            .inCard__postFeedback:before {
+                content:'';
+                background:url('../img/social-card-sprites.png') -5.25em -0.75em/11em;
+                width:2.75em;
+                height:2em;
+                position:absolute;
+                left:0;
+                top:1.25em;
+            }
+            .inCard__postFeedback:after {
+                content:'';
+                background:url('../img/social-card-sprites.png') -8em -0.75em/11em;
+                width:3em;
+                height:1em;
+                position:absolute;
+                right:0;
+                top:2em;
+            }
+
+                .inCard__postComment {
+                    position:absolute;
+                    top:1.5em;
+                }
 
 
 

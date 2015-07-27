@@ -111,7 +111,7 @@ export default class VinePlayer extends CorePlayer {
     }
 
     pause() {
-        this.unload();
+        _(this).loadEmbed(this.src, false);
     }
 
     minimize() {
@@ -135,7 +135,7 @@ export default class VinePlayer extends CorePlayer {
             forEach(children, child => element.removeChild(child));
         });
 
-        _(this).embedChildren.length = 0;
+        _(this).embedChildren = [];
 
         return super();
     }

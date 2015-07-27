@@ -139,17 +139,6 @@ describe('VinePlayer', function() {
             });
         });
 
-        describe('pause', function() {
-            beforeEach(function() {
-                spyOn(player, 'unload');
-                player.pause();
-            });
-
-            it('should unload the embed', function() {
-                expect(player.unload).toHaveBeenCalled();
-            });
-        });
-
         describe('play', function() {
             beforeEach(function() {
                 spyOn(player.__private__, 'loadEmbed');
@@ -162,15 +151,17 @@ describe('VinePlayer', function() {
             });
         });
 
-        describe('load', function() {
-            beforeEach(function() {
-                spyOn(player.__private__, 'loadEmbed');
-                player.src = 'abc123';
-                player.load();
-            });
+        ['load', 'pause'].forEach(method => {
+            describe(`${method}()`, function() {
+                beforeEach(function() {
+                    spyOn(player.__private__, 'loadEmbed');
+                    player.src = 'abc123';
+                    player[method]();
+                });
 
-            it('should load the embed without audio', function() {
-                expect(player.__private__.loadEmbed).toHaveBeenCalledWith('abc123', false);
+                it('should load the embed without audio', function() {
+                    expect(player.__private__.loadEmbed).toHaveBeenCalledWith('abc123', false);
+                });
             });
         });
 

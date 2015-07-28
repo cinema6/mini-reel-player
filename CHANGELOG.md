@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.19.1-rc1]*
+  * [FIX]: Remove prev/next buttons that hover over the video in a
+    single-video lightbox MiniReel
+
 ## v0.19.0 (July 16, 2015)
 * *[v0.19.0-rc2]*
   * [FIX]: Fix for an issue which caused the source link to be displayed for a web image in the

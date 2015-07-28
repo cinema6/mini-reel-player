@@ -8,6 +8,7 @@ import FullRecapCardController from './FullRecapCardController.js';
 import FullPrerollCardController from './FullPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullInstagramCardController from './FullInstagramCardController.js';
+import FullInstagramVideoCardController from './FullInstagramVideoCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
 
@@ -25,7 +26,8 @@ export default class FullPlayerController extends PlayerController {
             recap: FullRecapCardController,
             preroll: FullPrerollCardController,
             displayAd: DisplayAdCardController,
-            instagram: FullInstagramCardController
+            instagramImage: FullInstagramCardController,
+            instagramVideo: FullInstagramVideoCardController
         };
 
         this.initResizing();

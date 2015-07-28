@@ -3,7 +3,7 @@ import Card from './Card.js';
 export default class InstagramCard extends Card {
     constructor(data) {
         super(...arguments);
-        this.type = 'instagram';
+        this.type = 'instagramImage';
         this.href = data.href;
         this.tags = data.tags;
         this.timeCreated = new Date(data.timeCreated);

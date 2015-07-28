@@ -81,16 +81,12 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
         case 'instagram':
-<<<<<<< HEAD
             if(card.data.type === 'image') {
                 return new InstagramImageCard(card, experience, profile);
             } else {
                 return new InstagramVideoCard(card, experience, profile);
             }
             break;
-=======
-            return new InstagramCard(card, experience, profile);
->>>>>>> Added Instagram card for full player
         default:
             return new VideoCard(card, experience, profile);
         }

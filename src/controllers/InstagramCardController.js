@@ -16,24 +16,24 @@ export default class InstagramCardController extends CardController {
     }
 
     renderImage() {
-        this.isRendered = true;
-        this.view.update({
-            href: this.model.href,
-            tags: this.model.tags,
-            timeCreated: this.model.timeCreated,
-            caption: this.model.caption,
-            user: this.model.user,
-            likes: this.model.likes,
-            type: this.model.data.type,
-            src: this.model.data.src
-        });
-        this.view.tags.update(this.model.tags.map(function(tag) {
-            return {
-                tag: tag
-            };
-        }));
-        this.view.comments.update(this.model.comments.data);
-        this.view.likes.update(this.model.likes.data);
+        // this.isRendered = true;
+        // this.view.update({
+        //     href: this.model.href,
+        //     tags: this.model.tags,
+        //     timeCreated: this.model.timeCreated,
+        //     caption: this.model.caption,
+        //     user: this.model.user,
+        //     likes: this.model.likes,
+        //     type: this.model.data.type,
+        //     src: this.model.data.src
+        // });
+        // this.view.tags.update(this.model.tags.map(function(tag) {
+        //     return {
+        //         tag: tag
+        //     };
+        // }));
+        // this.view.comments.update(this.model.comments.data);
+        // this.view.likes.update(this.model.likes.data);
     }
 
 }

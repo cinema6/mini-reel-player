@@ -1,8 +1,9 @@
-import Card from './Card.js';
+import VideoCard from './VideoCard.js';
 
-export default class InstagramVideoCard extends Card {
+export default class InstagramVideoCard extends VideoCard {
     constructor(data) {
         super(...arguments);
         this.type = 'instagramVideo';
+        this.title = data.caption;
     }
 }

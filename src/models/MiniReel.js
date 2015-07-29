@@ -31,9 +31,12 @@ import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
+import TwitterTextCard from './TwitterTextCard.js';
+import TwitterImageCard from './TwitterImageCard.js';
+import TwitterVideoCard from './TwitterVideoCard.js';
 
 const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
-                        'instagram'];
+                        'instagram', 'twitter'];
 
 const _ = createKey();
 
@@ -85,6 +88,16 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
                 return new InstagramImageCard(card, experience, profile);
             } else {
                 return new InstagramVideoCard(card, experience, profile);
+            }
+            break;
+        case 'twitter':
+            switch(card.data.type) {
+            case 'image':
+                return new TwitterImageCard(card, experience, profile);
+            case 'video':
+                return new TwitterVideoCard(card, experience, profile);
+            default:
+                return new TwitterTextCard(card, experience, profile);
             }
             break;
         default:

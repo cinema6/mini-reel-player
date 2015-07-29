@@ -9,6 +9,9 @@ import FullPrerollCardController from './FullPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullInstagramImageCardController from './FullInstagramImageCardController.js';
 import FullInstagramVideoCardController from './FullInstagramVideoCardController.js';
+import FullTwitterTextCardController from './FullTwitterTextCardController';
+import FullTwitterImageCardController from './FullTwitterImageCardController';
+import FullTwitterVideoCardController from './FullTwitterVideoCardController';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
 
@@ -27,7 +30,10 @@ export default class FullPlayerController extends PlayerController {
             preroll: FullPrerollCardController,
             displayAd: DisplayAdCardController,
             instagramImage: FullInstagramImageCardController,
-            instagramVideo: FullInstagramVideoCardController
+            instagramVideo: FullInstagramVideoCardController,
+            twitterText: FullTwitterTextCardController,
+            twitterImage: FullTwitterImageCardController,
+            twitterVideo: FullTwitterVideoCardController
         };
 
         this.initResizing();

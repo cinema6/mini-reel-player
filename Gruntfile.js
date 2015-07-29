@@ -6,7 +6,10 @@ module.exports = function(grunt) {
         _ = require('underscore');
 
     if (osType === 'Darwin'){
-        require('posix').setrlimit('nofile', { soft : 1048 }); 
+        try {
+            require('posix').setrlimit('nofile', { soft : 1048 });
+        } catch(error) {
+        }
     }
 
     function loadGlobalConfig(relPath) {

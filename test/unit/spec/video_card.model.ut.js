@@ -450,6 +450,71 @@ describe('VideoCard', function() {
                     });
                 });
             });
+
+            describe('.preload', function() {
+                describe('if data.preload is true', function() {
+                    beforeEach(function() {
+                        experience.data.preloadVideos = false;
+                        data.data.preload = true;
+                        card = new VideoCard(data, experience);
+                    });
+
+                    it('should be true', function() {
+                        expect(card.data.preload).toBe(true);
+                    });
+                });
+
+                describe('if data.preload is false', function() {
+                    beforeEach(function() {
+                        experience.data.preloadVideos = true;
+                        data.data.preload = false;
+                        card = new VideoCard(data, experience);
+                    });
+
+                    it('should be false', function() {
+                        expect(card.data.preload).toBe(false);
+                    });
+                });
+
+                describe('if data.preload is not defined', function() {
+                    beforeEach(function() {
+                        delete data.data.preload;
+                    });
+
+                    describe('if data.preloadVideos is true on the minireel', function() {
+                        beforeEach(function() {
+                            experience.data.preloadVideos = true;
+                            card = new VideoCard(data, experience);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.preload).toBe(true);
+                        });
+                    });
+
+                    describe('if data.preloadVideos is false on the minireel', function() {
+                        beforeEach(function() {
+                            experience.data.preloadVideos = false;
+                            card = new VideoCard(data, experience);
+                        });
+
+                        it('should be false', function() {
+                            expect(card.data.preload).toBe(false);
+                        });
+                    });
+
+                    describe('if data.preloadVideos is not defined on the minireel', function() {
+                        beforeEach(function() {
+                            delete experience.data.preloadVideos;
+                            card = new VideoCard(data, experience);
+                        });
+
+                        it('should be true', function() {
+                            expect(card.data.preload).toBe(true);
+                        });
+                    });
+                });
+            });
         });
     });
 

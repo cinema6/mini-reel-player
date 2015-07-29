@@ -9,7 +9,7 @@ import {createKey} from 'private-parts';
 const _ = createKey();
 
 export default class VideoCard extends Card {
-    constructor(data, { data: { autoplay = true, autoadvance = true } }) { // jshint ignore:line
+    constructor(data, { data: { autoplay = true, autoadvance = true, preloadVideos = true } }) { // jshint ignore:line
         super(...arguments);
         _(this).skip = data.data.skip === undefined ? true : data.data.skip;
         _(this).canSkipAfterCountdown = _(this).skip !== false;
@@ -36,7 +36,7 @@ export default class VideoCard extends Card {
             controls: data.data.controls,
             autoplay: 'autoplay' in data.data ? data.data.autoplay : autoplay,
             autoadvance: 'autoadvance' in data.data ? data.data.autoadvance : autoadvance,
-            preload: true,
+            preload: 'preload' in data.data ? data.data.preload : preloadVideos,
             moat : data.data.moat || null,
             end: data.data.end,
             start: data.data.start

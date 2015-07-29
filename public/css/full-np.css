@@ -633,16 +633,29 @@
                 border:0;
             }
 
+            .playerBox {
+                background:50% 50% / cover no-repeat;
+            }
             .playerBox,
             .playerBox object,
             .playerBox video {
                 position:absolute;
                 top:0; left:0;
                 width:100%; height:100%;
-                background:#000;
             }
+            .playerBox iframe,
+            .playerBox video,
+            .playerBox object {
+                -webkit-transition:opacity 0.5s;
+                transition:opacity 0.5s;
+                opacity:0;
+            }
+                .playerBox--canplay video,
+                .playerBox--canplay object,
+                .playerBox--canplay iframe {
+                    opacity:1;
+                }
 
-            
         .player__thumbnail {
             background:50% 50% / 112% auto no-repeat;
         }

@@ -556,6 +556,9 @@
             float:none;
             margin:0 auto;
         }
+        .playerBox {
+            background:50% 50% / cover no-repeat;
+        }
         .playerBox,
         .playerBox iframe,
         .playerBox video,
@@ -567,12 +570,18 @@
             position:absolute;
             top:0; left:0;
             border:0;
-            background:#000;
         }
         .playerBox iframe,
         .playerBox video {
             z-index: 100;
+            -webkit-transition:opacity 0.5s;
+            transition:opacity 0.5s;
+            opacity:0;
         }
+            .playerBox--canplay iframe,
+            .playerBox--canplay video {
+                opacity:1;
+            }
         .player--fly-away {
             margin-left:-5000%;
             float:left;

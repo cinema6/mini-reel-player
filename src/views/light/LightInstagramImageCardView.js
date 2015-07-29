@@ -1,7 +1,7 @@
 import CardView from '../CardView.js';
 import ListView from '../ListView.js';
 
-export default class FullInstagramCardView extends CardView {
+export default class LightInstagramImageCardView extends CardView {
     constructor() {
         super(...arguments);
 
@@ -9,6 +9,6 @@ export default class FullInstagramCardView extends CardView {
             ListView
         };
 
-        this.template = require('./FullInstagramCardView.html');
+        this.template = require('./LightInstagramImageCardView.html');
     }
 }

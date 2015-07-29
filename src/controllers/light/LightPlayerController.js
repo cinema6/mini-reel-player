@@ -9,6 +9,8 @@ import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightPrerollCardController from './LightPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import LightInstagramImageCardController from './LightInstagramImageCardController.js';
+import LightInstagramVideoCardController from './LightInstagramVideoCardController.js';
 
 export default class LightPlayerController extends PlayerController {
     constructor() {
@@ -22,7 +24,9 @@ export default class LightPlayerController extends PlayerController {
             video: LightVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            instagramImage: LightInstagramImageCardController,
+            instagramVideo: LightInstagramVideoCardController
         };
 
         this.session.once('ready', () => {

@@ -5,10 +5,12 @@ export default class ImageCard extends Card {
         super(...arguments);
 
         this.type = 'image';
-        this.thumbs = {
-            small: data.data.thumbs.small,
-            large: data.data.thumbs.large
-        };
+        if(data.data.thumbs) {
+            this.thumbs = {
+                small: data.data.thumbs.small,
+                large: data.data.thumbs.large
+            };
+        }
         this.data = {
             service: data.data.service,
             imageid: data.data.imageid,

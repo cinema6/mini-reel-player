@@ -86,6 +86,92 @@
                     "params": {}
                 },
                 {
+                  "data": {
+                      "type": "text",
+                      "thumbs": {
+                          "small": "https://pbs.twimg.com/profile_images/432921867259613184/q89H1EeV_400x400.jpeg",
+                          "large": "https://pbs.twimg.com/profile_images/432921867259613184/q89H1EeV_400x400.jpeg"
+                      }
+                  },
+                  "id": "rc-41a2519f668464",
+                  "type": "twitter",
+                  "title": "We hiiiighly recommend not playing any of these songs from Jimmy's #DoNotPlay list...",
+                  "source": "Twitter",
+                  "href": "https://twitter.com/fallontonight/status/621702139094650880",
+                  "modules": [],
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                    "campaignId": null,
+                    "advertiserId": null,
+                    "minViewTime": null
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "params": {}
+                },
+                {
+                  "data": {
+                      "type": "image",
+                      "thumbs": {
+                          "small": "https://pbs.twimg.com/profile_images/432921867259613184/q89H1EeV_400x400.jpeg",
+                          "large": "https://pbs.twimg.com/profile_images/432921867259613184/q89H1EeV_400x400.jpeg"
+                      }
+                  },
+                  "id": "rc-5b38c2adddc30c",
+                  "type": "twitter",
+                  "title": "We hiiiighly recommend not playing any of these songs from Jimmy's #DoNotPlay list...",
+                  "source": "Twitter",
+                  "href": "https://twitter.com/fallontonight/status/621702139094650880",
+                  "modules": [],
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                    "campaignId": null,
+                    "advertiserId": null,
+                    "minViewTime": null
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "params": {}
+                },
+                {
+                  "data": {
+                      "type": "video",
+                      "thumbs": {
+                          "small": "https://pbs.twimg.com/profile_images/432921867259613184/q89H1EeV_400x400.jpeg",
+                          "large": "https://pbs.twimg.com/profile_images/432921867259613184/q89H1EeV_400x400.jpeg"
+                      }
+                  },
+                  "id": "rc-ec73147d8be469",
+                  "type": "twitter",
+                  "title": "We hiiiighly recommend not playing any of these songs from Jimmy's #DoNotPlay list...",
+                  "source": "Twitter",
+                  "href": "https://twitter.com/fallontonight/status/621702139094650880",
+                  "modules": [],
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                    "campaignId": null,
+                    "advertiserId": null,
+                    "minViewTime": null
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "params": {}
+                },
+                {
+                    "campaign": {
+                        "advertiserId": null,
+                        "campaignId": null,
+                        "clickUrls": [],
+                        "countUrls": [],
+                        "minViewTime": null
+                    },
+                    "collateral": {},
                     "data": {
                         "id": "5YN6a0tOc-",
                         "thumbs": {

@@ -433,7 +433,6 @@
         }
 
 
-
 /*  ================================================
     video card classes
     ================================================ */
@@ -756,6 +755,669 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  ================================================
+    social media cards
+    ================================================ */
+
+
+    /*  ================================================
+        instagram image card
+        ================================================ */
+
+        .instag____player__group {
+            margin:0; 
+            padding:1em;
+            width:calc(100% - 19em);  
+            position:absolute;
+            background:#fff;
+            border:1px solid #eeefef;
+            font-size:1.125em;
+            overflow:hidden;
+        }
+
+
+
+
+            .instag____profile__group {
+                background:#fafafa;
+                border-radius:4px;
+                border:1px solid #eeefef;
+                width:7.5em;
+                max-height: 30em;
+                overflow-y:auto;
+                padding:0.75em;
+                font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+               
+
+                .instag____profileImg__picBox {
+                    display:block;
+                    width:60%;
+                    margin:0 auto;
+                }
+
+                    .instag____profileImg__pic {
+                        width:100%;
+                        border-radius:100%;
+                        border:1px solid #eeefef;
+                    }
+
+                    .instag____profileImg__name {
+                        font-size:0.875em;
+                        font-weight:300;
+                        word-wrap:break-word;
+                        color:#4b4f54;
+                        margin:0;
+                        width:100%;
+                        text-align:center;
+                        display:block;
+                        transition:0.3s color;
+                    }
+                        .instag____profileImg__name:hover {
+                            color:#000;
+                        }
+
+                    .instag____profileImg__follow,
+                    .instag____profileImg__follow:focus {
+                        background-color:#fafafa;
+                        border:1px solid #4090db;
+                        border-radius:3px;
+                        margin:1.3125em 0 0 0;
+                        padding: 0.5em 0;
+                        color:#4090db;
+                        text-transform:uppercase;
+                        font-size:0.75em;
+                        width:100%;
+                        display:block;
+                        transition:0.3s border, 0.3s color;
+                    }
+                        .instag____profileImg__follow:hover {
+                            border:1px solid #2d6599;
+                            color:#2d6599;
+                            
+                        }
+
+                .instag____profileDesc__group {
+                    margin:1em 0 0 0;
+                }
+
+                    .instag____profileDesc {
+                        font-size:0.75em;
+                        color:#4b4f54;
+                        margin:0;
+                        line-height:1.375;
+                    }
+
+                    .instag____profileDesc__name {
+                        font-weight:600;
+                    }
+
+                    .instag____profileDesc__link {
+                        color:#125688;
+                        word-wrap:break-word;
+                        transition:0.3s color;
+                    }
+                        .instag____profileDesc__link:hover {
+                            color:#0d3c5f;
+                        }
+                   
+
+                    .instag____profileData__group {
+                        list-style:none;
+                        margin:1.125em 0 0;
+                        padding:0;
+                        color:#34373b;
+                        font-size:0.75em;
+
+                    }
+                        .instag____profileData {
+                            margin:0.5em 0 0 0;
+                        }
+
+                        .instag____profileData__stat {
+                            font-weight:600;
+                        }
+
+
+                        
+
+
+            .instag____mediaImg__group {
+                position:absolute;
+                top:1em; 
+                bottom:1em;
+                left:9em;
+                right:31em;
+            } 
+
+                .instag____mediaImg {
+                    height:100%;
+                    border-radius:4px 0 0 4px;
+                    border:1px solid #eeefef;
+                    border-right:none;
+                    background:#fafafa center/contain no-repeat;
+                }           
+
+      
+
+
+
+            .instag____post__group {
+                border-radius:0 4px 4px 0;
+                border:1px solid #eeefef;
+                border-left:none;
+                background-color:#fff;
+                position:absolute;
+                right:1em;
+                top:1em;
+                bottom:1em;
+                padding:1em;
+                width:30em;
+                font-family:'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+
+                .instag____postAccount__group {
+                    border-bottom:1px solid #eeefef;
+                    margin:0 0 1.1875em 0;
+                    padding:0 0 1em 0;
+                    position:relative;
+                }
+
+                    .instag____postAccount__pic {
+                        width:3.5em;
+                        border-radius:100%;
+                        float:left;
+                    }
+
+                    .instag____postAccount__name {
+                        margin:0.8125em 1em 0;
+                        width:50%;
+                        float:left;
+                        font-size:1em;
+                        word-wrap:break-word;
+                        color:#125688;
+                        transition:0.3s color;
+                    }
+                        .instag____postAccount__name:hover {
+                            color:#0d3c5f;
+                        }
+
+
+                    .instag____postAccount__logo {
+                        background:url('../img/social-card-sprites.png') -1em -1em/14.25em no-repeat;
+                        width:5em;
+                        height:2em;
+                        position:absolute;
+                        right:0;
+                        top:0.9375em;
+                    }
+
+
+            .instag____postInfo__group {
+                height:100%;
+                position:relative;
+            }
+
+                .instag____postInfo__likes {
+                    color:#4b4f54;
+                    font-size:0.75em;
+                    font-weight:600;
+                    position:absolute;
+                    
+                }
+
+                .instag____postInfo__date {
+                    color:#a5a7aa;
+                    font-size:0.75em;
+                    position:absolute;
+                    right:0;
+                    transition:0.3s color;
+                }
+                    .instag____postInfo__date:hover {
+                        color:#858789;
+                    }
+
+
+                .instag____postInfo__copy {
+                    color:#000;
+                    font-size:0.875em;
+                    margin:1em 0 0 0;
+                    padding:0 1em 0 0;
+                    position:absolute;
+                    top:1.375em;
+                    bottom:10em;
+                    overflow-y:auto;
+                }
+
+                .instag____postInfo__name {
+                    color:#125688; 
+                    transition:0.3s color;
+                }
+                    .instag____postInfo__name:hover {
+                        color:#0d3c5f; 
+                    }
+
+                
+
+                .instag____postInfo__tag {
+                    font-size:0.875em;
+                    color:#125688; 
+                    display:block;
+                    transition:0.3s color;
+                }
+                    .instag____postInfo__tag:hover {
+                        color:#0d3c5f; 
+                    }
+
+                .instag____postInfo__comments {
+                    display:block;
+                    color:#a5a7aa;
+                    font-size:0.75em;
+                    margin-top:1em;
+                    transition:0.3s color;
+                }
+                    .instag____postInfo__comments:hover {
+                        color:#818488;
+                    }
+
+                
+
+            .instag____postInfo__feedback {
+                position:absolute;
+                bottom:2.25em;
+                left:1em;
+                right:1em;
+                padding:2em 0 0 3.5em;
+                border-top:1px solid #eeefef;
+                font-size:0.8125em;
+                color:#a5a7aa;
+            }
+            .instag____postInfo__feedback:before {
+                content:'';
+                background:url('../img/social-card-sprites.png') -5.25em -0.75em/11em no-repeat;
+                width:2.75em;
+                height:2.125em;
+                position:absolute;
+                left:0;
+                top:1.25em;
+            }
+            .instag____postInfo__feedback:after {
+                content:'';
+                background:url('../img/social-card-sprites.png') -8em -0.75em/11em no-repeat;
+                width:3em;
+                height:1em;
+                position:absolute;
+                right:0;
+                top:2em;
+            }
+
+                .instag____postInfo__comment {
+                    position:absolute;
+                    top:1.5em;
+                }
+
+
+        /*  instagram image card MEDIA QUERIES 
+        ================================================ */
+
+            @media screen and (min-width:75rem) and (max-width:125rem) {
+                /*  w: 1200px -  2000px */
+
+                .instag____player__group {
+                    font-size:1em;
+                }
+
+
+                .instag____mediaImg__group {
+                    right:21em;
+                } 
+
+                .instag____post__group {
+                    width:20em;
+                }
+
+                    .instag____postAccount__name {
+                        width:35%;
+                    }
+
+            }
+
+            @media screen and (max-width:89.9375rem) {
+                /*  max-width: 1436px */
+
+                .instag____player__group {
+                    width:calc(100% - 10em); 
+                }
+
+
+            }
+
+            @media screen and (max-width:75rem) {
+                /*  w: 0px - 1200px */
+
+
+                .instag____player__group {
+                    font-size:0.9375em;
+                }
+
+                
+
+                .instag____mediaImg__group {
+                    right:13em;
+                } 
+
+                .instag____post__group {
+                    width: 12em;
+                    padding: 0.75em;
+                    height:auto;
+                    overflow-y:auto;
+                }
+
+                    .instag____postAccount__pic {
+                        width:40%;
+                        float:none;
+                        display:block;
+                        margin:1.5em 30% 0;
+                    }
+
+                    .instag____postAccount__name {
+                        width:100%;
+                        text-align:center;
+                        margin:0.25em 0 0;
+                    }
+
+                    .instag____postAccount__logo {
+                        background:url('../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
+                        width:4em;
+                        position: absolute;
+                        top:-0.5em;
+                        right:-0.5em;
+                    }
+
+                        .instag____postInfo__copy {
+                            bottom:14em;
+                            position:relative;
+                        }
+
+                        .instag____postInfo__group {
+                            height:auto;
+                        }
+
+                        .instag____postInfo__feedback {
+                            margin-top:6em;
+                            padding:1.5em 0 0 2.5em;
+                            position:relative;
+                            left:0;
+                            right:0;
+                            bottom:1.5em;
+                            display:block;
+                        }
+                            .instag____postInfo__feedback:before {
+                                background:url('../img/social-card-sprites.png') -2.4em -0.25em/5em no-repeat;
+                                width: 1.25em;
+                                height: 1em;
+                            }
+                            .instag____postInfo__feedback:after {
+                                background: url('../img/social-card-sprites.png') -19.25em -0.5em/7em no-repeat;
+                                width: 1.75em;
+                                height: 0.3em;
+                            }
+
+                            .instag____postInfo__comment {
+                                top: 1.5em;
+                                font-size: 0.825em;
+                            }
+
+            }
+
+
+            @media screen and (max-width:49.9375rem) {
+                /*  w: 0px - 751 */
+
+                .instag____mediaImg__group {
+                    right:11em;
+                } 
+
+
+                .instag____post__group {
+                    width: 10em;
+                    padding: 0.75em;
+                    height:auto;
+                    overflow-y:auto;
+                }
+
+                    .instag____postAccount__logo {
+                        background:url('../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
+                        width:4em;
+                        top:-0.5em;
+                        right:-0.5em;
+                    }
+
+                    .instag____postInfo__copy {
+                        position:relative;
+                    }
+                    
+                    .instag____postInfo__group {
+                        height:auto;
+                    }        
+
+                        .instag____postInfo__feedback {
+                            padding-left:1.5em;
+                        }
+
+            }
+
+
+            @media screen and (max-height:39rem) and (max-width:95rem) {
+                /*  h: 0px - 624px 
+                    w: 0px - 1280px   */
+
+                .instag____profile__group {
+                    height:100%;
+                }
+            }
+            @media screen and (max-width:80rem) {
+                /*  w: 0px - 1280px   */
+
+                .instag____profile__group {
+                    height:100%;
+                }
+            }
+
+            @media screen and (max-height:26rem) {
+                /*  h: 0px - 416px */
+
+                .instag____profile__group {
+                    height:100%;
+                    min-height:auto;
+                }
+            }
+
+            @media screen and (max-height:26rem) and (max-width:49.9375rem) {
+                /*  h: 0px - 416px 
+                    w: 0px - 751    */
+
+                .instag____profile__group {
+                    height:auto;
+                    min-height:none;
+                }
+            }
+
+
+
+
+
+
+
+    
+    /*  ================================================
+        instagram video card
+        ================================================ */
+        
+
+        .instag____mediaVid__group {
+            position:absolute;
+            left:9em;
+            right:31em;
+            top:1em;
+            bottom:1em;
+            border-radius:4px 0 0 4px;
+            border:1px solid #000;
+        }
+
+            .instag____mediaVid__box {
+                position:absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                background:#000;
+
+            }
+
+                .instag____mediaVid {
+                    width:100%;
+                    height:100%;
+                    position:absolute;
+                    border:0;
+                }
+
+
+        /*  instagram video card MEDIA QUERIES 
+            ================================================ */
+
+            @media screen and (min-width:75rem) and (max-width:125rem) {
+                /*  w: 2112px -  2000px */
+
+                .instag____mediaVid__group {
+                    right:21em;
+                }
+            }
+
+
+
+            @media screen and (max-width:75rem) {
+                /*  w: 0px - 1200px */
+
+                .instag____mediaVid__group {
+                    right:13em;
+                    left:9.5em;
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*  twitter card
+        ================================================ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*  ================================================
     sponsored card styles
     ================================================ */
@@ -1019,6 +1681,16 @@
             border-bottom:2px solid #333;
             padding:0.625em 0 0.3125em 0;
         }
+
+        @media screen and (max-width:89.9375rem) {
+            /*  max-width: 1436px */
+
+            .playlist__group {
+                width:9.5em;
+            }
+        }
+
+
             .playlistHead__title {
                 font-size:0.8125em; font-weight:700;
                 color:#000;
@@ -1092,6 +1764,21 @@
                                 color:#fff;
                             }
                         
+                    @media screen and (max-width:89.9375rem) {
+                        /*  max-width: 1436px */
+
+                        .playlist__thumbHolder,
+                        .playlist__thumb {
+                            width:6.375em; height:4.8125em;
+                        }
+                            .playlist__thumbHolder:before {
+                                width:1.5em;
+                            }
+
+                        .playlist__thumbHolder {
+                            margin:0.5em 0.5em 0 1.5em;
+                        }
+                    }  
                         
                         
 
@@ -1124,6 +1811,20 @@
                             color:#000;
                         }
 
+
+                @media screen and (max-width:89.9375rem) {
+                    /*  max-width: 1436px */
+
+                    .playlist__copy {
+                        float:left;
+                        width:6em;
+                        margin:0 0 1em 1.6875em;
+                    }
+
+                        .playlist__title {
+                            margin:0.625rem 0 0 0;
+                        }
+                }
 
         .playlist__disabler {
             background:#fff; background:rgba(255,255,255,0.85);
@@ -1250,6 +1951,14 @@
                 }
         }
 
+        @media screen and (max-width:89.9375rem) {
+            /*  max-width: 1436px */
+
+            .nav__btn--next {
+                right:10.5rem;
+            }
+
+        }
 
 
 

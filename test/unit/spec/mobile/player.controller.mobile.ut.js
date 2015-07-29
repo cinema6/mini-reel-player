@@ -15,6 +15,8 @@ import View from '../../../../lib/core/View.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 import MobilePrerollCardController from '../../../../src/controllers/mobile/MobilePrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
+import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
+import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
 import PrerollCard from '../../../../src/models/PrerollCard.js';
 
 describe('MobilePlayerController', function() {
@@ -74,6 +76,8 @@ describe('MobilePlayerController', function() {
                 expect(MobilePlayerCtrl.CardControllers.recap).toBe(MobileRecapCardController);
                 expect(MobilePlayerCtrl.CardControllers.preroll).toBe(MobilePrerollCardController);
                 expect(MobilePlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
+                expect(MobilePlayerCtrl.CardControllers.instagramImage).toBe(MobileInstagramImageCardController);
+                expect(MobilePlayerCtrl.CardControllers.instagramVideo).toBe(MobileInstagramVideoCardController);
             });
         });
 

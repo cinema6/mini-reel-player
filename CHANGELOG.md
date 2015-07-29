@@ -8,6 +8,8 @@
   * [FIX]: Fix for an issue that caused the solo-ads player to render
     <iframe> players correctly
   * [FEATURE]: Add fade-in animations for all video players after load
+  * [FIX]: Fix for an issue that caused Vimeo, Rumble, Dailymotion and
+    display ads not to work when the player is delivered via MRAID
 
 ## v0.19.0 (July 16, 2015)
 * *[v0.19.0-rc2]*

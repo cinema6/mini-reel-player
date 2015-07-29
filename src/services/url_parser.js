@@ -1,4 +1,5 @@
 import {createKey} from 'private-parts';
+import environment from '../environment.js';
 const needsDoubleSet = (() => {
     const a = document.createElement('a');
 
@@ -37,6 +38,12 @@ class URL {
         this.pathname = ((parser.pathname.charAt(0) === '/') ? '' : '/') +
             parser.pathname;
         this.origin = `${this.protocol}://${this.host}`;
+        this.absolute = (this.href === url);
+
+        if (environment && !this.absolute && (parser.protocol !== environment.protocol)) {
+            this.protocol = environment.protocol.replace(/:$/, '');
+            this.href = parser.href.replace(parser.protocol, environment.protocol);
+        }
 
         _(this).parser = parser;
     }

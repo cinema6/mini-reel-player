@@ -9,6 +9,6 @@ export default class LightInstagramVideoCardController extends InstagramCardCont
     }
 
     renderInstagram() {
-        
+
     }
 }

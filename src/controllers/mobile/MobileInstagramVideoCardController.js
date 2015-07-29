@@ -9,6 +9,6 @@ export default class MobileInstagramVideoCardController extends InstagramCardCon
     }
 
     renderInstagram() {
-        
+
     }
 }

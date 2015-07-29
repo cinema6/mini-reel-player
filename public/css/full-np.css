@@ -15,42 +15,39 @@
 
     /*  video card classes
             Ballot/actions Modal group classes
-        ============================================= */    
+        ============================================= */
         @import url('full-np/video-card.css');
 
     /*  article card classes
-        ============================================= */    
+        ============================================= */
         @import url('full-np/article-card.css');
 
     /*  image card classes
-        ============================================= */   
+        ============================================= */
         @import url('full-np/image-card.css');
 
     /*  text only card classes
-        ============================================= */ 
+        ============================================= */
         @import url('full-np/text-card.css');
 
     /*  sponsored card classes
-        ============================================= */ 
+        ============================================= */
         @import url('full-np/sponsored-card.css');
 
     /*  recap card classes
-        ============================================= */ 
+        ============================================= */
         @import url('full-np/recap-card.css');
 
     /*  video/display ad _card_ classes
         display ad classes
         companion ad classes
-        ============================================= */ 
+        ============================================= */
         @import url('full-np/ad-styles.css');
 
     /*  branded MR classes
-        ============================================= */ 
+        ============================================= */
         @import url('full-np/branded-mr.css');
 
-    /*  pager nav button classes 
-        ============================================= */ 
+    /*  pager nav button classes
+        ============================================= */
         @import url('full-np/pager-nav.css');
-
-
-

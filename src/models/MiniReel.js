@@ -29,7 +29,7 @@ import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
-import InstagramCard from './InstagramCard.js';
+import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
 
 const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
@@ -82,10 +82,11 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
             return new SlideshowBobCard(card, experience, profile);
         case 'instagram':
             if(card.data.type === 'image') {
-                return new InstagramCard(card, experience, profile);
+                return new InstagramImageCard(card, experience, profile);
             } else {
                 return new InstagramVideoCard(card, experience, profile);
             }
+            break;
         default:
             return new VideoCard(card, experience, profile);
         }

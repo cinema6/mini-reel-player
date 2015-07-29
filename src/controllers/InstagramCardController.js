@@ -18,5 +18,4 @@ export default class InstagramCardController extends CardController {
     renderImage() {
         this.isRendered = true;
     }
-
 }

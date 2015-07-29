@@ -8,7 +8,7 @@
         helper/ui classes
         ng-animate
         experience classes
-        title bar classes 
+        title bar classes
         cards classes
         splash screen class
         ============================================= */
@@ -16,46 +16,46 @@
 
     /*  video card classes
         ballot/actions modal group
-        ============================================= */    
+        ============================================= */
         @import url('lightbox/video-card.css');
 
     /*  article card classes
-        ============================================= */    
+        ============================================= */
         @import url('lightbox/article-card.css');
 
     /*  image card classes
-        ============================================= */   
+        ============================================= */
         @import url('lightbox/image-card.css');
 
     /*  text only card classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/text-card.css');
 
     /*  sponsored card classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/sponsored-card.css');
 
     /*  recap card classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/recap-card.css');
 
     /*  video/display ad card classes
         display ad module classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/ad-styles.css');
 
     /*  branded MR classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/branded-mr.css');
 
     /*  solo MR classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/solo-mr.css');
 
     /*  pager nav classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/pager-nav.css');
 
     /*  nav button classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox/nav-btn.css');

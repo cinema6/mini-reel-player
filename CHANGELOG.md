@@ -1,6 +1,7 @@
 # MiniReel Player 2.0
 
 * *[v0.21.0-rc1]*
+  * [FEATURE]: Added support for Vine video cards
   * [DEV]: Fix issue where tests would run multiple times/not "pick up"
     file changes when running ```grunt tdd```.
 

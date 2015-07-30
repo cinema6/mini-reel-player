@@ -56,9 +56,10 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('server', 'start a development server', function(config, target) {
-        var withTests = config === 'tdd';
-        target = target || 'app';
+    grunt.registerTask('server', 'start a development server', function() {
+        var tdd = grunt.option('tdd');
+        var withTests = !!tdd;
+        var target = (typeof tdd === 'string') ? tdd : 'app';
 
         grunt.task.run('babelhelpers:build');
 

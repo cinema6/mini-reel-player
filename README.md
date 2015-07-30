@@ -98,12 +98,12 @@ ex:
 $> grunt server
 ```
 
-##### server:tdd
+##### server --tdd
 This task, in addition to starting a development server (just like the ```server``` task,) will also run unit tests whenever a source/test file changes.
 
 ex:
 ```bash
-$> grunt server:tdd
+$> grunt server --tdd
 ```
 
 ##### test:unit

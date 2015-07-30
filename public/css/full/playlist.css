@@ -1,0 +1,137 @@
+
+/*  ================================================
+    .playlist__group classes
+    ================================================ */
+    .playlist__group {
+        margin:0; display: block;
+        position: absolute;
+        top:3.75em; right:0.75em; bottom:17.25em;
+        width:18.75em;
+        border-bottom:2px solid #333333;
+    }
+        .playlist__group--noAds {
+            bottom:0.75em;
+        }
+        @media screen and (max-height:31.25rem) {
+            /*  h: 0 - 500px */
+            .playlist__group {
+                width:14.75em;
+            }
+        }
+
+
+        .playlistHead__group {
+            border-bottom:2px solid #333;
+            padding:0.625em 0 0.3125em 0;
+        }
+            .playlistHead__title {
+                font-size:0.8125em; font-weight:700;
+                color:#000;
+                margin:0;
+                float:left;
+            }
+            .playlistHead__pageCount {
+                color:#6c6c6c;
+                font-size:0.75em;
+                float:right;
+            }
+
+
+        .playlist {
+            margin:0; padding:0; list-style: none;
+            position: absolute;
+            top:2.25em; bottom:0; left:0; right:0;
+            counter-reset: playlist;
+            overflow-y: auto; overflow-x:hidden;
+        }
+
+            .playlist__item {
+                margin:0; padding:0;
+                border-bottom:1px solid #ddd;
+                cursor:pointer;
+                position: relative;
+                -webkit-transition:background 0.3s; 
+                transition:background 0.3s;
+            }
+                .playlist__item:last-child {
+                    border-bottom:1px solid #fff;
+                }
+                .playlist__item--current,
+                .playlist__item--current:last-child {
+                    background:#d94040;
+                    border-bottom:1px solid #d94040;
+                }
+
+                .playlist__thumbHolder,
+                .playlist__thumb {
+                    background:50% 50% / cover no-repeat;
+                    width:4em; height:3em;
+                    display: block;
+                }
+                    .playlist__thumbHolder {
+                        background-image:url('../img/default_square.jpg');
+                        float:left;
+                        margin:0.5em 0.5em 0.5em 1.75em;
+                    }
+                        .playlist__thumbHolder:before {
+                            counter-increment: playlist;
+                            content:counter(playlist);
+                            display:block;
+                            width:2em;
+                            font-size:0.625em;
+                            text-align: right;
+                            color:#6c6c6c;
+                            margin:0.5em 0 0 0;
+                            position: absolute;
+                            left:0;
+                        }
+                        .playlist__thumbHolder--ad:after {
+                            content:'Ad';
+                            position: absolute;
+                            top:1em; left:3em;
+                            background:#000; color:#fff;
+                            padding:0 2px;
+                            font-size:0.625rem; font-weight:bold;
+                        }
+                            .playlist__item--current .playlist__thumbHolder:before {
+                                color:#fff;
+                            }
+                        
+                        
+
+                .playlist__copy {
+                    float:left;
+                    width:calc(100% - 6.25em);
+                }
+                    .playlist__title {
+                        color:#000;
+                        font-size:0.875em;
+                        line-height: 1rem;
+                        margin:0.6875rem 0 1px 0;
+                    }
+                        .playlist__link {
+                            color:#000;
+                        }
+                            .playlist__item--current .playlist__link {
+                                color:#fff;
+                            }
+                    .playlist__source {
+                        color:#6c6c6c;
+                        font-size:0.75em;
+                        line-height: 1rem;
+                        margin:0;
+                    }
+                        .playlist__item--current .playlist__source {
+                            color:#ccc;
+                        }
+                        .playlist__item--current .playlist__sourceLink {
+                            color:#000;
+                        }
+
+
+        .playlist__disabler {
+            background:#fff; background:rgba(255,255,255,0.85);
+            position:absolute; z-index: 1;
+            top:0; bottom:-2px;
+            width:100%;
+        }

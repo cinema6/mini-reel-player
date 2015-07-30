@@ -7,6 +7,8 @@ import Runner from '../../../lib/Runner.js';
 import browser from '../../../src/services/browser.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import media from '../../../src/services/media.js';
+import environment from '../../../src/environment.js';
+import urlParser from '../../../src/services/url_parser.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -17,7 +19,9 @@ describe('DailymotionPlayer', function() {
 
     beforeEach(function() {
         fetcher.constructor();
+        environment.constructor();
         spyOn(DailymotionPlayer.prototype, 'addClass');
+        environment.protocol = 'https:';
 
         player = new DailymotionPlayer();
 
@@ -31,6 +35,7 @@ describe('DailymotionPlayer', function() {
 
     afterAll(function() {
         fetcher.constructor();
+        environment.constructor();
     });
 
     it('should exist', function() {
@@ -543,7 +548,7 @@ describe('DailymotionPlayer', function() {
             });
 
             it('should give the iframe a url', function() {
-                expect(iframe.src).toBe(`${location.protocol}//www.dailymotion.com/embed/video/${player.src}?api=postMessage&id=${player.id}&related=0&chromeless=0&webkit-playsinline=1&html`);
+                expect(iframe.src).toBe(urlParser.parse(`//www.dailymotion.com/embed/video/${player.src}?api=postMessage&id=${player.id}&related=0&chromeless=0&webkit-playsinline=1&html`).href);
             });
 
             it('should give the iframe some attributes', function() {
@@ -860,7 +865,7 @@ describe('DailymotionPlayer', function() {
                 });
 
                 it('should make the chromeless param 1', function() {
-                    expect(iframe.src).toBe(`${location.protocol}//www.dailymotion.com/embed/video/${player.src}?api=postMessage&id=${player.id}&related=0&chromeless=1&webkit-playsinline=1&html`);
+                    expect(iframe.src).toBe(urlParser.parse(`//www.dailymotion.com/embed/video/${player.src}?api=postMessage&id=${player.id}&related=0&chromeless=1&webkit-playsinline=1&html`).href);
                 });
             });
 
@@ -876,7 +881,7 @@ describe('DailymotionPlayer', function() {
 
                 it('should not add the "html" param', function() {
                     expect(media.bestVideoFormat).toHaveBeenCalledWith(['video/mp4']);
-                    expect(iframe.src).toBe(`${location.protocol}//www.dailymotion.com/embed/video/${player.src}?api=postMessage&id=${player.id}&related=0&chromeless=0&webkit-playsinline=1`);
+                    expect(iframe.src).toBe(urlParser.parse(`//www.dailymotion.com/embed/video/${player.src}?api=postMessage&id=${player.id}&related=0&chromeless=0&webkit-playsinline=1`).href);
                 });
             });
         });

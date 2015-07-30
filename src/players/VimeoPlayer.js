@@ -3,6 +3,7 @@ import {createKey} from 'private-parts';
 import vimeo from '../services/vimeo.js';
 import browser from '../services/browser.js';
 import Runner from '../../lib/Runner.js';
+import urlParser from '../services/url_parser.js';
 
 const _ = createKey();
 
@@ -136,7 +137,10 @@ export default class VimeoPlayer extends CorePlayer {
 
         const attr = ((attribute, value = '') => iframe.setAttribute(attribute, value));
 
-        attr('src', `//player.vimeo.com/video/${this.src}?api=1&player_id=${this.id}`);
+        attr(
+            'src',
+            urlParser.parse(`//player.vimeo.com/video/${this.src}?api=1&player_id=${this.id}`).href
+        );
         attr('width', '100%');
         attr('height', '100%');
         attr('frameborder', '0');

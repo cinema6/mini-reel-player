@@ -6,17 +6,21 @@ describe('environment', function() {
     beforeEach(function() {
         c6 = global.c6;
 
-        window.location.ancestorOrigins = {
-            0: 'http://localhost:8000',
-            1: 'http://cinema6.com',
-            length: 2
-        };
+        try {
+            window.location.ancestorOrigins = {
+                0: 'http://localhost:8000',
+                1: 'http://cinema6.com',
+                length: 2
+            };
+        } catch(e) {}
 
         environment.constructor();
     });
 
     afterEach(function() {
-        delete window.location.ancestorOrigins;
+        try {
+            delete window.location.ancestorOrigins;
+        } catch(e) {}
     });
 
     afterAll(function() {

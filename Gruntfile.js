@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     if (osType === 'Darwin'){
         try {
             require('posix').setrlimit('nofile', { soft : 1048 });
-        } catch(e) {
+        } catch(error) {
         }
     }
 

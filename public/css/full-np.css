@@ -51,3 +51,11 @@
     /*  pager nav button classes
         ============================================= */
         @import url('full-np/pager-nav.css');
+
+    /*  global instagram card classes
+        ============================================= */
+        @import url('global/instagram-card.css');
+
+    /*  override global styles
+        ============================================= */
+        @import url('full-np/full-np__global.css');

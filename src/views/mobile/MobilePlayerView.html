@@ -105,13 +105,14 @@
         </p>
     </div><!--.headerBar__group-->
 
-    <div data-unless="isSolo" class="navBar__group css-promote">
+    <div data-if="showFooter" class="navBar__group css-promote">
         <div data-view="skipTimer:SkipTimerView" class="adSkip__group">
             <p class="adSkip__message"><strong>Skip in {{remaining}}</strong></p>
         </div>
 
         <button data-view="previousButton:NavButtonView"
             data-target="controller" data-action="previous"
+            data-unless="isSolo"
             title="Previous Video"
             type="button"
             class="btnPrimary pager__btn pager__btn--prev">
@@ -129,6 +130,7 @@
         </button>
         <button data-view="landscapeTocButton:TOCButtonView"
             data-target="controller" data-action="toggleToc"
+            data-unless="isSolo"
             class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn"
             title="View Table of Contents"
             type="button">
@@ -137,6 +139,7 @@
         </button>
         <button data-view="nextButton:NavButtonView"
             data-target="controller" data-action="next"
+            data-unless="isSolo"
             title="Next Video"
             type="button"
             class="btnPrimary pager__btn pager__btn--next">

@@ -7,4 +7,8 @@ export default class LightInstagramVideoCardController extends InstagramCardCont
 
         this.view = this.addView(new LightInstagramVideoCardView());
     }
+
+    renderInstagram() {
+        
+    }
 }

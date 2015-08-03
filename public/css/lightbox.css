@@ -59,3 +59,11 @@
     /*  nav button classes
         ============================================= */
         @import url('lightbox/nav-btn.css');
+
+    /*  global instagram card classes
+        ============================================= */
+        @import url('global/instagram-card.css');
+
+    /*  override global styles
+        ============================================= */
+        @import url('lightbox/lightbox__global.css');

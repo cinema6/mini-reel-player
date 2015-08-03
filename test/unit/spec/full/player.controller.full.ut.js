@@ -9,6 +9,8 @@ import FullVideoCardController from '../../../../src/controllers/full/FullVideoC
 import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
 import FullPrerollCardController from '../../../../src/controllers/full/FullPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
+import FullInstagramImageCardController from '../../../../src/controllers/full/FullInstagramImageCardController.js';
+import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
 import PlaylistPlayerController from '../../../../src/mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerController.js';
 
@@ -56,6 +58,8 @@ describe('FullPlayerController', function() {
                 expect(FullPlayerCtrl.CardControllers.recap).toBe(FullRecapCardController);
                 expect(FullPlayerCtrl.CardControllers.preroll).toBe(FullPrerollCardController);
                 expect(FullPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
+                expect(FullPlayerCtrl.CardControllers.instagramImage).toBe(FullInstagramImageCardController);
+                expect(FullPlayerCtrl.CardControllers.instagramVideo).toBe(FullInstagramVideoCardController);
             });
         });
     });

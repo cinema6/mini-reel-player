@@ -1,0 +1,20 @@
+
+/*  ================================================
+    publisher styles
+    ================================================ */
+
+    /* this is the container for publisher logos. by default it is 
+    hidden. override this via external publisher css file*/
+    .publisherProfile__logoBox {
+        width:8em;/*128px*/ height:2.375em;/*38px*/ 
+        background: 50% 50% / contain no-repeat;
+        position:absolute; z-index: 1;
+        top:1px; left:1px;
+        display: none;
+    }
+        .publisherProfile__logoBox--landscape {
+            width:3.875em; height:3.875em;
+        }
+
+
+

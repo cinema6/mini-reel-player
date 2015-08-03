@@ -1,0 +1,46 @@
+
+/*  ==========================================================================
+    recap card classes
+    ========================================================================== */
+    .recap__list {
+        margin:0; padding:0; list-style:none;
+    }
+        .recap__item {
+            margin-bottom:0.25em; padding:0.5em;
+        }
+            .recap__imgBtn {
+                width:25%; height:0; display:block;
+                border:0; margin:0 2% 0 0; padding:0 0 16% 0;
+                font-size:1rem;
+                background:url('../img/default_square.jpg') 50% 50% / cover no-repeat;
+                float:left;
+                position:relative;
+            }
+                .recap__imgBtn--ad:before {
+                    content:'Ad';
+                    position: absolute;
+                    top:2px; left:2px;
+                    background:#000; color:#fff;
+                    padding:0 2px;
+                    font-size:0.625rem; font-weight:bold;
+                    z-index: 1;
+                }
+                .recap__imgBox {
+                    width:100%; height:100%; display: block;
+                    position:absolute;
+                    background: 50% 50% / cover no-repeat;
+                }
+            .recap__copyBox {
+                float:left;
+                width:73%;
+            }
+                .recap-item__title {
+                    color:#000; font-size:1.25em; 
+                    font-weight:300; line-height: 1.2;
+                    margin:0;
+                }
+                .recap-item__attributes {
+                    color:#999; font-size:0.875em;
+                    margin:0;
+                }
+

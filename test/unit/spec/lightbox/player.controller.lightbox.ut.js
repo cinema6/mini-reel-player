@@ -8,6 +8,8 @@ import LightboxVideoCardController from '../../../../src/controllers/lightbox/Li
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
+import FullInstagramImageCardController from '../../../../src/controllers/full/FullInstagramImageCardController.js';
+import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 
@@ -82,6 +84,18 @@ describe('LightboxPlayerController', function() {
             describe('.displayAd', function() {
                 it('should be DisplayAdCardController', function() {
                     expect(LightboxPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
+                });
+            });
+
+            describe('.instagramImage', function() {
+                it('should be FullInstagramImageCardController', function() {
+                    expect(LightboxPlayerCtrl.CardControllers.instagramImage).toBe(FullInstagramImageCardController);
+                });
+            });
+
+            describe('.instagramVideo', function() {
+                it('should be FullInstagramVideoCardController', function() {
+                    expect(LightboxPlayerCtrl.CardControllers.instagramVideo).toBe(FullInstagramVideoCardController);
                 });
             });
         });

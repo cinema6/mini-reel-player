@@ -1,0 +1,105 @@
+
+
+
+/*  ================================================
+    Brand Profile styles
+    ================================================ */
+    .MiniReel--brandedMR .card__copyBox {
+        padding:0 9em 0 4.75em;
+    }
+    .MiniReel--brandedMR .cards__list {
+        bottom:2em;
+    }
+
+    .brandedMR__tagline {
+        font-size:0.875em;
+        color:#999;
+        display: block;
+        margin:0.25rem 0 0 0;
+        font-weight:normal;
+    }
+
+
+    .brandProfile__linksBox {
+        font-size:0.875em;
+        line-height: 1;
+        position: absolute;
+        bottom:0;
+        width:100%;
+        padding:0.5em 0;
+        background:#ddd;
+        border-top:2px solid #999;
+        text-align: center;
+    }
+        .brandProfile__link {
+            margin:0 0.5em;
+            display: inline-block;
+        }
+        .brandProfile__link .socialIcons,
+        .brandProfile__linkLabel {
+            vertical-align: middle;
+        }
+        .brandProfile__linkLabel {
+            margin:0 0.25em;
+        }
+
+    @media screen and (min-width:75rem) and (min-height:45rem) {
+        /*  w: 1200px ++
+        /   h: 720px ++ */
+        .MiniReel--brandedMR .cards__list {
+            bottom:3em;
+        }
+        .brandedMR__tagline {
+            font-size:1em;
+            margin:0.75rem 0 0 0;
+        }
+        .brandProfile__linksBox {
+            padding:1em 0;
+        }
+
+    }
+
+    @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+        /*  w: 1697px ++ 
+        /   h: 720px ++ */
+        .MiniReel--brandedMR .cards__list {
+            bottom:3.5em;
+        }
+
+        .brandProfile__linksBox {
+            font-size:1em;
+        }
+    }
+
+
+
+    .brandProfile__logoBox {
+        width:3.375em; height:3.375em;
+        border:3px solid #ddd;
+        margin:0;
+        display: block;
+        text-decoration: none;
+        position: absolute;
+        top:0; left:0.75em;
+    }
+        .brandProfile__logo {
+            width:3em; height:3em;
+            display: block;
+        }
+
+
+    .brand__actions {
+        position:absolute;
+        top:0; right:0.75em;
+        width:8em; 
+        margin:0;
+    }
+        .brand__goBtn {
+            margin:0;
+            width:100%;
+            padding:0.75em 0.25em;
+            border-radius:3px;
+            display:table;
+        }
+
+

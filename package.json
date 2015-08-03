@@ -1,6 +1,6 @@
 {
   "name": "mini-reel-player",
-  "version": "0.20.0",
+  "version": "0.21.0-rc1",
   "private": true,
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
@@ -13,7 +13,8 @@
     "lightbox": "./src/lightbox.js",
     "light": "./src/light.js",
     "solo": "./src/solo.js",
-    "solo-ads": "./src/solo-ads.js"
+    "solo-ads": "./src/solo-ads.js",
+    "postinstall": "cd ./tasks/resources/c6embed-server && npm install"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "babelify": "^6.0.2",
     "browserify": "^8.1.1",
     "browserify-swap": "^0.2.1",
+    "concat-stream": "^1.5.0",
     "function-bind": "^1.0.2",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.3.0",

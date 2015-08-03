@@ -34,6 +34,10 @@
         ============================================= */ 
         @import url('full/text-card.css');
 
+    /*  twitter card classes
+        ============================================= */ 
+        @import url('full/twitter-card.css');
+
     /*  sponsored card classes
         ============================================= */ 
         @import url('full/sponsored-card.css');

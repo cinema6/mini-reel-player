@@ -44,7 +44,7 @@
             /*  max-width: 1436px */
 
             .instag____player__group {
-                width:calc(100% - 10em);
+                width:calc(100% - 19em);
             }
 
 
@@ -61,11 +61,11 @@
 
 
             .instag____mediaImg__group {
-                right:16em;
+                right:10em;
             }
 
             .instag____post__group {
-                width: 15em;
+                width:9em;
                 padding: 0.75em;
                 height:auto;
                 overflow-y:auto;
@@ -219,7 +219,7 @@
             /*  w: 0px - 1200px */
 
             .instag____mediaVid__group {
-                right:16em;
+                right:10em;
                 left:9.5em;
             }
 

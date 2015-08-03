@@ -41,11 +41,11 @@
             }
 
             .instag____mediaImg__group {
-                right:15em;
+                right:14em;
             }
 
             .instag____post__group {
-                width:18em;
+                width:15em;
             }
 
                 .instag____postAccount__logo {
@@ -247,7 +247,16 @@
             }
         }
 
+        @media screen and (max-height:40rem) and (min-width:50rem) {
+            /*  h: 0px - 416px
+                w: 0px - 751px  */
 
+            .instag____profile__group {
+                position:absolute;
+                top:1em;
+                bottom:1em;
+            }
+        }
 
     /*  instagram video card MEDIA QUERIES
         ================================================ */

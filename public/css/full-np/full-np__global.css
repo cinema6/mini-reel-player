@@ -195,6 +195,17 @@
 
         }
 
+        @media screen and (max-height:40rem) and (min-width:50rem) {
+            /*  h: 0px - 416px
+                w: 0px - 751px  */
+
+            .instag____profile__group {
+                position:absolute;
+                top:1em;
+                bottom:1em;
+            }
+        }
+        
         @media screen and (max-height:30rem) {
             /*  h: 0 - 480px    */
 

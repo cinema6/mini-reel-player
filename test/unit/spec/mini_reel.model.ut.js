@@ -754,6 +754,12 @@ describe('MiniReel', function() {
             });
         });
 
+        describe('interstitial', function() {
+            it('should be null', function() {
+                expect(minireel.interstitial).toBeNull();
+            });
+        });
+
         describe('title', function() {
             it('should be null', function() {
                 expect(minireel.title).toBeNull();
@@ -817,6 +823,12 @@ describe('MiniReel', function() {
         describe('skippable', function() {
             it('should be true', function() {
                 expect(minireel.skippable).toBe(true);
+            });
+        });
+
+        describe('closeable', function() {
+            it('should be true', function() {
+                expect(minireel.closeable).toBe(true);
             });
         });
 
@@ -1656,6 +1668,90 @@ describe('MiniReel', function() {
         });
     });
 
+    describe('when the minireel becomes unskippable', function() {
+        var becameUncloseable;
+
+        beforeEach(function() {
+            becameUncloseable = jasmine.createSpy('becameUncloseable()');
+            minireel.on('becameUncloseable', becameUncloseable);
+
+            minireel.closeable = true;
+        });
+
+        describe('and it is an interstitial', function() {
+            beforeEach(function() {
+                minireel.interstitial = true;
+
+                minireel.emit('becameUnskippable');
+            });
+
+            it('should emit "becameUncloseable"', function() {
+                expect(becameUncloseable).toHaveBeenCalled();
+            });
+
+            it('should set closeable to false', function() {
+                expect(minireel.closeable).toBe(false);
+            });
+        });
+
+        describe('and it is not an interstitial', function() {
+            beforeEach(function() {
+                minireel.interstitial = false;
+
+                minireel.emit('becameUnskippable');
+            });
+
+            it('should not emit "becameUncloseable"', function() {
+                expect(becameUncloseable).not.toHaveBeenCalled();
+            });
+
+            it('should not set closeable to false', function() {
+                expect(minireel.closeable).not.toBe(false);
+            });
+        });
+    });
+
+    describe('when the minireel becomes skippable', function() {
+        var becameCloseable;
+
+        beforeEach(function() {
+            becameCloseable = jasmine.createSpy('becameCloseable()');
+            minireel.on('becameCloseable', becameCloseable);
+        });
+
+        describe('and closeable was false', function() {
+            beforeEach(function() {
+                minireel.closeable = false;
+
+                minireel.emit('becameSkippable');
+            });
+
+            it('should emit "becameCloseable"', function() {
+                expect(becameCloseable).toHaveBeenCalled();
+            });
+
+            it('should set closeable to true', function() {
+                expect(minireel.closeable).toBe(true);
+            });
+        });
+
+        describe('and closeable was true', function() {
+            beforeEach(function() {
+                minireel.closeable = true;
+
+                minireel.emit('becameSkippable');
+            });
+
+            it('should not emit "becameCloseable"', function() {
+                expect(becameCloseable).not.toHaveBeenCalled();
+            });
+
+            it('should keep closeable as true', function() {
+                expect(minireel.closeable).toBe(true);
+            });
+        });
+    });
+
     describe('when the appData is available', function() {
         let done;
         let mouseDeferred;
@@ -1679,6 +1775,7 @@ describe('MiniReel', function() {
             appDataDeferred.fulfill({
                 experience: experience,
                 standalone: true,
+                interstitial: true,
                 profile: profile
             });
         });
@@ -1693,6 +1790,10 @@ describe('MiniReel', function() {
 
         it('should copy the standalone property', function() {
             expect(minireel.standalone).toBe(true);
+        });
+
+        it('should set the interstitial property', function() {
+            expect(minireel.interstitial).toBe(true);
         });
 
         it('should copy the id', function() {

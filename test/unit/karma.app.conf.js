@@ -9,7 +9,9 @@ module.exports = function(config) {
             'test/main.js',
             'test/unit/main.js',
             'test/unit/spec/**/*.ut.js'
-        ],
+        ].map(function(pattern) {
+            return { pattern: pattern, watched: false };
+        }),
 
         exclude: [
             'test/unit/spec/lib/**/*.js'

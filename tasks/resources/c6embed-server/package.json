@@ -1,0 +1,15 @@
+{
+  "name": "c6embed-server",
+  "version": "0.0.0",
+  "description": "Connect middleware for running a development server with c6embed.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cinema6, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "handlebars": "^3.0.3"
+  }
+}

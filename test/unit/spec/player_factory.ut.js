@@ -8,6 +8,7 @@ import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../../../src/players/EmbeddedPlayer.js';
 import RumblePlayer from '../../../src/players/RumblePlayer.js';
 import SlideshowBobPlayer from '../../../src/players/SlideshowBobPlayer.js';
+import VinePlayer from '../../../src/players/VinePlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -154,6 +155,17 @@ describe('playerFactory', function() {
 
                     it('should be a VPAIDPlayer', function() {
                         expect(result).toEqual(jasmine.any(VPAIDPlayer));
+                    });
+                });
+
+                describe('if the card is from Vine', function() {
+                    beforeEach(function() {
+                        card.data.type = 'vine';
+                        result = playerFactory.playerForCard(card);
+                    });
+
+                    it('should be a VinePlayer', function() {
+                        expect(result).toEqual(jasmine.any(VinePlayer));
                     });
                 });
             });

@@ -45,6 +45,7 @@ function getCardType(card) {
     case 'rumble':
     case 'embedded':
     case 'adUnit':
+    case 'vine':
         return 'video';
     default:
         return card.type;

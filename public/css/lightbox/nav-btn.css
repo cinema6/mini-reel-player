@@ -1,0 +1,75 @@
+
+/*  ================================================
+    nav button classes
+    ================================================ */
+    .nav__btn {
+        width:3em; height:3em;
+        position:absolute;
+        top:50%; 
+        margin:-3.125em 0 0 0;
+    }
+        .nav__btn--prev {
+            left:0;
+        }
+        .nav__btn--next {
+            right:19em;
+        }
+        .nav__btn--text, 
+        .nav__btn--recap,
+        .nav__btn--article {
+            display:none !important;
+        }
+
+        .nav__btnIcon {
+            position: absolute;
+            width:1em; height:1.5em;
+            top:50%;
+            margin:-0.75em 0 0 -0.5em;
+        }
+            .nav__btnIcon--prev {
+                left:48%;
+            }
+            .nav__btnIcon--next {
+                left:52%;
+            }
+
+            .nav__btnPath {
+                fill:#fff;
+            }
+
+
+        .nav__btn--displayAd {
+            top:50%; margin-top:-3em;
+        }
+            .nav__btn--displayAd.nav__btn--next {
+                right:0;
+            }
+
+
+        .nav__btn--condensed {
+            height:3em;
+        }
+            .nav__btn--condensed .nav__btnIcon {
+                top:0.5em; left:auto; right:auto;
+                width:1em; height:1.5em;
+                margin:0;
+            }
+                .nav__btn--condensed .nav__btnIcon--prev {
+                    left:12.5%;
+                }
+                .nav__btn--condensed .nav__btnIcon--next {
+                    right:12.5%;
+                }
+            .nav__btn--condensed .nav__btnLabel {
+                bottom:1em;
+                left:auto; right:auto;
+                width:auto;
+            }
+                .nav__btn--condensed .nav__btnLabel--prev {
+                    left:46%;
+                }
+                .nav__btn--condensed .nav__btnLabel--next {
+                    right:46%;
+                }
+
+

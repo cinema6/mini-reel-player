@@ -1,11 +1,14 @@
 import urlParser from '../../../src/services/url_parser.js';
+import environment from '../../../src/environment.js';
 
 describe('urlParser', function() {
     beforeEach(function() {
+        environment.constructor();
         urlParser.constructor();
     });
 
     afterAll(function() {
+        environment.constructor();
         urlParser.constructor();
     });
 
@@ -15,6 +18,7 @@ describe('urlParser', function() {
 
     it('should parse the url', function() {
         expect(urlParser.parse('http://www.apple.com:9000/foo/test.json?abc=123#foo')).toEqual(jasmine.objectContaining({
+            absolute: true,
             href: 'http://www.apple.com:9000/foo/test.json?abc=123#foo',
             protocol: 'http',
             host: 'www.apple.com:9000',
@@ -29,6 +33,7 @@ describe('urlParser', function() {
 
     it('should work for minimal urls', function() {
         expect(urlParser.parse('/hello/world.html')).toEqual(jasmine.objectContaining({
+            absolute: false,
             href: location.origin + '/hello/world.html',
             protocol: location.protocol.replace(/:$/, ''),
             host: location.host,
@@ -41,6 +46,55 @@ describe('urlParser', function() {
         }));
     });
 
+    describe('if the parsed protocol does not match the environment protocol', function() {
+        let a;
+        let url;
+
+        beforeEach(function() {
+            environment.protocol = 'http:';
+            a = {
+                setAttribute: jasmine.createSpy('a.setAttribute()'),
+                href: 'applewebdata://apple.com/foo/bar',
+                protocol: 'applewebdata:',
+                host: 'apple.com',
+                search: '',
+                hash: '',
+                hostname: 'apple.com',
+                port: '',
+                pathname: '/foo/bar'
+            };
+            spyOn(document, 'createElement').and.returnValue(a);
+
+            urlParser.constructor();
+        });
+
+        describe('if an absolute URL is provided', function() {
+            beforeEach(function() {
+                url = urlParser.parse('applewebdata://apple.com/foo/bar');
+            });
+
+            it('should allow the difference in protocol', function() {
+                expect(url).toEqual(jasmine.objectContaining({
+                    href: 'applewebdata://apple.com/foo/bar',
+                    protocol: 'applewebdata'
+                }));
+            });
+        });
+
+        describe('if a relative URL is provided', function() {
+            beforeEach(function() {
+                url = urlParser.parse('//apple.com/foo/bar');
+            });
+
+            it('should give the URL the same protocol as the environment', function() {
+                expect(url).toEqual(jasmine.objectContaining({
+                    href: 'http://apple.com/foo/bar',
+                    protocol: 'http'
+                }));
+            });
+        });
+    });
+
     describe('in freakin\' internet explorer', function() {
         let a;
 
@@ -48,7 +102,7 @@ describe('urlParser', function() {
             a = {
                 setAttribute: jasmine.createSpy('a.setAttribute()'),
                 pathname: 'my/path/foo',
-                protocol: '',
+                protocol: environment.protocol,
                 search: '',
                 hash: ''
             };

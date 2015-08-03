@@ -6,6 +6,8 @@ import Runner from '../../../lib/Runner.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import {EventEmitter} from 'events';
 import browser from '../../../src/services/browser.js';
+import environment from '../../../src/environment.js';
+import urlParser from '../../../src/services/url_parser.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -45,6 +47,8 @@ describe('VimeoPlayer', function() {
 
     beforeEach(function() {
         vimeo.constructor();
+        environment.constructor();
+        environment.protocol = 'https:';
         spyOn(CorePlayer.prototype, 'addClass');
 
         ServicePlayer = vimeo.Player;
@@ -57,6 +61,7 @@ describe('VimeoPlayer', function() {
 
     afterAll(function() {
         vimeo.constructor();
+        environment.constructor();
     });
 
     it('should be a CorePlayer', function() {
@@ -1037,7 +1042,7 @@ describe('VimeoPlayer', function() {
                 const iframe = iframes[0];
 
                 expect(iframes.length).toBe(1);
-                expect(iframe.src).toBe(`${location.protocol}//player.vimeo.com/video/${player.src}?api=1&player_id=${player.id}`);
+                expect(iframe.src).toBe(urlParser.parse(`//player.vimeo.com/video/${player.src}?api=1&player_id=${player.id}`).href);
                 expect(iframe.getAttribute('width')).toBe('100%');
                 expect(iframe.getAttribute('height')).toBe('100%');
                 expect(iframe.getAttribute('frameborder')).toBe('0');

@@ -6,7 +6,10 @@ module.exports = function(grunt) {
         _ = require('underscore');
 
     if (osType === 'Darwin'){
-        require('posix').setrlimit('nofile', { soft : 1048 }); 
+        try {
+            require('posix').setrlimit('nofile', { soft : 1048 });
+        } catch(error) {
+        }
     }
 
     function loadGlobalConfig(relPath) {
@@ -20,6 +23,7 @@ module.exports = function(grunt) {
         distDir: 'build',
         port: 9000,
         awsJSON: '.aws.json',
+        experiencesJSON: 'server/experiences.json',
         s3: {
             staging: {
                 bucket: 'com.cinema6.staging',
@@ -53,9 +57,30 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('server', 'start a development server', function(config, target) {
-        var withTests = config === 'tdd';
-        target = target || 'app';
+    grunt.registerTask('server', 'start a development server', function(_index_) {
+        var tdd = grunt.option('tdd');
+        var modeOverride = grunt.option('mode');
+
+        var withTests = !!tdd;
+        var target = (typeof tdd === 'string') ? tdd : 'app';
+        var index = parseInt(_index_ || 0, 10);
+        var experiences = grunt.file.readJSON(grunt.config('settings.experiencesJSON'));
+        var experience = experiences[index];
+        var mode = (function() {
+            if (modeOverride) {
+                return (experience.data.mode = modeOverride);
+            }
+
+            return experience.data.mode;
+        }());
+
+        grunt.config.set('browserify.server.files', [
+            {
+                src: grunt.config('package.scripts.' + mode + '.js'),
+                dest: 'server/.build/' + mode + '.js'
+            }
+        ]);
+        grunt.config.set('server.exp', experience);
 
         grunt.task.run('babelhelpers:build');
 

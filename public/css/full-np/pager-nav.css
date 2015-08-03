@@ -1,0 +1,196 @@
+
+
+/*  ================================================
+    Pager Nav classes
+    ================================================ */ 
+    .pager__group {
+        height:4em;/*64px*/
+        margin:0; display: block; 
+        position: absolute; z-index: 1;
+        left:0.75em; right:0.75em; bottom:0.75em;
+    }
+
+
+        .pager__group--fullWidth,
+        .pager__group--recap {
+            right:0.75em;
+        }
+
+
+    .pager__btn {
+        min-width:7em; height:4em; 
+        position:absolute;
+        background:#d94040;
+    }
+
+        .pager__btn--prev {
+            left:0;
+        }
+        .pager__btn--next {
+            right:0;
+        }
+
+        .pager__btnIcon {
+            display:block;
+            width:0.8125em; height:1.5em;
+            position:absolute;
+            top:50%; left:18.5%;
+            margin:-0.75em 0 0 0;
+        }
+            .pager__btnIcon--next {
+                right:18.5%; left:auto;
+            }
+                .pager__btnIconPath {
+                    fill: #fff;
+                }
+
+        .pager__label {
+            position:absolute; z-index: 1; 
+            top:50%; left:46%;
+            margin-top:-0.5rem;
+                
+        }
+            .pager__btn--next .pager__label {
+                right:46%; left:auto;
+            }
+
+
+        @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+            /*  w: 1697px ++ 
+            /   h: 720px ++ */
+            .pager__group,
+            .pager__btn {
+                height:5em;
+                min-width:8em;
+            }
+            .pager__btnIcon {
+                width:1.5em; height:2em;
+                margin-top:-1em;
+                left:18.5%;
+            }
+                .pager__btnIcon--next {
+                    right:18.5%; left:auto;
+                }
+            .pager__label {
+                margin-top:-0.5625rem;
+                left:46%;
+            }
+            .pager__btn--next .pager__label {
+                right:46%; left:auto;
+            }
+        }
+
+
+    /* pages styles */
+    .pages__group {
+        position:absolute;
+        height:4em; overflow: hidden; 
+        margin:0;
+    }
+        .pager__group--recap .pages__group {
+            display: none;
+        }
+        .pages__scroller {
+            position: relative; left: 0;
+            -webkit-transition: -webkit-transform 0.5s ease; 
+            transition: 0.5s transform;
+        }
+            .pages__list {
+                margin:0; padding:0; 
+                list-style: none;
+                width:12000%;
+            }
+                .pages__item {
+                    float:left;
+                    width:6em; height:4em;
+                    margin:0 1px; padding:0;
+                    position:relative;
+                    overflow: hidden;
+                    border:0;
+                }
+
+                    .pages__navBtn,
+                    .page__btn {
+                        display: block;
+                        width:100%; height:100%;
+                        margin:0; border:0; padding:0;
+                    }
+                    .page__btn {
+                        cursor: pointer;
+                        background:black url('../img/default_square.jpg') 50% 50% / cover no-repeat;
+                    }
+                        .page__btn:before {
+                            content:'';
+                            position:absolute;
+                            z-index: 2;
+                            bottom:-4px; left:0;
+                            width:100%; height:3px;
+                            background:#d94040;
+                            border-top:1px solid #fff;
+                            -webkit-transition:bottom 0.2s; 
+                            transition:bottom 0.2s; 
+                        }
+                        .page__btn--ad:after {
+                            content:'Ad';
+                            position: absolute;
+                            top:2px; left:2px;
+                            background:#000; color:#fff;
+                            padding:0 2px;
+                            font-size:0.625rem; font-weight:bold;
+                        }
+                        .page__btn.page__btn--active:before {
+                            bottom:0;
+                        }
+
+                        
+                        .page__previewImg {
+                            position:absolute; top:0;
+                            width:100%; height:100%; display: block;
+                            background:no-repeat 50% 50% / cover;
+                            -webkit-transition: -webkit-transform 0.3s ease; 
+                            transition: 0.3s transform;
+                        }
+
+                            .page__previewImg:before {
+                                content:'';
+                                background:#000;
+                                position:absolute;
+                                top:0; left:0;
+                                width:100%; height:100%;
+                                opacity:0.5;
+                                -webkit-transition:opacity 0.3s; 
+                                transition:opacity 0.3s;
+                            }
+                                .page__btn--active .page__previewImg:before {
+                                    opacity:0;
+                                }
+                
+                @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
+                    /*  w: 1200px -  1696px
+                    /   h: 720px ++ */
+                    .pages__group {
+                        height:4em;
+                    }
+                    .pages__item {
+                        width:6.625em; height:4em;
+                    }
+                    .page__btn:before {
+                        bottom:-5px;
+                        height:4px;
+                    }
+                }
+                @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+                    /*  w: 1697px ++ 
+                    /   h: 720px ++ */
+                    .pages__group {
+                        height:5em;
+                    }
+                    .pages__item {
+                        width:8.25em; height:5em;
+                    }
+                    .page__btn:before {
+                        bottom:-7px;
+                        height:6px;
+                    }
+                }
+

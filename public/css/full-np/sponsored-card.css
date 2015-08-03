@@ -1,0 +1,77 @@
+
+/*  ================================================
+    sponsored card styles
+    ================================================ */
+    .sponsorProfile__group {
+        margin:0;
+    }
+
+        .sponsorProfile__imgBox {
+            width:3.125em; height:3.125em;
+            float:left;
+            border:1px solid #ddd;
+            margin:0 0.5em 0 0;
+            display: block;
+            text-decoration: none;
+        }
+            .sponsorProfile__img {
+                width:3em; height:3em;
+                display: block;
+            }
+
+
+        .sponsorProfile__copy {
+            float:left;
+            width:calc(100% - 3.625em);
+            margin-bottom:0.75rem;
+        }
+
+        .sponsorProfile__links {
+            line-height: 1;
+            margin:0;
+        }
+            .sponsorProfile__tag {
+                margin:0.125rem 0.5rem 0 0;
+                float:left;
+            }
+            .sponsorProfile__link {
+                border:0;
+                float:left;
+                padding: 0 0.125em;
+            }
+
+
+        .sponsor__actions {
+            margin:0 0 0.5em 0;
+        }
+            .sponsor__goBtn {
+                margin:0;
+                padding:0.5em 0;
+                border-radius:3px;
+                display:table;
+                width:100%;
+            }
+
+
+        .adSkip__group--sponsored {
+            position:absolute; z-index: 2;
+            top:0; left:0; right:19.5rem;
+            height:1.5em;
+            text-align: center;
+        }
+            @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+                /*  w: 0 - 800px
+                    h: 0 - 500px */
+                .adSkip__group--sponsored {
+                    right:15.5rem;
+                }
+            }
+            .adSkip__group--sponsored .adSkip__message {
+                font-size:0.875em;
+                color:#ccc;
+                position:static;
+                display: inline-block;
+                background:rgba(0,0,0,0.8);
+                padding:0.25em;
+            }
+

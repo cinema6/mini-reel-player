@@ -1,0 +1,323 @@
+
+
+/*  ================================================
+    MiniReel styles
+    ================================================ */
+    .MiniReel__title {
+        color:#000;
+        font-size:1.25em;
+        line-height: 1.2;
+        font-weight:bold; font-style: italic;
+        text-align: center;
+        margin:0 0 0.5em 0;
+        width:100%;
+        white-space: nowrap;
+        overflow: hidden; text-overflow:ellipsis;
+    }
+    .cards__group {
+        background:#dddddd; padding:3em 0.375em 4em 0.375em;
+        overflow-x:auto; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        position: fixed; top:0; bottom:0; left:0; right:0;
+    }
+        .cards__group--solo {
+            padding-top:0.5em;
+        }
+
+    @media screen and (orientation:landscape) {
+        .cards__group {
+            padding:0.5em 4.5em;
+        }
+    }
+
+
+    .cards__list, .cards__item {
+        margin:0; padding:0; list-style:none;
+    }
+        
+    .card__group {
+        background:#fff; 
+        border-radius: 3px; 
+        padding:0.5em 0 1em;
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.12); 
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.12);
+    }
+        .card__title {
+            color:#000;
+            font-size:1.375em;
+            line-height:1.2;
+            margin:0.125rem 0.5em 0.5em; 
+            text-align: center;
+        }
+        .card__attributes {
+            color:#999; 
+            font-size:0.875rem;/*14px*/
+        }
+        .card__desc {
+            margin:0.875em 0.5em 0 0.5em; 
+            font-size:1em;
+            line-height:1.5;
+        }
+        .card__copy {
+            margin:1em 0.5em 0.143em 0.5em; font-size:0.875em;/*14px*/ color:#747474; line-height:1.75;
+            background: transparent !important;
+        }
+    .player, .player__thumbnail {
+        padding:0 0 54%; margin:0;
+        width:100%; height:100%; position:relative;
+        background:black url('../../img/default_square.jpg') 50% 50% / cover no-repeat;
+    }
+        .player--centered {
+            float:none;
+            margin:0 auto;
+        }
+        .playerBox {
+            background:50% 50% / cover no-repeat;
+        }
+        .playerBox,
+        .playerBox iframe,
+        .playerBox video,
+        .playerBox object,
+        .playerBox > div,
+        .playerBox > div > div,
+        .playerBox > div > div > div {
+            width:100% !important; height:100% !important;
+            position:absolute;
+            top:0; left:0;
+            border:0;
+        }
+        .playerBox iframe,
+        .playerBox video {
+            z-index: 100;
+            -webkit-transition:opacity 0.5s;
+            transition:opacity 0.5s;
+            opacity:0;
+        }
+            .playerBox--canplay iframe,
+            .playerBox--canplay video {
+                opacity:1;
+            }
+        .player--fly-away {
+            margin-left:-5000%;
+            float:left;
+        }
+    .player__thumbnail {
+        background:50% 50% / cover no-repeat;
+        cursor: pointer;
+    }
+
+    @media screen and (orientation:landscape) {
+        .card__title {
+            width:23%; float:left; margin-right:0;
+            text-align: left;
+        }
+        .player, .player__thumbnail {
+            width:70%; float:right; 
+            margin: 0 0.5em 0.5em 0.5em; 
+            padding:0 0 39.375%;
+        }
+            .player--centered {
+                float:none;
+                margin:0 auto;
+            }
+        .cards__item.ng-animate {
+            top: 0.375em; left: 4.125em; right: 4.125em;
+        }
+    }
+
+
+
+/*  ================================================
+    ballot classes
+    ================================================ */
+    .ballot__group {
+        position:fixed; z-index:2;
+        top:0; left:0;
+        width:100%; height:100%;
+    }
+    .ballot__box {
+        position:absolute; z-index:2;
+        top:50%; left:0.5em; right:0.5em;
+        margin:-8.75em 0 0 0;
+        border-radius:3px;
+        background:#fff;
+        text-align: center;
+    }
+    @media screen and (orientation:landscape) {
+        .ballot__box {
+            left:4.5em; right:4.5em;
+        }
+    }
+
+        .ballot__intro {
+            font-size:0.8125em;
+            color:#999;
+            display: block;
+            margin:1.125rem 0 0 0;
+        }
+        .ballot__title {
+            color:#000;
+            font-size:1.25em;
+            line-height: 1.5rem;
+            margin:-1px 0 0 0;
+        }
+
+        .ballot__list {
+            list-style: none;
+            margin:1.25em 0 1.5em 0; padding:0;
+        }
+            .ballot__item,
+            .ballot__resultsItem {
+                margin:0 1.5em 1em;
+            }
+
+            .ballot__btn {
+                height:3em; width:100%;
+                padding:0 3em;
+            }
+                .ballot__btn:before {
+                    font-weight:bold;
+                    color:#fff;
+                    text-shadow: 0 1px 1px rgba(0,0,0,0.44);
+                    position: absolute;
+                    top:0; left:0;
+                    width:3rem; height:3rem;
+                    font-size:1.5em;
+                    padding:0.875rem 0 0 0;
+                    background:rgba(0,0,0,0.2);
+                }
+                    .ballot__btn0:before {
+                        content:'A';
+                    }
+                    .ballot__btn1:before {
+                        content:'B';
+                    }
+                .ballot__btn1 {
+                    background:#1789cb;
+                    border-color:#1789cb;
+                }
+                    .ballot__btn .ballot__btnLabel {
+                        font-size:1.5em;
+                        display: inline-block;
+                    }
+
+
+
+        .ballot__textLinks {
+            text-align: center;
+            position: absolute;
+            top:105%;
+            width:100%;
+        }
+        .ballot__textLink {
+            cursor:pointer;
+            color:#fff;
+            margin:0 0.5em;
+        }
+            .ballot__textLink .textLink__label {
+                font-weight:bold;
+                font-size:0.875em;
+                vertical-align: middle;
+                line-height: 1;
+                margin-left:2px;
+            }
+
+
+
+        .ballot__result {
+            height:2.5em;
+            padding:0.5em 1em 0;
+        }
+            .ballot__result0 {
+                background:#d94040;
+            }
+            .ballot__result1 {
+                background:#1789cb;
+            }
+
+
+
+/*  ==========================================================================
+    .results__group
+    ========================================================================== */
+    .results__group {
+        margin:0.5em;
+    }
+        .results__title {
+            color:#999; text-align: center; font-weight:300; font-size:0.875em; /*14px*/
+            margin:0.25em 0; line-height: 1;
+        }
+        .results__list {
+            margin:0 0 0.4375em 0; padding:0; list-style:none;
+        }
+            .results__item {
+                display:inline-block; width:50%;
+            }
+                .results__item1 {
+                    text-align: right;
+                }
+                .results__option {
+                    font-weight:700; font-style:italic; font-size:0.875em; /*14px*/ line-height: 1;
+                    margin:0;
+                }
+                .results__tally {
+                    font-weight:900; font-size:1.125em; margin:1px 0 0 0; line-height: 1;
+                }
+                    .results__item0 .results__option, .results__item0 .results__tally {
+                        color:#d94040;
+                    }
+                    .results__item1 .results__option, .results__item1 .results__tally {
+                        color:#1789cb;
+                    }
+        .results__meter {
+            border-radius:2px; background:#1789cb; 
+            height:0.625em; width:100%;
+            overflow: hidden;
+        }
+            .results__bar1 {
+                height:0.625em; background:#d94040; border-right:2px solid #fff;
+            }
+
+
+
+
+
+/*  ================================================
+    actionsModal__group styles
+    ================================================ */
+    .actionsModal__list {
+        position:absolute; z-index: 2;
+        top:50%; left:5%;
+        width:90%;
+        margin:-1.5em 0 0 0;
+        padding:0;
+        text-align: center;
+        list-style: none;
+    }
+        .actionsModal__item {
+            position:relative;
+            display: inline-block;
+            margin:0 0.5em 1.5em;
+        }
+        .actionsModal__btn {
+            padding:0 1em 0 4em;
+            height:3em;
+            text-align: center;
+        }
+
+            .actionsModal__btn:before {
+                position:absolute;
+                top:1em; left:1em;
+                z-index: 3;
+                content:'';
+            }
+            .actionsModal__btn:after {
+                content:'';
+                position: absolute;
+                top:0; left:0;
+                z-index: 2;
+                width:3rem; height:3rem;
+                background-color:rgba(0,0,0,0.2);
+                display: block;
+            }
+
+

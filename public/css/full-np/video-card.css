@@ -5,7 +5,7 @@
     .player__group {
         margin:0; padding:0;
         width:calc(100% - 19.5em);  position:relative;
-        background:black url('../img/default_square.jpg') 50% 50% / cover no-repeat;
+        background:black url('../../img/default_square.jpg') 50% 50% / cover no-repeat;
     }
         @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
             /*  w: 0 - 800px
@@ -65,7 +65,7 @@
         }
             .player__playIcon {
                 height: 45%; width: 100%;
-                background: url('../img/play-icon.svg') 56% 50% / contain no-repeat;
+                background: url('../../img/play-icon.svg') 56% 50% / contain no-repeat;
             }
 
     .card__copy { 

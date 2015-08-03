@@ -101,7 +101,7 @@
     .sprite,
     .spriteAf:after,
     .spriteBe:before {
-        background:url('../img/sprite--alpha@2x.png') 0 0 / 18.75rem 18.75rem no-repeat;
+        background:url('../../img/sprite--alpha@2x.png') 0 0 / 18.75rem 18.75rem no-repeat;
     }
 
 

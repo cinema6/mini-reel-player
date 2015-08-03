@@ -1,0 +1,53 @@
+
+
+/*  ================================================
+    image card classes
+    ================================================ */
+    .imgCard {
+        width:100%; height:100%;
+        background:#fff;
+    }
+        @media screen and (orientation:landscape) {
+            .article__group {
+                left:4.5em; right:4.5em;
+                bottom:0.5em; top:5.5em;
+            }
+        }
+        .imgCard--getty {
+            overflow: auto;
+        }
+
+        .imgCard__imgBox {
+            background:none !important;
+            width:100%; height:100%;
+        }
+            .imgCard__img {
+                display: block;
+            }
+
+
+
+        .imgCard__gettyEmbed {
+            max-width:594px;
+            margin:0 auto;
+        }
+
+            .imgCard__iframeHolder {
+                width:100%; height:0;
+                padding:66% 0 0 0;
+                position: relative;
+            }
+
+            .imgCard__iframe--getty {
+                width:100%; height:100%;
+                position: absolute;
+                top:0; left:0;
+            }
+
+        .gettyFooter {
+            text-align: center;
+        }
+
+
+
+

@@ -80,7 +80,7 @@
         }
             .player__playIcon {
                 height: 45%; width: 100%;
-                background: url('../img/play-icon.svg') 56% 50% / contain no-repeat;
+                background: url('../../img/play-icon.svg') 56% 50% / contain no-repeat;
             }
 
 

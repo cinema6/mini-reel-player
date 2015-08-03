@@ -73,6 +73,13 @@ module.exports = function(grunt) {
 
             return experience.data.mode;
         }());
+        var params = (function() {
+            try {
+                return JSON.parse(grunt.option('params'));
+            } catch(e) {
+                return {};
+            }
+        }());
 
         grunt.config.set('browserify.server.files', [
             {
@@ -81,6 +88,7 @@ module.exports = function(grunt) {
             }
         ]);
         grunt.config.set('server.exp', experience);
+        grunt.config.set('server.params', params);
 
         grunt.task.run('babelhelpers:build');
 

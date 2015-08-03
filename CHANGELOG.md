@@ -1,5 +1,16 @@
 # MiniReel Player 2.0
 
+* *[v0.21.1-rc1]*
+  * [DEV]: Greatly improve the time it takes to start ```grunt
+    server```.
+
+## v0.21.0 (July 30, 2015)
+* *[v0.21.0-rc1]*
+  * [FEATURE]: Added support for Vine video cards
+  * [DEV]: Fix issue where tests would run multiple times/not "pick up"
+    file changes when running ```grunt tdd```.
+* *[/v0.21.0-rc1]*
+
 ## v0.20.0 (July 29, 2015)
 * *[v0.20.0-rc1]*
   * [FIX]: Remove prev/next buttons that hover over the video in a

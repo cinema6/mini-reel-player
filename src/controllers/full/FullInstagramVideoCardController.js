@@ -7,8 +7,4 @@ export default class FullInstagramVideoCardController extends InstagramCardContr
 
         this.view = this.addView(new FullInstagramVideoCardView());
     }
-
-    renderInstagram() {
-
-    }
 }

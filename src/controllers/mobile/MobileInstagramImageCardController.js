@@ -7,4 +7,7 @@ export default class MobileInstagramImageCardController extends InstagramCardCon
 
         this.view = this.addView(new MobileInstagramImageCardView());
     }
+
+    renderInstagram() {
+    }
 }

@@ -1,0 +1,382 @@
+/*  ================================================
+    global styles
+    ================================================ */
+    /*  apply a natural box layout model to all elements, 
+        but allowing components to change */
+        html {
+          box-sizing: border-box;
+        }
+        *, *:before, *:after {
+          box-sizing: inherit;
+        }
+    body {
+        font-size: 16px; 
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-weight:300; 
+        color:#545454; 
+        line-height: 1.5;
+
+        background:#fff; 
+        margin:0;
+    }
+    ::-moz-selection {
+        background: #e900a4; text-shadow: none; color:#fff;
+    }
+    ::selection {
+        background: #e900a4; text-shadow: none; color:#fff;
+    }
+    p {
+        margin: 0.75em 0;
+    }
+    textarea {
+        resize: vertical;
+    }
+    img {
+        border:0; max-width:100%;
+    }
+    button {
+        font-size:1rem;
+        margin:0; border:0; padding:0;
+        display: inline-block;
+        cursor:pointer;
+        background:none;
+    }
+
+/*  ================================================
+    c6 copy classes : general type and color styles
+    ================================================ */        
+    .tk--hdr {
+        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-weight:300;
+    }
+    .tk--action {
+        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-weight:700;
+    }
+    .tk--copy {
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    }
+    a {
+        text-decoration: none; color:#d94040;
+    }
+    a:focus, button:focus, input:focus, textarea:focus {
+        outline:none; border:0;
+    }
+    .tk--youtube {
+        color:#e22d24;
+    }
+    .tk--vimeo {
+        color:#445566;
+    }
+    .tk--facebook {
+        color:#3b5998;
+    }
+    .tk--twitter {
+        color:#00b0ed;
+    }
+    .tk--pinterest {
+        color:#cb2027;
+    }
+
+
+/*  ================================================
+    helper classes
+    ================================================ */
+    .ir {
+        background-color: transparent;
+        border: 0; width:0; height:0;
+        overflow: hidden; display: block; position:absolute;
+    }
+    .clearfix:before,
+    .clearfix:after {
+        content: ' ';
+        display: table;
+    }
+    .clearfix:after {
+        clear: both;
+    }
+    .hidden {
+        visibility: hidden;
+    }
+    .sprite,
+    .spriteAf:after,
+    .spriteBe:before {
+        background:url('../../img/sprite--alpha@2x.png') 0 0 / 18.75rem 18.75rem no-repeat;
+    }
+
+
+        .sprite--close {
+            width:1rem; height:1rem;
+            background-position:-5rem -9rem;
+            display: inline-block;
+        }
+
+        .socialIconsBe:before,
+        .uiIconsBe:before {
+            content:'';
+            width:1rem; height:1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+            .socialIconsBe--youtube:before {
+                background-position:-1rem -3rem;
+            }
+            .socialIconsBe--vimeo:before {
+                background-position: -3rem -3rem;
+            }
+            .socialIconsBe--facebook:before {
+                background-position: -5rem -3rem;
+            }
+            .socialIconsBe--twitter:before {
+                background-position: -7rem -3rem;
+            }
+            .socialIconsBe--pinterest:before {
+                background-position: -9rem -3rem;
+            }
+            /*
+            .socialIconsBe__dark--youtube:before {
+                background-position:-1rem -1rem;
+            }
+            .socialIconsBe__dark--vimeo:before {
+                background-position: -3rem -1rem;
+            }
+            .socialIconsBe__dark--facebook:before {
+                background-position: -5rem -1rem;
+            }
+            .socialIconsBe__dark--twitter:before {
+                background-position: -7rem -1rem;
+            }
+            .socialIconsBe__dark--pinterest:before {
+                background-position: -9rem -1rem;
+            }
+            */
+            .socialIconsBe__light--youtube:before {
+                background-position:-1rem -5rem;
+            }
+            .socialIconsBe__light--vimeo:before {
+                background-position: -3rem -5rem;
+            }
+            .socialIconsBe__light--facebook:before {
+                background-position: -5rem -5rem;
+            }
+            .socialIconsBe__light--twitter:before {
+                background-position: -7rem -5rem;
+            }
+            .socialIconsBe__light--pinterest:before {
+                background-position: -9rem -5rem;
+            }
+
+
+
+            .uiIconsBe--replay:before {
+                background-position:-1rem -9rem;
+            }
+            .uiIconsBe__dark--replay:before {
+                background-position:-1rem -7rem;
+            }
+            .uiIconsBe--link:before {
+                background-position:-3rem -9rem;
+                width:1.25rem;
+            }
+
+
+    .overlay {
+        background:rgb(0,0,0); background:rgba(0,0,0,0.8);
+        position:absolute; z-index: 1;
+        left:0;
+        width:100%; height:100%; 
+    }
+        .overlay__closeBtn {
+            width:1.125em; height:1.125em;
+            position: absolute;
+            top:1em; right:1em;
+        }
+
+
+    .textLink {
+        border:0;
+    }
+
+
+    .btnPrimary,
+    .btnPrimary:active,
+    .btnPrimary:focus {
+        border:3px solid #d94040;
+        background:#d94040;
+        line-height: 1;
+        text-align: center;
+        font-size: 1rem;
+        display:inline-table;
+    }
+        .btnPrimary .btn__label {
+            font-size:0.875em;
+            line-height: 1rem;
+            color:#fff;
+            font-weight:bold;
+            text-transform:uppercase;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.44);
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+
+        @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
+            /*  w: 1200px -  1696px
+            /   h: 720px ++ */
+            .btnPrimary .btn__label {
+                font-size:1em;
+            }
+        }
+        @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+            /*  w: 1697px ++ 
+            /   h: 720px ++ */
+            .btnPrimary .btn__label {
+                font-size:1.125em;
+            }
+        }
+
+        .btnPrimary[disabled],
+        .btnPrimary[disabled]:active,
+        .btnPrimary[disabled]:hover {
+            cursor:default;
+            background:#ccc;
+            border-color:#ccc;
+        }
+            .btnPrimary[disabled] .btn__label,
+            .btnPrimary[disabled]:active .btn__label,
+            .btnPrimary[disabled]:hover .btn__label {
+                text-shadow:none;
+                color:#fff;
+            }
+
+
+    .btnSecondary,
+    .btnSecondary:active,
+    .btnSecondary:focus {
+        background:#d94040; 
+        color:#fff; font-weight:bold;
+        border-radius:3px;
+        display:table;
+        text-align: center; 
+        line-height:1;
+    }
+
+
+    .MiniReel__group .ui--offscreen {
+        left:-5000%;
+        position: absolute;
+        width:0; height:0;
+    }
+
+
+
+/*  ================================================
+    ng-animate classes
+    ================================================ */
+    .c6-fade {
+        -webkit-transition:0.3s linear opacity;
+        transition:0.3s linear opacity;
+    }
+    .c6-fade.ng-hide-add, .c6-fade.ng-hide-remove {
+        display:block !important;
+    }
+    .c6-fade.ng-hide {
+        opacity: 0;
+    }
+
+
+
+/*  ================================================
+    .titleBar classes
+    ================================================ */
+    .titleBar__group {
+        -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,0.5);
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,0.5);
+        background:#fff;
+        height:4em;
+        position:absolute; z-index:5;
+        top:0; left:0; right:0;
+    }
+        .titleBar__splashImg {
+            margin:0.5em;
+            width:4em; height:3em;
+            background:50% 50% / cover no-repeat;
+            float:left;
+            cursor:pointer;
+        }
+        .titleBar__title {
+            margin:0.875em 0 0 0;
+            float:left;
+            width:calc(100% - 5em);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size:1em;
+        }
+            .titleBar__titleText {
+                cursor:pointer;
+                font-size:1.25em;
+                color:#000;
+                display:inline;
+                margin:0.1em 0 0 0;
+                line-height:1.2;
+            }
+
+        .titleBar__disabler {
+            position:absolute; z-index:2;
+            width:100%; height:100%;
+            background:transparent;
+        }
+
+
+
+
+/*  ================================================
+    cards classes
+    ================================================ */
+    .cards__list, .cards__item,
+    .card__group {
+        margin:0; padding:0; list-style:none;
+    }
+    .cards__list {
+        position: absolute;
+        top:4em; right:20.25em; bottom:0.75em; left:0.75em;
+        overflow: hidden;
+    }
+        @media screen and (max-height:31.25rem) {
+            /*  h: 0 - 500px */
+            .cards__list {
+                right:16.25em;
+            }
+        }
+
+        .cards__list--fullWidth {
+            right:0.75em;
+        }
+
+        .cards__item.hidden,
+        .cards__list.hidden {
+            height:0; overflow:hidden;
+        }
+        .cards__item.ng-animate {
+            top: 0;
+        }
+        .card__group {
+            position:absolute;
+            width:100%; height:100%;
+        }
+
+
+/*  ================================================
+    Splash Screen classes
+    ================================================ */
+    .splash__start {
+        position:absolute; z-index: 20;
+        top:0; left: 0; bottom:0; right:0;
+        border:0; margin:0; padding:0;
+        background:#000;
+        width:100%; height:100%;
+        cursor:pointer; 
+        color:#fff; text-align: center; font-weight:bold;
+    }

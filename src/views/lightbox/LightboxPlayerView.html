@@ -39,6 +39,7 @@
 
                 <button data-view="previousButton:LightboxNavButtonView"
                     data-target="controller" data-action="previous"
+                    data-unless="isSolo"
                     class="btnSecondary nav__btn nav__btn--prev nav__btn--{{cardType}} c6-fade"
                     type="button"
                     title="Previous Page">
@@ -51,6 +52,7 @@
                 </button><!--^This is the go back button over the video on the left side-->
                 <button data-view="nextButton:LightboxNavButtonView"
                     data-target="controller" data-action="next"
+                    data-unless="isSolo"
                     class=" btnSecondary nav__btn nav__btn--next nav__btn--{{cardType}} c6-fade"
                     type="button"
                     title="Next Page">

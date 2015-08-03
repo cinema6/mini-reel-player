@@ -1,5 +1,30 @@
 # MiniReel Player 2.0
 
+* *[v0.21.1-rc1]*
+  * [DEV]: Greatly improve the time it takes to start ```grunt
+    server```.
+  * Modularize CSS for every player view except for swipe player.
+
+## v0.21.0 (July 30, 2015)
+* *[v0.21.0-rc1]*
+  * [FEATURE]: Added support for Vine video cards
+  * [DEV]: Fix issue where tests would run multiple times/not "pick up"
+    file changes when running ```grunt tdd```.
+* *[/v0.21.0-rc1]*
+
+## v0.20.0 (July 29, 2015)
+* *[v0.20.0-rc1]*
+  * [FIX]: Remove prev/next buttons that hover over the video in a
+    single-video lightbox MiniReel
+  * [FEATURE]: Allow video preloading to be disabled via MiniReel
+    configuration
+  * [FIX]: Fix for an issue that caused the solo-ads player to render
+    <iframe> players correctly
+  * [FEATURE]: Add fade-in animations for all video players after load
+  * [FIX]: Fix for an issue that caused Vimeo, Rumble, Dailymotion and
+    display ads not to work when the player is delivered via MRAID
+* *[/v0.20.0-rc1]*
+
 ## v0.19.0 (July 16, 2015)
 * *[v0.19.0-rc2]*
   * [FIX]: Fix for an issue which caused the source link to be displayed for a web image in the

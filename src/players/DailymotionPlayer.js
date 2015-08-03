@@ -4,6 +4,7 @@ import fetcher from '../../lib/fetcher.js';
 import Runner from '../../lib/Runner.js';
 import browser from '../services/browser.js';
 import media from '../services/media.js';
+import urlParser from '../services/url_parser.js';
 import {
     map
 } from '../../lib/utils.js';
@@ -141,13 +142,13 @@ export default class DailymotionPlayer extends CorePlayer {
         _(this).state.controls = this.controls;
 
         const iframe = _(this).iframe = document.createElement('iframe');
-        iframe.src = `//www.dailymotion.com/embed/video/${this.src}?` + toParams([
+        iframe.src = urlParser.parse(`//www.dailymotion.com/embed/video/${this.src}?` + toParams([
             ['api', 'postMessage'],
             ['id', this.id],
             ['related', 0],
             ['chromeless', this.controls ? 0 : 1],
             ['webkit-playsinline', 1]
-        ].concat(!!media.bestVideoFormat(['video/mp4']) ? [['html']] : []));
+        ].concat(!!media.bestVideoFormat(['video/mp4']) ? [['html']] : []))).href;
         iframe.setAttribute('width', '100%');
         iframe.setAttribute('height', '100%');
         iframe.setAttribute('frameborder', '0');

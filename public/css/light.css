@@ -55,3 +55,8 @@
     /*  pager nav button classes
         ============================================= */
         @import url('light/pager-nav.css');
+
+    /*  override global styles
+            instagram card
+        ============================================= */
+        @import url('light/light__global.css');

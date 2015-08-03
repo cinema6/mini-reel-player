@@ -1,0 +1,216 @@
+
+
+/*  ================================================
+    nav bar styles : portrait view
+    ================================================ */
+    .headerBar__group {
+        position:fixed; z-index: 10000;
+        top:0;
+        height:2.5em;/*40px*/ width:100%; 
+        background:#222;
+    }
+
+        .nav__counter {
+            margin:0.5em 0 0 0;
+            font-size:1em;
+            color:#999;
+            text-align: center;
+        }
+
+        .MiniReel__closeBtn {
+            position:absolute;
+            top:0; right:0;
+            width:4.5em; height:2.5em;
+        }
+            .MiniReel__closeBtn .btn__label {
+                width:2.625em;
+                text-align: right;
+                font-size:1em;
+            }
+            .MiniReel__closeBtn .sprite--close {
+                position: absolute;
+                top:50%; right:0.5em;
+                margin:-0.5em 0 0 0;
+            }
+
+
+    .navBar__group {
+        position:fixed; bottom:0; z-index: 10000;
+        height:3.75em;/*60px*/ width:100%;
+        background:#d94040;
+    }
+
+        .adSkip__group {
+            position:absolute;
+            z-index: 5;
+            top:0; left:0; right:0; bottom:0;
+            background:#d94040;
+            color:#fff; 
+            text-align: center;
+        }
+            .adSkip__message {
+                margin:1em 0 0 0;
+            }
+
+        .MiniReel__tocBtn {
+            position:absolute;
+            left:40%; right:40%;
+            width:20%; height:100%;
+        }
+
+        .pager__btn,
+        .pager__btn:focus,
+        .pager__btn:active {
+            width:40%; height:100%;
+            position:absolute;
+            background:#d94040;
+        }
+
+            .pager__btn--prev {
+                left:0;
+            }
+            .pager__btn--next {
+                right:0;
+            }
+
+            .pager__btnIcon {
+                position:absolute; z-index: 2;
+                top:50%; left:16%;
+                width:1.125rem; height:1.875rem;
+                margin:-0.9375rem 0 0 0;
+            }
+                .pager__btnIcon--next {
+                    left:auto; right:16%;
+                }
+                    .pager__btnIconPath {
+                        fill: #fff;
+                    }
+
+            .pager__btn .pager__label {
+                position: absolute; z-index: 2;
+                top:50%;
+                font-size:1.25em;
+                line-height: 1;
+                margin:-0.5em 0 0 0;
+            }
+                .pager__label--prev {
+                    right:18%;
+                }
+                .pager__label--next {
+                    left:20%;
+                }
+
+            .pager__previewImg {
+                position:absolute;
+                z-index: 1;
+                top:0; left:0;
+                width:100%; height:100%;
+                background: 50% 50% / 135% auto no-repeat;
+                opacity:0.35;
+            }
+
+
+
+
+/*  ================================================
+    nav bar styles : landscape view
+    ================================================ */
+    .navBarLeft__group,
+    .navBarRight__group {
+        position:fixed; top:0; z-index: 10000;
+        width:4em;/*64px*/ height:100%;
+        background:#d94040;
+    }
+        .navBarLeft__group {
+            left:0;
+        }
+        .navBarRight__group {
+            right:0;
+        }
+
+
+        .nav__counter--landscape {
+            position: absolute;
+            top:11.625em;
+            margin:0;
+            width:100%;
+            color:#000;
+        }
+        .adSkip__message--landscape {
+            top:4.25em;
+        }
+
+
+        .landscapePager__btn,
+        .landscapePager__btn:focus,
+        .landscapePager__btn:active {
+            width:100%; height:5em;
+            top:4.25em;
+            margin:0;
+        }
+            .landscapePager__btnIcon {
+                top:0.75em; left:48%;
+                width:1.125rem; height:1.875rem;
+                margin:0 0 0 -0.5625em;
+            }
+                .landscapePager__btnIcon--next {
+                    left:52%;
+                }
+            .landscapePager__label {
+                position: absolute; z-index: 2;
+                bottom:0.625em;
+                font-size:1.25em;
+                width:100%;
+                line-height: 1;
+                text-align: center;
+            }
+
+        @media screen and (orientation:landscape) {
+            .pager__previewImg {
+                background-size:auto 135%;
+            }
+        }
+
+
+        .MiniReel__tocBtn--landscape {
+            width:100%; height:4em;
+            top:0; left:0; right:auto;
+        }
+
+
+        .MiniReel__closeBtn--landscape {
+            width:100%; height:4em;
+            top:9.5em;
+        }
+            .MiniReel__closeBtn--landscape .btn__label {
+                width:100%;
+                text-align: center;
+                position: absolute;
+                bottom:0.625em;
+            }
+            .MiniReel__closeBtn--landscape .sprite--close {
+                top:0.75em; left:50%;
+                margin:0 0 0 -0.5em;
+            }
+
+
+    @media screen and (orientation: portrait) {
+        .portraitOnly, .navBar__group, .headerBar__group {
+            display:block;
+        }
+        .landscapeOnly, .navBarLeft__group, .navBarRight__group {
+            display:none;
+        }
+
+    }
+    @media screen and (orientation:landscape) {
+        .landscapeOnly, .navBarLeft__group, .navBarRight__group {
+            display:block;
+        }
+        .portraitOnly, .navBar__group, .headerBar__group {
+            display:none;
+        }
+    }
+
+
+

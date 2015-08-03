@@ -1,0 +1,70 @@
+
+/*  ================================================
+    sponsored card styles
+    ================================================ */
+    .sponsorProfile__group {
+        margin:0;
+    }
+
+
+        .sponsorProfile__imgBox {
+            width:2.75em; height:2.75em;
+            float:left;
+            border:1px solid #ddd;
+            margin:0 0.5em 0 0;
+            display: block;
+            text-decoration: none;
+        }
+            .sponsorProfile__img {
+                width:2.625em; height:2.625em;
+                display: block;
+            }
+
+        .sponsorProfile__copy {
+            float:left;
+            width:calc(100% - 3.25em);
+        }
+        
+
+        .sponsorProfile__links {
+            line-height: 1;
+            margin:0.25em 0 1.5em 0;
+        }
+            .sponsorProfile__tag {
+                margin:0.125rem 0 0 0;
+            }
+            .sponsorProfile__link {
+                border:0;
+                float:left;
+                padding: 0 0.125em;
+            }
+
+            .sponsor__actions {
+                margin:1em 0;
+            }
+                .sponsor__goBtn {
+                    margin:0 0 1em 0;
+                    padding:0.25em 1em;
+                    border-radius:3px;
+                    display:table;
+                }
+
+
+        @media screen and (min-width:75rem) and (min-height:45rem) {
+            /*  w: 1200px ++
+            /   h: 720px ++ */
+            .sponsor__goBtn {
+                padding:0.5em 1.25em;
+            }
+            .sponsorProfile__tag {
+                float:none;
+            }
+                .recap__copyBox .sponsorProfile__tag {
+                    float:left;
+                }
+
+            .recap__copyBox .sponsorProfile__links {
+                margin:0;
+            }
+        }
+

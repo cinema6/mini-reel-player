@@ -1,0 +1,274 @@
+/*  ================================================
+    global / reset styles
+    ================================================ */
+    /*  apply a natural box layout model to all elements, 
+        but allowing components to change */
+        html {
+          box-sizing: border-box;
+        }
+        *, *:before, *:after {
+          box-sizing: inherit;
+        }
+    body {
+        font-size: 16px; 
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-weight:300; 
+        color:#444; 
+        line-height: 1.5;
+        background:#fff; 
+        margin:0;
+    }
+    p {
+        margin: 0.75em 0;
+    }
+    textarea {
+        resize: vertical;
+    }
+    img {
+        border:0; max-width:100%;
+    }
+    button {
+        font-size:1rem;
+        margin:0; border:0; padding:0;
+        display: inline-block;
+        cursor:pointer;
+        background:none;
+    }
+    body > iframe {
+        position:absolute;
+    }
+
+
+
+
+/*  ================================================
+    c6 copy classes : general type and color styles
+    ================================================ */
+    .tk--hdr {
+        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-weight:300;
+    }
+    .tk--action {
+        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-weight:700;
+    }
+    .tk--copy {
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    }
+    a {
+        text-decoration: none; color:#d94040;
+    }
+    a:focus, button:focus, input:focus, textarea:focus {
+        outline:none; border:0;
+    }
+        
+
+
+
+
+/*  ================================================
+    helper / ui classes
+    ================================================ */
+    .ir {
+        background-color: transparent;
+        border: 0; width:0; height:0;
+        overflow: hidden; display: block; position:absolute;
+    }
+    .clearfix:before,
+    .clearfix:after {
+        content: ' ';
+        display: table;
+    }
+    .clearfix:after {
+        clear: both;
+    }
+
+
+
+    .sprite,
+    .spriteAf:after,
+    .spriteBe:before {
+        background:url('../../img/sprite--alpha@2x.png') 0 0 / 18.75rem 18.75rem no-repeat;
+    }
+
+
+        .sprite--close {
+            width:1rem; height:1rem;
+            background-position:-5rem -9rem;
+            display: inline-block;
+        }
+
+        .socialIconsBe:before,
+        .uiIconsBe:before {
+            content:'';
+            width:1rem; height:1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+            .socialIconsBe--youtube:before {
+                background-position:-1rem -3rem;
+            }
+            .socialIconsBe--vimeo:before {
+                background-position: -3rem -3rem;
+            }
+            .socialIconsBe--facebook:before {
+                background-position: -5rem -3rem;
+            }
+            .socialIconsBe--twitter:before {
+                background-position: -7rem -3rem;
+            }
+            .socialIconsBe--pinterest:before {
+                background-position: -9rem -3rem;
+            }
+
+
+
+            .uiIconsBe--replay:before {
+                background-position:-1rem -9rem;
+            }
+            .uiIconsBe__dark--replay:before {
+                background-position:-1rem -7rem;
+            }
+            .uiIconsBe--link:before {
+                background-position:-3rem -9rem;
+                width:1.25rem;
+            }
+
+
+    .overlay {
+        background:rgb(0,0,0); background:rgba(0,0,0,0.8);
+        position:absolute; z-index: 1;
+        left:0;
+        width:100%; height:100%; 
+    }
+        .overlay__closeBtn {
+            width:1.125em; height:1.125em;
+            position: absolute;
+            top:1em; right:1em;
+        }
+
+
+    .textLink {
+        border:0;
+    }
+
+
+    .btnPrimary,
+    .btnPrimary:active,
+    .btnPrimary:focus {
+        border:3px solid #d94040;
+        background:#d94040;
+        line-height: 1;
+        text-align: center;
+        font-size: 1rem;
+        display:inline-table;
+    }
+        .btnPrimary .btn__label {
+            font-size:0.875em;
+            line-height: 1rem;
+            color:#fff;
+            font-weight:bold;
+            text-transform:uppercase;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.44);
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .btnPrimary[disabled],
+        .btnPrimary[disabled]:active,
+        .btnPrimary[disabled]:hover {
+            cursor:default;
+            background:#ccc;
+            border-color:#ccc;
+        }
+            .btnPrimary[disabled] .btn__label,
+            .btnPrimary[disabled]:active .btn__label,
+            .btnPrimary[disabled]:hover .btn__label {
+                text-shadow:none;
+                color:#fff;
+            }
+
+
+    .MiniReel__group .ui--offscreen {
+        left:-5000%;
+        width:100% !important; height:100% !important;
+    }
+
+
+
+
+/*  ================================================
+    ng-animate classes
+    ================================================ */
+    .c6-fade {
+        -webkit-transition:0.3s linear opacity;
+        transition:0.3s linear opacity;
+    }
+    .c6-fade.ng-hide-add, .c6-fade.ng-hide-remove {
+        display:block !important;
+    }
+    .c6-fade.ng-hide {
+        opacity: 0;
+    }
+    
+
+
+
+/*  ================================================
+    MiniReel classes
+    ================================================ */    
+    .MiniReel__group {
+        padding:0;
+        border-top:2px solid #1b1b1b;
+        position:absolute;
+        background:#fff;
+        width:100%; height:100%;
+    }
+
+/*  ==========================================================================
+    More Reels card classes
+    ========================================================================== */
+    .more-reels__intro {
+        font-size:0.875rem; color:#929292; font-weight:300; text-align: center;
+        background: #1b1b1b; margin:0; padding: 0.125rem 0 0.4375rem 0;
+    }
+        .more-reels__preview {
+            background:url('../../img/more-reels__preview.jpg') 50% 50% / cover no-repeat; 
+            border:0; margin:0; padding:0; 
+            position: absolute; width:100%; height:100%;
+        }
+            .more-reels__preview-img {
+                width:100%;
+            }
+            .more-reels__desc {
+                margin: -0.5em 0 0 0;/*8px*/ font-size:0.8125rem;/*13px*/ 
+                color:#c2c2c2; line-height:1.69; height: 4.875rem;/*78px*/
+            }
+
+/* ad skip styles */
+.adSkip__group {
+    background:#fff; background:rgba(255,255,255,0.75);
+    text-transform: uppercase; 
+    text-align: center; 
+    font-weight:bold; 
+    font-size:0.875em; color:#000;
+    position:absolute; z-index: 4;
+    width:100%; height:100%;
+    box-sizing:border-box;
+    padding-top:1em;
+}
+
+
+/*  ================================================
+    Splash Screen classes
+    ================================================ */
+    .splash__start {
+        position:absolute; z-index: 20;
+        top:0; left: 0; bottom:0; right:0;
+        border:0; margin:0; padding:0;
+        background:#000;
+        width:100%; height:100%;
+        cursor:pointer; 
+        color:#fff; text-align: center; font-weight:bold;
+    }

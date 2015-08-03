@@ -21,40 +21,48 @@
     /*  video card classes
             ballot classes
             actionsModal__group styles
-        ============================================= */    
+        ============================================= */
         @import url('lightbox-playlist/video-card.css');
 
     /*  article card classes
-        ============================================= */    
+        ============================================= */
         @import url('lightbox-playlist/article-card.css');
 
     /*  image card classes
-        ============================================= */   
+        ============================================= */
         @import url('lightbox-playlist/image-card.css');
 
     /*  text only card classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox-playlist/text-card.css');
 
     /*  sponsored card styles
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox-playlist/sponsored-card.css');
 
     /*  recap card classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox-playlist/recap-card.css');
 
     /*  video ad card classes
         display ad module classes
         Display Ad Card classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox-playlist/ad-styles.css');
 
     /*  branded MR classes
-        ============================================= */ 
+        ============================================= */
         @import url('lightbox-playlist/branded-mr.css');
 
-    /*  nav button classes 
-        ============================================= */ 
+    /*  nav button classes
+        ============================================= */
         @import url('lightbox-playlist/nav-btn.css');
+
+    /*  global instagram card classes
+        ============================================= */
+        @import url('global/instagram-card.css');
+
+    /*  override global styles
+        ============================================= */
+        @import url('lightbox-playlist/lightbox-playlist__global.css');
 

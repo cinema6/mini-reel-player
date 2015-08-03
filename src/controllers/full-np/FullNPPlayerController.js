@@ -7,6 +7,8 @@ import FullVideoCardController from '../full/FullVideoCardController.js';
 import FullRecapCardController from '../full/FullRecapCardController.js';
 import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullInstagramImageCardController from '../full/FullInstagramImageCardController';
+import FullInstagramVideoCardController from '../full/FullInstagramVideoCardController';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
 export default class FullPlayerController extends PlayerController {
@@ -22,7 +24,9 @@ export default class FullPlayerController extends PlayerController {
             video: FullVideoCardController,
             recap: FullRecapCardController,
             preroll: LightboxPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            instagramImage: FullInstagramImageCardController,
+            instagramVideo: FullInstagramVideoCardController
         };
 
         this.initThumbnailNavigator();

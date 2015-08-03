@@ -8,6 +8,8 @@ import LightboxPlaylistVideoCardController from './LightboxPlaylistVideoCardCont
 import LightboxPlaylistRecapCardController from './LightboxPlaylistRecapCardController.js';
 import LightboxPlaylistPrerollCardController from './LightboxPlaylistPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullInstagramImageCardController from '../full/FullInstagramImageCardController';
+import FullInstagramVideoCardController from '../full/FullInstagramVideoCardController';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
@@ -24,7 +26,9 @@ export default class LightboxPlaylistPlayerController extends PlayerController {
             video: LightboxPlaylistVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightboxPlaylistPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            instagramImage: FullInstagramImageCardController,
+            instagramVideo: FullInstagramVideoCardController
         };
 
         this.initPlaylist();

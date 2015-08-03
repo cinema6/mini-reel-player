@@ -28,6 +28,18 @@
                 "ratio": "6-5",
                 "theme": "img-only"
             },
+            "adConfig": {
+                "video": {
+                    "firstPlacement": -1,
+                    "frequency": 0,
+                    "waterfall": "cinema6",
+                    "skip": 6
+                },
+                "display": {
+                    "waterfall": "cinema6",
+                    "enabled": false
+                }
+            },
             "deck": [
                 {
                     "data": {},
@@ -74,70 +86,94 @@
                     "params": {}
                 },
                 {
+                    "data": {
+                        "id": "5YN6a0tOc-",
+                        "thumbs": {
+                            "small": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s150x150/e15/11351507_836701216398426_1156749946_n.jpg",
+                            "large": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e15/11351507_836701216398426_1156749946_n.jpg"
+                        },
+                        "type": "image",
+                        "src": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/e35/sh0.08/11351507_836701216398426_1156749946_n.jpg"
+                    },
+                    "id": "rc-2904af2036e145",
+                    "type": "instagram",
+                    "source": "Instagram",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
                     "campaign": {
-                        "advertiserId": null,
                         "campaignId": null,
-                        "clickUrls": [],
+                        "advertiserId": null,
+                        "minViewTime": null,
                         "countUrls": [],
-                        "minViewTime": null
+                        "clickUrls": []
                     },
                     "collateral": {},
-                    "data": {
-                        "autoplay": true,
-                        "href": "https://vine.co/v/erUbKHDX6Ug",
-                        "service": "vine",
-                        "skip": true,
-                        "thumbs": {
-                            "large": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx",
-                            "small": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx"
-                        },
-                        "videoid": "erUbKHDX6Ug"
-                    },
-                    "id": "rc-f409791386e1a4",
                     "links": {},
-                    "modules": [],
-                    "note": "This is a vine card.",
                     "params": {},
-                    "placementId": null,
-                    "source": "Vine",
-                    "sponsored": false,
-                    "templateUrl": null,
-                    "thumbs": null,
-                    "title": "VINE",
-                    "type": "vine"
+                    "href": "https://instagram.com/p/5YN6a0tOc-/",
+                    "likes": 77669,
+                    "date": "1437439190",
+                    "caption": "Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY @taylorswift",
+                    "comments": 9734,
+                    "user": {
+                        "fullname": "The Dogist",
+                        "picture": "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg",
+                        "username": "thedogist",
+                        "follow": "https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow",
+                        "href": "https://instagram.com/thedogist",
+                        "bio": "A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.",
+                        "website": "http://thedogist.com/book",
+                        "posts": 2886,
+                        "followers": 1030957,
+                        "following": 3
+                    }
                 },
                 {
+                    "data": {
+                        "id": "5U4nPnmyDc",
+                        "thumbs": {
+                            "small": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s150x150/e15/11381442_443827579136917_34636061_n.jpg",
+                            "large": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11381442_443827579136917_34636061_n.jpg"
+                        },
+                        "type": "video",
+                        "src": "https://scontent.cdninstagram.com/hphotos-xfa1/t50.2886-16/11765072_1641853446058461_1518004451_n.mp4"
+                    },
+                    "id": "rc-044bdedb281ae5",
+                    "type": "instagram",
+                    "source": "Instagram",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
                     "campaign": {
-                        "advertiserId": null,
                         "campaignId": null,
-                        "clickUrls": [],
+                        "advertiserId": null,
+                        "minViewTime": null,
                         "countUrls": [],
-                        "minViewTime": null
+                        "clickUrls": []
                     },
                     "collateral": {},
-                    "data": {
-                        "code": "<iframe src=\"https://vine.co/v/erUbKHDX6Ug/embed/simple\" style=\"width:100%;height:100%\" frameborder=\"0\"></iframe><script src=\"https://platform.vine.co/static/scripts/embed.js\"></script>",
-                        "href": "https://vine.co/v/erUbKHDX6Ug",
-                        "service": "vine",
-                        "skip": true,
-                        "thumbs": {
-                            "large": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx",
-                            "small": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx"
-                        },
-                        "videoid": "erUbKHDX6Ug"
-                    },
-                    "id": "rc-f4097e1a4",
                     "links": {},
-                    "modules": [],
-                    "note": "This is a vine card.",
                     "params": {},
-                    "placementId": null,
-                    "source": "Vine",
-                    "sponsored": false,
-                    "templateUrl": null,
-                    "thumbs": null,
-                    "title": "VINE",
-                    "type": "vine"
+                    "href": "https://instagram.com/p/5U4nPnmyDc/",
+                    "likes": 16975,
+                    "date": "1437327359",
+                    "caption": "Handheld Bungee Jump😱 | Via @damienwalters",
+                    "comments": 1063,
+                    "user": {
+                        "fullname": "Videos",
+                        "picture": "https://igcdn-photos-c-a.akamaihd.net/hphotos-ak-xfp1/t51.2885-19/10956552_1556821651232394_1665347195_a.jpg",
+                        "username": "unbelievable",
+                        "follow": "https://instagram.com/accounts/login/?next=%2Fp%2F5U4nPnmyDc%2F&source=follow",
+                        "href": "https://instagram.com/unbelievable",
+                        "bio": "Most UNBELIEVABLE videos on this planet! Can you believe it? #unbelievable\nmmgfeed@gmail.com K: UAV",
+                        "website": "http://www.shoprad.co",
+                        "posts": 395,
+                        "followers": 522060,
+                        "following": 9
+                    }
                 },
                 {
                     "data": {

@@ -1,0 +1,76 @@
+<article class="card__group">
+    <div class="instag____player__group player__height playerHeight">
+
+        <section class="instag____profile__group">
+
+            <div class="clearfix instag____profileImg__group">
+                <a href="{{userHref}}" target="_blank" class="instag____profileImg__picBox"><img class="instag____profileImg__pic" src="{{userPicture}}">
+                </a>
+                <a href="{{userHref}}" target="_blank" class="instag____profileImg__name">{{userUsername}}</a>
+                <a href="{{userFollow}}" target="_blank" class="instag____profileImg__follow">Follow</a>
+            </div><!--.clearfix .instag____profileImg__group-->
+
+
+            <div class="instag____profileDesc__group">
+
+                <p class="instag____profileDesc"><span class="instag____profileDesc__name">{{userFullname}}</span> {{userBio}} <a href="{{userWebsite}}" target="_blank" class="instag____profileDesc__link">{{userWebsite}}</a></p>
+
+                <ul class="instag____profileData__group">
+                    <li class="instag____profileData"><span class="instag____profileData__stat">{{userPosts}}</span> posts</li>
+                    <li class="instag____profileData"><span class="instag____profileData__stat">{{userFollowers}}</span> followers</li>
+                    <li class="instag____profileData"><span class="instag____profileData__stat">{{userFollowing}}</span> following</li>
+                </ul><!--.instag____profileData__group-->
+
+            </div><!--.instag____profileDesc__group-->
+        </section> <!--.instag____profile__group-->
+
+
+
+
+        <section class="instag____mediaImg__group">
+
+            <div class="instag____mediaImg" style="background-image:url('{{mediaSrc}}');">
+
+                <div class="ir">
+                    <img src="{{mediaSrc}}">
+                </div>
+
+            </div>
+        </section><!--.instag____mediaImg__group-->
+
+
+
+
+
+        <section class="instag____post__group">
+
+            <div class="instag____postAccount__group clearfix">
+
+                <a href="{{userHref}}" target="_blank"><img src="{{userPicture}}"class="instag____postAccount__pic"></a>
+                <a href="{{userHref}}" target="_blank" class="instag____postAccount__name">{{userUsername}}</a>
+                <a href="{{href}}" target="_blank" class="instag____postAccount__logo">
+                    <span class="ir">Instagram</span>
+                </a>
+
+            </div><!--.instag____postAccount__group .clearfix-->
+
+
+            <div class="instag____postInfo__group clearfix">
+                <span class="instag____postInfo__likes">{{likes}} likes</span><a href="{{href}}" target="_blank" class="instag____postInfo__date">{{date}}</a>
+
+                <div class="instag____postInfo__copy">
+                    <a href="{{userHref}}" target="_blank" class="instag____postInfo__name">{{userUsername}}</a>
+                    <span data-view="captionOutlet:View"></span>
+                    <a href="{{href}}" target="_blank" class="instag____postInfo__comments">view {{comments}} comments</a>
+                </div>
+
+            </div><!--.instag____postInfo__group .clearfix-->
+
+
+            <a href="{{href}}" target="_blank" class="instag____postInfo__feedback">
+                <span class="instag____postInfo__comment">Add a comment...</span>
+            </a>
+
+        </section><!--.instag____post__group-->
+    </div> <!--.instag____player__group .player__height .playerHeight-->
+</article>

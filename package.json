@@ -31,7 +31,7 @@
     "concat-stream": "^1.5.0",
     "function-bind": "^1.0.2",
     "grunt": "^0.4.5",
-    "grunt-browserify": "^3.3.0",
+    "grunt-browserify": "^4.0.0",
     "grunt-c6-util": "git+ssh://git@github.com:cinema6/c6-grunt-util",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compress": "^0.13.0",

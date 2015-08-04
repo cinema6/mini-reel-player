@@ -437,11 +437,114 @@
 
     .twitter____text__group {
         width:100%;
+        height:100%;
         position:absolute;
         background:center/cover no-repeat;
         overflow:hidden;
     }
 
         .twitter____profileBar__group {
-            background-color:rgba(0, 0, 0, 0);
+            background-color:rgba(0, 0, 0, 0.25);
+            padding:1.5em;
+            position:relative;
         }
+
+            .twitter____profileBar__picBox {
+                width:6em;
+                display:block;
+                position:absolute;
+                top:1em;
+                left:1em;
+            }
+
+                .twitter____profileBar__pic {
+                    border-radius:5px;
+                    border:3px solid #fff;
+                }
+
+                .twitter____profileBar__name {
+                    margin:0 0 0 6em;
+                    color:#d4d4d4;
+                    font:bold 1.25em Arial, Helvetica, sans-serif; 
+                }
+
+                .twitter____profileBar__handle {
+                    margin:0 0 0 1em;
+                    color:#d4d4d4;
+                    font:1.25em Arial, Helvetica, sans-serif; 
+                }
+
+                .twitter____profileBar__follow {
+                    position:absolute;
+                    right:2em;
+                    color:#ccd6dd;
+                    font:bold 1em Arial, Helvetica, sans-serif; 
+                }
+                .twitter____profileBar__follow:before {
+                    content:'\f179';
+                    font-family:'rosettaicons';
+                    color:#55ACEE;
+                    margin:0 1em 0 0;
+                }
+
+        .twitter____txtTweet__group {
+            background-color:rgba(256, 256, 256, 0.9);
+            padding:1em;
+            width:80%;
+            max-width:55em;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            border-radius:5px;
+            border:1px solid rgba(256, 256, 256, 0.9);
+        }
+
+            .twitter____txtTweet {
+                margin:0;
+                font:1.5em Arial, Helvetica, sans-serif;
+                color:#292f33;
+            }
+
+            .twitter____txtTweet__tag {
+                color:#2b7bb9;
+            }
+
+            .twitter____txtTweet__time {
+                color:#8899a6;
+                font-weight:bold;
+                display:block;
+                margin:1em 0 0 0;
+            }
+
+            .twitter____info__group {
+                position:absolute;
+                right:1em;
+                bottom:1em;
+            }
+
+                .twitter____info__reply,
+                .twitter____info__retweet,
+                .twitter____info__favorite {
+                    color:#8899a6;
+                    font-weight:bold;
+                    margin:0 0 0 1em;
+                }
+
+                .twitter____info__reply:before,
+                .twitter____info__retweet:before,
+                .twitter____info__favorite:before {
+                    font-family:'rosettaicons';
+                    font-weight:normal;
+                    color:#ccd6dd;
+                    margin:0 0.5em 0 0;
+                }
+                .twitter____info__reply:before {
+                    content:'\f151';
+                }
+                .twitter____info__retweet:before {
+                    content:'\f152';
+                }
+                .twitter____info__favorite:before {
+                    content:'\f147';
+                }

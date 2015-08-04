@@ -49,7 +49,12 @@
     .twitter____tweet__retweet,
     .twitter____tweet__retweet:before,
     .twitter____tweet__favorite,
-    .twitter____tweet__favorite:before {
+    .twitter____tweet__favorite:before,
+    .twitter____profileBar__name,
+    .twitter____profileBar__handle,
+    .twitter____profileBar__follow,
+    .twitter____profileBar__follow:before,
+    .twitter____txtTweet__tag {
         transition:color 0.3s;
     }
 
@@ -68,7 +73,8 @@
     .twitter____profile__name:hover,
     .twitter____tweet__timeStamp:hover,
     .twitter____tweet__hashtag:hover,
-    .twitter____tweet__reply:hover:before {
+    .twitter____tweet__reply:hover:before,
+    .twitter____txtTweet__tag:hover {
         color:#3b94d9;
     }
 
@@ -82,6 +88,12 @@
         color:#ffac33;
     }
 
+    .twitter____profileBar__name:hover,
+    .twitter____profileBar__handle:hover,
+    .twitter____profileBar__follow:hover,
+    .twitter____profileBar__follow:hover:before {
+        color:#fff;
+    }
 
     .instag____profileDesc__link:hover,
     .instag____postAccount__name:hover,

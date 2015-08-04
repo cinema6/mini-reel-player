@@ -4,6 +4,7 @@
   * [DEV]: Greatly improve the time it takes to start ```grunt
     server```.
   * Modularize CSS for every player view except for swipe player.
+  * Stop including query params when completing pageUrl macro
 
 ## v0.21.0 (July 30, 2015)
 * *[v0.21.0-rc1]*

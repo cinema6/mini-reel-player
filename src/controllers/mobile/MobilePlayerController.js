@@ -8,8 +8,7 @@ import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
 import MobilePrerollCardController from './MobilePrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
-import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
-import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
+import MobileInstagramCardController from './MobileInstagramCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
 export default class MobilePlayerController extends PlayerController {
@@ -26,8 +25,8 @@ export default class MobilePlayerController extends PlayerController {
             recap: MobileRecapCardController,
             preroll: MobilePrerollCardController,
             displayAd: DisplayAdCardController,
-            instagramImage: MobileInstagramImageCardController,
-            instagramVideo: MobileInstagramVideoCardController
+            instagramImage: MobileInstagramCardController,
+            instagramVideo: MobileInstagramCardController
         };
 
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));

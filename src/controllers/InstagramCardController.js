@@ -73,6 +73,7 @@ export default class InstagramCardController extends CardController {
     }
 
     renderInstagram() {
+        this.isRendered = true;
         if (!this.view.captionOutlet) {
             this.view.create();
         }

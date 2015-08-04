@@ -4,21 +4,21 @@
         <section class="instag____profile__group">
 
             <div class="clearfix instag____profileImg__group">
-                <a href="https://instagram.com/taylorswift/" target="_blank" class="instag____profileImg__picBox"><img class="instag____profileImg__pic" src="https://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/10617008_540121486120445_1609281390_a.jpg">
+                <a href="{{userHref}}" target="_blank" class="instag____profileImg__picBox"><img class="instag____profileImg__pic" src="{{userPicture}}">
                 </a>
-                <a href="https://instagram.com/taylorswift/" target="_blank" class="instag____profileImg__name">taylorswift</a>
-                <button class="instag____profileImg__follow" type="button">Follow</button>
+                <a href="{{userHref}}" target="_blank" class="instag____profileImg__name">{{userUsername}}</a>
+                <a href="{{userFollow}}" target="_blank" class="instag____profileImg__follow">Follow</a>
             </div><!--.clearfix .instag____profileImg__group-->
 
 
             <div class="instag____profileDesc__group">
 
-                <p class="instag____profileDesc"><span class="instag____profileDesc__name">Taylor Swift</span> Born in 1989. <a href="http://www.taylorswift.com" target="_blank" class="instag____profileDesc__link">www.taylorswift.com</a></p>
+                <p class="instag____profileDesc"><span class="instag____profileDesc__name">{{userFullname}}</span> {{userBio}} <a href="{{userWebsite}}" target="_blank" class="instag____profileDesc__link">{{userWebsite}}</a></p>
 
                 <ul class="instag____profileData__group">
-                    <li class="instag____profileData"><span class="instag____profileData__stat">615</span> posts</li>
-                    <li class="instag____profileData"><span class="instag____profileData__stat">36.8m</span> followers</li>
-                    <li class="instag____profileData"><span class="instag____profileData__stat">68</span> following</li>
+                    <li class="instag____profileData"><span class="instag____profileData__stat">{{userPosts}}</span> posts</li>
+                    <li class="instag____profileData"><span class="instag____profileData__stat">{{userFollowers}}</span> followers</li>
+                    <li class="instag____profileData"><span class="instag____profileData__stat">{{userFollowing}}</span> following</li>
                 </ul><!--.instag____profileData__group-->
 
             </div><!--.instag____profileDesc__group-->
@@ -31,9 +31,7 @@
 
             <div class="instag____mediaVid__box">
 
-                <video controls="true" class="instag____mediaVid">
-                    <source src="https://scontent-lga1-1.cdninstagram.com/hphotos-xaf1/t50.2886-16/11767791_141404912859056_1103195920_n.mp4" type="video/mp4" />
-                </video>
+                <video src="{{mediaSrc}}" controls="true" class="instag____mediaVid"/>
 
             </div><!--.instag____mediaVid__box-->
         </section><!--.instag____mediaVid__group-->
@@ -46,9 +44,9 @@
 
             <div class="instag____postAccount__group clearfix">
 
-                <a href="https://instagram.com/taylorswift/" target="_blank"><img src="https://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/10617008_540121486120445_1609281390_a.jpg"class="instag____postAccount__pic"></a>
-                <a href="https://instagram.com/taylorswift/" target="_blank" class="instag____postAccount__name">taylorswift</a>
-                <a href="https://instagram.com/p/5Z-asYjvBZ/?taken-by=taylorswift" target="_blank" class="instag____postAccount__logo">
+                <a href="{{userHref}}" target="_blank"><img src="{{userPicture}}"class="instag____postAccount__pic"></a>
+                <a href="{{userHref}}" target="_blank" class="instag____postAccount__name">{{userUsername}}</a>
+                <a href="{{href}}" target="_blank" class="instag____postAccount__logo">
                     <span class="ir">Instagram</span>
                 </a>
 
@@ -56,18 +54,18 @@
 
 
             <div class="instag____postInfo__group clearfix">
-                <span class="instag____postInfo__likes">2m likes</span><a href="#" target="_blank" class="instag____postInfo__date">2 weeks</a>
+                <span class="instag____postInfo__likes">{{likes}} likes</span><a href="{{href}}" target="_blank" class="instag____postInfo__date">{{date}}</a>
 
                 <div class="instag____postInfo__copy">
-                    <a href="https://instagram.com/taylorswift/" target="_blank" class="instag____postInfo__name">taylorswift</a> When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go. When Ed shows up in a red coat for the 4th of July because he just can't let it go.
-                    <a href="https://instagram.com/teddysphotos/" target="_blank" class="instag____postInfo__tag">@teddysphotos</a>
-                    <a href="#" target="_blank" class="instag____postInfo__comments">view 27,522 comments</a>
+                    <a href="{{userHref}}" target="_blank" class="instag____postInfo__name">{{userUsername}}</a>
+                    <span data-view="captionOutlet:View"></span>
+                    <a href="{{href}}" target="_blank" class="instag____postInfo__comments">view {{comments}} comments</a>
                 </div>
 
             </div><!--.instag____postInfo__group .clearfix-->
 
 
-            <a href="#" target="_blank" class="instag____postInfo__feedback">
+            <a href="{{href}}" target="_blank" class="instag____postInfo__feedback">
                 <span class="instag____postInfo__comment">Add a comment...</span>
             </a>
 

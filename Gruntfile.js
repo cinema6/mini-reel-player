@@ -73,6 +73,13 @@ module.exports = function(grunt) {
 
             return experience.data.mode;
         }());
+        var params = (function() {
+            try {
+                return JSON.parse(grunt.option('params'));
+            } catch(e) {
+                return {};
+            }
+        }());
 
         grunt.config.set('browserify.server.files', [
             {
@@ -81,6 +88,7 @@ module.exports = function(grunt) {
             }
         ]);
         grunt.config.set('server.exp', experience);
+        grunt.config.set('server.params', params);
 
         grunt.task.run('babelhelpers:build');
 
@@ -138,8 +146,35 @@ module.exports = function(grunt) {
         'karma:perf'
     ]);
 
-    grunt.registerTask('tdd', 'run unit tests whenever files change', function(target) {
-        target = target || 'app';
+    grunt.registerTask('tdd', 'run unit tests whenever files change', function(_target_) {
+        var expand = grunt.file.expand;
+        var match = grunt.file.match;
+
+        var target = _target_ || 'app';
+        var mainFiles = ['test/main.js', 'test/unit/main.js'];
+        var pattern = grunt.option('only') || '**';
+        var config = (function() {
+            var result = null;
+            var configurator = require('./test/unit/karma.' + target + '.conf');
+            var config = {
+                set: function(options) {
+                    result = options;
+                }
+            };
+
+            configurator(config);
+
+            return result;
+        }());
+        var exclusions = (config.exclude || []).map(function(file) {
+            return '!' + file;
+        });
+        var patterns = ['**/' + pattern].concat(exclusions);
+        var files = mainFiles.concat(match(patterns, expand(config.files))).map(function(file) {
+            return { src: file, watched: false };
+        });
+
+        grunt.config.set('karma.tdd.files', files);
 
         grunt.task.run('babelhelpers:build');
         grunt.task.run('clean:test');

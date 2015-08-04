@@ -71,6 +71,8 @@ export default class SwipePlayerController extends Controller {
         this.model.on('move', updateView);
         this.model.on('becameUnskippable', updateView);
         this.model.on('becameSkippable', updateView);
+        this.model.on('becameUncloseable', updateView);
+        this.model.on('becameCloseable', updateView);
         this.model.on('skippableProgress', remaining => this.view.skipTimer.update(remaining));
     }
 
@@ -99,6 +101,7 @@ export default class SwipePlayerController extends Controller {
                 currentCard,
                 length,
                 skippable,
+                closeable,
                 standalone,
                 prerollCard
             }
@@ -116,7 +119,7 @@ export default class SwipePlayerController extends Controller {
         }
 
         this.view.update({
-            flippable,
+            flippable, closeable,
             locked: locked && !this.view.cards.animating,
             disableNext: atTail,
             disablePrevious: atHead && standalone

@@ -30,6 +30,7 @@ import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 import TwitterTextCard from './TwitterTextCard.js';
 import TwitterImageCard from './TwitterImageCard.js';
+import TwitterGifCard from './TwitterGifCard.js';
 import TwitterVideoCard from './TwitterVideoCard.js';
 
 const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
@@ -52,10 +53,11 @@ function getCardType(card) {
     }
 }
 
-function initialize(whitelist, { experience, standalone, profile }) {
+function initialize(whitelist, { experience, standalone, interstitial, profile }) { // jshint ignore:line
     const deck = filter(experience.data.deck, card => whitelist.indexOf(getCardType(card)) > -1);
 
     this.standalone = standalone;
+    this.interstitial = interstitial;
     this.id = experience.id;
     this.title = experience.data.title;
     this.branding = experience.data.branding;
@@ -83,6 +85,11 @@ function initialize(whitelist, { experience, standalone, profile }) {
             switch(card.data.type) {
             case 'image':
                 return new TwitterImageCard(card, experience, profile);
+<<<<<<< HEAD
+=======
+            case 'gif':
+                return new TwitterGifCard(card, experience, profile);
+>>>>>>> e3fc0bd2db3073dcfd31d16ac8a448d1be780c81
             case 'video':
                 return new TwitterVideoCard(card, experience, profile);
             default:
@@ -145,6 +152,7 @@ export default class MiniReel extends EventEmitter {
         super(...arguments);
 
         this.standalone = null;
+        this.interstitial = null;
 
         this.id = null;
         this.title = null;
@@ -164,6 +172,7 @@ export default class MiniReel extends EventEmitter {
         this.currentIndex = -1;
         this.currentCard = null;
         this.skippable = true;
+        this.closeable = true;
 
         _(this).ready = false;
         _(this).cardsShown = 0;
@@ -199,6 +208,19 @@ export default class MiniReel extends EventEmitter {
 
         this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
+
+        this.on('becameUnskippable', () => {
+            if (this.interstitial) {
+                this.closeable = false;
+                this.emit('becameUncloseable');
+            }
+        });
+        this.on('becameSkippable', () => {
+            if (!this.closeable) {
+                this.closeable = true;
+                this.emit('becameCloseable');
+            }
+        });
 
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);

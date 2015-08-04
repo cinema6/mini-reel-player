@@ -9,6 +9,8 @@
             'use strict';
 
             function MiniReelConfig(experience) {
+                var params = {{{params}}};
+
                 this.config = {
                     container: 'embed',
                     context: 'embed',
@@ -22,6 +24,10 @@
                 this.preload = false;
                 this.splashDelegate = {};
                 this.standalone = true;
+
+                for (var key in params) {
+                    this[key] = params[key];
+                }
             }
 
             window.__C6_APP_FOLDER__ = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/{{playerFolder}}';

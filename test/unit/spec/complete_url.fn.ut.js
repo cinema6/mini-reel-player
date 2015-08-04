@@ -10,6 +10,7 @@ describe('completeUrl(url)', function() {
         jasmine.clock().install();
         jasmine.clock().mockDate();
         environment.debug = false;
+        environment.href = 'http://cinema6.com/solo?id=e-bc30fd47d005e3&campaign=cam-c163b84cd06ac0&src=jun';
 
         url = '//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0;ord={cachebreaker};dcmt=text/xml;url={pageUrl};id={guid};cb={cachebreaker};cb=[timestamp]';
     });
@@ -26,7 +27,7 @@ describe('completeUrl(url)', function() {
         expect(completeUrl(url)).toBe(
             `//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0` +
             `;ord=${encodeURIComponent(Date.now())};dcmt=text/xml;url` +
-            `=${encodeURIComponent(environment.href)};id` +
+            `=${encodeURIComponent('http://cinema6.com/solo')};id` +
             `=${encodeURIComponent(environment.guid)};cb=${encodeURIComponent(Date.now())};` +
             `cb=${encodeURIComponent(Date.now())}`
         );

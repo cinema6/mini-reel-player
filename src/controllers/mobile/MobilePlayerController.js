@@ -31,6 +31,8 @@ export default class MobilePlayerController extends PlayerController {
         };
 
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
+        this.minireel.on('becameUnskippable', () => this.updateView());
+        this.minireel.on('becameSkippable', () => this.updateView());
 
         this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
         this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
@@ -40,12 +42,14 @@ export default class MobilePlayerController extends PlayerController {
 
     updateView() {
         const {minireel} = this;
+        const { standalone, currentIndex, length, skippable } = minireel;
         const nextCard = minireel.deck[minireel.currentIndex + 1];
         const prevCard = minireel.deck[minireel.currentIndex - 1];
-        const { standalone, currentIndex, length } = minireel;
+        const isSolo = (minireel.length === 1);
 
         this.view.update({
             closeable: !standalone,
+            showFooter: !isSolo || !skippable,
             header: (currentIndex !== null) ? `${currentIndex + 1} of ${length}` : 'Ad',
             thumbs: {
                 next: (nextCard && nextCard.thumbs.small) || null,

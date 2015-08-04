@@ -1,9 +1,16 @@
 # MiniReel Player 2.0
 
+## v0.21.1 (August 4, 2015)
 * *[v0.21.1-rc1]*
   * [DEV]: Greatly improve the time it takes to start ```grunt
     server```.
   * Modularize CSS for every player view except for swipe player.
+  * Stop including query params when completing pageUrl macro
+  * Hide the close button if the MiniReel is not skippable and it is
+    running as an interstitial
+  * [DEV]: Allow a subset of tests to be run with ```grunt tdd``` via
+    the ```--only``` option.
+* *[/v0.21.1-rc1]*
 
 ## v0.21.0 (July 30, 2015)
 * *[v0.21.0-rc1]*

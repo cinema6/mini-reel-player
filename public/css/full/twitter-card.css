@@ -20,7 +20,6 @@
         overflow:hidden;
     }
 
-
         .twitter____profile__group {
             width:10em;
             font-family: Arial, Helvetica, sans-serif;
@@ -304,6 +303,71 @@
 
 
 /*  ================================================
+    twitter gif card
+    ================================================ */
+
+
+    .twitter____mediaGif__group {
+        position:absolute;
+        left:12em;
+        right:31em;
+        top:1em;
+        bottom:1em;
+        border-radius:4px 0 0 4px;
+        border:1px solid #000;
+    }
+
+        .twitter____mediaGif__box {
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:calc(100% + 0.125rem);
+            background:#000;
+
+        }
+
+            .twitter____mediaGif {
+                width:100%;
+                height:100%;
+                position:absolute;
+                border:0;
+            }
+
+
+
+    /*  twitter gif card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 2112px -  2000px */
+
+            .twitter____mediaGif__group {
+                right:21em;
+            }
+        }
+
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+            .twitter____mediaGif__group {
+                right:14em;
+                left:9.5em;
+            }
+        }
+
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0 - 752 */
+            .twitter____mediaGif__group {
+                left:1em;
+                bottom:1em;
+            }
+        }
+
+
+/*  ================================================
     twitter video card
     ================================================ */
 
@@ -325,7 +389,6 @@
             width:100%;
             height:100%;
             background:#000;
-
         }
 
             .twitter____mediaVid {
@@ -339,9 +402,9 @@
 
     /*  twitter video card MEDIA QUERIES
         ================================================ */
-/*
+
         @media screen and (min-width:75rem) and (max-width:125rem) {
-            /*  w: 2112px -  2000px *//*
+            /*  w: 2112px -  2000px */
 
             .twitter____mediaVid__group {
                 right:21em;
@@ -349,29 +412,36 @@
         }
 
 
-
         @media screen and (max-width:75rem) {
-            /*  w: 0px - 1200px *//*
+            /*  w: 0px - 1200px */
 
             .twitter____mediaVid__group {
-                right:13em;
+                right:14em;
                 left:9.5em;
             }
-
         }
 
 
-
-        @media screen and (max-width:50rem) {
-            /*  w: 0 - 752 *//*
+        @media screen and (max-width:58rem) {
+            /*  w: 0 - 752 */
             .twitter____mediaVid__group {
-                right:11em;
                 left:1em;
-                bottom:50%;
-                border-radius:4px 0 0 0;
+                bottom:1em;
             }
+        }
 
 
+/*  ================================================
+    twitter text card
+    ================================================ */
 
-        }*/
+    .twitter____text__group {
+        width:100%;
+        position:absolute;
+        background:center/cover no-repeat;
+        overflow:hidden;
+    }
 
+        .twitter____profileBar__group {
+            background-color:rgba(0, 0, 0, 0);
+        }

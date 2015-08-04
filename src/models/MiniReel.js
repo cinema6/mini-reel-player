@@ -231,9 +231,8 @@ export default class MiniReel extends EventEmitter {
         const previousCard = this.currentCard;
         const previousIndex = this.currentIndex;
         let currentCard = this.deck[index] || null;
-
-        this.currentIndex = index;
-        this.currentCard = currentCard;
+        let nextCard = this.deck[index + 1] || null;
+        let currentIndex = index;
 
         _(this).previousIndex = index - 1;
         _(this).nextIndex = index + 1;
@@ -251,13 +250,12 @@ export default class MiniReel extends EventEmitter {
         const shouldShowPreroll = ((cardsShown === firstPlacement) && !showedFirstPreroll) ||
             (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency)));
 
-        if (shouldLoadPreroll) {
-            this.prerollCard.prepare();
-        }
+        if (shouldLoadPreroll) { nextCard = this.prerollCard; }
 
         if (shouldShowPreroll) {
-            currentCard = this.currentCard = this.prerollCard;
-            this.currentIndex = null;
+            currentCard = this.prerollCard;
+            currentIndex = null;
+            nextCard = null;
             _(this).prerollShown++;
 
             _(this).nextIndex = index;
@@ -267,7 +265,7 @@ export default class MiniReel extends EventEmitter {
         }
 
         if (currentCard) {
-            if (this.currentIndex !== (this.length - 1)) {
+            if (currentIndex !== (this.length - 1)) {
                 currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
             }
 
@@ -283,6 +281,19 @@ export default class MiniReel extends EventEmitter {
             previousCard.removeListener('skippableProgress', _(this).skippableProgressHandler);
         }
 
+        if (previousCard) { previousCard.deactivate(); }
+        this.currentIndex = currentIndex;
+        this.currentCard = currentCard;
+        if (currentCard) { currentCard.activate(); }
+
+        if (!currentCard) {
+            forEach(this.deck.concat([this.prerollCard]), card => card.cleanup());
+        }
+
+        if (nextCard) { nextCard.prepare(); }
+
+        this.emit('move');
+
         if (!previousCard) {
             this.emit('launch');
         }
@@ -290,8 +301,6 @@ export default class MiniReel extends EventEmitter {
         if (!currentCard) {
             this.emit('close');
         }
-
-        this.didMove();
     }
 
     moveTo(card) {
@@ -308,30 +317,5 @@ export default class MiniReel extends EventEmitter {
 
     close() {
         this.moveToIndex(-1);
-    }
-
-    didMove() {
-        const { currentIndex, currentCard, deck, prerollCard } = this;
-        const cards = deck.concat([prerollCard]);
-
-        forEach(cards, card => {
-            if (card === currentCard) {
-                card.activate();
-            } else {
-                card.deactivate();
-            }
-        });
-
-        if (currentIndex === -1) {
-            forEach(cards, card => card.cleanup());
-        }
-
-        const nextCard = (currentIndex !== null) && deck[currentIndex + 1];
-
-        if (nextCard) {
-            nextCard.prepare();
-        }
-
-        this.emit('move');
     }
 }

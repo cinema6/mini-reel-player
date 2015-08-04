@@ -12,7 +12,8 @@ import environment from '../../../src/environment.js';
 
 import {
     noop,
-    defer
+    defer,
+    extend
 } from '../../../lib/utils.js';
 
 describe('GoogleAnalyticsHandler', function() {
@@ -97,7 +98,8 @@ describe('GoogleAnalyticsHandler', function() {
             category: 'eventCategory',
             action: 'eventAction',
             label: 'eventLabel',
-            origins: 'dimension11'
+            origins: 'dimension11',
+            value: 'eventValue'
         });
     });
 
@@ -224,6 +226,7 @@ describe('GoogleAnalyticsHandler', function() {
 
             beforeEach(function() {
                 card = new VideoCard({
+                    id: 'rc-fd1d2c315e50af',
                     type: 'vimeo',
                     data: {
                         autoplay: true,
@@ -360,11 +363,32 @@ describe('GoogleAnalyticsHandler', function() {
 
             describe('complete', function() {
                 beforeEach(function() {
+                    player.currentTime = 45.234;
                     player.emit('complete');
                 });
 
                 it('should emit an event', function() {
                     expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Quartile 4'));
+                });
+
+                it('should track the "Played" event', function() {
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(extend(handler.getVideoTrackingData(player, 'Played'), {
+                        value: Math.round(player.currentTime)
+                    }));
+                });
+
+                describe('if it was already emitted', function() {
+                    beforeEach(function() {
+                        trckr.trackEvent.calls.reset();
+                        player.emit('complete');
+                    });
+
+                    it('should not emit the event again', function() {
+                        expect(trckr.trackEvent).not.toHaveBeenCalledWith(jasmine.objectContaining({
+                            category: 'Video',
+                            action: 'Played'
+                        }));
+                    });
                 });
             });
         });
@@ -375,6 +399,7 @@ describe('GoogleAnalyticsHandler', function() {
 
             beforeEach(function() {
                 card = new VideoCard({
+                    id: 'rc-fd1d2c315e50af',
                     type: 'vimeo',
                     data: {
                         autoplay: true,
@@ -489,6 +514,72 @@ describe('GoogleAnalyticsHandler', function() {
                         it('should fire an error event', function() {
                             expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Error', true, 'Video play timed out.'));
                         });
+                    });
+                });
+            });
+
+            describe('deactivate', function() {
+                describe('if the player\'s currentTime is less than 1', function() {
+                    beforeEach(function() {
+                        player.currentTime = 0.99999;
+
+                        card.emit('deactivate');
+                    });
+
+                    it('should not track an event', function() {
+                        expect(trckr.trackEvent).not.toHaveBeenCalledWith(jasmine.objectContaining({
+                            category: 'Video',
+                            action: 'Played'
+                        }));
+                    });
+                });
+
+                describe('if the player\'s currentTime is greater than or equal to 1', function() {
+                    beforeEach(function() {
+                        player.currentTime = 1;
+
+                        card.emit('deactivate');
+                    });
+
+                    it('should track the Played event', function() {
+                        expect(trckr.trackEvent).toHaveBeenCalledWith(extend(handler.getVideoTrackingData(player, 'Played'), { value: player.currentTime }));
+                    });
+
+                    describe('and it is a float', function() {
+                        beforeEach(function() {
+                            trckr.trackEvent.calls.reset();
+                            card.id = 'rc-0d9e3681de5bcf';
+                            player.currentTime = 3.675;
+
+                            card.emit('deactivate');
+                        });
+
+                        it('should convert the currentTime into an int', function() {
+                            expect(trckr.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
+                                value: Math.round(player.currentTime)
+                            }));
+                        });
+                    });
+                });
+
+                describe('if the Played event has already been fired', function() {
+                    beforeEach(function() {
+                        player.currentTime = 10;
+                        card.emit('deactivate');
+                        expect(trckr.trackEvent).toHaveBeenCalledWith(jasmine.objectContaining({
+                            action: 'Played'
+                        }));
+
+                        trckr.trackEvent.calls.reset();
+                        player.currentTime = 15;
+                        card.emit('deactivate');
+                    });
+
+                    it('should not fire the event again', function() {
+                        expect(trckr.trackEvent).not.toHaveBeenCalledWith(jasmine.objectContaining({
+                            category: 'Video',
+                            action: 'Played'
+                        }));
                     });
                 });
             });

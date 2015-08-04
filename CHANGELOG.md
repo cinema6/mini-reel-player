@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.21.2-rc1]*
+  * Added new "Played" video event ([#183](https://github.com/cinema6/mini-reel-player/issues/183)
+
 ## v0.21.1 (August 4, 2015)
 * *[v0.21.1-rc2]*
   * [FIX]: Fixed bug where ballot wasn't hidden for next video in mobile.

@@ -43,6 +43,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             category: 'eventCategory',
             action: 'eventAction',
             label: 'eventLabel',
+            value: 'eventValue',
             origins: 'dimension11'
         });
         this.tracker.set({
@@ -128,6 +129,19 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             });
         });
 
+        const trackPlayedEvent = (() => {
+            const cache = {};
+
+            return ((card, player) => {
+                if (cache[card.id]) { return; }
+
+                cache[card.id] = true;
+                this.tracker.trackEvent(extend(this.getVideoTrackingData(player, 'Played'), {
+                    value: Math.round(player.currentTime)
+                }));
+            });
+        }());
+
         register(({ target: card, data: player }) => {
             if (currentPlayer) {
                 currentPlayer.removeListener('attemptPlay', trackAutoplayAttempt);
@@ -139,6 +153,12 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
                 player.once('attemptPlay', trackAutoplayAttempt);
             }
         }, 'card', 'activate');
+        register(({ data: player, target: card }) => {
+            if (player.currentTime >= 1) { trackPlayedEvent(card, player); }
+        }, 'card', 'deactivate');
+        register(({ data: card, target: player }) => {
+            trackPlayedEvent(card, player);
+        }, 'video', 'complete');
 
         this.on('AdCount', (card, player) => {
             this.tracker.trackEvent(this.getVideoTrackingData(player, 'AdCount'));

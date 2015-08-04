@@ -134,6 +134,10 @@
         top:0; left:0;
         width:100%; height:100%;
     }
+    .ui--offscreen .ballot__group {
+        display:none;
+    }
+    
     .ballot__box {
         position:absolute; z-index:2;
         top:50%; left:0.5em; right:0.5em;

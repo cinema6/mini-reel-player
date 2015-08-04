@@ -5,6 +5,8 @@
     server```.
   * Modularize CSS for every player view except for swipe player.
   * Stop including query params when completing pageUrl macro
+  * Hide the close button if the MiniReel is not skippable and it is
+    running as an interstitial
 
 ## v0.21.0 (July 30, 2015)
 * *[v0.21.0-rc1]*

@@ -437,7 +437,7 @@
 
     .twitter____text__group {
         width:100%;
-        height:100%;
+        height:calc(100% - 7rem);
         position:absolute;
         background:center/cover no-repeat;
         overflow:hidden;
@@ -476,6 +476,7 @@
 
                 .twitter____profileBar__follow {
                     position:absolute;
+                    top:1em;
                     right:2em;
                     color:#ccd6dd;
                     font:bold 1em Arial, Helvetica, sans-serif; 
@@ -502,8 +503,9 @@
 
             .twitter____txtTweet {
                 margin:0;
-                font:1.5em Arial, Helvetica, sans-serif;
+                font:1.75em Arial, Helvetica, sans-serif;
                 color:#292f33;
+                line-height:1.5;
             }
 
             .twitter____txtTweet__tag {
@@ -513,7 +515,7 @@
             .twitter____txtTweet__time {
                 color:#8899a6;
                 font-weight:bold;
-                display:block;
+                display:inline-block;
                 margin:1em 0 0 0;
             }
 
@@ -548,3 +550,85 @@
                 .twitter____info__favorite:before {
                     content:'\f147';
                 }
+
+    /*  twitter text card MEDIA QUERIES
+        ================================================ */
+        @media screen and (max-width: 106rem) and (min-height: 45rem) and (min-width: 75rem) {
+            /*  w: 2112px -  2000px */
+
+            .twitter____text__group {
+                height:calc(100% - 5.5rem);
+            }
+
+        }
+
+        @media screen  and (max-height: 85rem) and (max-width: 95rem) {
+            /*  w: 2112px -  2000px */
+
+            .twitter____text__group {
+                height:calc(100% - 4.5rem);
+            }
+
+        }
+
+        @media screen and (min-width:58rem) and (max-width:95rem) {
+            /*  w: 2112px -  2000px */
+
+                .twitter____text__group {
+                    font-size:0.75em;
+                }
+
+        }
+
+        
+        
+
+        @media screen and (max-width:58rem) {
+            /*  w: 2112px -  2000px */
+
+                .twitter____text__group {
+                    font-size:0.625em;
+                }
+
+        }
+
+        @media screen and (max-width:52rem) {
+            /*  w: 2112px -  2000px */
+
+                .twitter____profileBar__name {
+                    margin-left:5em; 
+                }
+
+                .twitter____profileBar__handle {
+                    display:block;
+                    margin-left:5em; 
+                }
+                .twitter____profileBar__follow {
+                    top:3em;
+                }
+        }
+
+        @media screen and (max-width:44rem) {
+            /*  w: 2112px -  2000px */
+
+            
+
+                .twitter____txtTweet__group {
+                    width:95%;
+                }
+                
+        }
+
+        @media screen and (max-width:41rem) {
+            /*  w: 2112px -  2000px */
+            .twitter____profileBar__handle {
+                margin-bottom:1.5em; 
+                margin-top:0.5em;
+            }
+                .twitter____profileBar__follow {
+                    top:5.5em;
+                    left:8em;
+                }
+            
+                
+        }

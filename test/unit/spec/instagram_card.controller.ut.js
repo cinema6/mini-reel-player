@@ -2,6 +2,7 @@ import InstagramCardController from '../../../src/controllers/InstagramCardContr
 import CardController from '../../../src/controllers/CardController.js';
 import FullInstagramImageCardView from '../../../src/views/full/FullInstagramImageCardView.js';
 import InstagramImageCard from '../../../src/models/InstagramImageCard.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('InstagramCardController', function() {
     let InstagramCardCtrl;
@@ -78,32 +79,32 @@ describe('InstagramCardController', function() {
     describe('events', function() {
         describe('model', function() {
             beforeEach(function() {
-                spyOn(InstagramCardCtrl, 'renderImage');
+                spyOn(InstagramCardCtrl, 'renderInstagram');
             });
 
             describe('prepare', function() {
-                it('should call renderImage if not already rendered', function() {
+                it('should call renderInstagram if not already rendered', function() {
                     card.prepare();
-                    expect(InstagramCardCtrl.renderImage).toHaveBeenCalled();
+                    expect(InstagramCardCtrl.renderInstagram).toHaveBeenCalled();
                 });
 
-                it('should not call renderImage if already rendered', function() {
+                it('should not call renderInstagram if already rendered', function() {
                     InstagramCardCtrl.isRendered = true;
                     card.prepare();
-                    expect(InstagramCardCtrl.renderImage).not.toHaveBeenCalled();
+                    expect(InstagramCardCtrl.renderInstagram).not.toHaveBeenCalled();
                 });
             });
 
             describe('activate', function() {
-                it('should call renderImage if not already rendered', function() {
+                it('should call renderInstagram if not already rendered', function() {
                     card.activate();
-                    expect(InstagramCardCtrl.renderImage).toHaveBeenCalled();
+                    expect(InstagramCardCtrl.renderInstagram).toHaveBeenCalled();
                 });
 
-                it('should not call renderImage if already rendered', function() {
+                it('should not call renderInstagram if already rendered', function() {
                     InstagramCardCtrl.isRendered = true;
                     card.prepare();
-                    expect(InstagramCardCtrl.renderImage).not.toHaveBeenCalled();
+                    expect(InstagramCardCtrl.renderInstagram).not.toHaveBeenCalled();
                 });
             });
         });
@@ -170,11 +171,14 @@ describe('InstagramCardController', function() {
             });
         });
 
-        describe('renderImage', function() {
+        describe('renderInstagram', function() {
 
             beforeEach(function() {
                 spyOn(InstagramCardCtrl.view, 'update');
-                InstagramCardCtrl.renderImage();
+                spyOn(InstagramCardCtrl, 'formatDate').and.returnValue('4 weeks');
+                Runner.run(() => {
+                    InstagramCardCtrl.renderInstagram();
+                });
             });
 
             it('should set the isRendered property to true', function() {
@@ -197,7 +201,6 @@ describe('InstagramCardController', function() {
                     href: 'https://instagram.com/p/5YN6a0tOc-/',
                     likes: '77.7k',
                     date: '4 weeks',
-                    caption: 'Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY',
                     comments: '9,734'
                 };
                 expect(InstagramCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);

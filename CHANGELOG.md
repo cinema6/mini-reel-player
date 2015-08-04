@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v0.21.1 (August 4, 2015)
 * *[v0.21.1-rc1]*
   * [DEV]: Greatly improve the time it takes to start ```grunt
     server```.
@@ -9,6 +10,7 @@
     running as an interstitial
   * [DEV]: Allow a subset of tests to be run with ```grunt tdd``` via
     the ```--only``` option.
+* *[/v0.21.1-rc1]*
 
 ## v0.21.0 (July 30, 2015)
 * *[v0.21.0-rc1]*

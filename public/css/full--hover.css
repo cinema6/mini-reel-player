@@ -6,7 +6,6 @@
     .ballot__btn:before,
     .player__playBtn,
     .actionsModal__btn:after {
-        -webkit-transition:background 0.3s; 
         transition:background 0.3s;
     }
 
@@ -35,8 +34,16 @@
     color transitions
     ================================================ */
     .titleBar__titleText,
-    .btnPrimary .btnLabel {
-        -webkit-transition:color 0.3s; transition:color 0.3s;
+    .btnPrimary .btnLabel,
+    .twitter____profile__name,
+    .twitter____tweet__timeStamp,
+    .twitter____tweet__hashtag,
+    .twitter____tweet__reply:before,
+    .twitter____tweet__retweet,
+    .twitter____tweet__retweet:before,
+    .twitter____tweet__favorite,
+    .twitter____tweet__favorite:before {
+        transition:color 0.3s;
     }
 
     .titleBar__titleText:hover,
@@ -46,6 +53,23 @@
 
     .ballot__btn1:hover .ballot__btnLabel {
         color:#1789cb;
+    }
+
+    .twitter____profile__name:hover,
+    .twitter____tweet__timeStamp:hover,
+    .twitter____tweet__hashtag:hover,
+    .twitter____tweet__reply:hover:before {
+        color:#3b94d9;
+    }
+
+    .twitter____tweet__retweet:hover,
+    .twitter____tweet__retweet:hover:before {
+        color:#5c913b;
+    }
+
+    .twitter____tweet__favorite:hover,
+    .twitter____tweet__favorite:hover:before {
+        color:#ffac33;
     }
 
 
@@ -213,3 +237,13 @@
     .btnPrimary:hover .btn__label {
         text-shadow: none;
     }
+
+    .twitter____profile__follow {
+        transition:0.3s background-color, 0.3s color;
+    }
+
+    .twitter____profile__follow:hover {
+        color: #fff;
+        background-color: #55acee;
+    }
+    

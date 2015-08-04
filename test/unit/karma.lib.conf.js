@@ -7,7 +7,9 @@ module.exports = function(config) {
             'test/main.js',
             'test/unit/main.js',
             'test/unit/spec/lib/**/*.ut.js'
-        ],
+        ].map(function(pattern) {
+            return { pattern: pattern, watched: false };
+        }),
 
         // test results reporter to use
         // possible values: dots || progress || growl

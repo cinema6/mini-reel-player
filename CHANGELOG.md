@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 ## v0.21.1 (August 4, 2015)
+* *[v0.21.1-rc2]*
+  * [FIX]: Fixed bug where ballot wasn't hidden for next video in mobile.
+
 * *[v0.21.1-rc1]*
   * [DEV]: Greatly improve the time it takes to start ```grunt
     server```.

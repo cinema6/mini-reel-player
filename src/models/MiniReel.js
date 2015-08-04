@@ -33,6 +33,7 @@ import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
 import TwitterTextCard from './TwitterTextCard.js';
 import TwitterImageCard from './TwitterImageCard.js';
+import TwitterGifCard from './TwitterGifCard.js';
 import TwitterVideoCard from './TwitterVideoCard.js';
 
 const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
@@ -94,6 +95,8 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
             switch(card.data.type) {
             case 'image':
                 return new TwitterImageCard(card, experience, profile);
+            case 'gif':
+                return new TwitterGifCard(card, experience, profile);
             case 'video':
                 return new TwitterVideoCard(card, experience, profile);
             default:

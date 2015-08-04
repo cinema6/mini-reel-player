@@ -42,6 +42,14 @@
     .instag____postInfo__name,
     .instag____postInfo__tag,
     .instag____postInfo__comments {
+    .twitter____profile__name,
+    .twitter____tweet__timeStamp,
+    .twitter____tweet__hashtag,
+    .twitter____tweet__reply:before,
+    .twitter____tweet__retweet,
+    .twitter____tweet__retweet:before,
+    .twitter____tweet__favorite,
+    .twitter____tweet__favorite:before {
         transition:color 0.3s;
     }
 
@@ -57,6 +65,23 @@
     .instag____profileImg__name:hover {
         color:#000;
     }
+    .twitter____profile__name:hover,
+    .twitter____tweet__timeStamp:hover,
+    .twitter____tweet__hashtag:hover,
+    .twitter____tweet__reply:hover:before {
+        color:#3b94d9;
+    }
+
+    .twitter____tweet__retweet:hover,
+    .twitter____tweet__retweet:hover:before {
+        color:#5c913b;
+    }
+
+    .twitter____tweet__favorite:hover,
+    .twitter____tweet__favorite:hover:before {
+        color:#ffac33;
+    }
+
 
     .instag____profileDesc__link:hover,
     .instag____postAccount__name:hover,
@@ -136,7 +161,7 @@
     position transitions
     ================================================ */
     .slideNav__icon {
-        transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
+        transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s;
     }
 
     .slideNav__btn:hover .slideNav__icon--prev {
@@ -242,3 +267,11 @@
         color:#2d6599;
     }
 
+    .twitter____profile__follow {
+        transition:0.3s background-color, 0.3s color;
+    }
+
+    .twitter____profile__follow:hover {
+        color: #fff;
+        background-color: #55acee;
+    }

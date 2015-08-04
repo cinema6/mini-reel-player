@@ -1,67 +1,81 @@
 /*  ================================================
     twitter image card
     ================================================ */
+    @font-face {
+      font-family:'rosettaicons';
+      src: url('../../fonts/rosetta-icons-Regular.eot');
+      src: url('../../fonts/rosetta-icons-Regular.woff') format('woff'),
+           url('../../fonts/rosetta-icons-Regular.ttf')  format('truetype');
+    }
+
 
     .twitter____player__group {
         margin:0;
         padding:1em;
         width:100%;
         position:absolute;
-        background:#fff;
-        border:1px solid #eeefef;
+        background:#f5f8fa;
+        border:1px solid #e1e8ed;
         font-size:1.125em;
         overflow:hidden;
     }
 
 
         .twitter____profile__group {
-            background:#fafafa;
-            border-radius:4px;
-            border:1px solid #eeefef;
-            width:7.5em;
-            max-height:20rem;
-            overflow-y:auto;
-            padding:0.75em;
-            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            width:10em;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
 
-            .twitter____profileImg__picBox {
+            .twitter____profile__picBox {
                 display:block;
                 width:60%;
-                margin:0 auto;
+                margin:0 0 0 auto;
             }
 
-                .twitter____profileImg__pic {
+                .twitter____profile__pic {
                     width:100%;
-                    border-radius:100%;
-                    border:1px solid #eeefef;
+                    border-radius:5px;
+                    border:1px solid #fff;
                 }
 
-                .twitter____profileImg__name {
+                .twitter____profile__name {
+                    font-size:1.25em;
+                    font-weight:700;
+                    color:#292f33;
+                    text-align:right;
+                    display:block;
+                }
+
+                .twitter____profile__handle {
+                    color:#8899a6;
                     font-size:0.875em;
-                    font-weight:300;
-                    word-wrap:break-word;
-                    color:#4b4f54;
-                    margin:0;
-                    width:100%;
-                    text-align:center;
+                    text-align:right;
                     display:block;
+                    margin:0 0 1em 0;
                 }
 
-                .twitter____profileImg__follow,
-                .twitter____profileImg__follow:focus {
-                    background-color:#fafafa;
-                    border:1px solid #4090db;
-                    border-radius:3px;
-                    margin:1.3125em 0 0 0;
-                    padding: 0.5em 0;
-                    color:#4090db;
-                    text-transform:uppercase;
-                    font-size:0.75em;
+                .twitter____profile__follow,
+                .twitter____profile__follow:focus {
                     width:100%;
-                    display:block;
+                    display: inline-block;
                     text-align:center;
+                    padding:0.34375rem 0.8125rem 0.40625rem 0.71875rem;
+                    font-size:0.75rem;
+                    font-weight:700;
+                    line-height:1;
+                    color:#55acee;
+                    background-color:#fff;
+                    border:1px solid #55acee;
+                    border-radius:4px;
+                }
+                .twitter____profile__follow:before,
+                .twitter____profile__follow:before {
+                    content:'\f179';
+                    font-family:'rosettaicons';
+                    position:relative;
+                    top:0.0625em;
+                    margin:0 0.5em 0 0;
                 }
 
             
@@ -70,61 +84,222 @@
             position:absolute;
             top:1em;
             bottom:1em;
-            left:9em;
+            left:12em;
             right:31em;
         }
 
             .twitter____mediaImg {
                 height:100%;
-                border-radius:4px 0 0 4px;
-                border:1px solid #eeefef;
-                border-right:none;
-                background:#fafafa center/contain no-repeat;
+                border-radius:5px 0 0 5px;
+                border:1px solid #e1e8ed;
+                background:#ffffff center/contain no-repeat;
             }
 
 
 
 
 
-        .twitter____post__group {
+        .twitter____tweet__group {
             border-radius:0 4px 4px 0;
-            border:1px solid #eeefef;
+            border:1px solid #e1e8ed;
             border-left:none;
             background-color:#fff;
             position:absolute;
-            right:1em;
             top:1em;
             bottom:1em;
-            padding:1em;
+            right:1em;
+            padding:0.75em;
             width:30em;
-            font-family:'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-            .twitter____postAccount__group {
-                border-bottom:1px solid #eeefef;
-                margin:0 0 1.1875em 0;
-                padding:0 0 1em 0;
-                position:relative;
+
+
+                .twitter____tweet__timeStamp {
+                    font-size:0.875em;
+                    color:#8899a6;
+                }
+                .twitter____tweet__timeStamp:after {
+                    content:'\f179';
+                    font-family:'rosettaicons';
+                    font-size:1.25em;
+                    color:#88c9f9;
+                    position:absolute;
+                    top:-0.25em;
+                    right:0;
+                }
+
+
+        .twitter____tweet__container {
+            overflow-y:auto;
+            position:absolute;
+            top:0.75em;
+            bottom:0.75em;
+            right:0.75em;
+            left:0.75em;
+        }
+
+            .twitter____tweet__copy {
+                color:#292f33;
+                font-size:1.5em;
             }
 
+                .twitter____tweet__hashtag {
+                    color:#2b7bb9;
+                }
 
-        .twitter____postInfo__group {
-            height:100%;
-            position:relative;
+
+        .twitter____tweet__feedback {
+            font-size:1rem;
+            display:block;
         }
+            .twitter____tweet__reply,
+            .twitter____tweet__retweet,
+            .twitter____tweet__favorite {
+                margin:0 2em 0 0;
+                color:#8899a6;
+                font-weight:700;
+            }
 
-            .twitter____postInfo__copy {
-                color:#000;
+            .twitter____tweet__reply:before,
+            .twitter____tweet__retweet:before,
+            .twitter____tweet__favorite:before {
+                font-family:'rosettaicons';
+                font-weight:normal;
+                color:#ccd6dd;
+                margin:0 0.5em 0 0;
+            }
+            .twitter____tweet__reply:before {
+                content:'\f151';
+            }
+            .twitter____tweet__retweet:before {
+                content:'\f152';
+            }
+            .twitter____tweet__favorite:before {
+                content:'\f147';
+            }
+
+        
+
+
+/*  twitter image card MEDIA QUERIES
+    ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 1200px -  2000px */
+
+            .twitter____player__group {
                 font-size:0.875em;
-                margin:1em 0 0 0;
-                padding:0 1em 0 0;
-                overflow-y:auto;
             }
 
 
-        .twitter____feedback__group {
-            font-size:0.8125em;
-            color:#a5a7aa;
+            .twitter____mediaImg__group {
+                right:21em;
+            }
+
+            .twitter____tweet__group {
+                width:20em;
+            }
+
+                .twitter____postAccount__name {
+                    width:35%;
+                }
+
+        }
+
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+
+            .twitter____player__group {
+                font-size:0.875em;
+            }
+
+                .twitter____profile__group {
+                    width:8em;
+                }
+
+                .twitter____mediaImg__group {
+                    right:14em;
+                    left:10em;
+                }
+
+                    .twitter____mediaImg {
+                        background-position:center top;
+                    }
+
+                .twitter____tweet__group {
+                    width:13em;
+                }
+
+                    .twitter____tweet__feedback {
+                        font-size:0.875em;
+                    }
+
+                        .twitter____tweet__reply,
+                        .twitter____tweet__retweet,
+                        .twitter____tweet__favorite {
+                            margin-right:1em;
+                        }
+
+
+
+        }
+
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0px - 752 */
+
+            .twitter____profile__group {
+                position:absolute;
+                top:1.75em;
+                bottom:0;
+                right:1.75em;
+                z-index:2;
+                width:11.75em;
+            }
+
+                .twitter____profile__picBox {
+                    width:4em;
+                    position:absolute;
+                    left:0;
+                }
+
+                    .twitter____profile__name {
+                        font-size:1em;
+                        line-height:1.4;
+                        text-align:left;
+                        width:7em;
+                        position:absolute;
+                        right:0;
+                    }
+
+                    .twitter____profile__handle {
+                        font-size:0.875em;
+                        text-align:left;
+                        position:absolute;
+                        top:3.25em;
+                        left: 5.5em;
+                    }
+
+
+                    .twitter____profile__follow,
+                    .twitter____profile__follow:focus {
+                        display:none;
+                    }
+
+
+            .twitter____mediaImg__group {
+                left:1em;
+            }
+
+            .twitter____tweet__container {
+                top:5.5em;
+            }
+
+
+               
         }
 
 
@@ -135,7 +310,7 @@
 
     .twitter____mediaVid__group {
         position:absolute;
-        left:9em;
+        left:12em;
         right:31em;
         top:1em;
         bottom:1em;
@@ -161,263 +336,12 @@
             }
 
 
-/*  twitter image card MEDIA QUERIES
-    ================================================ */
-
-        @media screen and (min-width:75rem) and (max-width:125rem) {
-            /*  w: 1200px -  2000px */
-
-            .twitter____player__group {
-                font-size:1em;
-            }
-
-
-            .twitter____mediaImg__group {
-                right:21em;
-            }
-
-            .twitter____post__group {
-                width:20em;
-            }
-
-                .twitter____postAccount__name {
-                    width:35%;
-                }
-
-        }
-
-
-        @media screen and (max-width:75rem) {
-            /*  w: 0px - 1200px */
-
-
-            .twitter____player__group {
-                font-size:0.9375em;
-            }
-
-            .twitter____mediaImg__group {
-                right:14em;
-            }
-
-            .twitter____post__group {
-                width:15em;
-            }
-
-                .twitter____postAccount__logo {
-                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
-                    width:4em;
-                    position: absolute;
-                    top:-0.5em;
-                    right:-0.5em;
-                }
-
-                    .twitter____postInfo__copy {
-                        bottom:10em;
-                    }
-
-                    .twitter____postInfo__feedback {
-                        padding-left:2.5em;
-                    }
-                        .twitter____postInfo__feedback:before {
-                            background: url('../../img/social-card-sprites.png') -4.25em -0.5em/9em no-repeat;
-                            width: 2.15em;
-                            height: 1.825em;
-                        }
-                        .twitter____postInfo__feedback:after {
-                            background:url('../../img/social-card-sprites.png') -6.95em -0.55em/9em no-repeat;
-                            width: 1.75em;
-                            height: 1.5em;
-                        }
-
-        }
-
-
-        @media screen and (max-width:50rem) {
-            /*  w: 0px - 752 */
-
-                .twitter____profile__group {
-                    width:auto;
-                    height:auto;
-                    min-height:auto;
-                    max-height:none;
-                    position: absolute;
-                    top:50%;
-                    bottom:1em;
-                    left:1em;
-                    right:11em;
-                    overflow-y:auto;
-                    border-radius:0 0 0 4px;
-                    border-top-width:0;
-                }
-
-                    .twitter____profileImg__picBox {
-                        width:25%;
-                        min-width:3rem;
-                        max-width:4rem;
-                    }
-
-
-                        .twitter____profileImg__follow,
-                        .twitter____profileImg__follow:focus {
-                            min-width: 3.75rem;
-                            max-width: 8rem;
-                            margin: 0.5em auto 0;
-                        }
-
-
-
-
-            .twitter____mediaImg__group {
-                position:absolute;
-                top:1em;
-                bottom:50%;
-                left:1em;
-                right:11em;
-            }
-
-                .twitter____mediaImg {
-                    background:center top/contain no-repeat;
-                    border-right:1px solid #eeefef;
-                    background-color:#fff;
-                    border-radius: 4px 0 0 0;
-                }
-
-
-
-            .twitter____post__group {
-                width: 10em;
-                padding: 0.75em;
-                height:auto;
-                overflow-y:auto;
-            }
-
-                .twitter____postAccount__pic {
-                    width:40%;
-                    float:none;
-                    display:block;
-                    margin:1.5em 30% 0;
-                }
-
-                .twitter____postAccount__name {
-                    width:100%;
-                    text-align:center;
-                    margin:0.25em 0 0;
-                }
-
-                .twitter____postAccount__logo {
-                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
-                    width:4em;
-                    top:-0.5em;
-                    right:-0.5em;
-                }
-
-                .twitter____postInfo__copy {
-                    position:relative;
-                }
-
-                    .twitter____postInfo__group {
-                        height:auto;
-                    }
-
-                    .twitter____postInfo__feedback {
-                        padding-left:1.5em;
-                        position:relative;
-                        left:0;
-                        right:0;
-                        bottom:1.5em;
-                        display:block;
-                    }
-                        .twitter____postInfo__feedback:before {
-                            background:url('../../img/social-card-sprites.png') -2.4em -0.25em/5em no-repeat;
-                            width: 1.25em;
-                            height: 1em;
-                        }
-                        .twitter____postInfo__feedback:after {
-                            background: url('../../img/social-card-sprites.png') -19.25em -0.5em/7em no-repeat;
-                            width: 1.75em;
-                            height: 0.3em;
-                        }
-
-                    .twitter____postInfo__comments {
-                        margin-bottom:8em;
-                    }
-
-                        .twitter____postInfo__comment {
-                            top: 1.5em;
-                            font-size: 0.825em;
-                        }
-
-        }
-
-        @media screen and (max-height:30rem) {
-            /*  h: 0 - 480px    */
-
-            .twitter____post__group {
-                width: 10em;
-                padding: 0.75em;
-                height:auto;
-                overflow-y:auto;
-            }
-
-                .twitter____postAccount__logo {
-                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
-                    width:4em;
-                    top:-0.5em;
-                    right:-0.5em;
-                }
-
-                .twitter____postInfo__copy {
-                    position:relative;
-                }
-
-                .twitter____postInfo__group {
-                    height:auto;
-                }
-
-                    .twitter____postInfo__comments {
-                        margin-bottom:8em;
-                    }
-
-
-                    .twitter____postInfo__feedback {
-                        position:relative;
-                        display:block;
-                        width:100%;
-                        left:0;
-                    }
-
-
-        }
-
-
-
-
-        @media screen and (max-height:26rem) and (max-width:50rem) {
-            /*  h: 0px - 416px
-                w: 0px - 752    */
-
-            .twitter____profile__group {
-                height:auto;
-                min-height:none;
-            }
-        }
-
-        @media screen and (max-height:40rem) and (min-width:50rem) {
-            /*  h: 0px - 416px
-                w: 0px - 751px  */
-
-            .twitter____profile__group {
-                position:absolute;
-                top:1em;
-                bottom:1em;
-            }
-        }
 
     /*  twitter video card MEDIA QUERIES
         ================================================ */
-
+/*
         @media screen and (min-width:75rem) and (max-width:125rem) {
-            /*  w: 2112px -  2000px */
+            /*  w: 2112px -  2000px *//*
 
             .twitter____mediaVid__group {
                 right:21em;
@@ -427,7 +351,7 @@
 
 
         @media screen and (max-width:75rem) {
-            /*  w: 0px - 1200px */
+            /*  w: 0px - 1200px *//*
 
             .twitter____mediaVid__group {
                 right:13em;
@@ -439,7 +363,7 @@
 
 
         @media screen and (max-width:50rem) {
-            /*  w: 0 - 752 */
+            /*  w: 0 - 752 *//*
             .twitter____mediaVid__group {
                 right:11em;
                 left:1em;
@@ -449,6 +373,5 @@
 
 
 
-        }
-
+        }*/
 

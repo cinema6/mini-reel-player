@@ -85,11 +85,8 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
             switch(card.data.type) {
             case 'image':
                 return new TwitterImageCard(card, experience, profile);
-<<<<<<< HEAD
-=======
             case 'gif':
                 return new TwitterGifCard(card, experience, profile);
->>>>>>> e3fc0bd2db3073dcfd31d16ac8a448d1be780c81
             case 'video':
                 return new TwitterVideoCard(card, experience, profile);
             default:

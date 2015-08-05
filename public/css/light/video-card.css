@@ -116,26 +116,27 @@
                 line-height:1.25rem;
             }
         .text--low .player__height {
-            height:calc(100% - 7.875rem);
+            height:calc(100% - 7.875em);
         }
+        
         .text--med .player__height {
-            height:calc(100% - 8.875rem);
+            height:calc(100% - 8.875em);
         }
         .text--high .player__height {
-            height:calc(100% - 10.125rem);
+            height:calc(100% - 10.125em);
         }
 
         .MiniReel__group--soloMR .text--low .player__height {
-            height:calc(100% - 6.5rem);
+            height:calc(100% - 6.5em);
         }
         .MiniReel__group--soloMR .text--med .player__height {
-            height:calc(100% - 7.5rem);
+            height:calc(100% - 7.5em);
         }
         .MiniReel__group--soloMR .text--high .player__height {
-            height:calc(100% - 8.75rem);
+            height:calc(100% - 8.75em);
         }
 
-            
+
 
 
 /*  ================================================

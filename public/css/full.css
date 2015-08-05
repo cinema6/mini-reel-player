@@ -36,7 +36,7 @@
 
     /*  twitter card classes
         ============================================= */ 
-        @import url('full/twitter-card.css');
+        @import url('global/twitter-card.css');
 
     /*  sponsored card classes
         ============================================= */ 
@@ -59,3 +59,8 @@
     /*  slide nav button classes 
         ============================================= */ 
         @import url('full/slide-nav-btn.css');
+
+    /*  global classes
+            twitter cards 
+        ============================================= */ 
+        @import url('full/full__global.css');

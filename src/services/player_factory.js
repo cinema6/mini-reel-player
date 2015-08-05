@@ -7,6 +7,7 @@ import EmbeddedPlayer from '../players/EmbeddedPlayer.js';
 import RumblePlayer from '../players/RumblePlayer.js';
 import SlideshowBobPlayer from '../players/SlideshowBobPlayer.js';
 import VinePlayer from '../players/VinePlayer.js';
+import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
@@ -29,6 +30,8 @@ class PlayerFactory {
             return new SlideshowBobPlayer();
         case 'vine':
             return new VinePlayer();
+        case 'instagram':
+            return new HtmlVideoPlayer();
 
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);

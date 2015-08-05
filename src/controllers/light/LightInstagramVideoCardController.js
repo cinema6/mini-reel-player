@@ -1,7 +1,7 @@
-import InstagramCardController from '../InstagramCardController.js';
+import InstagramVideoCardController from '../InstagramVideoCardController.js';
 import LightInstagramVideoCardView from '../../views/light/LightInstagramVideoCardView.js';
 
-export default class LightInstagramVideoCardController extends InstagramCardController {
+export default class LightInstagramVideoCardController extends InstagramVideoCardController {
     constructor() {
         super(...arguments);
 

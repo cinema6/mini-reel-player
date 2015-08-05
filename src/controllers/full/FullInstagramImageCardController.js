@@ -1,7 +1,7 @@
-import InstagramCardController from '../InstagramCardController.js';
+import InstagramImageCardController from '../InstagramImageCardController.js';
 import FullInstagramImageCardView from '../../views/full/FullInstagramImageCardView.js';
 
-export default class FullInstagramImageCardController extends InstagramCardController {
+export default class FullInstagramImageCardController extends InstagramImageCardController {
     constructor() {
         super(...arguments);
 

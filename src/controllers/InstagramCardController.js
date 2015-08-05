@@ -4,16 +4,26 @@ import View from '../../lib/core/View.js';
 export default class InstagramCardController extends CardController {
     constructor() {
         super(...arguments);
+
         this.isRendered = false;
 
-        const doRender = () => {
-            if(!this.isRendered) {
-                this.renderInstagram();
-            }
-        };
+        /* InstagramImageCard (model) events. */
+        this.model.on('prepare', () => this.prepare());
+        this.model.on('activate', () => this.activate());
+    }
 
-        this.model.on('prepare', doRender);
-        this.model.on('activate', doRender);
+    doRender() {
+        if(!this.isRendered) {
+            this.renderInstagram();
+        }
+    }
+
+    prepare() {
+        this.doRender();
+    }
+
+    activate() {
+        this.doRender();
     }
 
     formatLikes(likes) {
@@ -102,5 +112,5 @@ export default class InstagramCardController extends CardController {
             date: this.formatDate(this.model.date),
             comments: this.formatComments(this.model.comments)
         });
-    }    
+    }
 }

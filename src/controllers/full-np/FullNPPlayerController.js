@@ -7,6 +7,10 @@ import FullVideoCardController from '../full/FullVideoCardController.js';
 import FullRecapCardController from '../full/FullRecapCardController.js';
 import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullFacebookTextCardController from '../full/FullFacebookTextCardController.js';
+import FullFacebookArticleCardController from '../full/FullFacebookArticleCardController.js';
+import FullFacebookImageCardController from '../full/FullFacebookImageCardController.js';
+import FullFacebookVideoCardController from '../full/FullFacebookVideoCardController.js';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
 export default class FullPlayerController extends PlayerController {
@@ -22,7 +26,11 @@ export default class FullPlayerController extends PlayerController {
             video: FullVideoCardController,
             recap: FullRecapCardController,
             preroll: LightboxPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            facebookText: FullFacebookTextCardController,
+            facebookArticle: FullFacebookArticleCardController,
+            facebookImage: FullFacebookImageCardController,
+            facebookVideo: FullFacebookVideoCardController
         };
 
         this.initThumbnailNavigator();

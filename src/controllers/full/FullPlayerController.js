@@ -7,6 +7,10 @@ import FullVideoCardController from './FullVideoCardController.js';
 import FullRecapCardController from './FullRecapCardController.js';
 import FullPrerollCardController from './FullPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullFacebookTextCardController from './FullFacebookTextCardController.js';
+import FullFacebookArticleCardController from './FullFacebookArticleCardController.js';
+import FullFacebookImageCardController from './FullFacebookImageCardController.js';
+import FullFacebookVideoCardController from './FullFacebookVideoCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
 
@@ -23,7 +27,11 @@ export default class FullPlayerController extends PlayerController {
             video: FullVideoCardController,
             recap: FullRecapCardController,
             preroll: FullPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            facebookText: FullFacebookTextCardController,
+            facebookArticle: FullFacebookArticleCardController,
+            facebookImage: FullFacebookImageCardController,
+            facebookVideo: FullFacebookVideoCardController
         };
 
         this.initResizing();

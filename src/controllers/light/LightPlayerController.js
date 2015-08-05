@@ -8,6 +8,10 @@ import LightVideoCardController from './LightVideoCardController.js';
 import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightPrerollCardController from './LightPrerollCardController.js';
+import LightFacebookTextCardController from './LightFacebookTextCardController.js';
+import LightFacebookArticleCardController from './LightFacebookArticleCardController.js';
+import LightFacebookImageCardController from './LightFacebookImageCardController.js';
+import LightFacebookVideoCardController from './LightFacebookVideoCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 
 export default class LightPlayerController extends PlayerController {
@@ -22,7 +26,11 @@ export default class LightPlayerController extends PlayerController {
             video: LightVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            facebookText: LightFacebookTextCardController,
+            facebookArticle: LightFacebookArticleCardController,
+            facebookImage: LightFacebookImageCardController,
+            facebookVideo: LightFacebookVideoCardController
         };
 
         this.session.once('ready', () => {

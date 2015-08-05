@@ -270,6 +270,73 @@
 
 
 
+/*  ================================================
+    MiniReel structure classes
+    ================================================ */
+    .cards__group {
+        background:#dddddd; padding:3em 0.375em 4em 0.375em;
+        overflow-x:auto; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        position: fixed; top:0; bottom:0; left:0; right:0;
+    }
+        .cards__group--solo {
+            padding-top:2.875em;
+        }
+
+    @media screen and (orientation:landscape) {
+        .cards__group {
+            padding:0.5em 4.5em;
+        }
+    }
+
+    .MiniReel__title {
+        color:#000;
+        font-size:1.25em;
+        line-height: 1.2;
+        font-weight:bold; font-style: italic;
+        text-align: center;
+        margin:0 0 0.5em 0;
+        width:100%;
+        white-space: nowrap;
+        overflow: hidden; text-overflow:ellipsis;
+    }
+        .cards__group--solo .MiniReel__title {
+            display: none;
+        }
+
+
+    .cards__list, .cards__item {
+        margin:0; padding:0; list-style:none;
+    }
+        
+    .card__group {
+        background:#fff; 
+        border-radius: 3px; 
+        padding:0.5em 0 1em;
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.12); 
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.12);
+    }
+        .card__title {
+            color:#000;
+            font-size:1.375em;
+            line-height:1.2;
+            margin:0.125rem 0.5em 0.5em; 
+            text-align: center;
+        }
+        .card__attributes {
+            color:#999; 
+            font-size:0.875rem;/*14px*/
+        }
+        .card__desc {
+            margin:0.875em 0.5em 0 0.5em; 
+            font-size:1em;
+            line-height:1.5;
+        }
+        .card__copy {
+            margin:1em 0.5em 0.143em 0.5em; font-size:0.875em;/*14px*/ color:#747474; line-height:1.75;
+            background: transparent !important;
+        }
+
+
 
 
 

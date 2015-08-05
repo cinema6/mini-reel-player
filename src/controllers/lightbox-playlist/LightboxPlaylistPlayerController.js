@@ -8,6 +8,10 @@ import LightboxPlaylistVideoCardController from './LightboxPlaylistVideoCardCont
 import LightboxPlaylistRecapCardController from './LightboxPlaylistRecapCardController.js';
 import LightboxPlaylistPrerollCardController from './LightboxPlaylistPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullFacebookTextCardController from '../full/FullFacebookTextCardController.js';
+import FullFacebookArticleCardController from '../full/FullFacebookArticleCardController.js';
+import FullFacebookImageCardController from '../full/FullFacebookImageCardController.js';
+import FullFacebookVideoCardController from '../full/FullFacebookVideoCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
@@ -24,7 +28,11 @@ export default class LightboxPlaylistPlayerController extends PlayerController {
             video: LightboxPlaylistVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightboxPlaylistPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            facebookText: FullFacebookTextCardController,
+            facebookArticle: FullFacebookArticleCardController,
+            facebookImage: FullFacebookImageCardController,
+            facebookVideo: FullFacebookVideoCardController
         };
 
         this.initPlaylist();

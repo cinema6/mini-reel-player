@@ -29,8 +29,13 @@ import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
+import FacebookTextCard from './FacebookTextCard.js';
+import FacebookArticleCard from './FacebookArticleCard.js';
+import FacebookImageCard from './FacebookImageCard.js';
+import FacebookVideoCard from './FacebookVideoCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap'];
+const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
+                        'facebook'];
 
 const _ = createKey();
 
@@ -77,6 +82,18 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
             return new DisplayAdCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
+        case 'facebook':
+            switch(card.data.type) {
+            case 'article':
+                return new FacebookArticleCard(card, experience, profile);
+            case 'image':
+                return new FacebookImageCard(card, experience, profile);
+            case 'video':
+                return new FacebookVideoCard(card, experience, profile);
+            default:
+                return new FacebookTextCard(card, experience, profile);
+            }
+            break;
         default:
             return new VideoCard(card, experience, profile);
         }

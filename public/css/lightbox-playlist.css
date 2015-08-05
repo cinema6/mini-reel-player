@@ -36,6 +36,10 @@
         ============================================= */
         @import url('lightbox-playlist/text-card.css');
 
+    /*  twitter card classes
+        ============================================= */
+        @import url('global/twitter-card.css');
+
     /*  sponsored card styles
         ============================================= */
         @import url('lightbox-playlist/sponsored-card.css');

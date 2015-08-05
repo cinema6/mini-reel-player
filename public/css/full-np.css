@@ -30,6 +30,10 @@
         ============================================= */
         @import url('full-np/text-card.css');
 
+    /*  twitter card classes
+        ============================================= */
+        @import url('global/twitter-card.css');
+
     /*  sponsored card classes
         ============================================= */
         @import url('full-np/sponsored-card.css');

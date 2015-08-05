@@ -31,6 +31,7 @@ export default class MobilePlayerController extends PlayerController {
             instagramVideo: MobileInstagramVideoCardController,
             twitterText: MobileTwitterCardController,
             twitterImage: MobileTwitterCardController,
+            twitterGif: MobileTwitterCardController,
             twitterVideo: MobileTwitterCardController
         };
 

@@ -9,6 +9,10 @@ import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardContro
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullInstagramImageCardController from '../full/FullInstagramImageCardController';
 import FullInstagramVideoCardController from '../full/FullInstagramVideoCardController';
+import FullTwitterTextCardController from '../full/FullTwitterTextCardController.js';
+import FullTwitterImageCardController from '../full/FullTwitterImageCardController.js';
+import FullTwitterGifCardController from '../full/FullTwitterGifCardController.js';
+import FullTwitterVideoCardController from '../full/FullTwitterVideoCardController.js';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
 export default class FullPlayerController extends PlayerController {
@@ -26,7 +30,11 @@ export default class FullPlayerController extends PlayerController {
             preroll: LightboxPrerollCardController,
             displayAd: DisplayAdCardController,
             instagramImage: FullInstagramImageCardController,
-            instagramVideo: FullInstagramVideoCardController
+            instagramVideo: FullInstagramVideoCardController,
+            twitterText: FullTwitterTextCardController,
+            twitterImage: FullTwitterImageCardController,
+            twitterGif: FullTwitterGifCardController,
+            twitterVideo: FullTwitterVideoCardController
         };
 
         this.initThumbnailNavigator();

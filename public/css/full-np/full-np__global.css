@@ -64,8 +64,9 @@
                 }
         }
 
-        @media screen and (max-width:35rem), screen and (max-height:30rem) {
-            /*  w: 0px - 560px */
+        @media screen and (max-width:25rem), screen and (max-height:20rem) {
+            /*  w: 0px - 400px */
+            /*  h: 0px - 320px */
             .twitter____profileBar__group {
                 background-color:rgba(256, 256, 256, 0.9);
                 border-radius:5px 5px 0 0;
@@ -199,8 +200,8 @@
         }
 
 
-        @media screen and (max-width:58rem) {
-            /*  w: 0px - 928 */
+        @media screen and (max-width:40rem) {
+            /*  w: 0px - 640 */
 
             .twitter____profile__group {
                 position:absolute;
@@ -293,8 +294,8 @@
         }
 
 
-        @media screen and (max-width:58rem) {
-            /*  w: 0 - 928px */
+        @media screen and (max-width:40rem) {
+            /*  w: 0 - 640px */
             .twitter____mediaGif__group {
                 left:1em;
                 right:9em;
@@ -325,8 +326,8 @@
         }
 
 
-        @media screen and (max-width:58rem) {
-            /*  w: 0 - 928 */
+        @media screen and (max-width:40rem) {
+            /*  w: 0 - 640 */
             .twitter____mediaVid__group {
                 left:1em;
                 right:9em;

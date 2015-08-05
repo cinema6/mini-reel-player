@@ -1,9 +1,16 @@
+    .twitter____text__group {
+        position:absolute;
+        left:0;
+        right:0;
+    }    
+
+
     /*  twitter text card MEDIA QUERIES
         ================================================ */
 
 
-        @media screen and (min-width:58rem) and (max-width:95rem) {
-            /*  w: 928px -  1520px */
+        @media screen and (min-width:70em) and (max-width:95rem) {
+            /*  w: 1120px -  1520px */
 
                 .twitter____text__group {
                     font-size:0.75em;
@@ -14,8 +21,8 @@
         
         
 
-        @media screen and (max-width:58rem) {
-            /*  w: 0px - 928px */
+        @media screen and (max-width:70rem) {
+            /*  w: 0px - 1120px */
 
                 .twitter____text__group {
                     font-size:0.625em;
@@ -23,88 +30,53 @@
 
         }
 
-        @media screen and (max-width:52rem) {
-            /*  w: 0px - 832px */
 
-                .twitter____profileBar__name {
-                    margin-left:5em; 
-                }
 
-                .twitter____profileBar__handle {
-                    display:block;
-                    margin-left:5em; 
-                }
-                .twitter____profileBar__follow {
-                    top:3em;
-                }
-        }
 
-        @media screen and (max-width:44rem) {
-            /*  w: 0px - 704px */
 
-                .twitter____txtTweet__group {
-                    width:95%;
-                }
-                
-        }
-
-        @media screen and (max-width:41rem) {
-            /*  w: 0px - 656px */
-            .twitter____profileBar__handle {
-                margin-bottom:1.5em; 
-                margin-top:0.5em;
-            }
-                .twitter____profileBar__follow {
-                    top:5.5em;
-                    left:8em;
-                }
-            
-                .twitter____txtTweet {
-                    font-size:1rem;
-                }
-        }
-
-        @media screen and (max-width:35rem), screen and (max-height:30rem) {
-            /*  w: 0px - 560px */
+        @media screen and (max-width:62rem) {
+            /*  w: 0px - 992px */
             .twitter____profileBar__group {
                 background-color:rgba(256, 256, 256, 0.9);
                 border-radius:5px 5px 0 0;
                 margin:1em;
                 padding:0;
-                padding-bottom:10em;
+                padding-bottom:8em;
                 width:auto;
             }
 
-                .twitter____profileBar__picBox {
-                    width:4em;
-                }
 
                 .twitter____profileBar__name {
                     position:absolute;
-                    top:1em;
-                    left:4.25em;
-                    z-index:2;
+                    top:2em;
+                    left:6.25em;
                     margin-left:0;
                     color:#292f33;
                 }
                 .twitter____profileBar__handle {
                     position:absolute;
-                    top:4.5em;
-                    left:1em;
-                    z-index:2;
+                    top:3.5em;
+                    left:6.25em;
                     margin:0;
                     color:#292f33;
                 }
 
                 .twitter____profileBar__follow {
-                    top:7.5em;
-                    left:1.5em;
+                    top:2em;
+                    right:2.5em;
                     color:#55ACEE;
                 }
+                    .twitter____profileBar__name:hover,
+                    .twitter____profileBar__handle:hover,
+                    .twitter____profileBar__follow:hover,
+                    .twitter____profileBar__follow:hover:before {
+                        color:#3b94d9;
+                    }
 
             .twitter____txtTweet__group {
                 width:auto;
-                top:11em;
+                max-width:none;
+                top:9em;
                 bottom:1em;
                 left:1em;
                 right:1em;
@@ -114,7 +86,7 @@
             }
 
                 .twitter____txtTweet {
-                    font-size:0.875rem;
+                    font-size:1.5em;
                 }
 
                 .twitter____txtTweet__time {

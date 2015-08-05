@@ -13,6 +13,10 @@
         ============================================= */
         @import url('full/full__base.css');
 
+    /*  global hover classes
+        ============================================= */ 
+        @import url('global/hover.css');
+
     /*  playlist group classes
         ============================================= */
         @import url('full/playlist.css');

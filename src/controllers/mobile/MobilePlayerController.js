@@ -27,6 +27,7 @@ export default class MobilePlayerController extends PlayerController {
             displayAd: DisplayAdCardController,
             twitterText: MobileTwitterCardController,
             twitterImage: MobileTwitterCardController,
+            twitterGif: MobileTwitterCardController,
             twitterVideo: MobileTwitterCardController
         };
 

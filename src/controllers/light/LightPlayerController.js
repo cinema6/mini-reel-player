@@ -8,6 +8,10 @@ import LightVideoCardController from './LightVideoCardController.js';
 import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightPrerollCardController from './LightPrerollCardController.js';
+import LightTwitterTextCardController from './LightTwitterTextCardController.js';
+import LightTwitterImageCardController from './LightTwitterImageCardController.js';
+import LightTwitterGifCardController from './LightTwitterGifCardController.js';
+import LightTwitterVideoCardController from './LightTwitterVideoCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 
 export default class LightPlayerController extends PlayerController {
@@ -22,7 +26,11 @@ export default class LightPlayerController extends PlayerController {
             video: LightVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            twitterText: LightTwitterTextCardController,
+            twitterImage: LightTwitterImageCardController,
+            twitterGif: LightTwitterGifCardController,
+            twitterVideo: LightTwitterVideoCardController
         };
 
         this.session.once('ready', () => {

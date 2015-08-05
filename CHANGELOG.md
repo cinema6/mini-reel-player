@@ -2,6 +2,7 @@
 
 * *[v0.21.2-rc1]*
   * Added new "Played" video event ([#183](https://github.com/cinema6/mini-reel-player/issues/183)
+  * [FIX]: Fixed text overlap bug of long titles in single card MiniReels ([#187](https://github.com/cinema6/mini-reel-player/issues/187)
 
 ## v0.21.1 (August 4, 2015)
 * *[v0.21.1-rc2]*

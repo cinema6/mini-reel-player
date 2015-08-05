@@ -374,6 +374,10 @@
         position: relative;
         height:1.5em;
     }
+        .experience__group--soloMR .titleBar__group {
+            display:none;
+        }
+
 
         .titleBar__disabler {
             position:absolute;
@@ -423,6 +427,9 @@
         top:2em; right:0.5em; bottom:0.5em; left:0.5em;
         overflow: hidden;
     }
+        .experience__group--soloMR .cards__group {
+            top:0.5em;
+        }
 
     .cards__list {
         list-style:none;

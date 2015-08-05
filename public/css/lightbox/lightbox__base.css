@@ -352,6 +352,9 @@
         position: relative;
         height:1.5em;
     }
+        .experience__group--soloMR .titleBar__group {
+            display:none;
+        }
 
         .titleBar__disabler {
             position:absolute;

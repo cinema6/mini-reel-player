@@ -120,6 +120,13 @@
 
     .instag____postInfo__comments:hover {
         color:#818488;
+    @media screen and (max-width:35rem) {
+        .twitter____profileBar__name:hover,
+        .twitter____profileBar__handle:hover,
+        .twitter____profileBar__follow:hover,
+        .twitter____profileBar__follow:hover:before {
+            color:#3b94d9;
+        }
     }
 
 

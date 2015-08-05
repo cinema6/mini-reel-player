@@ -18,6 +18,7 @@ var getTemplate = (function() {
 }());
 
 module.exports = function(config) {
+    var params = config.params || {};
     var experience = config.experiences[config.index];
     var playerFolder = path.dirname(config.playerFile);
     var playerFile = path.basename(config.playerFile);
@@ -29,7 +30,8 @@ module.exports = function(config) {
                 playerFolder: playerFolder,
                 playerFile: playerFile,
                 urlRoot: urlRoot,
-                experience: JSON.stringify(experience).replace(/<\/script>/g, '<\\/script>')
+                experience: JSON.stringify(experience).replace(/<\/script>/g, '<\\/script>'),
+                params: JSON.stringify(params)
             }));
         }).catch(function handleError(error) {
             res.statusCode = 500;

@@ -82,15 +82,7 @@ module.exports = {
     server: {
         options: {
             watch: true,
-            keepAlive: false,
-
-            preBundleCB: function(browserify) {
-                browserify.on('bundle', function(bundle) {
-                    // For some reason, if a noop function is not piped into the browserify bundle,
-                    // the bundle's "end" event is never emitted and watchify breaks.
-                    bundle.pipe(concat(function() {}));
-                });
-            }
+            keepAlive: false
         },
         files: [
             {

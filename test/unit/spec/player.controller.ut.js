@@ -197,16 +197,17 @@ describe('PlayerController', function() {
                 });
             });
 
-            describe('move', function() {
-                beforeEach(function() {
-                    spyOn(PlayerCtrl, 'updateView');
-                    PlayerCtrl.minireel.emit('move');
-                });
+            ['move', 'becameCloseable', 'becameUncloseable'].forEach(function(event) {
+                describe(event, function() {
+                    beforeEach(function() {
+                        spyOn(PlayerCtrl, 'updateView');
+                        PlayerCtrl.minireel.emit(event);
+                    });
 
-                it('should call updateView()', function() {
-                    expect(PlayerCtrl.updateView).toHaveBeenCalled();
+                    it('should call updateView()', function() {
+                        expect(PlayerCtrl.updateView).toHaveBeenCalled();
+                    });
                 });
-
             });
 
             describe('launch', function() {
@@ -389,7 +390,8 @@ describe('PlayerController', function() {
                     canGoForward: jasmine.any(Boolean),
                     canGoBack: jasmine.any(Boolean),
                     cardType: PlayerCtrl.minireel.currentCard.type,
-                    isSolo: jasmine.any(Boolean)
+                    isSolo: jasmine.any(Boolean),
+                    closeable: jasmine.any(Boolean)
                 });
             });
 
@@ -422,6 +424,23 @@ describe('PlayerController', function() {
 
                     expect(PlayerCtrl.view.prerollOutlet.show).toHaveBeenCalled();
                     expect(PlayerCtrl.view.prerollOutlet.hide).not.toHaveBeenCalled();
+                });
+            });
+
+            [true, false].forEach(function(boolean) {
+                describe(`if closeable is ${boolean}`, function() {
+                    beforeEach(function() {
+                        PlayerCtrl.view.update.calls.reset();
+                        PlayerCtrl.minireel.closeable = boolean;
+
+                        PlayerCtrl.updateView();
+                    });
+
+                    it(`should call updateView with closeable = ${boolean}`, function() {
+                        expect(PlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            closeable: boolean
+                        }));
+                    });
                 });
             });
 

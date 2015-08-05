@@ -7,9 +7,10 @@ import FullVideoCardController from './FullVideoCardController.js';
 import FullRecapCardController from './FullRecapCardController.js';
 import FullPrerollCardController from './FullPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
-import FullTwitterTextCardController from './FullTwitterTextCardController';
-import FullTwitterImageCardController from './FullTwitterImageCardController';
-import FullTwitterVideoCardController from './FullTwitterVideoCardController';
+import FullTwitterTextCardController from './FullTwitterTextCardController.js';
+import FullTwitterImageCardController from './FullTwitterImageCardController.js';
+import FullTwitterGifCardController from './FullTwitterGifCardController.js';
+import FullTwitterVideoCardController from './FullTwitterVideoCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
 
@@ -29,6 +30,7 @@ export default class FullPlayerController extends PlayerController {
             displayAd: DisplayAdCardController,
             twitterText: FullTwitterTextCardController,
             twitterImage: FullTwitterImageCardController,
+            twitterGif: FullTwitterGifCardController,
             twitterVideo: FullTwitterVideoCardController
         };
 

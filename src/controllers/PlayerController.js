@@ -37,6 +37,8 @@ export default class PlayerController extends Controller {
             this.view.appendTo(_(this).parentView);
         });
         this.minireel.on('move', () => this.updateView());
+        this.minireel.on('becameUncloseable', () => this.updateView());
+        this.minireel.on('becameCloseable', () => this.updateView());
         this.minireel.once('launch', () => {
             Runner.runNext(() => forEach(this.cardCtrls.slice(1), Ctrl => Ctrl.render()));
         });
@@ -62,7 +64,7 @@ export default class PlayerController extends Controller {
 
     updateView() {
         const { minireel } = this;
-        const { currentIndex, currentCard, standalone } = minireel;
+        const { currentIndex, currentCard, standalone, closeable } = minireel;
         const socialLinks = minireel.socialLinks || [];
         const links = minireel.links || {};
 
@@ -81,6 +83,7 @@ export default class PlayerController extends Controller {
             totalCards: minireel.length,
             isSolo: minireel.length === 1,
 
+            closeable: closeable,
             cardType: currentCard && currentCard.type,
             currentCardNumber: (minireel.currentIndex + 1).toString(),
             canGoForward: currentIndex < (minireel.length - 1),

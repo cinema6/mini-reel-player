@@ -226,52 +226,17 @@ describe('SwipePlayerController', function() {
                     });
                 });
 
-                describe('move', function() {
-                    beforeEach(function() {
-                        spyOn(SwipePlayerCtrl, 'updateView');
+                ['move', 'becameUnskippable', 'skippableProgress', 'becameSkippable', 'becameUncloseable', 'becameCloseable'].forEach(function(event) {
+                    describe(event, function() {
+                        beforeEach(function() {
+                            spyOn(SwipePlayerCtrl, 'updateView');
 
-                        minireel.emit('move');
-                    });
+                            minireel.emit('move');
+                        });
 
-                    it('should call updateView()', function() {
-                        expect(SwipePlayerCtrl.updateView).toHaveBeenCalled();
-                    });
-                });
-
-                describe('becameUnskippable', function() {
-                    beforeEach(function() {
-                        spyOn(SwipePlayerCtrl, 'updateView');
-
-                        minireel.emit('becameUnskippable');
-                    });
-
-                    it('should call updateView()', function() {
-                        expect(SwipePlayerCtrl.updateView).toHaveBeenCalled();
-                    });
-                });
-
-                describe('skippableProgress', function() {
-                    beforeEach(function() {
-                        SwipePlayerCtrl.view.skipTimer = new SkipProgressTimerView();
-                        spyOn(SwipePlayerCtrl.view.skipTimer, 'update');
-
-                        minireel.emit('skippableProgress', 3);
-                    });
-
-                    it('should update the skipTimer', function() {
-                        expect(SwipePlayerCtrl.view.skipTimer.update).toHaveBeenCalledWith(3);
-                    });
-                });
-
-                describe('becameSkippable', function() {
-                    beforeEach(function() {
-                        spyOn(SwipePlayerCtrl, 'updateView');
-
-                        minireel.emit('becameSkippable');
-                    });
-
-                    it('should call updateView()', function() {
-                        expect(SwipePlayerCtrl.updateView).toHaveBeenCalled();
+                        it('should call updateView()', function() {
+                            expect(SwipePlayerCtrl.updateView).toHaveBeenCalled();
+                        });
                     });
                 });
             });
@@ -567,6 +532,32 @@ describe('SwipePlayerController', function() {
                     expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
                         disableNext: true
                     }));
+                });
+            });
+
+            describe('if the minireel is closeable', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.closeable = true;
+
+                    SwipePlayerCtrl.updateView();
+                });
+
+                it('should update() the view with closeable: true', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ closeable: true }));
+                });
+            });
+
+            describe('if the minireel is not closeable', function() {
+                beforeEach(function() {
+                    view.update.calls.reset();
+                    minireel.closeable = false;
+
+                    SwipePlayerCtrl.updateView();
+                });
+
+                it('should update() the view with closeable: true', function() {
+                    expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ closeable: false }));
                 });
             });
 

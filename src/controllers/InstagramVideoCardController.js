@@ -6,6 +6,7 @@ export default class InstagramVideoCardController extends InstagramCardControlle
         super(...arguments);
         const player = new HtmlVideoPlayer();
         player.src = this.model.data.src;
+        player.loop = true;
         this.player = player;
     }
 

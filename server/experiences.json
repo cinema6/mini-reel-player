@@ -138,7 +138,8 @@
                             "large": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11381442_443827579136917_34636061_n.jpg"
                         },
                         "type": "video",
-                        "src": "https://scontent.cdninstagram.com/hphotos-xfa1/t50.2886-16/11765072_1641853446058461_1518004451_n.mp4"
+                        "src": "https://scontent.cdninstagram.com/hphotos-xfa1/t50.2886-16/11765072_1641853446058461_1518004451_n.mp4",
+                        "autoplay": true
                     },
                     "id": "rc-0cd5e929c16ada",
                     "type": "instagram",

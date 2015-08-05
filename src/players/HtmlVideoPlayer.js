@@ -25,10 +25,10 @@ export default class HtmlVideoPlayer extends CorePlayer {
         super(...arguments);
 
         this.src = null;
+        this.loop = false;
         this.currentTime = 0;
 
         _(this).readyState = 0;
-
         _(this).htmlVideo = null;
 
         if (global.__karma__) { this.__private__ = _(this); }
@@ -86,6 +86,9 @@ export default class HtmlVideoPlayer extends CorePlayer {
         const video = document.createElement('video');
         video.setAttribute('src', this.src);
         video.setAttribute('controls', 'true');
+        if(this.loop) {
+            video.setAttribute('loop', true);
+        }
         _(this).htmlVideo = video;
 
         Runner.schedule('afterRender', null, () => {

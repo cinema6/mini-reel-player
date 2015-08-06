@@ -6,6 +6,13 @@
     color transitions
     ================================================ */
 
+    .instag____profileImg__name,
+    .instag____profileDesc__link,
+    .instag____postAccount__name,
+    .instag____postInfo__date,
+    .instag____postInfo__name,
+    .instag____postInfo__tag,
+    .instag____postInfo__comments,
     .twitter____profile__name,
     .twitter____tweet__timeStamp,
     .twitter____tweet__hashtag,
@@ -26,6 +33,21 @@
     .twitter____info__favorite,
     .twitter____info__favorite:before {
         transition:color 0.3s;
+    }
+
+    .instag____profileDesc__link:hover,
+    .instag____postAccount__name:hover,
+    .instag____postInfo__name:hover,
+    .instag____postInfo__tag:hover {
+        color:#0d3c5f;
+    }
+
+    .instag____postInfo__date:hover {
+        color:#858789;
+    }
+
+    .instag____postInfo__comments:hover {
+        color:#818488;
     }
 
     .twitter____profile__name:hover,
@@ -87,6 +109,17 @@
 /*  ================================================
     misc transitions (combined, etc.)
     ================================================ */
+
+    .instag____profileImg__follow,
+    .instag____profileImg__follow:focus {
+        transition:0.3s border, 0.3s color;
+    }
+
+    .instag____profileImg__follow:hover {
+        border:1px solid #2d6599;
+        color:#2d6599;
+    }
+
 
     .twitter____profile__follow {
         transition:0.3s background-color, 0.3s color;

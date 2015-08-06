@@ -13,6 +13,10 @@
         ============================================= */
         @import url('full/full__base.css');
 
+    /*  global hover classes
+        ============================================= */ 
+        @import url('global/hover.css');
+
     /*  playlist group classes
         ============================================= */
         @import url('full/playlist.css');
@@ -33,6 +37,10 @@
     /*  text only card classes
         ============================================= */ 
         @import url('full/text-card.css');
+
+    /*  twitter card classes
+        ============================================= */ 
+        @import url('full/twitter-card.css');
 
     /*  sponsored card classes
         ============================================= */ 

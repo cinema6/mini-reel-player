@@ -1,10 +1,6 @@
 import CorePlayer from './CorePlayer.js';
 import Runner from '../../lib/Runner.js';
-import View from '../../lib/core/View.js';
 import { createKey } from 'private-parts';
-import {
-    forEach
-} from '../../lib/utils.js';
 
 function noMethodError(method) {
     return new Error(`VinePlayer cannot ${method}.`);

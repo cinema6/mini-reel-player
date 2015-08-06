@@ -158,39 +158,39 @@
         -webkit-transition:height 0.25s; transition:height 0.25s;
     }
         .text--low .player__height {
-            height:calc(100% - 4.5em);
+            height:calc(100% - 4.5rem);
         }
         .text--med .player__height {
-            height:calc(100% - 5.75em);
+            height:calc(100% - 5.75rem);
         }
         .text--high .player__height {
-            height:calc(100% - 8.25em);
+            height:calc(100% - 8.25rem);
         }
 
         @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
             /*  w: 1200px -  1696px
             /   h: 720px ++ */
             .text--low .player__height {
-                height:calc(100% - 5.625em);
+                height:calc(100% - 5.625rem);
             }
             .text--med .player__height {
-                height:calc(100% - 7.125em);
+                height:calc(100% - 7.125rem);
             }
             .text--high .player__height {
-                height:calc(100% - 10.375em);
+                height:calc(100% - 10.375rem);
             }
         }
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
             /*  w: 1697px ++ 
             /   h: 720px ++ */
             .text--low .player__height {
-                height:calc(100% - 6.75em);
+                height:calc(100% - 6.75rem);
             }
             .text--med .player__height {
-                height:calc(100% - 8.625em);
+                height:calc(100% - 8.625rem);
             }
             .text--high .player__height {
-                height:calc(100% - 12.5em);
+                height:calc(100% - 12.5rem);
             }
         }
 

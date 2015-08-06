@@ -1,0 +1,952 @@
+
+
+/*  ================================================
+    facebook text card-- facebook-card.css
+    ================================================ */
+
+
+    .facebook____text__group {
+        position:relative;
+        background:center/cover no-repeat;
+        overflow:hidden;
+    }
+
+        .facebook____profileBar__group {
+            background-color:rgba(0, 0, 0, 0.25);
+            padding:1.5em;
+            position:relative;
+        }
+
+            .facebook____profileBar__picBox {
+                width:6em;
+                position:absolute;
+                top:1em;
+                left:1em;
+            }
+
+                .facebook____profileBar__pic {
+                    border-radius:5px;
+                    border:3px solid #fff;
+                }
+
+                .facebook____profileBar__name {
+                    margin:0 0 0 6em;
+                    color:#d4d4d4;
+                    font:bold 1.25em Arial, Helvetica, sans-serif; 
+                }
+
+                .facebook____profileBar__handle {
+                    margin:0 0 0 1em;
+                    color:#d4d4d4;
+                    word-wrap:break-word;
+                    font:1.25em Arial, Helvetica, sans-serif; 
+                }
+
+                .facebook____profileBar__follow {
+                    position:absolute;
+                    top:1em;
+                    right:2em;
+                    color:#ccd6dd;
+                    font:bold 1em Arial, Helvetica, sans-serif; 
+                }
+                .facebook____profileBar__follow:before {
+                    content:'\f179';
+                    font-family:'rosettaicons';
+                    color:#55ACEE;
+                    margin:0 1em 0 0;
+                }
+
+        .facebook____txtpost__group {
+            background-color:rgba(256, 256, 256, 0.9);
+            padding:1em;
+            width:80%;
+            max-width:55em;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            border-radius:5px;
+        }
+
+            .facebook____txtpost {
+                margin:0;
+                font:1.75em Arial, Helvetica, sans-serif;
+                color:#292f33;
+                line-height:1.5;
+            }
+
+            .facebook____txtpost__tag {
+                color:#2b7bb9;
+                word-wrap:break-word;
+            }
+
+            .facebook____txtpost__time {
+                color:#8899a6;
+                font-weight:bold;
+                display:inline-block;
+                margin:1em 0 0 0;
+            }
+
+            .facebook____info__group {
+                position:absolute;
+                right:1em;
+                bottom:1em;
+            }
+
+                .facebook____info__reply,
+                .facebook____info__repost,
+                .facebook____info__favorite {
+                    color:#8899a6;
+                    font-weight:bold;
+                    margin:0 0 0 1em;
+                }
+
+                .facebook____info__reply:before,
+                .facebook____info__repost:before,
+                .facebook____info__favorite:before {
+                    font-family:'rosettaicons';
+                    font-weight:normal;
+                    color:#ccd6dd;
+                    margin:0 0.5em 0 0;
+                }
+                .facebook____info__reply:before {
+                    content:'\f151';
+                }
+                .facebook____info__repost:before {
+                    content:'\f152';
+                }
+                .facebook____info__favorite:before {
+                    content:'\f147';
+                }
+
+
+    /*  facebook text card MEDIA QUERIES
+        ================================================ */
+
+
+        @media screen and (min-width:58rem) and (max-width:95rem) {
+            /*  w: 928px -  1520px */
+
+                .facebook____text__group {
+                    font-size:0.75em;
+                }
+
+        }
+
+        
+        
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0px - 928px */
+
+                .facebook____text__group {
+                    font-size:0.625em;
+                }
+
+        }
+
+        @media screen and (max-width:52rem) {
+            /*  w: 0px - 832px */
+
+                .facebook____profileBar__name {
+                    margin-left:5em; 
+                }
+
+                .facebook____profileBar__handle {
+                    display:block;
+                    margin-left:5em; 
+                }
+                .facebook____profileBar__follow {
+                    top:3em;
+                }
+        }
+
+        @media screen and (max-width:44rem) {
+            /*  w: 0px - 704px */
+
+                .facebook____txtpost__group {
+                    width:95%;
+                }
+                
+        }
+
+        @media screen and (max-width:41rem) {
+            /*  w: 0px - 656px */
+            .facebook____profileBar__handle {
+                margin-bottom:1.5em; 
+                margin-top:0.5em;
+            }
+                .facebook____profileBar__follow {
+                    top:5.5em;
+                    left:8em;
+                }
+            
+                .facebook____txtpost {
+                    font-size:1rem;
+                }
+        }
+
+        @media screen and (max-width:35rem), screen and (max-height:30rem) {
+            /*  w: 0px - 560px */
+            .facebook____profileBar__group {
+                background-color:rgba(256, 256, 256, 0.9);
+                border-radius:5px 5px 0 0;
+                margin:1em;
+                padding:0;
+                padding-bottom:10em;
+                width:auto;
+            }
+
+                .facebook____profileBar__picBox {
+                    width:4em;
+                }
+
+                .facebook____profileBar__name {
+                    position:absolute;
+                    top:1em;
+                    left:4.25em;
+                    z-index:2;
+                    margin-left:0;
+                    color:#292f33;
+                }
+                .facebook____profileBar__handle {
+                    position:absolute;
+                    top:4.5em;
+                    left:1em;
+                    z-index:2;
+                    margin:0;
+                    color:#292f33;
+                }
+
+                .facebook____profileBar__follow {
+                    top:7.5em;
+                    left:1.5em;
+                    color:#55ACEE;
+                }
+
+            .facebook____txtpost__group {
+                width:auto;
+                top:11em;
+                bottom:1em;
+                left:1em;
+                right:1em;
+                transform:none;
+                border-radius:0 0 5px 5px;
+                overflow-y:auto;
+            }
+
+                .facebook____txtpost {
+                    font-size:0.875rem;
+                }
+
+                .facebook____txtpost__time {
+                    margin-top:3em;
+                    position:relative;
+                    bottom:2em;
+                }
+
+                .facebook____info__group {
+                    position:relative;
+                }
+        }
+
+       
+/*  ================================================
+    facebook image card
+    ================================================ */
+
+    .facebook____player__group {
+        margin:0;
+        padding:1em;
+        width:100%;
+        position:absolute;
+        background:#e9eaed;
+        border:1px solid #dfe0e4;
+        font-size:1.125em;
+        overflow:hidden;
+    }
+            
+
+        .facebook____mediaImg__group {
+            position:absolute;
+            top:1em;
+            bottom:1em;
+            left:1em;
+            right:31em;
+        }
+
+            .facebook____mediaImg {
+                height:100%;
+                border-radius:2px 0 0 2px;
+                border:1px solid #dfe0e4;
+                background:#000 center/contain no-repeat;
+            }
+
+
+
+
+
+        .facebook____post__group {
+            border-radius:0 2px 2px 0;
+            border:1px solid #dfe0e4;
+            border-left:none;
+            background-color:#fff;
+            position:absolute;
+            top:1em;
+            bottom:1em;
+            right:1em;
+            width:30em;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+            .facebook____post__container {
+                overflow-y:auto;
+                position:absolute;
+                top:0.75em;
+                bottom:8rem;
+                left:0.75em;
+                right:0.75em;
+            }
+
+                .facebook____post__pic {
+                    display:block;
+                    width:15%;
+                    min-width:3rem;
+                    float:left;
+                }
+
+
+                    .facebook____post__name {
+                        font-size:0.875em;
+                        font-weight:700;
+                        color:#3b5998;
+                        text-align:left;
+                        display:block;
+                        float:right;
+                        width:80%;
+                    }
+
+                    .facebook____post__timeStamp {
+                        display:block;
+                        float:left;
+                        margin:0 0 0 5%;
+                        font-size:0.875em;
+                        color:#555555;
+                    }
+
+                    .facebook____post__bullet {
+                        display:block;
+                        float:left;
+                        margin:0 0 0 0.5em;
+                        position:relative;
+                        color:#555555;
+                    }
+
+                    .facebook____post__bullet:after {
+                        content:'';
+                        width:1em;
+                        height:1em;
+                        display:block;
+                        position:absolute;
+                        top:0.3125em;
+                        left:1em;
+                        font-size:0.875em;
+                        background:url('../../img/social-card-sprites.png') -3.25em -8.5em/ 17em no-repeat;
+                    }
+
+        
+
+                .facebook____post__copy {
+                    color:#141823;
+                    font-size:1.125em;
+                }
+
+                    .facebook____post__link {
+                        color:#3b5998;
+                    }
+
+                    .facebook____post__likes {
+                        color:#141823;
+                        font-size:0.875em;
+                        margin:2em 0 1em;
+                        padding:0 0 1em 0;
+                        border-bottom:1px solid #f0f0f0;
+                    }
+
+
+            .facebook____feedback__group {
+                font-size:0.875em;
+                display:block;
+                margin:0 0 1.5em 0;
+                padding:0;
+                list-style:none;
+                width:100%;
+            }
+
+                .facebook____feedback__box {
+                    display:inline-block;
+                    width:32%;
+                }
+
+                    .facebook____feedback__like,
+                    .facebook____feedback__comment,
+                    .facebook____feedback__share {
+                        display:block;
+                        width:7em;
+                        margin:0 auto;
+                        text-align:center;
+                        color:#8899a6;
+                        font-weight:700;
+                        position:relative;
+                    }
+
+                    .facebook____feedback__like:before,
+                    .facebook____feedback__comment:before,
+                    .facebook____feedback__share:before {
+                        content:'';
+                        background:url('../../img/social-card-sprites.png') 0 0/17em no-repeat;
+                        position:absolute;
+                        display:block;
+                    }
+                    .facebook____feedback__like:before {
+                        background-position:-5.25em -8.5em;
+                        width:1.25em;
+                        height:1.25em;
+                        left:0.5em;
+                    }
+                    .facebook____feedback__comment:before {
+                        background-position:-7.5em -8.5em;
+                        width:1.125em;
+                        height:1.125em;
+                        top:0.125em;
+                        left:-0.5em;
+                    }
+                    .facebook____feedback__share:before {
+                        background-position:-9.75em -8.5em;
+                        width:1.25em;
+                        height:1.125em;
+                        left:0.5em;
+                    }
+
+
+            .facebook____profile__group {
+                position:absolute;
+                height:7.5rem;
+                bottom:0;
+                left:0;
+                right:0;
+                padding:0.75em;
+                background:#f6f7f8;
+            }
+
+                .facebook____profile__name {
+                    color:#3b5998;
+                    font-size:0.875em;
+                    display:block;
+                    width:50%;
+                }
+
+                .facebook____profile__data {
+                    color:#9197a3;
+                    font-size:0.75em;
+                    display:block;
+                    width:100%;
+                    margin:0;
+                }
+
+                .facebook____profile__likePage,
+                .facebook____profile__likePage:focus {
+                    position:absolute;
+                    top:1em;
+                    right:1em;
+                    padding:0.25em 3em 0.25em 4.5em;
+                    border:1px solid #b6b7b9;
+                    border-radius:2px; 
+                    font-size:0.75em;
+                    color:#4e5665;
+                }
+
+                    .facebook__profile__logo:before {
+                        content:'';
+                        background:url('../../img/social-card-sprites.png') -1.0625em -8.5em/17em no-repeat;
+                        position:absolute;
+                        top:0.3125em;
+                        left:3em;
+                        display:block;
+                        width:1.375em;
+                        height:1.375em;
+                    }
+
+            
+        
+    /*  facebook image card MEDIA QUERIES--  full__global.css
+    ================================================ */
+
+        @media screen and  (max-width:100rem) {
+            /*  w: 0px -  1600px */
+
+            .facebook____player__group {
+                font-size:0.875em;
+            }
+
+
+            .facebook____mediaImg__group {
+                right:21em;
+            }
+
+            .facebook____post__group {
+                width:20em;
+            }
+
+                .facebook____post__name {
+                    width: 75%;
+                }
+
+                .facebook____post__timeStamp {
+                    margin-left:0;
+                }
+
+                .facebook____post__bullet {
+                    font-size: 0.875em;
+                }
+
+                    .facebook____feedback__like,
+                    .facebook____feedback__comment,
+                    .facebook____feedback__share {
+                        width:5.25em;
+                    }
+
+                    .facebook____feedback__like:before {
+                        left:0;
+                    }
+                    .facebook____feedback__comment:before {
+                        left:-1em;
+                    }
+                    .facebook____feedback__share:before {
+                        left:0;
+                    }
+        }
+
+        @media screen and (max-width:55rem) {
+            /*  w: 0px - 928 */
+
+        .facebook____mediaImg__group {
+            left:1em;
+            right:1em;
+            bottom:auto;
+            height:calc(100% - 9rem);
+        }
+
+        .facebook____post__group {
+            width:auto;
+            height:8rem;
+            top:auto;
+            bottom:1em;
+            left:1em;
+            right:1em;
+            overflow-y: auto;
+        }
+
+            .facebook____post__container {
+                bottom:auto;
+            }
+
+                .facebook____post__pic {
+                    width:4rem;
+                    min-width:auto;
+                }
+
+                .facebook____post__name {
+                    width:calc(100% - 4.5rem);
+                }
+
+                .facebook____post__timeStamp {
+                    margin-left:0.5rem;
+                }
+
+
+                .facebook____feedback__like, 
+                .facebook____feedback__comment, 
+                .facebook____feedback__share {
+                    width:7em;
+                }
+
+                .facebook____feedback__like:before {
+                    left:1em;
+                }
+                .facebook____feedback__comment:before {
+                    left:-0.25em;
+                }
+                .facebook____feedback__share:before {
+                    left:0.75em;
+                }
+
+            .facebook____profile__group {
+                display:none;
+            }
+
+        }
+
+
+        @media screen and (max-width:42rem) {
+            /*  w: 0px - 928 */
+
+                .facebook____post__pic {
+                    max-width:3rem;
+
+                }
+
+                .facebook____post__name {
+                    width:100%;
+                }
+
+                .facebook____post__timeStamp {
+                    margin-left:0;
+                }
+
+                .facebook____post__copy {
+                    font-size:1em;
+                    margin:1em 0;
+                }
+
+            .facebook____feedback__group {
+                margin-bottom:0.5em;
+            }
+
+                .facebook____feedback__box {
+                    width:100%;
+                }
+
+                    .facebook____feedback__like,
+                    .facebook____feedback__comment,
+                    .facebook____feedback__share {
+                        width:auto;
+                        text-align:left;
+                        margin-left:2em;
+                        margin-bottom:0.5em;
+                    }
+
+                    .facebook____feedback__like:before,
+                    .facebook____feedback__comment:before,
+                    .facebook____feedback__share:before {
+                        left:-2em;
+                    }
+
+
+        }
+
+
+
+
+/*  ================================================
+    facebook video card
+    ================================================ */
+
+
+    .facebook____mediaVid__group {
+        position:absolute;
+        top:1em;
+        bottom:1em;
+        left:1em;
+        right:31em;
+        border-radius:2px 2px 0 0;
+        border:1px solid #000;
+        
+    }
+
+        .facebook____mediaVid__box {
+            background:#000;
+            width:100%;
+            height:100%;
+        }
+
+            .facebook____mediaVid {
+                width:100%;
+                height:100%;
+                position:absolute;
+                border:0;
+            }
+
+
+
+
+
+
+
+
+
+
+    /*  facebook video card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (max-width:100rem) {
+            /*  w: 1200px -  2000px */
+
+            .facebook____mediaVid__group {
+                right:18rem;
+            }
+        }
+
+
+        @media screen and (max-width:55rem) {
+            /*  w: 0px - 1200px */
+
+            .facebook____mediaVid__group {
+                bottom:10em;
+                right:1rem;
+            }
+        }
+
+
+
+
+
+
+
+
+/*  ================================================
+    facebook article card
+    ================================================ */
+
+    .facebook____media__group {
+        position:absolute;
+        top:1em;
+        bottom:1em;
+        left:1em;
+        right:31em;
+    }
+
+        .facebook____media__source {
+            display:block;
+        }
+
+            .facebook____media__imgBox {
+                position:absolute;
+                top:0;
+                bottom:8.5rem;
+                left:0;
+                right:0;
+            }
+
+            .facebook____media__img {
+                height:100%;
+                border-radius:2px 0 0 0;
+                border:1px solid #dfe0e4;
+                background:#000 center/cover no-repeat;
+            }
+
+        .facebook____media__article {
+            height:8.5rem;
+            position:absolute;
+            bottom:0;
+            left:0;
+            right:0;
+            border-radius:0 0 0 2px;
+            border:1px solid #dfe0e4;
+            border-top:none;
+            background:#fff;
+            font-family: Georgia, Helvetica, Arial, sans-serif;
+        }
+
+            .facebook____media__title,
+            .facebook____media__copy {
+                color:#141823;
+                overflow:hidden;
+                white-space:nowrap;
+                text-overflow:ellipsis;
+                margin:0.5em 1rem;
+            }
+
+            .facebook____media__link {
+                font-size:0.625em;
+                font-family: Helvetica, Arial, sans-serif;
+                text-transform:uppercase;
+                color:#9197a3;
+                margin:2em 1rem 1em;
+            }
+
+
+
+        .facebook____post__box {
+            overflow-y:auto;
+            position:absolute;
+            top:0.75em;
+            bottom:7em;
+            left:0.75em;
+            right:0.75em;
+        }
+
+        .facebook____post__box ~ .facebook____post__likes {
+            position:absolute;
+            bottom:3em;
+            left:0.75em;
+            right:0.75em;
+        }
+
+        .facebook____post__box ~ .facebook____feedback__group {
+            position:absolute;
+            bottom:0.75em;
+            left:0.75em;
+            right:0.75em;
+            margin:0 0 0.5em 0;
+        }
+
+
+
+
+
+
+    /*  facebook article card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (max-width:100rem) {
+            /*  w: 1200px -  2000px */
+
+            .facebook____media__group {
+                right:21em;
+            }
+
+                .facebook____media__imgBox {
+                    bottom:6.75rem;
+                }
+
+                .facebook____media__article {
+                    height:6.75rem;
+                }
+        }
+
+
+        @media screen and (max-width:55rem) {
+            /*  w: 0px - 928 */
+
+        .facebook____media__group {
+            left:1em;
+            right:1em;
+            bottom:auto;
+            height:calc(100% - 9.5rem);
+        }
+
+        .facebook____post__group {
+            width:auto;
+            height:8rem;
+            border-left:inherit;
+            top:auto;
+            bottom:1em;
+            left:1em;
+            right:1em;
+            overflow-y:auto;
+            overflow-x:hidden;
+        }
+
+            .facebook____post__box {
+                bottom:auto;
+                position:relative;
+                padding-right:1em;
+            }
+
+                .facebook____post__pic {
+                    width:4rem;
+                    min-width:auto;
+                }
+
+                .facebook____post__name {
+                    width:calc(100% - 4.5rem);
+                }
+
+                .facebook____post__timeStamp {
+                    margin-left:0.5rem;
+                }
+
+                .facebook____post__box ~ .facebook____post__likes {
+                    color:#141823;
+                    font-size:0.875em;
+                    margin:2em 1em 1em;
+                    padding:0 0 1em 0;
+                    border-bottom:1px solid #f0f0f0;
+                    position:static;
+                }
+
+
+            .facebook____post__box ~ .facebook____feedback__group {
+                font-size:0.875em;
+                display:block;
+                margin:0 0 1em 0;
+                padding-left:1em;
+                list-style:none;
+                position:static;
+            }
+
+                .facebook____feedback__like, 
+                .facebook____feedback__comment, 
+                .facebook____feedback__share {
+                    width:7em;
+                }
+
+                .facebook____feedback__like:before {
+                    left:1em;
+                }
+                .facebook____feedback__comment:before {
+                    left:-0.25em;
+                }
+                .facebook____feedback__share:before {
+                    left:0.75em;
+                }
+
+            .facebook____profile__group {
+                display:none;
+            }
+
+        }
+
+
+        @media screen and (max-width:42rem) {
+            /*  w: 0px - 928 */
+
+                .facebook____post__pic {
+                    max-width:3rem;
+
+                }
+
+                .facebook____post__name {
+                    width:100%;
+                }
+
+                .facebook____post__timeStamp {
+                    margin-left:0;
+                }
+
+                .facebook____post__copy {
+                    font-size:1em;
+                    margin:1em 0;
+                }
+
+            .facebook____feedback__group {
+                margin-bottom:0.5em;
+            }
+
+                .facebook____feedback__box {
+                    width:100%;
+                }
+
+                    .facebook____feedback__like,
+                    .facebook____feedback__comment,
+                    .facebook____feedback__share {
+                        width:auto;
+                        text-align:left;
+                        margin-left:2em;
+                        margin-bottom:0.5em;
+                    }
+
+                    .facebook____feedback__like:before,
+                    .facebook____feedback__comment:before,
+                    .facebook____feedback__share:before {
+                        left:-2em;
+                    }
+
+
+        }
+
+
+
+
+

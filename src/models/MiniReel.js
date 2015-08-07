@@ -1,3 +1,4 @@
+import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
@@ -201,6 +202,10 @@ export default class MiniReel extends EventEmitter {
                 this.emit('becameCloseable');
             }
         });
+
+        // TO-DO Place this listener on own window, not parent, when we switch away from
+        // friendly iframe
+        global.parent.addEventListener('beforeunload', () => Runner.run(() => this.close()), false);
 
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);

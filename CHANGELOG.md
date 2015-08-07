@@ -1,7 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.21.3 (August 7, 2015)
 * *[v0.21.3-rc1]*
   * Updated VPAID swf
+  * Attempt to send "Played" GA event when the user closes the page the
+    player is running on
+* *[/v0.21.3-rc1]*
 
 ## v0.21.2 (August 5, 2015)
 * *[v0.21.2-rc1]*

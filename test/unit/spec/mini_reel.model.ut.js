@@ -1,5 +1,6 @@
 import MiniReel from '../../../src/models/MiniReel.js';
 import dispatcher from '../../../src/services/dispatcher.js';
+import Runner from '../../../lib/Runner.js';
 import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
 import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';

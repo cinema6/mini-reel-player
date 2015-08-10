@@ -207,7 +207,5 @@ export default class VPAIDPlayer extends CorePlayer {
         return (player && player.adBanners) || null;
     }
 
-    minimize() {
-        return new Error('The video cannot be minimized.');
-    }
+    minimize() {}
 }

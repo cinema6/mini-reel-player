@@ -48,6 +48,9 @@ export default class VideoCardController extends CardController {
             this.model.setPlaybackState({ currentTime, duration });
         });
         player.on('ended', () => {
+            const { duration } = player;
+
+            this.model.setPlaybackState({ currentTime: duration, duration });
             if (player.minimize() instanceof Error) { player.reload(); }
             if (this.canAutoadvance()) { this.model.complete(); }
         });

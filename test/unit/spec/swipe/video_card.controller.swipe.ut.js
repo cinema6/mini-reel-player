@@ -33,6 +33,7 @@ describe('SwipeVideoCardController', function() {
         card.links = {};
         card.action = {};
         card.complete = function() {};
+        card.setPlaybackState = function() {};
 
         meta = {
             number: 3,

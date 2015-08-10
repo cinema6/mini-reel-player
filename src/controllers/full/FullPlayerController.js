@@ -9,6 +9,8 @@ import FullPrerollCardController from './FullPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../mixins/ResizingPlayerController.js';
+import FullPinterestImageCardController from './FullPinterestImageCardController.js';
+import FullPinterestVideoCardController from './FullPinterestVideoCardController.js';
 
 export default class FullPlayerController extends PlayerController {
     constructor() {
@@ -23,7 +25,9 @@ export default class FullPlayerController extends PlayerController {
             video: FullVideoCardController,
             recap: FullRecapCardController,
             preroll: FullPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            pinterestImage: FullPinterestImageCardController,
+            pinterestVideo: FullPinterestVideoCardController
         };
 
         this.initResizing();

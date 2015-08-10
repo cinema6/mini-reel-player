@@ -9,6 +9,7 @@ import MobileRecapCardController from './MobileRecapCardController.js';
 import MobilePrerollCardController from './MobilePrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
+import MobilePinterestCardController from './MobilePinterestCardController.js';
 
 export default class MobilePlayerController extends PlayerController {
     constructor() {
@@ -23,7 +24,9 @@ export default class MobilePlayerController extends PlayerController {
             video: MobileVideoCardController,
             recap: MobileRecapCardController,
             preroll: MobilePrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            pinterestImage: MobilePinterestCardController,
+            pinterestVideo: MobilePinterestCardController
         };
 
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));

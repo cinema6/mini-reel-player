@@ -10,6 +10,8 @@ import LightboxPlaylistPrerollCardController from './LightboxPlaylistPrerollCard
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
+import FullPinterestImageCardController from '../full//FullPinterestImageCardController.js';
+import FullPinterestVideoCardController from '../full//FullPinterestVideoCardController.js';
 
 export default class LightboxPlaylistPlayerController extends PlayerController {
     constructor() {
@@ -24,7 +26,9 @@ export default class LightboxPlaylistPlayerController extends PlayerController {
             video: LightboxPlaylistVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightboxPlaylistPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            pinterestImage: FullPinterestImageCardController,
+            pinterestVideo: FullPinterestVideoCardController
         };
 
         this.initPlaylist();

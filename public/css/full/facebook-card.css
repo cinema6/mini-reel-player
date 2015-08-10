@@ -1,111 +1,5 @@
 
 
-/*  ================================================
-    facebook text card
-    ================================================ */
-    section.facebook____profile__group {
-        height:auto;
-        padding:0.75em;
-        position:relative;
-        top:1em;
-        left:10em;
-        width:21em;
-        border:1px solid #dfe0e4;
-        background:#fff;
-    }
-
-        section.facebook____profile__group .facebook____profile__name {
-            width:auto;
-        }
-
-        section.facebook____profile__group .facebook____profile__data {
-            margin: 0.5em 0 1em;
-        }
-
-        section.facebook____profile__group .facebook____profile__likePage,
-        section.facebook____profile__group .facebook____profile__likePage:focus {
-            position:relative;
-            top:auto;
-            bottom:0;
-            left:0;
-            right:auto;
-            background:#f6f7f8;
-        }
-
-            section.facebook____profile__group .facebook__profile__logo:before {
-                top:0.125em;
-            }
-
-        
-                
-
-                
-              
-
-
-
-    .facebook____post__group--text {
-        border-radius:0 2px 2px 0;
-        border:1px solid #dfe0e4;
-        background-color:#fff;
-        position:absolute;
-        top:1em;
-        bottom:1em;
-        left:32em;
-        right:10em;;
-        font-family: Helvetica, Arial, sans-serif;
-    }
-
-        .facebook____post__group--text .facebook____post__box {
-            top:1em;
-            bottom:1em;
-            left:1em;
-            right:1em;
-        }      
-
-            .facebook____post__group--text .facebook____post__pic {
-                width:6rem;
-            }
-
-            .facebook____post__group--text .facebook____post__name {
-                width:calc(100% - 7rem);
-                font-size:1.25em;
-
-            }
-
-            .facebook____post__group--text .facebook____post__timeStamp {
-                margin:0 0 0 1rem;
-                font-size:1em;
-            }
-
-
-
-
-
-                .facebook____post__group--text .facebook____post__copy {
-                    font-size:1.5em;
-                }
-
-                .facebook____post__group--text .facebook____post__likes {
-                    bottom:2.5em;
-                    font-size:1em;
-                }
-
-                .facebook____post__group--text .facebook____feedback__group {
-                    font-size:1.125em;
-                    height:1.125em;
-                }
-
-                    .facebook____post__group--text .facebook____feedback__box {
-                        width:10em;
-                    }
-
-    /*  facebook text card MEDIA QUERIES
-        ================================================ */
-
-
-
-
        
 /*  ================================================
     facebook image card
@@ -142,9 +36,6 @@
                 height:100%;
                 background:center/contain no-repeat;
             }
-
-
-
 
 
         .facebook____post__group {
@@ -389,7 +280,7 @@
         }
 
         @media screen and (max-width:55rem) {
-            /*  w: 0px - 928 */
+            /*  w: 0px - 880 */
 
         .facebook____mediaImg__group {
             left:1em;
@@ -449,7 +340,7 @@
 
 
         @media screen and (max-width:42rem) {
-            /*  w: 0px - 928 */
+            /*  w: 0px - 762 */
 
                 .facebook____post__pic {
                     max-width:3rem;
@@ -529,18 +420,11 @@
 
 
 
-
-
-
-
-
-
-
     /*  facebook video card MEDIA QUERIES
         ================================================ */
 
         @media screen and (max-width:100rem) {
-            /*  w: 1200px -  2000px */
+            /*  w:0px - 1600px */
 
             .facebook____mediaVid__group {
                 right:18rem;
@@ -549,16 +433,13 @@
 
 
         @media screen and (max-width:55rem) {
-            /*  w: 0px - 1200px */
+            /*  w: 0px - 880px */
 
             .facebook____mediaVid__group {
                 bottom:10em;
                 right:1rem;
             }
         }
-
-
-
 
 
 
@@ -673,7 +554,7 @@
         ================================================ */
 
         @media screen and (max-width:100rem) {
-            /*  w: 1200px -  2000px */
+            /*  w:0px - 1600px */
 
             .facebook____media__group {
                 right:21em;
@@ -690,7 +571,7 @@
 
 
         @media screen and (max-width:55rem) {
-            /*  w: 0px - 928 */
+            /*  w: 0px - 880 */
 
         .facebook____media__group {
             left:1em;
@@ -725,6 +606,219 @@
         }
 
 
+        @media screen and (max-width:42rem) and (max-height:31.25rem) {
+            /*  w: 0px - 500 */
+
+            .facebook____media__imgSize {
+                display:none;
+            }
+
+            .facebook____media__article {
+                height:auto;
+                top:0;
+                overflow-y:auto;
+            }
+
+                
+        }
+
+
+
+
+/*  ================================================
+    facebook text card
+    ================================================ */
+    section.facebook____profile__group {
+        height:auto;
+        padding:0.75em;
+        position:relative;
+        top:1em;
+        left:10em;
+        width:21em;
+        border:1px solid #dfe0e4;
+        background:#fff;
+    }
+
+        section.facebook____profile__group .facebook____profile__name {
+            width:auto;
+        }
+
+        section.facebook____profile__group .facebook____profile__data {
+            margin: 0.5em 0 1em;
+        }
+
+        section.facebook____profile__group .facebook____profile__likePage,
+        section.facebook____profile__group .facebook____profile__likePage:focus {
+            position:relative;
+            top:auto;
+            bottom:0;
+            left:0;
+            right:auto;
+            background:#f6f7f8;
+        }
+
+            section.facebook____profile__group .facebook__profile__logo:before {
+                top:0.125em;
+            }
+
+                
+
+    .facebook____post__group--text {
+        border-radius:0 2px 2px 0;
+        border:1px solid #dfe0e4;
+        background-color:#fff;
+        position:absolute;
+        top:1em;
+        bottom:1em;
+        left:32em;
+        right:10em;;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+
+        .facebook____post__group--text .facebook____post__box {
+            top:1em;
+            bottom:1em;
+            left:1em;
+            right:1em;
+        }      
+
+            .facebook____post__group--text .facebook____post__pic {
+                width:6rem;
+            }
+
+            .facebook____post__group--text .facebook____post__name {
+                width:calc(100% - 7rem);
+                font-size:1.25em;
+            }
+
+            .facebook____post__group--text .facebook____post__timeStamp {
+                margin:0 0 0 1rem;
+                font-size:1em;
+            }
+
+
+                .facebook____post__group--text .facebook____post__copy {
+                    font-size:1.5em;
+                }
+
+                .facebook____post__group--text .facebook____post__likes {
+                    bottom:2.5em;
+                    font-size:1em;
+                }
+
+                .facebook____post__group--text .facebook____feedback__group {
+                    font-size:1.125em;
+                    height:1.125em;
+                }
+
+                    .facebook____post__group--text .facebook____feedback__box {
+                        width:7em;
+                    }
+
+    /*  facebook text card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and  (max-width:100rem) {
+            /*  w: 0px -  1600px */
+
+            section.facebook____profile__group {
+                left:1em;
+                width:15em;
+            }
+
+            .facebook____post__group--text {
+                left:17em;
+                right:1em;
+            }
+
+                .facebook____post__group--text .facebook____post__pic {
+                    width:4rem;
+                }
+
+                .facebook____post__group--text .facebook____post__name {
+                    width:calc(100% - 5rem);
+
+                }
+
+        }
+
+        @media screen and (max-width:65rem) {
+            /*  w: 0px - 1040 */
+
+            section.facebook____profile__group {
+                width:9em;
+                display:block;
+            }
+
+            .facebook____post__group--text {
+                left:11em;
+            }
+
+                .facebook____post__box .facebook____feedback__group {
+                    font-size:0.9375em;
+                }
+
+                    .facebook____post__group--text .facebook____post__name {
+                        font-size:0.9375em;
+                    }
+
+                    .facebook____post__group--text .facebook____post__timeStamp {
+                        font-size:0.9375em;
+                    }
+
+        }
+
+        @media screen and (max-width:55rem) {
+            /*  w: 0px - 880 */
+
+            .facebook____post__group--text {
+                left:1em;
+            }
+
+                .facebook____post__group--text .facebook____post__copy {
+                    font-size:1.125em;
+                }
+
+        }
+
+
+        @media screen and (max-width:42rem) {
+            /*  w: 0px - 672 */
+
+            .facebook____post__group--text .facebook____post__pic {
+                float:none;
+            }
+
+            .facebook____post__group--text .facebook____post__name {
+                width:auto;
+                float:none;
+                font-size:0.875em;
+
+            }
+
+            .facebook____post__group--text .facebook____post__timeStamp {
+                margin-left:0;
+                font-size:0.875em;
+            }
+
+            .facebook____post__group--text .facebook____post__copy {
+                font-size:1em;
+            }
+
+            .facebook____post__group--text .facebook____post__likes {
+                font-size:0.875em;
+            }
+
+
+        }
+
+        @media screen and (max-height:24rem) and (max-width:55rem) {
+            /*  w: 0px - 880px 
+                h: 0px - 384px  */
+            section.facebook____profile__group {
+                display:none;
+            }
+        }
 
 
 

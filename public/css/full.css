@@ -40,7 +40,7 @@
 
     /*  facebook card classes
         ============================================= */ 
-        @import url('full/facebook-card.css');
+        @import url('global/facebook-card.css');
 
     /*  sponsored card classes
         ============================================= */ 
@@ -63,3 +63,7 @@
     /*  slide nav button classes 
         ============================================= */ 
         @import url('full/slide-nav-btn.css');
+
+    /*  global override classes
+        ============================================= */ 
+        @import url('full/full__global.css');

@@ -4,14 +4,14 @@
     ================================================ */
     .player__group {
         margin:0; padding:0;
-        width:calc(100% - 19.5em);  position:relative;
+        width:calc(100% - 19.5rem);  position:relative;
         background:black url('../../img/default_square.jpg') 50% 50% / cover no-repeat;
     }
         @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
             /*  w: 0 - 800px
                 h: 0 - 500px */
             .player__group {
-                width:calc(100% - 15.5em);
+                width:calc(100% - 15.5rem);
             }
         }
         
@@ -140,7 +140,7 @@
 
     .player__height,
     .playerHeight {
-        height:calc(100% - 4.5em);
+        height:calc(100% - 4.5rem);
     }
 
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
@@ -148,7 +148,7 @@
             /   h: 720px ++ */
             .player__height,
             .playerHeight {
-                height:calc(100% - 5.5em);
+                height:calc(100% - 5.5rem);
             }
         }
 

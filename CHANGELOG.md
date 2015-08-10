@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v0.21.5 (August 10, 2015)
+* *[v0.21.5-rc1]*
+  * [FIX]: Fix for an issue that caused GA tracking not to work in MRAID
+* *[/v0.21.5-rc1]*
+
 ## v0.21.4 (August 10, 2015)
 * *[v0.21.4-rc1]*
   * [FIX]: Fix for an issue that caused TubeMogul's VPAID player to

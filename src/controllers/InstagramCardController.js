@@ -1,5 +1,22 @@
 import CardController from './CardController.js';
 import View from '../../lib/core/View.js';
+import {createKey} from 'private-parts';
+
+let _;
+
+class Private {
+    constructor(instance) {
+        this.__public__ = instance;
+    }
+
+    doRender() {
+        if(!this.__public__.isRendered) {
+            this.__public__.renderInstagram();
+        }
+    }
+}
+
+_ = createKey(instance => new Private(instance));
 
 export default class InstagramCardController extends CardController {
     constructor() {
@@ -10,23 +27,19 @@ export default class InstagramCardController extends CardController {
         /* InstagramImageCard (model) events. */
         this.model.on('prepare', () => this.prepare());
         this.model.on('activate', () => this.activate());
-    }
 
-    doRender() {
-        if(!this.isRendered) {
-            this.renderInstagram();
-        }
+        if (global.__karma__) { this.__private__ = _(this); }
     }
 
     prepare() {
-        this.doRender();
+        _(this).doRender();
     }
 
     activate() {
-        this.doRender();
+        _(this).doRender();
     }
 
-    formatLikes(likes) {
+    formatNumWithSuffix(likes) {
         let n = parseInt(likes); // 77669
         let l = n.toString().length; // 5
         let i = Math.floor((l - 1) / 3); // 1
@@ -73,7 +86,7 @@ export default class InstagramCardController extends CardController {
         }
     }
 
-    formatComments(comments) {
+    formatNumWithCommas(comments) {
         let result = comments.toString();
         const regex = /(\d+)(\d{3})/;
         while (regex.test(result)) {
@@ -84,6 +97,7 @@ export default class InstagramCardController extends CardController {
 
     renderInstagram() {
         this.isRendered = true;
+
         if (!this.view.captionOutlet) {
             this.view.create();
         }
@@ -94,7 +108,6 @@ export default class InstagramCardController extends CardController {
         captionView.innerHTML = this.model.caption.replace(/@(\w+)/g, postTag);
         this.view.captionOutlet.append(new View(captionView));
 
-        this.isRendered = true;
         this.view.update({
             userHref: this.model.user.href,
             userFollow: this.model.user.follow,
@@ -103,14 +116,14 @@ export default class InstagramCardController extends CardController {
             userFullname: this.model.user.fullname,
             userBio: this.model.user.bio,
             userWebsite: this.model.user.website,
-            userPosts: this.model.user.posts,
-            userFollowers: this.model.user.followers,
-            userFollowing: this.model.user.following,
+            userPosts: this.formatNumWithSuffix(this.model.user.posts),
+            userFollowers: this.formatNumWithSuffix(this.model.user.followers),
+            userFollowing: this.formatNumWithSuffix(this.model.user.following),
             mediaSrc: this.model.data.src,
             href: this.model.data.href,
-            likes: this.formatLikes(this.model.likes),
+            likes: this.formatNumWithSuffix(this.model.likes),
             date: this.formatDate(this.model.date),
-            comments: this.formatComments(this.model.comments)
+            comments: this.formatNumWithCommas(this.model.comments)
         });
     }
 }

@@ -52,6 +52,7 @@ describe('InstagramImageCard', function() {
                 "picture": "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg",
                 "username": "thedogist",
                 "follow": "https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow",
+                "href": "https://instagram.com/thedogist",
                 "bio": "A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.",
                 "website": "http://thedogist.com/book",
                 "posts": 2886,
@@ -101,5 +102,47 @@ describe('InstagramImageCard', function() {
             });
         });
 
+        describe('user', function() {
+            it('should be copied from the passed-in value', function() {
+                const output = instagramImageCard.user;
+                const expectedOutput = {
+                    fullname: 'The Dogist',
+                    picture: 'https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg',
+                    username: 'thedogist',
+                    follow: 'https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow',
+                    href: 'https://instagram.com/thedogist',
+                    bio: 'A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.',
+                    website: 'http://thedogist.com/book',
+                    posts: 2886,
+                    followers: 1030957,
+                    following: 3
+                };
+                expect(output).toEqual(expectedOutput);
+            });
+        });
+
+        describe('likes', function() {
+            it('should be copied from the passed-in value', function() {
+                expect(instagramImageCard.likes).toBe(77669);
+            });
+        });
+
+        describe('data', function() {
+            it('should be copied from the passed-in value as a Date object', function() {
+                expect(instagramImageCard.date).toEqual(new Date(1437439190000));
+            });
+        });
+
+        describe('caption', function() {
+            it('should be copied from the passed-in value', function() {
+                expect(instagramImageCard.caption).toBe('Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY');
+            });
+        });
+
+        describe('comments', function() {
+            it('should be copied from the passed-in value', function() {
+                expect(instagramImageCard.comments).toBe(9734);
+            });
+        });
     });
 });

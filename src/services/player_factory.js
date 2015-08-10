@@ -11,6 +11,9 @@ import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
+        if(card.type === 'instagramVideo') {
+            return new HtmlVideoPlayer();
+        }
         switch (card.data.type) {
         case 'youtube':
             return new YouTubePlayer();
@@ -30,9 +33,6 @@ class PlayerFactory {
             return new SlideshowBobPlayer();
         case 'vine':
             return new VinePlayer();
-        case 'instagram':
-            return new HtmlVideoPlayer();
-
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

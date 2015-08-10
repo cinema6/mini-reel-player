@@ -3,6 +3,7 @@ import CardController from '../../../src/controllers/CardController.js';
 import FullInstagramImageCardView from '../../../src/views/full/FullInstagramImageCardView.js';
 import InstagramImageCard from '../../../src/models/InstagramImageCard.js';
 import Runner from '../../../lib/Runner.js';
+import View from '../../../lib/core/View.js';
 
 describe('InstagramCardController', function() {
     let InstagramCardCtrl;
@@ -69,42 +70,35 @@ describe('InstagramCardController', function() {
     });
 
     describe('properties', function() {
-        describe('isRendered', function() {
-            it('should be initialized to false', function() {
-                expect(InstagramCardCtrl.isRendered).toBe(false);
+        describe('private', function() {
+            describe('isRendered', function() {
+                it('should be initialized to false', function() {
+                    expect(InstagramCardCtrl.isRendered).toBe(false);
+                });
             });
         });
     });
 
     describe('events', function() {
+
         describe('model', function() {
+
             beforeEach(function() {
-                spyOn(InstagramCardCtrl, 'renderInstagram');
+                spyOn(InstagramCardCtrl, 'prepare');
+                spyOn(InstagramCardCtrl, 'activate');
             });
 
             describe('prepare', function() {
-                it('should call renderInstagram if not already rendered', function() {
+                it('should call prepare', function() {
                     card.prepare();
-                    expect(InstagramCardCtrl.renderInstagram).toHaveBeenCalled();
-                });
-
-                it('should not call renderInstagram if already rendered', function() {
-                    InstagramCardCtrl.isRendered = true;
-                    card.prepare();
-                    expect(InstagramCardCtrl.renderInstagram).not.toHaveBeenCalled();
+                    expect(InstagramCardCtrl.prepare).toHaveBeenCalled();
                 });
             });
 
             describe('activate', function() {
-                it('should call renderInstagram if not already rendered', function() {
+                it('should call activate', function() {
                     card.activate();
-                    expect(InstagramCardCtrl.renderInstagram).toHaveBeenCalled();
-                });
-
-                it('should not call renderInstagram if already rendered', function() {
-                    InstagramCardCtrl.isRendered = true;
-                    card.prepare();
-                    expect(InstagramCardCtrl.renderInstagram).not.toHaveBeenCalled();
+                    expect(InstagramCardCtrl.activate).toHaveBeenCalled();
                 });
             });
         });
@@ -112,100 +106,172 @@ describe('InstagramCardController', function() {
 
     describe('methods', function() {
 
-        beforeEach(function() {
-            spyOn(Date, 'now').and.returnValue(new Date(2015, 12, 30, 12, 57, 59));
-        });
+        describe('private', function() {
 
-        describe('formatLikes', function() {
-            it('should format the number as an appropriate string', function() {
-                const input =          [ 0,   1,   999,   1000, 77669,   999999,   1000000, 8924371, 999999999, 1000000000, 999999999999, 1000000000000];
-                const expectedOutput = ['0', '1', '999', '1k', '77.7k', '1m',     '1m',    '8.9m',  '1b',      '1b',       '>1t',        '>1t'];
-                const output = input.map(likes => {
-                    return InstagramCardCtrl.formatLikes(likes);
+            describe('doRender', function() {
+
+                beforeEach(function() {
+                    spyOn(InstagramCardCtrl, 'renderInstagram');
                 });
-                expect(output).toEqual(expectedOutput);
+
+                it('should call renderInstagram if not already rendered', function() {
+                    InstagramCardCtrl.isRendered = false;
+                    InstagramCardCtrl.__private__.doRender();
+                    expect(InstagramCardCtrl.renderInstagram).toHaveBeenCalled();
+                });
+
+                it('should not call renderInstagram if already rendered', function() {
+                    InstagramCardCtrl.isRendered = true;
+                    InstagramCardCtrl.__private__.doRender();
+                    expect(InstagramCardCtrl.renderInstagram).not.toHaveBeenCalled();
+                });
             });
         });
 
-        describe('formatDate', function() {
-            it('should format the date as an appropriate string', function() {
-                const input = [
-                    new Date(2015, 12, 30, 12, 57, 59),
-                    new Date(2010, 12, 30, 12, 57, 59),
-                    new Date(2015, 6, 30, 12, 57, 59),
-                    new Date(2015, 12, 16, 12, 57, 59),
-                    new Date(2015, 12, 24, 12, 57, 59),
-                    new Date(2015, 12, 30, 5, 57, 59),
-                    new Date(2015, 12, 30, 12, 17, 59),
-                    new Date(2015, 12, 30, 12, 57, 57),
-                    new Date(2015, 12, 29, 13, 57, 59),
-                    new Date(2015, 12, 30, 12, 57, 58)
-                ];
-                const expectedOutput = [
-                    'just now',
-                    '5 years',
-                    '6 months',
-                    '2 weeks',
-                    '6 days',
-                    '7 hours',
-                    '40 minutes',
-                    '2 seconds',
-                    '23 hours',
-                    '1 second'
-                ];
-                const output = input.map(date => {
-                    return InstagramCardCtrl.formatDate(date);
-                });
-                expect(output).toEqual(expectedOutput);
-            });
-        });
-
-        describe('formatComments', function() {
-            it('should format the comments as an appropriate string', function() {
-                const input = [0, 1, 999, 1000, 900000, 1000000];
-                const expectedOutput = ['0', '1', '999', '1,000', '900,000', '1,000,000'];
-                const output = input.map(comments => {
-                    return InstagramCardCtrl.formatComments(comments);
-                });
-                expect(output).toEqual(expectedOutput);
-            });
-        });
-
-        describe('renderInstagram', function() {
+        describe('public',  function() {
 
             beforeEach(function() {
-                spyOn(InstagramCardCtrl.view, 'update');
-                spyOn(InstagramCardCtrl, 'formatDate').and.returnValue('4 weeks');
-                Runner.run(() => {
-                    InstagramCardCtrl.renderInstagram();
+                spyOn(Date, 'now').and.returnValue(new Date(2015, 12, 30, 12, 57, 59));
+                spyOn(InstagramCardCtrl.__private__, 'doRender');
+            });
+
+            describe('prepare', function() {
+                it('should call doRender', function() {
+                    InstagramCardCtrl.prepare();
+                    expect(InstagramCardCtrl.__private__.doRender).toHaveBeenCalled();
                 });
             });
 
-            it('should set the isRendered property to true', function() {
-                expect(InstagramCardCtrl.isRendered).toBe(true);
+            describe('activate', function() {
+                it('should call doRender', function() {
+                    InstagramCardCtrl.activate();
+                    expect(InstagramCardCtrl.__private__.doRender).toHaveBeenCalled();
+                });
             });
 
-            it('should update the source on the template', function() {
-                var expectedOutput = {
-                    userHref: 'https://instagram.com/thedogist',
-                    userFollow: 'https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow',
-                    userPicture: 'https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg',
-                    userUsername: 'thedogist',
-                    userFullname: 'The Dogist',
-                    userBio: 'A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.',
-                    userWebsite: 'http://thedogist.com/book',
-                    userPosts: 2886,
-                    userFollowers: 1030957,
-                    userFollowing: 3,
-                    mediaSrc: 'https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/e35/sh0.08/11351507_836701216398426_1156749946_n.jpg',
-                    href: 'https://instagram.com/p/5YN6a0tOc-/',
-                    likes: '77.7k',
-                    date: '4 weeks',
-                    comments: '9,734'
-                };
-                expect(InstagramCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
+            describe('formatNumWithSuffix', function() {
+                it('should format the number as an appropriate string', function() {
+                    const input =          [ 0,   1,   999,   1000, 77669,   999999,   1000000, 8924371, 999999999, 1000000000, 999999999999, 1000000000000];
+                    const expectedOutput = ['0', '1', '999', '1k', '77.7k', '1m',     '1m',    '8.9m',  '1b',      '1b',       '>1t',        '>1t'];
+                    const output = input.map(likes => {
+                        return InstagramCardCtrl.formatNumWithSuffix(likes);
+                    });
+                    expect(output).toEqual(expectedOutput);
+                });
+            });
+
+            describe('formatDate', function() {
+                it('should format the date as an appropriate string', function() {
+                    const input = [
+                        new Date(2015, 12, 30, 12, 57, 59),
+                        new Date(2010, 12, 30, 12, 57, 59),
+                        new Date(2015, 6, 30, 12, 57, 59),
+                        new Date(2015, 12, 16, 12, 57, 59),
+                        new Date(2015, 12, 24, 12, 57, 59),
+                        new Date(2015, 12, 30, 5, 57, 59),
+                        new Date(2015, 12, 30, 12, 17, 59),
+                        new Date(2015, 12, 30, 12, 57, 57),
+                        new Date(2015, 12, 29, 13, 57, 59),
+                        new Date(2015, 12, 30, 12, 57, 58)
+                    ];
+                    const expectedOutput = [
+                        'just now',
+                        '5 years',
+                        '6 months',
+                        '2 weeks',
+                        '6 days',
+                        '7 hours',
+                        '40 minutes',
+                        '2 seconds',
+                        '23 hours',
+                        '1 second'
+                    ];
+                    const output = input.map(date => {
+                        return InstagramCardCtrl.formatDate(date);
+                    });
+                    expect(output).toEqual(expectedOutput);
+                });
+            });
+
+            describe('formatNumWithCommas', function() {
+                it('should format the comments as an appropriate string', function() {
+                    const input = [0, 1, 999, 1000, 900000, 1000000];
+                    const expectedOutput = ['0', '1', '999', '1,000', '900,000', '1,000,000'];
+                    const output = input.map(comments => {
+                        return InstagramCardCtrl.formatNumWithCommas(comments);
+                    });
+                    expect(output).toEqual(expectedOutput);
+                });
+            });
+
+            describe('renderInstagram', function() {
+
+                function render() {
+                    Runner.run(() => InstagramCardCtrl.renderInstagram());
+                }
+
+                beforeEach(function() {
+                    spyOn(InstagramCardCtrl.view, 'update');
+                    spyOn(InstagramCardCtrl, 'formatDate').and.returnValue('4 weeks');
+                    spyOn(InstagramCardCtrl.view, 'create').and.callThrough();
+                });
+
+                it('should set the isRendered property to true', function() {
+                    render();
+                    expect(InstagramCardCtrl.isRendered).toBe(true);
+                });
+
+                it('should create the captionOutlet view if it isn\'t already created', function() {
+                    InstagramCardCtrl.view.captionOutlet = null;
+                    render();
+                    expect(InstagramCardCtrl.view.create).toHaveBeenCalled();
+                });
+
+                it('should not create the captionOutlet view if it is already created', function() {
+                    const outlet = new View();
+                    outlet.tag = 'div';
+                    InstagramCardCtrl.view.captionOutlet = outlet;
+                    render();
+                    expect(InstagramCardCtrl.view.create).not.toHaveBeenCalled();
+                });
+
+                it('should append to the caption outlet', function() {
+                    render();
+                    const children = InstagramCardCtrl.view.captionOutlet.element.children;
+                    expect(children.length).toBe(1);
+                    const child = children[0];
+                    expect(child.tagName).toBe('SPAN');
+                });
+
+                it('should format the caption before appending it to the caption outlet', function() {
+                    InstagramCardCtrl.model.caption = 'Hello World @snoopdogg';
+                    render();
+                    const child = InstagramCardCtrl.view.captionOutlet.element.children[0];
+                    expect(child.innerHTML).toBe('Hello World <a href="https://instagram.com/snoopdogg/" target="_blank" class="instag____postInfo__tag">@snoopdogg</a>');
+                });
+
+                it('should update the source on the template', function() {
+                    render();
+                    var expectedOutput = {
+                        userHref: 'https://instagram.com/thedogist',
+                        userFollow: 'https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow',
+                        userPicture: 'https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg',
+                        userUsername: 'thedogist',
+                        userFullname: 'The Dogist',
+                        userBio: 'A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.',
+                        userWebsite: 'http://thedogist.com/book',
+                        userPosts: '2.9k',
+                        userFollowers: '1m',
+                        userFollowing: '3',
+                        mediaSrc: 'https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/e35/sh0.08/11351507_836701216398426_1156749946_n.jpg',
+                        href: 'https://instagram.com/p/5YN6a0tOc-/',
+                        likes: '77.7k',
+                        date: '4 weeks',
+                        comments: '9,734'
+                    };
+                    expect(InstagramCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
+                });
             });
         });
     });
-
 });

@@ -2,9 +2,29 @@ import CorePlayer from './CorePlayer.js';
 import Runner from '../../lib/Runner.js';
 import { createKey } from 'private-parts';
 
-function noMethodError(method) {
-    return new Error(`VinePlayer cannot ${method}.`);
-}
+let exitFullscreen = function(video) {
+    const documentExitFullscreen = document.exitFullscreen ||
+        document.msExitFullscreen ||
+        document.mozCancelFullScreen ||
+        document.webkitExitFullscreen;
+
+    const videoExitFullscreen = video.exitFullscreen ||
+        video.msExitFullscreen ||
+        video.mozCancelFullScreen ||
+        video.webkitExitFullscreen;
+
+    if (documentExitFullscreen) {
+        exitFullscreen = function() {
+            documentExitFullscreen.call(document);
+        };
+    } else {
+        exitFullscreen = function(video) {
+            videoExitFullscreen.call(video);
+        };
+    }
+
+    exitFullscreen(video);
+};
 
 let _;
 
@@ -22,44 +42,61 @@ export default class HtmlVideoPlayer extends CorePlayer {
 
         this.src = null;
         this.loop = false;
-        this.currentTime = 0;
 
-        _(this).readyState = 0;
         _(this).htmlVideo = null;
 
         if (global.__karma__) { this.__private__ = _(this); }
     }
 
+    get currentTime() {
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.currentTime : 0;
+    }
+    set currentTime(value) {
+        const { htmlVideo } = _(this);
+        if(htmlVideo) {
+            htmlVideo.currentTime = value;
+        }
+    }
+
     get duration() {
-        return 0;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.duration : 0;
     }
 
     get ended() {
-        return false;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.ended : false;
     }
 
     get paused() {
-        return true;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.paused : true;
     }
 
     get muted() {
-        return false;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.muted : false;
     }
 
     get volume() {
-        return 1;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.volume : 0;
     }
 
     get readyState() {
-        return _(this).readyState;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.readyState : 0;
     }
 
     get seeking() {
-        return false;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.seeking : false;
     }
 
     get error() {
-        return null;
+        const { htmlVideo } = _(this);
+        return htmlVideo ? htmlVideo.error : null;
     }
 
     play() {
@@ -71,10 +108,13 @@ export default class HtmlVideoPlayer extends CorePlayer {
     }
 
     minimize() {
-        return noMethodError('minimize');
+        exitFullscreen(_(this).htmlVideo);
     }
 
     load() {
+        if(_(this).htmlVideo && this.src === _(this).htmlVideo.getAttribute('src')) {
+            return;
+        }
         this.unload();
 
         const element = this.element || this.create();
@@ -85,24 +125,47 @@ export default class HtmlVideoPlayer extends CorePlayer {
         if(this.loop) {
             video.setAttribute('loop', true);
         }
-        _(this).htmlVideo = video;
-
-        Runner.schedule('afterRender', null, () => {
-            element.appendChild(video);
+        video.addEventListener('loadedmetadata', () => {
+            this.emit('loadedmetadata');
+        });
+        video.addEventListener('canplay', () => {
             Runner.runNext(() => {
-                _(this).readyState = 3;
+                element.appendChild(video);
                 this.emit('canplay');
             });
         });
+        video.addEventListener('play', () => {
+            this.emit('play');
+        });
+        video.addEventListener('pause', () => {
+            this.emit('pause');
+        });
+        video.addEventListener('error', () => {
+            this.emit('error');
+        });
+        video.addEventListener('ended', () => {
+            this.emit('ended');
+        });
+        video.addEventListener('timeupdate', () => {
+            this.emit('timeupdate');
+        });
+        _(this).htmlVideo = video;
     }
 
     unload() {
         const { element } = this;
-        if (!element || !_(this).htmlVideo) { return super(); }
+        const video = _(this).htmlVideo;
+        if (!element || !video) { return super(); }
 
         _(this).src = null;
-        _(this).readyState = 0;
 
+        video.removeEventListener('loadedmetadata');
+        video.removeEventListener('canplay');
+        video.removeEventListener('play');
+        video.removeEventListener('pause');
+        video.removeEventListener('error');
+        video.removeEveneListener('ended');
+        video.removeEveneListener('timeupdate');
         element.removeChild(_(this).htmlVideo);
         _(this).htmlVideo = null;
 

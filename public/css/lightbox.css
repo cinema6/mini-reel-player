@@ -14,6 +14,10 @@
         ============================================= */
         @import url('lightbox/lightbox__base.css');
 
+    /*  global hover classes
+        ============================================= */ 
+        @import url('global/hover.css');
+
     /*  video card classes
         ballot/actions modal group
         ============================================= */    
@@ -30,6 +34,10 @@
     /*  text only card classes
         ============================================= */ 
         @import url('lightbox/text-card.css');
+
+    /*  facebook card classes
+        ============================================= */ 
+        @import url('global/facebook-card.css');
 
     /*  sponsored card classes
         ============================================= */ 
@@ -59,3 +67,7 @@
     /*  nav button classes
         ============================================= */ 
         @import url('lightbox/nav-btn.css');
+
+    /*  global override classes
+        ============================================= */ 
+        @import url('lightbox/lightbox__global.css');

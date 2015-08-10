@@ -29,8 +29,11 @@ import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
+import PinterestImageCard from './PinterestImageCard.js';
+import PinterestVideoCard from './PinterestVideoCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap'];
+const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
+                        'pinterest'];
 
 const _ = createKey();
 
@@ -77,6 +80,12 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
             return new DisplayAdCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
+        case 'pinterest':
+            if(card.data.type === 'image') {
+                return new PinterestImageCard(card, experience, profile);
+            } else {
+                return new PinterestVideoCard(card, experience, profile);
+            }
         default:
             return new VideoCard(card, experience, profile);
         }

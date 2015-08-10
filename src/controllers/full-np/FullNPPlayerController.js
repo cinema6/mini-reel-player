@@ -8,6 +8,8 @@ import FullRecapCardController from '../full/FullRecapCardController.js';
 import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
+import FullPinterestImageCardController from '../full//FullPinterestImageCardController.js';
+import FullPinterestVideoCardController from '../full//FullPinterestVideoCardController.js';
 
 export default class FullPlayerController extends PlayerController {
     constructor() {
@@ -22,7 +24,9 @@ export default class FullPlayerController extends PlayerController {
             video: FullVideoCardController,
             recap: FullRecapCardController,
             preroll: LightboxPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            pinterestImage: FullPinterestImageCardController,
+            pinterestVideo: FullPinterestVideoCardController
         };
 
         this.initThumbnailNavigator();

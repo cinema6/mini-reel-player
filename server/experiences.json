@@ -74,6 +74,54 @@
                     "params": {}
                 },
                 {
+                    "data": {
+                        "type": "image",
+                        "src": "http://www.cinema6.com",
+                        "thumbs": {
+                            "small": "https://s-media-cache-ak0.pinimg.com/736x/86/d9/35/86d93578962d82ff71f8570dac06b67a.jpg",
+                            "large": "https://s-media-cache-ak0.pinimg.com/736x/86/d9/35/86d93578962d82ff71f8570dac06b67a.jpg"
+                        }
+                    },
+                    "id": "rc-a377164329e732",
+                    "type": "pinterest",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "params": {}
+                },
+                {
+                    "data": {
+                        "type": "video",
+                        "src": "http://www.cinema6.com",
+                        "thumbs": {
+                            "small": "https://s-media-cache-ak0.pinimg.com/736x/86/d9/35/86d93578962d82ff71f8570dac06b67a.jpg",
+                            "large": "https://s-media-cache-ak0.pinimg.com/736x/86/d9/35/86d93578962d82ff71f8570dac06b67a.jpg"
+                        }
+                    },
+                    "id": "rc-a33629e7377142",
+                    "type": "pinterest",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "params": {}
+                },
+                {
                     "campaign": {
                         "advertiserId": null,
                         "campaignId": null,

@@ -880,8 +880,8 @@ describe('VPAIDPlayer', function() {
         });
 
         describe('minimize()', function() {
-            it('should return an error', function() {
-                expect(player.minimize()).toEqual(new Error('The video cannot be minimized.'));
+            it('should return undefined', function() {
+                expect(player.minimize()).toBeUndefined();
             });
         });
     });

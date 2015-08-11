@@ -1,5 +1,6 @@
 import InstagramCaptionView from '../../../src/views/InstagramCaptionView.js';
 import View from '../../../lib/core/View.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('InstagramCaptionView', function() {
     let view;
@@ -28,7 +29,9 @@ describe('InstagramCaptionView', function() {
                 };
                 const expectedOutput = '<a href="https://instagram.com/yolo/" target="_blank" class="instag____postInfo__tag">@yolo</a> ~ ' +
                     '<a href="https://instagram.com/explore/tags/swag/" target="_blank" class="instag____postInfo__tag">#swag</a>';
-                view.update(input);
+                Runner.run(() => {
+                    view.update(input);
+                });
                 const output = view.element.innerHTML;
                 expect(output).toBe(expectedOutput);
             });

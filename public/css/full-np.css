@@ -13,6 +13,10 @@
         ============================================= */
         @import url('full-np/full-np__base.css');
 
+    /*  global hover classes
+        ============================================= */ 
+        @import url('global/hover.css');
+
     /*  video card classes
             Ballot/actions Modal group classes
         ============================================= */    
@@ -29,6 +33,10 @@
     /*  text only card classes
         ============================================= */ 
         @import url('full-np/text-card.css');
+
+    /*  twitter card classes
+        ============================================= */ 
+        @import url('global/twitter-card.css');
 
     /*  sponsored card classes
         ============================================= */ 
@@ -52,5 +60,9 @@
         ============================================= */ 
         @import url('full-np/pager-nav.css');
 
+    /*  global classes
+            twitter cards 
+        ============================================= */ 
+        @import url('full-np/full-np__global.css');
 
 

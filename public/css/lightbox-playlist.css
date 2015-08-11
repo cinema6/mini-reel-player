@@ -14,6 +14,10 @@
         ============================================= */
         @import url('lightbox-playlist/lightbox-playlist__base.css');
 
+    /*  global hover classes
+        ============================================= */ 
+        @import url('global/hover.css');
+
     /*  .playlist__group classes
         ============================================= */
         @import url('lightbox-playlist/playlist.css');
@@ -35,6 +39,10 @@
     /*  text only card classes
         ============================================= */ 
         @import url('lightbox-playlist/text-card.css');
+
+    /*  twitter card classes
+        ============================================= */ 
+        @import url('global/twitter-card.css');
 
     /*  sponsored card styles
         ============================================= */ 
@@ -58,3 +66,7 @@
         ============================================= */ 
         @import url('lightbox-playlist/nav-btn.css');
 
+    /*  global classes
+            twitter cards 
+        ============================================= */ 
+        @import url('lightbox-playlist/lightbox-playlist__global.css');

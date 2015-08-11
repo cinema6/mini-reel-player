@@ -1328,6 +1328,20 @@ describe('MiniReel', function() {
                             expect(minireel.next).toHaveBeenCalled();
                         });
 
+                        it('should not show preroll if the requested index is -1', function() {
+                            minireel.moveToIndex(0);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(1);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(3);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(-1);
+
+                            expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
+                            expect(minireel.currentIndex).toBe(-1);
+                            expect(minireel.currentCard).toBeNull();
+                        });
+
                         describe('after the first preroll video has been shown', function() {
                             beforeEach(function() {
                                 minireel.moveToIndex(0);

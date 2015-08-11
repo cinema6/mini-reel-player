@@ -177,6 +177,7 @@ export default class MiniReel extends EventEmitter {
             .catch(error => this.emit('error', error));
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));
+            session.on('hide', () => this.close());
             session.on('initAnalytics', config => {
                 dispatcher.addClient(GoogleAnalyticsHandler, this, config);
                 dispatcher.addClient(MoatHandler, config);

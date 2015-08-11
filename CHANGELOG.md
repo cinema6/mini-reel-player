@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.21.6 (August 11, 2015)
+* *[v0.21.6-rc1]*
+  * [FIX]: Fix for an issue that caused videos to continue player after
+    the user closes the player via the MRAID close button
+* *[/v0.21.6-rc1]*
+
 ## v0.21.5 (August 10, 2015)
 * *[v0.21.5-rc1]*
   * [FIX]: Fix for an issue that caused GA tracking not to work in MRAID

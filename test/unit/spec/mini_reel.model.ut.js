@@ -1,6 +1,5 @@
 import MiniReel from '../../../src/models/MiniReel.js';
 import dispatcher from '../../../src/services/dispatcher.js';
-import Runner from '../../../lib/Runner.js';
 import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
 import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
@@ -1516,6 +1515,17 @@ describe('MiniReel', function() {
 
         it('should start the minireel', function() {
             expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
+        });
+    });
+
+    describe('when the session pings "hide"', function() {
+        beforeEach(function() {
+            spyOn(minireel, 'close');
+            session.emit('hide');
+        });
+
+        it('should close the MiniReel', function() {
+            expect(minireel.close).toHaveBeenCalled();
         });
     });
 

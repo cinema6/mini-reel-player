@@ -38,13 +38,15 @@ export default class MobilePlayerController extends PlayerController {
 
     updateView() {
         const {minireel} = this;
-        const { standalone, currentIndex, length, skippable } = minireel;
+        const { standalone, currentIndex, length, skippable, closeable } = minireel;
         const nextCard = minireel.deck[minireel.currentIndex + 1];
         const prevCard = minireel.deck[minireel.currentIndex - 1];
         const isSolo = (minireel.length === 1);
 
+        super();
+
         this.view.update({
-            closeable: !standalone,
+            closeable: !standalone && closeable,
             showFooter: !isSolo || !skippable,
             header: (currentIndex !== null) ? `${currentIndex + 1} of ${length}` : 'Ad',
             thumbs: {
@@ -52,8 +54,6 @@ export default class MobilePlayerController extends PlayerController {
                 previous: (prevCard && prevCard.thumbs.small) || null
             }
         });
-
-        return super();
     }
 
     toggleToc() {

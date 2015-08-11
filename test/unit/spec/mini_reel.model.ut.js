@@ -1359,8 +1359,14 @@ describe('MiniReel', function() {
                                 minireel.prerollCard.prepare.calls.reset();
                             });
 
-                            it('should not preload any normal cards', function() {
-                                minireel.deck.forEach(card => expect(card.prepare).not.toHaveBeenCalled());
+                            it('should preload the next card', function() {
+                                minireel.deck.forEach((card, index) => {
+                                    if (index !== 8) {
+                                        expect(card.prepare).not.toHaveBeenCalled();
+                                    } else {
+                                        expect(card.prepare).toHaveBeenCalled();
+                                    }
+                                });
                             });
 
                             describe('calling next()', function() {

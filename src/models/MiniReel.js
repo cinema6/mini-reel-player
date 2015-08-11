@@ -260,9 +260,9 @@ export default class MiniReel extends EventEmitter {
         if (shouldLoadPreroll) { nextCard = this.prerollCard; }
 
         if (shouldShowPreroll) {
-            currentCard = this.prerollCard;
             currentIndex = null;
-            nextCard = null;
+            nextCard = currentCard;
+            currentCard = this.prerollCard;
             _(this).prerollShown++;
 
             _(this).nextIndex = index;

@@ -140,7 +140,7 @@
 
     .player__height,
     .playerHeight {
-        height:calc(100% - 4.5em);
+        height:calc(100% - 4.5rem);
     }
 
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
@@ -148,7 +148,7 @@
             /   h: 720px ++ */
             .player__height,
             .playerHeight {
-                height:calc(100% - 5.5em);
+                height:calc(100% - 5.5rem);
             }
         }
 

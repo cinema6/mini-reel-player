@@ -28,6 +28,18 @@
                 "ratio": "6-5",
                 "theme": "img-only"
             },
+            "adConfig": {
+                "video": {
+                    "firstPlacement": -1,
+                    "frequency": 0,
+                    "waterfall": "cinema6",
+                    "skip": 6
+                },
+                "display": {
+                    "waterfall": "cinema6",
+                    "enabled": false
+                }
+            },
             "deck": [
                 {
                     "data": {},

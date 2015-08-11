@@ -13,6 +13,10 @@
         ============================================= */
         @import url('full/full__base.css');
 
+    /*  global hover classes
+        ============================================= */
+        @import url('global/hover.css');
+
     /*  playlist group classes
         ============================================= */
         @import url('full/playlist.css');
@@ -33,6 +37,10 @@
     /*  text only card classes
         ============================================= */ 
         @import url('full/text-card.css');
+
+    /*  pinterest card classes
+        ============================================= */ 
+        @import url('global/pinterest-card.css');
 
     /*  sponsored card classes
         ============================================= */ 
@@ -55,3 +63,7 @@
     /*  slide nav button classes 
         ============================================= */ 
         @import url('full/slide-nav-btn.css');
+
+    /*  global override classes
+        ============================================= */
+        @import url('full/full__global.css');

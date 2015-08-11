@@ -10,20 +10,20 @@
         background-color: #000;
     }
         .playerHeight {
-            height:calc(100% - 3.25em);
+            height:calc(100% - 3.25rem);
         }
             @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
                 /*  w: 1200px -  1696px
                 /   h: 720px ++ */
                 .playerHeight {
-                    height:calc(100% - 4.25em);
+                    height:calc(100% - 4.25rem);
                 }
             }
             @media screen and (min-width:106.0625rem) and (min-height:45rem) {
                 /*  w: 1697px ++ 
                 /   h: 720px ++ */
                 .playerHeight {
-                    height:calc(100% - 5.25em);
+                    height:calc(100% - 5.25rem);
                 }
             }
 

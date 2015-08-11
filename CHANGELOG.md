@@ -1,5 +1,14 @@
 # MiniReel Player 2.0
 
+## v0.21.7 (August 11, 2015)
+* *[v0.21.7-rc1]*
+  * [FIX]: Hide "Close" button in mobile player when running through
+    solo player
+  * [FIX]: Preload cards that are interrupted by preroll advertising
+  * [FIX]: Stop preroll from being able to interrupt the closing of a
+    MiniReel
+* *[/v0.21.7-rc1]*
+
 ## v0.21.6 (August 11, 2015)
 * *[v0.21.6-rc1]*
   * [FIX]: Fix for an issue that caused videos to continue player after

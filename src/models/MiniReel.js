@@ -253,15 +253,16 @@ export default class MiniReel extends EventEmitter {
         const cardsShownSinceFirstPreroll = (cardsShown - firstPlacement);
         const shouldLoadPreroll = ((cardsShown + 1) === firstPlacement) ||
             (((cardsShownSinceFirstPreroll + 1) % frequency) === 0);
-        const shouldShowPreroll = ((cardsShown === firstPlacement) && !showedFirstPreroll) ||
-            (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency)));
+        const shouldShowPreroll = (index > -1) &&
+            (((cardsShown === firstPlacement) && !showedFirstPreroll) ||
+            (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency))));
 
         if (shouldLoadPreroll) { nextCard = this.prerollCard; }
 
         if (shouldShowPreroll) {
-            currentCard = this.prerollCard;
             currentIndex = null;
-            nextCard = null;
+            nextCard = currentCard;
+            currentCard = this.prerollCard;
             _(this).prerollShown++;
 
             _(this).nextIndex = index;

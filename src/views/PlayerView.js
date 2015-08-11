@@ -28,13 +28,17 @@ export default class PlayerView extends TemplateView {
 
         if (data.links) { this.links.update(data.links); }
 
-        forEach(this.nextButtons, button => {
-            if (data.canGoForward) { button.enable(); } else { button.disable(); }
-        });
+        if ('canGoForward' in data) {
+            forEach(this.nextButtons, button => {
+                if (data.canGoForward) { button.enable(); } else { button.disable(); }
+            });
+        }
 
-        forEach(this.previousButtons, button => {
-            if (data.canGoBack) { button.enable(); } else { button.disable(); }
-        });
+        if ('canGoBack' in data) {
+            forEach(this.previousButtons, button => {
+                if (data.canGoBack) { button.enable(); } else { button.disable(); }
+            });
+        }
     }
 
     disableNavigation() {

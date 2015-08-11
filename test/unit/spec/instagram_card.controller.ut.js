@@ -3,7 +3,7 @@ import CardController from '../../../src/controllers/CardController.js';
 import FullInstagramImageCardView from '../../../src/views/full/FullInstagramImageCardView.js';
 import InstagramImageCard from '../../../src/models/InstagramImageCard.js';
 import Runner from '../../../lib/Runner.js';
-import View from '../../../lib/core/View.js';
+import InstagramCaptionView from '../../../src/views/InstagramCaptionView.js';
 
 describe('InstagramCardController', function() {
     let InstagramCardCtrl;
@@ -86,6 +86,7 @@ describe('InstagramCardController', function() {
             beforeEach(function() {
                 spyOn(InstagramCardCtrl, 'prepare');
                 spyOn(InstagramCardCtrl, 'activate');
+                spyOn(InstagramCardCtrl, 'deactivate');
             });
 
             describe('prepare', function() {
@@ -99,6 +100,14 @@ describe('InstagramCardController', function() {
                 it('should call activate', function() {
                     card.activate();
                     expect(InstagramCardCtrl.activate).toHaveBeenCalled();
+                });
+            });
+
+            describe('deactivate', function() {
+                it('should call deactivate', function() {
+                    card.activate();
+                    Runner.run(() => card.deactivate());
+                    expect(InstagramCardCtrl.deactivate).toHaveBeenCalled();
                 });
             });
         });
@@ -228,26 +237,15 @@ describe('InstagramCardController', function() {
                 });
 
                 it('should not create the captionOutlet view if it is already created', function() {
-                    const outlet = new View();
-                    outlet.tag = 'div';
+                    const outlet = new InstagramCaptionView();
                     InstagramCardCtrl.view.captionOutlet = outlet;
                     render();
                     expect(InstagramCardCtrl.view.create).not.toHaveBeenCalled();
                 });
 
-                it('should append to the caption outlet', function() {
+                it('should update the caption outlet', function() {
                     render();
-                    const children = InstagramCardCtrl.view.captionOutlet.element.children;
-                    expect(children.length).toBe(1);
-                    const child = children[0];
-                    expect(child.tagName).toBe('SPAN');
-                });
-
-                it('should format the caption before appending it to the caption outlet', function() {
-                    InstagramCardCtrl.model.caption = 'Hello World @snoopdogg';
-                    render();
-                    const child = InstagramCardCtrl.view.captionOutlet.element.children[0];
-                    expect(child.innerHTML).toBe('Hello World <a href="https://instagram.com/snoopdogg/" target="_blank" class="instag____postInfo__tag">@snoopdogg</a>');
+                    expect(InstagramCardCtrl.view.captionOutlet.element.innerHTML).toBe('Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY');
                 });
 
                 it('should update the source on the template', function() {

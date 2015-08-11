@@ -1,8 +1,5 @@
 import CardController from './CardController.js';
-import View from '../../lib/core/View.js';
 import {createKey} from 'private-parts';
-
-let _;
 
 class Private {
     constructor(instance) {
@@ -16,7 +13,7 @@ class Private {
     }
 }
 
-_ = createKey(instance => new Private(instance));
+const _ = createKey(instance => new Private(instance));
 
 export default class InstagramCardController extends CardController {
     constructor() {
@@ -27,6 +24,7 @@ export default class InstagramCardController extends CardController {
         /* InstagramImageCard (model) events. */
         this.model.on('prepare', () => this.prepare());
         this.model.on('activate', () => this.activate());
+        this.model.on('deactivate', () => this.deactivate());
 
         if (global.__karma__) { this.__private__ = _(this); }
     }
@@ -37,6 +35,9 @@ export default class InstagramCardController extends CardController {
 
     activate() {
         _(this).doRender();
+    }
+
+    deactivate() {
     }
 
     formatNumWithSuffix(likes) {
@@ -102,11 +103,9 @@ export default class InstagramCardController extends CardController {
             this.view.create();
         }
 
-        const captionView = document.createElement('span');
-        const postTag = '<a href="https://instagram.com/$1/" target="_blank"' +
-            'class="instag____postInfo__tag">@$1</a>';
-        captionView.innerHTML = this.model.caption.replace(/@(\w+)/g, postTag);
-        this.view.captionOutlet.append(new View(captionView));
+        this.view.captionOutlet.update({
+            caption: this.model.caption
+        });
 
         this.view.update({
             userHref: this.model.user.href,

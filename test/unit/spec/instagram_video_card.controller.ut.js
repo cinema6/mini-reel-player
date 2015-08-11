@@ -122,7 +122,7 @@ describe('InstagramVideoCardController', function() {
                 spyOn(InstagramVideoCardCtrl.__private__.player, 'load');
             });
 
-            it('should call super)', function() {
+            it('should call super', function() {
                 InstagramVideoCardCtrl.activate();
                 expect(InstagramCardController.prototype.activate).toHaveBeenCalled();
             });
@@ -137,6 +137,23 @@ describe('InstagramVideoCardController', function() {
                 InstagramVideoCardCtrl.model.data.autoplay = false;
                 InstagramVideoCardCtrl.activate();
                 expect(InstagramVideoCardCtrl.__private__.player.load).toHaveBeenCalled();
+            });
+        });
+
+        describe('deactivate', function() {
+            beforeEach(function() {
+                spyOn(InstagramCardController.prototype, 'deactivate');
+                spyOn(InstagramVideoCardCtrl.__private__.player, 'pause');
+            });
+
+            it('should call super', function() {
+                InstagramVideoCardCtrl.deactivate();
+                expect(InstagramCardController.prototype.deactivate).toHaveBeenCalled();
+            });
+
+            it('should call pause on the player', function() {
+                InstagramVideoCardCtrl.deactivate();
+                expect(InstagramVideoCardCtrl.__private__.player.pause).toHaveBeenCalled();
             });
         });
 

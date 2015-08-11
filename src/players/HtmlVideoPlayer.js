@@ -26,15 +26,48 @@ let exitFullscreen = function(video) {
     exitFullscreen(video);
 };
 
-let _;
-
 class Private {
     constructor(instance) {
         this.__public__ = instance;
+        this.loadedmetadata = () => {
+            Runner.run(() => {
+                this.__public__.emit('loadedmetadata');
+            });
+        };
+        this.canplay = () => {
+            Runner.run(() => {
+                this.__public__.emit('canplay');
+            });
+        };
+        this.play = () => {
+            Runner.run(() => {
+                this.__public__.emit('play');
+            });
+        };
+        this.pause = () => {
+            Runner.run(() => {
+                this.__public__.emit('pause');
+            });
+        };
+        this.error = () => {
+            Runner.run(() => {
+                this.__public__.emit('error');
+            });
+        };
+        this.ended = () => {
+            Runner.run(() => {
+                this.__public__.emit('ended');
+            });
+        };
+        this.timeupdate = () => {
+            Runner.run(() => {
+                this.__public__.emit('timeupdate');
+            });
+        };
     }
 }
 
-_ = createKey(instance => new Private(instance));
+const _ = createKey(instance => new Private(instance));
 
 export default class HtmlVideoPlayer extends CorePlayer {
     constructor() {
@@ -125,31 +158,17 @@ export default class HtmlVideoPlayer extends CorePlayer {
         if(this.loop) {
             video.setAttribute('loop', true);
         }
-        video.addEventListener('loadedmetadata', () => {
-            this.emit('loadedmetadata');
+        video.addEventListener('loadedmetadata', _(this).loadedmetadata, false);
+        video.addEventListener('canplay', _(this).canplay, false);
+        video.addEventListener('play', _(this).play, false);
+        video.addEventListener('pause', _(this).pause, false);
+        video.addEventListener('error', _(this).error, false);
+        video.addEventListener('ended', _(this).ended, false);
+        video.addEventListener('timeupdate', _(this).timeupdate, false);
+        Runner.schedule('afterRender', null, () => {
+            element.appendChild(video);
+            _(this).htmlVideo = video;
         });
-        video.addEventListener('canplay', () => {
-            Runner.runNext(() => {
-                element.appendChild(video);
-                this.emit('canplay');
-            });
-        });
-        video.addEventListener('play', () => {
-            this.emit('play');
-        });
-        video.addEventListener('pause', () => {
-            this.emit('pause');
-        });
-        video.addEventListener('error', () => {
-            this.emit('error');
-        });
-        video.addEventListener('ended', () => {
-            this.emit('ended');
-        });
-        video.addEventListener('timeupdate', () => {
-            this.emit('timeupdate');
-        });
-        _(this).htmlVideo = video;
     }
 
     unload() {
@@ -159,15 +178,17 @@ export default class HtmlVideoPlayer extends CorePlayer {
 
         _(this).src = null;
 
-        video.removeEventListener('loadedmetadata');
-        video.removeEventListener('canplay');
-        video.removeEventListener('play');
-        video.removeEventListener('pause');
-        video.removeEventListener('error');
-        video.removeEveneListener('ended');
-        video.removeEveneListener('timeupdate');
-        element.removeChild(_(this).htmlVideo);
-        _(this).htmlVideo = null;
+        video.removeEventListener('loadedmetadata', _(this).loadedmetadata);
+        video.removeEventListener('canplay', _(this).canplay);
+        video.removeEventListener('play', _(this).play);
+        video.removeEventListener('pause', _(this).pause);
+        video.removeEventListener('error', _(this).error);
+        video.removeEventListener('ended', _(this).ended);
+        video.removeEventListener('timeupdate', _(this).timeupdate);
+        Runner.schedule('afterRender', null, () => {
+            element.removeChild(_(this).htmlVideo);
+            _(this).htmlVideo = null;
+        });
 
         return super();
     }

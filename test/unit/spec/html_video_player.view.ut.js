@@ -5,7 +5,7 @@ import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
 import {EventEmitter} from 'events';
 
 describe('HtmlVideoPlayer', function() {
-    let player, video;
+    let player, video, spy;
 
     function Video() {
         EventEmitter.call(this);
@@ -204,9 +204,41 @@ describe('HtmlVideoPlayer', function() {
         });
 
         describe('load()', function() {
+            beforeEach(function() {
+                Runner.run(() => player.create());
+                spyOn(player.element, 'appendChild');
+            });
+
+            it('should append the video', () => {
+                Runner.run(() => player.load());
+                expect(player.element.appendChild).toHaveBeenCalled();
+            });
         });
 
         describe('unload()', function() {
+            beforeEach(function() {
+                Runner.run(() => player.create());
+                Runner.run(() => player.load());
+                spyOn(player.element, 'removeChild');
+                spy = jasmine.createSpy('spy');
+            });
+
+            it('should remove the video', () => {
+                Runner.run(() => player.unload());
+                expect(player.element.removeChild).toHaveBeenCalled();
+            });
+
+            it('should remove the event listeners', function() {
+                Runner.run(() => player.unload());
+                ['loadedmetadata', 'canplay', 'play', 'pause', 'error', 'ended', 'timeupdate'].forEach(event => {
+                    player.on(event, spy);
+                    try {
+                        video.emit(event);
+                    } catch(error) {
+                    }
+                    expect(spy).not.toHaveBeenCalled();
+                });
+            });
         });
 
         describe('reload()', function() {
@@ -225,7 +257,6 @@ describe('HtmlVideoPlayer', function() {
     });
 
     describe('events', () => {
-        let spy;
 
         beforeEach(() => {
             Runner.run(() => player.load());
@@ -243,17 +274,6 @@ describe('HtmlVideoPlayer', function() {
                 it('should proxy the event', () => {
                     expect(spy).toHaveBeenCalled();
                 });
-            });
-        });
-
-        describe('canplay', () => {
-            beforeEach(() => {
-                spyOn(player.element, 'appendChild');
-            });
-
-            it('should append the video', () => {
-                video.emit('canplay');
-                expect(player.element.appendChild).toHaveBeenCalled();
             });
         });
     });

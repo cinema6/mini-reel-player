@@ -1,13 +1,13 @@
-import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
 import InstagramCardController from './InstagramCardController.js';
 import { createKey } from 'private-parts';
+import playerFactory from '../services/player_factory.js';
 
 const _ = createKey();
 
 export default class InstagramVideoCardController extends InstagramCardController {
     constructor() {
         super(...arguments);
-        const player = new HtmlVideoPlayer();
+        const player = playerFactory.playerForCard(this.model);
         player.src = this.model.data.src;
         player.loop = true;
         _(this).player = player;
@@ -28,6 +28,11 @@ export default class InstagramVideoCardController extends InstagramCardControlle
         if(this.model.data.autoplay) {
             _(this).player.play();
         }
+    }
+
+    deactivate() {
+        super();
+        _(this).player.pause();
     }
 
     render() {

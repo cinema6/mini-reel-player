@@ -1,12 +1,12 @@
 import CardView from '../CardView.js';
-import View from '../../../lib/core/View.js';
-import HtmlVideoPlayer from '../../players/HtmlVideoPlayer.js';
+import InstagramCaptionView from '../InstagramCaptionView.js';
+import PlayerOutletView from '../PlayerOutletView.js';
 
 export default class FullInstagramVideoCardView extends CardView {
     constructor() {
         super(...arguments);
 
-        this.instantiates = { View, HtmlVideoPlayer };
+        this.instantiates = { InstagramCaptionView, PlayerOutletView };
         this.template = require('./FullInstagramVideoCardView.html');
     }
 }

@@ -1,0 +1,134 @@
+/*  pinterest image card MEDIA QUERIES
+================================================ */
+
+    @media screen and (max-width:100rem) {
+        /*  w: 0px -  1600px */
+
+        .pinterest____player__group {
+            font-size:0.875em;
+        }
+
+
+        .pinterest____mediaImg__group {
+            right:21em;
+        }
+
+        .pinterest____pin__group {
+            width:20em;
+        }
+
+            .pinterest____pin__container {
+                bottom:6rem;
+            }
+
+            .pinterest____profile__group {
+                height:4.5rem;
+            }
+
+    }
+
+    @media screen and (max-width:65rem) {
+        /*  w: 0px - 1040px  */
+
+        .pinterest____mediaImg__group {
+            left:1em;
+            right:1em;
+            bottom:6.75rem;
+        }
+
+            .pinterest____mediaImg__box {
+                border-radius:6px 6px 0 0;
+            }
+
+        .pinterest____pin__group {
+            width:auto;
+            height:6rem;
+            top:auto;
+            bottom:1em;
+            left:1em;
+            right:1em;
+            overflow-y: auto;
+            border-radius:0 0 6px 6px;
+        }
+
+            .pinterest____pin__container {
+                bottom:auto;
+            }
+
+                .pinterest____profile__group--mobile {
+                    display:block;
+                    height:5em;
+                    border-top:1px solid #e9e9e9;
+                    margin:1em 0 0;
+                    padding:1em 0;
+                }
+
+                    .pinterest____profile__group--mobile .pinterest____profile__picBox {
+                        position:static;
+                        width:3em;
+                        margin:0 2em 0 -1.5em;
+                        float:left;
+                    }
+
+                    .pinterest____profile__group--mobile .pinterest____profile__name,
+                    .pinterest____profile__group--mobile .pinterest____profile__board {
+                        float:left;
+                        width:50%;
+                    }
+
+            .pinterest____profile__group {
+                display:none;
+            }
+
+
+    }
+
+
+
+    @media screen and (max-width:42rem) {
+        /*  w: 0px - 672px */
+
+
+            .pinterest____pin__copy {
+                font-size:1em;
+            }
+
+        .pinterest____feedback__group {
+            margin-bottom:0.5em;
+        }
+
+            .pinterest____feedback__box {
+                width:100%;
+            }
+
+
+
+    }
+
+
+
+/*  pinterest video card MEDIA QUERIES
+    ================================================ */
+
+    @media screen and (max-width:100rem) {
+        /*  w:0px - 1600px */
+
+        .pinterest____mediaVid__group {
+            right:18rem;
+        }
+    }
+
+
+    @media screen and (max-width:65rem) {
+        /*  w: 0px - 1040px  */
+
+        .pinterest____mediaVid__group {
+            bottom:6.75rem;
+            right:1rem;
+            border-radius:6px 6px 0 0;
+        }
+    }
+
+
+
+

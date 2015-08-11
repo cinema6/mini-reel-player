@@ -99,11 +99,11 @@ export default class InstagramCardController extends CardController {
     renderInstagram() {
         this.isRendered = true;
 
-        if (!this.view.captionOutlet) {
+        if (!this.view.captionView) {
             this.view.create();
         }
 
-        this.view.captionOutlet.update({
+        this.view.captionView.update({
             caption: this.model.caption
         });
 

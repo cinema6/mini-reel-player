@@ -230,22 +230,22 @@ describe('InstagramCardController', function() {
                     expect(InstagramCardCtrl.isRendered).toBe(true);
                 });
 
-                it('should create the captionOutlet view if it isn\'t already created', function() {
-                    InstagramCardCtrl.view.captionOutlet = null;
+                it('should create the captionView if it isn\'t already created', function() {
+                    InstagramCardCtrl.view.captionView = null;
                     render();
                     expect(InstagramCardCtrl.view.create).toHaveBeenCalled();
                 });
 
-                it('should not create the captionOutlet view if it is already created', function() {
+                it('should not create the captionView if it is already created', function() {
                     const outlet = new InstagramCaptionView();
-                    InstagramCardCtrl.view.captionOutlet = outlet;
+                    InstagramCardCtrl.view.captionView = outlet;
                     render();
                     expect(InstagramCardCtrl.view.create).not.toHaveBeenCalled();
                 });
 
                 it('should update the caption outlet', function() {
                     render();
-                    expect(InstagramCardCtrl.view.captionOutlet.element.innerHTML).toBe('Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY');
+                    expect(InstagramCardCtrl.view.captionView.element.innerHTML).toBe('Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY');
                 });
 
                 it('should update the source on the template', function() {

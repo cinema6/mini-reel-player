@@ -21,8 +21,8 @@ export default class InstagramCaptionView extends View {
             const hashTag = '<a href="https://instagram.com/explore/tags/$1/" target="_blank"' +
                 'class="instag____postInfo__tag">#$1</a>';
             const caption = data.caption
-                .replace(/@(\w+)/g, postTag)
-                .replace(/#(\w+)/g, hashTag);
+                .replace(/@([\w.]+)(?=\s|$)/g, postTag)
+                .replace(/#([\w]+)(?=\s|$)/g, hashTag);
             Runner.scheduleOnce('render', this, setInnerHTML, [caption]);
         }
     }

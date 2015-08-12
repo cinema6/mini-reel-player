@@ -9,6 +9,8 @@ import EmbeddedPlayer from '../../../src/players/EmbeddedPlayer.js';
 import RumblePlayer from '../../../src/players/RumblePlayer.js';
 import SlideshowBobPlayer from '../../../src/players/SlideshowBobPlayer.js';
 import VinePlayer from '../../../src/players/VinePlayer.js';
+import InstagramVideoCard from '../../../src/models/InstagramVideoCard.js';
+import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -126,6 +128,34 @@ describe('playerFactory', function() {
                 });
             });
 
+            describe('if the card is from Vine', function() {
+                beforeEach(function() {
+                    card.data.type = 'vine';
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a VinePlayer', function() {
+                    expect(result).toEqual(jasmine.any(VinePlayer));
+                });
+            });
+
+            describe('if the card is an instagram video card', function() {
+                beforeEach(function() {
+                    card = new InstagramVideoCard({
+                        type: 'video',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be an HtmlVideoPlayer', function() {
+                    expect(result).toEqual(jasmine.any(HtmlVideoPlayer));
+                });
+            });
+
             describe('if the card is an adUnit', function() {
                 beforeEach(function() {
                     card = new VideoCard({
@@ -155,17 +185,6 @@ describe('playerFactory', function() {
 
                     it('should be a VPAIDPlayer', function() {
                         expect(result).toEqual(jasmine.any(VPAIDPlayer));
-                    });
-                });
-
-                describe('if the card is from Vine', function() {
-                    beforeEach(function() {
-                        card.data.type = 'vine';
-                        result = playerFactory.playerForCard(card);
-                    });
-
-                    it('should be a VinePlayer', function() {
-                        expect(result).toEqual(jasmine.any(VinePlayer));
                     });
                 });
             });

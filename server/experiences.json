@@ -28,6 +28,18 @@
                 "ratio": "6-5",
                 "theme": "img-only"
             },
+            "adConfig": {
+                "video": {
+                    "firstPlacement": -1,
+                    "frequency": 0,
+                    "waterfall": "cinema6",
+                    "skip": 6
+                },
+                "display": {
+                    "waterfall": "cinema6",
+                    "enabled": false
+                }
+            },
             "deck": [
                 {
                     "data": {},
@@ -74,70 +86,94 @@
                     "params": {}
                 },
                 {
+                    "data": {
+                        "id": "5YN6a0tOc-",
+                        "thumbs": {
+                            "small": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s150x150/e15/11351507_836701216398426_1156749946_n.jpg",
+                            "large": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e15/11351507_836701216398426_1156749946_n.jpg"
+                        },
+                        "type": "image",
+                        "src": "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11351507_836701216398426_1156749946_n.jpg"
+                    },
+                    "id": "rc-d847d2b76b4daf",
+                    "type": "instagram",
+                    "source": "Instagram",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
                     "campaign": {
-                        "advertiserId": null,
                         "campaignId": null,
-                        "clickUrls": [],
+                        "advertiserId": null,
+                        "minViewTime": null,
                         "countUrls": [],
-                        "minViewTime": null
+                        "clickUrls": []
                     },
                     "collateral": {},
-                    "data": {
-                        "autoplay": true,
-                        "href": "https://vine.co/v/erUbKHDX6Ug",
-                        "service": "vine",
-                        "skip": true,
-                        "thumbs": {
-                            "large": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx",
-                            "small": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx"
-                        },
-                        "videoid": "erUbKHDX6Ug"
-                    },
-                    "id": "rc-f409791386e1a4",
                     "links": {},
-                    "modules": [],
-                    "note": "This is a vine card.",
                     "params": {},
-                    "placementId": null,
-                    "source": "Vine",
-                    "sponsored": false,
-                    "templateUrl": null,
-                    "thumbs": null,
-                    "title": "VINE",
-                    "type": "vine"
+                    "href": "https://instagram.com/p/5YN6a0tOc-/",
+                    "likes": 78102,
+                    "date": "1437439190",
+                    "caption": "Solomon, Pembroke Welsh Corgi #cat (12 w/o), BarkFest 2015, Brooklyn, NY @taylorswift",
+                    "comments": 9835,
+                    "user": {
+                        "fullname": "The Dogist",
+                        "picture": "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg",
+                        "username": "thedogist",
+                        "follow": "https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow",
+                        "href": "https://instagram.com/thedogist",
+                        "bio": "A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.",
+                        "website": "http://thedogist.com/book",
+                        "posts": 2910,
+                        "followers": 1052572,
+                        "following": 3
+                    }
                 },
                 {
+                    "data": {
+                        "id": "6DD1crjvG7",
+                        "thumbs": {
+                            "small": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s150x150/e15/11821147_104753706542520_2033718459_n.jpg",
+                            "large": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11821147_104753706542520_2033718459_n.jpg"
+                        },
+                        "type": "video",
+                        "src": "https://scontent.cdninstagram.com/hphotos-xaf1/t50.2886-16/11847040_533864646760736_1934852926_n.mp4"
+                    },
+                    "id": "rc-0cd5e929c16ada",
+                    "type": "instagram",
+                    "source": "Instagram",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
                     "campaign": {
-                        "advertiserId": null,
                         "campaignId": null,
-                        "clickUrls": [],
+                        "advertiserId": null,
+                        "minViewTime": null,
                         "countUrls": [],
-                        "minViewTime": null
+                        "clickUrls": []
                     },
                     "collateral": {},
-                    "data": {
-                        "code": "<iframe src=\"https://vine.co/v/erUbKHDX6Ug/embed/simple\" style=\"width:100%;height:100%\" frameborder=\"0\"></iframe><script src=\"https://platform.vine.co/static/scripts/embed.js\"></script>",
-                        "href": "https://vine.co/v/erUbKHDX6Ug",
-                        "service": "vine",
-                        "skip": true,
-                        "thumbs": {
-                            "large": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx",
-                            "small": "https://v.cdn.vine.co/r/videos/C31833CBD01233913054908575744_3c4238857b1.4.2.10927983196821659900.mp4.jpg?versionId=qikEoITRQWCqj.xYFpPF53iTSlIdCucx"
-                        },
-                        "videoid": "erUbKHDX6Ug"
-                    },
-                    "id": "rc-f4097e1a4",
                     "links": {},
-                    "modules": [],
-                    "note": "This is a vine card.",
                     "params": {},
-                    "placementId": null,
-                    "source": "Vine",
-                    "sponsored": false,
-                    "templateUrl": null,
-                    "thumbs": null,
-                    "title": "VINE",
-                    "type": "vine"
+                    "href": "https://instagram.com/p/6DD1crjvG7/",
+                    "likes": 1185622,
+                    "date": "1438876747",
+                    "caption": "Coming Home to Mixed Reactions - a short film",
+                    "comments": 45258,
+                    "user": {
+                        "fullname": "Taylor Swift",
+                        "picture": "https://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/10617008_540121486120445_1609281390_a.jpg",
+                        "username": "taylorswift",
+                        "follow": "https://instagram.com/accounts/login/?next=%2Fp%2F6DD1crjvG7%2F&source=follow",
+                        "href": "https://instagram.com/taylorswift",
+                        "bio": "Born in 1989.",
+                        "website": "http://www.mtv.com/ontv/vma/2015/video-of-the-year/",
+                        "posts": 645,
+                        "followers": 41603278,
+                        "following": 71
+                    }
                 },
                 {
                     "data": {

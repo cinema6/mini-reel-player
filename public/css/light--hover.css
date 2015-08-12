@@ -6,7 +6,6 @@
     .recap__item,
     .ballot__btn:before,
     .actionsModal__btn:after {
-        -webkit-transition:background 0.3s; 
         transition:background 0.3s;
     }
 
@@ -33,8 +32,15 @@
 /*  ================================================
     color transitions
     ================================================ */
-    .btnLabel {
-        -webkit-transition:color 0.3s; transition:color 0.3s;
+    .btnLabel,
+    .instag____profileImg__name,
+    .instag____profileDesc__link,
+    .instag____postAccount__name,
+    .instag____postInfo__date,
+    .instag____postInfo__name,
+    .instag____postInfo__tag,
+    .instag____postInfo__comments {
+        transition:color 0.3s;
     }
 
     .btnPrimary:hover .btn__label {
@@ -45,6 +51,25 @@
         color:#1789cb;
     }
 
+    .instag____profileImg__name:hover {
+        color:#000;
+    }
+
+    .instag____profileDesc__link:hover,
+    .instag____postAccount__name:hover,
+    .instag____postInfo__name:hover,
+    .instag____postInfo__tag:hover {
+        color:#0d3c5f;
+    }
+
+    .instag____postInfo__date:hover {
+        color:#858789;
+    }
+
+    .instag____postInfo__comments:hover {
+        color:#818488;
+    }
+
 
 
 
@@ -53,7 +78,6 @@
     border transitions
     ================================================ */
     .sponsorProfile__imgBox {
-        -webkit-transition: border 0.3s ease; 
         transition: border 0.3s ease;
     }
 
@@ -75,7 +99,7 @@
     fill transitions
     ================================================ */
     .pager__btnIconPath {
-        -webkit-transition:fill 0.3s; transition:fill 0.3s;
+        transition:fill 0.3s;
     }
 
     .pager__btn:hover .pager__btnIconPath {
@@ -94,7 +118,7 @@
     opacity transitions
     ================================================ */
     .textOnly__imgBox:after {
-        -webkit-transition:opacity 0.3s; transition:opacity 0.3s;
+        transition:opacity 0.3s;
     }
 
     .textOnly__imgBox:hover:after {
@@ -111,7 +135,6 @@
     position transitions
     ================================================ */
     .pager__btnIcon {
-        -webkit-transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
         transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
     }
 
@@ -137,7 +160,6 @@
     .ballot__textLink:before,
     .sprite--close,
     .actionsModal__btn:before {
-        -webkit-transition: -webkit-transform 0.3s; 
         transition: 0.3s transform;
     }
 
@@ -145,11 +167,9 @@
     .ballot__textLink:hover:before,
     .page__btn:hover .page__previewImg,
     .actionsModal__btn:hover:before {
-        -webkit-transform: scale(1.25);
         transform: scale(1.25);
     }
         .page__btn--active:hover .page__previewImg {
-            -webkit-transform: scale(1.12);
             transform: scale(1.12);
         }
 
@@ -161,4 +181,14 @@
     ================================================ */
     .btnPrimary:hover .btn__label {
         text-shadow: none;
+    }
+
+    .instag____profileImg__follow,
+    .instag____profileImg__follow:focus {
+        transition:0.3s border, 0.3s color;
+    }
+
+    .instag____profileImg__follow:hover {
+        border:1px solid #2d6599;
+        color:#2d6599;
     }

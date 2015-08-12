@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 ## v0.22.0 (August 12, 2015)
+* *[v0.22.0-rc2]*
+  * [DEV]: Fix a unit test that was failing occasionally
+
 * *[v0.22.0-rc1]*
   * [FEATURE]: Added support for Instagram image and video cards
 * *[/v0.22.0-rc1]*

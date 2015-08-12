@@ -72,6 +72,17 @@ describe('Card', function() {
             it('should be the note', function() {
                 expect(card.note).toBe(data.note);
             });
+
+            describe('if there is no note', function() {
+                beforeEach(function() {
+                    delete data.note;
+                    card = new Card(data, experience);
+                });
+
+                it('should be null', function() {
+                    expect(card.note).toBeNull();
+                });
+            });
         });
 
         describe('thumbs', function() {

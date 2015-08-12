@@ -2,7 +2,12 @@
 
 ## v0.22.0 (August 12, 2015)
 * *[v0.22.0-rc2]*
+  * [FIX]: Fix for an issue that caused mobile Instagram videos to continue playing
+    after the user has moved on to another card
+  * [FIX]: Fix for an issue that caused Instagram cards to be displayed improperly
+    on the recap card
   * [DEV]: Fix a unit test that was failing occasionally
+* *[/v0.22.0-rc2]*
 
 * *[v0.22.0-rc1]*
   * [FEATURE]: Added support for Instagram image and video cards

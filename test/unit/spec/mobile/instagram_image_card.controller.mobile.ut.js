@@ -1,4 +1,4 @@
-import MobileInstagramCardController from '../../../../src/controllers/mobile/MobileInstagramCardController.js';
+import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
 import InstagramCardController from '../../../../src/controllers/InstagramCardController.js';
 import View from '../../../../lib/core/View.js';
 import MobileInstagramCardView from '../../../../src/views/mobile/MobileInstagramCardView.js';
@@ -6,8 +6,8 @@ import InstagramImageCard from '../../../../src/models/InstagramImageCard.js';
 import Runner from '../../../../lib/Runner.js';
 import InstagramEmbedView from '../../../../src/views/image_embeds/InstagramEmbedView.js';
 
-describe('MobileInstagramCardController', function() {
-    let MobileInstagramCardCtrl;
+describe('MobileInstagramImageCardController', function() {
+    let MobileInstagramImageCardCtrl;
     let card;
     let experience;
     let parentView;
@@ -66,20 +66,20 @@ describe('MobileInstagramCardController', function() {
         }, experience);
 
         parentView = new View();
-        spyOn(MobileInstagramCardController.prototype, 'addView').and.callThrough();
+        spyOn(MobileInstagramImageCardController.prototype, 'addView').and.callThrough();
 
-        MobileInstagramCardCtrl = new MobileInstagramCardController(card, parentView);
+        MobileInstagramImageCardCtrl = new MobileInstagramImageCardController(card, parentView);
     });
 
     it('should exist', function() {
-        expect(MobileInstagramCardCtrl).toEqual(jasmine.any(InstagramCardController));
+        expect(MobileInstagramImageCardCtrl).toEqual(jasmine.any(InstagramCardController));
     });
 
     describe('properties:', function() {
         describe('view', function() {
             it('should be a MobileInstagramCardView', function() {
-                expect(MobileInstagramCardCtrl.view).toEqual(jasmine.any(MobileInstagramCardView));
-                expect(MobileInstagramCardCtrl.addView).toHaveBeenCalledWith(MobileInstagramCardCtrl.view);
+                expect(MobileInstagramImageCardCtrl.view).toEqual(jasmine.any(MobileInstagramCardView));
+                expect(MobileInstagramImageCardCtrl.addView).toHaveBeenCalledWith(MobileInstagramImageCardCtrl.view);
             });
         });
     });
@@ -88,39 +88,39 @@ describe('MobileInstagramCardController', function() {
         describe('renderInstagram', function() {
             function render() {
                 Runner.run(() => {
-                    MobileInstagramCardCtrl.renderInstagram();
+                    MobileInstagramImageCardCtrl.renderInstagram();
                 });
             }
 
             beforeEach(function() {
-                MobileInstagramCardCtrl.view.embedOutlet = new View();
-                spyOn(MobileInstagramCardCtrl.view, 'create').and.callThrough();
-                spyOn(MobileInstagramCardCtrl.view.embedOutlet, 'append');
+                MobileInstagramImageCardCtrl.view.embedOutlet = new View();
+                spyOn(MobileInstagramImageCardCtrl.view, 'create').and.callThrough();
+                spyOn(MobileInstagramImageCardCtrl.view.embedOutlet, 'append');
             });
 
             it('should set isRendered to true', function() {
                 render();
-                expect(MobileInstagramCardCtrl.isRendered).toBe(true);
+                expect(MobileInstagramImageCardCtrl.isRendered).toBe(true);
             });
 
             it('should create the embed outlet if it isn\'t already created', function() {
-                MobileInstagramCardCtrl.view.embedOutlet = null;
+                MobileInstagramImageCardCtrl.view.embedOutlet = null;
                 render();
-                expect(MobileInstagramCardCtrl.view.create).toHaveBeenCalled();
+                expect(MobileInstagramImageCardCtrl.view.create).toHaveBeenCalled();
             });
 
             it('should not create the embed outlet if it is already created', function() {
                 const embedOutlet = new View();
                 embedOutlet.tag = 'div';
-                MobileInstagramCardCtrl.view.embedOutlet = embedOutlet;
+                MobileInstagramImageCardCtrl.view.embedOutlet = embedOutlet;
                 render();
-                expect(MobileInstagramCardCtrl.view.create).not.toHaveBeenCalled();
+                expect(MobileInstagramImageCardCtrl.view.create).not.toHaveBeenCalled();
             });
 
             it('should append the embed view with the correct data', function() {
                 render();
-                expect(MobileInstagramCardCtrl.view.embedOutlet.append).toHaveBeenCalledWith(jasmine.any(InstagramEmbedView));
-                const embed = MobileInstagramCardCtrl.view.embedOutlet.append.calls.mostRecent().args[0];
+                expect(MobileInstagramImageCardCtrl.view.embedOutlet.append).toHaveBeenCalledWith(jasmine.any(InstagramEmbedView));
+                const embed = MobileInstagramImageCardCtrl.view.embedOutlet.append.calls.mostRecent().args[0];
                 const embedSrc = embed.element.innerHTML;
                 expect(embedSrc).toContain('<a href="https://instagram.com/p/5YN6a0tOc-/"');
                 expect(embedSrc).toContain('Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY @taylorswift</a>');

@@ -9,6 +9,7 @@ describe('View', function() {
     let queues;
 
     beforeEach(function() {
+        spyOn(View.prototype, 'setMaxListeners').and.callThrough();
         view = new View();
 
         queues = {
@@ -34,6 +35,10 @@ describe('View', function() {
 
     it('should mixin the EventEmitter', function() {
         expect(View.mixins).toContain(EventEmitter);
+    });
+
+    it('should set the max event listeners to 50', function() {
+        expect(view.setMaxListeners).toHaveBeenCalledWith(50);
     });
 
     describe('if constructed with another view\'s element', function() {

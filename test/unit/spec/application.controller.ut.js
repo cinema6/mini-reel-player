@@ -21,6 +21,7 @@ describe('ApplicationController', function() {
         root = document.createElement('body');
         mouseDeferred = defer(RunnerPromise);
         spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
+        spyOn(ApplicationView.prototype, 'create');
 
         environment.mode = 'some-mode';
 
@@ -71,6 +72,10 @@ describe('ApplicationController', function() {
 
             it('should be for the root', function() {
                 expect(ApplicationCtrl.appView.element).toBe(root);
+            });
+
+            it('should be create()d', function() {
+                expect(ApplicationCtrl.appView.create).toHaveBeenCalled();
             });
         });
     });

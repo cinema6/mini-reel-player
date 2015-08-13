@@ -6,7 +6,7 @@ describe('LightApplicationController', function() {
     let LightApplicationCtrl;
 
     beforeEach(function() {
-        LightApplicationCtrl = new LightApplicationController();
+        LightApplicationCtrl = new LightApplicationController(document.createElement('body'));
     });
 
     it('should exist', function() {

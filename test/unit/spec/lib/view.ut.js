@@ -222,6 +222,12 @@ describe('View', function() {
             });
         });
 
+        describe('parent', function() {
+            it('should be null', function() {
+                expect(view.parent).toBeNull();
+            });
+        });
+
         describe('target', function() {
             it('should be null', function() {
                 expect(view.target).toBeNull();
@@ -317,6 +323,27 @@ describe('View', function() {
                 expect(view.didCreateElement).toHaveBeenCalled();
             });
 
+            describe('if the view already has a parent', function() {
+                let parentView;
+
+                beforeEach(function() {
+                    parentView = new View();
+                    view.parent = parentView;
+
+                    view.create();
+                });
+
+                describe('when the parentView is destroyed', function() {
+                    beforeEach(function() {
+                        parentView.emit('destroyed');
+                    });
+
+                    it('should set the parent to null', function() {
+                        expect(view.parent).toBeNull();
+                    });
+                });
+            });
+
             describe('if called again', function() {
                 let element;
 
@@ -377,6 +404,51 @@ describe('View', function() {
             it('should create both elements', function() {
                 expect(parentView.create).toHaveBeenCalled();
                 expect(view.create).toHaveBeenCalled();
+            });
+
+            it('should set the parent to the provided view', function() {
+                expect(view.parent).toBe(parentView);
+            });
+
+            describe('if the parentView is destroyed', function() {
+                beforeEach(function() {
+                    parentView.emit('destroyed');
+                });
+
+                it('should remove its reference to the parentView', function() {
+                    expect(view.parent).toBeNull();
+                });
+            });
+
+            describe('if the view\'s parent is switched', function() {
+                let newParent;
+
+                beforeEach(function() {
+                    newParent = new View();
+                    newParent.tag = 'span';
+
+                    view.appendTo(newParent);
+                });
+
+                describe('when the old parent is destroyed', function() {
+                    beforeEach(function() {
+                        parentView.emit('destroyed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.parent).toBe(newParent);
+                    });
+                });
+
+                describe('when the new parent is destroyed', function() {
+                    beforeEach(function() {
+                        newParent.emit('destroyed');
+                    });
+
+                    it('should remove its reference to the parent', function() {
+                        expect(view.parent).toBeNull();
+                    });
+                });
             });
 
             describe('in the render queue', function() {
@@ -450,6 +522,51 @@ describe('View', function() {
             it('should create the view and the view to insert', function() {
                 expect(view.create).toHaveBeenCalled();
                 expect(parentView.create).toHaveBeenCalled();
+            });
+
+            it('should set the parent to the provided parent', function() {
+                expect(view.parent).toBe(parentView);
+            });
+
+            describe('if the parentView is destroyed', function() {
+                beforeEach(function() {
+                    parentView.emit('destroyed');
+                });
+
+                it('should remove its reference to the parentView', function() {
+                    expect(view.parent).toBeNull();
+                });
+            });
+
+            describe('if the view\'s parent is switched', function() {
+                let newParent;
+
+                beforeEach(function() {
+                    newParent = new View();
+                    newParent.tag = 'span';
+
+                    view.appendTo(newParent);
+                });
+
+                describe('when the old parent is destroyed', function() {
+                    beforeEach(function() {
+                        parentView.emit('destroyed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.parent).toBe(newParent);
+                    });
+                });
+
+                describe('when the new parent is destroyed', function() {
+                    beforeEach(function() {
+                        newParent.emit('destroyed');
+                    });
+
+                    it('should remove its reference to the parent', function() {
+                        expect(view.parent).toBeNull();
+                    });
+                });
             });
 
             describe('in the render queue', function() {
@@ -962,11 +1079,15 @@ describe('View', function() {
             let removed;
 
             beforeEach(function() {
-                removed = jasmine.createSpy('removed()').and.callFake(() => expect(view.inserted).toBe(false));
+                removed = jasmine.createSpy('removed()').and.callFake(() => {
+                    expect(view.inserted).toBe(false);
+                    expect(view.parent).not.toBeNull();
+                });
                 view.on('removed', removed);
 
                 view.tag = 'span';
                 view.inserted = true;
+                view.parent = new View();
                 view.create();
                 element = view.element;
                 spyOn(eventDelegator, 'removeListeners');
@@ -981,6 +1102,10 @@ describe('View', function() {
 
             it('should emit "removed"', function() {
                 expect(removed).toHaveBeenCalled();
+            });
+
+            it('should set the parent to null', function() {
+                expect(view.parent).toBeNull();
             });
         });
     });

@@ -586,18 +586,21 @@ describe('TemplateView', function() {
                 expect(button.create).toHaveBeenCalled();
                 expect(button.target).toBe('controller');
                 expect(button.action).toBe('doControllerStuff');
+                expect(button.parent).toBe(view);
 
                 expect(text).toEqual(jasmine.any(TextFieldView));
                 expect(text.element).toBe(element.querySelector('input'));
                 expect(text.create).toHaveBeenCalled();
                 expect(text.target).toBeNull();
                 expect(text.action).toBeNull();
+                expect(text.parent).toBe(view);
 
                 expect(custom).toEqual(jasmine.any(MyTemplateView));
                 expect(custom.element).toBe(element.querySelector('#custom'));
                 expect(custom.create).toHaveBeenCalled();
                 expect(custom.target).toBe('view');
                 expect(custom.action).toBe('doSomething');
+                expect(custom.parent).toBe(view);
 
                 expect(view.button).toBe(button);
                 expect(view.text).toBe(text);

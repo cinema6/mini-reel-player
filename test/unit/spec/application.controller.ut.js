@@ -16,6 +16,8 @@ describe('ApplicationController', function() {
 
     let root;
 
+    beforeEach(done => process.nextTick(done));
+
     beforeEach(function() {
         environment.constructor();
         root = document.createElement('body');
@@ -43,7 +45,7 @@ describe('ApplicationController', function() {
         beforeEach(function(done) {
             spyOn(codeLoader, 'loadStyles');
             mouseDeferred.fulfill(true);
-            mouseDeferred.promise.then(done, done);
+            Promise.resolve(mouseDeferred.promise).then(done, done);
         });
 
         it('should load the hover styles', function() {
@@ -55,7 +57,7 @@ describe('ApplicationController', function() {
         beforeEach(function(done) {
             spyOn(codeLoader, 'loadStyles');
             mouseDeferred.fulfill(false);
-            mouseDeferred.promise.then(done, done);
+            Promise.resolve(mouseDeferred.promise).then(done, done);
         });
 
         it('should not load the hover styles', function() {

@@ -445,6 +445,39 @@ describe('Runner', function() {
                 it('should return the result of the provided function', function() {
                     expect(result).toBe(object);
                 });
+
+                describe('if the provided function calls Runner.run()', function() {
+                    let fn1, fn2;
+
+                    beforeEach(function() {
+                        spyOn(Runner.prototype, 'schedule').and.callThrough();
+                        fn1 = (() => {
+                            Runner.schedule('render', null, () => {});
+                            Runner.run(fn2);
+                        });
+                        fn2 = (() => Runner.schedule('render', null, () => {}));
+                    });
+
+                    it('should throw an error', function() {
+                        expect(() => Runner.run(fn1)).toThrow(new Error('Cannot call Runner.run() because a flush is already in progress.'));
+                    });
+                });
+
+                describe('if the provided function throws an error', function() {
+                    let fn;
+                    let error;
+
+                    beforeEach(function() {
+                        error = new Error('I SUCK!');
+                        fn = jasmine.createSpy('fn()').and.throwError(error);
+
+                        expect(() => Runner.run(fn)).toThrow(error);
+                    });
+
+                    it('should allow Runner.run() to be called again', function() {
+                        expect(() => Runner.run(() => {})).not.toThrow();
+                    });
+                });
             });
 
             describe('schedule(queue, context, fn, args)', function() {

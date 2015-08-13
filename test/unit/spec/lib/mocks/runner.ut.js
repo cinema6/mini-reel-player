@@ -75,6 +75,11 @@ describe('mock Runner', function() {
                     expect(afterRender2.calls.mostRecent().object).toBe(afterRender2Context);
                 });
 
+                it('should allow Runner.runNext() to be called', function() {
+                    const nextFn = jasmine.createSpy('nextFn()');
+                    expect(() => Runner.run(() => Runner.runNext(nextFn))).not.toThrow();
+                });
+
                 describe('when Runner.scheduleOnce() is called', function() {
                     let fn1, fn2;
                     let context1, context2;

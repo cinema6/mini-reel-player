@@ -219,7 +219,7 @@ describe('<vast-player>', function() {
                 beforeEach(function(done) {
                     Runner.run(() => player.load());
                     vastDeferred.fulfill(vast);
-                    vastDeferred.promise.then(wait(5)).then(done, done);
+                    Promise.resolve(vastDeferred.promise.then(wait(5))).then(done, done);
                 });
 
                 it('should emit the event', function() {
@@ -238,7 +238,7 @@ describe('<vast-player>', function() {
 
                     Runner.run(() => player.load());
                     vastDeferred.fulfill(vast);
-                    vastDeferred.promise.then(wait(5)).then(done, done);
+                    Promise.resolve(vastDeferred.promise.then(wait(5))).then(done, done);
                 });
 
                 it('should not emit the event', function() {
@@ -277,7 +277,7 @@ describe('<vast-player>', function() {
 
                     describe('if the device can autoplay', function() {
                         beforeEach(function(done) {
-                            testDeferred.promise.then(done, done);
+                            Promise.resolve(testDeferred.promise).then(done, done);
                             testDeferred.fulfill(true);
                         });
 
@@ -288,7 +288,7 @@ describe('<vast-player>', function() {
 
                     describe('if the device can\'t autoplay', function() {
                         beforeEach(function(done) {
-                            testDeferred.promise.then(done, done);
+                            Promise.resolve(testDeferred.promise).then(done, done);
                             testDeferred.fulfill(false);
                         });
 
@@ -474,11 +474,11 @@ describe('<vast-player>', function() {
                         video.emit('loadedmetadata');
 
                         vastDeferred.fulfill(vastObject);
-                        vastDeferred.promise.then(wait(5)).then(() => {
+                        Promise.resolve(vastDeferred.promise.then(wait(5)).then(() => {
                             vastObject.firePixels.calls.reset();
 
                             player.src = 'newadtag.com';
-                        }).then(done, done);
+                        })).then(done, done);
                     });
 
                     it('should reset the player state', function() {
@@ -718,12 +718,12 @@ describe('<vast-player>', function() {
                     Runner.run(() => player.load());
 
                     vastDeferred.fulfill(vast);
-                    vastDeferred.promise.then(wait(5)).then(() => {
+                    Promise.resolve(vastDeferred.promise.then(wait(5))).then(() => {
                         iab.getVAST.calls.reset();
                         spyOn(video, 'addEventListener').and.callThrough();
 
                         Runner.run(() => player.play());
-                        vastDeferred.promise.then(wait(5)).then(done, done);
+                        Promise.resolve(vastDeferred.promise.then(wait(5))).then(done, done);
                     });
                 });
 
@@ -773,7 +773,7 @@ describe('<vast-player>', function() {
                             vast.getVideoSrc.and.returnValue('http://videos.com/my-vid.mp4');
 
                             vastDeferred.fulfill(vast);
-                            vastDeferred.promise.then(wait(5)).then(done, done);
+                            Promise.resolve(vastDeferred.promise.then(wait(5))).then(done, done);
                         });
 
                         it('should set the player src', function() {
@@ -789,7 +789,7 @@ describe('<vast-player>', function() {
                                 video.play.calls.reset();
 
                                 Runner.run(() => player.play());
-                                vastDeferred.promise.then(wait(5)).then(done, done);
+                                Promise.resolve(vastDeferred.promise.then(wait(5))).then(done, done);
                             });
 
                             it('should play the video again', function() {
@@ -801,7 +801,7 @@ describe('<vast-player>', function() {
                     describe('if the vast fails to load', function() {
                         beforeEach(function(done) {
                             vastDeferred.reject(vast);
-                            vastDeferred.promise.then(done, done);
+                            Promise.resolve(vastDeferred.promise).then(done, done);
                         });
 
                         it('should not play the video', function() {
@@ -914,7 +914,7 @@ describe('<vast-player>', function() {
                         vast = vastObject;
 
                         vastDeferred.fulfill(vast);
-                        vastDeferred.promise.then(wait(5)).then(done, done);
+                        Promise.resolve(vastDeferred.promise).then(wait(5)).then(done, done);
                     });
 
                     it('should set the src', function() {
@@ -927,7 +927,7 @@ describe('<vast-player>', function() {
                         vastObject.getVideoSrc.and.returnValue(null);
 
                         vastDeferred.fulfill(vastObject);
-                        vastDeferred.promise.then(wait(5)).then(done, done);
+                        Promise.resolve(vastDeferred.promise).then(wait(5)).then(done, done);
                     });
 
                     it('should emit the error event', function() {
@@ -938,7 +938,7 @@ describe('<vast-player>', function() {
                 describe('if the vast fails to load', function() {
                     beforeEach(function(done) {
                         vastDeferred.reject('I FAILED YOU MASTER.');
-                        vastDeferred.promise.then(null, wait(5)).then(done, done);
+                        Promise.resolve(vastDeferred.promise).then(null, wait(5)).then(done, done);
                     });
 
                     it('should emit the error event', function() {
@@ -958,7 +958,7 @@ describe('<vast-player>', function() {
                     beforeEach(function(done) {
                         error = new Error('I FAILED YOU MASTER.');
                         vastDeferred.reject(error);
-                        vastDeferred.promise.then(null, wait(5)).then(done, done);
+                        Promise.resolve(vastDeferred.promise).then(null, wait(5)).then(done, done);
                     });
 
                     it('should emit the error event', function() {
@@ -994,7 +994,7 @@ describe('<vast-player>', function() {
                     describe('if the VAST has companions', function() {
                         beforeEach(function(done) {
                             vastDeferred.fulfill(vastObject);
-                            vastDeferred.promise.then(wait(5)).then(() => companions = player.getCompanions()).then(done, done);
+                            Promise.resolve(vastDeferred.promise).then(wait(5)).then(() => companions = player.getCompanions()).then(done, done);
                         });
 
                         it('should be the companion in an array', function() {
@@ -1007,7 +1007,7 @@ describe('<vast-player>', function() {
                             spyOn(vastObject, 'getCompanion').and.returnValue(null);
 
                             vastDeferred.fulfill(vastObject);
-                            vastDeferred.promise.then(() => companions = player.getCompanions()).then(done, done);
+                            Promise.resolve(vastDeferred.promise).then(() => companions = player.getCompanions()).then(done, done);
                         });
 
                         it('should be null', function() {
@@ -1118,7 +1118,7 @@ describe('<vast-player>', function() {
         beforeEach(function(done) {
             Runner.run(() => player.load());
             vastDeferred.fulfill(vastObject);
-            vastDeferred.promise.then(wait(5)).then(done, done);
+            Promise.resolve(vastDeferred.promise).then(wait(5)).then(done, done);
 
             player.controls = false;
             video.paused = false;

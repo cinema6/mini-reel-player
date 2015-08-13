@@ -86,7 +86,7 @@ describe('cinema6', function() {
                     spyOn(cinema6, 'emit').and.callThrough();
                     spyOn(session, 'emit').and.callThrough();
 
-                    _private.appData.promise.then(done);
+                    Promise.resolve(_private.appData.promise).then(done);
 
                     requestPromiseSuccessHandler(handshakeData);
                 });
@@ -137,7 +137,7 @@ describe('cinema6', function() {
                         beforeEach(function() {
                             sessionSpy = jasmine.createSpy('session spy');
 
-                            _private.session.promise.then(sessionSpy);
+                            Promise.resolve(_private.session.promise).then(sessionSpy);
 
                             deferred = defer(Promise);
 
@@ -194,7 +194,7 @@ describe('cinema6', function() {
 
             beforeEach(function(done) {
                 _private.session.fulfill(session);
-                _private.session.promise.then(done);
+                Promise.resolve(_private.session.promise).then(done);
             });
 
             it('should ping cinema6 with a boolean form of the provided value', function(done) {

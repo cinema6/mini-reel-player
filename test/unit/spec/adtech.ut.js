@@ -21,10 +21,11 @@ describe('adtech', function() {
         });
     });
 
-    afterAll(function() {
+    afterAll(function(done) {
         codeLoader.constructor();
         adtech.constructor();
         environment.constructor();
+        process.nextTick(done);
     });
 
     describe('methods:', function() {

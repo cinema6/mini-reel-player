@@ -15,7 +15,7 @@ describe('mouse test', function() {
             const event = document.createEvent('MouseEvent');
             event.initMouseEvent('mousemove');
             document.body.dispatchEvent(event);
-            browser.test('mouse').then(done, done);
+            Promise.resolve(browser.test('mouse')).then(done, done);
         });
 
         it('should fulfill with true', function() {
@@ -28,7 +28,7 @@ describe('mouse test', function() {
             const event = document.createEvent('Event');
             event.initEvent('touchstart', true, true);
             document.body.dispatchEvent(event);
-            browser.test('mouse').then(done, done);
+            Promise.resolve(browser.test('mouse')).then(done, done);
         });
 
         it('should fulfill with false', function() {

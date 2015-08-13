@@ -398,6 +398,7 @@ describe('View', function() {
                 spyOn(parentView, 'create').and.callThrough();
                 spyOn(view, 'create').and.callThrough();
                 spyOn(view, 'didInsertElement').and.callThrough();
+                spyOn(view, 'willRemoveElement').and.callThrough();
 
                 view.appendTo(parentView);
             });
@@ -429,6 +430,16 @@ describe('View', function() {
 
                 it('should call didInsertElement()', function() {
                     expect(view.didInsertElement).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the parentView is removed', function() {
+                beforeEach(function() {
+                    parentView.emit('removed');
+                });
+
+                it('should call willRemoveElement()', function() {
+                    expect(view.willRemoveElement).toHaveBeenCalled();
                 });
             });
 
@@ -464,6 +475,16 @@ describe('View', function() {
                     });
                 });
 
+                describe('when the old parent is removed', function() {
+                    beforeEach(function() {
+                        parentView.emit('removed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when the new parent is destroyed', function() {
                     beforeEach(function() {
                         newParent.emit('destroyed');
@@ -483,6 +504,16 @@ describe('View', function() {
 
                     it('should call didInsertElement()', function() {
                         expect(view.didInsertElement).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the new parent is removed', function() {
+                    beforeEach(function() {
+                        newParent.emit('removed');
+                    });
+
+                    it('should call willRemoveElement()', function() {
+                        expect(view.willRemoveElement).toHaveBeenCalled();
                     });
                 });
             });
@@ -564,6 +595,8 @@ describe('View', function() {
                 spyOn(view, 'create').and.callThrough();
                 spyOn(parentView, 'create').and.callThrough();
 
+                spyOn(view, 'willRemoveElement').and.callThrough();
+
                 view.insertInto(parentView, sibling);
             });
 
@@ -594,6 +627,16 @@ describe('View', function() {
 
                 it('should call didInsertElement()', function() {
                     expect(view.didInsertElement).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the parentView is removed', function() {
+                beforeEach(function() {
+                    parentView.emit('removed');
+                });
+
+                it('should call willRemoveElement()', function() {
+                    expect(view.willRemoveElement).toHaveBeenCalled();
                 });
             });
 
@@ -630,6 +673,16 @@ describe('View', function() {
                     });
                 });
 
+                describe('when the old parent is removed', function() {
+                    beforeEach(function() {
+                        parentView.emit('removed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when the new parent is destroyed', function() {
                     beforeEach(function() {
                         newParent.emit('destroyed');
@@ -649,6 +702,16 @@ describe('View', function() {
 
                     it('should call didInsertElement()', function() {
                         expect(view.didInsertElement).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the new parent is removed', function() {
+                    beforeEach(function() {
+                        newParent.emit('removed');
+                    });
+
+                    it('should call willRemoveElement()', function() {
+                        expect(view.willRemoveElement).toHaveBeenCalled();
                     });
                 });
             });

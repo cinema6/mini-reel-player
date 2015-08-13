@@ -40,7 +40,12 @@
                 font-size:0.9375em;
             }
 
+            .instag____profile__group {
+                width:7em;
+            }
+
             .instag____mediaImg__group {
+                left:9em;
                 right:14em;
             }
 
@@ -77,33 +82,22 @@
         }
 
 
-        @media screen and (max-width:50rem) {
-            /*  w: 0px - 752 */
+        @media screen and (max-width:60rem) {
+            /*  w: 0px - 960px */
 
                 .instag____profile__group {
-                    width:auto;
-                    height:auto;
-                    min-height:auto;
-                    max-height:none;
-                    position: absolute;
-                    top:50%;
-                    bottom:1em;
-                    left:1em;
-                    right:11em;
-                    overflow-y:auto;
-                    border-radius:0 0 0 4px;
-                    border-top-width:0;
+                    display:none;
                 }
 
-                    .instag____profileImg__picBox {
+                    .instag____profile__picBox {
                         width:25%;
                         min-width:3rem;
                         max-width:4rem;
                     }
 
 
-                        .instag____profileImg__follow,
-                        .instag____profileImg__follow:focus {
+                        .instag____profileDesc__follow,
+                        .instag____profileDesc__follow:focus {
                             min-width: 3.75rem;
                             max-width: 8rem;
                             margin: 0.5em auto 0;
@@ -117,44 +111,68 @@
                 top:1em;
                 bottom:50%;
                 left:1em;
-                right:11em;
+                right:1em;
             }
 
                 .instag____mediaImg {
-                    background:center top/contain no-repeat;
                     border-right:1px solid #eeefef;
-                    background-color:#fff;
-                    border-radius: 4px 0 0 0;
+                    border-radius: 4px 4px 0 0;
                 }
 
 
 
             .instag____post__group {
-                width: 10em;
-                padding: 0.75em;
-                height:auto;
+                width:auto;
+                height:calc(50% - 1em);
+                padding:0.75em;
+                border-left:inherit;
+                border-top:none;
+                border-radius:0 0 4px 4px;
+                top:auto;
+                left:1em;
                 overflow-y:auto;
+                overflow-x:hidden;
+            }
+
+            .instag____postAccount__group--small {
+                border-bottom:1px solid #eeefef;
+                margin:0 0 1.1875em 0;
+                padding:0 0 1em 0;
+                position:relative;
+                display:block;
             }
 
                 .instag____postAccount__pic {
-                    width:40%;
-                    float:none;
-                    display:block;
-                    margin:1.5em 30% 0;
+                    margin-right:1em;
+                }
+
+                .instag____profile__sponsor {
+                    width:auto;
+                    text-align:left;
                 }
 
                 .instag____postAccount__name {
-                    width:100%;
-                    text-align:center;
-                    margin:0.25em 0 0;
+                    margin-top:0;
+                    width:auto;
+                    display:block;
+                    float:none;
+                }
+
+                .instag____postAccount__name {
+                    margin-left:0;
                 }
 
                 .instag____postAccount__logo {
                     background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
                     width:4em;
-                    top:-0.5em;
-                    right:-0.5em;
+                    top:0;
+                    right:0;
                 }
+
+                .instag____socialMedia__group {
+                    width:14em;
+                }
+
 
                 .instag____postInfo__copy {
                     position:relative;
@@ -184,7 +202,7 @@
                         }
 
                     .instag____postInfo__comments {
-                        margin-bottom:8em;
+                        margin-bottom:6em;
                     }
 
                         .instag____postInfo__comment {
@@ -194,46 +212,37 @@
 
         }
 
-        @media screen and (max-height:30rem) {
-            /*  h: 0 - 480px    */
+        @media screen and (max-width:43rem) {
+            /*  w: 0px - 688px */
 
-            .instag____post__group {
-                width: 10em;
-                padding: 0.75em;
-                height:auto;
-                overflow-y:auto;
+            .instag____post__title {
+                font-size:1em;
             }
 
-                .instag____postAccount__logo {
-                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
-                    width:4em;
-                    top:-0.5em;
-                    right:-0.5em;
-                }
+            .instag____postAccount__pic {
+                float:none;
+                display:block;
+                margin:1.5em auto 0;
+            }
 
-                .instag____postInfo__copy {
-                    position:relative;
-                }
+            .instag____profile__sponsor {
+                width:100%;
+                text-align:center;
+            }
 
-                .instag____postInfo__group {
-                    height:auto;
-                }
+            .instag____postAccount__name {
+                width:100%;
+                text-align:center;
+                margin:0.25em 0 0;
+            }
 
-                    .instag____postInfo__comments {
-                        margin-bottom:8em;
-                    }
-
-
-                    .instag____postInfo__feedback {
-                        position:relative;
-                        display:block;
-                        width:100%;
-                        left:0;
-                    }
+            .instag____postAccount__logo {
+                top:0;
+                left:0;
+            }
 
 
         }
-
 
 
 
@@ -255,6 +264,7 @@
                 position:absolute;
                 top:1em;
                 bottom:1em;
+                height:auto;
             }
         }
 
@@ -265,6 +275,7 @@
             /*  w: 2112px -  2000px */
 
             .instag____mediaVid__group {
+                left:12em;
                 right:21em;
             }
         }
@@ -273,27 +284,26 @@
 
         @media screen and (max-width:75rem) {
             /*  w: 0px - 1200px */
-
             .instag____mediaVid__group {
-                right:13em;
-                left:9.5em;
+                left:1em;
+                right:16em;
             }
+
 
         }
 
-
-
-        @media screen and (max-width:50rem) {
-            /*  w: 0 - 752 */
+        @media screen and (max-width:60rem) {
+            /*  w: 0px - 960px */
             .instag____mediaVid__group {
-                right:11em;
+                right:1em;
                 left:1em;
                 bottom:50%;
-                border-radius:4px 0 0 0;
+                border-radius:4px 4px 0 0;
             }
-
-
-
         }
+
+
+
+
 
 

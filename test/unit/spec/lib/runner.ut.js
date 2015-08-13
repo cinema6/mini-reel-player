@@ -27,9 +27,11 @@ describe('Runner', function() {
             ].forEach(function({ name, Queue }) {
                 describe(`${name} queue`, function() {
                     let queue;
+                    let runner;
 
                     beforeEach(function() {
                         queue = new Queue();
+                        runner = new Runner([queue]);
                     });
 
                     it('should exist', function() {
@@ -174,6 +176,31 @@ describe('Runner', function() {
                                 expect(queue.hasWork).toBe(false);
                             });
 
+                            describe('if a task adds something to the queue', function() {
+                                let spy;
+
+                                beforeEach(function(done) {
+                                    spy = jasmine.createSpy('spy()');
+                                    queue.add(null, () => queue.add(null, spy));
+
+                                    queue.flush(done);
+                                });
+
+                                it('should not set hasWork to false', function() {
+                                    expect(queue.hasWork).toBe(true);
+                                });
+
+                                describe('the next time flush is called', function() {
+                                    beforeEach(function(done) {
+                                        queue.flush(done);
+                                    });
+
+                                    it('should run the task', function() {
+                                        expect(spy).toHaveBeenCalled();
+                                    });
+                                });
+                            });
+
                             describe('if there is a failure', function() {
                                 let error;
 
@@ -204,6 +231,23 @@ describe('Runner', function() {
                                     });
                                 });
                             });
+
+                            describe('if Runner.schedule() is called from one of the tasks', function() {
+                                beforeEach(function(done) {
+                                    spyOn(runner, 'schedule');
+                                    queue.add(null, () => Runner.schedule('render', null, () => {}));
+
+                                    queue.flush(done);
+                                });
+
+                                it('should schedule the task in the current runner', function() {
+                                    expect(runner.schedule).toHaveBeenCalled();
+                                });
+
+                                it('should clear the runner after it has executed its tasks', function() {
+                                    expect(() => Runner.schedule('render', null, () => {})).toThrow();
+                                });
+                            });
                         });
                     });
                 });
@@ -211,9 +255,11 @@ describe('Runner', function() {
 
             describe('render queue', function() {
                 let queue;
+                let runner;
 
                 beforeEach(function() {
                     queue = new Render();
+                    runner = new Runner([queue]);
                 });
 
                 it('should exist', function() {
@@ -399,6 +445,24 @@ describe('Runner', function() {
                                         expect(spy.calls.count()).not.toBeGreaterThan(1);
                                     });
                                 });
+                            });
+                        });
+
+                        describe('if Runner.schedule() is called from one of the tasks', function() {
+                            beforeEach(function(done) {
+                                spyOn(runner, 'schedule');
+                                queue.add(null, () => Runner.schedule('render', null, () => {}));
+
+                                queue.flush(done);
+                                global.requestAnimationFrame.calls.mostRecent().args[0]();
+                            });
+
+                            it('should schedule the task in the current runner', function() {
+                                expect(runner.schedule).toHaveBeenCalled();
+                            });
+
+                            it('should clear the runner after it has executed its tasks', function() {
+                                expect(() => Runner.schedule('render', null, () => {})).toThrow();
                             });
                         });
                     });
@@ -632,6 +696,10 @@ describe('Runner', function() {
             afterRender = new Queue('afterRender');
 
             runner = new Runner([beforeRender, render, afterRender]);
+        });
+
+        it('should set the runner on each queue', function() {
+            [beforeRender, render, afterRender].forEach(queue => expect(queue.runner).toBe(runner));
         });
 
         describe('methods:', function() {

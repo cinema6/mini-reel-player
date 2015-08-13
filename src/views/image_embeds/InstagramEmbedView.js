@@ -17,10 +17,8 @@ class Private {
     }
 
     process() {
-        Runner.runNext(() => {
-            codeLoader.load('instagram').then(instagram => {
-                instagram.Embeds.process();
-            });
+        codeLoader.load('instagram').then(instagram => {
+            instagram.Embeds.process();
         });
     }
 }
@@ -38,13 +36,13 @@ export default class InstagramEmbedView extends TemplateView {
 
     didInsertElement() {
         super.didInsertElement(...arguments);
-        _(this).process();
+        Runner.scheduleOnce('render', _(this), 'process');
     }
 
     update() {
         super.update(...arguments);
         if(this.inserted) {
-            _(this).process();
+            Runner.scheduleOnce('render', _(this), 'process');
         }
     }
 }

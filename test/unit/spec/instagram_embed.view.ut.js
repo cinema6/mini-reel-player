@@ -2,6 +2,7 @@ import InstagramEmbedView from '../../../src/views/image_embeds/InstagramEmbedVi
 import TemplateView from '../../../lib/core/TemplateView.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('InstagramEmbedView', function() {
     let view;
@@ -49,7 +50,7 @@ describe('InstagramEmbedView', function() {
                 beforeEach(function() {
                     spyOn(TemplateView.prototype, 'didInsertElement');
                     spyOn(view.__private__, 'process');
-                    view.didInsertElement();
+                    Runner.run(() => view.didInsertElement());
                 });
 
                 it('should call super', function() {
@@ -68,19 +69,19 @@ describe('InstagramEmbedView', function() {
                 });
 
                 it('should call super', function() {
-                    view.update();
+                    Runner.run(() => view.update());
                     expect(TemplateView.prototype.update).toHaveBeenCalled();
                 });
 
                 it('should process the instagram embeds if inserted', function() {
                     view.inserted = true;
-                    view.update();
+                    Runner.run(() => view.update());
                     expect(view.__private__.process).toHaveBeenCalled();
                 });
 
                 it('should not process the instagram embeds if not inserted', function() {
                     view.inserted = false;
-                    view.update();
+                    Runner.run(() => view.update());
                     expect(view.__private__.process).not.toHaveBeenCalled();
                 });
             });

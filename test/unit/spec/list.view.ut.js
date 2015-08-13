@@ -236,7 +236,7 @@ describe('ListView', function() {
                         { id: 'thing4', value: 'alive.' }
                     ];
                     listView.append.calls.reset();
-                    children.forEach(child => spyOn(child, 'remove').and.callThrough());
+                    children.forEach(child => spyOn(child, 'destroy').and.callThrough());
                     spy.calls.reset();
 
                     listView.on('removeChild', spy);
@@ -244,11 +244,11 @@ describe('ListView', function() {
                     Runner.run(() => listView.update(collection));
                 });
 
-                it('should remove the proper children', function() {
-                    expect(children[0].remove).toHaveBeenCalled();
-                    expect(children[1].remove).not.toHaveBeenCalled();
-                    expect(children[2].remove).toHaveBeenCalled();
-                    expect(children[3].remove).not.toHaveBeenCalled();
+                it('should destroy the proper children', function() {
+                    expect(children[0].destroy).toHaveBeenCalled();
+                    expect(children[1].destroy).not.toHaveBeenCalled();
+                    expect(children[2].destroy).toHaveBeenCalled();
+                    expect(children[3].destroy).not.toHaveBeenCalled();
                 });
 
                 it('should emit "removeChild"', function() {

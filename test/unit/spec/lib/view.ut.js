@@ -393,6 +393,7 @@ describe('View', function() {
             beforeEach(function() {
                 parentView = new View();
                 parentView.tag = 'span';
+                parentView.inserted = true;
 
                 spyOn(parentView, 'create').and.callThrough();
                 spyOn(view, 'create').and.callThrough();
@@ -420,6 +421,17 @@ describe('View', function() {
                 });
             });
 
+            describe('if the parentView is inserted', function() {
+                beforeEach(function() {
+                    view.didInsertElement.calls.reset();
+                    parentView.emit('inserted');
+                });
+
+                it('should call didInsertElement()', function() {
+                    expect(view.didInsertElement).toHaveBeenCalled();
+                });
+            });
+
             describe('if the view\'s parent is switched', function() {
                 let newParent;
 
@@ -440,6 +452,18 @@ describe('View', function() {
                     });
                 });
 
+                describe('when the old parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        parentView.emit('inserted');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when the new parent is destroyed', function() {
                     beforeEach(function() {
                         newParent.emit('destroyed');
@@ -448,6 +472,29 @@ describe('View', function() {
                     it('should remove its reference to the parent', function() {
                         expect(view.parent).toBeNull();
                     });
+                });
+
+                describe('when the new parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        newParent.emit('inserted');
+                    });
+
+                    it('should call didInsertElement()', function() {
+                        expect(view.didInsertElement).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if the parent is not inserted', function() {
+                beforeEach(function() {
+                    parentView.inserted = false;
+                    queues.render.pop()();
+                });
+
+                it('should not call didInsertElement()', function() {
+                    expect(view.didInsertElement).not.toHaveBeenCalled();
                 });
             });
 
@@ -508,6 +555,7 @@ describe('View', function() {
             beforeEach(function() {
                 parentView = new View();
                 parentView.tag = 'span';
+                parentView.inserted = true;
 
                 sibling = new View();
                 sibling.tag = 'span';
@@ -538,12 +586,24 @@ describe('View', function() {
                 });
             });
 
+            describe('if the parentView is inserted', function() {
+                beforeEach(function() {
+                    spyOn(view, 'didInsertElement');
+                    parentView.emit('inserted');
+                });
+
+                it('should call didInsertElement()', function() {
+                    expect(view.didInsertElement).toHaveBeenCalled();
+                });
+            });
+
             describe('if the view\'s parent is switched', function() {
                 let newParent;
 
                 beforeEach(function() {
                     newParent = new View();
                     newParent.tag = 'span';
+                    spyOn(view, 'didInsertElement');
 
                     view.appendTo(newParent);
                 });
@@ -558,6 +618,18 @@ describe('View', function() {
                     });
                 });
 
+                describe('when the old parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        parentView.emit('inserted');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when the new parent is destroyed', function() {
                     beforeEach(function() {
                         newParent.emit('destroyed');
@@ -566,6 +638,31 @@ describe('View', function() {
                     it('should remove its reference to the parent', function() {
                         expect(view.parent).toBeNull();
                     });
+                });
+
+                describe('when the new parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        newParent.emit('inserted');
+                    });
+
+                    it('should call didInsertElement()', function() {
+                        expect(view.didInsertElement).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if the parent is not inserted', function() {
+                beforeEach(function() {
+                    parentView.inserted = false;
+                    spyOn(view, 'didInsertElement').and.callThrough();
+                    spyOn(parentView.element, 'insertBefore');
+                    queues.render.pop()();
+                });
+
+                it('should not call didInsertElement()', function() {
+                    expect(view.didInsertElement).not.toHaveBeenCalled();
                 });
             });
 
@@ -672,6 +769,7 @@ describe('View', function() {
             beforeEach(function() {
                 parentView = new View();
                 parentView.tag = 'span';
+                parentView.inserted = true;
 
                 parentView.append(view);
                 queues.render.pop()();

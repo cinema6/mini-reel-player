@@ -870,6 +870,60 @@ describe('View', function() {
                     expect(view.willRemoveElement).not.toHaveBeenCalled();
                 });
             });
+
+            describe('if called before the view is created', function() {
+                beforeEach(function() {
+                    queues.render.length = 0;
+                    view = new View();
+                    spyOn(view, 'willRemoveElement');
+
+                    view.remove();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    expect(queues.render.length).toBe(0);
+                });
+            });
+
+            describe('if the view\'s element has no parent', function() {
+                beforeEach(function() {
+                    queues.render.length = 0;
+                    view = new View();
+                    view.tag = 'div';
+                    view.create();
+                    spyOn(view, 'willRemoveElement').and.callThrough();
+
+                    view.remove();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    expect(queues.render.length).toBe(0);
+                });
+            });
+
+            describe('if the element is inserted into the parent but the parent is not inserted', function() {
+                beforeEach(function() {
+                    queues.render.length = 0;
+                    parentView.append(view);
+                    queues.render.pop()();
+                    view.inserted = false;
+                    view.willRemoveElement.calls.reset();
+                    parentView.element.removeChild.calls.reset();
+
+                    view.remove();
+                    queues.render.pop()();
+                });
+
+                it('should not call willRemoveElement()', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
+                });
+
+                it('should remove the element from the parent', function() {
+                    expect(parentView.element.removeChild).toHaveBeenCalledWith(view.element);
+                });
+            });
         });
 
         describe('destroy()', function() {

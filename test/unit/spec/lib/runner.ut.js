@@ -445,6 +445,25 @@ describe('Runner', function() {
                 it('should return the result of the provided function', function() {
                     expect(result).toBe(object);
                 });
+
+                describe('if the provided function calss Runner.run()', function() {
+                    let fn1, fn2;
+
+                    beforeEach(function() {
+                        spyOn(Runner.prototype, 'schedule').and.callThrough();
+                        fn1 = (() => {
+                            Runner.schedule('render', null, () => {});
+                            Runner.run(fn2);
+                        });
+                        fn2 = (() => Runner.schedule('render', null, () => {}));
+
+                        Runner.run(fn1);
+                    });
+
+                    it('should reuse the same Runner instance', function() {
+                        expect(Runner.prototype.schedule.calls.all()[0].object).toBe(Runner.prototype.schedule.calls.all()[1].object);
+                    });
+                });
             });
 
             describe('schedule(queue, context, fn, args)', function() {

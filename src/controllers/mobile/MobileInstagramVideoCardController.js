@@ -29,7 +29,7 @@ export default class MobileInstagramVideoCardController extends InstagramCardCon
     }
 
     deactivate() {
-        _(this).embedView.remove();
+        _(this).embedView.destroy();
         _(this).embedView = null;
         this.isRendered = false;
     }

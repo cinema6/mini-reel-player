@@ -900,19 +900,32 @@ describe('View', function() {
         });
 
         describe('didInsertElement()', function() {
+            let inserted;
+
             beforeEach(function() {
+                inserted = jasmine.createSpy('inserted()').and.callFake(() => expect(view.inserted).toBe(true));
+                view.on('inserted', inserted);
+
                 view.didInsertElement();
             });
 
             it('should set inserted to true', function() {
                 expect(view.inserted).toBe(true);
             });
+
+            it('should emit "inserted"', function() {
+                expect(inserted).toHaveBeenCalled();
+            });
         });
 
         describe('willDestroyElement()', function() {
             let element;
+            let destroyed;
 
             beforeEach(function() {
+                destroyed = jasmine.createSpy('destroyed()');
+                view.on('destroyed', destroyed);
+
                 view.tag = 'span';
                 view.inserted = true;
                 view.create();
@@ -931,6 +944,10 @@ describe('View', function() {
                 expect(view.removeAllListeners).toHaveBeenCalled();
             });
 
+            it('should emit "destroyed"', function() {
+                expect(destroyed).toHaveBeenCalled();
+            });
+
             describe('if another view is created with the view\'s old element', function() {
                 it('should allow it', function() {
                     expect(function() {
@@ -942,8 +959,12 @@ describe('View', function() {
 
         describe('willRemoveElement()', function() {
             let element;
+            let removed;
 
             beforeEach(function() {
+                removed = jasmine.createSpy('removed()').and.callFake(() => expect(view.inserted).toBe(false));
+                view.on('removed', removed);
+
                 view.tag = 'span';
                 view.inserted = true;
                 view.create();
@@ -956,6 +977,10 @@ describe('View', function() {
 
             it('should set inserted to false', function() {
                 expect(view.inserted).toBe(false);
+            });
+
+            it('should emit "removed"', function() {
+                expect(removed).toHaveBeenCalled();
             });
         });
     });

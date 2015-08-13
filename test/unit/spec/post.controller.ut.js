@@ -101,7 +101,7 @@ describe('PostController', function() {
                 oldView = PostCtrl.view;
                 Runner.run(() => PostCtrl.renderInto(parentView));
                 spyOn(PostCtrl, 'deactivate');
-                spyOn(oldView, 'remove');
+                spyOn(oldView, 'destroy');
                 spyOn(PostCtrl, 'renderInto').and.callThrough();
 
                 PostCtrl.vote(buttonView);
@@ -128,8 +128,8 @@ describe('PostController', function() {
                 expect(post.ballot.cast).toHaveBeenCalledWith(1);
             });
 
-            it('should remove its view', function() {
-                expect(oldView.remove).toHaveBeenCalled();
+            it('should destroy its view', function() {
+                expect(oldView.destroy).toHaveBeenCalled();
             });
 
             it('should make its view a PostView', function() {

@@ -570,10 +570,6 @@ describe('View', function() {
                 expect(view.willRemoveElement).toHaveBeenCalled();
             });
 
-            it('should set its element to null', function() {
-                expect(view.element).toBeNull();
-            });
-
             describe('in the render queue', function() {
                 beforeEach(function() {
                     expect(parentView.element.removeChild).not.toHaveBeenCalled();
@@ -594,6 +590,42 @@ describe('View', function() {
 
                 it('should do nothing', function() {
                     expect(view.willRemoveElement).not.toHaveBeenCalled();
+                });
+            });
+        });
+
+        describe('destroy()', function() {
+            beforeEach(function() {
+                spyOn(view, 'remove');
+                spyOn(view, 'willDestroyElement').and.callThrough();
+                view.create();
+
+                view.destroy();
+            });
+
+            it('should remove() the view', function() {
+                expect(view.remove).toHaveBeenCalled();
+            });
+
+            it('should call willDestroyElement()', function() {
+                expect(view.willDestroyElement).toHaveBeenCalled();
+            });
+
+            it('should make the element null', function() {
+                expect(view.element).toBeNull();
+            });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    view.remove.calls.reset();
+                    view.willDestroyElement.calls.reset();
+
+                    view.destroy();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.remove).not.toHaveBeenCalled();
+                    expect(view.willDestroyElement).not.toHaveBeenCalled();
                 });
             });
         });
@@ -877,6 +909,37 @@ describe('View', function() {
             });
         });
 
+        describe('willDestroyElement()', function() {
+            let element;
+
+            beforeEach(function() {
+                view.tag = 'span';
+                view.inserted = true;
+                view.create();
+                element = view.element;
+                spyOn(eventDelegator, 'removeListeners');
+                spyOn(view, 'removeAllListeners').and.callThrough();
+
+                view.willDestroyElement();
+            });
+
+            it('should remove event listeners', function() {
+                expect(eventDelegator.removeListeners).toHaveBeenCalledWith(view);
+            });
+
+            it('should remove all of its event listeners', function() {
+                expect(view.removeAllListeners).toHaveBeenCalled();
+            });
+
+            describe('if another view is created with the view\'s old element', function() {
+                it('should allow it', function() {
+                    expect(function() {
+                        new View(element);
+                    }).not.toThrow();
+                });
+            });
+        });
+
         describe('willRemoveElement()', function() {
             let element;
 
@@ -891,24 +954,8 @@ describe('View', function() {
                 view.willRemoveElement();
             });
 
-            it('should remove event listeners', function() {
-                expect(eventDelegator.removeListeners).toHaveBeenCalledWith(view);
-            });
-
-            it('should remove all of its event listeners', function() {
-                expect(view.removeAllListeners).toHaveBeenCalled();
-            });
-
             it('should set inserted to false', function() {
                 expect(view.inserted).toBe(false);
-            });
-
-            describe('if another view is created with the view\'s old element', function() {
-                it('should allow it', function() {
-                    expect(function() {
-                        new View(element);
-                    }).not.toThrow();
-                });
             });
         });
     });

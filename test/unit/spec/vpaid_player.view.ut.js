@@ -447,7 +447,7 @@ describe('VPAIDPlayer', function() {
                         });
                     });
 
-                    ['AdStopped', 'AdVideoComplete'].forEach(event => {
+                    ['AdStopped'].forEach(event => {
                         describe(event, function() {
                             let ended;
 

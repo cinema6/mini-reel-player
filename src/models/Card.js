@@ -13,7 +13,7 @@ export default class Card extends EventEmitter {
 
         this.id = card.id;
         this.title = card.title;
-        this.note = card.note;
+        this.note = card.note || null;
         this.thumbs = (card.thumbs || null) && extend(card.thumbs);
 
         this.data = {};

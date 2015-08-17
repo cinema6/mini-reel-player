@@ -17,27 +17,27 @@
     /*  Mini Reel Cards classes
             Ballot
             actions Modal group classes
-        ============================================= */    
+        ============================================= */
         @import url('light/video-card.css');
 
     /*  article card classes
-        ============================================= */    
+        ============================================= */
         @import url('light/article-card.css');
 
     /*  image card classes
-        ============================================= */   
+        ============================================= */
         @import url('light/image-card.css');
 
     /*  text only card classes
-        ============================================= */ 
+        ============================================= */
         @import url('light/text-card.css');
 
     /*  sponsored card classes
-        ============================================= */ 
+        ============================================= */
         @import url('light/sponsored-card.css');
 
     /*  recap card classes
-        ============================================= */ 
+        ============================================= */
         @import url('light/recap-card.css');
 
     /*  Ad styles
@@ -45,16 +45,18 @@
             Display Ad styles
             Display Ad Card classes
             display ad module classes
-        ============================================= */ 
+        ============================================= */
         @import url('light/ad-styles.css');
 
     /*  branded MR classes
-        ============================================= */ 
+        ============================================= */
         @import url('light/branded-mr.css');
 
-    /*  pager nav button classes 
-        ============================================= */ 
+    /*  pager nav button classes
+        ============================================= */
         @import url('light/pager-nav.css');
 
-
-    
+    /*  override global styles
+            instagram card
+        ============================================= */
+        @import url('light/light__global.css');

@@ -6,7 +6,6 @@
     .ballot__btn:before,
     .player__playBtn,
     .actionsModal__btn:after {
-        -webkit-transition:background 0.3s; 
         transition:background 0.3s;
     }
 
@@ -35,8 +34,15 @@
     color transitions
     ================================================ */
     .titleBar__titleText,
-    .btnPrimary .btnLabel {
-        -webkit-transition:color 0.3s; transition:color 0.3s;
+    .btnPrimary .btnLabel,
+    .instag____profileImg__name,
+    .instag____profileDesc__link,
+    .instag____postAccount__name,
+    .instag____postInfo__date,
+    .instag____postInfo__name,
+    .instag____postInfo__tag,
+    .instag____postInfo__comments {
+        transition:color 0.3s;
     }
 
     .titleBar__titleText:hover,
@@ -48,7 +54,24 @@
         color:#1789cb;
     }
 
+    .instag____profileImg__name:hover {
+        color:#000;
+    }
 
+    .instag____profileDesc__link:hover,
+    .instag____postAccount__name:hover,
+    .instag____postInfo__name:hover,
+    .instag____postInfo__tag:hover {
+        color:#0d3c5f;
+    }
+
+    .instag____postInfo__date:hover {
+        color:#858789;
+    }
+
+    .instag____postInfo__comments:hover {
+        color:#818488;
+    }
 
 
 
@@ -56,7 +79,7 @@
     fill transitions
     ================================================ */
     .pager__btnIconPath {
-        -webkit-transition:fill 0.3s; transition:fill 0.3s;
+        transition:fill 0.3s;
     }
 
     .pager__btn:hover .pager__btnIconPath {
@@ -76,7 +99,6 @@
     ================================================ */
     .sponsorProfile__imgBox,
     .brandProfile__logoBox {
-        -webkit-transition:border 0.5s;
         transition:border 0.5s;
     }
     .sponsorProfile__imgBox:hover,
@@ -127,13 +149,11 @@
     .ballot__textLink:before,
     .sprite--close,
     .actionsModal__btn:before {
-        -webkit-transition: -webkit-transform 0.3s; 
         transition: 0.3s transform;
     }
     .sprite--close:hover,
     .ballot__textLink:hover:before,
     .actionsModal__btn:hover:before {
-        -webkit-transform: scale(1.25);
         transform: scale(1.25);
     }
 
@@ -146,4 +166,14 @@
     ================================================ */
     .btnPrimary:hover .btn__label {
         text-shadow: none;
+    }
+
+    .instag____profileImg__follow,
+    .instag____profileImg__follow:focus {
+        transition:0.3s border, 0.3s color;
+    }
+
+    .instag____profileImg__follow:hover {
+        border:1px solid #2d6599;
+        color:#2d6599;
     }

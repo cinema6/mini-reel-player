@@ -19,7 +19,7 @@ export default class CorePlayer extends View {
         const events = [];
 
         const fireEventOnce = ((event, predicate) => {
-            if (predicate() && events.indexOf(event) < 0) {
+            if ((!predicate || predicate()) && events.indexOf(event) < 0) {
                 this.emit(event);
                 events.push(event);
             }
@@ -51,6 +51,7 @@ export default class CorePlayer extends View {
                 return currentTime >= (duration - 1);
             });
         });
+        this.on('ended', () => fireEventOnce('complete'));
         this.on('canplay', () => this.addClass(CANPLAY_CLASS));
     }
 

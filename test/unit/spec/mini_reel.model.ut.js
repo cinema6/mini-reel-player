@@ -717,7 +717,7 @@ describe('MiniReel', function() {
 
         sessionDeferred.fulfill(session);
 
-        sessionDeferred.promise.then(done);
+        Promise.resolve(sessionDeferred.promise).then(done);
     });
 
     afterAll(function() {
@@ -861,7 +861,7 @@ describe('MiniReel', function() {
         describe('launch', function() {
             beforeEach(function(done) {
                 minireel.emit('launch');
-                sessionDeferred.promise.then(done);
+                Promise.resolve(sessionDeferred.promise).then(done);
             });
 
             it('should ping the session with the "open" event', function() {
@@ -872,7 +872,7 @@ describe('MiniReel', function() {
         describe('close', function() {
             beforeEach(function(done) {
                 minireel.emit('close');
-                sessionDeferred.promise.then(done);
+                Promise.resolve(sessionDeferred.promise).then(done);
             });
 
             it('should ping the session with the "close" event', function() {
@@ -1808,7 +1808,7 @@ describe('MiniReel', function() {
                 codeLoader.loadStyles.calls.reset();
 
                 mouseDeferred.fulfill(false);
-                mouseDeferred.promise.then(done, done);
+                Promise.resolve(mouseDeferred.promise).then(done, done);
             });
 
             it('should not load branding hover styles', function() {
@@ -1821,7 +1821,7 @@ describe('MiniReel', function() {
                 codeLoader.loadStyles.calls.reset();
 
                 mouseDeferred.fulfill(true);
-                mouseDeferred.promise.then(done, done);
+                Promise.resolve(mouseDeferred.promise).then(done, done);
             });
 
             it('should load branding hover styles', function() {
@@ -1864,7 +1864,7 @@ describe('MiniReel', function() {
                 delete experience.data;
 
                 appDataDeferred.fulfill({ experience, standalone: false, profile: profile });
-                appDataDeferred.promise.then(() => {}).then(done);
+                Promise.resolve(appDataDeferred.promise).then(() => {}).then(done);
             });
 
             it('should emit the "error" event', function() {

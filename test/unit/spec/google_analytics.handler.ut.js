@@ -496,7 +496,7 @@ describe('GoogleAnalyticsHandler', function() {
                         beforeEach(function(done) {
                             player.emit('play');
                             waitDeferred.fulfill(player);
-                            waitDeferred.promise.then(done, done);
+                            Promise.resolve(waitDeferred.promise).then(done, done);
                         });
 
                         it('should not fire an error event', function() {
@@ -508,7 +508,7 @@ describe('GoogleAnalyticsHandler', function() {
                         beforeEach(function(done) {
                             trckr.trackEvent.calls.reset();
                             waitDeferred.fulfill();
-                            waitDeferred.promise.then(() => {}).then(done, done);
+                            Promise.resolve(waitDeferred.promise).then(() => {}).then(done, done);
                         });
 
                         it('should fire an error event', function() {

@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v0.22.0 (August 12, 2015)
+* *[v0.22.0-rc3]*
+  * [FIX]: Fix for an issue that caused mobile instagram cards to never
+    render
+
 * *[v0.22.0-rc2]*
   * [FIX]: Fix for an issue that caused mobile Instagram videos to continue playing
     after the user has moved on to another card

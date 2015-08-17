@@ -16,11 +16,14 @@ describe('ApplicationController', function() {
 
     let root;
 
+    beforeEach(done => process.nextTick(done));
+
     beforeEach(function() {
         environment.constructor();
         root = document.createElement('body');
         mouseDeferred = defer(RunnerPromise);
         spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
+        spyOn(ApplicationView.prototype, 'create').and.callThrough();
 
         environment.mode = 'some-mode';
 
@@ -43,7 +46,7 @@ describe('ApplicationController', function() {
         beforeEach(function(done) {
             spyOn(codeLoader, 'loadStyles');
             mouseDeferred.fulfill(true);
-            mouseDeferred.promise.then(done, done);
+            Promise.resolve(mouseDeferred.promise).then(done, done);
         });
 
         it('should load the hover styles', function() {
@@ -55,7 +58,7 @@ describe('ApplicationController', function() {
         beforeEach(function(done) {
             spyOn(codeLoader, 'loadStyles');
             mouseDeferred.fulfill(false);
-            mouseDeferred.promise.then(done, done);
+            Promise.resolve(mouseDeferred.promise).then(done, done);
         });
 
         it('should not load the hover styles', function() {
@@ -67,6 +70,10 @@ describe('ApplicationController', function() {
         describe('appView', function() {
             it('should be an ApplicationView', function() {
                 expect(ApplicationCtrl.appView).toEqual(jasmine.any(ApplicationView));
+            });
+
+            it('should be create()d', function() {
+                expect(ApplicationCtrl.appView.create).toHaveBeenCalled();
             });
 
             it('should be for the root', function() {

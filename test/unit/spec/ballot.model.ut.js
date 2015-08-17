@@ -56,7 +56,7 @@ describe('Ballot', function() {
             results = [0.25, 0.75];
 
             resultsDeferred.fulfill(results);
-            resultsDeferred.promise.then(done, done);
+            Promise.resolve(resultsDeferred.promise).then(done, done);
         });
 
         it('should populate the results property', function() {

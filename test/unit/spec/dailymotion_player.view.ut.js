@@ -279,7 +279,7 @@ describe('DailymotionPlayer', function() {
                             spyOn(video, 'call');
                             autoplayDeferred.fulfill(false);
 
-                            autoplayDeferred.promise.then(done, done);
+                            Promise.resolve(autoplayDeferred.promise).then(done, done);
                         });
 
                         it('should not play the video', function() {
@@ -296,7 +296,7 @@ describe('DailymotionPlayer', function() {
                             spyOn(video, 'call');
                             autoplayDeferred.fulfill(true);
 
-                            autoplayDeferred.promise.then(done, done);
+                            Promise.resolve(autoplayDeferred.promise).then(done, done);
                         });
 
                         it('should play the video', function() {
@@ -343,7 +343,7 @@ describe('DailymotionPlayer', function() {
                                 spyOn(video, 'call');
                                 autoplayDeferred.fulfill(false);
 
-                                autoplayDeferred.promise.then(done, done);
+                                Promise.resolve(autoplayDeferred.promise).then(done, done);
                             });
 
                             it('should not play the video', function() {
@@ -360,7 +360,7 @@ describe('DailymotionPlayer', function() {
                                 spyOn(video, 'call');
                                 autoplayDeferred.fulfill(true);
 
-                                autoplayDeferred.promise.then(done, done);
+                                Promise.resolve(autoplayDeferred.promise).then(done, done);
                             });
 
                             it('should play the video', function() {
@@ -398,7 +398,7 @@ describe('DailymotionPlayer', function() {
                                 spyOn(video, 'call');
                                 autoplayDeferred.fulfill(false);
 
-                                autoplayDeferred.promise.then(done, done);
+                                Promise.resolve(autoplayDeferred.promise).then(done, done);
                             });
 
                             it('should not play the video', function() {
@@ -415,7 +415,7 @@ describe('DailymotionPlayer', function() {
                                 spyOn(video, 'call');
                                 autoplayDeferred.fulfill(true);
 
-                                autoplayDeferred.promise.then(done, done);
+                                Promise.resolve(autoplayDeferred.promise).then(done, done);
                             });
 
                             it('should play the video', function() {

@@ -45,7 +45,7 @@ describe('YouTubePlayer', function() {
         const setInterval = global.setInterval;
 
         fetcher.constructor();
-        codeLoader.load('youtube').then(YT => {
+        Promise.resolve(codeLoader.load('youtube')).then(YT => {
             youtube = YT;
             done();
         }, err => {
@@ -303,7 +303,7 @@ describe('YouTubePlayer', function() {
 
                 describe('when the player is ready', function() {
                     beforeEach(function(done) {
-                        codeLoader.load('youtube').then(() => {
+                        Promise.resolve(codeLoader.load('youtube')).then(() => {
                             expect(browser.test).not.toHaveBeenCalled();
                             youtube.Player.calls.mostRecent().args[1].events.onReady();
                         }).then(done, done);
@@ -316,7 +316,7 @@ describe('YouTubePlayer', function() {
                     describe('if the device can autoplay', function() {
                         beforeEach(function(done) {
                             autoplayDeferred.fulfill(true);
-                            autoplayDeferred.promise.then(done, done);
+                            Promise.resolve(autoplayDeferred.promise).then(done, done);
                         });
 
                         it('should play the video', function() {
@@ -331,7 +331,7 @@ describe('YouTubePlayer', function() {
                     describe('if the device can\'t autoplay', function() {
                         beforeEach(function(done) {
                             autoplayDeferred.fulfill(false);
-                            autoplayDeferred.promise.then(done, done);
+                            Promise.resolve(autoplayDeferred.promise).then(done, done);
                         });
 
                         it('should not play the video', function() {
@@ -348,7 +348,7 @@ describe('YouTubePlayer', function() {
             describe('if the player is already ready to play', function() {
                 beforeEach(function(done) {
                     Runner.run(() => player.load());
-                    codeLoader.load('youtube').then(() => {
+                    Promise.resolve(codeLoader.load('youtube')).then(() => {
                         youtube.Player.calls.mostRecent().args[1].events.onReady();
                         player.play();
                     }).then(done, done);
@@ -361,7 +361,7 @@ describe('YouTubePlayer', function() {
                 describe('if the device can autoplay', function() {
                     beforeEach(function(done) {
                         autoplayDeferred.fulfill(true);
-                        autoplayDeferred.promise.then(done, done);
+                        Promise.resolve(autoplayDeferred.promise).then(done, done);
                     });
 
                     it('should play the video', function() {
@@ -376,7 +376,7 @@ describe('YouTubePlayer', function() {
                 describe('if the device can\'t autoplay', function() {
                     beforeEach(function(done) {
                         autoplayDeferred.fulfill(false);
-                        autoplayDeferred.promise.then(done, done);
+                        Promise.resolve(autoplayDeferred.promise).then(done, done);
                     });
 
                     it('should not play the video', function() {
@@ -441,7 +441,7 @@ describe('YouTubePlayer', function() {
                         /* jshint quotmark:single */
 
                     Runner.run(() => player.load());
-                    codeLoader.load('youtube').then(() => {
+                    Promise.resolve(codeLoader.load('youtube')).then(() => {
                         player.pause();
                         done();
                     });

@@ -10,6 +10,7 @@ export default class ApplicationController extends Controller {
         super(...arguments);
 
         this.appView = new ApplicationView(root);
+        this.appView.create();
 
         browser.test('mouse').then(hasMouse => {
             if (hasMouse) { codeLoader.loadStyles(`css/${environment.mode}--hover.css`); }

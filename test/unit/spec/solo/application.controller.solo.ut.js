@@ -7,7 +7,7 @@ describe('SoloApplicationController', function() {
     let SoloApplicationCtrl;
 
     beforeEach(function() {
-        Runner.run(() => SoloApplicationCtrl = new SoloApplicationController());
+        Runner.run(() => SoloApplicationCtrl = new SoloApplicationController(document.createElement('body')));
     });
 
     it('should exist', function() {

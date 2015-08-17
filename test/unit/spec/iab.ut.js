@@ -449,43 +449,45 @@ describe('iab', function() {
                     expect(player).toEqual(jasmine.any(EventEmitter));
                 });
 
-                describe('when the ad is stopped', function() {
-                    let container;
-                    let AdVideoStart;
+                ['AdStopped', 'AdError'].forEach(event => {
+                    describe(`when ${event} is emitted`, function() {
+                        let container;
+                        let AdVideoStart;
 
-                    beforeEach(function(done) {
-                        AdVideoStart = jasmine.createSpy('AdVideoStart()');
+                        beforeEach(function(done) {
+                            AdVideoStart = jasmine.createSpy('AdVideoStart()');
 
-                        container = document.createElement('div');
-                        player.load(container).then(() => {
-                            spyOn(player, 'removeAllListeners').and.callThrough();
-                            player.emit('AdStopped');
-                            player.on('AdVideoStart', AdVideoStart);
-                        }).then(done, done);
+                            container = document.createElement('div');
+                            player.load(container).then(() => {
+                                spyOn(player, 'removeAllListeners').and.callThrough();
+                                player.emit(event);
+                                player.on('AdVideoStart', AdVideoStart);
+                            }).then(done, done);
 
-                        player.emit('onAdResponse');
-                    });
-
-                    it('should remove all the event listeners', function() {
-                        expect(player.removeAllListeners).toHaveBeenCalled();
-                    });
-
-                    it('should stop proxying postMessage events to the player', function() {
-                        const event = document.createEvent('CustomEvent');
-                        event.initCustomEvent('message');
-                        event.data = JSON.stringify({
-                            __vpaid__: {
-                                id: player.id,
-                                type: 'AdVideoStart'
-                            }
+                            player.emit('onAdResponse');
                         });
-                        global.dispatchEvent(event);
 
-                        expect(AdVideoStart).not.toHaveBeenCalled();
-                    });
+                        it('should remove all the event listeners', function() {
+                            expect(player.removeAllListeners).toHaveBeenCalled();
+                        });
 
-                    it('should remove the object from the container', function() {
-                        expect(container.querySelector('object')).not.toEqual(jasmine.any(Element));
+                        it('should stop proxying postMessage events to the player', function() {
+                            const event = document.createEvent('CustomEvent');
+                            event.initCustomEvent('message');
+                            event.data = JSON.stringify({
+                                __vpaid__: {
+                                    id: player.id,
+                                    type: 'AdVideoStart'
+                                }
+                            });
+                            global.dispatchEvent(event);
+
+                            expect(AdVideoStart).not.toHaveBeenCalled();
+                        });
+
+                        it('should remove the object from the container', function() {
+                            expect(container.querySelector('object')).not.toEqual(jasmine.any(Element));
+                        });
                     });
                 });
 
@@ -736,7 +738,7 @@ describe('iab', function() {
                 });
 
                 describe('events:', function() {
-                    ['onAdResponse', 'AdLoaded', 'AdStarted', 'AdVideoStart', 'AdPlaying', 'AdPaused', 'AdError', 'AdVideoComplete', 'onAllAdsCompleted'].forEach(event => {
+                    ['onAdResponse', 'AdLoaded', 'AdStarted', 'AdVideoStart', 'AdPlaying', 'AdPaused', 'AdVideoComplete', 'onAllAdsCompleted'].forEach(event => {
                         describe(event, function() {
                             let spy;
 

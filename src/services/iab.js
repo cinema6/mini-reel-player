@@ -208,6 +208,14 @@ class VPAIDPlayer extends EventEmitter {
     constructor(tag) {
         super();
 
+        const cleanup = (() => {
+            const { player } = _(this);
+
+            this.removeAllListeners();
+            _(iab).players[this.id] = undefined;
+            player.parentNode.removeChild(player);
+        });
+
         _(this).player = null;
         _(this).banners = undefined;
 
@@ -224,13 +232,8 @@ class VPAIDPlayer extends EventEmitter {
                 fileURI: banner.sourceCode
             }));
         });
-        this.once('AdStopped', () => {
-            const { player } = _(this);
-
-            this.removeAllListeners();
-            _(iab).players[this.id] = undefined;
-            player.parentNode.removeChild(player);
-        });
+        this.once('AdStopped', cleanup);
+        this.once('AdError', cleanup);
 
         _(iab).players[this.id] = this;
     }

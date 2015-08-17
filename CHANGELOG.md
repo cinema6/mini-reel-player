@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v0.21.8 (August 17, 2015)
+* *[v0.21.8-rc1]*
+  * [FIX]: Improve compatibility with TubeMogul
+* *[/v0.21.8-rc1]*
+
 ## v0.21.7 (August 11, 2015)
 * *[v0.21.7-rc1]*
   * [FIX]: Hide "Close" button in mobile player when running through

@@ -23,6 +23,7 @@ describe('ApplicationController', function() {
         root = document.createElement('body');
         mouseDeferred = defer(RunnerPromise);
         spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
+        spyOn(ApplicationView.prototype, 'create').and.callThrough();
 
         environment.mode = 'some-mode';
 
@@ -69,6 +70,10 @@ describe('ApplicationController', function() {
         describe('appView', function() {
             it('should be an ApplicationView', function() {
                 expect(ApplicationCtrl.appView).toEqual(jasmine.any(ApplicationView));
+            });
+
+            it('should be create()d', function() {
+                expect(ApplicationCtrl.appView.create).toHaveBeenCalled();
             });
 
             it('should be for the root', function() {

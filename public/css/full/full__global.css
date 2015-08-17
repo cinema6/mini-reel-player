@@ -6,6 +6,24 @@
     instagram-card.css
     ================================================ */
 
+    .MiniReel__group--singleCardMR .playlist__group {
+        display:none;
+    }
+
+    .MiniReel__group--singleCardMR .cards__list {
+        top:0.75em;
+        right:0.75em;
+    }
+
+    .MiniReel__group--singleCardMR .titleBar__group,
+    .MiniReel__group--singleCardMR .btnPrimary {
+        display:none;
+    }
+
+        .MiniReel__group--singleCardMR .instag____player__group {
+            height:100%;
+        }
+
     /*  instagram image card MEDIA QUERIES
     ================================================ */
 
@@ -40,13 +58,8 @@
                 font-size:0.9375em;
             }
 
-            .instag____profile__group {
-                width:7em;
-            }
-
             .instag____mediaImg__group {
-                left:9em;
-                right:14em;
+                right:16em;
             }
 
             .instag____post__group {
@@ -69,14 +82,14 @@
                         padding-left:2.5em;
                     }
                         .instag____postInfo__feedback:before {
-                            background: url('../../img/social-card-sprites.png') -4.25em -0.5em/9em no-repeat;
-                            width: 2.15em;
-                            height: 1.825em;
+                            background:url('../../img/social-card-sprites.png') -4.25em -0.5em/9em no-repeat;
+                            width:2.15em;
+                            height:1.825em;
                         }
                         .instag____postInfo__feedback:after {
-                            background:url('../../img/social-card-sprites.png') -6.95em -0.55em/9em no-repeat;
-                            width: 1.75em;
-                            height: 1.5em;
+                            background:url('../../img/social-card-sprites.png') -6.75em -0.5em/9em no-repeat;
+                            width:1.875em;
+                            height:1.5em;
                         }
 
         }
@@ -95,16 +108,12 @@
                         max-width:4rem;
                     }
 
-
                         .instag____profileDesc__follow,
                         .instag____profileDesc__follow:focus {
                             min-width: 3.75rem;
                             max-width: 8rem;
                             margin: 0.5em auto 0;
                         }
-
-
-
 
             .instag____mediaImg__group {
                 position:absolute;
@@ -118,8 +127,6 @@
                     border-right:1px solid #eeefef;
                     border-radius: 4px 4px 0 0;
                 }
-
-
 
             .instag____post__group {
                 width:auto;
@@ -153,13 +160,10 @@
 
                 .instag____postAccount__name {
                     margin-top:0;
+                    margin-left:0;
                     width:auto;
                     display:block;
                     float:none;
-                }
-
-                .instag____postAccount__name {
-                    margin-left:0;
                 }
 
                 .instag____postAccount__logo {
@@ -191,7 +195,7 @@
                         display:block;
                     }
                         .instag____postInfo__feedback:before {
-                            background:url('../../img/social-card-sprites.png') -2.4em -0.25em/5em no-repeat;
+                            background:url('../../img/social-card-sprites.png') -2.25em -0.25em/5em no-repeat;
                             width: 1.25em;
                             height: 1em;
                         }
@@ -285,7 +289,6 @@
         @media screen and (max-width:75rem) {
             /*  w: 0px - 1200px */
             .instag____mediaVid__group {
-                left:1em;
                 right:16em;
             }
 

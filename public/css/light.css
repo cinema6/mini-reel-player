@@ -56,7 +56,6 @@
         ============================================= */
         @import url('light/pager-nav.css');
 
-    /*  override global styles
-            instagram card
+    /*  instagram card
         ============================================= */
-        @import url('light/light__global.css');
+        @import url('light/instagram-card.css');

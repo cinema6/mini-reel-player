@@ -1,7 +1,7 @@
 import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
 import InstagramCardController from '../../../../src/controllers/InstagramCardController.js';
 import View from '../../../../lib/core/View.js';
-import MobileInstagramCardView from '../../../../src/views/mobile/MobileInstagramCardView.js';
+import MobileInstagramVideoCardView from '../../../../src/views/mobile/MobileInstagramVideoCardView.js';
 import InstagramImageCard from '../../../../src/models/InstagramImageCard.js';
 import Runner from '../../../../lib/Runner.js';
 import InstagramEmbedView from '../../../../src/views/image_embeds/InstagramEmbedView.js';
@@ -83,62 +83,9 @@ describe('MobileInstagramVideoCardController', function() {
 
     describe('properties:', function() {
         describe('view', function() {
-            it('should be a MobileInstagramCardView', function() {
-                expect(MobileInstagramVideoCardCtrl.view).toEqual(jasmine.any(MobileInstagramCardView));
+            it('should be a MobileInstagramVideoCardView', function() {
+                expect(MobileInstagramVideoCardCtrl.view).toEqual(jasmine.any(MobileInstagramVideoCardView));
                 expect(MobileInstagramVideoCardCtrl.addView).toHaveBeenCalledWith(MobileInstagramVideoCardCtrl.view);
-            });
-        });
-    });
-
-    describe('methods', function() {
-        describe('renderInstagram', function() {
-            beforeEach(function() {
-                MobileInstagramVideoCardCtrl.view.embedOutlet = new View();
-                spyOn(MobileInstagramVideoCardCtrl.view, 'create').and.callThrough();
-                spyOn(MobileInstagramVideoCardCtrl.view.embedOutlet, 'append');
-            });
-
-            it('should set isRendered to true', function() {
-                render();
-                expect(MobileInstagramVideoCardCtrl.isRendered).toBe(true);
-            });
-
-            it('should create the embed outlet if it isn\'t already created', function() {
-                MobileInstagramVideoCardCtrl.view.embedOutlet = null;
-                render();
-                expect(MobileInstagramVideoCardCtrl.view.create).toHaveBeenCalled();
-            });
-
-            it('should not create the embed outlet if it is already created', function() {
-                const embedOutlet = new View();
-                embedOutlet.tag = 'div';
-                MobileInstagramVideoCardCtrl.view.embedOutlet = embedOutlet;
-                render();
-                expect(MobileInstagramVideoCardCtrl.view.create).not.toHaveBeenCalled();
-            });
-
-            it('should append the embed view with the correct data', function() {
-                render();
-                expect(MobileInstagramVideoCardCtrl.view.embedOutlet.append).toHaveBeenCalledWith(jasmine.any(InstagramEmbedView));
-                const embed = MobileInstagramVideoCardCtrl.view.embedOutlet.append.calls.mostRecent().args[0];
-                const embedSrc = embed.element.innerHTML;
-                expect(embedSrc).toContain('<a href="https://instagram.com/p/6DD1crjvG7/"');
-                expect(embedSrc).toContain('Coming Home to Mixed Reactions - a short film');
-            });
-        });
-    });
-
-    describe('events', function() {
-        describe('deactivate', function() {
-            beforeEach(function() {
-                render();
-                Runner.run(() => {
-                    MobileInstagramVideoCardCtrl.deactivate();
-                });
-            });
-
-            it('should remove the embed', function() {
-                expect(MobileInstagramVideoCardCtrl.view.embedOutlet.element.firstElementChild).toBeNull();
             });
         });
     });

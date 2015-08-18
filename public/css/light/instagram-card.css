@@ -94,7 +94,7 @@
                     }
 
                     .instag____postAccount__logo {
-                        background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.75em no-repeat;
+                        background:url('../../img/social-card-sprites.png') -0.825em -0.825em/14.5em no-repeat;
                         width:4em;
                         height:2em;
                         position:absolute;
@@ -247,7 +247,7 @@
             }
             .instag____postInfo__feedback:before {
                 content:'';
-                background:url('../../img/social-card-sprites.png') -5em -0.75em/11em no-repeat;
+                background:url('../../img/social-card-sprites.png') -5em -0.75em/13.5em no-repeat;
                 width:2.75em;
                 height:2.125em;
                 position:absolute;
@@ -256,7 +256,7 @@
             }
             .instag____postInfo__feedback:after {
                 content:'';
-                background:url('../../img/social-card-sprites.png') -8em -0.75em/11em no-repeat;
+                background:url('../../img/social-card-sprites.png') -8em -0.75em/14em no-repeat;
                 width:3em;
                 height:1em;
                 position:absolute;
@@ -285,13 +285,13 @@
                     padding-left:2.5em;
                 }
                     .instag____postInfo__feedback:before {
-                        background:url('../../img/social-card-sprites.png') -3.25em -0.5em/7em no-repeat;
+                        background:url('../../img/social-card-sprites.png') -3.25em -0.5em/9em no-repeat;
                         width:2em;
                         height:1.5em;
                         top:1.5em;
                     }
                     .instag____postInfo__feedback:after {
-                        background:url('../../img/social-card-sprites.png') -5.25em -0.5em/7em no-repeat;
+                        background:url('../../img/social-card-sprites.png') -5.25em -0.5em/9.5em no-repeat;
                         width:1.875em;
                         height:1.5em;
                     }

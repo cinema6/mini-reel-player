@@ -212,12 +212,13 @@
 
                 .instag____postInfo__cta,
                 .instag____postInfo__cta:focus {
-                    border:1px solid #4090db;
+                    border:1px solid #d94040;
                     border-radius:3px;
                     margin:1.3125em 0 0;
                     padding: 0.5em 0;
                     max-width:15em;
-                    color:#4090db;
+                    background-color:#d94040;
+                    color:#fff;
                     text-transform:uppercase;
                     font-size:0.75em;
                     display:block;

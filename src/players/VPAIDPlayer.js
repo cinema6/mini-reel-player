@@ -130,7 +130,6 @@ export default class VPAIDPlayer extends CorePlayer {
         player.on('AdPaused', pause);
         player.on('displayBanners', companionsReady);
         player.on('AdStopped', ended);
-        player.on('AdVideoComplete', ended);
         player.on('AdError', error);
 
         player.once('AdStarted', () => _(this).state.started = true);

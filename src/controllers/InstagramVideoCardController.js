@@ -24,9 +24,10 @@ export default class InstagramVideoCardController extends InstagramCardControlle
 
     activate() {
         super();
-        _(this).player.load();
         if(this.model.data.autoplay) {
             _(this).player.play();
+        } else {
+            _(this).player.load();
         }
     }
 

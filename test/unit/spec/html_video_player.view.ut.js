@@ -168,10 +168,15 @@ describe('HtmlVideoPlayer', function() {
     describe('methods:', function() {
         describe('play', function() {
             beforeEach(function() {
+                spyOn(player, 'load');
                 const video = document.createElement('video');
                 video.play = jasmine.createSpy('play');
                 player.__private__.htmlVideo = video;
                 player.play();
+            });
+
+            it('should call load', function() {
+                expect(player.load).toHaveBeenCalled();
             });
 
             it('should call play on the video', function() {

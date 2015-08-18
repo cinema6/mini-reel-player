@@ -133,6 +133,7 @@ export default class HtmlVideoPlayer extends CorePlayer {
     }
 
     play() {
+        this.load();
         _(this).htmlVideo.play();
     }
 

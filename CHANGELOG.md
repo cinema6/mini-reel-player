@@ -2,6 +2,7 @@
 
 ## v0.22.0 (August 12, 2015)
 * *[v0.22.0-rc3]*
+  * [FIX]: Fix for an issue that prevented skipping to an Instagram card with autoplay
   * [FIX]: Fix for an issue that was preventing the Instagram logo from displaying correctly
   * [FIX]: Fix for an issue that caused some Instagram usernames in a card's
     caption to not be properly recognized.

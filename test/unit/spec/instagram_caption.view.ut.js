@@ -35,6 +35,104 @@ describe('InstagramCaptionView', function() {
                 const output = view.element.innerHTML;
                 expect(output).toBe(expectedOutput);
             });
+
+            it('should format valid usernames', function() {
+                const input = [
+                    '@Scott',
+                    '@under_score',
+                    '@period.',
+                    '@Rand0m_1337'
+                ];
+                const expectedOutput = [
+                    '<a href="https://instagram.com/Scott/" target="_blank" class="instag____postInfo__tag">@Scott</a>',
+                    '<a href="https://instagram.com/under_score/" target="_blank" class="instag____postInfo__tag">@under_score</a>',
+                    '<a href="https://instagram.com/period./" target="_blank" class="instag____postInfo__tag">@period.</a>',
+                    '<a href="https://instagram.com/Rand0m_1337/" target="_blank" class="instag____postInfo__tag">@Rand0m_1337</a>'
+                ];
+                const output = input.map(input => {
+                    Runner.run(() => {
+                        view.update({
+                            caption: input
+                        });
+                    });
+                    return view.element.innerHTML;
+                });
+                expect(output).toEqual(expectedOutput);
+            });
+
+            it('should not format invalid usernames', function() {
+                const input = [
+                    '@!@#$%^*()',
+                    '@invalid~username',
+                    '@ a a a a a',
+                    '@ab-cd'
+                ];
+                const expectedOutput = [
+                    '@!@#$%^*()',
+                    '@invalid~username',
+                    '@ a a a a a',
+                    '@ab-cd'
+                ];
+                const output = input.map(input => {
+                    Runner.run(() => {
+                        view.update({
+                            caption: input
+                        });
+                    });
+                    return view.element.innerHTML;
+                });
+                expect(output).toEqual(expectedOutput);
+            });
+
+            it('should format valid hashtags', function() {
+                const input = [
+                    '#hashtag',
+                    '#octothrope',
+                    '#H3llo_W0r1d',
+                    '#2015'
+                ];
+                const expectedOutput = [
+                    '<a href="https://instagram.com/explore/tags/hashtag/" target="_blank" class="instag____postInfo__tag">#hashtag</a>',
+                    '<a href="https://instagram.com/explore/tags/octothrope/" target="_blank" class="instag____postInfo__tag">#octothrope</a>',
+                    '<a href="https://instagram.com/explore/tags/H3llo_W0r1d/" target="_blank" class="instag____postInfo__tag">#H3llo_W0r1d</a>',
+                    '<a href="https://instagram.com/explore/tags/2015/" target="_blank" class="instag____postInfo__tag">#2015</a>'
+                ];
+                const output = input.map(input => {
+                    Runner.run(() => {
+                        view.update({
+                            caption: input
+                        });
+                    });
+                    return view.element.innerHTML;
+                });
+                expect(output).toEqual(expectedOutput);
+            });
+
+            it('should not format invalid hashtags', function() {
+                const input = [
+                    '#!@#$%^*()',
+                    '#invalid~username',
+                    '# a a a a a',
+                    '#ab-cd',
+                    '#hash.tag'
+                ];
+                const expectedOutput = [
+                    '#!@#$%^*()',
+                    '#invalid~username',
+                    '# a a a a a',
+                    '#ab-cd',
+                    '#hash.tag'
+                ];
+                const output = input.map(input => {
+                    Runner.run(() => {
+                        view.update({
+                            caption: input
+                        });
+                    });
+                    return view.element.innerHTML;
+                });
+                expect(output).toEqual(expectedOutput);
+            });
         });
     });
 });

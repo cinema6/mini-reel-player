@@ -8,6 +8,7 @@
     caption to not be properly recognized.
   * [FIX]: Fix for an issue that caused mobile instagram cards to never
     render
+* *[/v0.22.0-rc3]*
 
 * *[v0.22.0-rc2]*
   * [FIX]: Fix for an issue that caused mobile Instagram videos to continue playing

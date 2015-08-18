@@ -165,9 +165,9 @@ export default class HtmlVideoPlayer extends CorePlayer {
         video.addEventListener('error', _(this).error, false);
         video.addEventListener('ended', _(this).ended, false);
         video.addEventListener('timeupdate', _(this).timeupdate, false);
+        _(this).htmlVideo = video;
         Runner.schedule('afterRender', null, () => {
             element.appendChild(video);
-            _(this).htmlVideo = video;
         });
     }
 

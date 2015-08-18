@@ -124,7 +124,7 @@
                     }
 
                     .instag____profileDesc__logo {
-                        background:url('../../img/social-card-sprites.png') -1em -1em/14em no-repeat;
+                        background:url('../../img/social-card-sprites.png') -1em -1em/19em no-repeat;
                         width:5em;
                         height:1.5em;
                         margin:1em 0 0;
@@ -239,7 +239,7 @@
 
 
                     .instag____postAccount__logo {
-                        background:url('../../img/social-card-sprites.png') -1em -1em/14.25em no-repeat;
+                        background:url('../../img/social-card-sprites.png') -1em -1em/19em no-repeat;
                         width:5em;
                         height:2em;
                         position:absolute;
@@ -335,7 +335,7 @@
             }
             .instag____postInfo__feedback:before {
                 content:'';
-                background:url('../../img/social-card-sprites.png') -5em -0.75em/11em no-repeat;
+                background:url('../../img/social-card-sprites.png') -5em -0.75em/14em no-repeat;
                 width:2.75em;
                 height:2.125em;
                 position:absolute;
@@ -344,7 +344,7 @@
             }
             .instag____postInfo__feedback:after {
                 content:'';
-                background:url('../../img/social-card-sprites.png') -8em -0.75em/11em no-repeat;
+                background:url('../../img/social-card-sprites.png') -8em -0.75em/14em no-repeat;
                 width:3em;
                 height:1em;
                 position:absolute;

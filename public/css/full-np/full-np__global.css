@@ -79,12 +79,12 @@
                         padding-left:2.5em;
                     }
                         .instag____postInfo__feedback:before {
-                            background:url('../../img/social-card-sprites.png') -4.25em -0.5em/9em no-repeat;
+                            background:url('../../img/social-card-sprites.png') -4.25em -0.5em/11.5em no-repeat;
                             width:2.15em;
                             height:1.825em;
                         }
                         .instag____postInfo__feedback:after {
-                            background:url('../../img/social-card-sprites.png') -6.75em -0.5em/9em no-repeat;
+                            background:url('../../img/social-card-sprites.png') -6.75em -0.5em/11.5em no-repeat;
                             width:1.875em;
                             height:1.5em;
                         }
@@ -167,7 +167,7 @@
                 }
 
                 .instag____postAccount__logo {
-                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
+                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/15em no-repeat;
                     width:4em;
                     top:0;
                     right:0;
@@ -195,14 +195,15 @@
                         display:block;
                     }
                         .instag____postInfo__feedback:before {
-                            background:url('../../img/social-card-sprites.png') -2.25em -0.25em/5em no-repeat;
+                            background:url('../../img/social-card-sprites.png') -2.25em -0.25em/6em no-repeat;
                             width: 1.25em;
                             height: 1em;
                         }
                         .instag____postInfo__feedback:after {
-                            background: url('../../img/social-card-sprites.png') -19.25em -0.5em/7em no-repeat;
-                            width: 1.75em;
-                            height: 0.3em;
+                            background:url('../../img/social-card-sprites.png') -4.5em 0em/8em no-repeat;
+                            width:1.5em;
+                            height:1em;
+                            top:1.25em;
                         }
 
                     .instag____postInfo__comments {

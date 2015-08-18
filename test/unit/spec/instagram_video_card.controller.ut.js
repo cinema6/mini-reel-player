@@ -131,12 +131,14 @@ describe('InstagramVideoCardController', function() {
                 InstagramVideoCardCtrl.model.data.autoplay = true;
                 InstagramVideoCardCtrl.activate();
                 expect(InstagramVideoCardCtrl.__private__.player.play).toHaveBeenCalled();
+                expect(InstagramVideoCardCtrl.__private__.player.load).not.toHaveBeenCalled();
             });
 
             it('should call load on the player if not autoplay', function() {
                 InstagramVideoCardCtrl.model.data.autoplay = false;
                 InstagramVideoCardCtrl.activate();
                 expect(InstagramVideoCardCtrl.__private__.player.load).toHaveBeenCalled();
+                expect(InstagramVideoCardCtrl.__private__.player.play).not.toHaveBeenCalled();
             });
         });
 

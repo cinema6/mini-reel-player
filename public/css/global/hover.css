@@ -122,8 +122,8 @@
 
 
     .twitter____profile__follow,
-    .instag____postInfo__cta,
-    .instag____postInfo__cta:focus {
+    .instag____postInfo__cta--btn,
+    .instag____postInfo__cta--btn:focus {
         transition:0.3s background-color, 0.3s color;
     }
 
@@ -138,8 +138,12 @@
         text-decoration:underline;
     }
 
-    .instag____postInfo__cta:hover {
+    .instag____postInfo__cta--btn:hover {
         background-color:#fff;
         color:#d94040; 
 
+    }
+
+    .instag____postInfo__cta--link:hover {
+        text-decoration:underline;
     }

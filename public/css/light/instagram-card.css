@@ -84,6 +84,14 @@
                         color:#a5a7aa;
                     }
 
+                    .card__group .instag____profile__sponsor {
+                        display:none;
+                    }
+
+                    .card__group.instag____card__group--sponsored .instag____profile__sponsor {
+                        display:block;
+                    }
+
                     .instag____postAccount__name {
                         margin:0 1em 0 0;
                         width:auto;
@@ -110,6 +118,14 @@
                     position:absolute;
                     top:0.875em;
                     right:0;
+                }
+
+                .card__group .instag____socialMedia__group {
+                    display:none;
+                }
+
+                .card__group.instag____card__group--sponsored .instag____socialMedia__group {
+                    display:block;
                 }
 
                     .instag____socialMedia__icon {
@@ -210,8 +226,8 @@
                     display:inline;
                 }
 
-                .instag____postInfo__cta,
-                .instag____postInfo__cta:focus {
+                .instag____postInfo__cta--btn,
+                .instag____postInfo__cta--btn:focus {
                     border:1px solid #d94040;
                     border-radius:3px;
                     margin:1.3125em 0 0;
@@ -223,6 +239,32 @@
                     font-size:0.75em;
                     display:block;
                     text-align:center;
+                }
+
+                .card__group .instag____postInfo__cta--btn,
+                .card__group .instag____postInfo__cta--btn:focus {
+                    display:none;
+                }
+
+                .card__group.instag____card__group--sponsored .instag____postInfo__cta--btn,
+                .card__group.instag____card__group--sponsored .instag____postInfo__cta--btn:focus {
+                    display:block;
+                }
+
+                .instag____postInfo__cta--link,
+                .instag____postInfo__cta--link:focus {
+                    color:#d94040;
+                    font-size:1em;
+                }
+
+                .card__group .instag____postInfo__cta--link,
+                .card__group .instag____postInfo__cta--link:focus {
+                    display:none;
+                }
+
+                .card__group.instag____card__group--sponsored .instag____postInfo__cta--link,
+                .card__group.instag____card__group--sponsored .instag____postInfo__cta--link:focus {
+                    display:block;
                 }
 
                 .instag____postInfo__comments {

@@ -143,8 +143,8 @@
                     color:#125688;
                 }
 
-                .instag____post__cta,
-                .instag____post__cta:focus {
+                .instag____post__cta--btn,
+                .instag____post__cta--btn:focus {
                     border:1px solid #d94040;
                     border-radius:3px;
                     margin:1.3125em 0 0;
@@ -156,6 +156,32 @@
                     font-size:1em;
                     display:block;
                     text-align:center;
+                }
+
+                .instag____card__group .instag____post__cta--btn,
+                .instag____card__group .instag____post__cta--btn:focus {
+                    display:none;
+                }
+
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--btn,
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--btn:focus {
+                    display:block;
+                }
+
+                .instag____post__cta--link,
+                .instag____post__cta--link:focus {
+                    color:#d94040;
+                    font-size:1em;
+                }
+
+                .instag____card__group .instag____post__cta--link,
+                .instag____card__group .instag____post__cta--link:focus {
+                    display:none;
+                }
+
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--link,
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--link:focus {
+                    display:block;
                 }
 
             .instag____feedback__group {

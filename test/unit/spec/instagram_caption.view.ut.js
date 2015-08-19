@@ -25,10 +25,12 @@ describe('InstagramCaptionView', function() {
         describe('update', function() {
             it('should insert a formatted caption', function() {
                 const input = {
-                    caption: '@yolo ~ #swag'
+                    caption: '@yolo! ~ #swag! @user.name:#hash.tag'
                 };
-                const expectedOutput = '<a href="https://instagram.com/yolo/" target="_blank" class="instag____postInfo__tag">@yolo</a> ~ ' +
-                    '<a href="https://instagram.com/explore/tags/swag/" target="_blank" class="instag____postInfo__tag">#swag</a>';
+                const expectedOutput = '<a href="https://instagram.com/yolo/" target="_blank" class="instag____postInfo__tag">@yolo</a>! ~ ' +
+                    '<a href="https://instagram.com/explore/tags/swag/" target="_blank" class="instag____postInfo__tag">#swag</a>! ' +
+                    '<a href="https://instagram.com/user.name/" target="_blank" class="instag____postInfo__tag">@user.name</a>:' +
+                    '<a href="https://instagram.com/explore/tags/hash/" target="_blank" class="instag____postInfo__tag">#hash</a>.tag'
                 Runner.run(() => {
                     view.update(input);
                 });
@@ -63,15 +65,15 @@ describe('InstagramCaptionView', function() {
             it('should not format invalid usernames', function() {
                 const input = [
                     '@!@#$%^*()',
-                    '@invalid~username',
+                    '@',
                     '@ a a a a a',
-                    '@ab-cd'
+                    '@-abc'
                 ];
                 const expectedOutput = [
                     '@!@#$%^*()',
-                    '@invalid~username',
+                    '@',
                     '@ a a a a a',
-                    '@ab-cd'
+                    '@-abc'
                 ];
                 const output = input.map(input => {
                     Runner.run(() => {
@@ -111,17 +113,17 @@ describe('InstagramCaptionView', function() {
             it('should not format invalid hashtags', function() {
                 const input = [
                     '#!@#$%^*()',
-                    '#invalid~username',
+                    '@',
                     '# a a a a a',
-                    '#ab-cd',
-                    '#hash.tag'
+                    '#-abc',
+                    '#.hashtag'
                 ];
                 const expectedOutput = [
                     '#!@#$%^*()',
-                    '#invalid~username',
+                    '@',
                     '# a a a a a',
-                    '#ab-cd',
-                    '#hash.tag'
+                    '#-abc',
+                    '#.hashtag'
                 ];
                 const output = input.map(input => {
                     Runner.run(() => {

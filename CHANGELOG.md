@@ -2,8 +2,11 @@
 
 ## v0.22.0 (August 12, 2015)
 * *[v0.22.0-rc4]*
+  * [FIX]: Make the playlist truncate extremely long card titles
+  * [FIX]: Fix for an issue that was preventing some Instagram usernames from being correctly formatted
   * [FIX]: Fix for an issue that caused images in the player not to
     appear
+* *[/v0.22.0-rc4]*
 
 * *[v0.22.0-rc3]*
   * [FIX]: Fix for an issue that prevented skipping to an Instagram card with autoplay

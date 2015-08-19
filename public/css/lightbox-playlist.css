@@ -14,6 +14,10 @@
         ============================================= */
         @import url('lightbox-playlist/lightbox-playlist__base.css');
 
+    /*  global hover classes
+        ============================================= */
+        @import url('global/hover.css');
+
     /*  .playlist__group classes
         ============================================= */
         @import url('lightbox-playlist/playlist.css');

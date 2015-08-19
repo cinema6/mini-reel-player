@@ -34,14 +34,7 @@
     color transitions
     ================================================ */
     .titleBar__titleText,
-    .btnPrimary .btnLabel,
-    .instag____profileImg__name,
-    .instag____profileDesc__link,
-    .instag____postAccount__name,
-    .instag____postInfo__date,
-    .instag____postInfo__name,
-    .instag____postInfo__tag,
-    .instag____postInfo__comments {
+    .btnPrimary .btnLabel {
         transition:color 0.3s;
     }
 
@@ -52,25 +45,6 @@
 
     .ballot__btn1:hover .ballot__btnLabel {
         color:#1789cb;
-    }
-
-    .instag____profileImg__name:hover {
-        color:#000;
-    }
-
-    .instag____profileDesc__link:hover,
-    .instag____postAccount__name:hover,
-    .instag____postInfo__name:hover,
-    .instag____postInfo__tag:hover {
-        color:#0d3c5f;
-    }
-
-    .instag____postInfo__date:hover {
-        color:#858789;
-    }
-
-    .instag____postInfo__comments:hover {
-        color:#818488;
     }
 
 
@@ -231,14 +205,3 @@
     .btnPrimary:hover .btn__label {
         text-shadow: none;
     }
-
-    .instag____profileImg__follow,
-    .instag____profileImg__follow:focus {
-        transition:0.3s border, 0.3s color;
-    }
-
-    .instag____profileImg__follow:hover {
-        border:1px solid #2d6599;
-        color:#2d6599;
-    }
-

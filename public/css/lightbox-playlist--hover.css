@@ -62,14 +62,7 @@
     ================================================ */
     .titleBar__titleText,
     .btnLabel,
-    .brandProfile__link,
-    .instag____profileImg__name,
-    .instag____profileDesc__link,
-    .instag____postAccount__name,
-    .instag____postInfo__date,
-    .instag____postInfo__name,
-    .instag____postInfo__tag,
-    .instag____postInfo__comments {
+    .brandProfile__link {
         transition:color 0.3s;
     }
 
@@ -99,22 +92,6 @@
 
     .nav__btn[disabled]:hover .btn__label {
         color:#fff;
-    }
-
-
-    .instag____profileDesc__link:hover,
-    .instag____postAccount__name:hover,
-    .instag____postInfo__name:hover,
-    .instag____postInfo__tag:hover {
-        color:#0d3c5f;
-    }
-
-    .instag____postInfo__date:hover {
-        color:#858789;
-    }
-
-    .instag____postInfo__comments:hover {
-        color:#818488;
     }
 
 
@@ -261,12 +238,3 @@
         text-shadow: none;
     }
 
-    .instag____profileImg__follow,
-    .instag____profileImg__follow:focus {
-        transition:0.3s border, 0.3s color;
-    }
-
-    .instag____profileImg__follow:hover {
-        border:1px solid #2d6599;
-        color:#2d6599;
-    }

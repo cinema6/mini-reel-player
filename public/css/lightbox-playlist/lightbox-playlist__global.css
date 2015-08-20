@@ -10,6 +10,8 @@
     }    
 
 
+
+
     /*  twitter text card MEDIA QUERIES
         ================================================ */
 
@@ -33,6 +35,10 @@
                     font-size:0.625em;
                 }
 
+                .twitter____socialMedia__group--light .twitter____socialMedia__icon {
+                    margin:0 0 0 1em;
+                }
+
         }
 
 
@@ -46,42 +52,81 @@
                 border-radius:5px 5px 0 0;
                 margin:1em;
                 padding:0;
-                padding-bottom:8em;
+                padding-bottom:11em;
                 width:auto;
             }
 
+                .twitter____profileBar__picBox {
+                    width:4em;
+                    top:2em;
+                }
+
+                .card__group.twitter____card__group--sponsored .twitter____profileBar__sponsor {
+                    margin:0;
+                    position:absolute;
+                    top:0.5em;
+                    left:1.5em;
+                    color:#292f33;
+                }
 
                 .twitter____profileBar__name {
                     position:absolute;
                     top:2em;
-                    left:6.25em;
+                    left:4.25em;
+                    z-index:2;
                     margin-left:0;
+                    padding-right:0.25em;
                     color:#292f33;
                 }
                 .twitter____profileBar__handle {
                     position:absolute;
                     top:3.5em;
-                    left:6.25em;
+                    left:4.5em;
+                    z-index:2;
                     margin:0;
                     color:#292f33;
                 }
 
                 .twitter____profileBar__follow {
-                    top:2em;
-                    right:2.5em;
+                    top:6.5em;
+                    left:1.5em;
                     color:#55ACEE;
                 }
-                    .twitter____profileBar__name:hover,
-                    .twitter____profileBar__handle:hover,
-                    .twitter____profileBar__follow:hover,
-                    .twitter____profileBar__follow:hover:before {
-                        color:#3b94d9;
+
+
+                .card__group.twitter____card__group--sponsored .twitter____socialMedia__group--light {
+                    top:7.5em;
+                    left:0.5em;
+                }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--youtube:before {
+                       background:url('../../img/sprite--alpha@2x.png') -1rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--vimeo:before {
+                       background:url('../../img/sprite--alpha@2x.png') -3rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--facebook:before {
+                       background:url('../../img/sprite--alpha@2x.png') -5rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--twitter:before {
+                       background:url('../../img/sprite--alpha@2x.png') -7rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--pinterest:before {
+                       background:url('../../img/sprite--alpha@2x.png') -9rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--instagram:before {
+                       background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat; 
                     }
 
             .twitter____txtTweet__group {
                 width:auto;
-                max-width:none;
-                top:9em;
+                max-width:inherit;
+                top:12em;
                 bottom:1em;
                 left:1em;
                 right:1em;
@@ -91,7 +136,7 @@
             }
 
                 .twitter____txtTweet {
-                    font-size:1.5em;
+                    font-size:0.875rem;
                 }
 
                 .twitter____txtTweet__time {
@@ -105,22 +150,6 @@
                 }
         }
 
-        @media screen and (max-width:56rem) {
-            /*  w: 0px - 896px */
-
-            .twitter____profileBar__name {
-                top:1.5em;
-            }
-
-            .twitter____profileBar__handle {
-                top:3em;
-            }
-
-            .twitter____profileBar__follow {
-                top:5.5em;
-                left:8em;
-            }
-        }
 
 
 
@@ -212,7 +241,6 @@
 
         @media screen and (max-width:70rem) {
             /*  w: 0px - 1120 */
-
             .twitter____profile__group {
                 position:absolute;
                 top:1.5em;
@@ -224,8 +252,13 @@
                 .twitter____profile__picBox {
                     width:3em;
                     position:absolute;
+                    top:1.25em;
                     left:0;
                 }
+
+                    .twitter____profile__sponsor {
+                        text-align:left;
+                    }
 
                     .twitter____profile__name {
                         font-size:0.875em;
@@ -233,6 +266,7 @@
                         text-align:left;
                         width:4em;
                         position:absolute;
+                        top:1.5em;
                         right:0;
                     }
 
@@ -240,7 +274,7 @@
                         font-size:0.875em;
                         text-align:left;
                         position:absolute;
-                        top:3.75em;
+                        top:5.125em;
                     }
 
 
@@ -248,6 +282,18 @@
                     .twitter____profile__follow:focus {
                         display:none;
                     }
+
+                    .twitter____socialMedia__group {
+                        position:absolute;
+                        top:5.25em;
+                        left:0;
+                        width:8em;
+                    }
+
+                        .twitter____socialMedia__icon {
+                            margin:0 0.25em 0 0;
+                            float:left;
+                        }
 
 
             .twitter____mediaImg__group {
@@ -260,7 +306,8 @@
             }
 
                 .twitter____tweet__container {
-                    top:6em;
+                    top:8em;
+                    bottom:-0.5em;
                     left:0.5em;
                     right:0.25em;
                 }
@@ -270,15 +317,15 @@
                         right: 0.5em;
                     }
 
+                    .twitter____tweet__title {
+                        font-size:1em;
+                        margin:0.5em 0;
+                    }
+
                     .twitter____tweet__copy {
                         font-size:0.875rem;
                     }
-
-
-
-
-               
-        }
+    }
 
 
 

@@ -1,11 +1,9 @@
-import CardView from '../CardView.js';
-import InstagramCaptionView from '../InstagramCaptionView.js';
+import InstagramCardView from '../InstagramCardView.js';
 
-export default class LightInstagramImageCardView extends CardView {
+export default class LightInstagramImageCardView extends InstagramCardView {
     constructor() {
         super(...arguments);
 
-        this.instantiates = { InstagramCaptionView };
         this.template = require('./LightInstagramImageCardView.html');
     }
 }

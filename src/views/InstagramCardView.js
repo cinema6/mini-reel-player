@@ -19,7 +19,9 @@ export default class InstagramCardView extends CardView {
             }
             if(data.links && data.links.length > 0) {
                 this.links.update(data.links);
-                this.linksSmall.update(data.links);
+                if(this.linksSmall) {
+                    this.linksSmall.update(data.links);
+                }
             }
         }
     }

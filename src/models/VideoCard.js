@@ -1,6 +1,6 @@
 import Card from './Card.js';
 import timer from '../../lib/timer.js';
-import makeSocialLinks from '../fns/make_social_links.js';
+import SponsoredCard from '../mixins/SponsoredCard.js';
 import {
     extend
 } from '../../lib/utils.js';
@@ -18,14 +18,6 @@ export default class VideoCard extends Card {
         this.skippable = true;
 
         this.thumbs = this.thumbs || extend(data.data.thumbs);
-
-        this.campaign = data.campaign;
-        this.sponsor = data.params.sponsor;
-        this.action = data.params.action || {};
-        this.logo = data.collateral.logo;
-        this.links = data.links || {};
-        this.socialLinks = makeSocialLinks(this.links);
-        this.ad = !!data.params.ad;
 
         this.data = {
             type: data.type,
@@ -118,3 +110,4 @@ export default class VideoCard extends Card {
         }
     }
 }
+VideoCard.mixin(SponsoredCard);

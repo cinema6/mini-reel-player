@@ -1,11 +1,12 @@
 import Card from './Card.js';
+import SponsoredCard from '../mixins/SponsoredCard.js';
 
 export default class ImageCard extends Card {
     constructor(data) {
         super(...arguments);
 
         this.type = 'image';
-        if(data.data.thumbs) {
+        if(!this.thumbs && data.data.thumbs) {
             this.thumbs = {
                 small: data.data.thumbs.small,
                 large: data.data.thumbs.large
@@ -22,3 +23,4 @@ export default class ImageCard extends Card {
         };
     }
 }
+ImageCard.mixin(SponsoredCard);

@@ -1,6 +1,6 @@
-import CardView from '../CardView.js';
+import InstagramCardView from '../InstagramCardView.js';
 
-export default class MobileInstagramImageCardView extends CardView {
+export default class MobileInstagramImageCardView extends InstagramCardView {
     constructor() {
         super(...arguments);
 

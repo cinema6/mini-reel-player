@@ -76,7 +76,7 @@
                 }
 
 
-                            
+
 
                 .instag____profileDesc__group {
                     margin:1em 0 0 0;
@@ -158,6 +158,7 @@
                             width:1em;
                             height:1em;
                             display:inline-block;
+                            margin:0 0.125em 0 0;
                         }
 
                             .instag____socialMedia__icon--youtube:before,
@@ -174,27 +175,27 @@
                             }
 
                             .instag____socialMedia__icon--youtube:before {
-                               background:url('../../img/sprite--alpha@2x.png') -1rem -3rem/18.75rem 18.75rem no-repeat; 
+                               background:url('../../img/sprite--alpha@2x.png') -1rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
                             .instag____socialMedia__icon--vimeo:before {
-                               background:url('../../img/sprite--alpha@2x.png') -3rem -3rem/18.75rem 18.75rem no-repeat; 
+                               background:url('../../img/sprite--alpha@2x.png') -3rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
                             .instag____socialMedia__icon--facebook:before {
-                               background:url('../../img/sprite--alpha@2x.png') -5rem -3rem/18.75rem 18.75rem no-repeat; 
+                               background:url('../../img/sprite--alpha@2x.png') -5rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
                             .instag____socialMedia__icon--twitter:before {
-                               background:url('../../img/sprite--alpha@2x.png') -7rem -3rem/18.75rem 18.75rem no-repeat; 
+                               background:url('../../img/sprite--alpha@2x.png') -7rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
                             .instag____socialMedia__icon--pinterest:before {
-                               background:url('../../img/sprite--alpha@2x.png') -9rem -3rem/18.75rem 18.75rem no-repeat; 
+                               background:url('../../img/sprite--alpha@2x.png') -9rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
                             .instag____socialMedia__icon--instagram:before {
-                               background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat; 
+                               background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
 
@@ -434,7 +435,7 @@
             }
 
             .instag____mediaVid .playerBox,
-            .instag____mediaVid .playerBox object, 
+            .instag____mediaVid .playerBox object,
             .instag____mediaVid .playerBox video {
                 min-height:auto;
                 min-width:auto;

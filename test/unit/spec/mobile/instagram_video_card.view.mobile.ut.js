@@ -1,5 +1,5 @@
 import MobileInstagramVideoCardView from '../../../../src/views/mobile/MobileInstagramVideoCardView.js';
-import CardView from '../../../../src/views/CardView.js';
+import InstagramCardView from '../../../../src/views/InstagramCardView.js';
 
 describe('MobileInstagramVideoCardView', function() {
     let view;
@@ -9,7 +9,7 @@ describe('MobileInstagramVideoCardView', function() {
     });
 
     it('should exist', function() {
-        expect(view).toEqual(jasmine.any(CardView));
+        expect(view).toEqual(jasmine.any(InstagramCardView));
     });
 
     describe('properties:', function() {

@@ -1,4 +1,5 @@
 import timer from '../../../lib/timer.js';
+import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
 
 describe('VideoCard', function() {
     import VideoCard from '../../../src/models/VideoCard.js';
@@ -112,6 +113,10 @@ describe('VideoCard', function() {
 
     it('should exist', function() {
         expect(card).toEqual(jasmine.any(Card));
+    });
+
+    it('should mix in SponsoredCard', function() {
+        expect(VideoCard.mixins).toContain(SponsoredCard);
     });
 
     describe('properties:', function() {

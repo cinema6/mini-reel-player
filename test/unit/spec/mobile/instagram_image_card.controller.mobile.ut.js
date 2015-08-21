@@ -3,8 +3,6 @@ import InstagramCardController from '../../../../src/controllers/InstagramCardCo
 import View from '../../../../lib/core/View.js';
 import MobileInstagramImageCardView from '../../../../src/views/mobile/MobileInstagramImageCardView.js';
 import InstagramImageCard from '../../../../src/models/InstagramImageCard.js';
-import Runner from '../../../../lib/Runner.js';
-import InstagramEmbedView from '../../../../src/views/image_embeds/InstagramEmbedView.js';
 
 describe('MobileInstagramImageCardController', function() {
     let MobileInstagramImageCardCtrl;

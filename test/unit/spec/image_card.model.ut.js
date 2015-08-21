@@ -1,5 +1,6 @@
 import ImageCard from '../../../src/models/ImageCard.js';
 import Card from '../../../src/models/Card.js';
+import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
 
 describe('ImageCard', function() {
     let imageCard;
@@ -53,6 +54,10 @@ describe('ImageCard', function() {
 
     it('should be a Card', function() {
         expect(imageCard).toEqual(jasmine.any(Card));
+    });
+
+    it('should mix in SponsoredCard', function() {
+        expect(ImageCard.mixins).toContain(SponsoredCard);
     });
 
     describe('properties:', function() {

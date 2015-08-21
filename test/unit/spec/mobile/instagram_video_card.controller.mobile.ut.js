@@ -1,10 +1,8 @@
 import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
-import InstagramCardController from '../../../../src/controllers/InstagramCardController.js';
+import InstagramVideoCardController from '../../../../src/controllers/InstagramVideoCardController.js';
 import View from '../../../../lib/core/View.js';
 import MobileInstagramVideoCardView from '../../../../src/views/mobile/MobileInstagramVideoCardView.js';
-import InstagramImageCard from '../../../../src/models/InstagramImageCard.js';
-import Runner from '../../../../lib/Runner.js';
-import InstagramEmbedView from '../../../../src/views/image_embeds/InstagramEmbedView.js';
+import InstagramVideoCard from '../../../../src/models/InstagramVideoCard.js';
 
 describe('MobileInstagramVideoCardController', function() {
     let MobileInstagramVideoCardCtrl;
@@ -12,18 +10,12 @@ describe('MobileInstagramVideoCardController', function() {
     let experience;
     let parentView;
 
-    function render() {
-        Runner.run(() => {
-            MobileInstagramVideoCardCtrl.renderInstagram();
-        });
-    }
-
     beforeEach(function() {
         experience = {
             data: {}
         };
 
-        card = new InstagramImageCard({
+        card = new InstagramVideoCard({
             /* jshint quotmark:double */
             "data": {
                 "id": "6DD1crjvG7",
@@ -78,7 +70,7 @@ describe('MobileInstagramVideoCardController', function() {
     });
 
     it('should exist', function() {
-        expect(MobileInstagramVideoCardCtrl).toEqual(jasmine.any(InstagramCardController));
+        expect(MobileInstagramVideoCardCtrl).toEqual(jasmine.any(InstagramVideoCardController));
     });
 
     describe('properties:', function() {

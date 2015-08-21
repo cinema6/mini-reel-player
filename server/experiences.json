@@ -1087,102 +1087,46 @@
                 "theme": "img-only"
             },
             "deck": [
-                {
-                    "campaign": {
-                        "campaignId": "",
-                        "advertiserId": "",
-                        "minViewTime": "-1"
-                    },
-                    "params": {
-                        "sponsor": "bluepalette",
-                        "ad": "false",
-                        "action": {
-                            "type": "button",
-                            "label": "Buy This"
+               {
+                    "data": {
+                        "controls": true,
+                        "autoplay": true,
+                        "skip": true,
+                        "modestbranding": 0,
+                        "rel": 0,
+                        "videoid": "Nv7Ts4v5_Bs",
+                        "href": "https://www.youtube.com/watch?v=Nv7Ts4v5_Bs",
+                        "thumbs": {
+                            "small": "//img.youtube.com/vi/Nv7Ts4v5_Bs/2.jpg",
+                            "large": "//img.youtube.com/vi/Nv7Ts4v5_Bs/0.jpg"
                         }
                     },
-                    "collateral": {
-                        "logo": "https://img1.etsystatic.com/057/0/15240683/iusa_75x75.31278505_9uw0.jpg"
-                    },
-                    "links": {
-                        "Twitter": "https://twitter.com/Bluepalette",
-                        "Shop Blog": "http://bluepaletteart.tumblr.com/",
-                        "Website": "http://www.pinterest.com/BluepaletteArt/"
-                    },
-                    "data": {
-                        "autoplay": true,
-                        "slides": [
-                            {
-                                "type": "product",
-                                "title": "Panda Original watercolor painting Hand painted nursery art Small wall decor Forest woodland theme Panda",
-                                "description": "This is an original watercolor painting inspired by cuteness of a Panda lying on a tree :)\n\nTITLE: Round Paintings 228\n\n-This is a hand painted art piece, not a print.\n-Paper size 6 x 8 inches (15,2 x 20,3 cm )\n-Painting size : 4,5 inches as diameter (11,5 cm as diameter )\n-Paper is 300 gsm (140 lb ) , acid free ,100% cotton , smooth , hot pressed watercolor paper.\n-Paints are lightfast , artists quality watercolors and acrylic ink .\n\n-The painting will be sent signed and dated in pencil at the back by me.\n-You will get the exact painting shown on the image.\n-I try to reflect the original colors as much as possible but there may be slight difference in color due to different monitor types.\n-Painting is not framed or matted.\n\n-I ship with registered airmail with a tracking number.\n-It will be packaged safely in a clear sheet protector between tough cardboards and in bubbled envelope.\n-Shipping is $6 to everywhere worldwide.I don&#39;t take additional shipping fee for multiple paintings with same dimensions you purchased at once.\n-Please see &#39;&#39;shipping and policies&#39;&#39; section for more information.\n\nThank you.\n\nBluePalette © all rights reserved",
-                                "data": {
-                                    "currency_code": "USD",
-                                    "price": "22.00",
-                                    "url": "https://www.etsy.com/listing/232361676/panda-original-watercolor-painting-hand?utm_source=cinema6&utm_medium=api&utm_campaign=api"
-                                },
-                                "image": {}
-                            },
-                            {
-                                "type": "product",
-                                "title": "Original watercolor painting Weeping Willow tree and stream Hand painted art card",
-                                "description": "This is an original watercolor painting inspired by Weeping Willows and streams.That is one of my favorite trees.\n\nTITLE: Round Paintings 123\n\n-This is a hand painted art piece, not a print.\n-Paper size 6 x 8 inches (15,2 x 20,3 cm )\n-Painting size : 4,5 inches as diameter (11,5 cm as diameter )\n-Paper is 300 gsm (140 lb ) , acid free ,100% cotton , smooth , hot pressed watercolor paper.\n-Paints are lightfast , artists quality watercolors and acrylic ink .\n\n-The painting will be sent signed and dated in pencil at the back by me.\n-You will get the exact painting shown on the image.\n-I try to reflect the original colors as much as possible but there may be slight difference in color due to different monitor types.\n-Painting is not framed or matted.\n\n-I ship with registered airmail with a tracking number.\n-It will be packaged safely in a clear sheet protector between tough cardboards and in bubbled envelope.\n-Shipping is $6 to everywhere worldwide.I don&#39;t take additional shipping fee for multiple paintings with same dimensions you purchased at once.\n-Please see &#39;&#39;shipping and policies&#39;&#39; section for more information.\n\nThank you.\n\nBluePalette © all rights reserved",
-                                "data": {
-                                    "currency_code": "USD",
-                                    "price": "22.00",
-                                    "url": "https://www.etsy.com/listing/208393755/original-watercolor-painting-weeping?utm_source=cinema6&utm_medium=api&utm_campaign=api"
-                                },
-                                "image": {}
-                            },
-                            {
-                                "type": "product",
-                                "title": "Original illustration Bicycle watercolor painting Spring inspiration",
-                                "description": "This is my original watercolor illustration inspired by my bike riding dreams.\n\nTITLE: Round Paintings 190\n\n-This is a hand painted art piece, not a print.\n-Paper size 6 x 8 inches (15,2 x 20,3 cm )\n-Painting size : 4,5 inches as diameter (11,5 cm as diameter )\n-Paper is 300 gsm (140 lb ) , acid free ,100% cotton , smooth , hot pressed watercolor paper.\n-Paints are lightfast , artists quality watercolors and acrylic ink .\n\n-The painting will be sent signed and dated in pencil at the back by me.\n-You will get the exact painting shown on the image.\n-I try to reflect the original colors as much as possible but there may be slight difference in color due to different monitor types.\n-Painting is not framed or matted.\n\n-I ship with registered airmail with a tracking number.\n-It will be packaged safely in a clear sheet protector between tough cardboards and in bubbled envelope.\n-Shipping is $6 to everywhere worldwide.I don&#39;t take additional shipping fee for multiple paintings with same dimensions you purchased at once.\n-Please see &#39;&#39;shipping and policies&#39;&#39; section for more information.\n\nThank you.\n\nBluePalette © all rights reserved",
-                                "data": {
-                                    "currency_code": "USD",
-                                    "price": "20.00",
-                                    "url": "https://www.etsy.com/listing/183113606/original-illustration-bicycle-watercolor?utm_source=cinema6&utm_medium=api&utm_campaign=api"
-                                },
-                                "image": {}
-                            },
-                            {
-                                "type": "product",
-                                "title": "Original watercolor painting Mountains and full moon Geometric green contemporary art",
-                                "description": "This listing is for my original watercolor painting inspired by mountains.I think watching mountains is one of the most relaxing things.Also I added a full moon and stars to give it an early morning atmosphere.\n\nTITLE: Round Paintings 112\n\n-This is a hand painted art piece, not a print.\n-Paper size 6 x 8 inches (15,2 x 20,3 cm )\n-Painting size : 4,5 inches as diameter (11,5 cm as diameter )\n-Paper is 300 gsm (140 lb ) , acid free ,100% cotton , smooth , hot pressed watercolor paper.\n-Paints are lightfast , artists quality watercolors and acrylic ink .\n\n-The painting will be sent signed and dated in pencil at the back by me.\n-You will get the exact painting shown on the image.\n-I try to reflect the original colors as much as possible but there may be slight difference in color due to different monitor types.\n-Painting is not framed or matted.\n\n-I ship with registered airmail with a tracking number.\n-It will be packaged safely in a clear sheet protector between tough cardboards and in bubbled envelope.\n-Shipping is $6 to everywhere worldwide.I don&#39;t take additional shipping fee for multiple paintings with same dimensions you purchased at once.\n-Please see &#39;&#39;shipping and policies&#39;&#39; section for more information.\n\nThank you.\n\nBluePalette © all rights reserved",
-                                "data": {
-                                    "currency_code": "USD",
-                                    "price": "22.00",
-                                    "url": "https://www.etsy.com/listing/178487941/original-watercolor-painting-mountains?utm_source=cinema6&utm_medium=api&utm_campaign=api"
-                                },
-                                "image": {}
-                            },
-                            {
-                                "type": "product",
-                                "title": "April showers Original watercolor painting Rain on spring flowers",
-                                "description": "This is an original watercolor painting inspired by rain and april showers.\n\nTITLE: Round Paintings 222\n\n-This is a hand painted art piece, not a print.\n-Paper size 6 x 8 inches (15,2 x 20,3 cm )\n-Painting size : 4,5 inches as diameter (11,5 cm as diameter )\n-Paper is 300 gsm (140 lb ) , acid free ,50% cotton , textured, cold pressed watercolor paper.\n-Paints are lightfast , artists quality watercolors and acrylic ink .\n\n-The painting will be sent signed and dated in pencil at the back by me.\n-You will get the exact painting shown on the image.\n-I try to reflect the original colors as much as possible but there may be slight difference in color due to different monitor types.\n-Painting is not framed or matted.\n\n-I ship with registered airmail with a tracking number.\n-It will be packaged safely in a clear sheet protector between tough cardboards and in bubbled envelope.\n-Shipping is $6 to everywhere worldwide.I don&#39;t take additional shipping fee for multiple paintings with same dimensions you purchased at once.\n-Please see &#39;&#39;shipping and policies&#39;&#39; section for more information.\n\nThank you.\n\nBluePalette © all rights reserved",
-                                "data": {
-                                    "currency_code": "USD",
-                                    "price": "20.00",
-                                    "url": "https://www.etsy.com/listing/225850408/april-showers-original-watercolor?utm_source=cinema6&utm_medium=api&utm_campaign=api"
-                                },
-                                "image": {}
-                            }
+                    "id": "rc-363b617c79c70a",
+                    "type": "youtube",
+                    "title": "Tight Pants",
+                    "note": "\"Well I talked to Mayor Grimble the other day, and he declared my pants the tightest in the land!\"",
+                    "source": "YouTube",
+                    "modules": [
+                        "ballot"
+                    ],
+                    "ballot": {
+                        "prompt": "Who's Pants Were Tighter?",
+                        "choices": [
+                            "Ferrel's",
+                            "Fallon's"
                         ]
                     },
-                    "campaignId": "cam-c29fad1e86baf5",
-                    "placementId": "",
-                    "type": "slideshow-bob",
-                    "title": "Original watercolor paintings illustrations",
-                    "templateUrl": "",
-                    "status": "active",
-                    "sponsored": "true",
-                    "source": "",
-                    "note": "",
-                    "id": "rc-b0eb4d9098e333",
-                    "created": "2015-05-05T21:32:04.247Z",
-                    "lastUpdated": "2015-05-05T21:32:04.247Z",
-                    "user": "u-ea4140e0830643",
-                    "org": "o-e7a1121afd79da"
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "params": {}
                 }
             ]
         },

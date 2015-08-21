@@ -8,7 +8,7 @@ import {
     reduce
 } from '../../lib/utils.js';
 
-export default class Card extends Mixable {
+class Card extends Mixable {
     constructor(card, experience) {
         super(...arguments);
 
@@ -81,3 +81,5 @@ export default class Card extends Mixable {
     }
 }
 Card.mixin(EventEmitter);
+
+export default Card;

@@ -1,4 +1,4 @@
-import InstagramCardView from '../InstagramCardVIew.js';
+import InstagramCardView from '../InstagramCardView.js';
 
 export default class FullInstagramImageCardView extends InstagramCardView {
     constructor() {

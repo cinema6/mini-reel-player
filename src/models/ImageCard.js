@@ -1,7 +1,7 @@
 import Card from './Card.js';
 import SponsoredCard from '../mixins/SponsoredCard.js';
 
-export default class ImageCard extends Card {
+class ImageCard extends Card {
     constructor(data) {
         super(...arguments);
 
@@ -24,3 +24,5 @@ export default class ImageCard extends Card {
     }
 }
 ImageCard.mixin(SponsoredCard);
+
+export default ImageCard;

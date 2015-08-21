@@ -8,7 +8,7 @@ import {createKey} from 'private-parts';
 
 const _ = createKey();
 
-export default class VideoCard extends Card {
+class VideoCard extends Card {
     constructor(data, { data: { autoplay = true, autoadvance = true, preloadVideos = true } }) { // jshint ignore:line
         super(...arguments);
         _(this).skip = data.data.skip === undefined ? true : data.data.skip;
@@ -111,3 +111,5 @@ export default class VideoCard extends Card {
     }
 }
 VideoCard.mixin(SponsoredCard);
+
+export default VideoCard;

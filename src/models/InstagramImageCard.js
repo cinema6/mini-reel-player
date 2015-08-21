@@ -5,6 +5,7 @@ export default class InstagramImageCard extends ImageCard {
     constructor(data) {
         super(...arguments);
         this.type = 'instagramImage';
+        this.hideTitle = false;
         if(!this.title) {
             this.title = data.caption;
             this.hideTitle = true;

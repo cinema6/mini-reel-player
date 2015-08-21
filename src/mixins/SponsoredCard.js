@@ -2,15 +2,12 @@ import makeSocialLinks from '../fns/make_social_links.js';
 
 function SponsoredCard(data) {
     this.sponsored = data.sponsored;
-    this.campaign = null;
-    this.sponsor = null;
-    this.action = {};
-    this.logo = null;
-    this.links = {};
-    this.socialLinks = null;
-    this.ad = null;
+    this.campaign = data.campaign;
+    this.action = { };
+    this.links = { };
+    this.socialLinks = [ ];
+    this.ad = false;
     if(data.sponsored) {
-        this.campaign = data.campaign;
         this.sponsor = data.params.sponsor;
         if(data.links.Action) {
             this.action = data.params.action || {};

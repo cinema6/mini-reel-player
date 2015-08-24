@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 ## v0.23.0 (August 24, 2015)
+* *[v0.23.0-rc2]*
+  * [FIX]: Fixes for Instagram cards based on how they are now saved in the studio.
+
 * *[v0.23.0-rc1]*
   * [FEATURE]: Use our own design for mobile Instagram cards rather than Instagram's
   * [FEATURE]: Added support for sponsored Instagram image and video cards

@@ -18,10 +18,28 @@ describe('InstagramCardController', function() {
                     large: 'https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s320x320/e15/11351507_836701216398426_1156749946_n.jpg'
                 },
                 type: 'image',
-                src: 'https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/e35/sh0.08/11351507_836701216398426_1156749946_n.jpg'
+                src: 'https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/e35/sh0.08/11351507_836701216398426_1156749946_n.jpg',
+                href: 'https://instagram.com/p/5YN6a0tOc-/',
+                likes: 77669,
+                date: new Date(2015, 12, 2, 12, 57, 59),
+                caption: 'Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY',
+                comments: 9734,
+                user: {
+                    fullname: 'The Dogist',
+                    picture: 'https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg',
+                    username: 'thedogist',
+                    follow: 'https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow',
+                    href: 'https://instagram.com/thedogist',
+                    bio: 'A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.',
+                    website: 'http://thedogist.com/book',
+                    posts: 2886,
+                    followers: 1030957,
+                    following: 3
+                }
             },
             id: 'rc-2904af2036e145',
             type: 'instagram',
+            title: 'Hey look it\'s a Doggie!',
             source: 'Instagram',
             modules: [],
             placementId: null,
@@ -45,24 +63,6 @@ describe('InstagramCardController', function() {
                     label: 'Give me a puppy now!',
                     type: 'button'
                 }
-            },
-            href: 'https://instagram.com/p/5YN6a0tOc-/',
-            likes: 77669,
-            date: new Date(2015, 12, 2, 12, 57, 59),
-            title: 'Hey look it\'s a Doggie!',
-            caption: 'Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY',
-            comments: 9734,
-            user: {
-                fullname: 'The Dogist',
-                picture: 'https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/s150x150/11382947_1023728481019302_1629502413_a.jpg',
-                username: 'thedogist',
-                follow: 'https://instagram.com/accounts/login/?next=%2Fp%2F5YN6a0tOc-%2F&source=follow',
-                href: 'https://instagram.com/thedogist',
-                bio: 'A photo-documentary series about the beauty of dogs. Author of THE DOGIST, coming October, 2015.',
-                website: 'http://thedogist.com/book',
-                posts: 2886,
-                followers: 1030957,
-                following: 3
             }
         }, {
             data: {

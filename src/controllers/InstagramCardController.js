@@ -97,7 +97,8 @@ export default class InstagramCardController extends CardController {
     }
 
     renderInstagram() {
-        const card = this.model;
+        const card = this.model,
+              data = this.model.data;
 
         this.isRendered = true;
 
@@ -106,25 +107,25 @@ export default class InstagramCardController extends CardController {
         }
 
         this.view.captionView.update({
-            caption: this.model.caption
+            caption: data.caption
         });
 
         this.view.update({
-            userHref: card.user.href,
-            userFollow: card.user.follow,
-            userPicture: card.user.picture,
-            userUsername: card.user.username,
-            userFullname: card.user.fullname,
-            userBio: card.user.bio,
-            userWebsite: card.user.website,
-            userPosts: this.formatNumWithSuffix(card.user.posts),
-            userFollowers: this.formatNumWithSuffix(card.user.followers),
-            userFollowing: this.formatNumWithSuffix(card.user.following),
-            mediaSrc: card.data.src,
-            href: card.data.href,
-            likes: this.formatNumWithSuffix(card.likes),
-            date: this.formatDate(card.date),
-            comments: this.formatNumWithCommas(card.comments),
+            userHref: data.user.href,
+            userFollow: data.user.follow,
+            userPicture: data.user.picture,
+            userUsername: data.user.username,
+            userFullname: data.user.fullname,
+            userBio: data.user.bio,
+            userWebsite: data.user.website,
+            userPosts: this.formatNumWithSuffix(data.user.posts),
+            userFollowers: this.formatNumWithSuffix(data.user.followers),
+            userFollowing: this.formatNumWithSuffix(data.user.following),
+            mediaSrc: data.src,
+            href: data.href,
+            likes: this.formatNumWithSuffix(data.likes),
+            date: this.formatDate(data.date),
+            comments: this.formatNumWithCommas(data.comments),
             title: card.title,
             action: {
                 label: card.action.label,

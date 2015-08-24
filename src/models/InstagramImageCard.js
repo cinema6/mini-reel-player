@@ -7,15 +7,17 @@ export default class InstagramImageCard extends ImageCard {
         this.type = 'instagramImage';
         this.hideTitle = false;
         if(!this.title) {
-            this.title = data.caption;
+            this.title = data.data.caption;
             this.hideTitle = true;
         }
-        this.data.source = data.source;
-        this.data.href = data.href;
-        this.user = extend(null, data.user);
-        this.likes = data.likes;
-        this.date = new Date(parseInt(data.date) * 1000);
-        this.caption = data.caption;
-        this.comments = data.comments;
+        this.data = extend(this.data, {
+            source: data.source,
+            href: data.data.href,
+            user: extend(null, data.data.user),
+            likes: data.data.likes,
+            date: new Date(parseInt(data.data.date) * 1000),
+            caption: data.data.caption,
+            comments: data.data.comments
+        });
     }
 }

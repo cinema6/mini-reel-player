@@ -720,7 +720,7 @@
             .twitter____tweet__cta--link,
             .twitter____tweet__cta--link:focus {
                 color:#d94040;
-                font-size:1.5em;
+                font-size:1em;
                 margin:0 0 1em;
             }
 
@@ -731,7 +731,7 @@
 
             .card__group.twitter____card__group--sponsored .twitter____tweet__cta--link,
             .card__group.twitter____card__group--sponsored .twitter____tweet__cta--link:focus {
-                display:inline-block;
+                display:block;
             }
 
 

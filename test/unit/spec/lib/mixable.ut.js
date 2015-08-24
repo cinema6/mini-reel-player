@@ -62,12 +62,13 @@ describe('Mixable', function() {
 
                 describe('when instantiated', function() {
                     beforeEach(function() {
-                        mixable = new MyClass();
+                        const args = ['arg1', 'arg2', 'arg3'];
+                        mixable = new MyClass(...args);
                     });
 
-                    it('should call the Mixin\'s constructors', function() {
+                    it('should call the Mixin\'s constructors passing in any arguments', function() {
                         [Mixin1, Mixin2, Mixin3].forEach(Mixin => {
-                            expect(Mixin).toHaveBeenCalledWith();
+                            expect(Mixin).toHaveBeenCalledWith('arg1', 'arg2', 'arg3');
                             expect(Mixin.calls.mostRecent().object).toBe(mixable);
                         });
                     });

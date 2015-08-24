@@ -30,7 +30,7 @@ describe('InstagramCaptionView', function() {
                 const expectedOutput = '<a href="https://instagram.com/yolo/" target="_blank" class="instag____postInfo__tag">@yolo</a>! ~ ' +
                     '<a href="https://instagram.com/explore/tags/swag/" target="_blank" class="instag____postInfo__tag">#swag</a>! ' +
                     '<a href="https://instagram.com/user.name/" target="_blank" class="instag____postInfo__tag">@user.name</a>:' +
-                    '<a href="https://instagram.com/explore/tags/hash/" target="_blank" class="instag____postInfo__tag">#hash</a>.tag'
+                    '<a href="https://instagram.com/explore/tags/hash/" target="_blank" class="instag____postInfo__tag">#hash</a>.tag';
                 Runner.run(() => {
                     view.update(input);
                 });

@@ -80,8 +80,27 @@ describe('InstagramVideoCard', function() {
 
         describe('title', function() {
 
+            it('should be copied from the passed-in title', function() {
+                data.title = 'Oooh it\'s a doggie!';
+                instagramVideoCard = new InstagramVideoCard(data, experience);
+                expect(instagramVideoCard.title).toBe('Oooh it\'s a doggie!');
+            });
+
             it('should be copied from the passed-in caption', function() {
                 expect(instagramVideoCard.title).toEqual('Handheld Bungee Jump😱 | Via @damienwalters');
+            });
+        });
+
+        describe('hideTitle', function() {
+
+            it('should be false if a title is given', function() {
+                data.title = 'Oooh it\'s a doggie!';
+                instagramVideoCard = new InstagramVideoCard(data, experience);
+                expect(instagramVideoCard.hideTitle).toBe(false);
+            });
+
+            it('should be true if a title is not given', function() {
+                expect(instagramVideoCard.hideTitle).toBe(true);
             });
         });
 

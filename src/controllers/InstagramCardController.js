@@ -97,6 +97,8 @@ export default class InstagramCardController extends CardController {
     }
 
     renderInstagram() {
+        const card = this.model;
+
         this.isRendered = true;
 
         if (!this.view.captionView) {
@@ -108,21 +110,31 @@ export default class InstagramCardController extends CardController {
         });
 
         this.view.update({
-            userHref: this.model.user.href,
-            userFollow: this.model.user.follow,
-            userPicture: this.model.user.picture,
-            userUsername: this.model.user.username,
-            userFullname: this.model.user.fullname,
-            userBio: this.model.user.bio,
-            userWebsite: this.model.user.website,
-            userPosts: this.formatNumWithSuffix(this.model.user.posts),
-            userFollowers: this.formatNumWithSuffix(this.model.user.followers),
-            userFollowing: this.formatNumWithSuffix(this.model.user.following),
-            mediaSrc: this.model.data.src,
-            href: this.model.data.href,
-            likes: this.formatNumWithSuffix(this.model.likes),
-            date: this.formatDate(this.model.date),
-            comments: this.formatNumWithCommas(this.model.comments)
+            userHref: card.user.href,
+            userFollow: card.user.follow,
+            userPicture: card.user.picture,
+            userUsername: card.user.username,
+            userFullname: card.user.fullname,
+            userBio: card.user.bio,
+            userWebsite: card.user.website,
+            userPosts: this.formatNumWithSuffix(card.user.posts),
+            userFollowers: this.formatNumWithSuffix(card.user.followers),
+            userFollowing: this.formatNumWithSuffix(card.user.following),
+            mediaSrc: card.data.src,
+            href: card.data.href,
+            likes: this.formatNumWithSuffix(card.likes),
+            date: this.formatDate(card.date),
+            comments: this.formatNumWithCommas(card.comments),
+            title: card.title,
+            action: {
+                label: card.action.label,
+                href: card.links.Action,
+                isButton: card.action.type === 'button',
+                isText: card.action.type === 'text'
+            },
+            links: card.socialLinks,
+            sponsored: card.sponsored,
+            hideTitle: !card.title || card.hideTitle
         });
     }
 }

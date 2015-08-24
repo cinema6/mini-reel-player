@@ -5,7 +5,11 @@ export default class InstagramVideoCard extends VideoCard {
     constructor(data) {
         super(...arguments);
         this.type = 'instagramVideo';
-        this.title = data.caption;
+        this.hideTitle = false;
+        if(!this.title) {
+            this.title = data.caption;
+            this.hideTitle = true;
+        }
         this.data.href = data.href;
         this.data.src = data.data.src;
         this.user = extend(null, data.user);

@@ -26,7 +26,7 @@ describe('InstagramCardController', function() {
             modules: [],
             placementId: null,
             templateUrl: null,
-            sponsored: false,
+            sponsored: true,
             campaign: {
                 campaignId: null,
                 advertiserId: null,
@@ -35,11 +35,21 @@ describe('InstagramCardController', function() {
                 clickUrls: []
             },
             collateral: {},
-            links: {},
-            params: {},
+            links: {
+                Action: 'www.free-puppies.com',
+                Facebook: 'www.facebook-link.com',
+                Twitter: 'www.twitter-link.com'
+            },
+            params: {
+                action: {
+                    label: 'Give me a puppy now!',
+                    type: 'button'
+                }
+            },
             href: 'https://instagram.com/p/5YN6a0tOc-/',
             likes: 77669,
             date: new Date(2015, 12, 2, 12, 57, 59),
+            title: 'Hey look it\'s a Doggie!',
             caption: 'Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY',
             comments: 9734,
             user: {
@@ -265,7 +275,28 @@ describe('InstagramCardController', function() {
                         href: 'https://instagram.com/p/5YN6a0tOc-/',
                         likes: '77.7k',
                         date: '4 weeks',
-                        comments: '9,734'
+                        comments: '9,734',
+                        title: 'Hey look it\'s a Doggie!',
+                        action: {
+                            label: 'Give me a puppy now!',
+                            href: 'www.free-puppies.com',
+                            isButton: true,
+                            isText: false
+                        },
+                        links: [
+                            {
+                                type: 'facebook',
+                                label: 'Facebook',
+                                href: 'www.facebook-link.com'
+                            },
+                            {
+                                type: 'twitter',
+                                label: 'Twitter',
+                                href: 'www.twitter-link.com'
+                            }
+                        ],
+                        sponsored: true,
+                        hideTitle: false
                     };
                     expect(InstagramCardCtrl.view.update).toHaveBeenCalledWith(expectedOutput);
                 });

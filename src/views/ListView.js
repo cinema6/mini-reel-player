@@ -72,7 +72,7 @@ export default class ListView extends View {
         // Remove children for which we have no more elements
         forEach(prevChildren, (child, index) => {
             if (children.indexOf(child) < 0) {
-                child.remove();
+                child.destroy();
                 childrenById[child.__listId__] = undefined;
                 this.emit('removeChild', child, index);
             }

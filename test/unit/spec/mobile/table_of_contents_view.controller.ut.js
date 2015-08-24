@@ -227,7 +227,7 @@ describe('TableOfContentsViewController', function() {
         spyOn(TableOfContentsView.prototype, 'hide');
         spyOn(TableOfContentsView.prototype, 'show');
 
-        minireel.on('init', () => process.nextTick(done));
+        minireel.on('init', done);
 
         TableOfContentsViewCtrl = new TableOfContentsViewController(minireel);
     });
@@ -242,7 +242,7 @@ describe('TableOfContentsViewController', function() {
 
     describe('when the minireel is launched', function() {
         beforeEach(function() {
-            minireel.moveToIndex(0);
+            minireel.emit('launch');
         });
 
         it('should update its view', function() {

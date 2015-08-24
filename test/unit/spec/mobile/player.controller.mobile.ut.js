@@ -15,6 +15,8 @@ import View from '../../../../lib/core/View.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 import MobilePrerollCardController from '../../../../src/controllers/mobile/MobilePrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
+import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
+import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
 import PrerollCard from '../../../../src/models/PrerollCard.js';
 
 describe('MobilePlayerController', function() {
@@ -74,6 +76,8 @@ describe('MobilePlayerController', function() {
                 expect(MobilePlayerCtrl.CardControllers.recap).toBe(MobileRecapCardController);
                 expect(MobilePlayerCtrl.CardControllers.preroll).toBe(MobilePrerollCardController);
                 expect(MobilePlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
+                expect(MobilePlayerCtrl.CardControllers.instagramImage).toBe(MobileInstagramImageCardController);
+                expect(MobilePlayerCtrl.CardControllers.instagramVideo).toBe(MobileInstagramVideoCardController);
             });
         });
 
@@ -133,6 +137,20 @@ describe('MobilePlayerController', function() {
                     expect(MobilePlayerCtrl.TableOfContentsViewCtrl.renderInto).toHaveBeenCalledWith(MobilePlayerCtrl.view.toc);
                 });
             });
+
+            ['becameUnskippable', 'becameSkippable'].forEach(function(event) {
+                describe(event, function() {
+                    beforeEach(function() {
+                        spyOn(MobilePlayerCtrl, 'updateView');
+
+                        MobilePlayerCtrl.minireel.emit(event);
+                    });
+
+                    it('should call updateView()', function() {
+                        expect(MobilePlayerCtrl.updateView).toHaveBeenCalled();
+                    });
+                });
+            });
         });
     });
 
@@ -151,7 +169,7 @@ describe('MobilePlayerController', function() {
 
         describe('updateView()', function() {
             beforeEach(function() {
-                spyOn(MobilePlayerCtrl.view, 'update');
+                spyOn(MobilePlayerCtrl.view, 'update').and.callFake(() => expect(PlayerController.prototype.updateView).toHaveBeenCalled());
                 spyOn(PlayerController.prototype, 'updateView');
 
                 MobilePlayerCtrl.minireel.standalone = false;
@@ -202,7 +220,8 @@ describe('MobilePlayerController', function() {
                     thumbs: {
                         next: 'fifth-thumb.jpg',
                         previous: 'third-thumb.jpg'
-                    }
+                    },
+                    showFooter: jasmine.any(Boolean)
                 });
             });
 
@@ -250,20 +269,41 @@ describe('MobilePlayerController', function() {
                 describe('if the player is not standalone', function() {
                     beforeEach(function() {
                         MobilePlayerCtrl.minireel.standalone = false;
-
-                        MobilePlayerCtrl.updateView();
                     });
 
-                    it('should allow the user to go back', function() {
-                        expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                            closeable: true
-                        }));
+                    describe('if the MiniReel is closeable', function() {
+                        beforeEach(function() {
+                            MobilePlayerCtrl.minireel.closeable = true;
+
+                            MobilePlayerCtrl.updateView();
+                        });
+
+                        it('should allow the user to go back', function() {
+                            expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                                closeable: true
+                            }));
+                        });
+                    });
+
+                    describe('if the MiniReel is not closeable', function() {
+                        beforeEach(function() {
+                            MobilePlayerCtrl.minireel.closeable = false;
+
+                            MobilePlayerCtrl.updateView();
+                        });
+
+                        it('should not allow the user to go back', function() {
+                            expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                                closeable: false
+                            }));
+                        });
                     });
                 });
 
                 describe('if the player is standalone', function() {
                     beforeEach(function() {
                         MobilePlayerCtrl.minireel.standalone = true;
+                        MobilePlayerCtrl.minireel.closeable = true;
 
                         MobilePlayerCtrl.updateView();
                     });
@@ -291,6 +331,62 @@ describe('MobilePlayerController', function() {
                             previous: 'fourth-thumb.jpg'
                         }
                     }));
+                });
+            });
+
+            describe('if the minireel has only one slide', function() {
+                beforeEach(function() {
+                    MobilePlayerCtrl.minireel.length = 1;
+                    MobilePlayerCtrl.view.update.calls.reset();
+                });
+
+                describe('if the MiniReel is skippable', function() {
+                    beforeEach(function() {
+                        MobilePlayerCtrl.minireel.skippable = true;
+
+                        MobilePlayerCtrl.updateView();
+                    });
+
+                    it('should update the view with showFooter: false', function() {
+                        expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            showFooter: false
+                        }));
+                    });
+                });
+
+                describe('if the MiniReel is not skippable', function() {
+                    beforeEach(function() {
+                        MobilePlayerCtrl.minireel.skippable = false;
+
+                        MobilePlayerCtrl.updateView();
+                    });
+
+                    it('should update the view with showFooter: true', function() {
+                        expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            showFooter: true
+                        }));
+                    });
+                });
+            });
+
+            describe('if the MiniReel has more than one slide', function() {
+                beforeEach(function() {
+                    MobilePlayerCtrl.minireel.length = 2;
+                    MobilePlayerCtrl.view.update.calls.reset();
+                });
+
+                describe('if the minireel is skippable', function() {
+                    beforeEach(function() {
+                        MobilePlayerCtrl.minireel.skippable = true;
+
+                        MobilePlayerCtrl.updateView();
+                    });
+
+                    it('should update the view with showFooter: true', function() {
+                        expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                            showFooter: true
+                        }));
+                    });
                 });
             });
         });

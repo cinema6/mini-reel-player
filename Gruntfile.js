@@ -6,7 +6,10 @@ module.exports = function(grunt) {
         _ = require('underscore');
 
     if (osType === 'Darwin'){
-        require('posix').setrlimit('nofile', { soft : 1048 }); 
+        try {
+            require('posix').setrlimit('nofile', { soft : 1048 });
+        } catch(error) {
+        }
     }
 
     function loadGlobalConfig(relPath) {
@@ -20,6 +23,7 @@ module.exports = function(grunt) {
         distDir: 'build',
         port: 9000,
         awsJSON: '.aws.json',
+        experiencesJSON: 'server/experiences.json',
         s3: {
             staging: {
                 bucket: 'com.cinema6.staging',
@@ -53,9 +57,38 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('server', 'start a development server', function(config, target) {
-        var withTests = config === 'tdd';
-        target = target || 'app';
+    grunt.registerTask('server', 'start a development server', function(_index_) {
+        var tdd = grunt.option('tdd');
+        var modeOverride = grunt.option('mode');
+
+        var withTests = !!tdd;
+        var target = (typeof tdd === 'string') ? tdd : 'app';
+        var index = parseInt(_index_ || 0, 10);
+        var experiences = grunt.file.readJSON(grunt.config('settings.experiencesJSON'));
+        var experience = experiences[index];
+        var mode = (function() {
+            if (modeOverride) {
+                return (experience.data.mode = modeOverride);
+            }
+
+            return experience.data.mode;
+        }());
+        var params = (function() {
+            try {
+                return JSON.parse(grunt.option('params'));
+            } catch(e) {
+                return {};
+            }
+        }());
+
+        grunt.config.set('browserify.server.files', [
+            {
+                src: grunt.config('package.scripts.' + mode + '.js'),
+                dest: 'server/.build/' + mode + '.js'
+            }
+        ]);
+        grunt.config.set('server.exp', experience);
+        grunt.config.set('server.params', params);
 
         grunt.task.run('babelhelpers:build');
 
@@ -113,8 +146,35 @@ module.exports = function(grunt) {
         'karma:perf'
     ]);
 
-    grunt.registerTask('tdd', 'run unit tests whenever files change', function(target) {
-        target = target || 'app';
+    grunt.registerTask('tdd', 'run unit tests whenever files change', function(_target_) {
+        var expand = grunt.file.expand;
+        var match = grunt.file.match;
+
+        var target = _target_ || 'app';
+        var mainFiles = ['test/main.js', 'test/unit/main.js'];
+        var pattern = grunt.option('only') || '**';
+        var config = (function() {
+            var result = null;
+            var configurator = require('./test/unit/karma.' + target + '.conf');
+            var config = {
+                set: function(options) {
+                    result = options;
+                }
+            };
+
+            configurator(config);
+
+            return result;
+        }());
+        var exclusions = (config.exclude || []).map(function(file) {
+            return '!' + file;
+        });
+        var patterns = ['**/' + pattern].concat(exclusions);
+        var files = mainFiles.concat(match(patterns, expand(config.files))).map(function(file) {
+            return { src: file, watched: false };
+        });
+
+        grunt.config.set('karma.tdd.files', files);
 
         grunt.task.run('babelhelpers:build');
         grunt.task.run('clean:test');

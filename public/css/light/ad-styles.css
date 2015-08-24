@@ -1,0 +1,113 @@
+
+/*  ================================================
+    Ad styles
+    ================================================ */
+    .ad__group { 
+        position: relative; min-height:18.75rem; 
+        height:calc(100% - 5rem); width: 100%;
+        overflow:hidden; 
+    }
+    /* .ad__group { 
+        position: relative; padding:70% 0 0 0;
+        width: 100%; height:0;
+    } */
+
+    /*  Video Ad styles
+    ====================================================== */
+    .adVideo__group {
+        position:absolute; top:0;
+        width:100%; height:100%;
+    }
+    .adVideo__label {
+        font-size: 0.75em; color: #929292; text-align: center;
+        margin:0;
+        position:absolute; left:0; right:0;
+    }
+    .adVideo__videoHolder {
+        position:relative;
+        width:100%; height:100%;
+        min-width:300px; min-height:150px;
+        text-align: center;
+        background: #000;
+    }
+        .adVideo__video {
+            width:100%; height:100%;
+            position:absolute; top:0; left:0;
+        }
+    
+    /*  Display Ad styles
+    ====================================================== */
+    .adDisplay__group {
+        width: 18.75rem;
+        text-align: center;
+        position:absolute; top:50%; left:50%;
+        margin:-10rem 0 0 -9.375rem;
+    }
+        .adDisplay__view {
+            width:18.75rem; height:15.625rem;
+            border:0;
+        }
+            .adDisplay__view iframe {
+                border:0; margin:0;
+                width:100%; height:100%;
+            }
+
+
+
+/*  ================================================
+    Display Ad Card classes
+    ================================================ */
+    .displayAdCard__group {
+        text-align: center;
+        height:19.5em;
+        position:absolute;
+        top:50%; left:0; right:0;
+        margin:-12.75em 0 0 0;
+    }
+
+        .displayAdBrand__tagline {
+            font-size:0.875em;
+            line-height: 1;
+            color:#999;
+            margin:0 0 0.25rem;
+        }
+            .displayAdBrand__taglineLink {
+                font-weight:bold;
+            }
+
+
+        .displayAdBrand__linksBox {
+            margin:0.125em 0 0 0;
+        }
+            .displayAdBrand__link {
+                padding:0 0.5em;
+                font-size:0.75em;
+                display: inline-block;
+            }
+                .displayAdBrand__linkLabel {
+                    vertical-align: middle;
+                }
+                .displayAdBrand__linkLabel {
+                    margin-left:0.25em;
+                }
+
+    /*  display ad module classes
+        ================================================ */
+        .displayAd__label {
+            font-size:0.625em;
+            color:#999;
+            text-align: center;
+            width:100%;
+            display: block;
+        }
+
+        .displayAd__box {
+            width:18.75em; height:15.625em;
+            margin:0 auto;
+        }
+            .displayAd__box iframe {
+                width:100%; height:100%;
+                border:0;
+            }
+
+

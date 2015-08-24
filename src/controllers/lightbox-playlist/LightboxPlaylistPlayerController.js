@@ -8,6 +8,12 @@ import LightboxPlaylistVideoCardController from './LightboxPlaylistVideoCardCont
 import LightboxPlaylistRecapCardController from './LightboxPlaylistRecapCardController.js';
 import LightboxPlaylistPrerollCardController from './LightboxPlaylistPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullInstagramImageCardController from '../full/FullInstagramImageCardController';
+import FullInstagramVideoCardController from '../full/FullInstagramVideoCardController';
+import FullTwitterTextCardController from '../full/FullTwitterTextCardController.js';
+import FullTwitterImageCardController from '../full/FullTwitterImageCardController.js';
+import FullTwitterGifCardController from '../full/FullTwitterGifCardController.js';
+import FullTwitterVideoCardController from '../full/FullTwitterVideoCardController.js';
 import PlaylistPlayerController from '../../mixins/PlaylistPlayerController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
@@ -24,7 +30,13 @@ export default class LightboxPlaylistPlayerController extends PlayerController {
             video: LightboxPlaylistVideoCardController,
             recap: LightboxPlaylistRecapCardController,
             preroll: LightboxPlaylistPrerollCardController,
-            displayAd: DisplayAdCardController
+            displayAd: DisplayAdCardController,
+            instagramImage: FullInstagramImageCardController,
+            instagramVideo: FullInstagramVideoCardController,
+            twitterText: FullTwitterTextCardController,
+            twitterImage: FullTwitterImageCardController,
+            twitterGif: FullTwitterGifCardController,
+            twitterVideo: FullTwitterVideoCardController
         };
 
         this.initPlaylist();

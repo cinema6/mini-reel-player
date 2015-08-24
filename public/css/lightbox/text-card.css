@@ -1,0 +1,61 @@
+
+/*  ================================================
+    text only card classes
+    ================================================ */
+    .textOnly__copy {
+        overflow-x:hidden;
+        overflow-y:auto;
+        position:absolute;
+        right:19em; left:0; top:0; bottom:3.25em;
+        padding:3em 2em 1em 4em;
+    }
+        .textOnly__title {
+            margin:0.25em 0 0.90625em 0; 
+            font-size:2em; 
+            line-height: 1;
+        }
+
+        .textOnly__goBtn {
+            padding:0.5em 2em;
+            margin:1.1875em 0 0 0;
+        }
+
+    .textOnly__imgBox {
+        width:18.75em; height:calc(100% - 3.25em);
+        position:absolute;
+        right:0; top:0;
+        background:50% 50% / cover no-repeat;
+    }
+        .textOnly__imgBox:after {
+            position:absolute;
+            top:0; left:0;
+            width:100%; height:100%;
+            content:'';
+            background:#d94040;
+            opacity:0;
+        }
+
+
+        @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
+            /*  w: 1200px -  1696px
+            /   h: 720px ++ */
+            .textOnly__title {
+                font-size:2.25em;
+            }
+            .textOnly__imgBox {
+                height:calc(100% - 4.25em);
+            }
+        }
+        @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+            /*  w: 1697px ++ 
+            /   h: 720px ++ */
+            .textOnly__copy {
+                padding:6em 4em 2em 6em;
+            }
+            .textOnly__title {
+                font-size:2.5em;
+            }
+            .textOnly__imgBox {
+                height:calc(100% - 5.25em);
+            }
+        }

@@ -1,5 +1,103 @@
 # MiniReel Player 2.0
 
+## v0.22.0 (August 12, 2015)
+* *[v0.22.0-rc4]*
+  * [FIX]: Make the playlist truncate extremely long card titles
+  * [FIX]: Fix for an issue that was preventing some Instagram usernames from being correctly formatted
+  * [FIX]: Fix for an issue that caused images in the player not to
+    appear
+* *[/v0.22.0-rc4]*
+
+* *[v0.22.0-rc3]*
+  * [FIX]: Fix for an issue that prevented skipping to an Instagram card with autoplay
+  * [FIX]: Fix for an issue that was preventing the Instagram logo from displaying correctly
+  * [FIX]: Fix for an issue that caused some Instagram usernames in a card's
+    caption to not be properly recognized.
+  * [FIX]: Fix for an issue that caused mobile instagram cards to never
+    render
+* *[/v0.22.0-rc3]*
+
+* *[v0.22.0-rc2]*
+  * [FIX]: Fix for an issue that caused mobile Instagram videos to continue playing
+    after the user has moved on to another card
+  * [FIX]: Fix for an issue that caused Instagram cards to be displayed improperly
+    on the recap card
+  * [DEV]: Fix a unit test that was failing occasionally
+* *[/v0.22.0-rc2]*
+
+* *[v0.22.0-rc1]*
+  * [FEATURE]: Added support for Instagram image and video cards
+* *[/v0.22.0-rc1]*
+
+## v0.21.8 (August 17, 2015)
+* *[v0.21.8-rc1]*
+  * [FIX]: Improve compatibility with TubeMogul
+* *[/v0.21.8-rc1]*
+
+## v0.21.7 (August 11, 2015)
+* *[v0.21.7-rc1]*
+  * [FIX]: Hide "Close" button in mobile player when running through
+    solo player
+  * [FIX]: Preload cards that are interrupted by preroll advertising
+  * [FIX]: Stop preroll from being able to interrupt the closing of a
+    MiniReel
+* *[/v0.21.7-rc1]*
+
+## v0.21.6 (August 11, 2015)
+* *[v0.21.6-rc1]*
+  * [FIX]: Fix for an issue that caused videos to continue player after
+    the user closes the player via the MRAID close button
+* *[/v0.21.6-rc1]*
+
+## v0.21.5 (August 10, 2015)
+* *[v0.21.5-rc1]*
+  * [FIX]: Fix for an issue that caused GA tracking not to work in MRAID
+* *[/v0.21.5-rc1]*
+
+## v0.21.4 (August 10, 2015)
+* *[v0.21.4-rc1]*
+  * [FIX]: Fix for an issue that caused TubeMogul's VPAID player to
+    never autoadvance/break the skip timer
+  * Stop re-loading VPAID units when they end
+* *[/v0.21.4-rc1]*
+
+## v0.21.3 (August 7, 2015)
+* *[v0.21.3-rc1]*
+  * Updated VPAID swf
+  * Attempt to send "Played" GA event when the user closes the page the
+    player is running on
+* *[/v0.21.3-rc1]*
+
+## v0.21.2 (August 5, 2015)
+* *[v0.21.2-rc1]*
+  * Added new "Played" video event ([#183](https://github.com/cinema6/mini-reel-player/issues/183))
+  * [FIX]: Fixed text overlap bug of long titles in single card MiniReels ([#187](https://github.com/cinema6/mini-reel-player/issues/187))
+* *[/v0.21.2-rc1]*
+
+## v0.21.1 (August 4, 2015)
+* *[v0.21.1-rc2]*
+  * [FIX]: Fixed bug where ballot wasn't hidden for next video in mobile.
+* *[/v0.21.1-rc2]*
+
+* *[v0.21.1-rc1]*
+  * [DEV]: Greatly improve the time it takes to start ```grunt
+    server```.
+  * Modularize CSS for every player view except for swipe player.
+  * Stop including query params when completing pageUrl macro
+  * Hide the close button if the MiniReel is not skippable and it is
+    running as an interstitial
+  * [DEV]: Allow a subset of tests to be run with ```grunt tdd``` via
+    the ```--only``` option.
+* *[/v0.21.1-rc1]*
+
+## v0.21.0 (July 30, 2015)
+* *[v0.21.0-rc1]*
+  * [FEATURE]: Added support for Vine video cards
+  * [DEV]: Fix issue where tests would run multiple times/not "pick up"
+    file changes when running ```grunt tdd```.
+* *[/v0.21.0-rc1]*
+
+## v0.20.0 (July 29, 2015)
 * *[v0.20.0-rc1]*
   * [FIX]: Remove prev/next buttons that hover over the video in a
     single-video lightbox MiniReel
@@ -8,6 +106,9 @@
   * [FIX]: Fix for an issue that caused the solo-ads player to render
     <iframe> players correctly
   * [FEATURE]: Add fade-in animations for all video players after load
+  * [FIX]: Fix for an issue that caused Vimeo, Rumble, Dailymotion and
+    display ads not to work when the player is delivered via MRAID
+* *[/v0.20.0-rc1]*
 
 ## v0.19.0 (July 16, 2015)
 * *[v0.19.0-rc2]*

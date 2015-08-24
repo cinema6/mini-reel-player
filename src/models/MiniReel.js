@@ -1,3 +1,4 @@
+import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import dispatcher from '../services/dispatcher.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
@@ -28,12 +29,15 @@ import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
 import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
+import InstagramImageCard from './InstagramImageCard.js';
+import InstagramVideoCard from './InstagramVideoCard.js';
 import TwitterTextCard from './TwitterTextCard.js';
 import TwitterImageCard from './TwitterImageCard.js';
+import TwitterGifCard from './TwitterGifCard.js';
 import TwitterVideoCard from './TwitterVideoCard.js';
 
 const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
-                        'twitter'];
+                        'instagram', 'twitter'];
 
 const _ = createKey();
 
@@ -45,16 +49,18 @@ function getCardType(card) {
     case 'rumble':
     case 'embedded':
     case 'adUnit':
+    case 'vine':
         return 'video';
     default:
         return card.type;
     }
 }
 
-function initialize(whitelist, { experience, standalone, profile }) {
+function initialize(whitelist, { experience, standalone, interstitial, profile }) { // jshint ignore:line
     const deck = filter(experience.data.deck, card => whitelist.indexOf(getCardType(card)) > -1);
 
     this.standalone = standalone;
+    this.interstitial = interstitial;
     this.id = experience.id;
     this.title = experience.data.title;
     this.branding = experience.data.branding;
@@ -78,10 +84,19 @@ function initialize(whitelist, { experience, standalone, profile }) {
             return new DisplayAdCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
+        case 'instagram':
+            if(card.data.type === 'image') {
+                return new InstagramImageCard(card, experience, profile);
+            } else {
+                return new InstagramVideoCard(card, experience, profile);
+            }
+            break;
         case 'twitter':
             switch(card.data.type) {
             case 'image':
                 return new TwitterImageCard(card, experience, profile);
+            case 'gif':
+                return new TwitterGifCard(card, experience, profile);
             case 'video':
                 return new TwitterVideoCard(card, experience, profile);
             default:
@@ -144,6 +159,7 @@ export default class MiniReel extends EventEmitter {
         super(...arguments);
 
         this.standalone = null;
+        this.interstitial = null;
 
         this.id = null;
         this.title = null;
@@ -163,6 +179,7 @@ export default class MiniReel extends EventEmitter {
         this.currentIndex = -1;
         this.currentCard = null;
         this.skippable = true;
+        this.closeable = true;
 
         _(this).ready = false;
         _(this).cardsShown = 0;
@@ -186,6 +203,7 @@ export default class MiniReel extends EventEmitter {
             .catch(error => this.emit('error', error));
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));
+            session.on('hide', () => this.close());
             session.on('initAnalytics', config => {
                 dispatcher.addClient(GoogleAnalyticsHandler, this, config);
                 dispatcher.addClient(MoatHandler, config);
@@ -198,6 +216,23 @@ export default class MiniReel extends EventEmitter {
 
         this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
         this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
+
+        this.on('becameUnskippable', () => {
+            if (this.interstitial) {
+                this.closeable = false;
+                this.emit('becameUncloseable');
+            }
+        });
+        this.on('becameSkippable', () => {
+            if (!this.closeable) {
+                this.closeable = true;
+                this.emit('becameCloseable');
+            }
+        });
+
+        // TO-DO Place this listener on own window, not parent, when we switch away from
+        // friendly iframe
+        global.parent.addEventListener('beforeunload', () => Runner.run(() => this.close()), false);
 
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
@@ -228,9 +263,8 @@ export default class MiniReel extends EventEmitter {
         const previousCard = this.currentCard;
         const previousIndex = this.currentIndex;
         let currentCard = this.deck[index] || null;
-
-        this.currentIndex = index;
-        this.currentCard = currentCard;
+        let nextCard = this.deck[index + 1] || null;
+        let currentIndex = index;
 
         _(this).previousIndex = index - 1;
         _(this).nextIndex = index + 1;
@@ -245,16 +279,16 @@ export default class MiniReel extends EventEmitter {
         const cardsShownSinceFirstPreroll = (cardsShown - firstPlacement);
         const shouldLoadPreroll = ((cardsShown + 1) === firstPlacement) ||
             (((cardsShownSinceFirstPreroll + 1) % frequency) === 0);
-        const shouldShowPreroll = ((cardsShown === firstPlacement) && !showedFirstPreroll) ||
-            (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency)));
+        const shouldShowPreroll = (index > -1) &&
+            (((cardsShown === firstPlacement) && !showedFirstPreroll) ||
+            (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency))));
 
-        if (shouldLoadPreroll) {
-            this.prerollCard.prepare();
-        }
+        if (shouldLoadPreroll) { nextCard = this.prerollCard; }
 
         if (shouldShowPreroll) {
-            currentCard = this.currentCard = this.prerollCard;
-            this.currentIndex = null;
+            currentIndex = null;
+            nextCard = currentCard;
+            currentCard = this.prerollCard;
             _(this).prerollShown++;
 
             _(this).nextIndex = index;
@@ -264,7 +298,7 @@ export default class MiniReel extends EventEmitter {
         }
 
         if (currentCard) {
-            if (this.currentIndex !== (this.length - 1)) {
+            if (currentIndex !== (this.length - 1)) {
                 currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
             }
 
@@ -280,6 +314,19 @@ export default class MiniReel extends EventEmitter {
             previousCard.removeListener('skippableProgress', _(this).skippableProgressHandler);
         }
 
+        if (previousCard) { previousCard.deactivate(); }
+        this.currentIndex = currentIndex;
+        this.currentCard = currentCard;
+        if (currentCard) { currentCard.activate(); }
+
+        if (!currentCard) {
+            forEach(this.deck.concat([this.prerollCard]), card => card.cleanup());
+        }
+
+        if (nextCard) { nextCard.prepare(); }
+
+        this.emit('move');
+
         if (!previousCard) {
             this.emit('launch');
         }
@@ -287,8 +334,6 @@ export default class MiniReel extends EventEmitter {
         if (!currentCard) {
             this.emit('close');
         }
-
-        this.didMove();
     }
 
     moveTo(card) {
@@ -305,30 +350,5 @@ export default class MiniReel extends EventEmitter {
 
     close() {
         this.moveToIndex(-1);
-    }
-
-    didMove() {
-        const { currentIndex, currentCard, deck, prerollCard } = this;
-        const cards = deck.concat([prerollCard]);
-
-        forEach(cards, card => {
-            if (card === currentCard) {
-                card.activate();
-            } else {
-                card.deactivate();
-            }
-        });
-
-        if (currentIndex === -1) {
-            forEach(cards, card => card.cleanup());
-        }
-
-        const nextCard = (currentIndex !== null) && deck[currentIndex + 1];
-
-        if (nextCard) {
-            nextCard.prepare();
-        }
-
-        this.emit('move');
     }
 }

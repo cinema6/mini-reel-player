@@ -188,6 +188,20 @@ describe('PlaylistViewController', function() {
             });
         });
 
+        describe('formatTitle', function() {
+            it('should truncate strings longer than 100 characters', function() {
+                const input = 'Once upon a time, there was a unit test which contained this sentence, which was 101 characters long.';
+                expect(input.length).toBe(101);
+                expect(PlaylistViewCtrl.formatTitle(input)).toBe('Once upon a time, there was a unit test which contained this sentence, which was 101 characters long...');
+            });
+
+            it('should not truncate string shorter than 100 characters', function() {
+                const input = 'However the unit test also needed an 100 character long sentence, and so this one was made. The End.';
+                expect(input.length).toBe(100);
+                expect(PlaylistViewCtrl.formatTitle(input)).toBe('However the unit test also needed an 100 character long sentence, and so this one was made. The End.');
+            });
+        });
+
         describe('updateView()', function() {
             beforeEach(function() {
                 minireel.deck = [

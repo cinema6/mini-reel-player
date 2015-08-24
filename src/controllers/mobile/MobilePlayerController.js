@@ -8,7 +8,12 @@ import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
 import MobilePrerollCardController from './MobilePrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
-import MobileTwitterCardController from './MobileTwitterCardController';
+import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
+import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
+import MobileTwitterTextCardController from './MobileTwitterTextCardController';
+import MobileTwitterImageCardController from './MobileTwitterImageCardController';
+import MobileTwitterGifCardController from './MobileTwitterGifCardController';
+import MobileTwitterVideoCardController from './MobileTwitterVideoCardController';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
 export default class MobilePlayerController extends PlayerController {
@@ -25,12 +30,17 @@ export default class MobilePlayerController extends PlayerController {
             recap: MobileRecapCardController,
             preroll: MobilePrerollCardController,
             displayAd: DisplayAdCardController,
-            twitterText: MobileTwitterCardController,
-            twitterImage: MobileTwitterCardController,
-            twitterVideo: MobileTwitterCardController
+            instagramImage: MobileInstagramImageCardController,
+            instagramVideo: MobileInstagramVideoCardController,
+            twitterText: MobileTwitterTextCardController,
+            twitterImage: MobileTwitterImageCardController,
+            twitterGif: MobileTwitterGifCardController,
+            twitterVideo: MobileTwitterVideoCardController
         };
 
         this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
+        this.minireel.on('becameUnskippable', () => this.updateView());
+        this.minireel.on('becameSkippable', () => this.updateView());
 
         this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
         this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
@@ -40,20 +50,22 @@ export default class MobilePlayerController extends PlayerController {
 
     updateView() {
         const {minireel} = this;
+        const { standalone, currentIndex, length, skippable, closeable } = minireel;
         const nextCard = minireel.deck[minireel.currentIndex + 1];
         const prevCard = minireel.deck[minireel.currentIndex - 1];
-        const { standalone, currentIndex, length } = minireel;
+        const isSolo = (minireel.length === 1);
+
+        super();
 
         this.view.update({
-            closeable: !standalone,
+            closeable: !standalone && closeable,
+            showFooter: !isSolo || !skippable,
             header: (currentIndex !== null) ? `${currentIndex + 1} of ${length}` : 'Ad',
             thumbs: {
                 next: (nextCard && nextCard.thumbs.small) || null,
                 previous: (prevCard && prevCard.thumbs.small) || null
             }
         });
-
-        return super();
     }
 
     toggleToc() {

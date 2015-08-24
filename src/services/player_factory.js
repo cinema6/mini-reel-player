@@ -6,9 +6,14 @@ import DailymotionPlayer from '../players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../players/EmbeddedPlayer.js';
 import RumblePlayer from '../players/RumblePlayer.js';
 import SlideshowBobPlayer from '../players/SlideshowBobPlayer.js';
+import VinePlayer from '../players/VinePlayer.js';
+import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
+        if(card.type === 'instagramVideo') {
+            return new HtmlVideoPlayer();
+        }
         switch (card.data.type) {
         case 'youtube':
             return new YouTubePlayer();
@@ -26,7 +31,8 @@ class PlayerFactory {
             return new RumblePlayer();
         case 'slideshow-bob':
             return new SlideshowBobPlayer();
-
+        case 'vine':
+            return new VinePlayer();
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

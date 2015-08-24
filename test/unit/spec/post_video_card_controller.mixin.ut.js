@@ -23,6 +23,7 @@ describe('PostVideoCardController', function() {
         card.thumbs = {};
         card.getSrc = jasmine.createSpy('card.getSrc()');
         card.complete = jasmine.createSpy('card.complete()');
+        card.setPlaybackState = jasmine.createSpy('card.setPlaybackState()');
 
         Ctrl = new MyVideoCardController(card);
         Ctrl.view = new VideoCardView();

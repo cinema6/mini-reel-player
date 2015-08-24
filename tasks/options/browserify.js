@@ -2,6 +2,7 @@
 
 var grunt = require('grunt');
 var path = require('path');
+var concat = require('concat-stream');
 var iteration = 0;
 
 module.exports = {

@@ -1,0 +1,12 @@
+
+/*  ================================================
+    solo MR classes
+    ================================================ */
+    .experience__group--soloMR .playerHeight {
+        height:100%;
+    }
+
+    .experience__group--soloMR .cards__group {
+        top:0.5em;
+    }
+

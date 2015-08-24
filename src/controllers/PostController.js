@@ -35,7 +35,7 @@ export default class PostController extends ModuleController {
         this.deactivate();
 
         Runner.runNext(() => {
-            this.view.remove();
+            this.view.destroy();
 
             this.view = this.addView(new PostView());
             this.renderInto(_(this).parentView);

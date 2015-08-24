@@ -6,7 +6,7 @@ describe('LightboxApplicationController', function() {
     let LightboxApplicationCtrl;
 
     beforeEach(function() {
-        LightboxApplicationCtrl = new LightboxApplicationController();
+        LightboxApplicationCtrl = new LightboxApplicationController(document.createElement('body'));
     });
 
     it('should exist', function() {

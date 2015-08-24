@@ -9,6 +9,8 @@ import LightVideoCardController from '../../../../src/controllers/light/LightVid
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightPrerollCardController from '../../../../src/controllers/light/LightPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
+import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
+import LightInstagramVideoCardController from '../../../../src/controllers/light/LightInstagramVideoCardController.js';
 
 describe('LightPlayerController', function() {
     let LightPlayerCtrl;
@@ -77,6 +79,18 @@ describe('LightPlayerController', function() {
             describe('.displayAd', function() {
                 it('should be DisplayAdCardController', function() {
                     expect(LightPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
+                });
+            });
+
+            describe('.instagramImage', function() {
+                it('should be LightInstagramImageCardController', function() {
+                    expect(LightPlayerCtrl.CardControllers.instagramImage).toBe(LightInstagramImageCardController);
+                });
+            });
+
+            describe('.instagramVideo', function() {
+                it('should be LightInstagramVideoCardController', function() {
+                    expect(LightPlayerCtrl.CardControllers.instagramVideo).toBe(LightInstagramVideoCardController);
                 });
             });
         });

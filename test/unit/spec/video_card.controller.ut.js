@@ -340,7 +340,18 @@ describe('VideoCardController', function() {
                 beforeEach(function() {
                     spyOn(player, 'minimize');
                     spyOn(card, 'complete');
+                    spyOn(card, 'setPlaybackState');
+                    player.currentTime = 27;
+                    player.duration = 30;
+
                     Runner.run(() => player.emit('ended'));
+                });
+
+                it('should call setPlaybackState() with the currentTime equaling the duration', function() {
+                    expect(card.setPlaybackState).toHaveBeenCalledWith({
+                        currentTime: 30,
+                        duration: 30
+                    });
                 });
 
                 describe('if canAutoadvance() returns true', function() {

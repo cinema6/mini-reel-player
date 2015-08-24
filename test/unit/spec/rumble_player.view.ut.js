@@ -6,6 +6,8 @@ import Runner from '../../../lib/Runner.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import {EventEmitter} from 'events';
 import browser from '../../../src/services/browser.js';
+import urlParser from '../../../src/services/url_parser.js';
+import environment from '../../../src/environment.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -45,6 +47,8 @@ describe('RumblePlayer', function() {
 
     beforeEach(function() {
         rumble.constructor();
+        environment.constructor();
+        environment.protocol = 'https:';
         spyOn(CorePlayer.prototype, 'addClass');
 
         ServicePlayer = rumble.Player;
@@ -57,6 +61,7 @@ describe('RumblePlayer', function() {
 
     afterAll(function() {
         rumble.constructor();
+        environment.constructor();
     });
 
     it('should be a CorePlayer', function() {
@@ -74,7 +79,7 @@ describe('RumblePlayer', function() {
 
             rumblePlayer.call.and.returnValue(RunnerPromise.resolve(60));
             rumblePlayer.emit('ready');
-            RunnerPromise.resolve().then(done, done);
+            Promise.resolve().then(done, done);
         });
 
         describe('interface', function() {
@@ -338,7 +343,7 @@ describe('RumblePlayer', function() {
                 expect(loadedmetadata).not.toHaveBeenCalled();
 
                 deferred.fulfill(3);
-                deferred.promise.then(() => {
+                Promise.resolve(deferred.promise).then(() => {
                     expect(loadedmetadata).toHaveBeenCalled();
                 }).then(done, done);
             });
@@ -586,7 +591,7 @@ describe('RumblePlayer', function() {
                     expect(player.duration).toBe(0);
 
                     deferred.fulfill(60);
-                    deferred.promise.then(() => {
+                    Promise.resolve(deferred.promise).then(() => {
                         expect(player.duration).toBe(60);
                     }).then(done, done);
                 });
@@ -641,7 +646,7 @@ describe('RumblePlayer', function() {
                 it('should be true when the volume is 0', function(done) {
                     rumblePlayer.call.and.returnValue(RunnerPromise.resolve(0));
                     rumblePlayer.emit('ready');
-                    rumblePlayer.call('foo').then(() => {
+                    Promise.resolve(rumblePlayer.call('foo')).then(() => {
                         expect(player.volume).toBe(0);
                         expect(player.muted).toBe(true);
                         done();
@@ -651,7 +656,7 @@ describe('RumblePlayer', function() {
                 it('should be false when the volume is > 0', function(done) {
                     rumblePlayer.call.and.returnValue(RunnerPromise.resolve(0.5));
                     rumblePlayer.emit('ready');
-                    rumblePlayer.call('foo').then(() => {
+                    Promise.resolve(rumblePlayer.call('foo')).then(() => {
                         expect(player.volume).toBe(0.5);
                         expect(player.muted).toBe(false);
                         done();
@@ -708,7 +713,7 @@ describe('RumblePlayer', function() {
                     rumblePlayer.emit('ready');
                     deferred.fulfill(45);
 
-                    deferred.promise.then(() => {
+                    Promise.resolve(deferred.promise).then(() => {
                         expect(player.readyState).toBe(3);
                     }).then(done, done);
                 });
@@ -1033,7 +1038,7 @@ describe('RumblePlayer', function() {
                 const iframe = iframes[0];
 
                 expect(iframes.length).toBe(1);
-                expect(iframe.src).toBe(`${location.protocol}//rumble.com/embed/${player.src}/?api=1&player_id=${player.id}`);
+                expect(iframe.src).toBe(urlParser.parse(`//rumble.com/embed/${player.src}/?api=1&player_id=${player.id}`).href);
                 expect(iframe.getAttribute('width')).toBe('100%');
                 expect(iframe.getAttribute('height')).toBe('100%');
                 expect(iframe.getAttribute('frameborder')).toBe('0');

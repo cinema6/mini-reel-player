@@ -6,7 +6,7 @@ describe('SoloAdsApplicationController', function() {
     let SoloAdsApplicationCtrl;
 
     beforeEach(function() {
-        SoloAdsApplicationCtrl = new SoloAdsApplicationController();
+        SoloAdsApplicationCtrl = new SoloAdsApplicationController(document.createElement('body'));
     });
 
     it('should exist', function() {

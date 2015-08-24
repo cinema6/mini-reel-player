@@ -55,6 +55,14 @@ export default class PlaylistViewController extends ViewController {
         this.updateView();
     }
 
+    formatTitle(title) {
+        if(title.length > 100) {
+            return title.substring(0, 100) + '...';
+        } else {
+            return title;
+        }
+    }
+
     updateView() {
         const { minireel } = this;
 
@@ -65,7 +73,7 @@ export default class PlaylistViewController extends ViewController {
             expanded: this.expanded,
             cards: map(minireel.deck, card => ({
                 id: card.id,
-                title: card.title,
+                title: this.formatTitle(card.title),
                 thumb: card.thumbs.small,
                 showSource: !!card.data.source && !card.data.hideSource,
                 href: card.data.href,

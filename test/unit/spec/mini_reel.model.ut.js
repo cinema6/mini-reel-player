@@ -717,7 +717,7 @@ describe('MiniReel', function() {
 
         sessionDeferred.fulfill(session);
 
-        sessionDeferred.promise.then(done);
+        Promise.resolve(sessionDeferred.promise).then(done);
     });
 
     afterAll(function() {
@@ -751,6 +751,12 @@ describe('MiniReel', function() {
         describe('standalone', function() {
             it('should be null', function() {
                 expect(minireel.standalone).toBeNull();
+            });
+        });
+
+        describe('interstitial', function() {
+            it('should be null', function() {
+                expect(minireel.interstitial).toBeNull();
             });
         });
 
@@ -820,6 +826,12 @@ describe('MiniReel', function() {
             });
         });
 
+        describe('closeable', function() {
+            it('should be true', function() {
+                expect(minireel.closeable).toBe(true);
+            });
+        });
+
         describe('deck', function() {
             it('should be an empty array', function() {
                 expect(minireel.deck).toEqual([]);
@@ -849,7 +861,7 @@ describe('MiniReel', function() {
         describe('launch', function() {
             beforeEach(function(done) {
                 minireel.emit('launch');
-                sessionDeferred.promise.then(done);
+                Promise.resolve(sessionDeferred.promise).then(done);
             });
 
             it('should ping the session with the "open" event', function() {
@@ -860,7 +872,7 @@ describe('MiniReel', function() {
         describe('close', function() {
             beforeEach(function(done) {
                 minireel.emit('close');
-                sessionDeferred.promise.then(done);
+                Promise.resolve(sessionDeferred.promise).then(done);
             });
 
             it('should ping the session with the "close" event', function() {
@@ -880,9 +892,18 @@ describe('MiniReel', function() {
             });
 
             describe('if called after initialization', function() {
+                let move;
+
                 beforeEach(function(done) {
+                    move = jasmine.createSpy('move()');
+                    minireel.on('move', move);
+
                     minireel.on('init', () => {
-                        spyOn(minireel, 'didMove').and.callThrough();
+                        minireel.deck.forEach(card => {
+                            spyOn(card, 'activate');
+                            spyOn(card, 'deactivate');
+                            spyOn(card, 'prepare');
+                        });
                         done();
                     });
 
@@ -893,12 +914,65 @@ describe('MiniReel', function() {
                     minireel.moveToIndex(0);
                     expect(minireel.currentIndex).toBe(0);
                     expect(minireel.currentCard).toBe(minireel.deck[0]);
-                    expect(minireel.didMove.calls.count()).toBe(1);
+                    expect(minireel.deck[0].activate).toHaveBeenCalled();
+                    expect(move.calls.count()).toBe(1);
 
+                    minireel.deck[0].deactivate.and.callFake(() => {
+                        expect(minireel.currentIndex).toBe(0);
+                        expect(minireel.currentCard).toBe(minireel.deck[0]);
+                    });
+                    minireel.deck[3].activate.and.callFake(() => {
+                        expect(minireel.currentIndex).toBe(3);
+                        expect(minireel.currentCard).toBe(minireel.deck[3]);
+                    });
                     minireel.moveToIndex(3);
                     expect(minireel.currentIndex).toBe(3);
                     expect(minireel.currentCard).toBe(minireel.deck[3]);
-                    expect(minireel.didMove.calls.count()).toBe(2);
+                    expect(minireel.deck[0].deactivate).toHaveBeenCalled();
+                    expect(minireel.deck[3].activate).toHaveBeenCalled();
+                    expect(move.calls.count()).toBe(2);
+                });
+
+                it('should call prepare() on the next card', function() {
+                    minireel.moveToIndex(0);
+                    expect(minireel.deck[1].prepare).toHaveBeenCalled();
+
+                    minireel.moveToIndex(3);
+                    expect(minireel.deck[4].prepare).toHaveBeenCalled();
+                });
+
+                describe('when moving to any index other than -1', function() {
+                    let index;
+
+                    beforeEach(function() {
+                        index = 3;
+                        minireel.deck.forEach(card => spyOn(card, 'cleanup'));
+                        spyOn(minireel.prerollCard, 'cleanup');
+
+                        minireel.deck.forEach((card, index) => minireel.moveToIndex(index));
+                    });
+
+                    it('should not cleanup any of the cards', function() {
+                        minireel.deck.forEach(card => expect(card.cleanup).not.toHaveBeenCalled());
+                        expect(minireel.prerollCard.cleanup).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('when moving to -1', function() {
+                    beforeEach(function() {
+                        minireel.moveToIndex(2);
+
+                        minireel.deck.forEach(card => spyOn(card, 'cleanup').and.callFake(() => expect(minireel.deck[2].deactivate).toHaveBeenCalled()));
+                        minireel.deck[0].prepare.and.callFake(() => minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled()));
+                        spyOn(minireel.prerollCard, 'cleanup');
+
+                        minireel.moveToIndex(-1);
+                    });
+
+                    it('should cleanup all of the cards', function() {
+                        minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled());
+                        expect(minireel.prerollCard.cleanup).toHaveBeenCalled();
+                    });
                 });
 
                 describe('if the minireel is not skippable', function() {
@@ -912,7 +986,9 @@ describe('MiniReel', function() {
 
                     it('should do nothing', function() {
                         expect(minireel.currentIndex).not.toBe(3);
-                        expect(minireel.didMove).not.toHaveBeenCalled();
+                        expect(minireel.deck[2].deactivate).not.toHaveBeenCalled();
+                        expect(minireel.deck[3].activate).not.toHaveBeenCalled();
+                        expect(move).not.toHaveBeenCalled();
                     });
 
                     describe('if the MiniReel is closing', function() {
@@ -927,7 +1003,7 @@ describe('MiniReel', function() {
 
                         it('should close the minireel', function() {
                             expect(minireel.currentIndex).toBe(-1);
-                            expect(minireel.didMove).toHaveBeenCalled();
+                            expect(move).toHaveBeenCalled();
                         });
                     });
                 });
@@ -1149,13 +1225,13 @@ describe('MiniReel', function() {
                 describe('if already on a card', function() {
                     beforeEach(function() {
                         minireel.moveToIndex(2);
-                        minireel.didMove.calls.reset();
+                        move.calls.reset();
 
                         minireel.moveToIndex(2);
                     });
 
                     it('should not emit "move" again', function() {
-                        expect(minireel.didMove).not.toHaveBeenCalled();
+                        expect(move).not.toHaveBeenCalled();
                     });
                 });
 
@@ -1179,8 +1255,9 @@ describe('MiniReel', function() {
                     beforeEach(function() {
                         spyOn(minireel.prerollCard, 'prepare');
                         spyOn(minireel.prerollCard, 'activate');
+                        spyOn(minireel.prerollCard, 'deactivate');
 
-                        minireel.didMove.calls.reset();
+                        move.calls.reset();
                     });
 
                     describe('if the firstPlacement is -1', function() {
@@ -1210,7 +1287,7 @@ describe('MiniReel', function() {
 
                             minireel.moveToIndex(1);
                             expect(minireel.prerollCard.prepare).toHaveBeenCalled();
-                            expect(minireel.didMove.calls.count()).toBe(3);
+                            expect(move.calls.count()).toBe(3);
                             expect(minireel.currentCard).toBe(minireel.deck[1]);
                             expect(minireel.currentIndex).toBe(1);
                         });
@@ -1223,13 +1300,15 @@ describe('MiniReel', function() {
                             minireel.moveToIndex(3);
                             minireel.skippable = true;
                             expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                            expect(minireel.didMove.calls.count()).toBe(3);
+                            expect(move.calls.count()).toBe(3);
                             expect(minireel.currentCard).toBe(minireel.deck[3]);
                             expect(minireel.currentIndex).toBe(3);
 
                             minireel.moveToIndex(6);
+                            expect(minireel.deck[3].deactivate).toHaveBeenCalled();
+                            expect(minireel.deck[6].activate).not.toHaveBeenCalled();
                             expect(minireel.prerollCard.activate).toHaveBeenCalled();
-                            expect(minireel.didMove.calls.count()).toBe(4);
+                            expect(move.calls.count()).toBe(4);
                             expect(minireel.currentCard).toBe(minireel.prerollCard);
                             expect(minireel.currentIndex).toBe(null);
                         });
@@ -1249,6 +1328,20 @@ describe('MiniReel', function() {
                             expect(minireel.next).toHaveBeenCalled();
                         });
 
+                        it('should not show preroll if the requested index is -1', function() {
+                            minireel.moveToIndex(0);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(1);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(3);
+                            minireel.skippable = true;
+                            minireel.moveToIndex(-1);
+
+                            expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
+                            expect(minireel.currentIndex).toBe(-1);
+                            expect(minireel.currentCard).toBeNull();
+                        });
+
                         describe('after the first preroll video has been shown', function() {
                             beforeEach(function() {
                                 minireel.moveToIndex(0);
@@ -1257,8 +1350,8 @@ describe('MiniReel', function() {
                                 minireel.skippable = true;
                                 minireel.moveToIndex(2);
                                 minireel.skippable = true;
+                                minireel.deck.forEach(card => card.prepare.calls.reset());
 
-                                minireel.deck.forEach(card => spyOn(card, 'prepare'));
                                 minireel.moveToIndex(8);
                                 expect(minireel.prerollCard.activate).toHaveBeenCalled();
 
@@ -1266,8 +1359,14 @@ describe('MiniReel', function() {
                                 minireel.prerollCard.prepare.calls.reset();
                             });
 
-                            it('should not preload any normal cards', function() {
-                                minireel.deck.forEach(card => expect(card.prepare).not.toHaveBeenCalled());
+                            it('should preload the next card', function() {
+                                minireel.deck.forEach((card, index) => {
+                                    if (index !== 8) {
+                                        expect(card.prepare).not.toHaveBeenCalled();
+                                    } else {
+                                        expect(card.prepare).toHaveBeenCalled();
+                                    }
+                                });
                             });
 
                             describe('calling next()', function() {
@@ -1326,6 +1425,8 @@ describe('MiniReel', function() {
                                     minireel.prerollCard.prepare.calls.reset();
 
                                     minireel.moveToIndex(8);
+                                    expect(minireel.deck[6].deactivate).toHaveBeenCalled();
+                                    expect(minireel.deck[8].activate).not.toHaveBeenCalled();
                                     expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
                                     expect(minireel.prerollCard.activate).toHaveBeenCalled();
 
@@ -1333,6 +1434,7 @@ describe('MiniReel', function() {
                                     minireel.prerollCard.activate.calls.reset();
 
                                     minireel.moveToIndex(2);
+                                    expect(minireel.prerollCard.deactivate).toHaveBeenCalled();
                                     expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
                                     expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
 
@@ -1425,174 +1527,6 @@ describe('MiniReel', function() {
         });
     });
 
-    describe('hooks:', function() {
-        describe('didMove()', function() {
-            let spy;
-
-            beforeEach(function(done) {
-                spy = jasmine.createSpy('spy()');
-                minireel.on('init', () => {
-                    minireel.deck.forEach(card => {
-                        spyOn(card, 'activate').and.callThrough();
-                        spyOn(card, 'deactivate').and.callThrough();
-                        spyOn(card, 'prepare').and.callThrough();
-                    });
-                    spyOn(minireel.prerollCard, 'deactivate').and.callThrough();
-
-                    minireel.currentCard = minireel.deck[2];
-                    minireel.currentIndex = 2;
-                    minireel.didMove();
-
-                    minireel.adConfig = {
-                        video: {
-                            firstPlacement: -1,
-                            frequency: 0
-                        },
-                        display: {}
-                    };
-
-                    done();
-                });
-                minireel.on('move', spy);
-
-                appDataDeferred.fulfill({ experience: experience, profile: profile });
-            });
-
-            it('should emit the "move" event', function() {
-                expect(spy).toHaveBeenCalled();
-            });
-
-            it('should call prepare() on the card after the currentCard', function() {
-                expect(minireel.deck[0].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[1].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[2].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[3].prepare).toHaveBeenCalled();
-                expect(minireel.deck[4].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[5].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[6].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[7].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[8].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[9].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[10].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[11].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[12].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[13].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[14].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[15].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[16].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[17].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[18].prepare).not.toHaveBeenCalled();
-                expect(minireel.deck[19].prepare).not.toHaveBeenCalled();
-            });
-
-            describe('when moving to the last card', function() {
-                beforeEach(function() {
-                    minireel.currentIndex = 19;
-                    minireel.currentCard = minireel.deck[19];
-                });
-
-                it('should not throw any errors', function() {
-                    minireel.didMove();
-                });
-            });
-
-            it('should call activate() on the active card and deactivate() on the non-active card', function() {
-                expect(minireel.deck[0].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[0].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[1].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[1].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[2].activate).toHaveBeenCalled();
-                expect(minireel.deck[2].deactivate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[3].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[3].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[4].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[4].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[5].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[5].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[6].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[6].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[7].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[7].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[8].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[8].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[9].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[9].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[10].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[10].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[11].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[11].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[12].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[12].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[13].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[13].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[14].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[14].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[15].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[15].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[16].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[16].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[17].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[17].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[18].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[18].activate).not.toHaveBeenCalled();
-
-                expect(minireel.deck[19].deactivate).toHaveBeenCalled();
-                expect(minireel.deck[19].activate).not.toHaveBeenCalled();
-            });
-
-            it('should call deactivate() on the prerollCard', function() {
-                expect(minireel.prerollCard.deactivate).toHaveBeenCalled();
-            });
-
-            describe('when moving to any index other than -1', function() {
-                beforeEach(function() {
-                    minireel.deck.forEach(card => spyOn(card, 'cleanup'));
-                    spyOn(minireel.prerollCard, 'cleanup');
-
-                    minireel.deck.forEach((card, index) => minireel.moveToIndex(index));
-                });
-
-                it('should not cleanup any of the cards', function() {
-                    minireel.deck.forEach(card => expect(card.cleanup).not.toHaveBeenCalled());
-                    expect(minireel.prerollCard.cleanup).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('when moving to -1', function() {
-                beforeEach(function() {
-                    minireel.deck.forEach(card => spyOn(card, 'cleanup'));
-                    minireel.deck[0].prepare.and.callFake(() => minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled()));
-                    spyOn(minireel.prerollCard, 'cleanup');
-
-                    minireel.moveToIndex(-1);
-                });
-
-                it('should cleanup all of the cards', function() {
-                    minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled());
-                    expect(minireel.prerollCard.cleanup).toHaveBeenCalled();
-                });
-            });
-        });
-    });
-
     describe('when the session pings "show"', function() {
         beforeEach(function() {
             spyOn(minireel, 'moveToIndex');
@@ -1601,6 +1535,17 @@ describe('MiniReel', function() {
 
         it('should start the minireel', function() {
             expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
+        });
+    });
+
+    describe('when the session pings "hide"', function() {
+        beforeEach(function() {
+            spyOn(minireel, 'close');
+            session.emit('hide');
+        });
+
+        it('should close the MiniReel', function() {
+            expect(minireel.close).toHaveBeenCalled();
         });
     });
 
@@ -1656,6 +1601,90 @@ describe('MiniReel', function() {
         });
     });
 
+    describe('when the minireel becomes unskippable', function() {
+        var becameUncloseable;
+
+        beforeEach(function() {
+            becameUncloseable = jasmine.createSpy('becameUncloseable()');
+            minireel.on('becameUncloseable', becameUncloseable);
+
+            minireel.closeable = true;
+        });
+
+        describe('and it is an interstitial', function() {
+            beforeEach(function() {
+                minireel.interstitial = true;
+
+                minireel.emit('becameUnskippable');
+            });
+
+            it('should emit "becameUncloseable"', function() {
+                expect(becameUncloseable).toHaveBeenCalled();
+            });
+
+            it('should set closeable to false', function() {
+                expect(minireel.closeable).toBe(false);
+            });
+        });
+
+        describe('and it is not an interstitial', function() {
+            beforeEach(function() {
+                minireel.interstitial = false;
+
+                minireel.emit('becameUnskippable');
+            });
+
+            it('should not emit "becameUncloseable"', function() {
+                expect(becameUncloseable).not.toHaveBeenCalled();
+            });
+
+            it('should not set closeable to false', function() {
+                expect(minireel.closeable).not.toBe(false);
+            });
+        });
+    });
+
+    describe('when the minireel becomes skippable', function() {
+        var becameCloseable;
+
+        beforeEach(function() {
+            becameCloseable = jasmine.createSpy('becameCloseable()');
+            minireel.on('becameCloseable', becameCloseable);
+        });
+
+        describe('and closeable was false', function() {
+            beforeEach(function() {
+                minireel.closeable = false;
+
+                minireel.emit('becameSkippable');
+            });
+
+            it('should emit "becameCloseable"', function() {
+                expect(becameCloseable).toHaveBeenCalled();
+            });
+
+            it('should set closeable to true', function() {
+                expect(minireel.closeable).toBe(true);
+            });
+        });
+
+        describe('and closeable was true', function() {
+            beforeEach(function() {
+                minireel.closeable = true;
+
+                minireel.emit('becameSkippable');
+            });
+
+            it('should not emit "becameCloseable"', function() {
+                expect(becameCloseable).not.toHaveBeenCalled();
+            });
+
+            it('should keep closeable as true', function() {
+                expect(minireel.closeable).toBe(true);
+            });
+        });
+    });
+
     describe('when the appData is available', function() {
         let done;
         let mouseDeferred;
@@ -1663,7 +1692,6 @@ describe('MiniReel', function() {
         beforeEach(function(_done) {
             done = jasmine.createSpy('done()').and.callFake(_done);
             spyOn(adtech, 'setDefaults');
-            spyOn(minireel, 'didMove').and.callThrough();
 
             mouseDeferred = defer(RunnerPromise);
             spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
@@ -1679,6 +1707,7 @@ describe('MiniReel', function() {
             appDataDeferred.fulfill({
                 experience: experience,
                 standalone: true,
+                interstitial: true,
                 profile: profile
             });
         });
@@ -1693,6 +1722,10 @@ describe('MiniReel', function() {
 
         it('should copy the standalone property', function() {
             expect(minireel.standalone).toBe(true);
+        });
+
+        it('should set the interstitial property', function() {
+            expect(minireel.interstitial).toBe(true);
         });
 
         it('should copy the id', function() {
@@ -1775,7 +1808,7 @@ describe('MiniReel', function() {
                 codeLoader.loadStyles.calls.reset();
 
                 mouseDeferred.fulfill(false);
-                mouseDeferred.promise.then(done, done);
+                Promise.resolve(mouseDeferred.promise).then(done, done);
             });
 
             it('should not load branding hover styles', function() {
@@ -1788,7 +1821,7 @@ describe('MiniReel', function() {
                 codeLoader.loadStyles.calls.reset();
 
                 mouseDeferred.fulfill(true);
-                mouseDeferred.promise.then(done, done);
+                Promise.resolve(mouseDeferred.promise).then(done, done);
             });
 
             it('should load branding hover styles', function() {
@@ -1831,7 +1864,7 @@ describe('MiniReel', function() {
                 delete experience.data;
 
                 appDataDeferred.fulfill({ experience, standalone: false, profile: profile });
-                appDataDeferred.promise.then(() => {}).then(done);
+                Promise.resolve(appDataDeferred.promise).then(() => {}).then(done);
             });
 
             it('should emit the "error" event', function() {

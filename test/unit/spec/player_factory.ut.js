@@ -8,6 +8,9 @@ import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../../../src/players/EmbeddedPlayer.js';
 import RumblePlayer from '../../../src/players/RumblePlayer.js';
 import SlideshowBobPlayer from '../../../src/players/SlideshowBobPlayer.js';
+import VinePlayer from '../../../src/players/VinePlayer.js';
+import InstagramVideoCard from '../../../src/models/InstagramVideoCard.js';
+import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -122,6 +125,34 @@ describe('playerFactory', function() {
 
                 it('should be a SlideshowBobPlayer', function() {
                     expect(result).toEqual(jasmine.any(SlideshowBobPlayer));
+                });
+            });
+
+            describe('if the card is from Vine', function() {
+                beforeEach(function() {
+                    card.data.type = 'vine';
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a VinePlayer', function() {
+                    expect(result).toEqual(jasmine.any(VinePlayer));
+                });
+            });
+
+            describe('if the card is an instagram video card', function() {
+                beforeEach(function() {
+                    card = new InstagramVideoCard({
+                        type: 'video',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be an HtmlVideoPlayer', function() {
+                    expect(result).toEqual(jasmine.any(HtmlVideoPlayer));
                 });
             });
 

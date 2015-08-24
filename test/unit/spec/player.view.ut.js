@@ -264,6 +264,44 @@ describe('PlayerView', function() {
                 });
             });
 
+            describe('if called without canGoForward', function() {
+                beforeEach(function() {
+                    buttons.forEach(button => {
+                        button.enable.calls.reset();
+                        button.disable.calls.reset();
+                    });
+                    delete data.canGoForward;
+
+                    Runner.run(() => playerView.update(data));
+                });
+
+                it('should do nothing to the buttons', function() {
+                    playerView.nextButtons.forEach(button => {
+                        expect(button.enable).not.toHaveBeenCalled();
+                        expect(button.disable).not.toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if called without canGoBack', function() {
+                beforeEach(function() {
+                    buttons.forEach(button => {
+                        button.enable.calls.reset();
+                        button.disable.calls.reset();
+                    });
+                    delete data.canGoBack;
+
+                    Runner.run(() => playerView.update(data));
+                });
+
+                it('should do nothing to the buttons', function() {
+                    playerView.previousButtons.forEach(button => {
+                        expect(button.enable).not.toHaveBeenCalled();
+                        expect(button.disable).not.toHaveBeenCalled();
+                    });
+                });
+            });
+
             describe('if the minireel can\'t go forward', function() {
                 beforeEach(function() {
                     data.canGoForward = false;

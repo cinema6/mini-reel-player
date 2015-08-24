@@ -1,3 +1,6 @@
+var c6embed = require('../resources/c6embed-server');
+var grunt = require('grunt');
+
 module.exports = {
     options: {
         hostname: '0.0.0.0'
@@ -6,7 +9,21 @@ module.exports = {
         options: {
             port: '<%= settings.port %>',
             base: 'server',
-            livereload: true
+            livereload: true,
+            middleware: function(connect, options, middleware) {
+                'use strict';
+
+                return [
+                    c6embed({
+                        playerFile: '.build/index.html',
+                        urlRoot: 'mothership',
+
+                        params: grunt.config.get('server.params'),
+                        experiences: [grunt.config.get('server.exp')],
+                        index: 0
+                    })
+                ].concat(middleware);
+            }
         }
     },
     docs: {

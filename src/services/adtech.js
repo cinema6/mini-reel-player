@@ -1,6 +1,7 @@
 import codeLoader from './code_loader.js';
 import environment from '../environment.js';
 import {createKey} from 'private-parts';
+import urlParser from '../services/url_parser.js';
 import {
     extend
 } from '../../lib/utils.js';
@@ -8,7 +9,7 @@ import {
 const _ = createKey();
 
 codeLoader.configure('adtech', {
-    src: '//aka-cdn.adtechus.com/dt/common/DAC.js',
+    src: urlParser.parse('//aka-cdn.adtechus.com/dt/common/DAC.js').href,
     after() { return global.ADTECH; }
 });
 

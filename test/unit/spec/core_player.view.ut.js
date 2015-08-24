@@ -234,6 +234,29 @@ describe('CorePlayer', function() {
                         expect(complete).not.toHaveBeenCalled();
                     });
                 });
+
+                describe('when "ended" is emitted', function() {
+                    beforeEach(function() {
+                        player.currentTime = player.duration - 2;
+                        player.emit('ended');
+                    });
+
+                    it('should fire the complete event', function() {
+                        expect(complete).toHaveBeenCalled();
+                    });
+
+                    describe('if one second before the end of the video', function() {
+                        beforeEach(function() {
+                            complete.calls.reset();
+                            player.currentTime = player.duration - 0.25;
+                            player.emit('timeupdate');
+                        });
+
+                        it('should not fire the complete event', function() {
+                            expect(complete).not.toHaveBeenCalled();
+                        });
+                    });
+                });
             });
         });
     });

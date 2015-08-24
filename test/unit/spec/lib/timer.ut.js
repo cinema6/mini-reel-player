@@ -4,7 +4,8 @@ import RunnerPromise from '../../../../lib/RunnerPromise.js';
 import Runner from '../../../../lib/Runner.js';
 
 describe('timer', function() {
-    beforeEach(function() {
+    beforeEach(function(done) {
+        process.nextTick(done);
         timer.constructor();
         jasmine.clock().install();
     });
@@ -75,7 +76,6 @@ describe('timer', function() {
             let result, fn;
 
             beforeEach(function() {
-                spyOn(global, 'setInterval').and.callThrough();
                 spyOn(Runner, 'run').and.callThrough();
                 fn = jasmine.createSpy('fn()').and.callFake(() => Runner.schedule('render', null, () => {}));
 
@@ -86,7 +86,7 @@ describe('timer', function() {
                 expect(result).toEqual(jasmine.any(RunnerPromise));
             });
 
-            it('should call the fn every ms', function() {
+            it('should call the fn every x ms', function() {
                 jasmine.clock().tick(50);
                 expect(fn.calls.count()).toBe(1);
                 expect(Runner.run.calls.count()).toBe(1);

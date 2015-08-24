@@ -1,0 +1,556 @@
+/*  ================================================
+    GLOBAL CSS EDITS
+    ================================================ */
+
+/*  ================================================
+    instagram-card.css
+    ================================================ */
+
+    .instag____profile__group {
+        max-height:30em;
+    }
+
+    /*  instagram image card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 1200px -  2000px */
+
+            .instag____player__group {
+                font-size:1em;
+            }
+
+
+            .instag____mediaImg__group {
+                right:21em;
+            }
+
+            .instag____post__group {
+                width:20em;
+            }
+
+                .instag____postAccount__name {
+                    width:35%;
+                }
+
+        }
+
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+
+            .instag____player__group {
+                font-size:0.9375em;
+            }
+
+
+
+            .instag____mediaImg__group {
+                right:17em;
+            }
+
+            .instag____post__group {
+                width:16em;
+                padding:0.75em;
+                height:auto;
+                overflow-y:auto;
+            }
+
+                .instag____postAccount__pic {
+                    width:40%;
+                    float:none;
+                    display:block;
+                    margin:1.5em 30% 0;
+                }
+
+                .instag____postAccount__name {
+                    width:100%;
+                    text-align:center;
+                    margin:0.25em 0 0;
+                }
+
+                .instag____postAccount__logo {
+                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
+                    width:4em;
+                    position: absolute;
+                    top:-0.5em;
+                    right:-0.5em;
+                }
+
+                    .instag____postInfo__copy {
+                        bottom:14em;
+                        position:relative;
+                    }
+
+                    .instag____postInfo__group {
+                        height:auto;
+                    }
+
+                    .instag____postInfo__feedback {
+                        margin-top:6em;
+                        padding:1.5em 0 0 2.5em;
+                        position:relative;
+                        left:0;
+                        right:0;
+                        bottom:1.5em;
+                        display:block;
+                    }
+                        .instag____postInfo__feedback:before {
+                            background:url('../../img/social-card-sprites.png') -2.4em -0.25em/5em no-repeat;
+                            width: 1.25em;
+                            height: 1em;
+                        }
+                        .instag____postInfo__feedback:after {
+                            background: url('../../img/social-card-sprites.png') -19.25em -0.5em/7em no-repeat;
+                            width: 1.75em;
+                            height: 0.3em;
+                        }
+
+                        .instag____postInfo__comment {
+                            top: 1.5em;
+                            font-size: 0.825em;
+                        }
+
+        }
+
+
+        @media screen and (max-width:50rem) {
+            /*  w: 0px - 752 */
+
+            .instag____mediaImg__group {
+                right:11em;
+            }
+
+
+            .instag____post__group {
+                width: 10em;
+                padding: 0.75em;
+                height:auto;
+                overflow-y:auto;
+            }
+
+                .instag____postAccount__logo {
+                    background:url('../../img/social-card-sprites.png') -0.825em -0.825em/11.875em no-repeat;
+                    width:4em;
+                    top:-0.5em;
+                    right:-0.5em;
+                }
+
+                .instag____postInfo__copy {
+                    position:relative;
+                }
+
+                .instag____postInfo__group {
+                    height:auto;
+                }
+
+                    .instag____postInfo__feedback {
+                        padding-left:1.5em;
+                    }
+
+        }
+
+
+        @media screen and (max-height:39rem) and (max-width:95rem) {
+            /*  h: 0px - 624px
+                w: 0px - 1280px   */
+
+            .instag____profile__group {
+                height:100%;
+            }
+        }
+        @media screen and (max-width:80rem) {
+            /*  w: 0px - 1280px   */
+
+            .instag____profile__group {
+                height:100%;
+            }
+        }
+
+        @media screen and (max-height:26rem) {
+            /*  h: 0px - 416px */
+
+            .instag____profile__group {
+                height:100%;
+                min-height:auto;
+            }
+        }
+
+        @media screen and (max-height:26rem) and (max-width:50rem) {
+            /*  h: 0px - 416px
+                w: 0px - 752 px    */
+
+            .instag____profile__group {
+                height:auto;
+                min-height:none;
+            }
+        }
+
+
+    /*  instagram video card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 2112px -  2000px */
+
+            .instag____mediaVid__group {
+                right:21em;
+            }
+            .twitter____text__group {
+                position:absolute;
+                left:0;
+                right:0;
+            }
+        }
+
+
+    /*  twitter text card MEDIA QUERIES
+        ================================================ */
+
+
+        @media screen and (min-width:70em) and (max-width:95rem) {
+            /*  w: 1120px -  1520px */
+
+                .twitter____text__group {
+                    font-size:0.75em;
+                }
+
+        }
+
+
+
+
+        @media screen and (max-width:70rem) {
+            /*  w: 0px - 1120px */
+
+                .twitter____text__group {
+                    font-size:0.625em;
+                }
+
+        }
+
+        @media screen and (max-width:52rem) {
+            /*  w: 0px - 832px */
+
+                .twitter____profileBar__name {
+                    margin-left:5em;
+                }
+
+                .twitter____profileBar__handle {
+                    display:block;
+                    margin-left:5em;
+                }
+                .twitter____profileBar__follow {
+                    top:3em;
+                }
+                .twitter____txtTweet__group {
+                    width:95%;
+                }
+        }
+
+        @media screen and (max-width:41rem) {
+            /*  w: 0px - 656px */
+            .twitter____profileBar__handle {
+                margin-bottom:1.5em;
+                margin-top:0.5em;
+            }
+                .twitter____profileBar__follow {
+                    top:5.5em;
+                    left:8em;
+                }
+
+                .twitter____txtTweet {
+                    font-size:1rem;
+                }
+        }
+
+        @media screen and (max-width:62rem) {
+            /*  w: 0px - 992px */
+            .twitter____profileBar__group {
+                background-color:rgba(256, 256, 256, 0.9);
+                border-radius:5px 5px 0 0;
+                margin:1em;
+                padding:0;
+                padding-bottom:8em;
+                width:auto;
+            }
+
+
+                .twitter____profileBar__name {
+                    position:absolute;
+                    top:2em;
+                    left:6.25em;
+                    margin-left:0;
+                    color:#292f33;
+                }
+                .twitter____profileBar__handle {
+                    position:absolute;
+                    top:3.5em;
+                    left:6.25em;
+                    margin:0;
+                    color:#292f33;
+                }
+
+                .twitter____profileBar__follow {
+                    top:2em;
+                    right:2.5em;
+                    color:#55ACEE;
+                }
+                    .twitter____profileBar__name:hover,
+                    .twitter____profileBar__handle:hover,
+                    .twitter____profileBar__follow:hover,
+                    .twitter____profileBar__follow:hover:before {
+                        color:#3b94d9;
+                    }
+
+            .twitter____txtTweet__group {
+                width:auto;
+                max-width:none;
+                top:9em;
+                bottom:1em;
+                left:1em;
+                right:1em;
+                transform:none;
+                border-radius:0 0 5px 5px;
+                overflow-y:auto;
+            }
+
+                .twitter____txtTweet {
+                    font-size:1.5em;
+                }
+
+                .twitter____txtTweet__time {
+                    margin-top:3em;
+                    position:relative;
+                    bottom:2em;
+                }
+
+                .twitter____info__group {
+                    position:relative;
+                }
+        }
+
+
+    /*  twitter image card MEDIA QUERIES
+    ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 1200px -  2000px */
+
+            .twitter____player__group {
+                font-size:0.875em;
+            }
+
+
+            .twitter____mediaImg__group {
+                right:21em;
+            }
+
+            .twitter____tweet__group {
+                width:20em;
+            }
+
+        }
+
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+
+            .twitter____player__group {
+                font-size:0.875em;
+            }
+
+                .twitter____profile__group {
+                    width:8em;
+                }
+
+                    .twitter____profile__name {
+                        font-size:0.875rem;
+                    }
+
+                .twitter____mediaImg__group {
+                    left:10em;
+                    right:14em;
+                }
+
+                    .twitter____mediaImg {
+                        background-position:center top;
+                    }
+
+                .twitter____tweet__group {
+                    width:13em;
+                }
+
+                    .twitter____tweet__copy {
+                        font-size:1rem;
+                    }
+
+                    .twitter____tweet__feedback {
+                        font-size:0.875em;
+                    }
+
+                        .twitter____tweet__reply,
+                        .twitter____tweet__retweet,
+                        .twitter____tweet__favorite {
+                            margin-right:1em;
+                        }
+
+
+
+        }
+
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0px - 928 */
+
+            .twitter____profile__group {
+                position:absolute;
+                top:1.5em;
+                right:1.75em;
+                z-index:2;
+                width:6.75em;
+            }
+
+                .twitter____profile__picBox {
+                    width:3em;
+                    position:absolute;
+                    left:0;
+                }
+
+                    .twitter____profile__name {
+                        font-size:0.875em;
+                        line-height:1.3;
+                        text-align:left;
+                        width:4em;
+                        position:absolute;
+                        right:0;
+                    }
+
+                    .twitter____profile__handle {
+                        font-size:0.875em;
+                        text-align:left;
+                        position:absolute;
+                        top:3.75em;
+                    }
+
+
+                    .twitter____profile__follow,
+                    .twitter____profile__follow:focus {
+                        display:none;
+                    }
+
+
+            .twitter____mediaImg__group {
+                left:1em;
+                right:9em;
+            }
+
+            .twitter____tweet__group {
+                width:8em;
+            }
+
+                .twitter____tweet__container {
+                    top:6em;
+                    left:0.5em;
+                    right:0.25em;
+                }
+
+                    .twitter____tweet__timeStamp:after {
+                        top:-0.0625em;
+                        right: 0.5em;
+                    }
+
+                    .twitter____tweet__copy {
+                        font-size:0.875rem;
+                    }
+
+
+
+
+
+        }
+
+
+
+    /*  twitter gif card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 1200px -  2000px */
+
+            .twitter____mediaGif__group {
+                right:21em;
+            }
+        }
+
+
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+            .instag____mediaVid__group {
+                right:17em;
+                left:9.5em;
+            }
+
+        }
+
+        @media screen and (max-width:50rem) {
+            /*  w: 0px - 752 */
+            .instag____mediaVid__group {
+                right:11em;
+            }
+        }
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+            .twitter____mediaGif__group {
+                left:9.5em;
+                right:14em;
+            }
+        }
+
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0 - 928px */
+            .twitter____mediaGif__group {
+                left:1em;
+                right:9em;
+                bottom:1em;
+            }
+        }
+
+
+    /*  twitter video card MEDIA QUERIES
+        ================================================ */
+
+        @media screen and (min-width:75rem) and (max-width:125rem) {
+            /*  w: 1200px -  2000px */
+
+            .twitter____mediaVid__group {
+                right:21em;
+            }
+        }
+
+
+        @media screen and (max-width:75rem) {
+            /*  w: 0px - 1200px */
+
+            .twitter____mediaVid__group {
+                left:9.5em;
+                right:14em;
+            }
+        }
+
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0 - 928 */
+            .twitter____mediaVid__group {
+                left:1em;
+                right:9em;
+                bottom:1em;
+            }
+        }

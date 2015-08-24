@@ -9,6 +9,7 @@ describe('View', function() {
     let queues;
 
     beforeEach(function() {
+        spyOn(View.prototype, 'setMaxListeners').and.callThrough();
         view = new View();
 
         queues = {
@@ -34,6 +35,10 @@ describe('View', function() {
 
     it('should mixin the EventEmitter', function() {
         expect(View.mixins).toContain(EventEmitter);
+    });
+
+    it('should set the max event listeners to 50', function() {
+        expect(view.setMaxListeners).toHaveBeenCalledWith(50);
     });
 
     describe('if constructed with another view\'s element', function() {
@@ -222,6 +227,12 @@ describe('View', function() {
             });
         });
 
+        describe('parent', function() {
+            it('should be null', function() {
+                expect(view.parent).toBeNull();
+            });
+        });
+
         describe('target', function() {
             it('should be null', function() {
                 expect(view.target).toBeNull();
@@ -317,6 +328,27 @@ describe('View', function() {
                 expect(view.didCreateElement).toHaveBeenCalled();
             });
 
+            describe('if the view already has a parent', function() {
+                let parentView;
+
+                beforeEach(function() {
+                    parentView = new View();
+                    view.parent = parentView;
+
+                    view.create();
+                });
+
+                describe('when the parentView is destroyed', function() {
+                    beforeEach(function() {
+                        parentView.emit('destroyed');
+                    });
+
+                    it('should set the parent to null', function() {
+                        expect(view.parent).toBeNull();
+                    });
+                });
+            });
+
             describe('if called again', function() {
                 let element;
 
@@ -366,10 +398,12 @@ describe('View', function() {
             beforeEach(function() {
                 parentView = new View();
                 parentView.tag = 'span';
+                parentView.inserted = true;
 
                 spyOn(parentView, 'create').and.callThrough();
                 spyOn(view, 'create').and.callThrough();
                 spyOn(view, 'didInsertElement').and.callThrough();
+                spyOn(view, 'willRemoveElement').and.callThrough();
 
                 view.appendTo(parentView);
             });
@@ -377,6 +411,127 @@ describe('View', function() {
             it('should create both elements', function() {
                 expect(parentView.create).toHaveBeenCalled();
                 expect(view.create).toHaveBeenCalled();
+            });
+
+            it('should set the parent to the provided view', function() {
+                expect(view.parent).toBe(parentView);
+            });
+
+            describe('if the parentView is destroyed', function() {
+                beforeEach(function() {
+                    parentView.emit('destroyed');
+                });
+
+                it('should remove its reference to the parentView', function() {
+                    expect(view.parent).toBeNull();
+                });
+            });
+
+            describe('if the parentView is inserted', function() {
+                beforeEach(function() {
+                    view.didInsertElement.calls.reset();
+                    parentView.emit('inserted');
+                });
+
+                it('should call didInsertElement()', function() {
+                    expect(view.didInsertElement).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the parentView is removed', function() {
+                beforeEach(function() {
+                    parentView.emit('removed');
+                });
+
+                it('should call willRemoveElement()', function() {
+                    expect(view.willRemoveElement).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the view\'s parent is switched', function() {
+                let newParent;
+
+                beforeEach(function() {
+                    newParent = new View();
+                    newParent.tag = 'span';
+
+                    view.appendTo(newParent);
+                });
+
+                describe('when the old parent is destroyed', function() {
+                    beforeEach(function() {
+                        parentView.emit('destroyed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.parent).toBe(newParent);
+                    });
+                });
+
+                describe('when the old parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        parentView.emit('inserted');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the old parent is removed', function() {
+                    beforeEach(function() {
+                        parentView.emit('removed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the new parent is destroyed', function() {
+                    beforeEach(function() {
+                        newParent.emit('destroyed');
+                    });
+
+                    it('should remove its reference to the parent', function() {
+                        expect(view.parent).toBeNull();
+                    });
+                });
+
+                describe('when the new parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        newParent.emit('inserted');
+                    });
+
+                    it('should call didInsertElement()', function() {
+                        expect(view.didInsertElement).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the new parent is removed', function() {
+                    beforeEach(function() {
+                        newParent.emit('removed');
+                    });
+
+                    it('should call willRemoveElement()', function() {
+                        expect(view.willRemoveElement).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if the parent is not inserted', function() {
+                beforeEach(function() {
+                    parentView.inserted = false;
+                    queues.render.pop()();
+                });
+
+                it('should not call didInsertElement()', function() {
+                    expect(view.didInsertElement).not.toHaveBeenCalled();
+                });
             });
 
             describe('in the render queue', function() {
@@ -436,6 +591,7 @@ describe('View', function() {
             beforeEach(function() {
                 parentView = new View();
                 parentView.tag = 'span';
+                parentView.inserted = true;
 
                 sibling = new View();
                 sibling.tag = 'span';
@@ -444,12 +600,138 @@ describe('View', function() {
                 spyOn(view, 'create').and.callThrough();
                 spyOn(parentView, 'create').and.callThrough();
 
+                spyOn(view, 'willRemoveElement').and.callThrough();
+
                 view.insertInto(parentView, sibling);
             });
 
             it('should create the view and the view to insert', function() {
                 expect(view.create).toHaveBeenCalled();
                 expect(parentView.create).toHaveBeenCalled();
+            });
+
+            it('should set the parent to the provided parent', function() {
+                expect(view.parent).toBe(parentView);
+            });
+
+            describe('if the parentView is destroyed', function() {
+                beforeEach(function() {
+                    parentView.emit('destroyed');
+                });
+
+                it('should remove its reference to the parentView', function() {
+                    expect(view.parent).toBeNull();
+                });
+            });
+
+            describe('if the parentView is inserted', function() {
+                beforeEach(function() {
+                    spyOn(view, 'didInsertElement');
+                    parentView.emit('inserted');
+                });
+
+                it('should call didInsertElement()', function() {
+                    expect(view.didInsertElement).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the parentView is removed', function() {
+                beforeEach(function() {
+                    parentView.emit('removed');
+                });
+
+                it('should call willRemoveElement()', function() {
+                    expect(view.willRemoveElement).toHaveBeenCalled();
+                });
+            });
+
+            describe('if the view\'s parent is switched', function() {
+                let newParent;
+
+                beforeEach(function() {
+                    newParent = new View();
+                    newParent.tag = 'span';
+                    spyOn(view, 'didInsertElement');
+
+                    view.appendTo(newParent);
+                });
+
+                describe('when the old parent is destroyed', function() {
+                    beforeEach(function() {
+                        parentView.emit('destroyed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.parent).toBe(newParent);
+                    });
+                });
+
+                describe('when the old parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        parentView.emit('inserted');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.didInsertElement).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the old parent is removed', function() {
+                    beforeEach(function() {
+                        parentView.emit('removed');
+                    });
+
+                    it('should do nothing', function() {
+                        expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the new parent is destroyed', function() {
+                    beforeEach(function() {
+                        newParent.emit('destroyed');
+                    });
+
+                    it('should remove its reference to the parent', function() {
+                        expect(view.parent).toBeNull();
+                    });
+                });
+
+                describe('when the new parent is inserted', function() {
+                    beforeEach(function() {
+                        view.didInsertElement.calls.reset();
+
+                        newParent.emit('inserted');
+                    });
+
+                    it('should call didInsertElement()', function() {
+                        expect(view.didInsertElement).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the new parent is removed', function() {
+                    beforeEach(function() {
+                        newParent.emit('removed');
+                    });
+
+                    it('should call willRemoveElement()', function() {
+                        expect(view.willRemoveElement).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if the parent is not inserted', function() {
+                beforeEach(function() {
+                    parentView.inserted = false;
+                    spyOn(view, 'didInsertElement').and.callThrough();
+                    spyOn(parentView.element, 'insertBefore');
+                    queues.render.pop()();
+                });
+
+                it('should not call didInsertElement()', function() {
+                    expect(view.didInsertElement).not.toHaveBeenCalled();
+                });
             });
 
             describe('in the render queue', function() {
@@ -555,6 +837,7 @@ describe('View', function() {
             beforeEach(function() {
                 parentView = new View();
                 parentView.tag = 'span';
+                parentView.inserted = true;
 
                 parentView.append(view);
                 queues.render.pop()();
@@ -568,10 +851,6 @@ describe('View', function() {
 
             it('should call willRemoveElement()', function() {
                 expect(view.willRemoveElement).toHaveBeenCalled();
-            });
-
-            it('should set its element to null', function() {
-                expect(view.element).toBeNull();
             });
 
             describe('in the render queue', function() {
@@ -594,6 +873,96 @@ describe('View', function() {
 
                 it('should do nothing', function() {
                     expect(view.willRemoveElement).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if called before the view is created', function() {
+                beforeEach(function() {
+                    queues.render.length = 0;
+                    view = new View();
+                    spyOn(view, 'willRemoveElement');
+
+                    view.remove();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    expect(queues.render.length).toBe(0);
+                });
+            });
+
+            describe('if the view\'s element has no parent', function() {
+                beforeEach(function() {
+                    queues.render.length = 0;
+                    view = new View();
+                    view.tag = 'div';
+                    view.create();
+                    spyOn(view, 'willRemoveElement').and.callThrough();
+
+                    view.remove();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
+                    expect(queues.render.length).toBe(0);
+                });
+            });
+
+            describe('if the element is inserted into the parent but the parent is not inserted', function() {
+                beforeEach(function() {
+                    queues.render.length = 0;
+                    parentView.append(view);
+                    queues.render.pop()();
+                    view.inserted = false;
+                    view.willRemoveElement.calls.reset();
+                    parentView.element.removeChild.calls.reset();
+
+                    view.remove();
+                    queues.render.pop()();
+                });
+
+                it('should not call willRemoveElement()', function() {
+                    expect(view.willRemoveElement).not.toHaveBeenCalled();
+                });
+
+                it('should remove the element from the parent', function() {
+                    expect(parentView.element.removeChild).toHaveBeenCalledWith(view.element);
+                });
+            });
+        });
+
+        describe('destroy()', function() {
+            beforeEach(function() {
+                spyOn(view, 'remove');
+                spyOn(view, 'willDestroyElement').and.callThrough();
+                view.create();
+
+                view.destroy();
+            });
+
+            it('should remove() the view', function() {
+                expect(view.remove).toHaveBeenCalled();
+            });
+
+            it('should call willDestroyElement()', function() {
+                expect(view.willDestroyElement).toHaveBeenCalled();
+            });
+
+            it('should make the element null', function() {
+                expect(view.element).toBeNull();
+            });
+
+            describe('if called again', function() {
+                beforeEach(function() {
+                    view.remove.calls.reset();
+                    view.willDestroyElement.calls.reset();
+
+                    view.destroy();
+                });
+
+                it('should do nothing', function() {
+                    expect(view.remove).not.toHaveBeenCalled();
+                    expect(view.willDestroyElement).not.toHaveBeenCalled();
                 });
             });
         });
@@ -868,27 +1237,40 @@ describe('View', function() {
         });
 
         describe('didInsertElement()', function() {
+            let inserted;
+
             beforeEach(function() {
+                inserted = jasmine.createSpy('inserted()').and.callFake(() => expect(view.inserted).toBe(true));
+                view.on('inserted', inserted);
+
                 view.didInsertElement();
             });
 
             it('should set inserted to true', function() {
                 expect(view.inserted).toBe(true);
             });
+
+            it('should emit "inserted"', function() {
+                expect(inserted).toHaveBeenCalled();
+            });
         });
 
-        describe('willRemoveElement()', function() {
+        describe('willDestroyElement()', function() {
             let element;
+            let destroyed;
 
             beforeEach(function() {
+                destroyed = jasmine.createSpy('destroyed()');
+                view.on('destroyed', destroyed);
+
                 view.tag = 'span';
                 view.inserted = true;
                 view.create();
                 element = view.element;
                 spyOn(eventDelegator, 'removeListeners');
-                spyOn(view, 'removeAllListeners');
+                spyOn(view, 'removeAllListeners').and.callThrough();
 
-                view.willRemoveElement();
+                view.willDestroyElement();
             });
 
             it('should remove event listeners', function() {
@@ -899,8 +1281,8 @@ describe('View', function() {
                 expect(view.removeAllListeners).toHaveBeenCalled();
             });
 
-            it('should set inserted to false', function() {
-                expect(view.inserted).toBe(false);
+            it('should emit "destroyed"', function() {
+                expect(destroyed).toHaveBeenCalled();
             });
 
             describe('if another view is created with the view\'s old element', function() {
@@ -909,6 +1291,41 @@ describe('View', function() {
                         new View(element);
                     }).not.toThrow();
                 });
+            });
+        });
+
+        describe('willRemoveElement()', function() {
+            let element;
+            let removed;
+
+            beforeEach(function() {
+                removed = jasmine.createSpy('removed()').and.callFake(() => {
+                    expect(view.inserted).toBe(false);
+                    expect(view.parent).not.toBeNull();
+                });
+                view.on('removed', removed);
+
+                view.tag = 'span';
+                view.inserted = true;
+                view.parent = new View();
+                view.create();
+                element = view.element;
+                spyOn(eventDelegator, 'removeListeners');
+                spyOn(view, 'removeAllListeners');
+
+                view.willRemoveElement();
+            });
+
+            it('should set inserted to false', function() {
+                expect(view.inserted).toBe(false);
+            });
+
+            it('should emit "removed"', function() {
+                expect(removed).toHaveBeenCalled();
+            });
+
+            it('should set the parent to null', function() {
+                expect(view.parent).toBeNull();
             });
         });
     });

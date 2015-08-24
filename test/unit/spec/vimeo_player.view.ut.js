@@ -6,6 +6,8 @@ import Runner from '../../../lib/Runner.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import {EventEmitter} from 'events';
 import browser from '../../../src/services/browser.js';
+import environment from '../../../src/environment.js';
+import urlParser from '../../../src/services/url_parser.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -45,6 +47,8 @@ describe('VimeoPlayer', function() {
 
     beforeEach(function() {
         vimeo.constructor();
+        environment.constructor();
+        environment.protocol = 'https:';
         spyOn(CorePlayer.prototype, 'addClass');
 
         ServicePlayer = vimeo.Player;
@@ -57,6 +61,7 @@ describe('VimeoPlayer', function() {
 
     afterAll(function() {
         vimeo.constructor();
+        environment.constructor();
     });
 
     it('should be a CorePlayer', function() {
@@ -74,7 +79,7 @@ describe('VimeoPlayer', function() {
 
             vimeoPlayer.call.and.returnValue(RunnerPromise.resolve(60));
             vimeoPlayer.emit('ready');
-            RunnerPromise.resolve().then(done, done);
+            Promise.resolve().then(done, done);
         });
 
         describe('interface', function() {
@@ -338,9 +343,9 @@ describe('VimeoPlayer', function() {
                 expect(loadedmetadata).not.toHaveBeenCalled();
 
                 deferred.fulfill(3);
-                deferred.promise.then(() => {
+                Promise.resolve(deferred.promise.then(() => {
                     expect(loadedmetadata).toHaveBeenCalled();
-                }).then(done, done);
+                })).then(done, done);
             });
         });
 
@@ -586,9 +591,9 @@ describe('VimeoPlayer', function() {
                     expect(player.duration).toBe(0);
 
                     deferred.fulfill(60);
-                    deferred.promise.then(() => {
+                    Promise.resolve(deferred.promise.then(() => {
                         expect(player.duration).toBe(60);
-                    }).then(done, done);
+                    })).then(done, done);
                 });
             });
 
@@ -641,7 +646,7 @@ describe('VimeoPlayer', function() {
                 it('should be true when the volume is 0', function(done) {
                     vimeoPlayer.call.and.returnValue(RunnerPromise.resolve(0));
                     vimeoPlayer.emit('ready');
-                    vimeoPlayer.call('foo').then(() => {
+                    Promise.resolve(vimeoPlayer.call('foo')).then(() => {
                         expect(player.volume).toBe(0);
                         expect(player.muted).toBe(true);
                         done();
@@ -651,7 +656,7 @@ describe('VimeoPlayer', function() {
                 it('should be false when the volume is > 0', function(done) {
                     vimeoPlayer.call.and.returnValue(RunnerPromise.resolve(0.5));
                     vimeoPlayer.emit('ready');
-                    vimeoPlayer.call('foo').then(() => {
+                    Promise.resolve(vimeoPlayer.call('foo')).then(() => {
                         expect(player.volume).toBe(0.5);
                         expect(player.muted).toBe(false);
                         done();
@@ -708,9 +713,9 @@ describe('VimeoPlayer', function() {
                     vimeoPlayer.emit('ready');
                     deferred.fulfill(45);
 
-                    deferred.promise.then(() => {
+                    Promise.resolve(deferred.promise.then(() => {
                         expect(player.readyState).toBe(3);
-                    }).then(done, done);
+                    })).then(done, done);
                 });
 
                 it('should be 3 when the player is ready', function() {
@@ -1037,7 +1042,7 @@ describe('VimeoPlayer', function() {
                 const iframe = iframes[0];
 
                 expect(iframes.length).toBe(1);
-                expect(iframe.src).toBe(`${location.protocol}//player.vimeo.com/video/${player.src}?api=1&player_id=${player.id}`);
+                expect(iframe.src).toBe(urlParser.parse(`//player.vimeo.com/video/${player.src}?api=1&player_id=${player.id}`).href);
                 expect(iframe.getAttribute('width')).toBe('100%');
                 expect(iframe.getAttribute('height')).toBe('100%');
                 expect(iframe.getAttribute('frameborder')).toBe('0');

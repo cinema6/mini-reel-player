@@ -1,26 +1,63 @@
+@font-face {
+  font-family:'rosettaicons';
+  src: url('../../fonts/rosetta-icons-Regular.eot');
+  src: url('../../fonts/rosetta-icons-Regular.woff') format('woff'),
+       url('../../fonts/rosetta-icons-Regular.ttf')  format('truetype');
+}
+
+    .MiniReel__group--singleCardMR .cards__list {
+        top:0em;
+        right:0em;
+    }
+
+    .MiniReel__group--singleCardMR .cards__item {
+        top:0 !important;
+    }
+
+    .MiniReel__group--singleCardMR .card__group .twitter____text__group {
+        height:100%;
+    }
+
+    .MiniReel__group--singleCardMR .cards__group {
+        top:0.5em !important;
+    }
+
+    .MiniReel__group--singleCardMR .pager__group,
+    .MiniReel__group--singleCardMR .titleBar__group,
+    .MiniReel__group--singleCardMR .nav__btn,
+    .MiniReel__group--singleCardMR .btnPrimary {
+        display:none;
+    }
+
+    .MiniReel__group--singleCardMR .card__group .twitter____player__group {
+        height:100%;
+    }
+
 
 /*  ================================================
     twitter text card
     ================================================ */
 
-    .twitter____text__group {
+    .card__group .twitter____text__group {
         position:relative;
         background:center/cover no-repeat;
         overflow:hidden;
-        font-size:0.5em;
+        height:calc(100% - 6em);
     }
+
+
 
         .twitter____profileBar__group {
             background-color:rgba(0, 0, 0, 0.25);
-            padding:3em;
+            padding:1.5em;
             position:relative;
         }
 
             .twitter____profileBar__picBox {
-                width:12em;
+                width:6em;
                 position:absolute;
-                top:2em;
-                left:2em;
+                top:1em;
+                left:1em;
             }
 
                 .twitter____profileBar__pic {
@@ -28,48 +65,130 @@
                     border:3px solid #fff;
                 }
 
+                .twitter____profileBar__sponsor {
+                    color:#d4d4d4;
+                    font-size:0.875em;
+                    text-align:left;
+                    margin:-0.5em 0 0.25em 8.5em;
+                }
+
+                .card__group .twitter____profileBar__sponsor {
+                    display:none;
+                }
+
+                .card__group.twitter____card__group--sponsored .twitter____profileBar__sponsor {
+                    display:block;
+                }
+
                 .twitter____profileBar__name {
                     margin:0 0 0 6em;
                     color:#d4d4d4;
-                    font:bold 2.5em Arial, Helvetica, sans-serif; 
+                    font:bold 1.25em Arial, Helvetica, sans-serif; 
                 }
 
                 .twitter____profileBar__handle {
-                    margin:0 0 0 2em;
+                    margin:0 0 0 1em;
                     color:#d4d4d4;
                     word-wrap:break-word;
-                    font:2.5em Arial, Helvetica, sans-serif; 
+                    font:1.25em Arial, Helvetica, sans-serif; 
                 }
 
                 .twitter____profileBar__follow {
                     position:absolute;
                     top:1em;
-                    right:1em;
-                    color:#ccd6dd;
-                    font:bold 2em Arial, Helvetica, sans-serif; 
+                    right:2em;
+                    color:#fff;
+                    font:bold 1em Arial, Helvetica, sans-serif; 
                 }
                 .twitter____profileBar__follow:before {
                     content:'\f179';
                     font-family:'rosettaicons';
                     color:#55ACEE;
-                    margin:0 2em 0 0;
+                    margin:0 1em 0 0;
                 }
+
+                 .twitter____socialMedia__group--light {
+                    list-style:none;
+                    margin:0.75em 0 0;
+                    padding:0;
+                }
+
+                .card__group .twitter____socialMedia__group--light {
+                    display:none;
+                }
+
+                .card__group.twitter____card__group--sponsored .twitter____socialMedia__group--light {
+                    display:block;
+                    position:absolute;
+                    top:2em;
+                    right:2em;
+                }
+
+                        .twitter____socialMedia__icon--youtube:before,
+                        .twitter____socialMedia__icon--vimeo:before,
+                        .twitter____socialMedia__icon--facebook:before,
+                        .twitter____socialMedia__icon--twitter:before,
+                        .twitter____socialMedia__icon--pinterest:before,
+                        .twitter____socialMedia__icon--instagram:before {
+                            content:'';
+                            width:1rem;
+                            height:1rem;
+                            display:inline-block;
+                            vertical-align:middle;
+                        }
+
+                        .twitter____socialMedia__group--light .twitter____socialMedia__icon--youtube:before {
+                           background:url('../../img/sprite--alpha@2x.png') -1rem -5rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__group--light .twitter____socialMedia__icon--vimeo:before {
+                           background:url('../../img/sprite--alpha@2x.png') -3rem -5rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__group--light .twitter____socialMedia__icon--facebook:before {
+                           background:url('../../img/sprite--alpha@2x.png') -5rem -5rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__group--light .twitter____socialMedia__icon--twitter:before {
+                           background:url('../../img/sprite--alpha@2x.png') -7rem -5rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__group--light .twitter____socialMedia__icon--pinterest:before {
+                           background:url('../../img/sprite--alpha@2x.png') -9rem -5rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__group--light .twitter____socialMedia__icon--instagram:before {
+                           background:url('../../img/sprite--alpha@2x.png') -11rem -5rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+
+
+
+
 
         .twitter____txtTweet__group {
             background-color:rgba(256, 256, 256, 0.9);
-            padding:2em;
+            padding:1em;
             width:80%;
-            max-width:100em;
+            max-width:55em;
             position:absolute;
             top:50%;
             left:50%;
             transform:translate(-50%, -50%);
+            -webkit-transform:translate(-50%, -50%);
             border-radius:5px;
         }
 
+            .twitter____txtTweet__title {
+                color:#292f33;
+                font-size:1.75em;
+                font-weight:600;
+                margin:0;
+            }
+
             .twitter____txtTweet {
                 margin:0;
-                font:3.5em Arial, Helvetica, sans-serif;
+                font:1.75em Arial, Helvetica, sans-serif;
                 color:#292f33;
                 line-height:1.5;
             }
@@ -79,19 +198,59 @@
                 word-wrap:break-word;
             }
 
+            .twitter____txtTweet__cta--btn, 
+            .twitter____txtTweet__cta--btn:focus {
+                border:1px solid #d94040;
+                border-radius:3px;
+                margin:1em 0 0.5em;
+                padding:0.5em 0;
+                max-width:15em;
+                background-color:#d94040;
+                color:#fff;
+                text-transform:uppercase;
+                font-size:1em;
+                text-align:center;
+            }
+
+            .card__group .twitter____txtTweet__cta--btn,
+            .card__group .twitter____txtTweet__cta--btn:focus {
+                display:none;
+            }
+
+            .card__group.twitter____card__group--sponsored .twitter____txtTweet__cta--btn,
+            .card__group.twitter____card__group--sponsored .twitter____txtTweet__cta--btn:focus {
+                display:block;
+            }
+
+            .twitter____txtTweet__cta--link,
+            .twitter____txtTweet__cta--link:focus {
+                color:#d94040;
+                font-size:1.5em;
+                margin:0;
+            }
+
+            .card__group .twitter____txtTweet__cta--link,
+            .card__group .twitter____txtTweet__cta--link:focus {
+                display:none;
+            }
+
+            .card__group.twitter____card__group--sponsored .twitter____txtTweet__cta--link,
+            .card__group.twitter____card__group--sponsored .twitter____txtTweet__cta--link:focus {
+                display:block;
+            }
+
+
             .twitter____txtTweet__time {
                 color:#8899a6;
                 font-weight:bold;
-                font-size:2em;
                 display:inline-block;
-                margin:2em 0 0 0;
+                margin:1em 0 0 0;
             }
 
             .twitter____info__group {
                 position:absolute;
                 right:1em;
                 bottom:1em;
-                font-size:2em;
             }
 
                 .twitter____info__reply,
@@ -99,7 +258,7 @@
                 .twitter____info__favorite {
                     color:#8899a6;
                     font-weight:bold;
-                    margin:0 0 0 2em;
+                    margin:0 0 0 1em;
                 }
 
                 .twitter____info__reply:before,
@@ -108,7 +267,7 @@
                     font-family:'rosettaicons';
                     font-weight:normal;
                     color:#ccd6dd;
-                    margin:0 1em 0 0;
+                    margin:0 0.5em 0 0;
                 }
                 .twitter____info__reply:before {
                     content:'\f151';
@@ -123,103 +282,155 @@
     /*  twitter text card MEDIA QUERIES
         ================================================ */
 
+
+        @media screen and (min-width:58rem) and (max-width:95rem) {
+            /*  w: 928px -  1520px */
+
+                .twitter____text__group {
+                    font-size:0.75em;
+                }
+
+        }
+
+        
+        
+
+        @media screen and (max-width:58rem) {
+            /*  w: 0px - 928px */
+
+                .twitter____text__group {
+                    font-size:0.625em;
+                }
+
+                .twitter____socialMedia__group--light .twitter____socialMedia__icon {
+                    margin:0 0 0 1em;
+                }
+
+        }
+
         @media screen and (max-width:52rem) {
             /*  w: 0px - 832px */
 
-            .twitter____profileBar__handle {
-                display:block;
-                margin-left:6em; 
-            }
+                .twitter____profileBar__sponsor {
+                    margin-left:7.5em;
+                }
 
-            .twitter____profileBar__follow {
-                top:3em;
-            }
+                .twitter____profileBar__name {
+                    margin-left:5em; 
+                }
+
+                .twitter____profileBar__handle {
+                    display:block;
+                    margin-left:5em; 
+                }
         }
 
         @media screen and (max-width:44rem) {
             /*  w: 0px - 704px */
 
-            .twitter____txtTweet__group {
-                width:95%;
-            }
-            
-        }
-
-        @media screen and (max-width:41rem) {
-            /*  w: 0px - 656px */
-            .twitter____profileBar__group {
-               padding:3em 1em; 
-            }
-                .twitter____profileBar__picBox {
-                    width:10em;
+                .twitter____txtTweet__group {
+                    width:95%;
                 }
 
-                .twitter____profileBar__name {
-                    font-size:2em; 
-                    margin-left:6.5em; 
-                }
-
-
-                .twitter____profileBar__handle {
-                    font-size:2em;
-                    margin:0.5em 0 1.5em 6.5em;
-                }
-                    .twitter____profileBar__follow {
-                        font-size:2em;
-                        top:4.5em;
-                        left:7.25em;
-                    }
-                    .twitter____profileBar__follow:before {
-                        margin-right:0.5em;
+                    .twitter____txtTweet {
+                        font-size:1rem;
                     }
                 
-                    .twitter____txtTweet {
-                        font-size:1.25rem;
-                    }
         }
 
-        @media screen and (max-width:22rem), screen and (max-height:34rem) {
-            /*  w: 0px - 352px */
-            /*  h: 0px - 544px */
+
+        @media screen and (max-width:20rem), screen and (max-height:30rem) {
+            /*  w: 0px - 560px */
             .twitter____profileBar__group {
                 background-color:rgba(256, 256, 256, 0.9);
                 border-radius:5px 5px 0 0;
                 margin:1em;
                 padding:0;
-                padding-bottom:9em;
+                padding-bottom:7em;
                 width:auto;
             }
 
-                .twitter____profileBar__picBox {
-                    width:6em;
+                .card__group.twitter____card__group--sponsored .twitter____profileBar__sponsor {
+                    margin:0;
+                    position:absolute;
+                    top:2em;
+                    left:9em;
+                    color:#292f33;
                 }
 
                 .twitter____profileBar__name {
                     position:absolute;
                     top:1.5em;
-                    left:6em;
+                    left:6.25em;
+                    z-index:2;
                     margin-left:0;
-                    font-size:1.5em;
+                    padding-right:0.25em;
                     color:#292f33;
                 }
+
+                .card__group.twitter____card__group--sponsored .twitter____profileBar__name {
+                    top:2.75em;
+                    left:6em;
+                }
+
                 .twitter____profileBar__handle {
                     position:absolute;
                     top:3em;
-                    left:6em;
+                    left:6.25em;
+                    z-index:2;
                     margin:0;
-                    font-size:1.5em;
                     color:#292f33;
                 }
 
+                .card__group.twitter____card__group--sponsored .twitter____profileBar__handle{
+                    top:4.25em;
+                }
+
                 .twitter____profileBar__follow {
-                    top:7.5em;
-                    left:1.5em;
+                    top:5.5em;
+                    left:8em;
                     color:#55ACEE;
                 }
 
+                .card__group.twitter____card__group--sponsored .twitter____profileBar__follow {
+                    top:1.5em;
+                    left:auto;
+                    right:1em;
+                }
+
+
+                .card__group.twitter____card__group--sponsored .twitter____socialMedia__group--light {
+                    top:2.5em;
+                    right:1.25em;
+                }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--youtube:before {
+                       background:url('../../img/sprite--alpha@2x.png') -1rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--vimeo:before {
+                       background:url('../../img/sprite--alpha@2x.png') -3rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--facebook:before {
+                       background:url('../../img/sprite--alpha@2x.png') -5rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--twitter:before {
+                       background:url('../../img/sprite--alpha@2x.png') -7rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--pinterest:before {
+                       background:url('../../img/sprite--alpha@2x.png') -9rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
+                    .twitter____socialMedia__group--light .twitter____socialMedia__icon--instagram:before {
+                       background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat; 
+                    }
+
             .twitter____txtTweet__group {
                 width:auto;
-                top:10em;
+                top:8em;
                 bottom:1em;
                 left:1em;
                 right:1em;
@@ -229,62 +440,56 @@
             }
 
                 .twitter____txtTweet {
-                    font-size:1rem;
+                    font-size:0.875rem;
                 }
 
                 .twitter____txtTweet__time {
                     margin-top:3em;
                     position:relative;
                     bottom:2em;
-                    font-size:1.5em;
                 }
 
                 .twitter____info__group {
                     position:relative;
                 }
-
-                    .twitter____info__reply,
-                    .twitter____info__retweet,
-                    .twitter____info__favorite {
-                        margin-left:1.5em;
-                        font-size:0.75em;
-                    }
         }
-
 
        
 /*  ================================================
     twitter image card
     ================================================ */
-    @font-face {
-      font-family:'rosettaicons';
-      src: url('../../fonts/rosetta-icons-Regular.eot');
-      src: url('../../fonts/rosetta-icons-Regular.woff') format('woff'),
-           url('../../fonts/rosetta-icons-Regular.ttf')  format('truetype');
-    }
 
-
-    .twitter____player__group {
+    .card__group .twitter____player__group {
         margin:0;
-        padding:2em;
+        padding:1em;
         width:100%;
+        height:calc(100% - 3.75em);
         position:absolute;
         background:#f5f8fa;
         border:1px solid #e1e8ed;
-        font-size:0.5em;
+        font-size:0.875em;
         overflow:hidden;
     }
 
         .twitter____profile__group {
-            width:15em;
-            font-family: Arial, Helvetica, sans-serif;
+            position:absolute;
+            bottom:1rem;
+            left:1em;
+            right:1em;
+            z-index:2;
+            height:11rem;
+            padding:1em;
+            font-family:Arial, Helvetica, sans-serif;
+            border-radius:0 0 4px 4px;
+            border:1px solid #e1e8ed;
+            border-top:none;
+            background-color:#fff;
         }
 
 
             .twitter____profile__picBox {
                 display:block;
-                width:60%;
-                margin:0 0 0 auto;
+                width:4em;
             }
 
                 .twitter____profile__pic {
@@ -292,26 +497,59 @@
                     border:1px solid #fff;
                 }
 
+                .twitter____profile__sponsor {
+                    color:#8899a6;
+                    font-size:0.875em;
+                    text-align:left;
+                    position:absolute;
+                    top:0.5em;
+                    left:6.5em;
+                }
+
+                .card__group .twitter____profile__sponsor {
+                    display:none;
+                }
+
+                .card__group.twitter____card__group--sponsored .twitter____profile__sponsor {
+                    display:block;
+                }
+
                 .twitter____profile__name {
-                    font-size:2em;
+                    font-size:0.875em;
                     font-weight:700;
                     color:#292f33;
-                    text-align:right;
+                    text-align:left;
+                    line-height:1.3;
                     display:block;
+                    width:11em;
+                    position:absolute;
+                    top:1.5em;
+                    left:6.5em;
+                }
+
+                .card__group.twitter____card__group--sponsored .twitter____profile__name {
+                    top:3em;
                 }
 
                 .twitter____profile__handle {
                     color:#8899a6;
-                    font-size:2em;
-                    text-align:right;
+                    font-size:0.875em;
+                    text-align:left;
                     display:block;
                     margin:0 0 1em 0;
+                    position:absolute;
+                    top:3em;
+                    left:6.5em;
                 }
 
-                .twitter____profile__follow,
+                .card__group.twitter____card__group--sponsored .twitter____profile__handle {
+                    top:4.25em;
+                }
+
+                .twitter____profile__follow, 
                 .twitter____profile__follow:focus {
-                    width:100%;
-                    display: inline-block;
+                    width:8em;
+                    display:inline-block;
                     text-align:center;
                     padding:0.34375rem 0.8125rem 0.40625rem 0.71875rem;
                     font-size:0.75rem;
@@ -321,23 +559,90 @@
                     background-color:#fff;
                     border:1px solid #55acee;
                     border-radius:4px;
+                    position:absolute;
+                    top:1em;
+                    right:1em;
                 }
+
                 .twitter____profile__follow:before,
                 .twitter____profile__follow:before {
                     content:'\f179';
                     font-family:'rosettaicons';
                     position:relative;
                     top:0.0625em;
-                    margin:0 1em 0 0;
+                    margin:0 0.5em 0 0;
                 }
+
+                .twitter____socialMedia__group {
+                    list-style:none;
+                    padding:0;
+                    position:absolute;
+                    top:3.5em;
+                    right:1em;
+                    width:8em;
+                }
+
+                .card__group .twitter____socialMedia__group {
+                    display:none;
+                }
+
+                .card__group.twitter____card__group--sponsored .twitter____socialMedia__group {
+                    display:block;
+                }
+
+
+                    .twitter____socialMedia__icon {
+                        width:1em;
+                        height:1em;
+                        margin:0 0.25em 0 0;
+                        display:inline-block;
+                        float:right;
+                    }
+
+                        .twitter____socialMedia__icon--youtube:before,
+                        .twitter____socialMedia__icon--vimeo:before,
+                        .twitter____socialMedia__icon--facebook:before,
+                        .twitter____socialMedia__icon--twitter:before,
+                        .twitter____socialMedia__icon--pinterest:before,
+                        .twitter____socialMedia__icon--instagram:before {
+                            content:'';
+                            width:1rem;
+                            height:1rem;
+                            display:inline-block;
+                            vertical-align:middle;
+                        }
+
+                        .twitter____socialMedia__icon--youtube:before {
+                           background:url('../../img/sprite--alpha@2x.png') -1rem -3rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__icon--vimeo:before {
+                           background:url('../../img/sprite--alpha@2x.png') -3rem -3rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__icon--facebook:before {
+                           background:url('../../img/sprite--alpha@2x.png') -5rem -3rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__icon--twitter:before {
+                           background:url('../../img/sprite--alpha@2x.png') -7rem -3rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__icon--pinterest:before {
+                           background:url('../../img/sprite--alpha@2x.png') -9rem -3rem/18.75rem 18.75rem no-repeat; 
+                        }
+
+                        .twitter____socialMedia__icon--instagram:before {
+                           background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat; 
+                        }
 
             
 
         .twitter____mediaImg__group {
             position:absolute;
-            top:2em;
-            bottom:6rem;
-            left:19em;
+            top:1em;
+            bottom:12rem;
+            left:1em;
             right:1em;
         }
 
@@ -348,63 +653,97 @@
                 background:#ffffff center/contain no-repeat;
             }
 
-
-
         .twitter____tweet__group {
-            border-radius:0 0 5px 5px;
-            border:1px solid #e1e8ed;
-            background-color:#fff;
+            height:7rem;
             position:absolute;
             bottom:1em;
-            left:19em;
+            left:1em;
             right:1em;
-            height:5.625rem;
+            z-index:2;
             font-family: Arial, Helvetica, sans-serif;
         }
 
             .twitter____tweet__timeStamp {
-                font-size:1.75em;
+                font-size:0.875em;
                 color:#8899a6;
             }
-            .twitter____tweet__timeStamp:after {
-                content:'\f179';
-                font-family:'rosettaicons';
-                font-size:1.5em;
-                color:#88c9f9;
-                position:absolute;
-                top:-0.25em;
-                right:0.5em;
-            }
 
+            .twitter____tweet__title {
+                color:#292f33;
+                font-size:1em;
+                font-weight:600;
+                margin:0.5em 0;
+            }
 
         .twitter____tweet__container {
             overflow-y:auto;
             position:absolute;
-            top:1.25em;
-            bottom:1.25em;
+            top:1em;
+            bottom:1em;
             left:1.25em;
-            right:1.25em;
+            right:1em;
         }
 
             .twitter____tweet__copy {
                 color:#292f33;
-                font-size:2em;
+                font-size:0.875rem;
             }
 
                 .twitter____tweet__hashtag {
                     color:#2b7bb9;
                 }
 
+            .twitter____tweet__cta--btn, 
+            .twitter____tweet__cta--btn:focus {
+                border:1px solid #d94040;
+                border-radius:3px;
+                margin:0 0 1em;
+                padding:0.5em 0;
+                max-width:15em;
+                background-color:#d94040;
+                color:#fff;
+                text-transform:uppercase;
+                font-size:1em;
+                text-align:center;
+            }
+
+            .card__group .twitter____tweet__cta--btn,
+            .card__group .twitter____tweet__cta--btn:focus {
+                display:none;
+            }
+
+            .card__group.twitter____card__group--sponsored .twitter____tweet__cta--btn,
+            .card__group.twitter____card__group--sponsored .twitter____tweet__cta--btn:focus {
+                display:block;
+            }
+
+            .twitter____tweet__cta--link,
+            .twitter____tweet__cta--link:focus {
+                color:#d94040;
+                font-size:1.5em;
+                margin:0 0 1em;
+            }
+
+            .card__group .twitter____tweet__cta--link,
+            .card__group .twitter____tweet__cta--link:focus {
+                display:none;
+            }
+
+            .card__group.twitter____card__group--sponsored .twitter____tweet__cta--link,
+            .card__group.twitter____card__group--sponsored .twitter____tweet__cta--link:focus {
+                display:inline-block;
+            }
+
 
         .twitter____tweet__feedback {
-            font-size:0.875rem;
+            font-size:0.875em;
             display:block;
         }
 
             .twitter____tweet__reply,
             .twitter____tweet__retweet,
             .twitter____tweet__favorite {
-                margin:0 2em 0 0;
+                margin:0 1em 0 0;
                 color:#8899a6;
                 font-weight:700;
             }
@@ -427,43 +766,6 @@
                 content:'\f147';
             }
 
-        
-
-
-/*  twitter image card MEDIA QUERIES
-    ================================================ */
-
-    @media screen and (max-width:28rem) and (max-height:33rem) {
-        /*  w: 448px - 528px */
-        .twitter____profile__group {
-            width:12em;
-        }
-
-            .twitter____profile__name,
-            .twitter____profile__handle {
-                font-size:1.5em;
-            }
-
-        .twitter____mediaImg__group {
-            left:15.5em;
-            bottom:5rem;
-        }
-
-        .twitter____tweet__group {
-            left:15.5em;
-            height:4.625rem;
-        }
-
-            .twitter____tweet__timeStamp {
-                font-size:0.625rem;
-            }
-
-            .twitter____tweet__copy,
-            .twitter____tweet__feedback {
-                font-size:0.75rem;
-            }
-            
-    }
 
 
 
@@ -474,18 +776,17 @@
 
     .twitter____mediaGif__group {
         position:absolute;
-        top:2em;
-        bottom:6.125rem;
-        left:19em;
+        left:1em;
         right:1em;
+        top:1em;
+        bottom:12rem;
     }
-            
 
         .twitter____mediaGif__box {
             width:100%;
             height:100%;
             background:#000;
-            border-radius:5px 5px 0 0;
+            border-radius:4px 4px 0 0;
             border:1px solid #000;
         }
 
@@ -496,20 +797,6 @@
 
 
 
-
-    /*  twitter gif card MEDIA QUERIES
-        ================================================ */
-        @media screen and (max-width:28rem) and (max-height:33rem) {
-            /*  w: 448px - 528px */
-
-            .twitter____mediaGif__group {
-                left:15.5em;
-                bottom:5rem;
-            }
-        }
-
-
-
 /*  ================================================
     twitter video card
     ================================================ */
@@ -517,11 +804,11 @@
 
     .twitter____mediaVid__group {
         position:absolute;
-        top:2em;
-        bottom:6.125rem;
-        left:19em;
+        top:1em;
+        bottom:12em;
+        left:1em;
         right:1em;
-        border-radius:5px 5px 0 0;
+        border-radius:4px 4px 0 0;
         border:1px solid #000;
         
     }
@@ -540,17 +827,5 @@
             }
 
 
-
-    /*  twitter video card MEDIA QUERIES
-        ================================================ */
-
-        @media screen and (max-width:28rem) and (max-height:33rem) {
-            /*  w: 448px - 528px */
-
-            .twitter____mediaVid__group {
-                left:15.5em;
-                bottom:5rem;
-            }
-        }
 
 

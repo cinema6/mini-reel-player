@@ -1,0 +1,224 @@
+/*  ================================================
+    Styles to optimize mobile landscape layout for sponsored single card 
+    ================================================ */
+	@media only screen and (orientation: landscape) {
+		.MiniReel__group--SingleCardMR .navBarLeft__group, .navBarRight__group {
+		display: none;
+		}
+		.MiniReel__group--SingleCardMR h3.MiniReel__title {
+			font-size: 1em;
+			font-weight: 400;
+			margin: 0;
+		}
+		.MiniReel__group--SingleCardMR .cards__group{
+			padding: 0;
+			margin-bottom: 0;
+			overflow-y: hidden;
+		}
+		.player, .player__thumbnail {
+			width: 70%;
+			float: right;
+			margin: 0 0.5em 0.5em 0.5em;
+			padding: 0 0 39.375%;
+		}
+		.playerBox, .playerBox iframe, .playerBox video, .playerBox object, .playerBox > div, .playerBox > div > div, .playerBox > div > div > div {
+			width: 100% !important;
+			height: 100% !important;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border: 0;
+		}
+		.landscapeOnly {
+			display:block;
+			overflow: hidden;
+		}
+		.card__title {
+			width: 100%;
+			margin-left: 0;
+			padding-left: 0.5em;
+			margin-bottom: 0;
+		}
+		.MiniReel__group--SingleCardMR .card__desc{
+			margin-top: 0;
+			overflow-y: scroll;
+		}
+		.sponsor__actions {
+			float: left;
+			line-height: 0;
+			margin: 0;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+		}
+		.player, .player__thumbnail {
+			width: 60%;
+			float: left;
+			margin: 0 0.5em 0 0;
+			padding: 0 0 39.375%;
+		}
+		.sponsorProfile__links {
+			float: left;
+			clear: left;
+			margin-left: 0 0 0 -0.25em;
+		}
+		.sponsorProfile__group {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		.MiniReel__group--SingleCardMR .sponsorProfile__imgBox {
+			margin-left: 0;
+		}
+		.MiniReel__group--SingleCardMR .sponsor__goBtn, .MiniReel__group--SingleCardMR .sponsor__goBtn span {
+			margin: 0;
+			width: 100%;
+			border-radius: 0;
+			text-align: center;
+			display: block;
+			z-index: 200;
+		}
+		.MiniReel__group--SingleCardMR .socialBox {
+			overflow: hidden;
+			display: block;
+		}
+	}
+	/*Showing and hiding elements based on orientation*/
+	@media screen and (orientation: portrait) {
+		.landscapeOnly {
+			display:none;
+		}
+	}	
+   /*scaling description based on screen size*/
+	@media screen and (max-device-width: 480px) and (orientation: landscape){
+		.MiniReel__group--SingleCardMR .card__desc{
+			margin-top: 0 ;
+			max-height: 130px;
+			overflow-y: scroll;
+			font-size: 0.7em;
+		}
+	}
+	@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape){
+		.MiniReel__group--SingleCardMR .sponsorProfile__imgBox {
+			width: 2.5em;
+			height: 2.5em;		
+		}
+		.sponsorProfile__img {
+			width: 2.25em;
+			height: 2.25em;
+		}
+		.card__title {
+			font-size: 1em;
+		}
+		.card__desc{
+			margin-top: 0;
+			max-height: 176px;
+			overflow-y: scroll;
+			font-size: 0.7em;
+		}
+		.sponsorProfile__links {
+			float: left;
+			clear: left;
+		}
+		.sponsorProfile__tag {
+			font-size: 0.7em;
+			margin-bottom: 0;
+		}
+		.player, .player__thumbnail {
+			width: 60%;
+			margin: 0.5em 0.5em 0 0;
+			padding: 0 0 38.375%;
+		}
+		.playerBox, .playerBox iframe {
+			height: 90%;
+		}
+	}
+	@media screen and (min-device-width: 569px) and (max-device-width: 667px) and (orientation: landscape){
+		.card__title {
+			font-size: 1 em;
+		}
+		.MiniReel__group--SingleCardMR .card__desc{
+			margin-top: 0.25em;
+			max-height: 210px;
+			overflow-y: scroll;
+			font-size: 0.8em;
+		}
+		.sponsorProfile__tag {
+			font-size: 0.7em;
+			margin-bottom: 0;
+		}
+		.player, .player__thumbnail {
+			padding: 0 0 41.375%;
+		}
+	}
+	@media screen and (min-device-width: 668px) and (max-device-width: 736px) and (orientation: landscape){
+		.card__title {
+			font-size: 1.2em;
+		}
+		.MiniReel__group--SingleCardMR .card__desc{
+			margin-top: 0.25em ;
+			max-height: 250px;
+			overflow-y: scroll;
+			font-size: 0.9em;
+		}
+		.sponsorProfile__tag {
+			font-size: 0.7em;
+			margin-bottom: 0;
+		}
+		.player, .player__thumbnail {
+			width: 60%;
+			margin: 0.5em 0.5em 0 0;
+			padding: 0 0 42.375%;
+		}
+	}
+	@media screen and (min-device-width: 739px) and (max-device-width: 1024px) and (orientation: landscape){
+		.sponsorProfile__copy {
+			margin-bottom: 0.5em;
+		}
+		.player, .player__thumbnail {
+			width: 98.5%;
+			float: left;
+			margin: 0 0.5em 0.5em 0.5em;
+			padding: 0px 0 46.375%;
+		}
+		.MiniReel__group--SingleCardMR .card__desc{
+			margin-top: 0.25em;
+			max-height: 100px;
+			overflow-y: scroll;
+			font-size: 1em;
+		}
+		.MiniReel__group--SingleCardMR h3.MiniReel__title {
+			font-size: 1.3em;
+			font-weight: 400;
+			margin: 0;
+		}
+		.sponsor__actions {
+			float: inherit;
+			line-height: 0;
+			margin-left: 0.5em;
+			width: 98.5%;
+			position: relative;
+			bottom: 0;
+		}
+	}
+	@media screen and (min-device-width: 1024px) and (orientation: landscape){ 
+		.sponsorProfile__copy {
+			margin-bottom: 0.5em;
+		}
+		.MiniReel__group--SingleCardMR h3.MiniReel__title {
+			font-size: 1.3em;
+			font-weight: 400;
+			margin: 0;
+		}
+		.player, .player__thumbnail {
+			width: 98.5%;
+			float: left;
+			margin: 0 0.5em 0.5em 0.5em;
+			padding: 0px 0 46.375%;
+		}
+		.MiniReel__group--SingleCardMR .card__desc{
+			margin-top: 0 ;
+			max-height: 100px;
+			overflow-y: scroll;
+			font-size: 1em;
+		}
+	}

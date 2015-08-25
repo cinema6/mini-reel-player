@@ -77,6 +77,7 @@ export default class VideoCardController extends CardController {
             logo: card.logo,
             showSource: !card.data.hideSource,
             links: card.socialLinks,
+            shareLinks: card.shareLinks,
             website: card.links.Website,
             action: {
                 label: card.action.label,

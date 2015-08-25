@@ -15,6 +15,7 @@ function SponsoredCard(data) {
         this.logo = data.collateral.logo;
         this.links = data.links || {};
         this.socialLinks = makeSocialLinks(data.links);
+        this.shareLinks = data.shareLinks || {};
         this.ad = !!data.params.ad;
     }
 }

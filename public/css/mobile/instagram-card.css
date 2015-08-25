@@ -1,0 +1,346 @@
+/*  ================================================
+    instagram image card
+    ================================================ */
+
+    .MiniReel__group--singleCardMR .MiniReel__title,
+    .MiniReel__group--singleCardMR .brandProfile__linksBox,
+    .MiniReel__group--singleCardMR .brandedMR__tagline,
+    .MiniReel__group--singleCardMR .navBar__group,
+    .MiniReel__group--singleCardMR .brandProfile__logoBox,
+    .MiniReel__group--singleCardMR .brandProfile__logo,
+    .MiniReel__group--singleCardMR .nav__counter {
+        display:none;
+    }
+
+    .MiniReel__group--singleCardMR .cards__group {
+        padding-bottom:0.375em;
+    }
+
+        .instag____card__group {
+            border:0;
+            margin:0;
+            padding:0;
+            width:100%
+            border-radius:4px;
+            box-shadow:rgba(0, 0, 0, 0.498039) 0px 0px 1px 0px, rgba(0, 0, 0, 0.14902) 0px 1px 10px 0px;
+            background:#fff;
+            overflow-y:auto;
+        }
+
+            .instag____profile__group {
+                padding:0.5em;
+                position:relative;
+            }
+
+                .instag____profile__picBox {
+                    display:block;
+                    width:3em;
+                    float:left;
+                    margin:0 0.5em 0 0;
+                }
+
+                    .instag____profile__pic {
+                        width:100%;
+                        border-radius:100%;
+                        border:1px solid #eeefef;
+                    }
+
+                .instag____profile__name {
+                    color:#125688;
+                    font-weight:600;
+                    max-width:7em;
+                    display:block;
+                    float:left;
+                    font-size:1em;
+                    margin:0.75em 0.5em 0 0;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                }
+
+                .instag____profile__postDate {
+                    color:#125688;
+                    font-weight:600;
+                    font-size:1em;
+                    display:block;
+                    float:left;
+                    margin:0.75em 7em 0 0;
+                }
+
+                .instag____profile__postDate {
+                    color:#c9c8cd;
+                }
+                .instag____profile__postDate:before {
+                    content:'\2022';
+                    margin:0 0.5em 0 0;
+                }
+
+                .instag____profile__follow,
+                .instag____profile__follow:focus {
+                    border:1px solid #4090db;
+                    border-radius:3px;
+                    margin:0.75em 0 0;
+                    padding: 0.5em 0;
+                    color:#4090db;
+                    background:#fff;
+                    text-transform:uppercase;
+                    font-size:0.75em;
+                    width:8em;
+                    display:block;
+                    text-align:center;
+                    position:absolute;
+                    top:0.5em;
+                    right:1em;
+                }
+
+                .instag____card__group--sponsored .instag____profile__follow,
+                .instag____card__group--sponsored .instag____profile__follow:focus {
+                    display:none;
+                }
+
+                .instag____profile__sponsor {
+                    color:#125688;
+                    font-weight:600;
+                    display:inline-block;
+                    text-align:center;
+                    position:absolute;
+                    top:1.25em;
+                    right:1em;
+                }
+
+                .instag____card__group .instag____profile__sponsor {
+                    display:none;
+                }
+
+                .instag____card__group.instag____card__group--sponsored .instag____profile__sponsor {
+                    display:block;
+                }
+
+            .instag____media__group {
+                width:100%;
+                height:100%;
+                padding:0 0.5em 0.5em;
+            }
+
+            .instag____mediaVid__group {
+                position:relative;
+                width:100%;
+                padding-bottom:100%;
+                margin:0 0 1em;
+            }
+
+                .instag____mediaVid__box {
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    background:#000;
+
+                }
+
+                    .instag____mediaVid {
+                        width:100%;
+                        height:100%;
+                        position:absolute;
+                        border:0;
+                    }
+
+            .instag____post__group {
+                margin:0 0 1em 0;
+                padding:0 1em 0;
+            }
+
+                .instag____post__title {
+                    font-size:1.25em;
+                    color:#000;
+                    width:100%;
+                    margin:0;
+                }
+
+                .instag____post__copy {
+                    font-size:1em;
+                    margin:0;
+                }
+
+                .instag____post__tag {
+                    color:#125688;
+                }
+
+                .instag____post__cta--btn,
+                .instag____post__cta--btn:focus {
+                    border:1px solid #d94040;
+                    border-radius:3px;
+                    margin:1.3125em 0 0;
+                    padding: 0.5em 0;
+                    max-width:15em;
+                    background-color:#d94040;
+                    color:#fff;
+                    text-transform:uppercase;
+                    font-size:1em;
+                    display:block;
+                    text-align:center;
+                }
+
+                .instag____card__group .instag____post__cta--btn,
+                .instag____card__group .instag____post__cta--btn:focus {
+                    display:none;
+                }
+
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--btn,
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--btn:focus {
+                    display:block;
+                }
+
+                .instag____post__cta--link,
+                .instag____post__cta--link:focus {
+                    color:#d94040;
+                    font-size:1em;
+                }
+
+                .instag____card__group .instag____post__cta--link,
+                .instag____card__group .instag____post__cta--link:focus {
+                    display:none;
+                }
+
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--link,
+                .instag____card__group.instag____card__group--sponsored .instag____post__cta--link:focus {
+                    display:block;
+                }
+
+            .instag____feedback__group {
+                padding:1em;
+                background:#fafafa;
+                position:relative;
+            }
+
+                .instag____feedback__likeData,
+                .instag____feedback__commentData {
+                    width:4em;
+                    margin:0 2em 0 0;
+                    padding:0 0 0 1.5em;
+                    position:relative;
+                    color:#a5a9ac;
+                    font-weight:600;
+                    white-space:nowrap;
+                }
+
+                .instag____feedback__commentData {
+                    margin:0 6em 0 0;
+                }
+
+                .instag____card__group--sponsored .instag____feedback__likeData {
+                    margin:0 6em 0 0;
+                    line-height:2;
+                }
+
+                .instag____feedback__like,
+                .instag____feedback__comment {
+                    background:url('../../img/social-card-sprites.png') -5em -0.75em/20em no-repeat;
+                    display:inline-block;
+                    width:1em;
+                    height:1em;
+                    position:absolute;
+                    top:0.0625em;
+                    left:0;
+                }
+
+                .instag____feedback__like {
+                    background-position:-16em -1em;
+                }
+
+                .instag____feedback__comment {
+                    background-position:-18em -1em;
+                }
+
+                .instag____feedback__logo {
+                    background:url('../../img/social-card-sprites.png') -1em -1em/21em no-repeat;
+                    width:5.5em;
+                    height:2em;
+                    position:absolute;
+                    top:1em;
+                    right:1em;
+                }
+
+                .instag____socialMedia__group {
+                    list-style:none;
+                    margin:0;
+                    padding:0;
+                    position:absolute;
+                    top:3em;
+                    right:1em;
+                }
+
+                .instag____card__group .instag____socialMedia__group {
+                    display:none;
+                }
+
+                .instag____card__group.instag____card__group--sponsored .instag____socialMedia__group {
+                    display:block;
+                }
+
+                    .instag____socialMedia__icon {
+                        width:1em;
+                        height:1em;
+                        display:inline-block;
+                        margin:0 0 0 0.125em;
+                    }
+
+                        .instag____socialMedia__icon--youtube:before,
+                        .instag____socialMedia__icon--vimeo:before,
+                        .instag____socialMedia__icon--facebook:before,
+                        .instag____socialMedia__icon--twitter:before,
+                        .instag____socialMedia__icon--pinterest:before,
+                        .instag____socialMedia__icon--instagram:before {
+                            content:'';
+                            width:1rem;
+                            height:1rem;
+                            display:inline-block;
+                            vertical-align:middle;
+                        }
+
+                        .instag____socialMedia__icon--youtube:before {
+                           background:url('../../img/sprite--alpha@2x.png') -1rem -3rem/18.75rem 18.75rem no-repeat;
+                        }
+
+                        .instag____socialMedia__icon--vimeo:before {
+                           background:url('../../img/sprite--alpha@2x.png') -3rem -3rem/18.75rem 18.75rem no-repeat;
+                        }
+
+                        .instag____socialMedia__icon--facebook:before {
+                           background:url('../../img/sprite--alpha@2x.png') -5rem -3rem/18.75rem 18.75rem no-repeat;
+                        }
+
+                        .instag____socialMedia__icon--twitter:before {
+                           background:url('../../img/sprite--alpha@2x.png') -7rem -3rem/18.75rem 18.75rem no-repeat;
+                        }
+
+                        .instag____socialMedia__icon--pinterest:before {
+                           background:url('../../img/sprite--alpha@2x.png') -9rem -3rem/18.75rem 18.75rem no-repeat;
+                        }
+
+                        .instag____socialMedia__icon--instagram:before {
+                           background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat;
+                        }
+
+/*  ================================================
+    instagram video card
+    ================================================ */
+
+
+        .instag____mediaVid__box {
+            width:100%;
+
+        }
+
+            .instag____mediaVid {
+                width:100%;
+                border:0;
+            }
+
+            .instag____mediaVid .playerBox,
+            .instag____mediaVid .playerBox object,
+            .instag____mediaVid .playerBox video {
+                min-height:auto;
+                min-width:auto;
+            }

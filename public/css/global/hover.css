@@ -109,19 +109,25 @@
 /*  ================================================
     misc transitions (combined, etc.)
     ================================================ */
-
     .instag____profileImg__follow,
-    .instag____profileImg__follow:focus {
+    .instag____profileImg__follow:focus,
+    .instag____profileDesc__follow, 
+    .instag____profileDesc__follow:focus {
         transition:0.3s border, 0.3s color;
     }
 
     .instag____profileImg__follow:hover {
+        transition:0.3s border, 0.3s color;
+    }
+
+    .instag____profileDesc__follow:hover {
         border:1px solid #2d6599;
         color:#2d6599;
     }
 
-
-    .twitter____profile__follow {
+    .twitter____profile__follow,
+    .instag____postInfo__cta--btn,
+    .instag____postInfo__cta--btn:focus {
         transition:0.3s background-color, 0.3s color;
     }
 
@@ -129,4 +135,19 @@
         color: #fff;
         background-color: #55acee;
     }
-    
+
+    .facebook____post__name:hover,
+    .facebook____post__link:hover,
+    .facebook____profile__name:hover {
+        text-decoration:underline;
+    }
+
+    .instag____postInfo__cta--btn:hover {
+        background-color:#fff;
+        color:#d94040; 
+
+    }
+
+    .instag____postInfo__cta--link:hover {
+        text-decoration:underline;
+    }

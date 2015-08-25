@@ -3,6 +3,7 @@
 ## v0.23.0 (August 24, 2015)
 * *[v0.23.0-rc2]*
   * [FIX]: Fixes for Instagram cards based on how they are now saved in the studio.
+* *[/v0.23.0-rc2]*
 
 * *[v0.23.0-rc1]*
   * [FEATURE]: Use our own design for mobile Instagram cards rather than Instagram's

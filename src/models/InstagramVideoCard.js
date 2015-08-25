@@ -7,15 +7,17 @@ export default class InstagramVideoCard extends VideoCard {
         this.type = 'instagramVideo';
         this.hideTitle = false;
         if(!this.title) {
-            this.title = data.caption;
+            this.title = data.data.caption;
             this.hideTitle = true;
         }
-        this.data.href = data.href;
-        this.data.src = data.data.src;
-        this.user = extend(null, data.user);
-        this.likes = data.likes;
-        this.date = new Date(parseInt(data.date) * 1000);
-        this.caption = data.caption;
-        this.comments = data.comments;
+        this.data = extend(this.data, {
+            href: data.data.href,
+            src: data.data.src,
+            user: extend(null, data.data.user),
+            likes: data.data.likes,
+            date: new Date(parseInt(data.data.date) * 1000),
+            caption: data.data.caption,
+            comments: data.data.comments
+        });
     }
 }

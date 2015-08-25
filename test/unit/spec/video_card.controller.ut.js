@@ -76,6 +76,11 @@ describe('VideoCardController', function() {
               "Pinterest": "https://www.pinterest.com/netflix/",
               "YouTube": "https://www.youtube.com/user/NewOnNetflix"
             },
+            "shareLinks": {
+                "facebook": "https://www.cinema6.com",
+                "twitter": "https://www.cinema6.com",
+                "pinterest": "https://www.cinema6.com"
+            },
             "params": {
               "sponsor": "Netflix",
               "action": {
@@ -442,6 +447,11 @@ describe('VideoCardController', function() {
                     logo: card.logo,
                     showSource: !card.data.hideSource,
                     links: card.socialLinks,
+                    shareLinks: {
+                        facebook: 'https://www.cinema6.com',
+                        twitter: 'https://www.cinema6.com',
+                        pinterest: 'https://www.cinema6.com'
+                    },
                     website: card.links.Website,
                     action: jasmine.objectContaining({
                         label: card.action.label,

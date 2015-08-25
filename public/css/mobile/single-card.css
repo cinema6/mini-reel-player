@@ -15,6 +15,13 @@
 			margin-bottom: 0;
 			overflow-y: hidden;
 		}
+		.MiniReel__group--SingleCardMR .MiniReel__closeBtn {
+			top: 0;
+			right: 0;
+			background-color: rgba(0, 0, 0,0.3);
+			z-index: 100;
+			width: 3em;
+		}
 		.player, .player__thumbnail {
 			width: 70%;
 			float: right;
@@ -86,6 +93,22 @@
 	@media screen and (orientation: portrait) {
 		.landscapeOnly {
 			display:none;
+		}
+		.MiniReel__group--SingleCardMR .MiniReel__closeBtn{
+			top: 0;
+			right: 0;
+			background-color: rgba(0, 0, 0,0.3);
+			z-index: 100;
+			width: 3em;
+		}
+		.MiniReel__group--SingleCardMR h3.MiniReel__title { 
+			width: 90%;
+		}
+		.MiniReel__group--SingleCardMR .headerBar__group {
+			display: none;
+		}
+		.MiniReel__group--SingleCardMR .cards__group{ 
+			padding: 0.375em;
 		}
 	}	
    /*scaling description based on screen size*/

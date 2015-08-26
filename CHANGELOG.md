@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.23.0 (August 24, 2015)
+* *[v0.23.0-rc3]*
+  * [FIX]: Make the recap card truncate extremely long card titles
+  * [FIX]: Fix for an issue that caused an Instagram username to sometimes be displayed incorrectly in the full player.
+* *[/v0.23.0-rc3]*
+
 * *[v0.23.0-rc2]*
   * [FIX]: Fixes for Instagram cards based on how they are now saved in the studio.
 * *[/v0.23.0-rc2]*

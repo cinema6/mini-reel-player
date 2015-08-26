@@ -34,7 +34,7 @@
     color transitions
     ================================================ */
     .titleBar__titleText,
-    .btnPrimary .btnLabel {
+    .btnPrimary .btnLabel{
         transition:color 0.3s;
     }
 
@@ -52,7 +52,7 @@
     fill transitions
     ================================================ */
     .slideNav__iconPath {
-        transition:fill 0.3s;
+        -webkit-transition:fill 0.3s; transition:fill 0.3s;
     }
 
     .slideNav__btn:hover .slideNav__iconPath {
@@ -72,6 +72,7 @@
     ================================================ */
     .sponsorProfile__imgBox,
     .brandProfile__logoBox {
+        -webkit-transition:border 0.5s;
         transition:border 0.5s;
     }
     .sponsorProfile__imgBox:hover,
@@ -110,7 +111,8 @@
     position transitions
     ================================================ */
     .slideNav__icon {
-        transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s;
+        -webkit-transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
+        transition:left 0.2s, right 0.2s, top 0.2s, bottom 0.2s; 
     }
 
     .slideNav__btn:hover .slideNav__icon--prev {
@@ -187,11 +189,13 @@
     .ballot__textLink:before,
     .sprite--close,
     .actionsModal__btn:before {
+        -webkit-transition: -webkit-transform 0.3s; 
         transition: 0.3s transform;
     }
     .sprite--close:hover,
     .ballot__textLink:hover:before,
     .actionsModal__btn:hover:before {
+        -webkit-transform: scale(1.25);
         transform: scale(1.25);
     }
 
@@ -205,4 +209,3 @@
     .btnPrimary:hover .btn__label {
         text-shadow: none;
     }
-

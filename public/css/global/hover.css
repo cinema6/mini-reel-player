@@ -81,7 +81,7 @@
         color:#fff;
     }
 
-    @media screen and (max-width:35rem) {
+    @media screen and (max-width:43rem) {
         .twitter____profileBar__name:hover,
         .twitter____profileBar__handle:hover,
         .twitter____profileBar__follow:hover,
@@ -126,6 +126,10 @@
     }
 
     .twitter____profile__follow,
+    .twitter____tweet__cta--btn,
+    .twitter____tweet__cta--btn:focus,
+    .twitter____txtTweet__cta--btn,
+    .twitter____txtTweet__cta--btn:focus,
     .instag____postInfo__cta--btn,
     .instag____postInfo__cta--btn:focus {
         transition:0.3s background-color, 0.3s color;
@@ -142,12 +146,15 @@
         text-decoration:underline;
     }
 
+    .twitter____tweet__cta--btn:hover,
+    .twitter____txtTweet__cta--btn:hover,
     .instag____postInfo__cta--btn:hover {
         background-color:#fff;
         color:#d94040; 
-
     }
 
+    .twitter____tweet__cta--link:hover,
+    .twitter____txtTweet__cta--link:hover,
     .instag____postInfo__cta--link:hover {
         text-decoration:underline;
     }

@@ -80,8 +80,27 @@ describe('InstagramImageCard', function() {
 
         describe('title', function() {
 
-            it('should be copied from the passed-in caption', function() {
+            it('should be copied from the passed-in title', function() {
+                data.title = 'Oooh it\'s a doggie!';
+                instagramImageCard = new InstagramImageCard(data, experience);
+                expect(instagramImageCard.title).toBe('Oooh it\'s a doggie!');
+            });
+
+            it('should be copied from the passed-in caption if a title isn\'t provided', function() {
                 expect(instagramImageCard.title).toEqual('Solomon, Pembroke Welsh Corgi (12 w/o), BarkFest 2015, Brooklyn, NY');
+            });
+        });
+
+        describe('hideTitle', function() {
+
+            it('should be false if a title is given', function() {
+                data.title = 'Oooh it\'s a doggie!';
+                instagramImageCard = new InstagramImageCard(data, experience);
+                expect(instagramImageCard.hideTitle).toBe(false);
+            });
+
+            it('should be true if a title is not given', function() {
+                expect(instagramImageCard.hideTitle).toBe(true);
             });
         });
 

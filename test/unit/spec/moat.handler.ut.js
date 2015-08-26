@@ -56,6 +56,7 @@ describe('MoatHandler', function() {
                             creative  : 'The Black & Blonde'
                         }
                     },
+                    sponsored: true,
                     params: {
                         sponsor: 'Guinness'
                     },
@@ -134,21 +135,21 @@ describe('MoatHandler', function() {
                     expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
                         'rc-abc123',{ type : 'AdVideoComplete', adVolume: 0.5 } );
                 });
-                
+
                 it('sends AdVideoComplete for play with volume 0 if player is muted',function(){
                     player.muted = true;
                     player.emit('complete');
                     expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
                         'rc-abc123',{ type : 'AdVideoComplete', adVolume: 0 } );
                 });
-                
+
                 it('sends AdVideoComplete for play with volume 0.5 if player.muted is undefined',function(){
                     delete player.muted;
                     player.emit('complete');
                     expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
                         'rc-abc123',{ type : 'AdVideoComplete', adVolume: 0.5 } );
                 });
-                
+
                 it('sends AdStopped for card deactivate',function(){
                     card.emit('deactivate');
                     expect(moatApi.dispatchEvent).toHaveBeenCalledWith(

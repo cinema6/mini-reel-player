@@ -42,6 +42,10 @@
         ============================================= */
         @import url('global/twitter-card.css');
 
+    /*  global instagram card classes
+        ============================================= */
+        @import url('global/instagram-card.css');
+
     /*  sponsored card classes
         ============================================= */
         @import url('full/sponsored-card.css');
@@ -63,10 +67,6 @@
     /*  slide nav button classes
         ============================================= */
         @import url('full/slide-nav-btn.css');
-
-    /*  global instagram card classes
-        ============================================= */
-        @import url('global/instagram-card.css');
 
     /*  override global styles
         ============================================= */

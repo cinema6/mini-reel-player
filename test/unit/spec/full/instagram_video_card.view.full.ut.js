@@ -1,5 +1,5 @@
 import FullInstagramVideoCardView from '../../../../src/views/full/FullInstagramVideoCardView.js';
-import CardView from '../../../../src/views/CardView.js';
+import InstagramCardView from '../../../../src/views/InstagramCardView.js';
 
 describe('FullInstagramVideoCardView', function() {
     let view;
@@ -9,7 +9,7 @@ describe('FullInstagramVideoCardView', function() {
     });
 
     it('should exist', function() {
-        expect(view).toEqual(jasmine.any(CardView));
+        expect(view).toEqual(jasmine.any(InstagramCardView));
     });
 
     describe('properties:', function() {

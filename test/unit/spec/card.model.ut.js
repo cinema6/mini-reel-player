@@ -2,6 +2,7 @@ import DisplayAd from '../../../src/models/DisplayAd.js';
 import Post from '../../../src/models/Post.js';
 import Ballot from '../../../src/models/Ballot.js';
 import election from '../../../src/services/election.js';
+import Mixable from '../../../lib/core/Mixable.js';
 
 describe('Card', function() {
     import Card from '../../../src/models/Card.js';
@@ -51,8 +52,12 @@ describe('Card', function() {
         card = new Card(data, experience);
     });
 
-    it('should be an event emitter', function() {
-        expect(card).toEqual(jasmine.any(EventEmitter));
+    it('should be mixable', function() {
+        expect(card).toEqual(jasmine.any(Mixable));
+    });
+
+    it('should mixin the EventEmitter', function() {
+        expect(Card.mixins).toContain(EventEmitter);
     });
 
     describe('properties:', function() {

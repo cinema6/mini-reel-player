@@ -2,17 +2,18 @@ import {EventEmitter} from 'events';
 import DisplayAd from './DisplayAd.js';
 import Post from './Post.js';
 import Ballot from './Ballot.js';
+import Mixable from '../../lib/core/Mixable.js';
 import {
     extend,
     reduce
 } from '../../lib/utils.js';
 
-export default class Card extends EventEmitter {
+class Card extends Mixable {
     constructor(card, experience) {
-        super();
+        super(...arguments);
 
         this.id = card.id;
-        this.title = card.title;
+        this.title = card.title || null;
         this.note = card.note || null;
         this.thumbs = (card.thumbs || null) && extend(card.thumbs);
 
@@ -79,3 +80,6 @@ export default class Card extends EventEmitter {
         this.emit('cleanup');
     }
 }
+Card.mixin(EventEmitter);
+
+export default Card;

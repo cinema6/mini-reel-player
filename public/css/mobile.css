@@ -33,6 +33,10 @@
         ============================================= */ 
         @import url('mobile/sponsored-card.css');
 
+    /*  instagram card classes
+        ============================================= */ 
+        @import url('mobile/instagram-card.css');
+
     /*  recap card classes
         ============================================= */ 
         @import url('mobile/recap-card.css');

@@ -109,9 +109,14 @@
 /*  ================================================
     misc transitions (combined, etc.)
     ================================================ */
-
+    .instag____profileImg__follow,
+    .instag____profileImg__follow:focus,
     .instag____profileDesc__follow, 
     .instag____profileDesc__follow:focus {
+        transition:0.3s border, 0.3s color;
+    }
+
+    .instag____profileImg__follow:hover {
         transition:0.3s border, 0.3s color;
     }
 
@@ -119,7 +124,6 @@
         border:1px solid #2d6599;
         color:#2d6599;
     }
-
 
     .twitter____profile__follow,
     .twitter____tweet__cta--btn,

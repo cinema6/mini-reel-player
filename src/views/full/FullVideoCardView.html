@@ -39,10 +39,33 @@
                         <span class="ir">{{label}}</span>
                     </a></span>
                 </div>
-                <a data-if="shareLinks.facebook" href="http://www.facebook.com/sharer.php?p[url]={{shareLinks.facebook}}"
+				<!--placeholder code-->
+				<nav id="primary_nav_wrap">
+					<ul>
+					  <li><span class="spriteBe socialIconsBe socialIconsBe--share"><span class="ir"><a href="#">Share</a></span></span>
+						<ul>
+						  <li><span id="c6-view-180--facebook" class="c6-view"><a data-if="shareLinks.facebook" href="http://www.facebook.com/sharer.php?p[url]={{shareLinks.facebook}}"
+                   onclick="return !window.open(this.href, 'Facebook', 'top=225,left=380,toolbar=0,status=0,width=520,height=350')"><span class="spriteBe socialIconsBe socialIconsBe--facebook"> Share</span></a></span></li>
+						  <li><span id="c6-view-180--twitter" class="c6-view"><a data-if="shareLinks.twitter" href="https://twitter.com/home?status={{shareLinks.twitter}}"
+                   onclick="return !window.open(this.href, 'Facebook', 'top=225,left=380,toolbar=0,status=0,width=520,height=350')"><span class="spriteBe socialIconsBe socialIconsBe--twitter"> Tweet</span></a></li>
+						</ul>
+					  </li>
+					</ul>
+					</nav>
+				<!--
+				<ul class="sponsorProfile__shareLinks">
+					<li>Share</li>
+					<ul>
+					<li>
+					<a data-if="shareLinks.facebook" href="http://www.facebook.com/sharer.php?p[url]={{shareLinks.facebook}}"
                    onclick="return !window.open(this.href, 'Facebook', 'top=225,left=380,toolbar=0,status=0,width=520,height=350')">Share on Facebook</a>
-                <a data-if="shareLinks.twitter" href="https://twitter.com/home?status={{shareLinks.twitter}}"
+				   </li>
+				   <li>
+					<a data-if="shareLinks.twitter" href="https://twitter.com/home?status={{shareLinks.twitter}}"
                    onclick="return !window.open(this.href, 'Facebook', 'top=225,left=380,toolbar=0,status=0,width=520,height=350')">Share on Twitter</a>
+				   </li>
+				   </ul>
+				   </ul>-->
             </div>
             <div data-if="action.label" class="card__desc sponsor__actions">
                 <a data-if="action.isText" href="{{action.href}}" target="_blank" class="textLink">

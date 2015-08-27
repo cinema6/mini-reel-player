@@ -89,7 +89,7 @@
 			display: block;
 		}
 	}
-	/*Showing and hiding elements based on orientation*/
+/*Showing and hiding elements based on orientation*/
 	@media screen and (orientation: portrait) {
 		.landscapeOnly {
 			display:none;
@@ -111,7 +111,7 @@
 			padding: 0.375em;
 		}
 	}	
-   /*scaling description based on screen size*/
+ /*scaling description based on screen size*/
 	@media screen and (max-device-width: 480px) and (orientation: landscape){
 		.MiniReel__group--SingleCardMR .card__desc{
 			margin-top: 0 ;

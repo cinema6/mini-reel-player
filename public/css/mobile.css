@@ -37,6 +37,10 @@
         ============================================= */ 
         @import url('mobile/instagram-card.css');
 
+    /*  twitter card classes
+        ============================================= */ 
+        @import url('mobile/twitter-card.css');
+
     /*  recap card classes
         ============================================= */ 
         @import url('mobile/recap-card.css');

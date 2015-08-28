@@ -140,7 +140,9 @@
             .socialIconsBe--share:before {
                 background-position: -19.5rem -4.5rem;
             }
-
+            .socialIconsBe__solid--share:before {
+                background-position: -13rem -11rem;
+            }
 
             .uiIconsBe--replay:before {
                 background-position:-1rem -9rem;
@@ -243,8 +245,46 @@
             text-shadow:none;
             color:#fff;
         }
+/***share button***/
+    .btnShare,
+    .btnShare:focus {
+        background:#d94040;
+        line-height: 1;
+        text-align: center;
+        font-size: 1rem;
+        display:inline-table;
+        position:relative;
+    }
+        .btnShare .btn__label {
+            font-size:0.875em;
+            line-height: 1rem;
+            color:#fff;
+            font-weight:bold;
+            text-transform:uppercase;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.44);
+            display: table-cell;
+            vertical-align: middle;
+        }
 
 
+        .btnShare[disabled],
+        .btnShare[disabled]:active,
+        .btnShare[disabled]:focus {
+            background:none;
+            opacity:0.4;
+        }
+            .btnShare[disabled] .btn__label,
+            .btnShare[disabled]:active .btn__label,
+            .btnShare[disabled]:focus .btn__label {
+                text-shadow:none;
+                color:#fff;
+            }
+        .btnShare--small {
+            padding:0.5em 1em;
+            border-radius:3px;
+            display: inline-block;
+        }
+/***share button ends**/
 
     /* activator state - when you tap on something, it lights up*/
     .btnPrimary:after,

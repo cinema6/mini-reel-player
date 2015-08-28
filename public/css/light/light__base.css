@@ -1,7 +1,7 @@
 /*  ================================================
     global / reset styles
     ================================================ */
-    /*  apply a natural box layout model to all elements, 
+    /*  apply a natural box layout model to all elements,
         but allowing components to change */
         html {
           box-sizing: border-box;
@@ -10,12 +10,12 @@
           box-sizing: inherit;
         }
     body {
-        font-size: 16px; 
-        font-family: 'Open Sans', Arial, Helvetica, sans-serif; 
-        font-weight:300; 
-        color:#444; 
+        font-size: 16px;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        font-weight:300;
+        color:#444;
         line-height: 1.5;
-        background:#fff; 
+        background:#fff;
         margin:0;
     }
     p {
@@ -45,11 +45,11 @@
     c6 copy classes : general type and color styles
     ================================================ */
     .tk--hdr {
-        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif;
         font-weight:300;
     }
     .tk--action {
-        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif; 
+        font-family: 'Roboto Condensed', 'Open Sans', Arial, Helvetica, sans-serif;
         font-weight:700;
     }
     .tk--copy {
@@ -61,7 +61,7 @@
     a:focus, button:focus, input:focus, textarea:focus {
         outline:none; border:0;
     }
-        
+
 
 
 
@@ -124,6 +124,10 @@
             .socialIconsBe--instagram:before {
                 background-position: -11rem -3rem;
             }
+            .socialIconsBe--share:before {
+                background-position: -13rem -3rem;
+            }
+
 
             .uiIconsBe--replay:before {
                 background-position:-1rem -9rem;
@@ -141,7 +145,7 @@
         background:rgb(0,0,0); background:rgba(0,0,0,0.8);
         position:absolute; z-index: 1;
         left:0;
-        width:100%; height:100%; 
+        width:100%; height:100%;
     }
         .overlay__closeBtn {
             width:1.125em; height:1.125em;
@@ -212,13 +216,13 @@
     .c6-fade.ng-hide {
         opacity: 0;
     }
-    
+
 
 
 
 /*  ================================================
     MiniReel classes
-    ================================================ */    
+    ================================================ */
     .MiniReel__group {
         padding:0;
         border-top:2px solid #1b1b1b;
@@ -235,24 +239,24 @@
         background: #1b1b1b; margin:0; padding: 0.125rem 0 0.4375rem 0;
     }
         .more-reels__preview {
-            background:url('../../img/more-reels__preview.jpg') 50% 50% / cover no-repeat; 
-            border:0; margin:0; padding:0; 
+            background:url('../../img/more-reels__preview.jpg') 50% 50% / cover no-repeat;
+            border:0; margin:0; padding:0;
             position: absolute; width:100%; height:100%;
         }
             .more-reels__preview-img {
                 width:100%;
             }
             .more-reels__desc {
-                margin: -0.5em 0 0 0;/*8px*/ font-size:0.8125rem;/*13px*/ 
+                margin: -0.5em 0 0 0;/*8px*/ font-size:0.8125rem;/*13px*/
                 color:#c2c2c2; line-height:1.69; height: 4.875rem;/*78px*/
             }
 
 /* ad skip styles */
 .adSkip__group {
     background:#fff; background:rgba(255,255,255,0.75);
-    text-transform: uppercase; 
-    text-align: center; 
-    font-weight:bold; 
+    text-transform: uppercase;
+    text-align: center;
+    font-weight:bold;
     font-size:0.875em; color:#000;
     position:absolute; z-index: 4;
     width:100%; height:100%;
@@ -270,6 +274,6 @@
         border:0; margin:0; padding:0;
         background:#000;
         width:100%; height:100%;
-        cursor:pointer; 
+        cursor:pointer;
         color:#fff; text-align: center; font-weight:bold;
     }

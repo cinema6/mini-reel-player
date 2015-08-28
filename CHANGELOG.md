@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v0.23.1 (August 28, 2015)
+* *[v0.23.1-rc1]*
+  * [FIX]: Fix for an issue that caused players with title-less cards and playlists (full, lightbox-playlist) to crash
+* *[/v0.23.1-rc1]*
+
 ## v0.23.0 (August 24, 2015)
 * *[v0.23.0-rc3]*
   * [FIX]: Make the recap card truncate extremely long card titles

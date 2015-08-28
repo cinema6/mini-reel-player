@@ -1,9 +1,22 @@
 import ViewController from './ViewController.js';
 import PlaylistView from '../views/PlaylistView.js';
+import { createKey } from 'private-parts';
 import {
     map,
     find
 } from '../../lib/utils.js';
+
+class Private {
+    formatTitle(title) {
+        if(title && title.length > 100) {
+            return title.substring(0, 100) + '...';
+        } else {
+            return title;
+        }
+    }
+}
+
+const _ = createKey(instance => new Private(instance));
 
 export default class PlaylistViewController extends ViewController {
     constructor(minireel) {
@@ -16,6 +29,8 @@ export default class PlaylistViewController extends ViewController {
         this.expanded = true;
 
         this.addListeners();
+
+        if (global.__karma__) { this.__private__ = _(this); }
     }
 
     addListeners() {
@@ -55,14 +70,6 @@ export default class PlaylistViewController extends ViewController {
         this.updateView();
     }
 
-    formatTitle(title) {
-        if(title.length > 100) {
-            return title.substring(0, 100) + '...';
-        } else {
-            return title;
-        }
-    }
-
     updateView() {
         const { minireel } = this;
 
@@ -73,7 +80,7 @@ export default class PlaylistViewController extends ViewController {
             expanded: this.expanded,
             cards: map(minireel.deck, card => ({
                 id: card.id,
-                title: this.formatTitle(card.title),
+                title: _(this).formatTitle(card.title),
                 thumb: card.thumbs.small,
                 showSource: !!card.data.source && !card.data.hideSource,
                 href: card.data.href,

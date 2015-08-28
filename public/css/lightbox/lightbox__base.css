@@ -135,7 +135,9 @@
             .socialIconsBe--pinterest:before {
                 background-position: -9rem -3rem;
             }
-
+            .socialIconsBe--share:before {
+                background-position: -13rem -3rem;
+            }
             .socialIconsBe__light--youtube:before {
                 background-position:-1rem -5rem;
             }

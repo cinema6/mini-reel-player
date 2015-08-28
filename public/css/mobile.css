@@ -67,4 +67,11 @@
         ============================================= */ 
         @import url('mobile/single-card.css');
 
+    /*  social share modal styles
+            popup : portrait view
+            popup : landscape view
+        ============================================= */ 
+        @import url('mobile/modal-share.css');
+
+
 

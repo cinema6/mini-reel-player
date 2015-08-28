@@ -47,6 +47,23 @@
     .socialBtn__bg--pinterest {
         background-color: #c92228;
     }
+    
+/***styles for share button to initiate the modal***/
+.shareBtn {
+    background-color: #0c7e4a;
+    border-radius: 3px;
+    padding: 0 0.125em;
+}
+    .shareBtn.socialIconsBe__solid--share:before {
+        background-position: -13rem -11rem;
+        border: 1px solid #0c7e4a;
+    }
+    .shareBtn .shareBtn__label a {
+        color: #fff;
+        font-size: 0.85em;
+        padding: 0 0.25em;
+        border-radius: 5px;
+    }
 /***including icons for buttons***/
     .sprite,
     .spriteAf:after,

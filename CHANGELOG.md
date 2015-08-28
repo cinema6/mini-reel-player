@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v0.23.2 (August 28, 2015)
+* *[v0.23.2-rc1]*
+  * [FIX]: Fix for an issue that caused social media icons in the embedded player to render incorrectly
+* *[/v0.23.2-rc1]*
+
 ## v0.23.1 (August 28, 2015)
 * *[v0.23.1-rc1]*
   * [FIX]: Fix for an issue that caused players with title-less cards and playlists (full, lightbox-playlist) to crash

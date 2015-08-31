@@ -27,6 +27,7 @@
     <div data-view="ballotResultsOutlet:View"></div>
 
     <div data-if="isSponsored" class="sponsorProfile__group clearfix">
+    <div class="socialBox"">
         <a data-if="logo" href="{{website}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">
             <img src="{{logo}}" alt="{{sponsor}}" class="sponsorProfile__img">
         </a>
@@ -44,9 +45,11 @@
                 </a></span>
             </div>
         </div>
+        </div>
+        <div class="card__desc landscapeOnly">{{note}}</div>
     </div>
 
-    <div class="card__desc sponsor__actions" data-if="action.label">
+    <div class="sponsor__actions" data-if="action.label">
         <a data-if="action.isText" href="{{action.href}}" target="_blank">{{action.label}}</a>
         <a data-if="action.isButton" href="{{action.href}}"
         target="_blank" class="btnPrimary sponsor__goBtn" title="{{action.label}}">
@@ -54,6 +57,6 @@
         </a>
     </div>
 
-    <div class="card__desc">{{note}}</div>
+    <div class="card__desc portraitOnly">{{note}}</div>
 
 </section><!--.card__group-->

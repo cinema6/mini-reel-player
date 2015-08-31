@@ -60,5 +60,11 @@
             nav bar styles : landscape view
         ============================================= */ 
         @import url('mobile/nav-bar.css');
+        
+    /*  single card styles
+            Portrait view : Sponsored and non-sponsored
+            Landscape view : Sponsored and non-sponsored
+        ============================================= */ 
+        @import url('mobile/single-card.css');
 
 

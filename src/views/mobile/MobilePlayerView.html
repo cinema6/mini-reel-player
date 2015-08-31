@@ -1,4 +1,16 @@
-<div class="MiniReel__group" data-class="sponsor:MiniReel__group--brandedMR">
+<div class="MiniReel__group" data-class="sponsor:MiniReel__group--brandedMR isSolo:MiniReel__group--SingleCardMR">
+        <!--new close button for single card mobile -->
+        <button data-if="closeable"
+            data-view="landscapeCloseButton:CloseButtonView"
+            data-target="controller" data-action="close"
+            class="btnSecondary MiniReel__closeBtn MiniReel__closeBtn--landscape clearfix"
+            title="Close"
+            type="button">
+            <span class="btn__label tk--action">
+                Close
+            </span>
+            <span class="sprite sprite--close">&nbsp;</span>
+        </button><!--new close button for single card mobile : Ends-->
     <div data-view="landscapeLeftSidebar:NavbarView" class="navBarLeft__group c6-slide-bar--left css-promote">
         <div class="publisherProfile__logoBox publisherProfile__logoBox--landscape">&nbsp;</div>
         <a data-if="logo"
@@ -8,8 +20,7 @@
             class="brandProfile__logoBox brandProfile__logoBox--landscape">
             <img class="brandProfile__logo brandProfile__logo--landscape" alt="{{sponsor}}" src="{{logo}}">
         </a>
-        <button data-unless="isSolo"
-            data-view="landscapePreviousButton:NavButtonView"
+        <button data-view="landscapePreviousButton:NavButtonView"
             data-target="controller" data-action="previous"
             title="Previous Video"
             type="button"
@@ -27,14 +38,13 @@
             </span>
         </button>
 
-        <p data-unless="isSolo" class="nav__counter nav__counter--landscape">
+        <p class="nav__counter nav__counter--landscape">
             <span>{{header}}</span>
         </p>
     </div><!--.navBarLeft__group-->
 
     <div class="navBarRight__group css-promote">
-        <button data-unless="isSolo"
-            data-view="tocButton:TOCButtonView"
+        <button data-view="tocButton:TOCButtonView"
             data-target="controller" data-action="toggleToc"
             class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn--landscape"
             title="View Table of Contents"
@@ -43,8 +53,7 @@
             <span class="spriteBe uiIconsBe uiIconsBe--toc">&nbsp;</span>
         </button>
 
-        <button data-unless="isSolo"
-            data-view="landscapeNextButton:NavButtonView"
+        <button data-view="landscapeNextButton:NavButtonView"
             data-target="controller" data-action="next"
             title="Next Video"
             type="button"
@@ -100,7 +109,7 @@
             </span>
             <span class="sprite sprite--close">&nbsp;</span>
         </button>
-        <p data-unless="isSolo" class="nav__counter">
+        <p class="nav__counter">
             <span>{{header}}</span>
         </p>
     </div><!--.headerBar__group-->
@@ -112,7 +121,6 @@
 
         <button data-view="previousButton:NavButtonView"
             data-target="controller" data-action="previous"
-            data-unless="isSolo"
             title="Previous Video"
             type="button"
             class="btnPrimary pager__btn pager__btn--prev">
@@ -130,7 +138,6 @@
         </button>
         <button data-view="landscapeTocButton:TOCButtonView"
             data-target="controller" data-action="toggleToc"
-            data-unless="isSolo"
             class="btnSecondary MiniReel__tocBtn MiniReel__tocBtn"
             title="View Table of Contents"
             type="button">
@@ -139,7 +146,6 @@
         </button>
         <button data-view="nextButton:NavButtonView"
             data-target="controller" data-action="next"
-            data-unless="isSolo"
             title="Next Video"
             type="button"
             class="btnPrimary pager__btn pager__btn--next">
@@ -157,8 +163,7 @@
         </button>
     </div><!--.ui-control-->
 
-
-    <article class="cards__group" data-class="isSolo:cards__group--solo">
+    <article class="cards__group">
         <div data-if="sponsor" class="brandedMR__tagline tk--copy">
             <a ng-href="{{website}}"
                 target="_blank"

@@ -134,7 +134,9 @@
             .socialIconsBe--pinterest:before {
                 background-position: -13.5rem -4.5rem;
             }
-
+            .socialIconsBe--instagram:before {
+                background-position: -16.5rem -4.5rem;
+            }
 
 
             .uiIconsBe--replay:before {

@@ -151,6 +151,9 @@
             .socialIconsBe__light--pinterest:before {
                 background-position: -9rem -5rem;
             }
+            .socialIconsBe--instagram:before {
+                background-position: -11rem -3rem;
+            }
 
 
 

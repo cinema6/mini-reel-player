@@ -138,6 +138,9 @@
             .socialIconsBe--pinterest:before {
                 background-position: -9rem -3rem;
             }
+            .socialIconsBe--instagram:before {
+                background-position: -11rem -3rem;
+            }
             /*
             .socialIconsBe__dark--youtube:before {
                 background-position:-1rem -1rem;

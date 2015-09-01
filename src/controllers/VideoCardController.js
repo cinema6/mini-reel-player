@@ -3,6 +3,7 @@ import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../mixins/BallotVideoCardController.js';
+import ModalShareController from '../mixins/ModalShareController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -57,6 +58,7 @@ export default class VideoCardController extends CardController {
 
         this.initPost();
         this.initBallot();
+        this.initShare();
     }
 
     canAutoadvance() {
@@ -77,7 +79,6 @@ export default class VideoCardController extends CardController {
             logo: card.logo,
             showSource: !card.data.hideSource,
             links: card.socialLinks,
-            shareLinks: card.shareLinks,
             website: card.links.Website,
             action: {
                 label: card.action.label,
@@ -91,4 +92,4 @@ export default class VideoCardController extends CardController {
         return super(...arguments);
     }
 }
-VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line
+VideoCardController.mixin(PostVideoCardController, BallotVideoCardController, ModalShareController); // jshint ignore:line

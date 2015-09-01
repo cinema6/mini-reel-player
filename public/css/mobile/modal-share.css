@@ -47,11 +47,12 @@
     .socialBtn__bg--pinterest {
         background-color: #c92228;
     }
-    
+
 /***styles for share button to initiate the modal***/
 .shareBtn {
     background-color: #0c7e4a;
     border-radius: 3px;
+    cursor: pointer;
     padding: 0 0.125em;
 }
     .shareBtn.socialIconsBe__solid--share:before {

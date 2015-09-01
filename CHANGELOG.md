@@ -1,5 +1,14 @@
 # MiniReel Player 2.0
 
+## v0.24.0 (August 31, 2015)
+* *[v0.24.0-rc2]*
+  * [DEV]: Added the ability to load an experience from staging
+
+* *[v0.24.0-rc1]*
+  * [FEATURE]: Added the ability to include an Instagram link on sponsored cards.
+  * [FEATURE]: Improved design of mobile player in landscape orientation
+* *[/v0.24.0-rc1]*
+
 ## v0.23.2 (August 28, 2015)
 * *[v0.23.2-rc1]*
   * [FIX]: Fix for an issue that caused social media icons in the embedded player to render incorrectly

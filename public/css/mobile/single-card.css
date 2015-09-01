@@ -222,6 +222,14 @@
             overflow-y: scroll;
             font-size: 1em;
         }
+<<<<<<< HEAD
+=======
+        .MiniReel__group--SingleCardMR h3.MiniReel__title {
+            font-size: 1.3em;
+            font-weight: 400;
+            margin: 0;
+        }
+>>>>>>> master
         .MiniReel__group--SingleCardMR .sponsor__actions {
             float: inherit;
             line-height: 0;
@@ -235,7 +243,15 @@
         .MiniReel__group--SingleCardMR .sponsorProfile__copy {
             margin-bottom: 0.5em;
         }
+<<<<<<< HEAD
        
+=======
+        .MiniReel__group--SingleCardMR h3.MiniReel__title {
+            font-size: 1.3em;
+            font-weight: 400;
+            margin: 0;
+        }
+>>>>>>> master
         .MiniReel__group--SingleCardMR .player, .MiniReel__group--SingleCardMR .player__thumbnail {
             width: 98.5%;
             float: left;

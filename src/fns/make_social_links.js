@@ -3,7 +3,7 @@ import {
     filter
 } from '../../lib/utils.js';
 
-const SOCIAL_LINKS = ['Facebook', 'Pinterest', 'Twitter', 'YouTube', 'Vimeo'];
+const SOCIAL_LINKS = ['Facebook', 'Pinterest', 'Twitter', 'YouTube', 'Vimeo', 'Instagram'];
 
 export default function makeSocialLinks(links) {
     return map(

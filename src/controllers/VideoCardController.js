@@ -3,7 +3,6 @@ import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../mixins/BallotVideoCardController.js';
-import ModalShareController from '../mixins/ModalShareController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -58,7 +57,6 @@ export default class VideoCardController extends CardController {
 
         this.initPost();
         this.initBallot();
-        this.initShare();
     }
 
     canAutoadvance() {
@@ -79,6 +77,7 @@ export default class VideoCardController extends CardController {
             logo: card.logo,
             showSource: !card.data.hideSource,
             links: card.socialLinks,
+            shareLinks: card.shareLinks,
             website: card.links.Website,
             action: {
                 label: card.action.label,
@@ -91,5 +90,28 @@ export default class VideoCardController extends CardController {
 
         return super(...arguments);
     }
+
+    shareItemClicked(shareItem, shareLink) {
+        const sizes = {
+            facebook: {
+                w: 570,
+                h: 550
+            },
+            twitter: {
+                w: 580,
+                h: 250
+            },
+            pinterest: {
+                w: 750,
+                h: 550
+            }
+        };
+        let w = sizes[shareLink.type].w;
+        let h = sizes[shareLink.type].h;
+        let left = (screen.width/2)-(w/2);
+        let top = (screen.height/2)-(h/2)-50;
+        return window.open(shareLink.href, shareLink.type,
+            `width=${w}, height=${h}, top=${top}, left=${left}`);
+    }
 }
-VideoCardController.mixin(PostVideoCardController, BallotVideoCardController, ModalShareController); // jshint ignore:line
+VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line

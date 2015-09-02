@@ -1,14 +1,14 @@
 import TemplateView from '../../lib/core/TemplateView.js';
 import Hideable from '../mixins/Hideable.js';
 import ButtonView from './ButtonView.js';
-import ShareListView from './ShareListView.js';
+import ModalShareListView from './ModalShareListView.js';
 
 export default class ModalShareView extends TemplateView {
     constructor() {
         super(...arguments);
         this.tag = 'div';
         this.template = require('./ModalShareView.html');
-        this.instantiates = { ButtonView, ShareListView };
+        this.instantiates = { ButtonView, ModalShareListView };
     }
 
     update(data) {

@@ -13,5 +13,6 @@ export default class FullVideoCardController extends VideoCardController {
         this.initSkipTimer();
         this.initBallotResults();
     }
+
 }
 FullVideoCardController.mixin(SkipTimerVideoCardController, ModalBallotResultsVideoCardController); // jshint ignore:line

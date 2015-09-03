@@ -1,7 +1,7 @@
 <div class="MiniReel__group" data-class="sponsor:MiniReel__group--brandedMR isSolo:MiniReel__group--SingleCardMR">
         <!--new close button for single card mobile -->
         <button data-if="closeable"
-            data-view="landscapeCloseButton:CloseButtonView"
+            data-view="singleCloseButton:CloseButtonView"
             data-target="controller" data-action="close"
             class="btnSecondary MiniReel__closeBtn MiniReel__closeBtn--landscape clearfix"
             title="Close"
@@ -11,6 +11,11 @@
             </span>
             <span class="sprite sprite--close">&nbsp;</span>
         </button><!--new close button for single card mobile : Ends-->
+         <!--new skip button for single card mobile landscape :: hide this when skip timer ends -->
+        <p data-view="closeSkipTimer:SkipTimerView" class="nav__counter nav__counter--landscape adSkip__message--landscape landscapeOnly">
+            <span>Skip in</span><br>
+            <strong>{{remaining}}</strong>
+        </p><!--new skip button for single card mobile landscape: Ends -->
     <div data-view="landscapeLeftSidebar:NavbarView" class="navBarLeft__group c6-slide-bar--left css-promote">
         <div class="publisherProfile__logoBox publisherProfile__logoBox--landscape">&nbsp;</div>
         <a data-if="logo"

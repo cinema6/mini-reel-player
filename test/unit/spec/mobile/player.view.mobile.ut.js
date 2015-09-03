@@ -109,6 +109,16 @@ describe('MobilePlayerView', function() {
             });
         });
 
+        describe('singleCloseButton', function() {
+            beforeEach(function() {
+                Runner.run(() => mobilePlayerView.create());
+            });
+
+            it('should be a NavButtonView', function() {
+                expect(mobilePlayerView.singleCloseButton).toEqual(jasmine.any(CloseButtonView));
+            });
+        });
+
         describe('tocButton', function() {
             beforeEach(function() {
                 Runner.run(() => mobilePlayerView.create());
@@ -186,6 +196,16 @@ describe('MobilePlayerView', function() {
 
             it('should be a SkipTimerView', function() {
                 expect(mobilePlayerView.landscapeSkipTimer).toEqual(jasmine.any(SkipTimerView));
+            });
+        });
+
+        describe('closeSkipTimer', function() {
+            beforeEach(function() {
+                Runner.run(() => mobilePlayerView.create());
+            });
+
+            it('should be a SkipTimerView', function() {
+                expect(mobilePlayerView.closeSkipTimer).toEqual(jasmine.any(SkipTimerView));
             });
         });
 
@@ -336,7 +356,7 @@ describe('MobilePlayerView', function() {
             });
 
             it('should populate closeButtons', function() {
-                expect(mobilePlayerView.closeButtons).toEqual([mobilePlayerView.closeButton, mobilePlayerView.landscapeCloseButton]);
+                expect(mobilePlayerView.closeButtons).toEqual([mobilePlayerView.closeButton, mobilePlayerView.landscapeCloseButton, mobilePlayerView.singleCloseButton]);
             });
 
             it('should populate tocButtons', function() {
@@ -344,7 +364,7 @@ describe('MobilePlayerView', function() {
             });
 
             it('should populate skipTimers', function() {
-                expect(mobilePlayerView.skipTimers).toEqual([mobilePlayerView.skipTimer, mobilePlayerView.landscapeSkipTimer]);
+                expect(mobilePlayerView.skipTimers).toEqual([mobilePlayerView.skipTimer, mobilePlayerView.landscapeSkipTimer, mobilePlayerView.closeSkipTimer]);
             });
 
             it('should populate navItems', function() {

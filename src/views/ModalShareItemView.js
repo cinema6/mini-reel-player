@@ -1,5 +1,4 @@
 import ActionableItemView from './ActionableItemView';
-import { createKey } from 'private-parts';
 
 export default class ModalShareItemView extends ActionableItemView {
     constructor() {

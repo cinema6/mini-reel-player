@@ -330,7 +330,9 @@ describe('MobileVideoCardController', function() {
 
             describe('if there is no displayAd', function() {
                 beforeEach(function() {
-                    MobileVideoCardCtrl.render();
+                    Runner.run(() => {
+                        MobileVideoCardCtrl.render();
+                    });
                 });
 
                 it('should call super()', function() {
@@ -345,7 +347,9 @@ describe('MobileVideoCardController', function() {
                     Runner.run(() => MobileVideoCardCtrl.view.create());
                     spyOn(MobileVideoCardCtrl.DisplayAdCtrl, 'renderInto');
 
-                    MobileVideoCardCtrl.render();
+                    Runner.run(() => {
+                        MobileVideoCardCtrl.render();
+                    });
                 });
 
                 it('should call super()', function() {

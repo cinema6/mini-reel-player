@@ -10,7 +10,7 @@ export default function makeShareLinks(links, thumbUrl, title) {
     return map(
         filter(
             Object.keys(links),
-            key => SOCIAL_LINKS.indexOf(key) > -1
+            key => SOCIAL_LINKS.indexOf(key) > -1 && (key !== 'pinterest' || thumbUrl)
         ),
         key => {
             var href, label;
@@ -28,8 +28,10 @@ export default function makeShareLinks(links, thumbUrl, title) {
                 break;
             case 'pinterest':
                 label = 'Pin it';
-                href = `https://pinterest.com/pin/create/button/?url=${url}&media=${media}
-                    &description=${desc}`;
+                href = `https://pinterest.com/pin/create/button/?url=${url}&media=${media}`;
+                if(desc) {
+                    href = href + `&description=${desc}`;
+                }
                 break;
             }
             return {

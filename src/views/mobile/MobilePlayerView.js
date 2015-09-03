@@ -40,7 +40,7 @@ export default class MobilePlayerView extends PlayerView {
         this.closeButtons.push(this.closeButton, this.landscapeCloseButton);
         this.tocButtons.push(this.tocButton, this.landscapeTocButton);
 
-        this.skipTimers.push(this.skipTimer, this.landscapeSkipTimer);
+        this.skipTimers.push(this.skipTimer, this.landscapeSkipTimer, this.closeSkipTimer);
 
         const navItems = [].concat(this.nextButtons, this.previousButtons);
         this.navItems.push(...navItems);

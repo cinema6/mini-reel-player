@@ -189,6 +189,16 @@ describe('MobilePlayerView', function() {
             });
         });
 
+        describe('closeSkipTimer', function() {
+            beforeEach(function() {
+                Runner.run(() => mobilePlayerView.create());
+            });
+
+            it('should be a SkipTimerView', function() {
+                expect(mobilePlayerView.closeSkipTimer).toEqual(jasmine.any(SkipTimerView));
+            });
+        });
+
         describe('tocButtons', function() {
             it('should be an array', function() {
                 expect(mobilePlayerView.tocButtons).toEqual([]);
@@ -344,7 +354,7 @@ describe('MobilePlayerView', function() {
             });
 
             it('should populate skipTimers', function() {
-                expect(mobilePlayerView.skipTimers).toEqual([mobilePlayerView.skipTimer, mobilePlayerView.landscapeSkipTimer]);
+                expect(mobilePlayerView.skipTimers).toEqual([mobilePlayerView.skipTimer, mobilePlayerView.landscapeSkipTimer, mobilePlayerView.closeSkipTimer]);
             });
 
             it('should populate navItems', function() {

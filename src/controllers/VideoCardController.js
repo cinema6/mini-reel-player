@@ -106,12 +106,12 @@ export default class VideoCardController extends CardController {
                 h: 550
             }
         };
-        let w = sizes[shareLink.type].w;
-        let h = sizes[shareLink.type].h;
-        let left = (screen.width/2)-(w/2);
-        let top = (screen.height/2)-(h/2)-50;
+        const w = sizes[shareLink.type].w;
+        const h = sizes[shareLink.type].h;
+        const left = (screen.width/2)-(w/2);
+        const top = (screen.height/2)-(h/2)-50;
         return window.open(shareLink.href, shareLink.type,
-            `width=${w}, height=${h}, top=${top}, left=${left}`);
+            `width=${w},height=${h},top=${top},left=${left}`);
     }
 }
 VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line

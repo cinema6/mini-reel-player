@@ -18,7 +18,8 @@ function SponsoredCard(data) {
         this.socialLinks = makeSocialLinks(data.links);
         this.shareLinks = makeShareLinks(
             data.shareLinks,
-            data.data.thumbs && (data.data.thumbs.large || data.data.thumbs.small),
+            (data.data.thumbs && (data.data.thumbs.large || data.data.thumbs.small)) ||
+                (data.thumbs && (data.thumbs.large || data.thumbs.small)),
             data.title || ''
         );
         this.ad = !!data.params.ad;

@@ -3,6 +3,7 @@
 ## v0.24.0 (August 31, 2015)
 * *[v0.24.0-rc2]*
   * [DEV]: Added the ability to load an experience from staging
+  * [FIX]: Fixed sponsor link and logo display issue
 
 * *[v0.24.0-rc1]*
   * [FEATURE]: Added the ability to include an Instagram link on sponsored cards.

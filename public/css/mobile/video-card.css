@@ -38,6 +38,7 @@
             .playerBox--canplay iframe,
             .playerBox--canplay video {
                 opacity:1;
+                background-color: #000000;
             }
         .player--fly-away {
             margin-left:-5000%;

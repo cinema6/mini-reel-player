@@ -71,6 +71,7 @@
                     .playerBox--canplay object,
                     .playerBox--canplay iframe {
                         opacity:1;
+                        background-color: #000000;
                     }
             .player__thumbnail {
                 background:50% 50% / 112% auto no-repeat;

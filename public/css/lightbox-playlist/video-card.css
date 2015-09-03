@@ -35,6 +35,7 @@
             .playerBox--canplay object,
             .playerBox--canplay iframe {
                 opacity:1;
+                background-color: #000000;
             }
 
         @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {

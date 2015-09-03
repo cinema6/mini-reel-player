@@ -447,11 +447,23 @@ describe('VideoCardController', function() {
                     logo: card.logo,
                     showSource: !card.data.hideSource,
                     links: card.socialLinks,
-                    shareLinks: {
-                        facebook: 'https://www.cinema6.com',
-                        twitter: 'https://www.cinema6.com',
-                        pinterest: 'https://www.cinema6.com'
-                    },
+                    shareLinks: [
+                        {
+                            type: 'facebook',
+                            label: 'Share',
+                            href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.cinema6.com'
+                        },
+                        {
+                            type: 'twitter',
+                            label: 'Tweet',
+                            href: 'https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.cinema6.com'
+                        },
+                        {
+                            type: 'pinterest',
+                            label: 'Pin it',
+                            href: 'https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.cinema6.com&media=http%3A%2F%2Fcolorlines.com%2Fassets_c%2F2011%2F08%2FAziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg&description=Aziz%20Ansari%20Live%20at%20Madison%20Square%20Garden'
+                        }
+                    ],
                     website: card.links.Website,
                     action: jasmine.objectContaining({
                         label: card.action.label,

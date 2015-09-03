@@ -37,7 +37,7 @@ export default class MobilePlayerView extends PlayerView {
 
         this.nextButtons.push(this.nextButton, this.landscapeNextButton);
         this.previousButtons.push(this.previousButton, this.landscapePreviousButton);
-        this.closeButtons.push(this.closeButton, this.landscapeCloseButton);
+        this.closeButtons.push(this.closeButton, this.landscapeCloseButton, this.singleCloseButton);
         this.tocButtons.push(this.tocButton, this.landscapeTocButton);
 
         this.skipTimers.push(this.skipTimer, this.landscapeSkipTimer, this.closeSkipTimer);

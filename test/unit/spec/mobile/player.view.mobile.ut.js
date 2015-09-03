@@ -109,6 +109,16 @@ describe('MobilePlayerView', function() {
             });
         });
 
+        describe('singleCloseButton', function() {
+            beforeEach(function() {
+                Runner.run(() => mobilePlayerView.create());
+            });
+
+            it('should be a NavButtonView', function() {
+                expect(mobilePlayerView.singleCloseButton).toEqual(jasmine.any(CloseButtonView));
+            });
+        });
+
         describe('tocButton', function() {
             beforeEach(function() {
                 Runner.run(() => mobilePlayerView.create());
@@ -346,7 +356,7 @@ describe('MobilePlayerView', function() {
             });
 
             it('should populate closeButtons', function() {
-                expect(mobilePlayerView.closeButtons).toEqual([mobilePlayerView.closeButton, mobilePlayerView.landscapeCloseButton]);
+                expect(mobilePlayerView.closeButtons).toEqual([mobilePlayerView.closeButton, mobilePlayerView.landscapeCloseButton, mobilePlayerView.singleCloseButton]);
             });
 
             it('should populate tocButtons', function() {

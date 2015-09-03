@@ -4,6 +4,7 @@
 * *[v0.24.0-rc2]*
   * [DEV]: Added the ability to load an experience from staging
   * [FIX]: Fixed sponsor link and logo display issue
+  * [FIX]: Fixed video thumbnail background color issue
 
 * *[v0.24.0-rc1]*
   * [FEATURE]: Added the ability to include an Instagram link on sponsored cards.

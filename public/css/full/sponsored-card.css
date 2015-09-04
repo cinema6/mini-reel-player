@@ -31,7 +31,7 @@
 
         .sponsorProfile__links {
             line-height: 1;
-            margin:0;
+            margin:0.125rem 0.5rem 0 0;
         }
             .sponsorProfile__tag {
                 margin:0.125rem 0.5rem 0 0;
@@ -104,37 +104,41 @@
             margin:0;
             padding:0
         }
-
-        .sponsorProfile__link--menu ul li:hover
+        .sponsorProfile__link--menu ul li: hover
+            {
+                cursor: pointer;
+            }
+        .sponsorProfile__link--menu ul ul li:hover
         {
-            background:#eee;
+            background:#ddd;
         }
             .sponsorProfile__link--menu ul li:hover > ul
             {
                 display:block
             }
-        .sponsorProfile__link--menu ul ul
-        {
-            display:none;
-            position:absolute;
-            top:100%;
-            left:-7em;
-            background:#f5f5f5;
-            padding:0;
-            width: 12em;
-        }
-        }
+            .sponsorProfile__link--menu ul ul
+            {
+                display:none;
+                position:absolute;
+                top:-120%;
+                left:-7em;
+                background:#f5f5f5;
+                border: 1px solid #ccc;
+                padding:0;
+                width: 12.125em;
+            }
+        
 
             .sponsorProfile__link--menu ul ul li
             {
                 float:none;
-                width: 90px;
+                width: 4em;
                 display: inline-block;
             }
 
             .sponsorProfile__link--menu ul ul a
             {
-                line-height:120%;
-                    padding: 10px 5px;
+                line-height:110%;
+                padding: 5px 5px;
             }
     /**sponsored share link dropdown - ends**/

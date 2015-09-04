@@ -75,6 +75,7 @@
         .sponsorProfile__link--menu ul li:hover
         {
             background:#eee;
+            cursor: pointer;
         }
             .sponsorProfile__link--menu ul li:hover > ul
             {

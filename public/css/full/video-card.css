@@ -38,6 +38,7 @@
                 .playerBox--canplay object,
                 .playerBox--canplay iframe {
                     opacity:1;
+                    background-color: #000000;
                 }
 
         .player__thumbnail {

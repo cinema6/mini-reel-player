@@ -67,15 +67,19 @@
         right:0.625em; top:0.625em;
         width:8em;
     }
-        .sponsor__goBtn {
-            padding:0.5em 0.25em;
-            border-radius:3px;
-            width:100%;
-        }
+    .sponsor__goBtn {
+        padding:0.5em 0.25em;
+        border-radius:3px;
+        width:100%;
+    }
         
   /**sponsored share link dropdown **/
     .socialIconsBe.socialIconsBe--share:before {
         vertical-align: top;
+    }
+    .sponsorProfile__link--menu {
+        display: inline-block;
+        vertical-align: middle;
     }
     .sponsorProfile__link--menu ul
     {
@@ -118,15 +122,17 @@
             display:none;
             position:absolute;
             top:100%;
-            left:0;
+            left:-15em;
             background:#f5f5f5;
-            padding:0
+            padding:0;
+            width: 17em;
         }
 
             .sponsorProfile__link--menu ul ul li
             {
                 float:none;
                 width: 90px;
+                display: inline-block;
             }
 
             .sponsorProfile__link--menu ul ul a

@@ -29,6 +29,7 @@
         .sponsorProfile__links {
             line-height: 1;
             margin:0.25em 0 1.5em 0;
+            display: inline-block;
         }
             .sponsorProfile__tag {
                 margin:0.125rem 0 0 0;
@@ -48,10 +49,15 @@
                     border-radius:3px;
                     display:table;
                 }
-    /**sponsored share link dropdown **/
+    /**sponsored share link dropdown **/    
     .socialIconsBe.socialIconsBe--share:before {
         vertical-align: top;
     }
+    .sponsorProfile__link--menu {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0.25em 0 1.5em 0;
+    }   
     .sponsorProfile__link--menu ul
     {
         list-style:none;

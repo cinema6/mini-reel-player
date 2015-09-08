@@ -1,11 +1,13 @@
 # MiniReel Player 2.0
 
 ## v0.24.0 (August 31, 2015)
+* *[v0.24.0-rc3]*
+  * [FIX]: Fixed sponsor card android scroll issue
+  
 * *[v0.24.0-rc2]*
   * [DEV]: Added the ability to load an experience from staging
   * [FIX]: Fixed sponsor link and logo display issue
   * [FIX]: Fixed video thumbnail background color issue
-  * [FIX]: Fixed sponsor card android scroll issue
 * *[/v0.24.0-rc2]*
 
 * *[v0.24.0-rc1]*

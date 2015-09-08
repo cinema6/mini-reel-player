@@ -40,15 +40,8 @@
                     </a></span>
                 </div>
                 <!--share to social dropdown menu-->
-                <nav class="sponsorProfile__link--menu">
-                    <ul>
-                      <li><span class="spriteBe socialIconsBe socialIconsBe--share"><span class="ir"><a href="#">Share</a></span></span>
-                        <ul data-view="shareLinks:LinksListView">
-                            <li data-target="controller" data-action="shareItemClicked"><span><a><span class="spriteBe socialIconsBe socialIconsBe--{{type}}"> {{label}}</span></a></span></li>
-                        </ul>
-                      </li>
-                    </ul>
-                </nav>
+                <div class="sponsorProfile__linkBtn">
+                <span><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label"><a href="#">Share</a></span></span></span></div>
             <!--share to social dropdown menu ends-->
             </div>
             <div data-if="action.label" class="card__desc sponsor__actions">

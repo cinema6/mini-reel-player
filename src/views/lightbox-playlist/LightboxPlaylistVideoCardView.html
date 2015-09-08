@@ -5,6 +5,7 @@
     <div data-view="postOutlet:View"></div>
     <div data-view="ballotOutlet:View"></div>
     <div data-view="ballotResultsOutlet:View"></div>
+    <div data-view="shareOutlet:View"></div>
     <div class="player__group">
         <div data-view="playerOutlet:PlayerOutletView" class="js-playerBox player"></div>
     </div>
@@ -40,17 +41,10 @@
                         <span class="ir">{{label}}</span>
                     </a></span>
                 </div>
-            <!--share to social dropdown menu-->
-                <nav class="sponsorProfile__link--menu">
-                    <ul>
-                      <li><span class="spriteBe socialIconsBe socialIconsBe--share"><span class="ir"><a href="#">Share</a></span></span>
-                          <ul data-view="shareLinks:LinksListView">
-                              <li data-target="controller" data-action="shareItemClicked"><span><a><span class="spriteBe socialIconsBe socialIconsBe--{{type}}"> {{label}}</span></a></span></li>
-                          </ul>
-                      </li>
-                    </ul>
-                </nav>
-            <!--share to social dropdown menu ends-->
+                <!--share to social-->
+                <div class="sponsorProfile__linkBtn">
+                <span><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label"><a data-view="shareButton:AnchorView" data-target="controller" data-action="showShare">Share</a></span></span></span></div>
+                <!--share to social-->
             </div>
             <div class="card__desc sponsor__actions" data-if="action.label">
                 <a data-if="action.isText" title="{{action.label}}" target="_blank" href="{{action.href}}" class="textLink">

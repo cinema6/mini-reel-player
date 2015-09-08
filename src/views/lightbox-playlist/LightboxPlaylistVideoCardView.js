@@ -3,6 +3,7 @@ import View from '../../../lib/core/View.js';
 import PlayerOutletView from '../PlayerOutletView.js';
 import SkipTimerView from '../SkipTimerView.js';
 import LinksListView from '../LinksListView.js';
+import AnchorView from '../AnchorView.js';
 
 export default class LightboxPlaylistVideoCardView extends VideoCardView {
     constructor() {
@@ -13,7 +14,8 @@ export default class LightboxPlaylistVideoCardView extends VideoCardView {
             View,
             PlayerOutletView,
             SkipTimerView,
-            LinksListView
+            LinksListView,
+            AnchorView
         };
     }
 

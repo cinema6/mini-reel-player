@@ -63,3 +63,9 @@
     /*  override global styles
         ============================================= */
         @import url('full-np/full-np__global.css');
+    
+    /*  social share modal styles
+            popup : portrait view
+            popup : landscape view
+        ============================================= */ 
+        @import url('global/modal-share.css');

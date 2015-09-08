@@ -64,3 +64,9 @@
     /*  instagram card
         ============================================= */
         @import url('light/instagram-card.css');
+        
+    /*  social share modal styles
+            popup : portrait view
+            popup : landscape view
+        ============================================= */ 
+        @import url('global/modal-share.css');

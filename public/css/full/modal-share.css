@@ -4,7 +4,7 @@
     ================================================ */
     .shareto__box {
         position: absolute;
-        z-index: 300;
+        z-index: 200;
         top: 50%;
         left: 0.5em;
         right: 0.5em;
@@ -13,10 +13,6 @@
         background: #fff;
         font-family: 'Open Sans', Arial, Helvetica, sans-serif;
         text-align: center;
-        width: 80%;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
     }
     .shareto__intro {
         font-size: 0.8125em;
@@ -51,9 +47,7 @@
     .socialBtn__bg--pinterest {
         background-color: #c92228;
     }
-    .overlay {
-        z-index: 200;
-    }
+
 /***styles for share button to initiate the modal***/
 .shareBtn {
     background-color: #0c7e4a;

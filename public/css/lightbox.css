@@ -71,9 +71,3 @@
     /*  override global styles
         ============================================= */
         @import url('lightbox/lightbox__global.css');
-
-    /*  social share modal styles
-            popup : portrait view
-            popup : landscape view
-        ============================================= */ 
-        @import url('lightbox/modal-share.css');

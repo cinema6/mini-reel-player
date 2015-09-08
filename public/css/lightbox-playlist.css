@@ -69,9 +69,3 @@
     /*  override global styles
         ============================================= */
         @import url('lightbox-playlist/lightbox-playlist__global.css');
-
-    /*  social share modal styles
-        popup : portrait view
-        popup : landscape view
-        ============================================= */ 
-        @import url('lightbox-playlist/modal-share.css');

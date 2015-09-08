@@ -45,7 +45,10 @@
             border-radius:3px;
             display: inline-block;
         }
-
+        .sponsorProfile__linkBtn {
+            display: inline-block;
+        }
+        
         @media screen and (orientation:landscape) {
             .sponsor__actions {
                 float:right;

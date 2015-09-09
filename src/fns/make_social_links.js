@@ -11,6 +11,6 @@ export default function makeSocialLinks(links) {
             Object.keys(links),
             label => SOCIAL_LINKS.indexOf(label) > -1
         ),
-        label => ({ type: label.toLowerCase(), label, href: links[label] })
+        label => ({ type: label.toLowerCase(), label, href: links[label].uri })
     );
 }

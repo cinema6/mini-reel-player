@@ -5,7 +5,9 @@ import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
 import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
-import {EventEmitter} from 'events';
+import Mixable from '../../../lib/core/Mixable.js';
+import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
+import { EventEmitter } from 'events';
 import cinema6 from '../../../src/services/cinema6.js';
 import adtech from '../../../src/services/adtech.js';
 import {
@@ -726,8 +728,16 @@ describe('MiniReel', function() {
         environment.constructor();
     });
 
-    it('should be an event emitter', function() {
-        expect(minireel).toEqual(jasmine.any(EventEmitter));
+    it('should be Mixable', function() {
+        expect(minireel).toEqual(jasmine.any(Mixable));
+    });
+
+    it('should mixin EventEmitter', function() {
+        expect(MiniReel.mixins).toContain(EventEmitter);
+    });
+
+    it('should mixin SafelyGettable', function() {
+        expect(MiniReel.mixins).toContain(SafelyGettable);
     });
 
     it('should add the ADTECHHandler to the dispatcher', function() {

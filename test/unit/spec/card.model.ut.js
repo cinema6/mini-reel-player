@@ -1,3 +1,6 @@
+import Card from '../../../src/models/Card.js';
+import { EventEmitter } from 'events';
+import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
 import DisplayAd from '../../../src/models/DisplayAd.js';
 import Post from '../../../src/models/Post.js';
 import Ballot from '../../../src/models/Ballot.js';
@@ -5,8 +8,6 @@ import election from '../../../src/services/election.js';
 import Mixable from '../../../lib/core/Mixable.js';
 
 describe('Card', function() {
-    import Card from '../../../src/models/Card.js';
-    import {EventEmitter} from 'events';
     let card;
     let data;
     let experience;
@@ -58,6 +59,10 @@ describe('Card', function() {
 
     it('should mixin the EventEmitter', function() {
         expect(Card.mixins).toContain(EventEmitter);
+    });
+
+    it('should be SafelyGettable', function() {
+        expect(Card.mixins).toContain(SafelyGettable);
     });
 
     describe('properties:', function() {

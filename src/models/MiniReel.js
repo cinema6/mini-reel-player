@@ -6,7 +6,9 @@ import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
 import JumpRampHandler from '../handlers/JumpRampHandler.js';
-import {EventEmitter} from 'events';
+import Mixable from '../../lib/core/Mixable.js';
+import SafelyGettable from '../mixins/SafelyGettable.js';
+import { EventEmitter } from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
 import adtech from '../services/adtech.js';
@@ -139,7 +141,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
     this.deck[0].prepare();
 }
 
-export default class MiniReel extends EventEmitter {
+export default class MiniReel extends Mixable {
     constructor(whitelist = CARD_WHITELIST) {
         super(...arguments);
 
@@ -337,3 +339,4 @@ export default class MiniReel extends EventEmitter {
         this.moveToIndex(-1);
     }
 }
+MiniReel.mixin(EventEmitter, SafelyGettable); // jshint ignore:line

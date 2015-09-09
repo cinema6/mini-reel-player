@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 ## v0.24.0 (August 31, 2015)
+* *[v0.24.0-rc4]*
+  * [FIX]: Fixed sponsor card iOS scroll issue
+  
 * *[v0.24.0-rc3]*
   * [FIX]: Fixed sponsor card android scroll issue
 * *[/v0.24.0-rc3]*

@@ -45,6 +45,11 @@ describe('SponsoredCard mixin', function() {
                 "Pinterest": "https://www.cinema6.com",
                 "YouTube": "https://www.cinema6.com"
             },
+            "shareLinks": {
+                "facebook": "https://www.cinema6.com",
+                "twitter": "https://www.cinema6.com",
+                "pinterest": "https://www.cinema6.com"
+            },
             "params": {
                 "action": {
                     "type": "button",
@@ -152,6 +157,23 @@ describe('SponsoredCard mixin', function() {
                     type: 'youtube',
                     label: 'YouTube',
                     href: 'https://www.cinema6.com'
+                }
+            ]);
+            expect(card.shareLinks).toEqual([
+                {
+                    type: 'facebook',
+                    label: 'Share',
+                    href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.cinema6.com'
+                },
+                {
+                    type: 'twitter',
+                    label: 'Tweet',
+                    href: 'https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.cinema6.com'
+                },
+                {
+                    type: 'pinterest',
+                    label: 'Pin it',
+                    href: 'https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.cinema6.com&media=https%3A%2F%2Fscontent.cdninstagram.com%2Fhphotos-xfa1%2Ft51.2885-15%2Fs320x320%2Fe15%2F11351507_836701216398426_1156749946_n.jpg'
                 }
             ]);
             expect(card.ad).toBe(true);

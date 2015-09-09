@@ -29,7 +29,9 @@ class Private {
 
 const _ = createKey(instance => new Private(instance));
 
-function ModalShareController() {}
+function ModalShareController() {
+    if (global.__karma__) { this.__private__ = _(this); }
+}
 ModalShareController.prototype = {
     initShare: function() {
         const ShareCtrl = _(this).ShareCtrl = new ViewController(this.model);

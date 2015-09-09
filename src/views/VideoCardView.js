@@ -12,21 +12,14 @@ export default class VideoCardView extends CardView {
     }
 
     update(data) {
-        if(data.links) {
-            super(extend(data, {
-                isSponsored: !!(data.logo || data.links.length > 0 || data.sponsor),
-                hasSponsoredCopy: !!(data.links.length > 0 || data.sponsor),
-                hasLinks: !!(data.links.length > 0 || data.website)
-            }));
-            this.links.update(data.links);
-        } else {
-            super(data);
-        }
-        if(this.shareLinks && data.shareLinks) {
-            this.shareLinks.itemIdentifier = 'type';
-            this.shareLinks.itemViewClass = ActionableItemView;
-            this.shareLinks.update(data.shareLinks);
-        }
+        if (!data.links) { return super(data); }
+
+        super(extend(data, {
+            isSponsored: !!(data.logo || data.links.length > 0 || data.sponsor),
+            hasSponsoredCopy: !!(data.links.length > 0 || data.sponsor),
+            hasLinks: !!(data.links.length > 0 || data.website)
+        }));
+        this.links.update(data.links);
     }
 
     didCreateElement() {

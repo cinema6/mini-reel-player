@@ -79,7 +79,6 @@ export default class VideoCardController extends CardController {
             logo: card.logo,
             showSource: !card.data.hideSource,
             links: card.socialLinks,
-            shareLinks: card.shareLinks,
             website: card.links.Website,
             action: {
                 label: card.action.label,
@@ -112,7 +111,9 @@ export default class VideoCardController extends CardController {
         const h = sizes[shareLink.type].h;
         const left = (screen.width/2)-(w/2);
         const top = (screen.height/2)-(h/2)-50;
-        return window.open(shareLink.href, shareLink.type,
+        const title = 'Share to ' + shareLink.type.charAt(0).toUpperCase() +
+            shareLink.type.slice(1);
+        return window.open(shareLink.href, title,
             `width=${w},height=${h},top=${top},left=${left}`);
     }
 }

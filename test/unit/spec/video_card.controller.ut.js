@@ -9,6 +9,7 @@ import playerFactory from '../../../src/services/player_factory.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import PostVideoCardController from '../../../src/mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../../../src/mixins/BallotVideoCardController.js';
+import ModalShareController from '../../../src/mixins/ModalShareController.js';
 
 describe('VideoCardController', function() {
     let VideoCardCtrl;
@@ -99,6 +100,7 @@ describe('VideoCardController', function() {
 
         spyOn(VideoCardController.prototype, 'initPost').and.callThrough();
         spyOn(VideoCardController.prototype, 'initBallot').and.callThrough();
+        spyOn(VideoCardController.prototype, 'initShare').and.callThrough();
 
         VideoCardCtrl = new VideoCardController(card, parentView);
         VideoCardCtrl.view = new VideoCardView();
@@ -116,6 +118,11 @@ describe('VideoCardController', function() {
     it('should mixin the BallotVideoCardController', function() {
         expect(VideoCardController.mixins).toContain(BallotVideoCardController);
         expect(VideoCardCtrl.initBallot).toHaveBeenCalled();
+    });
+
+    it('should mixin the ModalShareController', function() {
+        expect(VideoCardController.mixins).toContain(ModalShareController);
+        expect(VideoCardCtrl.initShare).toHaveBeenCalled();
     });
 
     it('should add its model as an event source', function() {
@@ -422,6 +429,53 @@ describe('VideoCardController', function() {
             });
         });
 
+        describe('shareItemClicked(shareItem, shareLink)', function() {
+            let link;
+
+            beforeEach(function() {
+                spyOn(window, 'open');
+                link = {
+                    href: 'www.site.com'
+                };
+            });
+
+            describe('for facebook', function() {
+                it('should open a window with the correct link and size', function() {
+                    link.type = 'facebook';
+                    VideoCardCtrl.shareItemClicked(null, link);
+                    const args = window.open.calls.mostRecent().args;
+                    expect(args[0]).toBe('www.site.com');
+                    expect(args[1]).toBe('Share to Facebook');
+                    expect(args[2]).toContain('width=570');
+                    expect(args[2]).toContain('height=550');
+                });
+            });
+
+            describe('for twitter', function() {
+                it('should open a window with the correct link and size', function() {
+                    link.type = 'twitter';
+                    VideoCardCtrl.shareItemClicked(null, link);
+                    const args = window.open.calls.mostRecent().args;
+                    expect(args[0]).toBe('www.site.com');
+                    expect(args[1]).toBe('Share to Twitter');
+                    expect(args[2]).toContain('width=580');
+                    expect(args[2]).toContain('height=250');
+                });
+            });
+
+            describe('for pinterest', function() {
+                it('should open a window with the correct link and size', function() {
+                    link.type = 'pinterest';
+                    VideoCardCtrl.shareItemClicked(null, link);
+                    const args = window.open.calls.mostRecent().args;
+                    expect(args[0]).toBe('www.site.com');
+                    expect(args[1]).toBe('Share to Pinterest');
+                    expect(args[2]).toContain('width=750');
+                    expect(args[2]).toContain('height=550');
+                });
+            });
+        });
+
         describe('render()', function() {
             let result;
 
@@ -447,23 +501,6 @@ describe('VideoCardController', function() {
                     logo: card.logo,
                     showSource: !card.data.hideSource,
                     links: card.socialLinks,
-                    shareLinks: [
-                        {
-                            type: 'facebook',
-                            label: 'Share',
-                            href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.cinema6.com'
-                        },
-                        {
-                            type: 'twitter',
-                            label: 'Tweet',
-                            href: 'https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.cinema6.com'
-                        },
-                        {
-                            type: 'pinterest',
-                            label: 'Pin it',
-                            href: 'https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.cinema6.com&media=http%3A%2F%2Fcolorlines.com%2Fassets_c%2F2011%2F08%2FAziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg&description=Aziz%20Ansari%20Live%20at%20Madison%20Square%20Garden'
-                        }
-                    ],
                     website: card.links.Website,
                     action: jasmine.objectContaining({
                         label: card.action.label,

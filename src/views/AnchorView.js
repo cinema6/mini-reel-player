@@ -1,33 +1,9 @@
-import View from '../../lib/core/View.js';
+import ButtonView from './ButtonView.js';
 
-export default class AnchorView extends View {
+export default class AnchorView extends ButtonView {
     constructor() {
         super(...arguments);
 
         this.tag = 'a';
-    }
-
-    enable() {
-        this.setAttribute('disabled', false);
-    }
-
-    disable() {
-        this.setAttribute('disabled', true);
-    }
-
-    click() {
-        if (this.element.getAttribute('disabled') !== null) { return; }
-
-        this.emit('press');
-        this.sendAction(this);
-    }
-
-    touchStart(event) {
-        event.preventDefault();
-    }
-
-    touchEnd(event) {
-        event.preventDefault();
-        this.click();
     }
 }

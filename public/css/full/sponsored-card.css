@@ -32,8 +32,6 @@
         .sponsorProfile__links {
             line-height: 1;
             margin:0;
-            display: inline-block;
-            vertical-align: middle;
         }
             .sponsorProfile__tag {
                 margin:0.125rem 0.5rem 0 0;
@@ -43,9 +41,6 @@
                 border:0;
                 float:left;
                 padding: 0 0.125em;
-            }
-            .sponsorProfile__linkBtn {
-                display: inline-block;
             }
     
 
@@ -77,3 +72,66 @@
                 background:rgba(0,0,0,0.8);
                 padding:0.25em;
             }
+
+       /**sponsored share link dropdown **/
+    .socialIconsBe.socialIconsBe--share:before {
+        vertical-align: top;
+    }
+    .sponsorProfile__link--menu ul
+    {
+        list-style:none;
+        position:relative;
+        float:left;
+        margin:0;
+        padding:0
+    }
+
+        .sponsorProfile__link--menu ul a
+        {
+            display:block;
+            color:#333;
+            text-decoration:none;
+            font-size: 0.7em;
+            line-height: 1em;
+            padding: 0.25em;
+            margin-left: 0.25em;
+        }
+
+        .sponsorProfile__link--menu ul li
+        {
+            position:relative;
+            float:left;
+            margin:0;
+            padding:0
+        }
+
+        .sponsorProfile__link--menu ul li:hover
+        {
+            background:#eee;
+        }
+            .sponsorProfile__link--menu ul li:hover > ul
+            {
+                display:block
+            }
+        .sponsorProfile__link--menu ul ul
+        {
+            display:none;
+            position:absolute;
+            top:100%;
+            right:0;
+            background:#f5f5f5;
+            padding:0
+        }
+
+            .sponsorProfile__link--menu ul ul li
+            {
+                float:none;
+                width: 90px;
+            }
+
+            .sponsorProfile__link--menu ul ul a
+            {
+                line-height:120%;
+                    padding: 10px 5px;
+            }
+    /**sponsored share link dropdown - ends**/

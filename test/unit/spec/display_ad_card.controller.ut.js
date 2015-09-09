@@ -4,7 +4,7 @@ import DisplayAdController from '../../../src/controllers/DisplayAdController.js
 import DisplayAdCardView from '../../../src/views/DisplayAdCardView.js';
 import View from '../../../lib/core/View.js';
 import LinksListView from '../../../src/views/LinksListView.js';
-import { EventEmitter } from 'events';
+import DisplayAdCard from '../../../src/models/DisplayAdCard.js';
 import Runner from '../../../lib/Runner.js';
 
 describe('DisplayAdCardController', function() {
@@ -12,16 +12,18 @@ describe('DisplayAdCardController', function() {
     let card;
 
     beforeEach(function() {
-        card = new EventEmitter();
-        card.displayAd = new EventEmitter();
-        card.links = {
-            Website: 'http://my-site.com'
-        };
-        card.socialLinks = [
-            { type: 'facebook', label: 'Facebook', href: 'facebook.com' },
-            { type: 'twitter', label: 'Twitter', href: 'twitter.com' }
-        ];
-        card.sponsor = 'Buy\'n Large';
+        const experience = { data: {} };
+
+        card = new DisplayAdCard({
+            links: {
+                Website: 'http://my-site.com',
+                Facebook: 'facebook.com',
+                Twitter: 'twitter.com'
+            },
+            params: {
+                sponsor: 'Buy \'n Large'
+            }
+        }, experience);
 
         DisplayAdCardCtrl = new DisplayAdCardController(card);
     });
@@ -110,7 +112,7 @@ describe('DisplayAdCardController', function() {
             it('should update its view', function() {
                 expect(DisplayAdCardCtrl.view.update).toHaveBeenCalledWith({
                     sponsor: card.sponsor,
-                    website: card.links.Website,
+                    website: card.links.Website.uri,
                     links: card.socialLinks,
                     hasLinks: jasmine.any(Boolean)
                 });
@@ -121,7 +123,7 @@ describe('DisplayAdCardController', function() {
                     DisplayAdCardCtrl.view.update.calls.reset();
 
                     card.socialLinks.length = 0;
-                    card.links.Website = 'mysite.com';
+                    card.links.Website.uri = 'mysite.com';
 
                     DisplayAdCardCtrl.render();
                 });

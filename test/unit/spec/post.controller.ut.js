@@ -16,7 +16,7 @@ describe('PostController', function() {
 
     beforeEach(function() {
         card = {
-            links: { Website: 'http://www.netflix.com' },
+            links: { Website: { uri: 'http://www.netflix.com', tracking: [] } },
             data: {}
         };
         experience = { data: {} };
@@ -160,8 +160,26 @@ describe('PostController', function() {
 
             it('should update the view with data about the model', function() {
                 expect(PostCtrl.view.update).toHaveBeenCalledWith({
-                    website: post.website,
+                    website: post.website.uri,
                     ballot: null
+                });
+            });
+
+            describe('if the post has no website', function() {
+                beforeEach(function() {
+                    card.links = {};
+                    post = new Post(card, experience);
+
+                    PostCtrl = new PostController(post);
+                    spyOn(PostCtrl.view, 'update');
+
+                    PostCtrl.renderInto(view);
+                });
+
+                it('should not include any data about the website', function() {
+                    expect(PostCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        website: undefined
+                    }));
                 });
             });
 

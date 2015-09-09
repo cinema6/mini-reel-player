@@ -74,21 +74,21 @@ export default class PlaylistViewController extends ViewController {
         const { minireel } = this;
 
         this.view.update({
-            cardNumber: minireel.currentIndex + 1,
-            total: minireel.length,
+            cardNumber: minireel.get('currentIndex') + 1,
+            total: minireel.get('length'),
             enabled: this.enabled,
             expanded: this.expanded,
-            cards: map(minireel.deck, card => ({
-                id: card.id,
-                title: _(this).formatTitle(card.title),
-                thumb: card.thumbs.small,
-                showSource: !!card.data.source && !card.data.hideSource,
-                href: card.data.href,
-                source: card.data.source,
-                website: (card.links || {}).Website,
-                sponsor: card.sponsor,
-                ad: card.ad,
-                active: card === minireel.currentCard
+            cards: map(minireel.get('deck'), card => ({
+                id: card.get('id'),
+                title: _(this).formatTitle(card.get('title')),
+                thumb: card.get('thumbs.small'),
+                showSource: !!card.get('data.source') && !card.get('data.hideSource'),
+                href: card.get('data.href'),
+                source: card.get('data.source'),
+                website: card.get('links.Website.uri'),
+                sponsor: card.get('sponsor'),
+                ad: card.get('ad'),
+                active: card === minireel.get('currentCard')
             }))
         });
     }

@@ -2,6 +2,7 @@ import InfoPanelController from '../../../../src/controllers/swipe/InfoPanelCont
 import ViewController from '../../../../src/controllers/ViewController.js';
 import InfoPanelView from '../../../../src/views/swipe/InfoPanelView.js';
 import View from '../../../../lib/core/View.js';
+import SafelyGettable from '../../../../src/mixins/SafelyGettable.js';
 
 describe('InfoPanelController', function() {
     let InfoPanelCtrl;
@@ -10,7 +11,7 @@ describe('InfoPanelController', function() {
     beforeEach(function() {
         spyOn(InfoPanelController.prototype, 'addView').and.callThrough();
 
-        minireel = {};
+        minireel = new SafelyGettable();
 
         InfoPanelCtrl = new InfoPanelController(minireel);
     });
@@ -71,7 +72,7 @@ describe('InfoPanelController', function() {
                 minireel.logo = 'my-logo.png';
                 minireel.splash = 'my-splash.png';
                 minireel.links = {
-                    Website: 'http://www.mysite.com'
+                    Website: { uri: 'http://www.mysite.com', tracking: [] }
                 };
                 minireel.socialLinks = [
                     { type: 'youtube', label: 'YouTube', href: 'youtube.com' },
@@ -85,12 +86,12 @@ describe('InfoPanelController', function() {
 
             it('should update() the view', function() {
                 expect(view.update).toHaveBeenCalledWith({
-                    title: minireel.title,
-                    sponsor: minireel.sponsor,
-                    logo: minireel.logo,
-                    splash: minireel.splash,
-                    website: minireel.links.Website,
-                    links: minireel.socialLinks
+                    title: minireel.get('title'),
+                    sponsor: minireel.get('sponsor'),
+                    logo: minireel.get('logo'),
+                    splash: minireel.get('splash'),
+                    website: minireel.get('links.Website.uri'),
+                    links: minireel.get('socialLinks')
                 });
             });
         });

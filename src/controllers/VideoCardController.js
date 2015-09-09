@@ -71,18 +71,18 @@ export default class VideoCardController extends CardController {
         const card = this.model;
 
         this.view.update({
-            source: card.data.source,
-            href: card.data.href,
-            sponsor: card.sponsor,
-            logo: card.logo,
-            showSource: !card.data.hideSource,
-            links: card.socialLinks,
-            website: card.links.Website,
+            source: card.get('data.source'),
+            href: card.get('data.href'),
+            sponsor: card.get('sponsor'),
+            logo: card.get('logo'),
+            showSource: !card.get('data.hideSource'),
+            links: card.get('socialLinks'),
+            website: card.get('links.Website.uri'),
             action: {
-                label: card.action.label,
-                href: card.links.Action,
-                isButton: card.action.type === 'button',
-                isText: card.action.type === 'text'
+                label: card.get('action.label'),
+                href: card.get('links.Action.uri'),
+                isButton: card.get('action.type') === 'button',
+                isText: card.get('action.type') === 'text'
             },
             canShare: (card.shareLinks && card.shareLinks.length > 0)
         });

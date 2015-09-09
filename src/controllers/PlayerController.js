@@ -64,29 +64,28 @@ export default class PlayerController extends Controller {
 
     updateView() {
         const { minireel } = this;
-        const { currentIndex, currentCard, standalone, closeable } = minireel;
-        const socialLinks = minireel.socialLinks || [];
-        const links = minireel.links || {};
+        const { currentIndex, currentCard, standalone, closeable, length } = minireel;
+        const socialLinks = minireel.get('socialLinks') || [];
 
         this.view.update({
-            title: minireel.title,
-            sponsor: minireel.sponsor,
-            logo: minireel.logo,
+            title: minireel.get('title'),
+            sponsor: minireel.get('sponsor'),
+            logo: minireel.get('logo'),
             links: socialLinks,
-            website: links.Website,
+            website: minireel.get('links.Website.uri'),
             isSponsored: !!(
-                minireel.sponsor ||
-                minireel.logo ||
+                minireel.get('sponsor') ||
+                minireel.get('logo') ||
                 socialLinks.length > 0
             ),
-            hasLinks: !!(links.Website || socialLinks.length > 0),
-            totalCards: minireel.length,
-            isSolo: minireel.length === 1,
+            hasLinks: !!(minireel.get('links.Website') || socialLinks.length > 0),
+            totalCards: minireel.get('length'),
+            isSolo: minireel.get('length') === 1,
 
             closeable: closeable,
             cardType: currentCard && currentCard.type,
-            currentCardNumber: (minireel.currentIndex + 1).toString(),
-            canGoForward: currentIndex < (minireel.length - 1),
+            currentCardNumber: (currentIndex + 1).toString(),
+            canGoForward: currentIndex < (length - 1),
             canGoBack: currentIndex === null || !standalone || currentIndex > 0
         });
 

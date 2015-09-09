@@ -300,7 +300,7 @@ describe('SwipePlayerController', function() {
                 minireel.title = 'My Awesome MiniReel';
                 minireel.sponsor = 'Buy n Large';
                 minireel.logo = 'buy-n-large__logo.jpg';
-                minireel.links = { Website: 'buynlarge.com' };
+                minireel.links = { Website:  { uri: 'buynlarge.com', tracking: [] } };
                 spyOn(view, 'update').and.callFake(function() {
                     view.cards = new CardPannerView();
                 });
@@ -311,10 +311,10 @@ describe('SwipePlayerController', function() {
 
             it('should update the view with some info about the minireel', function() {
                 expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                    title: minireel.title,
-                    sponsor: minireel.sponsor,
-                    logo: minireel.logo,
-                    website: minireel.links.Website
+                    title: minireel.get('title'),
+                    sponsor: minireel.get('sponsor'),
+                    logo: minireel.get('logo'),
+                    website: minireel.get('links.Website.uri')
                 }));
             });
 

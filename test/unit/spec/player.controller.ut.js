@@ -364,7 +364,7 @@ describe('PlayerController', function() {
                     { type: 'facebook', label: 'Facebook', href: 'fb.com' }
                 ];
                 PlayerCtrl.minireel.links = {
-                    Website: 'http://www.netflix.com'
+                    Website: { uri: 'http://www.netflix.com', tracking: [] }
                 };
 
                 PlayerCtrl.minireel.currentIndex = 3;
@@ -378,18 +378,18 @@ describe('PlayerController', function() {
 
             it('should update its view', function() {
                 expect(PlayerCtrl.view.update).toHaveBeenCalledWith({
-                    title: PlayerCtrl.minireel.title,
-                    sponsor: PlayerCtrl.minireel.sponsor,
-                    logo: PlayerCtrl.minireel.logo,
-                    links: PlayerCtrl.minireel.socialLinks,
-                    website: PlayerCtrl.minireel.links.Website,
+                    title: PlayerCtrl.minireel.get('title'),
+                    sponsor: PlayerCtrl.minireel.get('sponsor'),
+                    logo: PlayerCtrl.minireel.get('logo'),
+                    links: PlayerCtrl.minireel.get('socialLinks'),
+                    website: PlayerCtrl.minireel.get('links.Website.uri'),
                     isSponsored: jasmine.any(Boolean),
                     hasLinks: jasmine.any(Boolean),
-                    totalCards: PlayerCtrl.minireel.length,
-                    currentCardNumber: (PlayerCtrl.minireel.currentIndex + 1).toString(),
+                    totalCards: PlayerCtrl.minireel.get('length'),
+                    currentCardNumber: (PlayerCtrl.minireel.get('currentIndex') + 1).toString(),
                     canGoForward: jasmine.any(Boolean),
                     canGoBack: jasmine.any(Boolean),
-                    cardType: PlayerCtrl.minireel.currentCard.type,
+                    cardType: PlayerCtrl.minireel.get('currentCard.type'),
                     isSolo: jasmine.any(Boolean),
                     closeable: jasmine.any(Boolean)
                 });

@@ -488,16 +488,16 @@ describe('VideoCardController', function() {
 
             it('should update the view with video data', function() {
                 expect(VideoCardCtrl.view.update).toHaveBeenCalledWith({
-                    source: card.data.source,
-                    href: card.data.href,
-                    sponsor: card.sponsor,
-                    logo: card.logo,
-                    showSource: !card.data.hideSource,
-                    links: card.socialLinks,
-                    website: card.links.Website,
+                    source: card.get('data.source'),
+                    href: card.get('data.href'),
+                    sponsor: card.get('sponsor'),
+                    logo: card.get('logo'),
+                    showSource: !card.get('data.hideSource'),
+                    links: card.get('socialLinks'),
+                    website: card.get('links.Website.uri'),
                     action: jasmine.objectContaining({
-                        label: card.action.label,
-                        href: card.links.Action
+                        label: card.get('action.label'),
+                        href: card.get('links.Action.uri')
                     }),
                     canShare: true
                 });

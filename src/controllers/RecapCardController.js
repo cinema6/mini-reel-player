@@ -34,19 +34,23 @@ export default class RecapCardController extends CardController {
     render() {
         this.view.update({
             cards: map(this.model.data.deck, card => ({
-                id: card.id,
-                title: _(this).formatTitle(card.title),
-                note: card.note,
-                source: card.data.source,
-                href: card.data.href,
-                thumb: card.thumbs.small,
-                showSource: !!card.data.source && !card.data.hideSource,
-                website: (card.links || {}).Website,
-                sponsor: card.sponsor,
-                type: card.ad ? 'ad' : 'content',
-                links: card.socialLinks || [],
-                logo: card.logo,
-                isSponsored: !!(card.sponsor || (card.socialLinks || []).length > 0 || card.logo)
+                id: card.get('id'),
+                title: _(this).formatTitle(card.get('title')),
+                note: card.get('note'),
+                source: card.get('data.source'),
+                href: card.get('data.href'),
+                thumb: card.get('thumbs.small'),
+                showSource: !!card.get('data.source') && !card.get('data.hideSource'),
+                website: card.get('links.Website.uri'),
+                sponsor: card.get('sponsor'),
+                type: card.get('ad') ? 'ad' : 'content',
+                links: card.get('socialLinks') || [],
+                logo: card.get('logo'),
+                isSponsored: !!(
+                    card.get('sponsor') ||
+                    (card.get('socialLinks') || []).length > 0 ||
+                    card.get('logo')
+                )
             }))
         });
 

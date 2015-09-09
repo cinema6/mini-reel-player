@@ -48,7 +48,7 @@ export default class PostController extends ModuleController {
         _(this).parentView = view;
 
         this.view.update({
-            website,
+            website: website && website.uri,
             ballot: ballot && {
                 prompt: ballot.prompt,
                 choice1: ballot.choices[0],

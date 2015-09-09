@@ -77,14 +77,14 @@ export default class SwipePlayerController extends Controller {
     }
 
     render() {
-        const { model: { title, standalone, sponsor, logo, links: { Website } } } = this;
+        const { model: { title, standalone, sponsor, logo } } = this;
 
         this.view.update({
             title, standalone,
 
             isSponsored: !!(sponsor || logo),
             sponsor, logo,
-            website: Website
+            website: this.model.get('links.Website.uri')
         });
 
         this.view.cards.on('swipe', () => this.model.moveToIndex(this.view.cards.currentIndex));

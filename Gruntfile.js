@@ -102,7 +102,7 @@ module.exports = function(grunt) {
         }
 
         function getExperience(index, expId, campId) {
-            return (index ? getMockExperience(index) : getStagingExperience(expId, campId))
+            return (!expId ? getMockExperience(index) : getStagingExperience(expId, campId))
                 .then(function setMode(experience) {
                     if (modeOverride) {
                         experience.data.mode = modeOverride;

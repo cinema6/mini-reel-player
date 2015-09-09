@@ -29,6 +29,8 @@
         .sponsorProfile__links {
             line-height: 1;
             margin:0;
+            vertical-align: top;
+            display: inline-block;            
         }
             .sponsorProfile__tag {
                 margin:0.125rem 0.5rem 0 0;
@@ -39,7 +41,10 @@
                 float:left;
                 padding: 0 0.125em;
             }
-
+                .sponsorProfile__linkBtn {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             .sponsor__actions {
                 margin:0;
                 float:left;
@@ -183,6 +188,3 @@
                 background:rgba(0,0,0,0.8);
                 padding:0.25em;
             }
-
-
-

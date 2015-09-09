@@ -29,6 +29,8 @@
         .sponsorProfile__links {
             line-height: 1;
             margin:0;
+            vertical-align: middle;
+            display: inline-block;
         }
             .sponsorProfile__tag {
                 margin:0.125rem 0.5rem 0 0;

@@ -85,7 +85,7 @@
         .MiniReel__group--SingleCardMR .sponsorProfile__links {
             float: left;
             clear: left;
-            margin-left: 0 0 0 -0.25em;
+            margin: 0 0 0 -0.25em;
         }
         .MiniReel__group--SingleCardMR .sponsorProfile__group {
             overflow-y: scroll;

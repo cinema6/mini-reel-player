@@ -33,6 +33,7 @@
         
         .sponsorProfile__links {
             margin:0 0 0 -0.25em;
+            display: inline-block;
         }
             .sponsorProfile__link {
                 border:0;
@@ -47,6 +48,7 @@
         }
         .sponsorProfile__linkBtn {
             display: inline-block;
+            vertical-align: top;
         }
         
         @media screen and (orientation:landscape) {

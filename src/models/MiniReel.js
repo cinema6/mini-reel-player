@@ -12,6 +12,7 @@ import cinema6 from '../services/cinema6.js';
 import adtech from '../services/adtech.js';
 import browser from '../services/browser.js';
 import codeLoader from '../services/code_loader.js';
+import normalizeLinks from '../fns/normalize_links.js';
 import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
@@ -106,7 +107,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
 
     this.sponsor = experience.data.params.sponsor || null;
     this.logo = experience.data.collateral.logo || null;
-    this.links = experience.data.links || {};
+    this.links = normalizeLinks(experience.data.links);
     this.socialLinks = makeSocialLinks(this.links);
 
     adtech.setDefaults({

@@ -26,6 +26,8 @@ import election from '../../../src/services/election.js';
 import browser from '../../../src/services/browser.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import environment from '../../../src/environment.js';
+import normalizeLinks from '../../../src/fns/normalize_links.js';
+import makeSocialLinks from '../../../src/fns/make_social_links.js';
 
 describe('MiniReel', function() {
     let experience;
@@ -1760,38 +1762,12 @@ describe('MiniReel', function() {
             expect(minireel.logo).toBe(experience.data.collateral.logo);
         });
 
-        it('should copy the minireel\'s links', function() {
-            expect(minireel.links).toBe(experience.data.links);
+        it('should normalize the minireel\'s links', function() {
+            expect(minireel.links).toEqual(normalizeLinks(experience.data.links));
         });
 
         it('should generate an array of socialLinks from the links', function() {
-            expect(minireel.socialLinks).toEqual([
-                {
-                    type: 'facebook',
-                    label: 'Facebook',
-                    href: experience.data.links.Facebook
-                },
-                {
-                    type: 'twitter',
-                    label: 'Twitter',
-                    href: experience.data.links.Twitter
-                },
-                {
-                    type: 'youtube',
-                    label: 'YouTube',
-                    href: experience.data.links.YouTube
-                },
-                {
-                    type: 'vimeo',
-                    label: 'Vimeo',
-                    href: experience.data.links.Vimeo
-                },
-                {
-                    type: 'pinterest',
-                    label: 'Pinterest',
-                    href: experience.data.links.Pinterest
-                }
-            ]);
+            expect(minireel.socialLinks).toEqual(makeSocialLinks(minireel.links));
         });
 
         it('should load the branding styles for the minireel', function() {

@@ -1,9 +1,11 @@
 import timer from '../../../lib/timer.js';
 import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
+import VideoCard from '../../../src/models/VideoCard.js';
+import Card from '../../../src/models/Card.js';
+import makeSocialLinks from '../../../src/fns/make_social_links.js';
+import normalizeLinks from '../../../src/fns/normalize_links.js';
 
 describe('VideoCard', function() {
-    import VideoCard from '../../../src/models/VideoCard.js';
-    import Card from '../../../src/models/Card.js';
     let card;
     let experience;
     let data;
@@ -165,8 +167,8 @@ describe('VideoCard', function() {
             });
 
             describe('on a sponsored card', function() {
-                it('should be the links', function() {
-                    expect(new VideoCard(sponsoredData, experience).links).toBe(sponsoredData.links);
+                it('should be the normalizedLinks links', function() {
+                    expect(new VideoCard(sponsoredData, experience).links).toEqual(normalizeLinks(sponsoredData.links));
                 });
             });
         });
@@ -184,33 +186,9 @@ describe('VideoCard', function() {
 
             describe('on a sponsored card', function() {
                 it('should be an array of the supported social media links', function() {
-                    expect(new VideoCard(sponsoredData, experience).socialLinks).toEqual([
-                        {
-                            type: 'facebook',
-                            label: 'Facebook',
-                            href: 'https://www.facebook.com/netflixus'
-                        },
-                        {
-                            type: 'twitter',
-                            label: 'Twitter',
-                            href: 'https://twitter.com/netflix'
-                        },
-                        {
-                            type: 'pinterest',
-                            label: 'Pinterest',
-                            href: 'https://www.pinterest.com/netflix/'
-                        },
-                        {
-                            type: 'youtube',
-                            label: 'YouTube',
-                            href: 'https://www.youtube.com/user/NewOnNetflix'
-                        },
-                        {
-                            type: 'vimeo',
-                            label: 'Vimeo',
-                            href: 'http://www.vimeo.com/video/37843'
-                        }
-                    ]);
+                    const card = new VideoCard(sponsoredData, experience);
+
+                    expect(card.socialLinks).toEqual(makeSocialLinks(card.links));
                 });
             });
         });

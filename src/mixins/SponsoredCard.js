@@ -1,5 +1,6 @@
 import makeSocialLinks from '../fns/make_social_links.js';
 import makeShareLinks from '../fns/make_share_links.js';
+import normalizeLinks from '../fns/normalize_links.js';
 
 function SponsoredCard(data) {
     this.sponsored = data.sponsored;
@@ -14,8 +15,8 @@ function SponsoredCard(data) {
             this.action = data.params.action || {};
         }
         this.logo = data.collateral.logo;
-        this.links = data.links || {};
-        this.socialLinks = makeSocialLinks(data.links);
+        this.links = normalizeLinks(data.links);
+        this.socialLinks = makeSocialLinks(this.links);
         this.shareLinks = makeShareLinks(
             data.shareLinks,
             (data.data.thumbs && (data.data.thumbs.large || data.data.thumbs.small)) ||

@@ -1,6 +1,7 @@
 import DisplayAdCard from '../../../src/models/DisplayAdCard.js';
 import Card from '../../../src/models/Card.js';
 import makeSocialLinks from '../../../src/fns/make_social_links.js';
+import normalizeLinks from '../../../src/fns/normalize_links.js';
 import DisplayAd from '../../../src/models/DisplayAd.js';
 
 describe('DisplayAdCard', function() {
@@ -66,14 +67,14 @@ describe('DisplayAdCard', function() {
         });
 
         describe('links', function() {
-            it('should be the card\'s links', function() {
-                expect(card.links).toBe(data.links);
+            it('should be the card\'s links normalized', function() {
+                expect(card.links).toEqual(normalizeLinks(data.links));
             });
         });
 
         describe('socialLinks', function() {
             it('should be an array of social links', function() {
-                expect(card.socialLinks).toEqual(makeSocialLinks(data.links));
+                expect(card.socialLinks).toEqual(makeSocialLinks(card.links));
             });
         });
 

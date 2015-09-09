@@ -15,7 +15,6 @@
         font-weight:normal; 
         color:#545454; 
         line-height: 1.5;
-
         background:#fff; 
         margin:0;
     }
@@ -319,7 +318,7 @@
     }
         .card__title {
             color:#000;
-            font-size:1.375em;
+            font-size:1.2em;
             line-height:1.2;
             margin:0.125rem 0.5em 0.5em; 
             text-align: center;

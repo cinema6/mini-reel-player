@@ -40,8 +40,9 @@
                 </a></span>
             </div>
             <!--share to social-->
-            <div class="sponsorProfile__linkBtn">
-            <span><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label"><a data-view="shareButton:AnchorView" data-target="controller" data-action="showShare">Share</a></span></span></span></div>
+            <div data-if="canShare" class="sponsorProfile__linkBtn">
+                <span><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label"><a data-view="shareButton:AnchorView" data-target="controller" data-action="showShare">Share</a></span></span></span>
+            </div>
             <!--share to social-->
 
             <div class="card__desc">{{note}}</div>

@@ -3,6 +3,7 @@
 * *[v0.25.0-rc1]*
   * [FIX]: Fixed survey modal positioning bug
   * [FEATURE]: Added social sharing to Facebook, Twitter, or Pinterest from sponsored cards.
+  * [FEATURE]: Support notifying third parties when a video ends
 
 ## v0.24.0 (August 31, 2015)
 * *[v0.24.0-rc4]*

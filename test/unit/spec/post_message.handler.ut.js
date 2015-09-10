@@ -2,11 +2,13 @@ import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import BillingHandler from '../../../src/handlers/BillingHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import { EventEmitter } from 'events';
+import CorePlayer from '../../../src/players/CorePlayer.js';
 
 describe('PostMessageHandler', function() {
     let handler;
     let minireel;
     let card;
+    let player;
     let postMessage;
 
     class MockHandler extends PostMessageHandler {
@@ -27,7 +29,10 @@ describe('PostMessageHandler', function() {
         minireel.deck = [];
         card = new EventEmitter();
 
+        player = new CorePlayer();
+
         dispatcher.addSource('navigation', minireel, ['launch']);
+        dispatcher.addSource('video', player, ['ended'], card);
     });
 
     afterEach(function() {
@@ -118,6 +123,38 @@ describe('PostMessageHandler', function() {
                         isSponsored: jasmine.any(Boolean),
                         isClickToPlay: true
                     });
+                });
+            });
+        });
+    });
+
+    describe('video events:', function() {
+        describe('ended', function() {
+            describe('if the card is sponsored', function() {
+                beforeEach(function() {
+                    card.sponsor = 'Target';
+
+                    player.emit('ended');
+                });
+
+                it('should send a postMessage', function() {
+                    expect(postMessage).toHaveBeenCalledWith(jasmine.any(String), '*');
+                    const message = JSON.parse(postMessage.calls.mostRecent().args[0]);
+                    expect(message).toEqual({
+                        event: 'adEnded'
+                    });
+                });
+            });
+
+            describe('if the card is not sponsored', function() {
+                beforeEach(function() {
+                    card.sponsor = null;
+
+                    player.emit('ended');
+                });
+
+                it('should not send a postMessage', function() {
+                    expect(postMessage).not.toHaveBeenCalled();
                 });
             });
         });

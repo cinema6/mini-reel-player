@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.25.0-rc1]*
+  * [FEATURE]: Support notifying third parties when a video ends
+
 ## v0.24.0 (August 31, 2015)
 * *[v0.24.0-rc4]*
   * [FIX]: Fixed sponsor card iOS scroll issue 

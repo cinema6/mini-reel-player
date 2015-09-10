@@ -41,6 +41,7 @@
         text-decoration: none;
         text-shadow: 1px 1px 1px #333;
         margin-bottom: 0.5em;
+        cursor: pointer;
     }
     .socialBtn__bg--twitter {
         background-color: #00b0ed;

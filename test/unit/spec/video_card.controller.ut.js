@@ -9,7 +9,7 @@ import playerFactory from '../../../src/services/player_factory.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import PostVideoCardController from '../../../src/mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../../../src/mixins/BallotVideoCardController.js';
-import ModalShareController from '../../../src/mixins/ModalShareController.js';
+import ModalShareVideoCardController from '../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('VideoCardController', function() {
     let VideoCardCtrl;
@@ -120,8 +120,8 @@ describe('VideoCardController', function() {
         expect(VideoCardCtrl.initBallot).toHaveBeenCalled();
     });
 
-    it('should mixin the ModalShareController', function() {
-        expect(VideoCardController.mixins).toContain(ModalShareController);
+    it('should mixin the ModalShareVideoCardController', function() {
+        expect(VideoCardController.mixins).toContain(ModalShareVideoCardController);
         expect(VideoCardCtrl.initShare).toHaveBeenCalled();
     });
 

@@ -1,17 +1,16 @@
-import ModalShareController from '../../../src/mixins/ModalShareController.js';
+import ModalShareVideoCardController from '../../../src/mixins/ModalShareVideoCardController.js';
 import { EventEmitter } from 'events';
-import ViewController from '../../../src/controllers/ViewController.js';
 import Runner from '../../../lib/Runner.js';
 import CardController from '../../../src/controllers/CardController.js';
 import CardView from '../../../src/views/CardView.js';
 import ModalShareView from '../../../src/views/ModalShareView.js';
 
-describe('ModalShareController mixin', function() {
+describe('ModalShareVideoCardController mixin', function() {
     let Ctrl, card, showSpy, hideSpy, pauseSpy, itemSpy, renderSpy, appendSpy;
 
     class MyCardController extends CardController {}
     MyCardController.prototype.render = renderSpy = jasmine.createSpy('Ctrl.render()');
-    MyCardController.mixin(ModalShareController);
+    MyCardController.mixin(ModalShareVideoCardController);
 
     beforeEach(function() {
         card = new EventEmitter();
@@ -56,9 +55,9 @@ describe('ModalShareController mixin', function() {
                 });
             });
 
-            describe('ShareCtrl', function() {
+            describe('shareView', function() {
                 it('should initially be null', function() {
-                    expect(Ctrl.__private__.ShareCtrl).toBeNull();
+                    expect(Ctrl.__private__.shareView).toBeNull();
                 });
             });
         });
@@ -68,22 +67,22 @@ describe('ModalShareController mixin', function() {
         describe('private', function() {
             describe('updateView', function() {
                 beforeEach(function() {
-                    Ctrl.__private__.ShareCtrl = new ViewController();
+                    Ctrl.__private__.shareView = new ModalShareView();
                 });
 
-                describe('when ShareCtrl does not exist', function() {
+                describe('when shareView does not exist', function() {
                     it('should do nothing', function() {
                         expect(showSpy).not.toHaveBeenCalled();
                         expect(hideSpy).not.toHaveBeenCalled();
                     });
                 });
 
-                describe('when ShareCtrl exists', function() {
+                describe('when shareView exists', function() {
                     describe('when the modal is shown', function() {
                         beforeEach(function() {
                             Ctrl.__private__.shown = true;
                             Ctrl.initShare();
-                            spyOn(Ctrl.__private__.ShareCtrl.view, 'show');
+                            spyOn(Ctrl.__private__.shareView, 'show');
                         });
 
                         it('should pause the player', function() {
@@ -104,7 +103,7 @@ describe('ModalShareController mixin', function() {
 
                         it('should show the share controller', function() {
                             Ctrl.__private__.updateView();
-                            expect(Ctrl.__private__.ShareCtrl.view.show).toHaveBeenCalled();
+                            expect(Ctrl.__private__.shareView.show).toHaveBeenCalled();
                         });
                     });
 
@@ -112,12 +111,12 @@ describe('ModalShareController mixin', function() {
                         beforeEach(function() {
                             Ctrl.__private__.shown = false;
                             Ctrl.initShare();
-                            spyOn(Ctrl.__private__.ShareCtrl.view, 'hide');
+                            spyOn(Ctrl.__private__.shareView, 'hide');
                         });
 
                         it('should hide the share controller', function() {
                             Ctrl.__private__.updateView();
-                            expect(Ctrl.__private__.ShareCtrl.view.hide).toHaveBeenCalled();
+                            expect(Ctrl.__private__.shareView.hide).toHaveBeenCalled();
                         });
 
                         it('should show the player if it exists', function() {
@@ -141,26 +140,9 @@ describe('ModalShareController mixin', function() {
                     Ctrl.initShare();
                 });
 
-                it('should initialize the share controller', function() {
-                    expect(Ctrl.__private__.ShareCtrl).not.toBeNull();
-                    expect(Ctrl.__private__.ShareCtrl).toEqual(jasmine.any(ViewController));
-                });
-
-                it('should give the share controller a ModalShareView', function() {
-                    expect(Ctrl.__private__.ShareCtrl.view).toEqual(jasmine.any(ModalShareView));
-                });
-
-                it('should give the share controller a close method', function() {
-                    expect(Ctrl.__private__.ShareCtrl.close).toEqual(jasmine.any(Function));
-                    spyOn(Ctrl, 'hideShare');
-                    Ctrl.__private__.ShareCtrl.close();
-                    expect(Ctrl.hideShare).toHaveBeenCalled();
-                });
-
-                it('should give the share controller a shareItemClicked method', function() {
-                    expect(Ctrl.__private__.ShareCtrl.shareItemClicked).toEqual(jasmine.any(Function));
-                    Ctrl.__private__.ShareCtrl.shareItemClicked('arg1', 'arg2');
-                    expect(itemSpy).toHaveBeenCalledWith('arg1', 'arg2');
+                it('should initialize the share view', function() {
+                    expect(Ctrl.__private__.shareView).not.toBeNull();
+                    expect(Ctrl.__private__.shareView).toEqual(jasmine.any(ModalShareView));
                 });
             });
 
@@ -174,7 +156,7 @@ describe('ModalShareController mixin', function() {
                     expect(renderSpy).toHaveBeenCalled();
                 });
 
-                describe('when the share controller and outlet exist', function() {
+                describe('when the share view and outlet exist', function() {
                     beforeEach(function() {
                         Ctrl.model.shareLinks = [
                             {
@@ -182,12 +164,12 @@ describe('ModalShareController mixin', function() {
                             }
                         ];
                         Ctrl.initShare();
-                        spyOn(Ctrl.__private__.ShareCtrl.view, 'update');
+                        spyOn(Ctrl.__private__.shareView, 'update');
                         Runner.run(() => Ctrl.render());
                     });
 
                     it('should update the view', function() {
-                        expect(Ctrl.__private__.ShareCtrl.view.update).toHaveBeenCalledWith({
+                        expect(Ctrl.__private__.shareView.update).toHaveBeenCalledWith({
                             shareLinks: [
                                 {
                                     type: 'facebook'
@@ -197,7 +179,7 @@ describe('ModalShareController mixin', function() {
                     });
 
                     it('should append the view to the shareOutlet', function() {
-                        expect(appendSpy).toHaveBeenCalledWith(Ctrl.__private__.ShareCtrl.view);
+                        expect(appendSpy).toHaveBeenCalledWith(Ctrl.__private__.shareView);
                     });
                 });
 

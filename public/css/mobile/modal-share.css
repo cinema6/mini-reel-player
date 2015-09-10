@@ -145,7 +145,7 @@
                     background-position: -13.5rem -7.5rem;
                 }
 /***close icon for modal***/
-    .MiniReel__closeBtn, .MiniReel__closeBtn:active, .MiniReel__closeBtn:focus {
+    .MiniReel__closeBtn--modal, .MiniReel__closeBtn--modal:active, .MiniReel__closeBtn--modal:focus {
         width: 2.5em;
         height: 2.5em;
         padding: 0;
@@ -159,6 +159,6 @@
         -webkit-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
         box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
     }
-        .MiniReel__closeBtn:hover, .ballot__btn0:hover::before, .actionsModal__btn:hover::after, .playlist__item.playlist__item--current:hover, .player__playBtn:hover, .btnSecondary:hover {
+        .MiniReel__closeBtn--modal:hover, .ballot__btn0:hover::before, .actionsModal__btn:hover::after, .playlist__item.playlist__item--current:hover, .player__playBtn:hover, .btnSecondary:hover {
             background-color: rgb(217, 64, 64);
         }

@@ -613,6 +613,66 @@ describe('TemplateView', function() {
                 });
             });
 
+            describe('if a child view has a data-model=""', function() {
+                let data;
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <span data-view="child:TemplateView" data-model="bar">{{foo}}</span>
+                    `;
+                    view.instantiates = {TemplateView};
+
+                    data = {
+                        bar: {
+                            foo: 'bar'
+                        }
+                    };
+
+                    view.create();
+                    spyOn(view.child, 'update').and.callThrough();
+
+                    view.update(data);
+                    queues.render.pop()();
+                });
+
+                it('should update() the child with the specified value', function() {
+                    expect(view.child.update).toHaveBeenCalledWith(data.bar);
+                });
+
+                describe('and a data-update-method=""', function() {
+                    class MyTemplateView extends TemplateView {
+                        updateWith() {}
+                    }
+
+                    beforeEach(function() {
+                        view = new TemplateView();
+                        view.tag = 'span';
+                        view.template = `
+                            <span data-view="child:MyTemplateView" data-model="bar" data-update-method="updateWith">{{foo}}</span>
+                        `;
+                        view.instantiates = {MyTemplateView};
+
+                        data = {
+                            bar: {
+                                foo: 'bar'
+                            }
+                        };
+
+                        view.create();
+                        spyOn(view.child, 'updateWith').and.callThrough();
+
+                        view.update(data);
+                        queues.render.pop()();
+                    });
+
+                    it('should call the method specified in data-update-method', function() {
+                        expect(view.child.updateWith).toHaveBeenCalledWith(data.bar);
+                    });
+                });
+            });
+
             it('should create the child views declared in the templates', function() {
                 const [button, text, custom] = view.children;
 

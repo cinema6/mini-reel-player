@@ -1,5 +1,6 @@
 <div data-view="postOutlet:View"></div>
 <div data-view="ballotOutlet:View"></div>
+<div data-view="shareOutlet:View"></div>
 
 <section class="card__group clearfix">
     <h1 class="card__title tk--hdr">
@@ -44,7 +45,9 @@
                     <span class="ir">{{label}}</span>
                 </a></span>
             </div>
-        </div>
+            <div data-if="canShare" class="sponsorProfile__linkBtn">
+                <span><button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span></div>
+            </div>
         </div>
         <div class="card__desc landscapeOnly">{{note}}</div>
     </div>

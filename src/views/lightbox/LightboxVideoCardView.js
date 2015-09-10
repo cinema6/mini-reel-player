@@ -2,6 +2,7 @@ import VideoCardView from '../VideoCardView.js';
 import View from '../../../lib/core/View.js';
 import PlayerOutletView from '../PlayerOutletView.js';
 import LinksListView from '../LinksListView.js';
+import ButtonView from '../ButtonView.js';
 
 export default class LightboxVideoCardView extends VideoCardView {
     constructor() {
@@ -11,7 +12,8 @@ export default class LightboxVideoCardView extends VideoCardView {
         this.instantiates = {
             View,
             PlayerOutletView,
-            LinksListView
+            LinksListView,
+            ButtonView
         };
     }
 }

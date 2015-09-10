@@ -2,6 +2,7 @@
     <div data-view="postOutlet:View"></div><!--post module outlet-->
     <div data-view="ballotOutlet:View"></div><!--ballot module outlet-->
     <div data-view="ballotResultsOutlet:View"></div><!--ballot module results outlet-->
+    <div data-view="shareOutlet:View"></div>
 
     <div class="player__group player__height" data-class="isSponsored:player__height--hasSponsor">
         <div data-view="playerOutlet:PlayerOutletView" class="player js-playerBox"></div>
@@ -38,6 +39,11 @@
                     <span class="ir">{{label}}</span>
                 </a></span>
             </div>
+            <!--share to social-->
+            <div data-if="canShare" class="sponsorProfile__linkBtn">
+                <span><button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
+            </div>
+            <!--share to social-->
 
             <div class="card__desc">{{note}}</div>
         </div>

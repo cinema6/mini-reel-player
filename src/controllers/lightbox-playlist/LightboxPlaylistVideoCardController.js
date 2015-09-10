@@ -4,6 +4,7 @@ import LightboxPlaylistVideoCardView
 import SkipTimerVideoCardController from '../../mixins/SkipTimerVideoCardController.js';
 import ModalBallotResultsVideoCardController
     from '../../mixins/ModalBallotResultsVideoCardController.js';
+import ModalShareVideoCardController from '../../mixins/ModalShareVideoCardController.js';
 
 export default class LightboxPlaylistVideoCardController extends VideoCardController {
     constructor() {
@@ -13,9 +14,11 @@ export default class LightboxPlaylistVideoCardController extends VideoCardContro
 
         this.initSkipTimer();
         this.initBallotResults();
+        this.initShare();
     }
 }
 LightboxPlaylistVideoCardController.mixin( // jshint ignore:line
     SkipTimerVideoCardController,
-    ModalBallotResultsVideoCardController
+    ModalBallotResultsVideoCardController,
+    ModalShareVideoCardController
 );

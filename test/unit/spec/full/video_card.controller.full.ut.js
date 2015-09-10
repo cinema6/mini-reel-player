@@ -5,6 +5,7 @@ import {EventEmitter} from 'events';
 import View from '../../../../lib/core/View.js';
 import SkipTimerVideoCardController from '../../../../src/mixins/SkipTimerVideoCardController.js';
 import ModalBallotResultsVideoCardController from '../../../../src/mixins/ModalBallotResultsVideoCardController.js';
+import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('FullVideoCardController', function() {
     let FullVideoCardCtrl;
@@ -23,6 +24,7 @@ describe('FullVideoCardController', function() {
         spyOn(FullVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(FullVideoCardController.prototype, 'initSkipTimer').and.callThrough();
         spyOn(FullVideoCardController.prototype, 'initBallotResults').and.callThrough();
+        spyOn(FullVideoCardController.prototype, 'initShare').and.callThrough();
 
         FullVideoCardCtrl = new FullVideoCardController(card, parentView);
     });
@@ -42,6 +44,11 @@ describe('FullVideoCardController', function() {
     it('should mixin the ModalBallotResultsVideoCardController', function() {
         expect(FullVideoCardController.mixins).toContain(ModalBallotResultsVideoCardController);
         expect(FullVideoCardCtrl.initBallotResults).toHaveBeenCalled();
+    });
+
+    it('should mixin the ModalShareVideoCardController', function() {
+        expect(FullVideoCardController.mixins).toContain(ModalShareVideoCardController);
+        expect(FullVideoCardCtrl.initShare).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

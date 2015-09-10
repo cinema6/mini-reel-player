@@ -4,6 +4,7 @@ import LightboxVideoCardView from '../../../../src/views/lightbox/LightboxVideoC
 import {EventEmitter} from 'events';
 import DisplayAdVideoCardController from '../../../../src/mixins/DisplayAdVideoCardController.js';
 import ModalBallotResultsVideoCardController from '../../../../src/mixins/ModalBallotResultsVideoCardController.js';
+import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('LightboxVideoCardController', function() {
     let LightboxVideoCardCtrl;
@@ -18,6 +19,7 @@ describe('LightboxVideoCardController', function() {
         spyOn(LightboxVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(LightboxVideoCardController.prototype, 'initDisplayAd').and.callThrough();
         spyOn(LightboxVideoCardController.prototype, 'initBallotResults').and.callThrough();
+        spyOn(LightboxVideoCardController.prototype, 'initShare').and.callThrough();
 
         LightboxVideoCardCtrl = new LightboxVideoCardController(card);
     });
@@ -34,6 +36,11 @@ describe('LightboxVideoCardController', function() {
     it('should mixin the ModalBallotResultsVideoCardController', function() {
         expect(LightboxVideoCardController.mixins).toContain(ModalBallotResultsVideoCardController);
         expect(LightboxVideoCardCtrl.initBallotResults).toHaveBeenCalled();
+    });
+
+    it('should mixin the ModalShareVideoCardController', function() {
+        expect(LightboxVideoCardController.mixins).toContain(ModalShareVideoCardController);
+        expect(LightboxVideoCardCtrl.initShare).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

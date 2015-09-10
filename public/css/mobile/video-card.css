@@ -63,6 +63,13 @@
                 float:none;
                 margin:0 auto;
             }
+            
+        .player--fly-away{
+            margin-left:-5000%;
+            float:left;
+           margin: auto auto auto -5000%; 
+           padding: 0;
+        }
         .cards__item.ng-animate {
             top: 0.375em; left: 4.125em; right: 4.125em;
         }
@@ -78,6 +85,9 @@
         top:0; left:0;
         width:100%; height:100%;
     }
+        .ballot__group .overlay {
+            z-index: 1;
+        }
     .ui--offscreen .ballot__group {
         display:none;
     }
@@ -92,7 +102,8 @@
     }
     @media screen and (orientation:landscape) {
         .ballot__box {
-            left:4.5em; right:4.5em;
+            left:6.5em; right:6.5em;
+            margin: -20% 0 0 0;
         }
     }
 

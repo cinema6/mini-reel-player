@@ -1,12 +1,12 @@
 # MiniReel Player 2.0
 
-## v0.24.0 (August 31, 2015)
-* *[v0.24.0-rc5]*
-  * [FIX]: Fixed social share modal layout
+* *[v0.25.0-rc1]*
   * [FIX]: Fixed survey modal positioning bug
+  * [FEATURE]: Added social sharing to Facebook, Twitter, or Pinterest from sponsored cards.
 
+## v0.24.0 (August 31, 2015)
 * *[v0.24.0-rc4]*
-  * [FIX]: Fixed sponsor card iOS scroll issue 
+  * [FIX]: Fixed sponsor card iOS scroll issue
   * [DEV]: Fix an issue with the dev server
 * *[/v0.24.0-rc4]*
 

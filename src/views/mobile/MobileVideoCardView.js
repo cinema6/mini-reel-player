@@ -4,14 +4,12 @@ import LinksListView from '../LinksListView.js';
 import PlayerOutletView from '../PlayerOutletView.js';
 import HideableView from '../HideableView.js';
 import ButtonView from '../ButtonView.js';
-import AnchorView from '../AnchorView.js';
 
 export default class MobileVideoCardView extends VideoCardView {
     constructor() {
         super(...arguments);
 
-        this.instantiates = {View, LinksListView, PlayerOutletView, HideableView, ButtonView,
-                             AnchorView};
+        this.instantiates = {View, LinksListView, PlayerOutletView, HideableView, ButtonView};
         this.template = require('./MobileVideoCardView.html');
     }
 

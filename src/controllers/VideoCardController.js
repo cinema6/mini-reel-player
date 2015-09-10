@@ -3,7 +3,6 @@ import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../mixins/BallotVideoCardController.js';
-import ModalShareVideoCardController from '../mixins/ModalShareVideoCardController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {

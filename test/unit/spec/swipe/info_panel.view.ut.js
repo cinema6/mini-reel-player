@@ -88,39 +88,5 @@ describe('InfoPanelView', function() {
                 });
             });
         });
-
-        describe('update(data)', function() {
-            let data;
-
-            beforeEach(function() {
-                const update = TemplateView.prototype.update;
-                spyOn(TemplateView.prototype, 'update').and.callFake(function() {
-                    if (this !== view) { return update.call(this, ...arguments); }
-
-                    const result = update.call(this, ...arguments);
-                    spyOn(view.links, 'update').and.callThrough();
-                    return result;
-                });
-
-                data = {
-                    title: 'My MiniReel',
-                    sponsor: 'Buy n Large',
-                    links: [
-                        { type: 'youtube', label: 'YouTube', href: 'youtube.com' },
-                        { type: 'twitter', label: 'Twitter', href: 'twitter.com' }
-                    ]
-                };
-
-                Runner.run(() => view.update(data));
-            });
-
-            it('should call super()', function() {
-                expect(TemplateView.prototype.update).toHaveBeenCalledWith(data);
-            });
-
-            it('should update its links', function() {
-                expect(view.links.update).toHaveBeenCalledWith(data.links);
-            });
-        });
     });
 });

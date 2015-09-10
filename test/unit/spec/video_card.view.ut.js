@@ -117,10 +117,6 @@ describe('VideoCardView', function() {
                 })));
             });
 
-            it('should update the links view with links', function() {
-                expect(videoCardView.links.update).toHaveBeenCalledWith(data.links);
-            });
-
             describe('if the card has no sponsorship info', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();

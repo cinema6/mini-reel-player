@@ -3,7 +3,6 @@ import PlayerView from '../../../../src/views/PlayerView.js';
 import Runner from '../../../../lib/Runner.js';
 import ButtonView from '../../../../src/views/ButtonView.js';
 import SkipProgressTimerView from '../../../../src/views/swipe/SkipProgressTimerView.js';
-import LinksListView from '../../../../src/views/LinksListView.js';
 import View from '../../../../lib/core/View.js';
 import CardPannerView from '../../../../src/views/swipe/CardPannerView.js';
 
@@ -22,12 +21,6 @@ describe('SwipePlayerView', function() {
         describe('template', function() {
             it('should be the contents of SwipePlayerView.html', function() {
                 expect(view.template).toBe(require('../../../../src/views/swipe/SwipePlayerView.html'));
-            });
-        });
-
-        describe('links', function() {
-            it('should be a LinksListView', function() {
-                expect(view.links).toEqual(jasmine.any(LinksListView));
             });
         });
 

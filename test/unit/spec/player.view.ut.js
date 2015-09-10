@@ -3,7 +3,6 @@ import PlayerView from '../../../src/views/PlayerView.js';
 import ButtonView from '../../../src/views/ButtonView.js';
 import HideableView from '../../../src/views/HideableView.js';
 import Runner from '../../../lib/Runner.js';
-import LinksListView from '../../../src/views/LinksListView.js';
 
 describe('PlayerView', function() {
     let playerView;
@@ -221,9 +220,6 @@ describe('PlayerView', function() {
                 };
                 spyOn(TemplateView.prototype, 'update').and.callThrough();
 
-                playerView.links = new LinksListView();
-                spyOn(playerView.links, 'update');
-
                 playerView.nextButtons = [new ButtonView(), new ButtonView()];
                 playerView.previousButtons = [new ButtonView(), new ButtonView()];
                 buttons = [].concat(playerView.nextButtons, playerView.previousButtons);
@@ -240,27 +236,10 @@ describe('PlayerView', function() {
                 expect(TemplateView.prototype.update).toHaveBeenCalledWith(data);
             });
 
-            it('should udpate its links view with data', function() {
-                expect(playerView.links.update).toHaveBeenCalledWith(data.links);
-            });
-
             it('should enable all of the buttons', function() {
                 buttons.forEach(button => {
                     expect(button.enable).toHaveBeenCalled();
                     expect(button.disable).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if called without links', function() {
-                beforeEach(function() {
-                    playerView.links.update.calls.reset();
-                    delete data.links;
-
-                    Runner.run(() => playerView.update(data));
-                });
-
-                it('should not update its links', function() {
-                    expect(playerView.links.update).not.toHaveBeenCalled();
                 });
             });
 

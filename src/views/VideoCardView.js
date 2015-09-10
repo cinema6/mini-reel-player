@@ -18,7 +18,6 @@ export default class VideoCardView extends CardView {
             hasSponsoredCopy: !!(data.links.length > 0 || data.sponsor),
             hasLinks: !!(data.links.length > 0 || data.website)
         }));
-        this.links.update(data.links);
     }
 
     didCreateElement() {

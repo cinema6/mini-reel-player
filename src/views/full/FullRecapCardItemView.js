@@ -13,6 +13,5 @@ export default class FullRecapCardItemView extends RecapCardItemView {
     update(data) {
         super(data);
         this.addClass(`recap__item--${data.type}`);
-        this.links.update(data.links);
     }
 }

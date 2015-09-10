@@ -25,7 +25,7 @@
             <a href="{{website}}" target="_blank" title="{{sponsor}}">{{sponsor}}</a>
         </h2>
         <a data-if="website" href="{{website}}" target="_blank" title="Official Website" class="sponsor__iconLink c6icon c6icon--link"><span class="ir">Website</span></a><!--
-        --><span data-if="links.length" data-view="links:LinksListView">
+        --><span data-if="links.length" data-view="links:LinksListView" data-model="links">
             <span><a href="{{href}}" target="_blank" title="Official {{label}}" class="sponsor__iconLink sponsor__iconLink--{{type}} c6icon c6icon--{{type}}"><span class="ir">{{label}}</span></a></span>
         </span>
     </div>

@@ -18,6 +18,10 @@ export default class PostMessageHandler extends BillingHandler {
             });
         }, 'navigation', 'launch');
 
+        register(({ data: card }) => {
+            if (card.sponsor) { post({ event: 'adEnded' }); }
+        }, 'video', 'ended');
+
         this.on('AdClick', () => post({ event: 'adStart' }));
         this.on('AdCount', () => post({ event: 'adCount' }));
     }

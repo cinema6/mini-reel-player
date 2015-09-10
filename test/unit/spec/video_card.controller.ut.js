@@ -505,7 +505,8 @@ describe('VideoCardController', function() {
                     action: jasmine.objectContaining({
                         label: card.action.label,
                         href: card.links.Action
-                    })
+                    }),
+                    canShare: true
                 });
             });
 

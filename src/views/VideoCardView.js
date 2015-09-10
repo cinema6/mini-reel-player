@@ -1,5 +1,4 @@
 import CardView from './CardView.js';
-import ActionableItemView from './ActionableItemView.js';
 import {
     extend
 } from '../../lib/utils.js';

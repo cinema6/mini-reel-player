@@ -3,7 +3,7 @@ import Hideable from '../mixins/Hideable.js';
 import ButtonView from './ButtonView.js';
 import ModalShareListView from './ModalShareListView.js';
 
-export default class ModalShareView extends TemplateView {
+class ModalShareView extends TemplateView {
     constructor() {
         super(...arguments);
         this.tag = 'div';
@@ -19,3 +19,4 @@ export default class ModalShareView extends TemplateView {
     }
 }
 ModalShareView.mixin(Hideable);
+export default ModalShareView;

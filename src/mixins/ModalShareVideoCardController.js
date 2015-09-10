@@ -29,10 +29,10 @@ class Private {
 
 const _ = createKey(instance => new Private(instance));
 
-function ModalShareController() {
+function ModalShareVideoCardController() {
     if (global.__karma__) { this.__private__ = _(this); }
 }
-ModalShareController.prototype = {
+ModalShareVideoCardController.prototype = {
     initShare: function() {
         const ShareCtrl = _(this).ShareCtrl = new ViewController(this.model);
         this.model.on('deactivate', () => this.hideShare());
@@ -66,4 +66,4 @@ ModalShareController.prototype = {
     }
 };
 
-export default ModalShareController;
+export default ModalShareVideoCardController;

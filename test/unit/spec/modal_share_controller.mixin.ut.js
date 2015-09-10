@@ -1,4 +1,4 @@
-import ModalShareController from '../../../src/mixins/ModalShareController.js';
+import ModalShareVideoCardController from '../../../src/mixins/ModalShareVideoCardController.js';
 import { EventEmitter } from 'events';
 import ViewController from '../../../src/controllers/ViewController.js';
 import Runner from '../../../lib/Runner.js';
@@ -6,12 +6,12 @@ import CardController from '../../../src/controllers/CardController.js';
 import CardView from '../../../src/views/CardView.js';
 import ModalShareView from '../../../src/views/ModalShareView.js';
 
-describe('ModalShareController mixin', function() {
+describe('ModalShareVideoCardController mixin', function() {
     let Ctrl, card, showSpy, hideSpy, pauseSpy, itemSpy, renderSpy, appendSpy;
 
     class MyCardController extends CardController {}
     MyCardController.prototype.render = renderSpy = jasmine.createSpy('Ctrl.render()');
-    MyCardController.mixin(ModalShareController);
+    MyCardController.mixin(ModalShareVideoCardController);
 
     beforeEach(function() {
         card = new EventEmitter();

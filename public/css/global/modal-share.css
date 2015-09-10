@@ -59,6 +59,7 @@
     }
     .shareBtn {
         background-color: #0c7e4a;
+        color: #fff;
         border-radius: 3px;
         cursor: pointer;
         padding: 0 0.125em;
@@ -66,6 +67,13 @@
     .shareBtn.socialIconsBe__solid--share:before {
         background-position: -13rem -11rem;
         border: 1px solid #0c7e4a;
+        border-radius: 7px;
+    }
+    .shareBtn__label {
+        vertical-align: middle;
+        font-size: 0.85em;
+        padding: 0.125em;
+        color: #fff;
     }
     .shareBtn .shareBtn__label a {
         color: #fff;

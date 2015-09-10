@@ -33,6 +33,7 @@
     }
      .share__item {
         list-style-type: none;
+        padding-left: 0.25em;
     }
     .socialBtn, .socialBtn a {
         color: #ffffff;
@@ -153,7 +154,7 @@
         .MiniReel__closeBtn:hover, .ballot__btn0:hover::before, .actionsModal__btn:hover::after, .playlist__item.playlist__item--current:hover, .player__playBtn:hover, .btnSecondary:hover {
             background-color: rgb(217, 64, 64);
         }
-        
+
     .MiniReel__closeBtn .sprite--close {
         display: block;
         margin: 0 auto;

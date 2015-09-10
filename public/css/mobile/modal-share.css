@@ -15,7 +15,7 @@
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-    }    
+    }
     @media screen and (orientation:landscape) {
         .shareto__box {
             position: absolute;
@@ -47,6 +47,7 @@
     }
      .share__item {
         list-style-type: none;
+        padding-left: 0.25em;
     }
     .socialBtn, .socialBtn a {
         color: #ffffff;

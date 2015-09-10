@@ -151,7 +151,7 @@ describe('TemplateView', function() {
             });
 
             it('should parse the element with TwoBits.js', function() {
-                Array.prototype.slice.call(element.childNodes).forEach(child => expect(twobits.parse).toHaveBeenCalledWith(child, view));
+                Array.prototype.slice.call(element.childNodes).forEach(child => expect(twobits.parse).toHaveBeenCalledWith(child, { context: view }));
             });
 
             it('should not cause update()s to throw errors', function() {

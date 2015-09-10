@@ -1,4 +1,3 @@
-import ViewController from '../controllers/ViewController.js';
 import ModalShareView from '../views/ModalShareView.js';
 import {createKey} from 'private-parts';
 
@@ -6,20 +5,20 @@ class Private {
     constructor(instance) {
         this.__public__ = instance;
         this.shown = false;
-        this.ShareCtrl = null;
+        this.shareView = null;
     }
 
     updateView() {
-        if(!this.ShareCtrl) { return; }
+        if(!this.shareView) { return; }
 
         if(this.shown) {
             this.__public__.player.pause();
             if(this.__public__.view.playerOutlet) {
                 this.__public__.view.playerOutlet.hide();
             }
-            this.ShareCtrl.view.show();
+            this.shareView.show();
         } else {
-            this.ShareCtrl.view.hide();
+            this.shareView.hide();
             if(this.__public__.view.playerOutlet) {
                 this.__public__.view.playerOutlet.show();
             }
@@ -34,23 +33,18 @@ function ModalShareVideoCardController() {
 }
 ModalShareVideoCardController.prototype = {
     initShare: function() {
-        const ShareCtrl = _(this).ShareCtrl = new ViewController(this.model);
+        _(this).shareView = this.addView(new ModalShareView());
         this.model.on('deactivate', () => this.hideShare());
-        ShareCtrl.view = ShareCtrl.addView(new ModalShareView());
-        ShareCtrl.close = () => this.hideShare();
-        ShareCtrl.shareItemClicked = (shareItem, shareLink) => {
-            this.shareItemClicked(shareItem, shareLink);
-        };
     },
 
     render: function() {
         this.super();
-        const ShareCtrl = _(this).ShareCtrl;
-        if (ShareCtrl && this.view.shareOutlet) {
-            ShareCtrl.view.update({
+        const shareView = _(this).shareView;
+        if (shareView && this.view.shareOutlet) {
+            shareView.update({
                 shareLinks: this.model.shareLinks
             });
-            this.view.shareOutlet.append(ShareCtrl.view);
+            this.view.shareOutlet.append(shareView);
         }
         _(this).updateView();
     },

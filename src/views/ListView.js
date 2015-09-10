@@ -22,9 +22,10 @@ export default class ListView extends View {
         _(this).childrenById = {};
     }
 
-    update(collection) {
+    update(_collection_) {
         if (!this.element) { this.create(); }
 
+        const collection = _collection_ || [];
         const {childrenById, childElement} = _(this);
         const prevChildren = this.children;
         const children = new Array(collection.length);

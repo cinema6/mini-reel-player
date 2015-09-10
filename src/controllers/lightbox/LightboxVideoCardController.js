@@ -3,6 +3,7 @@ import LightboxVideoCardView from '../../views/lightbox/LightboxVideoCardView.js
 import DisplayAdVideoCardController from '../../mixins/DisplayAdVideoCardController.js';
 import ModalBallotResultsVideoCardController
     from '../../mixins/ModalBallotResultsVideoCardController.js';
+import ModalShareVideoCardController from '../../mixins/ModalShareVideoCardController.js';
 
 export default class LightboxVideoCardController extends VideoCardController {
     constructor() {
@@ -12,9 +13,11 @@ export default class LightboxVideoCardController extends VideoCardController {
 
         this.initDisplayAd();
         this.initBallotResults();
+        this.initShare();
     }
 }
 LightboxVideoCardController.mixin( // jshint ignore:line
     DisplayAdVideoCardController,
-    ModalBallotResultsVideoCardController
+    ModalBallotResultsVideoCardController,
+    ModalShareVideoCardController
 );

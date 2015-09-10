@@ -3,6 +3,7 @@ import VideoCardController from '../../../../src/controllers/VideoCardController
 import {EventEmitter} from 'events';
 import LightVideoCardView from '../../../../src/views/light/LightVideoCardView.js';
 import ModalBallotResultsVideoCardController from '../../../../src/mixins/ModalBallotResultsVideoCardController.js';
+import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('LightVideoCardController', function() {
     let LightVideoCardCtrl;
@@ -16,6 +17,7 @@ describe('LightVideoCardController', function() {
         card.getSrc = jasmine.createSpy('card.getSrc()');
         spyOn(LightVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(LightVideoCardController.prototype, 'initBallotResults').and.callThrough();
+        spyOn(LightVideoCardController.prototype, 'initShare').and.callThrough();
 
         LightVideoCardCtrl = new LightVideoCardController(card);
     });
@@ -27,6 +29,11 @@ describe('LightVideoCardController', function() {
     it('should mixin the ModalBallotResultsVideoCardController', function() {
         expect(LightVideoCardController.mixins).toContain(ModalBallotResultsVideoCardController);
         expect(LightVideoCardCtrl.initBallotResults).toHaveBeenCalled();
+    });
+
+    it('should mixin the ModalShareVideoCardController', function() {
+        expect(LightVideoCardController.mixins).toContain(ModalShareVideoCardController);
+        expect(LightVideoCardCtrl.initShare).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

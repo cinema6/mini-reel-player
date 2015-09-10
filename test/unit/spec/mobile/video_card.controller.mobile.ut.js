@@ -9,6 +9,7 @@ import Runner from '../../../../lib/Runner.js';
 import DisplayAd from '../../../../src/models/DisplayAd.js';
 import DisplayAdController from '../../../../src/controllers/DisplayAdController.js';
 import InlineBallotResultsVideoCardController from '../../../../src/mixins/InlineBallotResultsVideoCardController.js';
+import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('MobileVideoCardController', function() {
     let MobileVideoCardCtrl;
@@ -90,6 +91,7 @@ describe('MobileVideoCardController', function() {
 
         spyOn(MobileVideoCardController.prototype, 'addView').and.callThrough();
         spyOn(MobileVideoCardController.prototype, 'initBallotResults').and.callThrough();
+        spyOn(MobileVideoCardController.prototype, 'initShare').and.callThrough();
 
         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
     });
@@ -101,6 +103,11 @@ describe('MobileVideoCardController', function() {
     it('should mixin the InlineBallotResultsVideoCardController', function() {
         expect(MobileVideoCardController.mixins).toContain(InlineBallotResultsVideoCardController);
         expect(MobileVideoCardCtrl.initBallotResults).toHaveBeenCalled();
+    });
+
+    it('should mixin the ModalShareVideoCardController', function() {
+        expect(MobileVideoCardController.mixins).toContain(ModalShareVideoCardController);
+        expect(MobileVideoCardCtrl.initShare).toHaveBeenCalled();
     });
 
     describe('properties:', function() {

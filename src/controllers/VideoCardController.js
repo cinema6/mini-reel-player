@@ -58,7 +58,6 @@ export default class VideoCardController extends CardController {
 
         this.initPost();
         this.initBallot();
-        this.initShare();
     }
 
     canAutoadvance() {
@@ -118,4 +117,4 @@ export default class VideoCardController extends CardController {
             `width=${w},height=${h},top=${top},left=${left}`);
     }
 }
-VideoCardController.mixin(PostVideoCardController, BallotVideoCardController, ModalShareVideoCardController); // jshint ignore:line
+VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line

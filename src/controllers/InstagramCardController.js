@@ -128,7 +128,8 @@ export default class InstagramCardController extends CardController {
             comments: this.formatNumWithCommas(card.get('data.comments')),
             title: card.get('title'),
             action: {
-                label: card.get('action.label'),
+                label: 'Action',
+                text: card.get('action.label'),
                 href: card.get('links.Action.uri'),
                 isButton: card.get('action.type') === 'button',
                 isText: card.get('action.type') === 'text'

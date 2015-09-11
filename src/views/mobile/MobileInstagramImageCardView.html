@@ -16,9 +16,9 @@
         <p class="instag____post__copy">
             <span data-view="captionView:InstagramCaptionView"></span>
         </p>
-        <div data-if="action.label">
-            <a data-if="action.isText" href="{{action.href}}" target="_blank" class="instag____post__cta--link">{{action.label}}</a><!--.instag____postInfo__cta-\-link only for sponsored instagram cards-->
-            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="instag____post__cta--btn">{{action.label}}</a><!--.instag____postInfo__cta-\-btn only for sponsored instagram cards-->
+        <div data-if="action.text">
+            <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="instag____post__cta--link">{{text}}</a></span><!--.instag____postInfo__cta-\-link only for sponsored instagram cards-->
+            <span data-if="action.isButton" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="instag____post__cta--btn">{{text}}</a></span><!--.instag____postInfo__cta-\-btn only for sponsored instagram cards-->
         </div>
     </section>
 

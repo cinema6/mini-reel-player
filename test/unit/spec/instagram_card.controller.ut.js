@@ -283,7 +283,8 @@ describe('InstagramCardController', function() {
                         comments: '9,734',
                         title: 'Hey look it\'s a Doggie!',
                         action: {
-                            label: 'Give me a puppy now!',
+                            label: 'Action',
+                            text: 'Give me a puppy now!',
                             href: 'www.free-puppies.com',
                             isButton: true,
                             isText: false

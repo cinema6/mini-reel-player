@@ -55,7 +55,6 @@ describe('VideoCardView', function() {
                     source: 'Vimeo',
                     href: 'http://www.vimeo.com/video/12547853',
                     sponsor: 'Netflix',
-                    logo: 'netlix.jpg',
                     links: [
                         {
                             type: 'youtube',
@@ -83,9 +82,15 @@ describe('VideoCardView', function() {
                             href: 'pin.com/iufne4'
                         }
                     ],
-                    website: 'http://www.netflix.com',
+                    website: {
+                        label: 'Website',
+                        logo: 'netlix.jpg',
+                        href: 'http://www.netflix.com',
+                        text: 'Netflix'
+                    },
                     action: {
-                        label: 'Check it Out!',
+                        label: 'Action',
+                        text: 'Check it Out!',
                         href: 'http://www.buy-now.com/',
                         isButton: true,
                         isText: false
@@ -121,7 +126,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    data.logo = undefined;
+                    data.website.logo = undefined;
                     data.links.length = 0;
                     data.sponsor = undefined;
 
@@ -140,7 +145,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    data.logo = 'my-logo.jpg';
+                    data.website.logo = 'my-logo.jpg';
                     data.links.length = 0;
                     data.sponsor = undefined;
 
@@ -159,7 +164,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    data.logo = undefined;
+                    data.website.logo = undefined;
                     data.links.length = 1;
                     data.sponsor = undefined;
 
@@ -178,7 +183,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    data.logo = undefined;
+                    data.website.logo = undefined;
                     data.links.length = 0;
                     data.sponsor = 'Diageo';
 
@@ -197,7 +202,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    delete data.website;
+                    delete data.website.href;
                     data.links.length = 1;
 
                     videoCardView.update(data);
@@ -214,7 +219,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    data.website = 'mysite.com';
+                    data.website.href = 'mysite.com';
                     data.links.length = 0;
 
                     videoCardView.update(data);
@@ -231,7 +236,7 @@ describe('VideoCardView', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
 
-                    delete data.website;
+                    delete data.website.href;
                     data.links.length = 0;
 
                     videoCardView.update(data);

@@ -496,12 +496,17 @@ describe('VideoCardController', function() {
                     source: card.get('data.source'),
                     href: card.get('data.href'),
                     sponsor: card.get('sponsor'),
-                    logo: card.get('logo'),
                     showSource: !card.get('data.hideSource'),
                     links: card.get('socialLinks'),
-                    website: card.get('links.Website.uri'),
+                    website: {
+                        label: 'Website',
+                        href: card.get('links.Website.uri'),
+                        logo: card.get('logo'),
+                        text: card.get('sponsor')
+                    },
                     action: jasmine.objectContaining({
-                        label: card.get('action.label'),
+                        label: 'Action',
+                        text: card.get('action.label'),
                         href: card.get('links.Action.uri')
                     }),
                     canShare: true

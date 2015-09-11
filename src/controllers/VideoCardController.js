@@ -75,13 +75,18 @@ export default class VideoCardController extends CardController {
             source: card.get('data.source'),
             href: card.get('data.href'),
             sponsor: card.get('sponsor'),
-            logo: card.get('logo'),
             showSource: !card.get('data.hideSource'),
             links: card.get('socialLinks'),
-            website: card.get('links.Website.uri'),
+            website: {
+                label: 'Website',
+                href: card.get('links.Website.uri'),
+                logo: card.get('logo'),
+                text: card.get('sponsor')
+            },
             action: {
-                label: card.get('action.label'),
+                label: 'Action',
                 href: card.get('links.Action.uri'),
+                text: card.get('action.label'),
                 isButton: card.get('action.type') === 'button',
                 isText: card.get('action.type') === 'text'
             },

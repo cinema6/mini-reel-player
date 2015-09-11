@@ -26,4 +26,11 @@ function SponsoredCard(data) {
         this.ad = !!data.params.ad;
     }
 }
+
+SponsoredCard.prototype.clickthrough = function clickthrough(linkName) {
+    const link = this.links[linkName];
+
+    if (link) { this.emit('clickthrough', link); }
+};
+
 export default SponsoredCard;

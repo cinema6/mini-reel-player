@@ -153,4 +153,33 @@ describe('SponsoredCard mixin', function() {
             expect(card.ad).toBe(true);
         });
     });
+
+    describe('methods:', function() {
+        describe('clickthrough(link)', function() {
+            let clickthrough;
+
+            beforeEach(function() {
+                clickthrough = jasmine.createSpy('clickthrough()');
+                card.on('clickthrough', clickthrough);
+
+                card.clickthrough('Twitter');
+            });
+
+            it('should emit the clickthrough event with the link config', function() {
+                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter);
+            });
+
+            describe('if the link cannot be found', function() {
+                beforeEach(function() {
+                    clickthrough.calls.reset();
+
+                    card.clickthrough('jsdhf');
+                });
+
+                it('should not emit the event', function() {
+                    expect(clickthrough).not.toHaveBeenCalled();
+                });
+            });
+        });
+    });
 });

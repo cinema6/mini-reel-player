@@ -1,7 +1,7 @@
 import dispatcher from '../../../src/services/dispatcher.js';
 import {EventEmitter} from 'events';
 
-describe('dispatcher', function() {
+fdescribe('dispatcher', function() {
     beforeEach(function() {
         dispatcher.constructor();
     });
@@ -221,6 +221,49 @@ describe('dispatcher', function() {
                         expect(function() {
                             emitter3.emit('bar');
                         }).not.toThrow();
+                    });
+                });
+
+                describe('if the same source is added again', function() {
+                    let differentData;
+                    let handler3;
+
+                    beforeEach(function() {
+                        differentData = { bar: 'foo' };
+                        handler3 = jasmine.createSpy('handler3()');
+
+                        dispatcher.addSource('video', emitter1, ['play', 'complete'], differentData);
+                        register(handler3, 'video', 'complete');
+                    });
+
+                    describe('when the event is emitted', function() {
+                        beforeEach(function() {
+                            emitter1.emit('play');
+                            emitter1.emit('complete');
+                        });
+
+                        it('should call the handlers multiple times for each time the source was added', function() {
+                            expect(handler1).toHaveBeenCalledWith(jasmine.objectContaining({ data }));
+                            expect(handler1).toHaveBeenCalledWith(jasmine.objectContaining({ data: differentData }));
+                            expect(handler1.calls.count()).toBe(2);
+
+                            expect(handler3).toHaveBeenCalledWith(jasmine.objectContaining({ data: differentData }));
+                            expect(handler3.calls.count()).toBe(1);
+                        });
+                    });
+
+                    describe('when the emitter is removed', function() {
+                        beforeEach(function() {
+                            dispatcher.removeSource(emitter1);
+
+                            emitter1.emit('play');
+                            emitter1.emit('complete');
+                        });
+
+                        it('should remove all event listeners', function() {
+                            expect(handler1).not.toHaveBeenCalled();
+                            expect(handler3).not.toHaveBeenCalled();
+                        });
                     });
                 });
             });

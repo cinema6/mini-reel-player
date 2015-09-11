@@ -3,6 +3,7 @@ import TemplateView from '../../../lib/core/TemplateView.js';
 import View from '../../../lib/core/View.js';
 import LinksListView from '../LinksListView.js';
 import PlayerOutletView from '../PlayerOutletView.js';
+import LinkItemView from '../LinkItemView.js';
 
 export default class SoloAdsVideoCardView extends VideoCardView {
     constructor() {
@@ -11,6 +12,6 @@ export default class SoloAdsVideoCardView extends VideoCardView {
         this.tag = 'div';
         this.classes = new TemplateView().classes;
         this.template = require('./SoloAdsVideoCardView.html');
-        this.instantiates = {View, LinksListView, PlayerOutletView};
+        this.instantiates = {View, LinksListView, PlayerOutletView, LinkItemView};
     }
 }

@@ -1,4 +1,4 @@
-<article class="card__group" data-class="sponsored:instag____card__group--sponsored"><!--.instag____card__group--sponsored classes added when instagram card is sponsored-->
+<article class="card__group" data-class="sponsored:instag____card__group--sponsored"><!--.instag____card__group-\-sponsored classes added when instagram card is sponsored-->
     <div class="instag____player__group player__height playerHeight">
         <section class="instag____profile__group">
             <div class="clearfix">
@@ -7,7 +7,7 @@
                 <span data-if="sponsored" class="instag____profile__sponsor">Sponsored by</span><!--.instag____profile__sponsor only for sponsored instagram cards-->
                 <a href="{{userHref}}" target="_blank" class="instag____profile__name">{{userUsername}}</a>
             </div><!--.clearfix-->
-            <ul data-if="links.length" data-view="links:LinksListView" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
+            <ul data-if="links.length" data-view="links:LinksListView" data-model="links" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
                 <li class="instag____socialMedia__icon">
                     <a href="{{href}}" target="_blank" class="instag____socialMedia__icon--{{type}}">
                         <span class="ir">{{label}}</span>
@@ -36,7 +36,7 @@
 
         <section class="instag____post__group">
             <div data-unless="hideTitle" class="instag____post__title">{{title}}</div><!--Title can be turned on or off for any kind of MR card view-->
-            <div class="instag____postAccount__group--small clearfix"><!--instag____postAccount__group--small is for mobile media queries only-->
+            <div class="instag____postAccount__group--small clearfix"><!--instag____postAccount__group-\-small is for mobile media queries only-->
                 <div class="clearfix">
                     <a href="{{userHref}}" target="_blank"><img src="{{userPicture}}"class="instag____postAccount__pic"></a>
                     <span data-if="sponsored" class="instag____profile__sponsor">Sponsored by</span><!--.instag____profile__sponsor only for sponsored instagram cards-->
@@ -45,7 +45,7 @@
                         <span class="ir">Instagram</span>
                     </a>
                 </div>
-                <ul data-if="links.length" data-view="linksSmall:LinksListView" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
+                <ul data-if="links.length" data-view="linksSmall:LinksListView" data-model="links" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
                     <li class="instag____socialMedia__icon">
                         <a href="{{href}}" target="_blank" class="instag____socialMedia__icon--{{type}}">
                             <span class="ir">{{label}}</span>
@@ -61,8 +61,8 @@
                     <span data-view="captionView:InstagramCaptionView"></span>
 
                     <div data-if="action.label">
-                        <a data-if="action.isText" href="{{action.href}}" target="_blank" class="instag____postInfo__cta--link">{{action.label}}</a><!--.instag____postInfo__cta--link only for sponsored instagram cards-->
-                        <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="instag____postInfo__cta--btn">{{action.label}}</a><!--.instag____postInfo__cta--btn only for sponsored instagram cards-->
+                        <a data-if="action.isText" href="{{action.href}}" target="_blank" class="instag____postInfo__cta--link">{{action.label}}</a><!--.instag____postInfo__cta-\-link only for sponsored instagram cards-->
+                        <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="instag____postInfo__cta--btn">{{action.label}}</a><!--.instag____postInfo__cta-\-btn only for sponsored instagram cards-->
                     </div>
 
                     <a href="{{href}}" target="_blank" class="instag____postInfo__comments">view {{comments}} comments</a>

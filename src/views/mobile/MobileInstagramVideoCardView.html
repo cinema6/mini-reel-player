@@ -1,10 +1,10 @@
-<article class="instag____card__group" data-class="sponsored:instag____card__group--sponsored"><!--.instag____card__group--sponsored classes added when instagram card is sponsored-->
+<article class="instag____card__group" data-class="sponsored:instag____card__group--sponsored"><!--.instag____card__group-\-sponsored classes added when instagram card is sponsored-->
     <section class="instag____profile__group clearfix">
         <a href="{{userHref}}" target="_blank" class="instag____profile__picBox"><img class="instag____profile__pic" src="{{userPicture}}"></a>
         <a href="{{userHref}}" target="_blank" class="instag____profile__name">{{userUsername}}</a>
         <a href="{{href}}" target="_blank" class="instag____profile__postDate">{{date}}</a>
         <a data-unless="sponsored" href="{{userFollow}}" target="_blank" class="instag____profile__follow">Follow</a><!--.instag____profile__follow class is seen when card is not sponsored-->
-        <a data-if="sponsored" href="{{userWebsite}}" target="_blank" class="instag____profile__sponsor">Sponsored</a><!--.instag____profile__sponsor class only appears when .instag____card__group--sponsored class modifies the article tag-->
+        <a data-if="sponsored" href="{{userWebsite}}" target="_blank" class="instag____profile__sponsor">Sponsored</a><!--.instag____profile__sponsor class only appears when .instag____card__group-\-sponsored class modifies the article tag-->
     </section><!--.instag____profile__group .clearfix-->
     </section><!--.instag____profile__group .clearfix-->
 
@@ -20,8 +20,8 @@
             <span data-view="captionView:InstagramCaptionView"></span>
         </p>
         <div data-if="action.label">
-            <a data-if="action.isText" href="{{action.href}}" target="_blank" class="instag____post__cta--link">{{action.label}}</a><!--.instag____postInfo__cta--link only for sponsored instagram cards-->
-            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="instag____post__cta--btn">{{action.label}}</a><!--.instag____postInfo__cta--btn only for sponsored instagram cards-->
+            <a data-if="action.isText" href="{{action.href}}" target="_blank" class="instag____post__cta--link">{{action.label}}</a><!--.instag____postInfo__cta-\-link only for sponsored instagram cards-->
+            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="instag____post__cta--btn">{{action.label}}</a><!--.instag____postInfo__cta-\-btn only for sponsored instagram cards-->
         </div>
     </section>
 
@@ -29,7 +29,7 @@
         <a href="{{href}}" target="_blank" class="instag____feedback__likeData">{{likes}}<span class="instag____feedback__like"><span></a>
         <a href="{{href}}" target="_blank" class="instag____feedback__commentData">{{comments}}<span class="instag____feedback__comment"></span></a>
         <a href="{{href}}" target="_blank" class="instag____feedback__logo"></a>
-        <ul data-if="links.length" data-view="links:LinksListView" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
+        <ul data-if="links.length" data-view="links:LinksListView" data-model="links" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
             <li class="instag____socialMedia__icon">
                 <a href="{{href}}" target="_blank" class="instag____socialMedia__icon--{{type}}">
                     <span class="ir">{{label}}</span>

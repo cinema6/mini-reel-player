@@ -2,13 +2,14 @@ import VideoCardView from '../VideoCardView.js';
 import PlayerOutletView from '../PlayerOutletView.js';
 import LinksListView from '../LinksListView.js';
 import View from '../../../lib/core/View.js';
+import LinkItemView from '../LinkItemView.js';
 
 export default class SwipeVideoCardView extends VideoCardView {
     constructor() {
         super(...arguments);
 
         this.template = require('./SwipeVideoCardView.html');
-        this.instantiates = {View, PlayerOutletView, LinksListView};
+        this.instantiates = {View, PlayerOutletView, LinksListView, LinkItemView};
 
         this.flipped = false;
     }

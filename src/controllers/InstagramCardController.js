@@ -1,5 +1,6 @@
 import CardController from './CardController.js';
-import {createKey} from 'private-parts';
+import SponsoredCardController from '../mixins/SponsoredCardController.js';
+import { createKey } from 'private-parts';
 
 class Private {
     constructor(instance) {
@@ -138,3 +139,4 @@ export default class InstagramCardController extends CardController {
         });
     }
 }
+InstagramCardController.mixin(SponsoredCardController); // jshint ignore:line

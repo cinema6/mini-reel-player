@@ -3,6 +3,7 @@ import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../mixins/BallotVideoCardController.js';
+import SponsoredCardController from '../mixins/SponsoredCardController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -116,4 +117,4 @@ export default class VideoCardController extends CardController {
             `width=${w},height=${h},top=${top},left=${left}`);
     }
 }
-VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line
+VideoCardController.mixin(PostVideoCardController, BallotVideoCardController, SponsoredCardController); // jshint ignore:line

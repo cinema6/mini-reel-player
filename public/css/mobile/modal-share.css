@@ -162,3 +162,6 @@
         .MiniReel__closeBtn--modal:hover, .ballot__btn0:hover::before, .actionsModal__btn:hover::after, .playlist__item.playlist__item--current:hover, .player__playBtn:hover, .btnSecondary:hover {
             background-color: rgb(217, 64, 64);
         }
+        .MiniReel__group--SingleCardMR .shareto__box {
+            z-index: 400;
+        }

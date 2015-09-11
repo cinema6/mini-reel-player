@@ -1,10 +1,10 @@
 <div class="MiniReel" data-class="sponsor:MiniReel--brandedMR">
 
     <header class="titleBar__group clearfix">
-        <h1 class="brandedMR__tagline" data-if="sponsor">
+        <h1 class="brandedMR__tagline" data-if="sponsor" data-view="websiteView:LinkItemView" data-model="website">
             Presented by
-            <a href="{{website}}" target="_blank" title="{{sponsor}}" class="textLink">
-                <strong>{{sponsor}}</strong>
+            <a href="{{href}}" target="_blank" title="{{text}}" class="textLink">
+                <strong>{{text}}</strong>
             </a>
         </h1>
     </header>
@@ -20,17 +20,17 @@
                 </div>
 
                 <div class="card__copyBox">
-                    <a data-if="logo" href="{{website}}" target="_blank" title="{{sponsor}}" class="brandProfile__logoBox">
-                        <img src="{{logo}}" alt="{{sponsor}}" class="brandProfile__logo">
-                    </a>
+                    <span data-if="website.logo" data-view="logoView:LinkItemView" data-model="website"><a href="{{href}}" target="_blank" title="{{text}}" class="brandProfile__logoBox">
+                        <img src="{{logo}}" alt="{{text}}" class="brandProfile__logo">
+                    </a></span>
 
-                    <div data-if="action.label" class="brand__actions">
-                        <a data-if="action.isText" href="{{action.href}}" target="_blank" class="textLink" title="{{action.label}}">
-                            {{action.label}}
-                        </a>
-                        <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{action.label}}">
-                            <span class="btn__label">{{action.label}}</span>
-                        </a>
+                    <div data-if="action.text" class="brand__actions">
+                        <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="textLink" title="{{text}}">
+                            {{text}}
+                        </a></span>
+                        <span data-if="action.isButton" data-view="ctaButtonView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{text}}">
+                            <span class="btn__label">{{text}}</span>
+                        </a></span>
                     </div>
 
                     <div class="card__copy">
@@ -51,13 +51,12 @@
     </ul>
 
     <div data-if="hasLinks" class="brandProfile__linksBox">
-        <a data-if="website"
-            href="{{website}}"
-            title="{{sponsor}} &mdash; Official Website"
+        <span data-if="website.href" data-view="footerWebsiteView:LinkItemView" data-model="website"><a href="{{href}}"
+            title="{{text}} &mdash; Official Website"
             target="_blank"
             class="brandProfile__link">
-            <span class="brandProfile__linkLabel">{{sponsor}} Website</span>
-        </a>
+            <span class="brandProfile__linkLabel">{{text}} Website</span>
+        </a></span>
         <span data-view="links:LinksListView" data-model="links">
             <span><a href="{{href}}"
                 title="{{label}}"

@@ -5,6 +5,7 @@ import Runner from '../../../../lib/Runner.js';
 import View from '../../../../lib/core/View.js';
 import PlayerOutletView from '../../../../src/views/PlayerOutletView.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
+import LinkItemView from '../../../../src/views/LinkItemView.js';
 
 describe('SoloVideoCardView', function() {
     let view;
@@ -56,6 +57,36 @@ describe('SoloVideoCardView', function() {
             describe('links', function() {
                 it('should be a LinksListView', function() {
                     expect(view.links).toEqual(jasmine.any(LinksListView));
+                });
+            });
+
+            describe('websiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.websiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('logoView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.logoView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaButtonView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaButtonView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaTextView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaTextView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('footerWebsiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.footerWebsiteView).toEqual(jasmine.any(LinkItemView));
                 });
             });
         });

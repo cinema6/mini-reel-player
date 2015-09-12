@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v0.25.0 (September 10, 2015)
+* *[v0.25.0-rc2]*
+  * [FIX]: Corrected issue with social share buttons displaying incorrectly
+  * [FIX]: Fix for an issue with the close button on the share modal displaying incorrectly on mobile devices
+* *[/v0.25.0-rc2]*
+
 * *[v0.25.0-rc1]*
   * [FIX]: Fixed survey modal positioning bug
   * [FEATURE]: Added social sharing to Facebook, Twitter, or Pinterest from sponsored cards.

@@ -22,7 +22,7 @@
                     </a>
                 </div>
                 <ul data-if="links.length" data-view="links:LinksListView" data-model="links" class="instag____socialMedia__group"><!--.instag____profileSocial__group only for sponsored Instagram cards-->
-                    <li class="instag____socialMedia__icon">
+                    <li class="instag____socialMedia__icon" data-target="controller" data-action="clickthrough">
                         <a href="{{href}}" target="_blank" class="instag____socialMedia__icon--{{type}}">
                             <span class="ir">{{label}}</span>
                         </a>
@@ -37,8 +37,8 @@
                     <span data-view="captionView:InstagramCaptionView"></span>
 
                     <div data-if="action.text">
-                        <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="instag____postInfo__cta--link">{{text}}</a></span><!--.instag____postInfo__cta-\-link only for sponsored instagram cards-->
-                        <span data-if="action.isButton" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="instag____postInfo__cta--btn">{{text}}</a></span><!--.instag____postInfo__cta-\-btn only for sponsored instagram cards-->
+                        <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action" data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="instag____postInfo__cta--link">{{text}}</a></span><!--.instag____postInfo__cta-\-link only for sponsored instagram cards-->
+                        <span data-if="action.isButton" data-view="ctaTextView:LinkItemView" data-model="action" data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="instag____postInfo__cta--btn">{{text}}</a></span><!--.instag____postInfo__cta-\-btn only for sponsored instagram cards-->
                     </div>
 
                     <a href="{{href}}" target="_blank" class="instag____postInfo__comments">view {{comments}} comments</a>

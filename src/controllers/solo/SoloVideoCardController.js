@@ -5,6 +5,6 @@ export default class SoloVideoCardController extends VideoCardController {
     constructor() {
         super(...arguments);
 
-        this.view = new SoloVideoCardView();
+        this.view = this.addView(new SoloVideoCardView());
     }
 }

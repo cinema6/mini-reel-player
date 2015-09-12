@@ -1,7 +1,10 @@
 <div class="MiniReel" data-class="sponsor:MiniReel--brandedMR">
 
     <header class="titleBar__group clearfix">
-        <h1 class="brandedMR__tagline" data-if="sponsor" data-view="websiteView:LinkItemView" data-model="website">
+        <h1 class="brandedMR__tagline"
+            data-if="sponsor"
+            data-view="websiteView:LinkItemView" data-model="website"
+            data-target="controller" data-action="clickthrough">
             Presented by
             <a href="{{href}}" target="_blank" title="{{text}}" class="textLink">
                 <strong>{{text}}</strong>
@@ -20,15 +23,21 @@
                 </div>
 
                 <div class="card__copyBox">
-                    <span data-if="website.logo" data-view="logoView:LinkItemView" data-model="website"><a href="{{href}}" target="_blank" title="{{text}}" class="brandProfile__logoBox">
+                    <span data-if="website.logo"
+                        data-view="logoView:LinkItemView" data-model="website"
+                        data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="{{text}}" class="brandProfile__logoBox">
                         <img src="{{logo}}" alt="{{text}}" class="brandProfile__logo">
                     </a></span>
 
                     <div data-if="action.text" class="brand__actions">
-                        <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="textLink" title="{{text}}">
+                        <span data-if="action.isText"
+                            data-view="ctaTextView:LinkItemView" data-model="action"
+                            data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="textLink" title="{{text}}">
                             {{text}}
                         </a></span>
-                        <span data-if="action.isButton" data-view="ctaButtonView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{text}}">
+                        <span data-if="action.isButton"
+                            data-view="ctaButtonView:LinkItemView" data-model="action"
+                            data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{text}}">
                             <span class="btn__label">{{text}}</span>
                         </a></span>
                     </div>
@@ -51,14 +60,16 @@
     </ul>
 
     <div data-if="hasLinks" class="brandProfile__linksBox">
-        <span data-if="website.href" data-view="footerWebsiteView:LinkItemView" data-model="website"><a href="{{href}}"
+        <span data-if="website.href"
+            data-view="footerWebsiteView:LinkItemView" data-model="website"
+            data-target="controller" data-action="clickthrough"><a href="{{href}}"
             title="{{text}} &mdash; Official Website"
             target="_blank"
             class="brandProfile__link">
             <span class="brandProfile__linkLabel">{{text}} Website</span>
         </a></span>
         <span data-view="links:LinksListView" data-model="links">
-            <span><a href="{{href}}"
+            <span data-target="controller" data-action="clickthrough"><a href="{{href}}"
                 title="{{label}}"
                 target="_blank"
                 class="brandProfile__link tk--{{type}} spriteBe socialIconsBe socialIconsBe--{{type}}">

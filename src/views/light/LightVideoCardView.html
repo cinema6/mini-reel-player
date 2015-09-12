@@ -9,7 +9,9 @@
     </div>
 
     <div class="card__copyBox">
-        <span data-if="website.logo" data-view="logoView:LinkItemView" data-model="website"><a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
+        <span data-if="website.logo"
+            data-view="logoView:LinkItemView" data-model="website"
+            data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
             <img src="{{logo}}" class="sponsorProfile__img" alt="{{text}}">
         </a></span>
         <div class="card__copy" data-class="isSponsored:card__copy--hasSponsor">
@@ -25,14 +27,17 @@
                         {{source}}
                     </a>
                 </span>
-                <span data-if="sponsor" data-view="websiteView:LinkItemView" data-model="website" class="card__attributes sponsorProfile__tag tk--copy">
+                <span data-if="sponsor"
+                    data-view="websiteView:LinkItemView" data-model="website"
+                    data-target="controller" data-action="clickthrough"
+                    class="card__attributes sponsorProfile__tag tk--copy">
                     Sponsored by
                     <a href="{{href}}" target="_blank" class="textLink" title="{{text}}">{{text}}</a>
                 </span>
             </h1>
 
             <div data-view="links:LinksListView" data-model="links" class="sponsorProfile__links" data-if="links.length">
-                <span><a href="{{href}}"
+                <span data-target="controller" data-action="clickthrough"><a href="{{href}}"
                     target="_blank"
                     title="{{label}}"
                     class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
@@ -49,10 +54,14 @@
         </div>
 
         <div class="sponsor__actions" data-if="action.text">
-            <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action"><a title="{{text}}" href="{{href}}" target="_blank" class="textLink">
+            <span data-if="action.isText"
+                data-view="ctaTextView:LinkItemView" data-model="action"
+                data-target="controller" data-action="clickthrough"><a title="{{text}}" href="{{href}}" target="_blank" class="textLink">
                 {{text}}
             </a></span>
-            <span data-if="action.isButton" data-view="ctaButtonView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="sponsor__goBtn btnPrimary" title="{{text}}">
+            <span data-if="action.isButton"
+                data-view="ctaButtonView:LinkItemView" data-model="action"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="sponsor__goBtn btnPrimary" title="{{text}}">
                 <span class="btn__label tk--action">{{text}}</span>
             </a></span>
         </div>

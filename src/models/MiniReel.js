@@ -223,7 +223,7 @@ export default class MiniReel extends Mixable {
 
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
-        dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error']);
+        dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
     }
 
     moveToIndex(index) {

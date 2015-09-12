@@ -749,8 +749,7 @@ describe('MiniReel', function() {
     });
 
     it('should add itself as a source', function() {
-        expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel,
-            ['launch','move','close','error']);
+        expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel, ['launch','move','close','error','init']);
     });
 
     describe('properties:', function() {

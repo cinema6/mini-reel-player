@@ -2,18 +2,23 @@
 
     <header class="titleBar__group clearfix" data-if="isSponsored">
         <div class="brandProfile__group clearfix">
-            <span data-if="website.logo" data-view="logoView:LinkItemView" data-model="website"><a href="{{href}}" target="_blank" title="{{text}}" class="brandProfile__logoBox">
+            <span data-if="website.logo"
+                data-view="logoView:LinkItemView" data-model="website"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="{{text}}" class="brandProfile__logoBox">
                 <img src="{{logo}}" alt="{{text}}" class="brandProfile__logo">
             </a></span>
             <div data-if="hasSponsoredCopy" class="brandProfile__copy">
-                <p data-if="sponsor" data-view="websiteView:LinkItemView" data-model="website" class="brandProfile__tag">
+                <p data-if="sponsor"
+                    data-view="websiteView:LinkItemView" data-model="website"
+                    data-target="controller" data-action="clickthrough"
+                    class="brandProfile__tag">
                     Sponsored by 
                     <a href="{{href}}" class="textLink" target="_blank" title="{{text}}">
                         {{text}}
                     </a>
                 </p>
                 <div data-if="links.length" data-view="links:LinksListView" data-model="links" class="brandProfile__links">
-                    <span><a href="{{href}}"
+                    <span data-target="controller" data-action="clickthrough"><a href="{{href}}"
                         target="_blank"
                         title="{{label}}"
                         class="brandProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
@@ -23,8 +28,12 @@
             </div>
         </div>
         <div data-if="action.text" class="brand__actions">
-            <span data-if="action.isText" data-view="ctaTextView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank">{{text}}</a></span>
-            <span data-if="action.isButton" data-view="ctaButtonView:LinkItemView" data-model="action"><a href="{{href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{text}}">
+            <span data-if="action.isText"
+                data-view="ctaTextView:LinkItemView" data-model="action"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank">{{text}}</a></span>
+            <span data-if="action.isButton"
+                data-view="ctaButtonView:LinkItemView" data-model="action"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{text}}">
                 <span class="btn__label tk--action">{{text}}</span>
             </a></span>
         </div>

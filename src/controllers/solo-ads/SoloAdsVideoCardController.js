@@ -6,7 +6,7 @@ export default class SoloAdsVideoCardController extends VideoCardController {
     constructor() {
         super(...arguments);
 
-        this.view = new SoloAdsVideoCardView();
+        this.view = this.addView(new SoloAdsVideoCardView());
 
         this.initDisplayAd();
     }

@@ -1,5 +1,6 @@
 import ActionableItemView from '../../../src/views/ActionableItemView.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
+import Touchable from '../../../src/mixins/Touchable.js';
 
 describe('ActionableItemView', function() {
     let view;
@@ -10,6 +11,10 @@ describe('ActionableItemView', function() {
 
     it('should exist', function() {
         expect(view).toEqual(jasmine.any(TemplateView));
+    });
+
+    it('should mixin Touchable', function() {
+        expect(ActionableItemView.mixins).toContain(Touchable);
     });
 
     describe('properties', function() {

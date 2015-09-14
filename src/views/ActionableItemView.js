@@ -1,9 +1,10 @@
 import TemplateView from '../../lib/core/TemplateView.js';
+import Touchable from '../../src/mixins/Touchable.js';
 import {createKey} from 'private-parts';
 
 const _ = createKey();
 
-export default class ActionableItemView extends TemplateView {
+class ActionableItemView extends TemplateView {
     constructor() {
         super(...arguments);
         _(this).item = null;
@@ -20,3 +21,5 @@ export default class ActionableItemView extends TemplateView {
         this.sendAction(this, _(this).item);
     }
 }
+ActionableItemView.mixin(Touchable);
+export default ActionableItemView;

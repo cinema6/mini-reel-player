@@ -1,0 +1,35 @@
+/**styles to show video in full width **/
+.cards__item--FullVideoOnlyMR .card__group {
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+.MiniReel__group--SingleCardMR .brandProfile__linksBox {
+    display: none;
+}
+.cards__item--FullVideoOnlyMR .card__title, .cards__item--FullVideoOnlyMR .card__desc {
+    display: none;
+}
+.cards__item--FullVideoOnlyMR .player, .cards__item--FullVideoOnlyMR .player__thumbnail {
+    width: 100%;
+    float: right;
+    margin: 0;
+    padding: 0 0 49.375%;
+}
+.MiniReel__group--SingleCardMR .cards__item--FullVideoOnlyMR .player__group {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    margin-top: 0;
+    overflow: hidden;
+    background-color: #000;
+}
+.MiniReel__group--SingleCardMR .brandedMR__tagline {
+    display: none;
+}
+@media screen and (orientation: portrait) {
+    .MiniReel__group--SingleCardMR .cards__group {
+        padding: 0;
+    }
+}

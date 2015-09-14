@@ -33,7 +33,7 @@
                     "firstPlacement": -1,
                     "frequency": 0,
                     "waterfall": "cinema6",
-                    "skip": 6
+                    "skip": 30
                 },
                 "display": {
                     "waterfall": "cinema6",
@@ -507,7 +507,7 @@
                         "autoplay": true,
                         "controls": true,
                         "autoadvance": false,
-                        "skip": 6,
+                        "skip": 30,
                         "vast": "//ad.doubleclick.net/pfadx/N6543.1919213CINEMA6INC/B8370514.113697085;sz=0x0;ord=[timestamp];dcmt=text/xml",
                         "moat": {
                             "campaign": "Campaign 2",

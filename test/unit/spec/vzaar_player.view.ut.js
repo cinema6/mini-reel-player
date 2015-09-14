@@ -5,7 +5,7 @@ import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import timer from '../../../lib/timer.js';
 
-describe('VzaarPlayer', function() {
+fdescribe('VzaarPlayer', function() {
     let player;
 
     // Mock Vzaar player returned by their Javascript API
@@ -29,6 +29,7 @@ describe('VzaarPlayer', function() {
             callback(3);
         }
         addEventListener() {}
+        removeEventListener() {}
     }
 
     beforeEach(function() {
@@ -474,7 +475,7 @@ describe('VzaarPlayer', function() {
 
             describe('load()', function() {
                 beforeEach(function() {
-                    spyOn(player.__private__, 'loadEmbed');
+                    spyOn(player.__private__, 'loadEmbed').and.returnValue(Promise.resolve());
                     Runner.run(() => player.load());
                 });
 
@@ -484,10 +485,14 @@ describe('VzaarPlayer', function() {
             });
 
             describe('unload()', function() {
-                beforeEach(function() {
+                beforeEach(function(done) {
+                    player.src = '123';
                     spyOn(player.__private__.embedView, 'remove');
                     Runner.run(() => player.load());
-                    Runner.run(() => player.unload());
+                    setTimeout(() => {
+                        Runner.run(() => player.unload());
+                        done();
+                    }, 1);
                 });
 
                 it('should set the vzPlayer to null', function() {
@@ -500,6 +505,11 @@ describe('VzaarPlayer', function() {
 
                 it('should call remove on the embed view', function() {
                     expect(player.__private__.embedView.remove).toHaveBeenCalled();
+                });
+
+                it('should remove the event listeners', function() {
+                    expect(MockVzPlayer.prototype.removeEventListener).toHaveBeenCalledWith('playState');
+                    expect(MockVzPlayer.prototype.removeEventListener).toHaveBeenCalledWith('interaction');
                 });
             });
 

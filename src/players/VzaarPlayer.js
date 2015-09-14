@@ -197,12 +197,17 @@ export default class VzaarPlayer extends CorePlayer {
     }
 
     load() {
-        _(this).loadEmbed();
-        _(this).startPolling();
+        _(this).loadEmbed().then(() => {
+            _(this).startPolling();
+        });
     }
 
     unload() {
         _(this).stopPolling();
+        if(_(this).vzPlayer) {
+            _(this).vzPlayer.removeEventListener('playState');
+            _(this).vzPlayer.removeEventListener('interaction');
+        }
         _(this).vzPlayer = null;
         _(this).loadedVideoId = null;
         _(this).embedView.remove();

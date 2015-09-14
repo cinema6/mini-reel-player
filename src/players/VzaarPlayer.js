@@ -2,7 +2,6 @@ import CorePlayer from './CorePlayer.js';
 import codeLoader from '../services/code_loader.js';
 import urlParser from '../services/url_parser.js';
 import {createKey} from 'private-parts';
-import vzaarEmbedView from '../views/video_embeds/vzaarEmbedView.js';
 import Runner from '../../lib/Runner.js';
 import {defer} from '../../lib/utils.js';
 import timer from '../../lib/timer.js';
@@ -21,7 +20,7 @@ class Private {
         this.__public__ = instance;
         this.loadedVideoId = null;
         this.vzPlayer = null;
-        this.embedView = new vzaarEmbedView();
+        this.embedElement = null;
         this.state = {
             currentTime: 0,
             duration: 0,
@@ -40,11 +39,20 @@ class Private {
         const viewId = this.__public__.id;
         if(viewId && videoId && videoId !== this.loadedVideoId) {
             this.__public__.unload();
-            this.embedView.update({
-                videoId: videoId,
-                viewId: viewId
-            });
-            this.__public__.append(this.embedView);
+
+            // Create the Vzaar embed code
+            let embed = require('../../src/views/video_embeds/VzaarEmbedView.html');
+            embed = embed.replace(/{{videoId}}/g, videoId).replace(/{{viewId}}/g, viewId);
+
+            // Create the element containing the embed code
+            const workspace = document.createElement('div');
+            workspace.innerHTML = embed;
+            this.embedElement = workspace;
+
+            // Add the element to the player
+            const element = this.__public__.element || this.__public__.create();
+            element.appendChild(workspace);
+
             Runner.schedule('afterRender', this, () => {
                 codeLoader.load('vzaar').then(VzPlayer => {
                     const vzPlayer = this.vzPlayer = new VzPlayer(viewId + '_vzvd-' + videoId);
@@ -212,7 +220,10 @@ export default class VzaarPlayer extends CorePlayer {
         }
         _(this).vzPlayer = null;
         _(this).loadedVideoId = null;
-        _(this).embedView.remove();
+        if(this.element && _(this).embedElement) {
+            this.element.removeChild(_(this).embedElement);
+            _(this).embedElement = null;
+        }
     }
 
     reload() {

@@ -42,6 +42,9 @@ describe('VzaarPlayer', function() {
         });
         spyOn(codeLoader, 'load').and.returnValue(Promise.resolve(MockVzPlayer));
         player = new VzaarPlayer();
+        Runner.run(() => {
+            player.create();
+        });
         player.id = 'c6-view-123';
     });
 
@@ -294,9 +297,8 @@ describe('VzaarPlayer', function() {
 
             describe('loadEmbed', function() {
                 beforeEach(function() {
-                    spyOn(player.__private__.embedView, 'append');
+                    spyOn(player.element, 'appendChild');
                     spyOn(player, 'unload');
-                    spyOn(player.__private__.embedView, 'update');
                     spyOn(player, 'append');
                 });
 
@@ -304,7 +306,7 @@ describe('VzaarPlayer', function() {
                     it('should do nothing', function(done) {
                         player.id = null;
                         player.__private__.loadEmbed().then(() => {
-                            expect(player.__private__.embedView.append).not.toHaveBeenCalled();
+                            expect(player.element.appendChild).not.toHaveBeenCalled();
                             done();
                         });
                     });
@@ -313,7 +315,7 @@ describe('VzaarPlayer', function() {
                 describe('when there is no videoId', function() {
                     it('should do nothing', function(done) {
                         player.__private__.loadEmbed().then(() => {
-                            expect(player.__private__.embedView.append).not.toHaveBeenCalled();
+                            expect(player.element.appendChild).not.toHaveBeenCalled();
                             done();
                         });
                     });
@@ -322,13 +324,25 @@ describe('VzaarPlayer', function() {
                 describe('when the video with the given videoid is already loaded', function() {
                     it('should do nothing', function(done) {
                         player.__private__.loadEmbed().then(() => {
-                            expect(player.__private__.embedView.append).not.toHaveBeenCalled();
+                            expect(player.element.appendChild).not.toHaveBeenCalled();
                             done();
                         });
                     });
                 });
 
                 describe('when loading a new video', function() {
+                    it('should set the embedElement', function(done) {
+                        player.src = '123';
+                        Runner.run(() => {
+                            player.__private__.loadEmbed().then(() => {
+                                expect(player.__private__.embedElement.innerHTML).toContain('id="c6-view-123_vzvd-123"');
+                                expect(player.__private__.embedElement.innerHTML).toContain('name="c6-view-123_vzvd-123"');
+                                expect(player.__private__.embedElement.innerHTML).toContain('src="//view.vzaar.com/123/player?apiOn=true"');
+                                done();
+                            });
+                        });
+                    });
+
                     it('should unload the player', function(done) {
                         player.src = '123';
                         Runner.run(() => {
@@ -371,24 +385,11 @@ describe('VzaarPlayer', function() {
                         });
                     });
 
-                    it('should update the view', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.__private__.embedView.update).toHaveBeenCalledWith({
-                                    videoId: '123',
-                                    viewId: 'c6-view-123'
-                                });
-                                done();
-                            });
-                        });
-                    });
-
                     it('should append the view to the player', function(done) {
                         player.src = '123';
                         Runner.run(() => {
                             player.__private__.loadEmbed().then(() => {
-                                expect(player.append).toHaveBeenCalledWith(player.__private__.embedView);
+                                expect(player.element.appendChild).toHaveBeenCalledWith(player.__private__.embedElement);
                                 done();
                             });
                         });
@@ -504,7 +505,7 @@ describe('VzaarPlayer', function() {
             describe('unload()', function() {
                 beforeEach(function(done) {
                     player.src = '123';
-                    spyOn(player.__private__.embedView, 'remove');
+                    spyOn(player.element, 'removeChild');
                     Runner.run(() => player.load());
                     setTimeout(() => {
                         Runner.run(() => player.unload());
@@ -521,7 +522,7 @@ describe('VzaarPlayer', function() {
                 });
 
                 it('should call remove on the embed view', function() {
-                    expect(player.__private__.embedView.remove).toHaveBeenCalled();
+                    expect(player.element.removeChild).toHaveBeenCalledWith(jasmine.any(Object));
                 });
 
                 it('should remove the event listeners', function() {

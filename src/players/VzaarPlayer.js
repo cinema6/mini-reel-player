@@ -37,15 +37,17 @@ class Private {
     loadEmbed() {
         const deferred = defer(Promise);
         const videoId = this.__public__.src;
-        if(videoId && videoId !== this.loadedVideoId) {
+        const viewId = this.__public__.id;
+        if(viewId && videoId && videoId !== this.loadedVideoId) {
             this.__public__.unload();
             this.embedView.update({
-                id: videoId
+                videoId: videoId,
+                viewId: viewId
             });
             this.__public__.append(this.embedView);
             Runner.schedule('afterRender', this, () => {
                 codeLoader.load('vzaar').then(VzPlayer => {
-                    const vzPlayer = this.vzPlayer = new VzPlayer('vzvd-' + videoId);
+                    const vzPlayer = this.vzPlayer = new VzPlayer(viewId + '_vzvd-' + videoId);
                     vzPlayer.ready(() => {
                         vzPlayer.addEventListener('playState', state => {
                             if(state === 'mediaStarted') {

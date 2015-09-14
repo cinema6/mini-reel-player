@@ -5,11 +5,15 @@ import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import timer from '../../../lib/timer.js';
 
-fdescribe('VzaarPlayer', function() {
+describe('VzaarPlayer', function() {
     let player;
 
     // Mock Vzaar player returned by their Javascript API
     class MockVzPlayer {
+        constructor() {
+            this.init(...arguments);
+        }
+        init() {} // used for testing of constructor
         play2() {}
         pause() {}
         getTime(callback) {
@@ -38,6 +42,7 @@ fdescribe('VzaarPlayer', function() {
         });
         spyOn(codeLoader, 'load').and.returnValue(Promise.resolve(MockVzPlayer));
         player = new VzaarPlayer();
+        player.id = 'c6-view-123';
     });
 
     it('should exist', function() {
@@ -295,6 +300,16 @@ fdescribe('VzaarPlayer', function() {
                     spyOn(player, 'append');
                 });
 
+                describe('when there is no viewId', function() {
+                    it('should do nothing', function(done) {
+                        player.id = null;
+                        player.__private__.loadEmbed().then(() => {
+                            expect(player.__private__.embedView.append).not.toHaveBeenCalled();
+                            done();
+                        });
+                    });
+                });
+
                 describe('when there is no videoId', function() {
                     it('should do nothing', function(done) {
                         player.__private__.loadEmbed().then(() => {
@@ -340,6 +355,7 @@ fdescribe('VzaarPlayer', function() {
                             player.__private__.loadEmbed().then(() => {
                                 expect(player.__private__.vzPlayer).not.toBeNull();
                                 expect(player.__private__.vzPlayer).toEqual(jasmine.any(MockVzPlayer));
+                                expect(MockVzPlayer.prototype.init).toHaveBeenCalledWith('c6-view-123_vzvd-123');
                                 done();
                             });
                         });
@@ -360,7 +376,8 @@ fdescribe('VzaarPlayer', function() {
                         Runner.run(() => {
                             player.__private__.loadEmbed().then(() => {
                                 expect(player.__private__.embedView.update).toHaveBeenCalledWith({
-                                    id: '123'
+                                    videoId: '123',
+                                    viewId: 'c6-view-123'
                                 });
                                 done();
                             });

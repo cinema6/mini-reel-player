@@ -1,6 +1,7 @@
 import ButtonView from '../../../src/views/ButtonView.js';
 import View from '../../../lib/core/View.js';
 import Runner from '../../../lib/Runner.js';
+import Touchable from '../../../src/mixins/Touchable.js';
 
 describe('ButtonView', function() {
     let buttonView;
@@ -11,6 +12,10 @@ describe('ButtonView', function() {
 
     it('should exist', function() {
         expect(buttonView).toEqual(jasmine.any(View));
+    });
+
+    it('should mixin Touchable', function() {
+        expect(ButtonView.mixins).toContain(Touchable);
     });
 
     describe('properties:', function() {
@@ -82,43 +87,6 @@ describe('ButtonView', function() {
                 it('should not send an action', function() {
                     expect(buttonView.sendAction).not.toHaveBeenCalled();
                 });
-            });
-        });
-
-        describe('touchStart()', function() {
-            let evt;
-
-            beforeEach(function() {
-                evt = {
-                    preventDefault: jasmine.createSpy('event.preventDefault()')
-                };
-
-                buttonView.touchStart(evt);
-            });
-
-            it('should prevent default on the event', function() {
-                expect(evt.preventDefault).toHaveBeenCalled();
-            });
-        });
-
-        describe('touchEnd()', function() {
-            let evt;
-
-            beforeEach(function() {
-                evt = {
-                    preventDefault: jasmine.createSpy('event.preventDefault()')
-                };
-                spyOn(buttonView, 'click');
-
-                buttonView.touchEnd(evt);
-            });
-
-            it('should preventDefault()', function() {
-                expect(evt.preventDefault).toHaveBeenCalled();
-            });
-
-            it('should call click()', function() {
-                expect(buttonView.click).toHaveBeenCalled();
             });
         });
     });

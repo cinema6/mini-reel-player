@@ -1,6 +1,7 @@
 import View from '../../lib/core/View.js';
+import Touchable from '../../src/mixins/Touchable.js';
 
-export default class ButtonView extends View {
+class ButtonView extends View {
     constructor() {
         super(...arguments);
 
@@ -21,13 +22,6 @@ export default class ButtonView extends View {
         this.emit('press');
         this.sendAction(this);
     }
-
-    touchStart(event) {
-        event.preventDefault();
-    }
-
-    touchEnd(event) {
-        event.preventDefault();
-        this.click();
-    }
 }
+ButtonView.mixin(Touchable);
+export default ButtonView;

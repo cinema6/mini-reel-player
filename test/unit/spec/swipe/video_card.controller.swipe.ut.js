@@ -36,6 +36,7 @@ describe('SwipeVideoCardController', function() {
         card.modules = {};
         card.getSrc = function() {};
         card.links = {};
+        card.shareLinks = {};
         card.action = {};
         card.complete = function() {};
         card.setPlaybackState = function() {};

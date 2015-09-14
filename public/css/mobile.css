@@ -73,9 +73,5 @@
         ============================================= */ 
         @import url('mobile/modal-share.css');
 
-    /*  social share modal styles
-            popup : portrait view
-            popup : landscape view
-        ============================================= */ 
-        @import url('mobile/full-video.css');
+
 

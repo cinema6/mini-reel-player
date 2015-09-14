@@ -50,6 +50,8 @@ describe('VideoCardView', function() {
 
                 spyOn(CardView.prototype, 'update');
                 spyOn(videoCardView.links, 'update');
+                spyOn(videoCardView, 'addClass');
+                spyOn(videoCardView, 'removeClass');
 
                 data = {
                     source: 'Vimeo',
@@ -84,6 +86,7 @@ describe('VideoCardView', function() {
                         }
                     ],
                     website: 'http://www.netflix.com',
+                    videoOnly: false,
                     action: {
                         label: 'Check it Out!',
                         href: 'http://www.buy-now.com/',
@@ -97,6 +100,9 @@ describe('VideoCardView', function() {
 
             describe('when called with initial data', function() {
                 beforeEach(function() {
+                    videoCardView.addClass.calls.reset();
+                    videoCardView.removeClass.calls.reset();
+
                     data = {
                         title: 'foo',
                         note: 'my note',
@@ -109,6 +115,11 @@ describe('VideoCardView', function() {
                 it('should call super()', function() {
                     expect(CardView.prototype.update).toHaveBeenCalledWith(data);
                 });
+
+                it('should not add or remove any classes', function() {
+                    expect(videoCardView.addClass).not.toHaveBeenCalled();
+                    expect(videoCardView.removeClass).not.toHaveBeenCalled();
+                });
             });
 
             it('should call super', function() {
@@ -119,6 +130,36 @@ describe('VideoCardView', function() {
 
             it('should update the links view with links', function() {
                 expect(videoCardView.links.update).toHaveBeenCalledWith(data.links);
+            });
+
+            describe('if the card is videoOnly', function() {
+                beforeEach(function() {
+                    videoCardView.addClass.calls.reset();
+                    videoCardView.removeClass.calls.reset();
+                    data.videoOnly = true;
+
+                    videoCardView.update(data);
+                });
+
+                it('should add the "cards__item--FullVideoOnlyMR" class', function() {
+                    expect(videoCardView.addClass).toHaveBeenCalledWith('cards__item--FullVideoOnlyMR');
+                    expect(videoCardView.removeClass).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if the card is not videoOnly', function() {
+                beforeEach(function() {
+                    videoCardView.addClass.calls.reset();
+                    videoCardView.removeClass.calls.reset();
+                    data.videoOnly = false;
+
+                    videoCardView.update(data);
+                });
+
+                it('should remove the "cards__item--FullVideoOnlyMR" class', function() {
+                    expect(videoCardView.removeClass).toHaveBeenCalledWith('cards__item--FullVideoOnlyMR');
+                    expect(videoCardView.addClass).not.toHaveBeenCalled();
+                });
             });
 
             describe('if the card has no sponsorship info', function() {

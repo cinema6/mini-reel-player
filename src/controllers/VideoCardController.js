@@ -84,6 +84,10 @@ export default class VideoCardController extends CardController {
                 isButton: card.action.type === 'button',
                 isText: card.action.type === 'text'
             },
+            videoOnly: !(
+                card.title || card.note || card.logo || Object.keys(card.links).length > 0||
+                    Object.keys(card.shareLinks).length > 0 || card.action.label
+            ),
             canShare: (card.shareLinks && card.shareLinks.length > 0)
         });
         this.view.playerOutlet.append(this.player);

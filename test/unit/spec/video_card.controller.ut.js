@@ -499,7 +499,8 @@ describe('VideoCardController', function() {
                         label: card.action.label,
                         href: card.links.Action
                     }),
-                    canShare: true
+                    canShare: true,
+                    videoOnly: jasmine.any(Boolean)
                 });
             });
 
@@ -533,6 +534,152 @@ describe('VideoCardController', function() {
                             isButton: false,
                             isText: true
                         })
+                    }));
+                });
+            });
+
+            describe('if the card has a title', function() {
+                beforeEach(function() {
+                    card.title = 'My Card';
+                    card.note = '';
+                    card.logo = null;
+                    card.links = {};
+                    card.shareLinks = {};
+                    card.action = {};
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: false', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: false
+                    }));
+                });
+            });
+
+            describe('if the card has a note', function() {
+                beforeEach(function() {
+                    card.title = '';
+                    card.note = 'My note.';
+                    card.logo = null;
+                    card.links = {};
+                    card.shareLinks = {};
+                    card.action = {};
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: false', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: false
+                    }));
+                });
+            });
+
+            describe('if the card has a logo', function() {
+                beforeEach(function() {
+                    card.title = '';
+                    card.note = '';
+                    card.logo = 'my-logo.png';
+                    card.links = {};
+                    card.shareLinks = {};
+                    card.action = {};
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: false', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: false
+                    }));
+                });
+            });
+
+            describe('if the card has links', function() {
+                beforeEach(function() {
+                    card.title = '';
+                    card.note = '';
+                    card.logo = null;
+                    card.links = {
+                        Instagram: {}
+                    };
+                    card.shareLinks = {};
+                    card.action = {};
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: false', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: false
+                    }));
+                });
+            });
+
+            describe('if the card has shareLinks', function() {
+                beforeEach(function() {
+                    card.title = '';
+                    card.note = '';
+                    card.logo = null;
+                    card.links = {};
+                    card.shareLinks = {
+                        twitter: 'cinema6.com'
+                    };
+                    card.action = {};
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: false', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: false
+                    }));
+                });
+            });
+
+            describe('if the card has an action', function() {
+                beforeEach(function() {
+                    card.title = '';
+                    card.note = '';
+                    card.logo = null;
+                    card.links = {};
+                    card.shareLinks = {};
+                    card.action = {
+                        label: 'Buy me now!'
+                    };
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: false', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: false
+                    }));
+                });
+            });
+
+            describe('if the card has no renderable properties', function() {
+                beforeEach(function() {
+                    card.title = '';
+                    card.note = '';
+                    card.logo = null;
+                    card.links = {};
+                    card.shareLinks = {};
+                    card.action = {};
+
+                    VideoCardCtrl.view.update.calls.reset();
+                    Runner.run(() => VideoCardCtrl.render());
+                });
+
+                it('should call update() with videoOnly: true', function() {
+                    expect(VideoCardCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        videoOnly: true
                     }));
                 });
             });

@@ -516,8 +516,8 @@
                     },
                     "id": "rc-c175fedab87e6f",
                     "type": "adUnit",
-                    "title": "WATCH & LEARN",
-                    "note": "See how to make classic, seasonal and specialty cocktails from our expert bartenders. You’re just a shake, stir and pour away from the ultimate drink.",
+                    "title": "",
+                    "note": "",
                     "modules": [
                         "displayAd"
                     ],
@@ -534,7 +534,7 @@
                         "minViewTime": -1
                     },
                     "collateral": {
-                        "logo": "http://i.imgur.com/YbBIFZv.png"
+                        "logo": ""
                     },
                     "links": {},
                     "params": {

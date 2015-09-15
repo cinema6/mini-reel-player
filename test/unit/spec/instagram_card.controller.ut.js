@@ -4,6 +4,7 @@ import FullInstagramImageCardView from '../../../src/views/full/FullInstagramIma
 import InstagramImageCard from '../../../src/models/InstagramImageCard.js';
 import Runner from '../../../lib/Runner.js';
 import InstagramCaptionView from '../../../src/views/InstagramCaptionView.js';
+import SponsoredCardController from '../../../src/mixins/SponsoredCardController.js';
 
 describe('InstagramCardController', function() {
     let InstagramCardCtrl;
@@ -77,6 +78,10 @@ describe('InstagramCardController', function() {
 
     it('should exist', function() {
         expect(InstagramCardCtrl).toEqual(jasmine.any(CardController));
+    });
+
+    it('should mixin the SponsoredCardController', function() {
+        expect(InstagramCardController.mixins).toContain(SponsoredCardController);
     });
 
     describe('properties', function() {
@@ -278,7 +283,8 @@ describe('InstagramCardController', function() {
                         comments: '9,734',
                         title: 'Hey look it\'s a Doggie!',
                         action: {
-                            label: 'Give me a puppy now!',
+                            label: 'Action',
+                            text: 'Give me a puppy now!',
                             href: 'www.free-puppies.com',
                             isButton: true,
                             isText: false

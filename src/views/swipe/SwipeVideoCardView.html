@@ -3,12 +3,19 @@
         <div data-view="playerOutlet:PlayerOutletView" class="player__group"></div>
 
         <div data-if="sponsor" class="cardSponsor__profile clearfix">
-            <a data-if="logo" href="{{website}}" class="sponsor__logo cardSponsor__logo" title="{{sponsor}}" target="_blank">
-                <img src="{{logo}}" alt="Star Wars" class="sponsor__logoImg">
-            </a>
-            <p class="cardSponsor__tag">
+            <span data-if="website.logo"
+                data-view="logoView:LinkItemView" data-model="website"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}"
+                class="sponsor__logo cardSponsor__logo"
+                title="{{text}}"
+                target="_blank">
+                <img src="{{logo}}" alt="{{text}}" class="sponsor__logoImg">
+            </a></span>
+            <p class="cardSponsor__tag"
+                data-view="websiteView:LinkItemView" data-model="website"
+                data-target="controller" data-action="clickthrough">
                 Sponsored by <br>
-                <a href="{{website}}" title="{{sponsor}}" target="_blank">{{sponsor}}</a>
+                <a href="{{href}}" title="{{text}}" target="_blank">{{text}}</a>
             </p>
         </div>
 
@@ -17,9 +24,11 @@
             <span data-if="showSource" class="card__source tk--copy">&mdash;&nbsp;<a href="{{href}}" title="YouTube" target="_blank">{{source}}</a></span>
         </h1>
 
-        <a data-if="action.label" href="{{action.href}}" class="actionBtn cardSponsor__action" target="_blank" title="More Info">
-            <span class="actionBtn__label">{{action.label}}</span>
-        </a>
+        <span data-if="action.text"
+            data-view="ctaView:LinkItemView" data-model="action"
+            data-target="controller" data-action="clickthrough"><a href="{{href}}" class="actionBtn cardSponsor__action" target="_blank" title="More Info">
+            <span class="actionBtn__label">{{text}}</span>
+        </a></span>
 
         <div data-view="ballotOutlet:View"></div>
         <div data-view="postOutlet:View"></div>
@@ -28,12 +37,19 @@
         <p class="card__count">{{number}} of {{total}}</p>
 
         <div data-if="sponsor" class="cardSponsor__profile clearfix">
-            <a data-if="logo" href="{{website}}" class="sponsor__logo cardSponsor__logo" target="_blank" title="{{sponsor}}">
-                <img src="{{logo}}" alt="Star Wars" class="sponsor__logoImg">
-            </a>
-            <p class="cardSponsor__tag">
+            <span data-if="website.logo"
+                data-view="backLogoView:LinkItemView" data-model="website"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}"
+                class="sponsor__logo cardSponsor__logo"
+                title="{{text}}"
+                target="_blank">
+                <img src="{{logo}}" alt="{{text}}" class="sponsor__logoImg">
+            </a></span>
+            <p class="cardSponsor__tag"
+                data-view="backWebsiteView:LinkItemView" data-model="website"
+                data-target="controller" data-action="clickthrough">
                 Sponsored by <br>
-                <a href="{{website}}" title="{{sponsor}}" target="_blank">{{sponsor}}</a>
+                <a href="{{href}}" title="{{text}}" target="_blank">{{text}}</a>
             </p>
         </div>
 
@@ -42,9 +58,9 @@
         <div class="card__copy">{{note}}</div>
 
         <div data-if="hasLinks" class="sponsor__links">
-            <a data-if="website" href="{{website}}" target="_blank" title="Official Website" class="sponsor__iconLink c6icon c6icon--link"><span class="ir">Website</span></a><!--
-            --><span data-if="links.length" data-view="links:LinksListView">
-                <span><a href="{{href}}" target="_blank" title="Official {{label}}" class="sponsor__iconLink sponsor__iconLink--{{type}} c6icon c6icon--{{type}}"><span class="ir">{{label}}</span></a></span>
+            <span data-if="website.href" data-view="iconWebsiteView:LinkItemView" data-model="website" data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="Official Website" class="sponsor__iconLink c6icon c6icon--link"><span class="ir">Website</span></a></span><!--
+            --><span data-if="links.length" data-view="links:LinksListView" data-model="links">
+                <span data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="Official {{label}}" class="sponsor__iconLink sponsor__iconLink--{{type}} c6icon c6icon--{{type}}"><span class="ir">{{label}}</span></a></span>
             </span>
         </div>
     </div>

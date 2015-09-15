@@ -2,6 +2,7 @@ import PlaylistViewController from '../../../src/controllers/PlaylistViewControl
 import ViewController from '../../../src/controllers/ViewController.js';
 import MiniReel from '../../../src/models/MiniReel.js';
 import PlaylistView from '../../../src/views/PlaylistView.js';
+import VideoCard from '../../../src/models/VideoCard.js';
 
 describe('PlaylistViewController', function() {
     let PlaylistViewCtrl;
@@ -215,8 +216,10 @@ describe('PlaylistViewController', function() {
 
         describe('updateView()', function() {
             beforeEach(function() {
+                const experience = { data: {} };
+
                 minireel.deck = [
-                    {
+                    new VideoCard({
                         id: 'rc-f1c802c30365ae',
                         title: 'Card1',
                         note: null,
@@ -228,8 +231,8 @@ describe('PlaylistViewController', function() {
                         },
                         links: {},
                         ad: false
-                    },
-                    {
+                    }, experience),
+                    new VideoCard({
                         id: 'rc-d7c122d05ce1e8',
                         title: 'Card2',
                         note: 'Hey!',
@@ -239,13 +242,16 @@ describe('PlaylistViewController', function() {
                             source: 'Vimeo',
                             hideSource: true
                         },
+                        sponsored: true,
+                        params: {},
+                        collateral: {},
                         links: {
-                            Website: 'http://my-sponsor.com'
+                            Website: { uri: 'http://my-sponsor.com', tracking: [] }
                         },
                         sponsor: 'Buy n Large',
                         ad: true
-                    },
-                    {
+                    }, experience),
+                    new VideoCard({
                         id: 'rc-17c1c7892d4687',
                         title: 'Card3',
                         note: null,
@@ -256,8 +262,8 @@ describe('PlaylistViewController', function() {
                             hideSource: false
                         },
                         ad: false
-                    },
-                    {
+                    }, experience),
+                    new VideoCard({
                         id: 'rc-697981c41ad8f5',
                         title: 'Last Card!',
                         note: null,
@@ -266,12 +272,15 @@ describe('PlaylistViewController', function() {
                             href: 'http://www.videos.com/903hf439',
                             hideSource: false
                         },
+                        sponsored: true,
+                        params: {},
+                        collateral: {},
                         links: {
-                            Website: 'http://my-sponsor.org'
+                            Website: { uri: 'http://my-sponsor.org', tracking: [] }
                         },
                         sponsor: 'Nintendo',
                         ad: true
-                    }
+                    }, experience)
                 ];
                 minireel.currentCard = minireel.deck[1];
                 minireel.currentIndex = 1;
@@ -289,15 +298,15 @@ describe('PlaylistViewController', function() {
                     enabled: jasmine.any(Boolean),
                     expanded: jasmine.any(Boolean),
                     cards: minireel.deck.map(card => ({
-                        id: card.id,
-                        title: card.title,
-                        thumb: card.thumbs.small,
-                        showSource: !!card.data.source && !card.data.hideSource,
-                        href: card.data.href,
-                        source: card.data.source,
-                        website: (card.links || {}).Website,
-                        sponsor: card.sponsor,
-                        ad: card.ad,
+                        id: card.get('id'),
+                        title: card.get('title'),
+                        thumb: card.get('thumbs.small'),
+                        showSource: !!card.get('data.source') && !card.get('data.hideSource'),
+                        href: card.get('data.href'),
+                        source: card.get('data.source'),
+                        website: card.get('links.Website.uri'),
+                        sponsor: card.get('sponsor'),
+                        ad: card.get('ad'),
                         active: card === minireel.currentCard
                     }))
                 });

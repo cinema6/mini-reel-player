@@ -66,10 +66,6 @@ describe('FullRecapCardItemView', function() {
             it('should add the class "recap__item--${type}"', function() {
                 expect(view.addClass).toHaveBeenCalledWith(`recap__item--${data.type}`);
             });
-
-            it('should update the links', function() {
-                expect(view.links.update).toHaveBeenCalledWith(data.links);
-            });
         });
     });
 });

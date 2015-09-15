@@ -3,6 +3,7 @@ import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../mixins/BallotVideoCardController.js';
+import SponsoredCardController from '../mixins/SponsoredCardController.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -71,18 +72,23 @@ export default class VideoCardController extends CardController {
         const card = this.model;
 
         this.view.update({
-            source: card.data.source,
-            href: card.data.href,
-            sponsor: card.sponsor,
-            logo: card.logo,
-            showSource: !card.data.hideSource,
-            links: card.socialLinks,
-            website: card.links.Website,
+            source: card.get('data.source'),
+            href: card.get('data.href'),
+            sponsor: card.get('sponsor'),
+            showSource: !card.get('data.hideSource'),
+            links: card.get('socialLinks'),
+            website: {
+                label: 'Website',
+                href: card.get('links.Website.uri'),
+                logo: card.get('logo'),
+                text: card.get('sponsor')
+            },
             action: {
-                label: card.action.label,
-                href: card.links.Action,
-                isButton: card.action.type === 'button',
-                isText: card.action.type === 'text'
+                label: 'Action',
+                href: card.get('links.Action.uri'),
+                text: card.get('action.label'),
+                isButton: card.get('action.type') === 'button',
+                isText: card.get('action.type') === 'text'
             },
             canShare: (card.shareLinks && card.shareLinks.length > 0)
         });
@@ -116,4 +122,4 @@ export default class VideoCardController extends CardController {
             `width=${w},height=${h},top=${top},left=${left}`);
     }
 }
-VideoCardController.mixin(PostVideoCardController, BallotVideoCardController); // jshint ignore:line
+VideoCardController.mixin(PostVideoCardController, BallotVideoCardController, SponsoredCardController); // jshint ignore:line

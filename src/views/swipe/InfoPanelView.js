@@ -17,9 +17,4 @@ export default class InfoPanelView extends TemplateView {
     show(yes) {
         if (yes) { this.addClass(SHOW_CLASS); } else { this.removeClass(SHOW_CLASS); }
     }
-
-    update(data) {
-        super(data);
-        this.links.update(data.links);
-    }
 }

@@ -23,15 +23,15 @@ export default class TableOfContentsViewController extends ViewController {
         minireel.once('launch', () => Runner.runNext(() => this.view.update({
             title: minireel.title,
             cards: map(minireel.deck, card => ({
-                id: card.id,
-                title: card.title,
-                source: card.data.source,
-                href: card.data.href,
-                thumb: card.thumbs.small,
-                showSource: !!card.data.source && !card.data.hideSource,
-                sponsor: card.sponsor,
-                website: (card.links || {}).Website,
-                type: card.ad ? 'ad' : 'content'
+                id: card.get('id'),
+                title: card.get('title'),
+                source: card.get('data.source'),
+                href: card.get('data.href'),
+                thumb: card.get('thumbs.small'),
+                showSource: !!card.get('data.source') && !card.get('data.hideSource'),
+                sponsor: card.get('sponsor'),
+                website: card.get('links.Website.uri'),
+                type: card.get('ad') ? 'ad' : 'content'
             }))
         })));
 

@@ -1,5 +1,7 @@
 import Card from '../../../src/models/Card.js';
 import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
+import normalizeLinks from '../../../src/fns/normalize_links.js';
+import makeSocialLinks from '../../../src/fns/make_social_links.js';
 class MyInstagramCard extends Card {}
 MyInstagramCard.mixin(SponsoredCard);
 
@@ -129,36 +131,8 @@ describe('SponsoredCard mixin', function() {
                 label: 'give me a puppy now'
             });
             expect(card.logo).toBe('www.site.com/logo');
-            expect(card.links).toEqual({
-                'Action': 'https://www.cinema6.com',
-                'Website': 'https://www.cinema6.com',
-                'Facebook': 'https://www.cinema6.com',
-                'Twitter': 'https://www.cinema6.com',
-                'Pinterest': 'https://www.cinema6.com',
-                'YouTube': 'https://www.cinema6.com'
-            });
-            expect(card.socialLinks).toEqual([
-                {
-                    type: 'facebook',
-                    label: 'Facebook',
-                    href: 'https://www.cinema6.com'
-                },
-                {
-                    type: 'twitter',
-                    label: 'Twitter',
-                    href: 'https://www.cinema6.com'
-                },
-                {
-                    type: 'pinterest',
-                    label: 'Pinterest',
-                    href: 'https://www.cinema6.com'
-                },
-                {
-                    type: 'youtube',
-                    label: 'YouTube',
-                    href: 'https://www.cinema6.com'
-                }
-            ]);
+            expect(card.links).toEqual(normalizeLinks(instagramData.links));
+            expect(card.socialLinks).toEqual(makeSocialLinks(card.links));
             expect(card.shareLinks).toEqual([
                 {
                     type: 'facebook',
@@ -177,6 +151,35 @@ describe('SponsoredCard mixin', function() {
                 }
             ]);
             expect(card.ad).toBe(true);
+        });
+    });
+
+    describe('methods:', function() {
+        describe('clickthrough(link)', function() {
+            let clickthrough;
+
+            beforeEach(function() {
+                clickthrough = jasmine.createSpy('clickthrough()');
+                card.on('clickthrough', clickthrough);
+
+                card.clickthrough('Twitter');
+            });
+
+            it('should emit the clickthrough event with the link config', function() {
+                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter);
+            });
+
+            describe('if the link cannot be found', function() {
+                beforeEach(function() {
+                    clickthrough.calls.reset();
+
+                    card.clickthrough('jsdhf');
+                });
+
+                it('should not emit the event', function() {
+                    expect(clickthrough).not.toHaveBeenCalled();
+                });
+            });
         });
     });
 });

@@ -151,7 +151,7 @@ describe('TemplateView', function() {
             });
 
             it('should parse the element with TwoBits.js', function() {
-                Array.prototype.slice.call(element.childNodes).forEach(child => expect(twobits.parse).toHaveBeenCalledWith(child, view));
+                Array.prototype.slice.call(element.childNodes).forEach(child => expect(twobits.parse).toHaveBeenCalledWith(child, jasmine.any(Object)));
             });
 
             it('should not cause update()s to throw errors', function() {
@@ -578,6 +578,101 @@ describe('TemplateView', function() {
                 });
             });
 
+            describe('if there are child template views', function() {
+                class MyTemplateView extends TemplateView {}
+                class ButtonView extends View {}
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.instantiates = {MyTemplateView, ButtonView};
+                    view.template = `
+                        <span>My name is {{first}} {{last}}.</span>
+                        <span data-name="{{first}} {{last}}" data-view="child:MyTemplateView">
+                            My name is {{first}} {{last}}.
+                        </span>
+                        <div>
+                            <button data-view="button:ButtonView">{{last}}</button>
+                        </div>
+                    `;
+
+                    view.update({ first: 'Josh', last: 'Minzner' });
+                    view.child.update({ first: 'Evan', last: 'Leichter' });
+                    queues.render.pop()();
+                    queues.render.pop()();
+                });
+
+                it('should not update the templates of any child TemplateViews', function() {
+                    expect(view.child.element.innerText.trim()).toBe('My name is Evan Leichter.');
+                });
+
+                it('should update its template', function() {
+                    expect(view.element.querySelectorAll('span')[0].innerText.trim()).toBe('My name is Josh Minzner.');
+                    expect(view.element.querySelectorAll('span')[1].getAttribute('data-name')).toBe('Josh Minzner');
+                    expect(view.element.querySelector('button').innerText.trim()).toBe('Minzner');
+                });
+            });
+
+            describe('if a child view has a data-model=""', function() {
+                let data;
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <span data-view="child:TemplateView" data-model="bar">{{foo}}</span>
+                    `;
+                    view.instantiates = {TemplateView};
+
+                    data = {
+                        bar: {
+                            foo: 'bar'
+                        }
+                    };
+
+                    view.create();
+                    spyOn(view.child, 'update').and.callThrough();
+
+                    view.update(data);
+                    queues.render.pop()();
+                });
+
+                it('should update() the child with the specified value', function() {
+                    expect(view.child.update).toHaveBeenCalledWith(data.bar);
+                });
+
+                describe('and a data-update-method=""', function() {
+                    class MyTemplateView extends TemplateView {
+                        updateWith() {}
+                    }
+
+                    beforeEach(function() {
+                        view = new TemplateView();
+                        view.tag = 'span';
+                        view.template = `
+                            <span data-view="child:MyTemplateView" data-model="bar" data-update-method="updateWith">{{foo}}</span>
+                        `;
+                        view.instantiates = {MyTemplateView};
+
+                        data = {
+                            bar: {
+                                foo: 'bar'
+                            }
+                        };
+
+                        view.create();
+                        spyOn(view.child, 'updateWith').and.callThrough();
+
+                        view.update(data);
+                        queues.render.pop()();
+                    });
+
+                    it('should call the method specified in data-update-method', function() {
+                        expect(view.child.updateWith).toHaveBeenCalledWith(data.bar);
+                    });
+                });
+            });
+
             it('should create the child views declared in the templates', function() {
                 const [button, text, custom] = view.children;
 
@@ -659,21 +754,17 @@ describe('TemplateView', function() {
             });
 
             describe('if a child has an unknow constructor', function() {
-                let badElement;
-
                 beforeEach(function() {
-                    element = document.createElement('span');
-                    view.element = element;
-
-                    badElement = document.createElement('div');
-                    badElement.setAttribute('data-view', 'foo:FooView');
-
-                    element.appendChild(badElement);
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <p><div data-view="foo:FooView">BAD</div></p>
+                    `;
                 });
 
                 it('should throw an error', function() {
                     expect(function() {
-                        view.didCreateElement();
+                        view.create();
                     }).toThrow(new Error('Unknown class (FooView). Make sure your class is in the \'instantiates\' object.'));
                 });
             });

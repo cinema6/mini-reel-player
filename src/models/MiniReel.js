@@ -6,12 +6,15 @@ import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
 import JumpRampHandler from '../handlers/JumpRampHandler.js';
-import {EventEmitter} from 'events';
+import Mixable from '../../lib/core/Mixable.js';
+import SafelyGettable from '../mixins/SafelyGettable.js';
+import { EventEmitter } from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
 import adtech from '../services/adtech.js';
 import browser from '../services/browser.js';
 import codeLoader from '../services/code_loader.js';
+import normalizeLinks from '../fns/normalize_links.js';
 import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
@@ -106,7 +109,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
 
     this.sponsor = experience.data.params.sponsor || null;
     this.logo = experience.data.collateral.logo || null;
-    this.links = experience.data.links || {};
+    this.links = normalizeLinks(experience.data.links);
     this.socialLinks = makeSocialLinks(this.links);
 
     adtech.setDefaults({
@@ -138,7 +141,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
     this.deck[0].prepare();
 }
 
-export default class MiniReel extends EventEmitter {
+export default class MiniReel extends Mixable {
     constructor(whitelist = CARD_WHITELIST) {
         super(...arguments);
 
@@ -220,7 +223,7 @@ export default class MiniReel extends EventEmitter {
 
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
-        dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error']);
+        dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
     }
 
     moveToIndex(index) {
@@ -336,3 +339,4 @@ export default class MiniReel extends EventEmitter {
         this.moveToIndex(-1);
     }
 }
+MiniReel.mixin(EventEmitter, SafelyGettable); // jshint ignore:line

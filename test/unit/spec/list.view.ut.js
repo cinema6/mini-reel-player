@@ -118,6 +118,18 @@ describe('ListView', function() {
                 });
             });
 
+            describe('if called with something falsy', function() {
+                beforeEach(function() {
+                    listView = new ListView();
+                    listView.template = '<p>Hello</p>';
+                    Runner.run(() => listView.update(null));
+                });
+
+                it('should behave as if it were called with an empty Array', function() {
+                    expect(listView.element.innerHTML).toBe('');
+                });
+            });
+
             it('should create a child for each item in the collection', function() {
                 expect(listView.append.calls.count()).toBe(collection.length);
                 expect(children).toEqual(collection.map(() => jasmine.any(TemplateView)));

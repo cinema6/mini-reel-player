@@ -9,6 +9,7 @@ import playerFactory from '../../../src/services/player_factory.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import PostVideoCardController from '../../../src/mixins/PostVideoCardController.js';
 import BallotVideoCardController from '../../../src/mixins/BallotVideoCardController.js';
+import SponsoredCardController from '../../../src/mixins/SponsoredCardController.js';
 
 describe('VideoCardController', function() {
     let VideoCardCtrl;
@@ -116,6 +117,10 @@ describe('VideoCardController', function() {
     it('should mixin the BallotVideoCardController', function() {
         expect(VideoCardController.mixins).toContain(BallotVideoCardController);
         expect(VideoCardCtrl.initBallot).toHaveBeenCalled();
+    });
+
+    it('should mixin the SponsoredCardController', function() {
+        expect(VideoCardController.mixins).toContain(SponsoredCardController);
     });
 
     it('should add its model as an event source', function() {
@@ -488,16 +493,21 @@ describe('VideoCardController', function() {
 
             it('should update the view with video data', function() {
                 expect(VideoCardCtrl.view.update).toHaveBeenCalledWith({
-                    source: card.data.source,
-                    href: card.data.href,
-                    sponsor: card.sponsor,
-                    logo: card.logo,
-                    showSource: !card.data.hideSource,
-                    links: card.socialLinks,
-                    website: card.links.Website,
+                    source: card.get('data.source'),
+                    href: card.get('data.href'),
+                    sponsor: card.get('sponsor'),
+                    showSource: !card.get('data.hideSource'),
+                    links: card.get('socialLinks'),
+                    website: {
+                        label: 'Website',
+                        href: card.get('links.Website.uri'),
+                        logo: card.get('logo'),
+                        text: card.get('sponsor')
+                    },
                     action: jasmine.objectContaining({
-                        label: card.action.label,
-                        href: card.links.Action
+                        label: 'Action',
+                        text: card.get('action.label'),
+                        href: card.get('links.Action.uri')
                     }),
                     canShare: true
                 });

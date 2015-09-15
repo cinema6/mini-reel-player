@@ -44,16 +44,22 @@ describe('ADTECHHandler', function() {
             campaign: {
                 minViewTime: 7,
                 clickUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
-                countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}']
+                countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}'],
+                q1Urls: ['img5.jpg', 'img6.jpg?page={pageUrl}'],
+                q2Urls: ['img7.jpg', 'img8.jpg?page={pageUrl}'],
+                q3Urls: ['img9.jpg', 'img10.jpg?page={pageUrl}'],
+                q4Urls: ['img11.jpg', 'img12.jpg?page={pageUrl}']
             }
         }, experience);
         minireel = new EventEmitter();
         minireel.campaign = {
-            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}']
+            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
+            loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}']
         };
 
-        dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error']);
-        dispatcher.addSource('video', player, ['timeupdate', 'play', 'complete'], card);
+        dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
+        dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
+        dispatcher.addSource('card', card, ['clickthrough']);
     });
 
     afterEach(function() {
@@ -91,6 +97,153 @@ describe('ADTECHHandler', function() {
                 it('should do nothing', function() {
                     expect(imageLoader.load).not.toHaveBeenCalled();
                 });
+            });
+        });
+
+        describe('init', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+
+                minireel.emit('init');
+            });
+
+            it('should fire the minireel\'s launch pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.loadUrls.map(completeUrl));
+            });
+
+            describe('if the minireel has no loadUrls', function() {
+                beforeEach(function() {
+                    delete minireel.campaign.loadUrls;
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('init');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
+    describe('player events:', function() {
+        describe('firstQuartile', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+
+                player.emit('firstQuartile');
+            });
+
+            it('should fire the minireel\'s launch pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrl));
+            });
+
+            describe('if the minireel has no loadUrls', function() {
+                beforeEach(function() {
+                    delete card.campaign.q1Urls;
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('firstQuartile');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+
+        describe('midpoint', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+
+                player.emit('midpoint');
+            });
+
+            it('should fire the minireel\'s launch pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrl));
+            });
+
+            describe('if the minireel has no loadUrls', function() {
+                beforeEach(function() {
+                    delete card.campaign.q2Urls;
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('midpoint');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+
+        describe('thirdQuartile', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+
+                player.emit('thirdQuartile');
+            });
+
+            it('should fire the minireel\'s launch pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrl));
+            });
+
+            describe('if the minireel has no loadUrls', function() {
+                beforeEach(function() {
+                    delete card.campaign.q3Urls;
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('thirdQuartile');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+
+        describe('complete', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+
+                player.emit('complete');
+            });
+
+            it('should fire the minireel\'s launch pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrl));
+            });
+
+            describe('if the minireel has no loadUrls', function() {
+                beforeEach(function() {
+                    delete card.campaign.q4Urls;
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('complete');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
+    describe('card events:', function() {
+        describe('clickthrough', function() {
+            let data;
+
+            beforeEach(function() {
+                data = {
+                    uri: 'https://twitter.com/netflix',
+                    tracking: ['img13.jpg', 'img14.jpg?page={pageUrl}']
+                };
+                spyOn(imageLoader, 'load');
+
+                card.emit('clickthrough', data);
+            });
+
+            it('should fire the tracking pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrl));
             });
         });
     });

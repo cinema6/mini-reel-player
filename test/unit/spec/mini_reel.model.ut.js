@@ -5,7 +5,9 @@ import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
 import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
-import {EventEmitter} from 'events';
+import Mixable from '../../../lib/core/Mixable.js';
+import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
+import { EventEmitter } from 'events';
 import cinema6 from '../../../src/services/cinema6.js';
 import adtech from '../../../src/services/adtech.js';
 import {
@@ -26,6 +28,8 @@ import election from '../../../src/services/election.js';
 import browser from '../../../src/services/browser.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import environment from '../../../src/environment.js';
+import normalizeLinks from '../../../src/fns/normalize_links.js';
+import makeSocialLinks from '../../../src/fns/make_social_links.js';
 
 describe('MiniReel', function() {
     let experience;
@@ -724,8 +728,16 @@ describe('MiniReel', function() {
         environment.constructor();
     });
 
-    it('should be an event emitter', function() {
-        expect(minireel).toEqual(jasmine.any(EventEmitter));
+    it('should be Mixable', function() {
+        expect(minireel).toEqual(jasmine.any(Mixable));
+    });
+
+    it('should mixin EventEmitter', function() {
+        expect(MiniReel.mixins).toContain(EventEmitter);
+    });
+
+    it('should mixin SafelyGettable', function() {
+        expect(MiniReel.mixins).toContain(SafelyGettable);
     });
 
     it('should add the ADTECHHandler to the dispatcher', function() {
@@ -737,8 +749,7 @@ describe('MiniReel', function() {
     });
 
     it('should add itself as a source', function() {
-        expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel,
-            ['launch','move','close','error']);
+        expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel, ['launch','move','close','error','init']);
     });
 
     describe('properties:', function() {
@@ -1760,38 +1771,12 @@ describe('MiniReel', function() {
             expect(minireel.logo).toBe(experience.data.collateral.logo);
         });
 
-        it('should copy the minireel\'s links', function() {
-            expect(minireel.links).toBe(experience.data.links);
+        it('should normalize the minireel\'s links', function() {
+            expect(minireel.links).toEqual(normalizeLinks(experience.data.links));
         });
 
         it('should generate an array of socialLinks from the links', function() {
-            expect(minireel.socialLinks).toEqual([
-                {
-                    type: 'facebook',
-                    label: 'Facebook',
-                    href: experience.data.links.Facebook
-                },
-                {
-                    type: 'twitter',
-                    label: 'Twitter',
-                    href: experience.data.links.Twitter
-                },
-                {
-                    type: 'youtube',
-                    label: 'YouTube',
-                    href: experience.data.links.YouTube
-                },
-                {
-                    type: 'vimeo',
-                    label: 'Vimeo',
-                    href: experience.data.links.Vimeo
-                },
-                {
-                    type: 'pinterest',
-                    label: 'Pinterest',
-                    href: experience.data.links.Pinterest
-                }
-            ]);
+            expect(minireel.socialLinks).toEqual(makeSocialLinks(minireel.links));
         });
 
         it('should load the branding styles for the minireel', function() {

@@ -44,7 +44,7 @@ class Dispatcher {
 
     addSource(type, emitter, events, data = {}) {
         const {listeners, emitterHandlers} = _(this);
-        const handlers = [];
+        const handlers = emitterHandlers.get(emitter) || [];
 
         emitterHandlers.set(emitter, handlers);
 

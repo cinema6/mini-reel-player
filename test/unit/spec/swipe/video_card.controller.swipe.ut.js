@@ -1,5 +1,7 @@
 import SwipeVideoCardController from '../../../../src/controllers/swipe/SwipeVideoCardController.js';
 import VideoCardController from '../../../../src/controllers/VideoCardController.js';
+import Mixable from '../../../../lib/core/Mixable.js';
+import SafelyGettable from '../../../../src/mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
 import SwipeVideoCardView from '../../../../src/views/swipe/SwipeVideoCardView.js';
 import View from '../../../../lib/core/View.js';
@@ -18,6 +20,9 @@ class MockPlayer extends CorePlayer {
     unload() {}
 }
 
+class MockCard extends Mixable {}
+MockCard.mixin(EventEmitter, SafelyGettable);
+
 describe('SwipeVideoCardController', function() {
     let SwipeVideoCardCtrl;
     let card;
@@ -25,7 +30,7 @@ describe('SwipeVideoCardController', function() {
     let parentView;
 
     beforeEach(function() {
-        card = new EventEmitter();
+        card = new MockCard();
         card.data = { type: 'youtube' };
         card.thumbs = {};
         card.modules = {};

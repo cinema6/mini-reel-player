@@ -1,4 +1,5 @@
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
+import SafelyGettable from '../mixins/SafelyGettable.js';
 import DisplayAd from './DisplayAd.js';
 import Post from './Post.js';
 import Ballot from './Ballot.js';
@@ -80,6 +81,6 @@ class Card extends Mixable {
         this.emit('cleanup');
     }
 }
-Card.mixin(EventEmitter);
+Card.mixin(EventEmitter, SafelyGettable);
 
 export default Card;

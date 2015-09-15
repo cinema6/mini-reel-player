@@ -14,6 +14,8 @@ describe('SoloVideoCardController', function() {
         card.modules = {};
         card.getSrc = jasmine.createSpy('card.getSrc()');
 
+        spyOn(SoloVideoCardController.prototype, 'addView').and.callThrough();
+
         SoloVideoCardCtrl = new SoloVideoCardController(card);
     });
 
@@ -25,6 +27,7 @@ describe('SoloVideoCardController', function() {
         describe('view', function() {
             it('should be a SoloVideoCardView', function() {
                 expect(SoloVideoCardCtrl.view).toEqual(jasmine.any(SoloVideoCardView));
+                expect(SoloVideoCardCtrl.addView).toHaveBeenCalledWith(SoloVideoCardCtrl.view);
             });
         });
     });

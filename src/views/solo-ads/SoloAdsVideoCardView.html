@@ -2,18 +2,23 @@
 
     <header class="titleBar__group clearfix" data-if="isSponsored">
         <div class="brandProfile__group clearfix">
-            <a data-if="logo" href="{{website}}" target="_blank" title="Sponsor link" class="brandProfile__logoBox">
-                <img src="{{logo}}" alt="{{sponsor}}" class="brandProfile__logo">
-            </a>
+            <span data-if="website.logo"
+                data-view="logoView:LinkItemView" data-model="website"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="{{text}}" class="brandProfile__logoBox">
+                <img src="{{logo}}" alt="{{text}}" class="brandProfile__logo">
+            </a></span>
             <div data-if="hasSponsoredCopy" class="brandProfile__copy">
-                <p data-if="sponsor" class="brandProfile__tag">
+                <p data-if="sponsor"
+                    data-view="websiteView:LinkItemView" data-model="website"
+                    data-target="controller" data-action="clickthrough"
+                    class="brandProfile__tag">
                     Sponsored by 
-                    <a href="{{website}}" class="textLink" target="_blank" title="{{sponsor}}">
-                        {{sponsor}}
+                    <a href="{{href}}" class="textLink" target="_blank" title="{{text}}">
+                        {{text}}
                     </a>
                 </p>
-                <div data-if="links.length" data-view="links:LinksListView" class="brandProfile__links">
-                    <span><a href="{{href}}"
+                <div data-if="links.length" data-view="links:LinksListView" data-model="links" class="brandProfile__links">
+                    <span data-target="controller" data-action="clickthrough"><a href="{{href}}"
                         target="_blank"
                         title="{{label}}"
                         class="brandProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
@@ -22,11 +27,15 @@
                 </div>
             </div>
         </div>
-        <div data-if="action.label" class="brand__actions">
-            <a data-if="action.isText" href="{{action.href}}" target="_blank">{{action.label}}</a>
-            <a data-if="action.isButton" href="{{action.href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{action.label}}">
-                <span class="btn__label tk--action">{{action.label}}</span>
-            </a>
+        <div data-if="action.text" class="brand__actions">
+            <span data-if="action.isText"
+                data-view="ctaTextView:LinkItemView" data-model="action"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank">{{text}}</a></span>
+            <span data-if="action.isButton"
+                data-view="ctaButtonView:LinkItemView" data-model="action"
+                data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" class="brand__goBtn btnPrimary" title="{{text}}">
+                <span class="btn__label tk--action">{{text}}</span>
+            </a></span>
         </div>
     </header>
 

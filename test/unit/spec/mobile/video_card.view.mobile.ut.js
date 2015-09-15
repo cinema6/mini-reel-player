@@ -6,6 +6,7 @@ import View from '../../../../lib/core/View.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
 import HideableView from '../../../../src/views/HideableView.js';
 import ButtonView from '../../../../src/views/ButtonView.js';
+import LinkItemView from '../../../../src/views/LinkItemView.js';
 
 describe('MobileVideoCardView', function() {
     let mobileVideoCardView;
@@ -107,6 +108,46 @@ describe('MobileVideoCardView', function() {
 
             it('should be a View', function() {
                 expect(mobileVideoCardView.ballotResultsOutlet).toEqual(jasmine.any(View));
+            });
+        });
+
+        describe('websiteView', function() {
+            beforeEach(function() {
+                Runner.run(() => mobileVideoCardView.create());
+            });
+
+            it('should be a LinkItemView', function() {
+                expect(mobileVideoCardView.websiteView).toEqual(jasmine.any(LinkItemView));
+            });
+        });
+
+        describe('logoView', function() {
+            beforeEach(function() {
+                Runner.run(() => mobileVideoCardView.create());
+            });
+
+            it('should be a LinkItemView', function() {
+                expect(mobileVideoCardView.logoView).toEqual(jasmine.any(LinkItemView));
+            });
+        });
+
+        describe('ctaButtonView', function() {
+            beforeEach(function() {
+                Runner.run(() => mobileVideoCardView.create());
+            });
+
+            it('should be a LinkItemView', function() {
+                expect(mobileVideoCardView.ctaButtonView).toEqual(jasmine.any(LinkItemView));
+            });
+        });
+
+        describe('ctaTextView', function() {
+            beforeEach(function() {
+                Runner.run(() => mobileVideoCardView.create());
+            });
+
+            it('should be a LinkItemView', function() {
+                expect(mobileVideoCardView.ctaTextView).toEqual(jasmine.any(LinkItemView));
             });
         });
     });

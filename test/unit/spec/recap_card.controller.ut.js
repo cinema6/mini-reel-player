@@ -28,6 +28,7 @@ describe('RecapCardController', function() {
                 thumbs: {
                     small: 'yt-thumb.jpg'
                 },
+                sponsored: true,
                 params: {
                     sponsor: 'Netflix',
                     ad: true
@@ -128,18 +129,18 @@ describe('RecapCardController', function() {
             it('should call update with data about the entire minireel', function() {
                 expect(RecapCardCtrl.view.update).toHaveBeenCalledWith({
                     cards: card.data.deck.map(card => ({
-                        id: card.id,
-                        title: card.title,
-                        note: card.note,
-                        source: card.data.source,
-                        href: card.data.href,
-                        thumb: card.thumbs.small,
-                        showSource: !!card.data.source && !card.data.hideSource,
-                        website: (card.links || {}).Website,
-                        sponsor: card.sponsor,
-                        type: card.ad ? 'ad' : 'content',
-                        links: card.socialLinks || [],
-                        logo: card.logo,
+                        id: card.get('id'),
+                        title: card.get('title'),
+                        note: card.get('note'),
+                        source: card.get('data.source'),
+                        href: card.get('data.href'),
+                        thumb: card.get('thumbs.small'),
+                        showSource: !!card.get('data.source') && !card.get('data.hideSource'),
+                        website: card.get('links.Website.uri'),
+                        sponsor: card.get('sponsor'),
+                        type: card.get('ad') ? 'ad' : 'content',
+                        links: card.get('socialLinks') || [],
+                        logo: card.get('logo'),
                         isSponsored: jasmine.any(Boolean)
                     }))
                 });

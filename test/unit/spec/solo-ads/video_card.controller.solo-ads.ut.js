@@ -16,6 +16,7 @@ describe('SoloAdsVideoCardController', function() {
         card.getSrc = jasmine.createSpy('card.getSrc()');
 
         spyOn(SoloAdsVideoCardController.prototype, 'initDisplayAd').and.callThrough();
+        spyOn(SoloAdsVideoCardController.prototype, 'addView').and.callThrough();
 
         SoloAdsVideoCardCtrl = new SoloAdsVideoCardController(card);
     });
@@ -33,6 +34,7 @@ describe('SoloAdsVideoCardController', function() {
         describe('view', function() {
             it('should be a SoloAdsVideoCardView', function() {
                 expect(SoloAdsVideoCardCtrl.view).toEqual(jasmine.any(SoloAdsVideoCardView));
+                expect(SoloAdsVideoCardCtrl.addView).toHaveBeenCalledWith(SoloAdsVideoCardCtrl.view);
             });
         });
     });

@@ -1,5 +1,6 @@
 import CardController from './CardController.js';
-import {createKey} from 'private-parts';
+import SponsoredCardController from '../mixins/SponsoredCardController.js';
+import { createKey } from 'private-parts';
 
 class Private {
     constructor(instance) {
@@ -97,8 +98,7 @@ export default class InstagramCardController extends CardController {
     }
 
     renderInstagram() {
-        const card = this.model,
-              data = this.model.data;
+        const card = this.model;
 
         this.isRendered = true;
 
@@ -107,35 +107,37 @@ export default class InstagramCardController extends CardController {
         }
 
         this.view.captionView.update({
-            caption: data.caption
+            caption: card.get('data.caption')
         });
 
         this.view.update({
-            userHref: data.user.href,
-            userFollow: data.user.follow,
-            userPicture: data.user.picture,
-            userUsername: data.user.username,
-            userFullname: data.user.fullname,
-            userBio: data.user.bio,
-            userWebsite: data.user.website,
-            userPosts: this.formatNumWithSuffix(data.user.posts),
-            userFollowers: this.formatNumWithSuffix(data.user.followers),
-            userFollowing: this.formatNumWithSuffix(data.user.following),
-            mediaSrc: data.src,
-            href: data.href,
-            likes: this.formatNumWithSuffix(data.likes),
-            date: this.formatDate(data.date),
-            comments: this.formatNumWithCommas(data.comments),
-            title: card.title,
+            userHref: card.get('data.user.href'),
+            userFollow: card.get('data.user.follow'),
+            userPicture: card.get('data.user.picture'),
+            userUsername: card.get('data.user.username'),
+            userFullname: card.get('data.user.fullname'),
+            userBio: card.get('data.user.bio'),
+            userWebsite: card.get('data.user.website'),
+            userPosts: this.formatNumWithSuffix(card.get('data.user.posts')),
+            userFollowers: this.formatNumWithSuffix(card.get('data.user.followers')),
+            userFollowing: this.formatNumWithSuffix(card.get('data.user.following')),
+            mediaSrc: card.get('data.src'),
+            href: card.get('data.href'),
+            likes: this.formatNumWithSuffix(card.get('data.likes')),
+            date: this.formatDate(card.get('data.date')),
+            comments: this.formatNumWithCommas(card.get('data.comments')),
+            title: card.get('title'),
             action: {
-                label: card.action.label,
-                href: card.links.Action,
-                isButton: card.action.type === 'button',
-                isText: card.action.type === 'text'
+                label: 'Action',
+                text: card.get('action.label'),
+                href: card.get('links.Action.uri'),
+                isButton: card.get('action.type') === 'button',
+                isText: card.get('action.type') === 'text'
             },
-            links: card.socialLinks,
-            sponsored: card.sponsored,
-            hideTitle: !card.title || card.hideTitle
+            links: card.get('socialLinks'),
+            sponsored: card.get('sponsored'),
+            hideTitle: !card.get('title') || card.get('hideTitle')
         });
     }
 }
+InstagramCardController.mixin(SponsoredCardController); // jshint ignore:line

@@ -14,6 +14,36 @@ export default class ADTECHHandler extends BillingHandler {
 
             if (launchUrls) { imageLoader.load(...map(launchUrls, completeUrl)); }
         }, 'navigation', 'launch');
+        register(({ target: minireel }) => {
+            const { loadUrls } = minireel.campaign;
+
+            if (loadUrls) { imageLoader.load(...map(loadUrls, completeUrl)); }
+        }, 'navigation', 'init');
+
+        register(({ data: card }) => {
+            const { q1Urls } = card.campaign;
+
+            if (q1Urls) { imageLoader.load(...map(q1Urls, completeUrl)); }
+        }, 'video', 'firstQuartile');
+        register(({ data: card }) => {
+            const { q2Urls } = card.campaign;
+
+            if (q2Urls) { imageLoader.load(...map(q2Urls, completeUrl)); }
+        }, 'video', 'midpoint');
+        register(({ data: card }) => {
+            const { q3Urls } = card.campaign;
+
+            if (q3Urls) { imageLoader.load(...map(q3Urls, completeUrl)); }
+        }, 'video', 'thirdQuartile');
+        register(({ data: card }) => {
+            const { q4Urls } = card.campaign;
+
+            if (q4Urls) { imageLoader.load(...map(q4Urls, completeUrl)); }
+        }, 'video', 'complete');
+
+        register((event, data) => {
+            imageLoader.load(...map(data.tracking, completeUrl));
+        }, 'card', 'clickthrough');
 
         this.on('AdClick', card => {
             const {clickUrls} = card.campaign;

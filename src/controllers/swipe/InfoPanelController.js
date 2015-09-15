@@ -10,12 +10,12 @@ export default class InfoPanelController extends ViewController {
     }
 
     updateView() {
-        const { title, splash, sponsor, logo, links: { Website }, socialLinks } = this.model;
+        const { title, splash, sponsor, logo, socialLinks } = this.model;
 
         this.view.update({
             title, splash, sponsor, logo,
 
-            website: Website,
+            website: this.model.get('links.Website.uri'),
             links: socialLinks
         });
     }

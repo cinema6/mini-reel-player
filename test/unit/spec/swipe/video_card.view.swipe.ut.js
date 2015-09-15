@@ -4,6 +4,7 @@ import Runner from '../../../../lib/Runner.js';
 import PlayerOutletView from '../../../../src/views/PlayerOutletView.js';
 import LinksListView from '../../../../src/views/LinksListView.js';
 import View from '../../../../lib/core/View.js';
+import LinkItemView from '../../../../src/views/LinkItemView.js';
 
 describe('SwipeVideoCardView', function() {
     let view;
@@ -55,6 +56,42 @@ describe('SwipeVideoCardView', function() {
             describe('links', function() {
                 it('should be a LinksListView', function() {
                     expect(view.links).toEqual(jasmine.any(LinksListView));
+                });
+            });
+
+            describe('websiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.websiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('backWebsiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.backWebsiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('iconWebsiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.iconWebsiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('logoView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.logoView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('backLogoView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.backLogoView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaView).toEqual(jasmine.any(LinkItemView));
                 });
             });
         });

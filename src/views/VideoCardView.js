@@ -14,11 +14,10 @@ export default class VideoCardView extends CardView {
         if (!data.links) { return super(data); }
 
         super(extend(data, {
-            isSponsored: !!(data.logo || data.links.length > 0 || data.sponsor),
+            isSponsored: !!(data.website.logo || data.links.length > 0 || data.sponsor),
             hasSponsoredCopy: !!(data.links.length > 0 || data.sponsor),
-            hasLinks: !!(data.links.length > 0 || data.website)
+            hasLinks: !!(data.links.length > 0 || data.website.href)
         }));
-        this.links.update(data.links);
     }
 
     didCreateElement() {

@@ -249,15 +249,15 @@ describe('TableOfContentsViewController', function() {
             expect(TableOfContentsViewCtrl.view.update).toHaveBeenCalledWith({
                 title: minireel.title,
                 cards: minireel.deck.map(card => ({
-                    id: card.id,
-                    title: card.title,
-                    source: card.data.source,
-                    href: card.data.href,
-                    thumb: card.thumbs.small,
-                    showSource: !card.data.hideSource && !!card.data.source,
-                    sponsor: card.sponsor,
-                    website: (card.links || {}).Website,
-                    type: card.ad ? 'ad' : 'content'
+                    id: card.get('id'),
+                    title: card.get('title'),
+                    source: card.get('data.source'),
+                    href: card.get('data.href'),
+                    thumb: card.get('thumbs.small'),
+                    showSource: !card.get('data.hideSource') && !!card.get('data.source'),
+                    sponsor: card.get('sponsor'),
+                    website: card.get('links.Website.uri'),
+                    type: card.get('ad') ? 'ad' : 'content'
                 }))
             });
         });

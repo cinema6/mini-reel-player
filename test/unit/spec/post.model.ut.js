@@ -1,6 +1,7 @@
 import Post from '../../../src/models/Post.js';
 import Ballot from '../../../src/models/Ballot.js';
 import election from '../../../src/services/election.js';
+import normalizeLinks from '../../../src/fns/normalize_links.js';
 
 describe('Post', function() {
     let post;
@@ -28,7 +29,7 @@ describe('Post', function() {
         describe('ballot', function() {
             describe('website', function() {
                 it('should be the card\'s website', function() {
-                    expect(post.website).toBe(card.links.Website);
+                    expect(post.website).toEqual(normalizeLinks(card.links).Website);
                 });
             });
 

@@ -5,6 +5,7 @@ import Runner from '../../../../lib/Runner.js';
 import PlayerOutletView from '../../../../src/views/PlayerOutletView.js';
 import SkipTimerView from '../../../../src/views/SkipTimerView.js';
 import View from '../../../../lib/core/View.js';
+import LinkItemView from '../../../../src/views/LinkItemView.js';
 
 describe('FullVideoCardView', function() {
     let view;
@@ -62,6 +63,30 @@ describe('FullVideoCardView', function() {
             describe('ballotResultsOutlet', function() {
                 it('should be a View', function() {
                     expect(view.ballotResultsOutlet).toEqual(jasmine.any(View));
+                });
+            });
+
+            describe('websiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.websiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('logoView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.logoView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaButtonView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaButtonView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaTextView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaTextView).toEqual(jasmine.any(LinkItemView));
                 });
             });
         });

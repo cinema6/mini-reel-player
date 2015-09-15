@@ -1,7 +1,7 @@
 import dispatcher from '../../../src/services/dispatcher.js';
 import {EventEmitter} from 'events';
 
-fdescribe('dispatcher', function() {
+describe('dispatcher', function() {
     beforeEach(function() {
         dispatcher.constructor();
     });

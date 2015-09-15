@@ -55,6 +55,7 @@ describe('PlaylistViewController', function() {
                 beforeEach(function() {
                     spyOn(PlaylistViewCtrl, 'updateView');
 
+                    minireel.campaign = {};
                     minireel.emit('init');
                 });
 

@@ -11,7 +11,6 @@ import CardPannerView from '../../../../src/views/swipe/CardPannerView.js';
 import Runner from '../../../../lib/Runner.js';
 import View from '../../../../lib/core/View.js';
 import InfoPanelController from '../../../../src/controllers/swipe/InfoPanelController.js';
-import SkipProgressTimerView from '../../../../src/views/swipe/SkipProgressTimerView.js';
 
 describe('SwipePlayerController', function() {
     let SwipePlayerCtrl;
@@ -451,6 +450,7 @@ describe('SwipePlayerController', function() {
                     .map(type => new MockCard(type));
                 minireel.length = minireel.deck.length;
                 minireel.currentIndex = 2;
+                minireel.campaign = {};
 
                 Runner.run(() => minireel.emit('init'));
 
@@ -803,6 +803,7 @@ describe('SwipePlayerController', function() {
                 SwipePlayerCtrl.CardControllers.preroll = MockPrerollCardController;
 
                 minireel = SwipePlayerCtrl.model;
+                minireel.campaign = {};
                 minireel.links = {};
                 minireel.socialLinks = [];
                 minireel.prerollCard = {

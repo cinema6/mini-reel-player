@@ -120,6 +120,7 @@ describe('MobilePlayerController', function() {
                     spyOn(MobilePlayerCtrl, 'updateView');
 
                     MobilePlayerCtrl.minireel.deck = [];
+                    MobilePlayerCtrl.minireel.campaign = {};
                     spyOn(MobilePrerollCardController.prototype, 'renderInto');
 
                     MobilePlayerCtrl.minireel.adConfig = {

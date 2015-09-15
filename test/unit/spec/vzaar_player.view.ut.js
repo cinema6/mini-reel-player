@@ -252,6 +252,15 @@ describe('VzaarPlayer', function() {
                     expect(timer.interval).toHaveBeenCalledWith(jasmine.any(Function), 250);
                     expect(player.__private__.interval).not.toBeNull();
                 });
+
+                it('should call updateState every 250 ms', function() {
+                    jasmine.clock().install();
+                    spyOn(player.__private__, 'updateState');
+                    player.__private__.startPolling();
+                    jasmine.clock().tick(250);
+                    expect(player.__private__.updateState).toHaveBeenCalled();
+                    jasmine.clock().uninstall();
+                });
             });
 
             describe('stopPolling', function() {
@@ -370,6 +379,17 @@ describe('VzaarPlayer', function() {
                                 expect(player.__private__.vzPlayer).not.toBeNull();
                                 expect(player.__private__.vzPlayer).toEqual(jasmine.any(MockVzPlayer));
                                 expect(MockVzPlayer.prototype.init).toHaveBeenCalledWith('c6-view-123_vzvd-123');
+                                done();
+                            });
+                        });
+                    });
+
+                    it('should start polling for video properties', function(done) {
+                        player.src = '123';
+                        spyOn(player.__private__, 'startPolling');
+                        Runner.run(() => {
+                            player.__private__.loadEmbed().then(() => {
+                                expect(player.__private__.startPolling).toHaveBeenCalled();
                                 done();
                             });
                         });

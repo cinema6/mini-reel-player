@@ -84,6 +84,7 @@ class Private {
                                 break;
                             }
                         });
+                        this.startPolling();
                         Runner.run(() => {
                             this.loadedVideoId = videoId;
                             this.__public__.readyState = 3;
@@ -101,7 +102,7 @@ class Private {
 
     startPolling() {
         if(!this.interval) {
-            this.interval = timer.interval(() => this.updateState, 250);
+            this.interval = timer.interval(() => this.updateState(), 250);
         }
     }
 
@@ -207,9 +208,7 @@ export default class VzaarPlayer extends CorePlayer {
     }
 
     load() {
-        _(this).loadEmbed().then(() => {
-            _(this).startPolling();
-        });
+        _(this).loadEmbed();
     }
 
     unload() {

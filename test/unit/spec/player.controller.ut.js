@@ -154,6 +154,7 @@ describe('PlayerController', function() {
                         }
                     };
                     PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, { flash: false }, PlayerCtrl.minireel);
+                    PlayerCtrl.minireel.campaign = {};
                     spyOn(CardController.prototype, 'render');
                     spyOn(PrerollCardController.prototype, 'renderInto');
 

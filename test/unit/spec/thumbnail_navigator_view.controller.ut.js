@@ -12,6 +12,7 @@ describe('ThumbnailNavigatorViewController', function() {
     beforeEach(function() {
         spyOn(ThumbnailNavigatorViewController.prototype, 'addView').and.callThrough();
         minireel = new MiniReel();
+        minireel.campaign = {};
 
         ThumbnailNavigatorViewCtrl = new ThumbnailNavigatorViewController(minireel);
     });

@@ -84,6 +84,7 @@ describe('PlaylistPlayerController mixin', function() {
                             video: {}
                         };
                         Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
+                        Ctrl.minireel.campaign = {};
                         spyOn(PrerollCardController.prototype, 'renderInto');
                         spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
                         spyOn(Ctrl.DisplayAdCtrl, 'renderInto');
@@ -121,6 +122,7 @@ describe('PlaylistPlayerController mixin', function() {
                                 video: {}
                             };
                             Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
+                            Ctrl.minireel.campaign = {};
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
                         });
@@ -241,6 +243,7 @@ describe('PlaylistPlayerController mixin', function() {
                                 video: {}
                             };
                             Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
+                            Ctrl.minireel.campaign = {};
                             spyOn(PrerollCardController.prototype, 'renderInto');
                             spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
                             spyOn(Ctrl.DisplayAdCtrl, 'renderInto');

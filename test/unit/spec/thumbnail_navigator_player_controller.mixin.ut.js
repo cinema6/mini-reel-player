@@ -61,6 +61,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             };
                             Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
                             Ctrl.minireel.length = 5;
+                            Ctrl.minireel.campaign = {};
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
                         });

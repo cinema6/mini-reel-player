@@ -73,5 +73,9 @@
         ============================================= */ 
         @import url('mobile/modal-share.css');
 
-
+    /*  full width video only styles
+            full video : portrait view
+            full video : landscape view
+        ============================================= */ 
+        @import url('mobile/full-video.css');
 

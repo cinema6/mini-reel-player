@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.26.0-rc1]*
+  * [FEATURE]: Added support for full width video only single card
+  * Add support for firing billing pixels to Cinema6 servers
+
 ## v0.25.0 (September 10, 2015)
 * *[v0.25.0-rc3]*
   * [FIX]: Fix for an issue causing modal share buttons on mobile devices to not work

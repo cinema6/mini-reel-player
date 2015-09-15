@@ -1,0 +1,20 @@
+/**styles to show video in full width **/
+    .cards__item--FullVideoOnlyMR .playerSpace.player__height {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+    }
+    .cards__item--FullVideoOnlyMR .titleBar__group {
+        display: none;
+    }
+    .cards__item--FullVideoOnlyMR .card__copyBox {
+        display: none;
+    }
+    .cards__item--FullVideoOnlyMR .cards__list {
+        top: 0;
+        bottom: 0;
+    }
+    .playerBox--canplay video, .playerBox--canplay object, .playerBox--canplay iframe {
+        opacity: 1;
+        background-color: #000;
+    }

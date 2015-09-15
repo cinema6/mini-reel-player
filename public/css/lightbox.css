@@ -77,3 +77,9 @@
         popup : landscape view
         ============================================= */ 
         @import url('global/modal-share.css');
+        
+    /*  full width video only styles
+        full video : portrait view
+        full video : landscape view
+        ============================================= */ 
+        @import url('lightbox/full-video.css');

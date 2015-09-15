@@ -1,0 +1,17 @@
+/**styles to show video in full width **/
+    .cards__item--FullVideoOnlyMR .playerHeight {
+        right: 0;
+    }
+    .cards__item--FullVideoOnlyMR .card__copy--companionAd {
+        display: none;
+    }
+    .cards__item--FullVideoOnlyMR .companionAd__group {
+        display: none;
+    }
+    .cards__item--FullVideoOnlyMR .cards__list {
+        top: 0;
+        bottom: 0;
+    }
+    .cards__item--FullVideoOnlyMR .playerHeight {
+        right: 0;
+    }

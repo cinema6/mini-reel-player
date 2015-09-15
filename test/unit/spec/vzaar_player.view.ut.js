@@ -4,6 +4,7 @@ import Runner from '../../../lib/Runner.js';
 import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import timer from '../../../lib/timer.js';
+import browser from '../../../src/services/browser.js';
 
 describe('VzaarPlayer', function() {
     let player;
@@ -245,7 +246,99 @@ describe('VzaarPlayer', function() {
     describe('methods:', function() {
         describe('private', function() {
 
-            describe('startPolling', function() {
+            describe('setState()', function() {
+                let spies;
+
+                beforeEach(function() {
+                    spies = {};
+                    const events = ['playing', 'seeking', 'seeked', 'durationchange', 'ended', 'timeupdate', 'pause', 'play', 'volumechange'];
+                    events.forEach(event => {
+                        spies[event] = jasmine.createSpy(event);
+                        player.on(event, spies[event]);
+                    });
+                });
+
+                it('should set the state', function() {
+                    const input = {
+                        ended: false,
+                        seeking: true,
+                        foo: 7
+                    };
+                    Object.keys(input).forEach(key => {
+                        player.__private__.setState(key, input[key]);
+                        expect(player.__private__.state[key]).toBe(input[key]);
+                    });
+                });
+
+                describe('ended', function() {
+                    it('should emit the ended event when becoming true', function() {
+                        player.__private__.state.ended = false;
+                        player.__private__.setState('ended', true);
+                        expect(spies.ended).toHaveBeenCalled();
+                    });
+
+                    it('should emit the playing event when becoming false', function() {
+                        player.__private__.state.ended = true;
+                        player.__private__.setState('ended', false);
+                        expect(spies.playing).toHaveBeenCalled();
+                    });
+                });
+
+                describe('seeking', function() {
+                    it('should emit the seeking event when becoming true', function() {
+                        player.__private__.state.seeking = false;
+                        player.__private__.setState('seeking', true);
+                        expect(spies.seeking).toHaveBeenCalled();
+                    });
+
+                    it('should emit the seeked event when becoming false', function() {
+                        player.__private__.state.seeking = true;
+                        player.__private__.setState('seeking', false);
+                        expect(spies.seeked).toHaveBeenCalled();
+                    });
+                });
+
+                describe('duration', function() {
+                    it('should emit the durationchange event when being changed', function() {
+                        player.__private__.state.duration = 0;
+                        player.__private__.setState('duration', 123);
+                        expect(spies.durationchange).toHaveBeenCalled();
+                    });
+                });
+
+                describe('currentTime', function() {
+                    it('should emit the timeupdate event when being changed', function() {
+                        player.__private__.state.currentTime = 0;
+                        player.__private__.setState('currentTime', 7);
+                        expect(spies.timeupdate).toHaveBeenCalled();
+                    });
+                });
+
+                describe('paused', function() {
+                    it('should emit the pause event when becoming true', function() {
+                        player.__private__.state.paused = false;
+                        player.__private__.setState('paused', true);
+                        expect(spies.pause).toHaveBeenCalled();
+                    });
+
+                    it('should emit play events when becoming false', function() {
+                        player.__private__.state.paused = true;
+                        player.__private__.setState('paused', false);
+                        expect(spies.play).toHaveBeenCalled();
+                        expect(spies.playing).toHaveBeenCalled();
+                    });
+                });
+
+                describe('volume', function() {
+                    it('should emit the volumechanged event when being changed', function() {
+                        player.__private__.state.volume = 1;
+                        player.__private__.setState('volume', 0);
+                        expect(spies.volumechange).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('startPolling()', function() {
                 it('should setup a timer interval', function() {
                     spyOn(timer, 'interval');
                     player.__private__.startPolling();
@@ -263,7 +356,7 @@ describe('VzaarPlayer', function() {
                 });
             });
 
-            describe('stopPolling', function() {
+            describe('stopPolling()', function() {
                 it('should cancel the timer interval', function() {
                     spyOn(timer, 'cancel');
                     player.__private__.startPolling();
@@ -272,7 +365,7 @@ describe('VzaarPlayer', function() {
                 });
             });
 
-            describe('updateState', function() {
+            describe('updateState()', function() {
                 describe('when vzPlayer exists', function() {
                     beforeEach(function() {
                         player.__private__.vzPlayer = new MockVzPlayer();
@@ -304,7 +397,7 @@ describe('VzaarPlayer', function() {
                 });
             });
 
-            describe('loadEmbed', function() {
+            describe('loadEmbed()', function() {
                 beforeEach(function() {
                     spyOn(player.element, 'appendChild');
                     spyOn(player, 'unload');
@@ -339,122 +432,104 @@ describe('VzaarPlayer', function() {
                     });
                 });
 
-                describe('when loading a new video', function() {
-                    it('should set the embedElement', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.__private__.embedElement.innerHTML).toContain('id="c6-view-123_vzvd-123"');
-                                expect(player.__private__.embedElement.innerHTML).toContain('name="c6-view-123_vzvd-123"');
-                                expect(player.__private__.embedElement.innerHTML).toContain('src="//view.vzaar.com/123/player?apiOn=true"');
-                                done();
-                            });
-                        });
-                    });
+                describe('when loading a video for the first time', function() {
+                    let eventSpies;
 
-                    it('should unload the player', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.unload).toHaveBeenCalled();
-                                done();
-                            });
+                    beforeEach(function(done) {
+                        eventSpies = {};
+                        ['canplay', 'loadstart', 'loadeddata', 'loadedmetadata'].forEach(event => {
+                            const spy = jasmine.createSpy(event);
+                            eventSpies[event] = spy;
+                            player.on(event, spy);
                         });
-                    });
-
-                    it('should add event listeners', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(MockVzPlayer.prototype.addEventListener).toHaveBeenCalled();
-                                done();
-                            });
-                        });
-                    });
-
-                    it('should set the vzPlayer property', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.__private__.vzPlayer).not.toBeNull();
-                                expect(player.__private__.vzPlayer).toEqual(jasmine.any(MockVzPlayer));
-                                expect(MockVzPlayer.prototype.init).toHaveBeenCalledWith('c6-view-123_vzvd-123');
-                                done();
-                            });
-                        });
-                    });
-
-                    it('should start polling for video properties', function(done) {
-                        player.src = '123';
                         spyOn(player.__private__, 'startPolling');
+                        player.src = '123';
                         Runner.run(() => {
                             player.__private__.loadEmbed().then(() => {
-                                expect(player.__private__.startPolling).toHaveBeenCalled();
                                 done();
                             });
                         });
                     });
 
-                    it('should change the readyState', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.readyState).toBe(3);
-                                done();
+                    it('should set the embedElement', function() {
+                        expect(player.__private__.embedElement.innerHTML).toContain('id="c6-view-123_vzvd-123"');
+                        expect(player.__private__.embedElement.innerHTML).toContain('name="c6-view-123_vzvd-123"');
+                        expect(player.__private__.embedElement.innerHTML).toContain('src="//view.vzaar.com/123/player?apiOn=true"');
+                    });
+
+                    describe('when loadeding a new video', function() {
+                        beforeEach(function(done) {
+                            player.src = 'new-video-123';
+                            Runner.run(() => {
+                                player.__private__.loadEmbed().then(() => {
+                                    done();
+                                });
                             });
+                        });
+
+                        it('should unload the player', function() {
+                            expect(player.unload).toHaveBeenCalled();
+                        });
+
+                        it('should emit the emptied event', function() {
+                            const emptiedSpy = jasmine.createSpy('emptied');
+                            player.on('emptied', emptiedSpy);
+
                         });
                     });
 
-                    it('should append the view to the player', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.element.appendChild).toHaveBeenCalledWith(player.__private__.embedElement);
-                                done();
-                            });
-                        });
+                    it('should not unload', function() {
+                        expect(player.unload).not.toHaveBeenCalled();
                     });
 
-                    it('should call the code loader', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(codeLoader.load).toHaveBeenCalled();
-                                done();
-                            });
-                        });
+                    it('should add event listeners', function() {
+                        expect(MockVzPlayer.prototype.addEventListener).toHaveBeenCalled();
                     });
 
-                    it('should wait until the vzaar player is ready', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(MockVzPlayer.prototype.ready).toHaveBeenCalledWith(jasmine.any(Function));
-                                done();
-                            });
-                        });
+                    it('should set the vzPlayer property', function() {
+                        expect(player.__private__.vzPlayer).not.toBeNull();
+                        expect(player.__private__.vzPlayer).toEqual(jasmine.any(MockVzPlayer));
+                        expect(MockVzPlayer.prototype.init).toHaveBeenCalledWith('c6-view-123_vzvd-123');
                     });
 
-                    it('should set the loadedVideoId', function(done) {
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(player.__private__.loadedVideoId).toBe('123');
-                                done();
-                            });
-                        });
+                    it('should start polling for video properties', function() {
+                        expect(player.__private__.startPolling).toHaveBeenCalled();
                     });
 
-                    it('should emit the canplay event', function(done) {
-                        const canplaySpy = jasmine.createSpy('canplay');
-                        player.on('canplay', canplaySpy);
-                        player.src = '123';
-                        Runner.run(() => {
-                            player.__private__.loadEmbed().then(() => {
-                                expect(canplaySpy).toHaveBeenCalled();
-                                done();
-                            });
-                        });
+                    it('should change the readyState', function() {
+                        expect(player.readyState).toBe(3);
+                    });
+
+                    it('should append the view to the player', function() {
+                        expect(player.element.appendChild).toHaveBeenCalledWith(player.__private__.embedElement);
+                    });
+
+                    it('should call the code loader', function() {
+                        expect(codeLoader.load).toHaveBeenCalled();
+                    });
+
+                    it('should wait until the vzaar player is ready', function() {
+                        expect(MockVzPlayer.prototype.ready).toHaveBeenCalledWith(jasmine.any(Function));
+                    });
+
+                    it('should set the loadedVideoId', function() {
+                        expect(player.__private__.loadedVideoId).toBe('123');
+                    });
+
+                    it('should emit the canplay event', function() {
+                        expect(eventSpies.canplay).toHaveBeenCalled();
+                    });
+
+                    it('should emit the loadstart event', function() {
+                        expect(eventSpies.loadstart).toHaveBeenCalled();
+                    });
+
+                    it('should emit the loadeddata event', function() {
+                        expect(eventSpies.loadeddata).toHaveBeenCalled();
+                    });
+
+                    it('should emit the loadedmetadata event', function() {
+                        expect(eventSpies.loadedmetadata).toHaveBeenCalled();
                     });
                 });
             });
@@ -470,19 +545,42 @@ describe('VzaarPlayer', function() {
             describe('play', function() {
                 beforeEach(function() {
                     spyOn(player.__private__, 'loadEmbed').and.returnValue(Promise.resolve(mockPlayer));
+                    spyOn(browser, 'test');
                 });
 
-                it('should call load', function(done) {
-                    player.play().then(() => {
+                describe('on autoplayable browsers', function() {
+                    beforeEach(function(done) {
+                        browser.test.and.returnValue(Promise.resolve(true));
+                        setTimeout(() => {
+                            player.play();
+                            done();
+                        }, 1);
+                    });
+
+                    it('should call load', function() {
                         expect(player.__private__.loadEmbed).toHaveBeenCalled();
-                        done();
+                    });
+
+                    it('should call play2 on the video', function() {
+                        expect(mockPlayer.play2).toHaveBeenCalled();
                     });
                 });
 
-                it('should call play2 on the video', function(done) {
-                    player.play().then(() => {
-                        expect(mockPlayer.play2).toHaveBeenCalled();
-                        done();
+                describe('on non-autoplayable browsers', function() {
+                    beforeEach(function(done) {
+                        browser.test.and.returnValue(Promise.resolve(false));
+                        setTimeout(() => {
+                            player.play();
+                            done();
+                        }, 1);
+                    });
+
+                    it('should call load', function() {
+                        expect(player.__private__.loadEmbed).toHaveBeenCalled();
+                    });
+
+                    it('should not call play2 on the video', function() {
+                        expect(MockVzPlayer.prototype.play2).not.toHaveBeenCalled();
                     });
                 });
             });
@@ -502,7 +600,7 @@ describe('VzaarPlayer', function() {
 
             describe('minimize()', function() {
                 beforeEach(function() {
-                    Runner.run(() => player.load());
+                    player.load();
                     player.minimize();
                 });
 
@@ -514,7 +612,7 @@ describe('VzaarPlayer', function() {
             describe('load()', function() {
                 beforeEach(function() {
                     spyOn(player.__private__, 'loadEmbed').and.returnValue(Promise.resolve());
-                    Runner.run(() => player.load());
+                    player.load();
                 });
 
                 it('should call loadEmbed', function() {
@@ -526,7 +624,7 @@ describe('VzaarPlayer', function() {
                 beforeEach(function(done) {
                     player.src = '123';
                     spyOn(player.element, 'removeChild');
-                    Runner.run(() => player.load());
+                    player.load();
                     setTimeout(() => {
                         Runner.run(() => player.unload());
                         done();

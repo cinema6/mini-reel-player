@@ -22,4 +22,9 @@
     /*  Brand Profile styles
         ============================================= */ 
         @import url('solo/branded-profile.css');
-
+    
+    /*  full width video only styles
+            full video : portrait view
+            full video : landscape view
+        ============================================= */ 
+        @import url('solo/full-video.css');

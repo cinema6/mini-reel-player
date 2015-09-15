@@ -1,0 +1,7 @@
+/**styles to show video in full width **/
+    .cards__item--FullVideoOnlyMR .card__copyBox {
+        display: none;
+    }
+    .cards__item--FullVideoOnlyMR .player__group.player__height.player__height--hasSponsor {
+        height: 100%;
+    }

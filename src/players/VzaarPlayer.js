@@ -38,7 +38,7 @@ class Private {
         const deferred = defer(Promise);
         const videoId = this.__public__.src;
         const viewId = this.__public__.id;
-        if(viewId && videoId && videoId !== this.loadedVideoId) {
+        if(videoId && videoId !== this.loadedVideoId) {
             if(this.loadedVideoId) {
                 this.__public__.unload();
                 this.__public__.emit('emptied');
@@ -53,11 +53,10 @@ class Private {
             workspace.innerHTML = embed;
             this.embedElement = workspace;
 
-            // Add the element to the player
             const element = this.__public__.element || this.__public__.create();
-            element.appendChild(workspace);
 
             Runner.schedule('afterRender', this, () => {
+                element.appendChild(workspace);
                 codeLoader.load('vzaar').then(VzPlayer => {
                     const vzPlayer = this.vzPlayer = new VzPlayer(viewId + '_vzvd-' + videoId);
                     this.__public__.emit('loadstart');

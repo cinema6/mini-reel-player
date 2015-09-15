@@ -84,7 +84,7 @@ class Private {
                                 break;
                             }
                         });
-                        Runner.runNext(() => {
+                        Runner.run(() => {
                             this.loadedVideoId = videoId;
                             this.__public__.readyState = 3;
                             this.__public__.emit('canplay');

@@ -7,12 +7,13 @@ import timer from '../../../lib/timer.js';
 import browser from '../../../src/services/browser.js';
 
 describe('VzaarPlayer', function() {
-    let player;
+    let player, eventSpies;
 
     // Mock Vzaar player returned by their Javascript API
     class MockVzPlayer {
         constructor() {
             this.init(...arguments);
+            this.eventListeners = {};
         }
         init() {} // used for testing of constructor
         play2() {}
@@ -33,9 +34,18 @@ describe('VzaarPlayer', function() {
         getVolume(callback) {
             callback(3);
         }
-        addEventListener() {}
-        removeEventListener() {}
+        addEventListener(event, callback) {
+            this.eventListeners[event] = callback;
+        }
+        removeEventListener(event) {
+            this.eventListeners[event] = null;
+        }
     }
+
+    // Events emitted by the player
+    const events = ['canplay', 'loadstart', 'loadeddata', 'loadedmetadata', 'playing', 'seeking',
+                    'seeked', 'durationchange', 'ended', 'timeupdate', 'pause', 'play',
+                    'volumechange'];
 
     beforeEach(function() {
         Object.keys(MockVzPlayer.prototype).forEach(key => {
@@ -43,9 +53,18 @@ describe('VzaarPlayer', function() {
         });
         spyOn(codeLoader, 'load').and.returnValue(Promise.resolve(MockVzPlayer));
         player = new VzaarPlayer();
+        eventSpies = {};
+        events.forEach(event => {
+            const spy = jasmine.createSpy(event);
+            eventSpies[event] = spy;
+            player.on(event, spy);
+        });
         Runner.run(() => {
             player.create();
         });
+        spyOn(timer, 'interval').and.returnValue('interval');
+        spyOn(timer, 'cancel');
+        spyOn(player.element, 'appendChild');
         player.id = 'c6-view-123';
     });
 
@@ -55,6 +74,28 @@ describe('VzaarPlayer', function() {
 
     it('should implement the PlayerInterface', function() {
         expect(player).toImplement(PlayerInterface);
+    });
+
+    describe('scheduling runner tasks on emitted events', function() {
+        it('should work', function(done) {
+            player.on('ended', () => {
+                try {
+                    Runner.schedule('afterRender', this, () => {
+                    });
+                } catch(e) {
+                    expect(e).not.toBeDefined();
+                }
+            });
+            player.src = '123';
+            Runner.run(() => {
+                player.load();
+            });
+            setTimeout(() => {
+                player.__private__.vzPlayer.eventListeners.playState('mediaEnded');
+                expect(eventSpies.ended).toHaveBeenCalled();
+                done();
+            }, 1);
+        });
     });
 
     describe('properties:', function() {
@@ -247,17 +288,6 @@ describe('VzaarPlayer', function() {
         describe('private', function() {
 
             describe('setState()', function() {
-                let spies;
-
-                beforeEach(function() {
-                    spies = {};
-                    const events = ['playing', 'seeking', 'seeked', 'durationchange', 'ended', 'timeupdate', 'pause', 'play', 'volumechange'];
-                    events.forEach(event => {
-                        spies[event] = jasmine.createSpy(event);
-                        player.on(event, spies[event]);
-                    });
-                });
-
                 it('should set the state', function() {
                     const input = {
                         ended: false,
@@ -274,13 +304,13 @@ describe('VzaarPlayer', function() {
                     it('should emit the ended event when becoming true', function() {
                         player.__private__.state.ended = false;
                         player.__private__.setState('ended', true);
-                        expect(spies.ended).toHaveBeenCalled();
+                        expect(eventSpies.ended).toHaveBeenCalled();
                     });
 
                     it('should emit the playing event when becoming false', function() {
                         player.__private__.state.ended = true;
                         player.__private__.setState('ended', false);
-                        expect(spies.playing).toHaveBeenCalled();
+                        expect(eventSpies.playing).toHaveBeenCalled();
                     });
                 });
 
@@ -288,13 +318,13 @@ describe('VzaarPlayer', function() {
                     it('should emit the seeking event when becoming true', function() {
                         player.__private__.state.seeking = false;
                         player.__private__.setState('seeking', true);
-                        expect(spies.seeking).toHaveBeenCalled();
+                        expect(eventSpies.seeking).toHaveBeenCalled();
                     });
 
                     it('should emit the seeked event when becoming false', function() {
                         player.__private__.state.seeking = true;
                         player.__private__.setState('seeking', false);
-                        expect(spies.seeked).toHaveBeenCalled();
+                        expect(eventSpies.seeked).toHaveBeenCalled();
                     });
                 });
 
@@ -302,7 +332,7 @@ describe('VzaarPlayer', function() {
                     it('should emit the durationchange event when being changed', function() {
                         player.__private__.state.duration = 0;
                         player.__private__.setState('duration', 123);
-                        expect(spies.durationchange).toHaveBeenCalled();
+                        expect(eventSpies.durationchange).toHaveBeenCalled();
                     });
                 });
 
@@ -310,7 +340,7 @@ describe('VzaarPlayer', function() {
                     it('should emit the timeupdate event when being changed', function() {
                         player.__private__.state.currentTime = 0;
                         player.__private__.setState('currentTime', 7);
-                        expect(spies.timeupdate).toHaveBeenCalled();
+                        expect(eventSpies.timeupdate).toHaveBeenCalled();
                     });
                 });
 
@@ -318,14 +348,14 @@ describe('VzaarPlayer', function() {
                     it('should emit the pause event when becoming true', function() {
                         player.__private__.state.paused = false;
                         player.__private__.setState('paused', true);
-                        expect(spies.pause).toHaveBeenCalled();
+                        expect(eventSpies.pause).toHaveBeenCalled();
                     });
 
                     it('should emit play events when becoming false', function() {
                         player.__private__.state.paused = true;
                         player.__private__.setState('paused', false);
-                        expect(spies.play).toHaveBeenCalled();
-                        expect(spies.playing).toHaveBeenCalled();
+                        expect(eventSpies.play).toHaveBeenCalled();
+                        expect(eventSpies.playing).toHaveBeenCalled();
                     });
                 });
 
@@ -333,35 +363,29 @@ describe('VzaarPlayer', function() {
                     it('should emit the volumechanged event when being changed', function() {
                         player.__private__.state.volume = 1;
                         player.__private__.setState('volume', 0);
-                        expect(spies.volumechange).toHaveBeenCalled();
+                        expect(eventSpies.volumechange).toHaveBeenCalled();
                     });
                 });
             });
 
             describe('startPolling()', function() {
                 it('should setup a timer interval', function() {
-                    spyOn(timer, 'interval');
                     player.__private__.startPolling();
                     expect(timer.interval).toHaveBeenCalledWith(jasmine.any(Function), 250);
                     expect(player.__private__.interval).not.toBeNull();
                 });
 
-                it('should call updateState every 250 ms', function() {
-                    jasmine.clock().install();
-                    spyOn(player.__private__, 'updateState');
+                it('should call updateState()', function() {
                     player.__private__.startPolling();
-                    jasmine.clock().tick(250);
-                    expect(player.__private__.updateState).toHaveBeenCalled();
-                    jasmine.clock().uninstall();
+                    expect(timer.interval.calls.mostRecent().args[0].toString()).toContain('updateState()');
                 });
             });
 
             describe('stopPolling()', function() {
                 it('should cancel the timer interval', function() {
-                    spyOn(timer, 'cancel');
                     player.__private__.startPolling();
                     player.__private__.stopPolling();
-                    expect(timer.cancel).toHaveBeenCalledWith(jasmine.any(Promise));
+                    expect(timer.cancel).toHaveBeenCalledWith('interval');
                 });
             });
 
@@ -399,7 +423,6 @@ describe('VzaarPlayer', function() {
 
             describe('loadEmbed()', function() {
                 beforeEach(function() {
-                    spyOn(player.element, 'appendChild');
                     spyOn(player, 'unload');
                     spyOn(player, 'append');
                 });
@@ -433,15 +456,7 @@ describe('VzaarPlayer', function() {
                 });
 
                 describe('when loading a video for the first time', function() {
-                    let eventSpies;
-
                     beforeEach(function(done) {
-                        eventSpies = {};
-                        ['canplay', 'loadstart', 'loadeddata', 'loadedmetadata'].forEach(event => {
-                            const spy = jasmine.createSpy(event);
-                            eventSpies[event] = spy;
-                            player.on(event, spy);
-                        });
                         spyOn(player.__private__, 'startPolling');
                         player.src = '123';
                         Runner.run(() => {
@@ -536,23 +551,34 @@ describe('VzaarPlayer', function() {
         });
 
         describe('public', function() {
-            let mockPlayer;
 
             beforeEach(function() {
-                mockPlayer = new MockVzPlayer();
+                spyOn(player.__private__, 'loadEmbed').and.callFake(() => {
+                    player.__private__.vzPlayer = new MockVzPlayer();
+                    player.__private__.embedElement = document.createElement('div');
+                    return Promise.resolve('value');
+                });
             });
 
             describe('play', function() {
                 beforeEach(function() {
-                    spyOn(player.__private__, 'loadEmbed').and.returnValue(Promise.resolve(mockPlayer));
                     spyOn(browser, 'test');
+                });
+
+                it('should set the loadingPromise to be null', function(done) {
+                    player.__private__.loadingPromise = 'not null';
+                    player.play();
+                    setTimeout(() => {
+                        expect(player.__private__.loadingPromise).toBeNull();
+                        done();
+                    }, 1);
                 });
 
                 describe('on autoplayable browsers', function() {
                     beforeEach(function(done) {
                         browser.test.and.returnValue(Promise.resolve(true));
+                        player.play();
                         setTimeout(() => {
-                            player.play();
                             done();
                         }, 1);
                     });
@@ -562,7 +588,7 @@ describe('VzaarPlayer', function() {
                     });
 
                     it('should call play2 on the video', function() {
-                        expect(mockPlayer.play2).toHaveBeenCalled();
+                        expect(MockVzPlayer.prototype.play2).toHaveBeenCalled();
                     });
                 });
 
@@ -587,14 +613,16 @@ describe('VzaarPlayer', function() {
 
             describe('pause', function() {
                 it('should call pause on the video if its loaded', function() {
-                    player.__private__.vzPlayer = mockPlayer;
-                    player.pause();
-                    expect(mockPlayer.pause).toHaveBeenCalled();
+                    player.load();
+                    setTimeout(() => {
+                        player.pause();
+                        expect(MockVzPlayer.prototype.pause).toHaveBeenCalled();
+                    }, 1);
                 });
 
                 it('should not call pause on the video if it is not loaded', function() {
                     player.pause();
-                    expect(mockPlayer.pause).not.toHaveBeenCalled();
+                    expect(MockVzPlayer.prototype.pause).not.toHaveBeenCalled();
                 });
             });
 
@@ -611,7 +639,6 @@ describe('VzaarPlayer', function() {
 
             describe('load()', function() {
                 beforeEach(function() {
-                    spyOn(player.__private__, 'loadEmbed').and.returnValue(Promise.resolve());
                     player.load();
                 });
 
@@ -626,7 +653,7 @@ describe('VzaarPlayer', function() {
                     spyOn(player.element, 'removeChild');
                     player.load();
                     setTimeout(() => {
-                        Runner.run(() => player.unload());
+                        player.unload();
                         done();
                     }, 1);
                 });
@@ -646,6 +673,19 @@ describe('VzaarPlayer', function() {
                 it('should remove the event listeners', function() {
                     expect(MockVzPlayer.prototype.removeEventListener).toHaveBeenCalledWith('playState');
                     expect(MockVzPlayer.prototype.removeEventListener).toHaveBeenCalledWith('interaction');
+                });
+
+                it('should clean the state', function() {
+                    const expectedOutput = {
+                        currentTime: 0,
+                        duration: 0,
+                        ended: false,
+                        paused: true,
+                        muted: false,
+                        volume: 0,
+                        seeking: false
+                    };
+                    expect(player.__private__.state).toEqual(expectedOutput);
                 });
             });
 

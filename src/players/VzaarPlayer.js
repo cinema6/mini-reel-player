@@ -3,9 +3,10 @@ import codeLoader from '../services/code_loader.js';
 import urlParser from '../services/url_parser.js';
 import {createKey} from 'private-parts';
 import Runner from '../../lib/Runner.js';
-import {defer} from '../../lib/utils.js';
+import {defer, extend} from '../../lib/utils.js';
 import timer from '../../lib/timer.js';
 import browser from '../../src/services/browser.js';
+
 
 {
     codeLoader.configure('vzaar', {
@@ -16,22 +17,25 @@ import browser from '../../src/services/browser.js';
     });
 }
 
+const CLEAN_STATE = {
+    currentTime: 0,
+    duration: 0,
+    ended: false,
+    paused: true,
+    muted: false,
+    volume: 0,
+    seeking: false
+};
+
 class Private {
     constructor(instance) {
         this.__public__ = instance;
         this.loadedVideoId = null;
         this.vzPlayer = null;
         this.embedElement = null;
-        this.state = {
-            currentTime: 0,
-            duration: 0,
-            ended: false,
-            paused: true,
-            muted: false,
-            volume: 0,
-            seeking: false
-        };
+        this.state = extend(CLEAN_STATE);
         this.interval = null;
+        this.loadingPromise = null;
     }
 
     loadEmbed() {
@@ -43,6 +47,8 @@ class Private {
                 this.__public__.unload();
                 this.__public__.emit('emptied');
             }
+
+            this.loadedVideoId = videoId;
 
             // Create the Vzaar embed code
             let embed = require('../../src/views/video_embeds/VzaarEmbedView.html');
@@ -61,47 +67,50 @@ class Private {
                     const vzPlayer = this.vzPlayer = new VzPlayer(viewId + '_vzvd-' + videoId);
                     this.__public__.emit('loadstart');
                     vzPlayer.ready(() => {
-                        this.__public__.emit('loadeddata');
-                        this.__public__.emit('loadedmetadata');
-                        vzPlayer.addEventListener('playState', state => {
-                            switch(state) {
-                            case 'mediaStarted':
-                                this.setState('ended', false);
-                                break;
-                            case 'mediaPaused':
-                                this.setState('paused', true);
-                                break;
-                            case 'mediaPlaying':
-                                this.setState('seeking', false);
-                                this.setState('paused', false);
-                                break;
-                            case 'mediaEnded':
-                                this.setState('ended', true);
-                                break;
-                            }
-                        });
-                        vzPlayer.addEventListener('interaction', interaction => {
-                            switch (interaction) {
-                            case 'pause':
-                                this.setState('paused', true);
-                                break;
-                            case 'resume':
-                                this.setState('paused', false);
-                                break;
-                            case 'soundOn':
-                                this.setState('muted', false);
-                                break;
-                            case 'soundOff':
-                                this.setState('muted', true);
-                                break;
-                            case 'seekbarhandle':
-                                this.setState('seeking', true);
-                                break;
-                            }
-                        });
-                        this.startPolling();
                         Runner.run(() => {
-                            this.loadedVideoId = videoId;
+                            this.__public__.emit('loadeddata');
+                            this.__public__.emit('loadedmetadata');
+                            vzPlayer.addEventListener('playState', state => {
+                                Runner.run(() => {
+                                    switch(state) {
+                                    case 'mediaStarted':
+                                        this.setState('ended', false);
+                                        break;
+                                    case 'mediaPaused':
+                                        this.setState('paused', true);
+                                        break;
+                                    case 'mediaPlaying':
+                                        this.setState('seeking', false);
+                                        this.setState('paused', false);
+                                        break;
+                                    case 'mediaEnded':
+                                        this.setState('ended', true);
+                                        break;
+                                    }
+                                });
+                            });
+                            vzPlayer.addEventListener('interaction', interaction => {
+                                Runner.run(() => {
+                                    switch (interaction) {
+                                    case 'pause':
+                                        this.setState('paused', true);
+                                        break;
+                                    case 'resume':
+                                        this.setState('paused', false);
+                                        break;
+                                    case 'soundOn':
+                                        this.setState('muted', false);
+                                        break;
+                                    case 'soundOff':
+                                        this.setState('muted', true);
+                                        break;
+                                    case 'seekbarhandle':
+                                        this.setState('seeking', true);
+                                        break;
+                                    }
+                                });
+                            });
+                            this.startPolling();
                             this.__public__.readyState = 3;
                             this.__public__.emit('canplay');
                             deferred.fulfill(vzPlayer);
@@ -112,7 +121,13 @@ class Private {
         } else {
             deferred.fulfill(this.vzPlayer);
         }
-        return deferred.promise;
+        if(!this.loadingPromise) {
+            this.loadingPromise = Promise.resolve(null);
+        }
+        this.loadingPromise = this.loadingPromise.then(() => {
+            return deferred.promise;
+        });
+        return this.loadingPromise;
     }
 
     startPolling() {
@@ -267,18 +282,21 @@ export default class VzaarPlayer extends CorePlayer {
     }
 
     play() {
-        _(this).loadEmbed().then(vzPlayer => {
+        _(this).loadEmbed().then(() => {
+            _(this).loadingPromise = null;
             browser.test('autoplay').then(autoplayable => {
                 if(autoplayable) {
                     this.emit('attemptPlay');
-                    vzPlayer.play2();
+                    _(this).vzPlayer.play2();
                 }
             });
         });
     }
 
     load() {
-        Runner.run(() => _(this).loadEmbed());
+        _(this).loadEmbed().then(() => {
+            _(this).loadingPromise = null;
+        });
     }
 
     unload() {
@@ -289,6 +307,7 @@ export default class VzaarPlayer extends CorePlayer {
         }
         _(this).vzPlayer = null;
         _(this).loadedVideoId = null;
+        _(this).state = extend(CLEAN_STATE);
         if(this.element && _(this).embedElement) {
             this.element.removeChild(_(this).embedElement);
             _(this).embedElement = null;

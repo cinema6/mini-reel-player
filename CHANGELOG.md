@@ -1,9 +1,11 @@
 # MiniReel Player 2.0
 
+## v0.26.0 (September 16, 2015)
 * *[v0.26.0-rc1]*
   * [FEATURE]: Added support for Vzaar video cards
   * [FEATURE]: Added support for full width video only single card
   * Add support for firing billing pixels to Cinema6 servers
+* *[/v0.26.0-rc1]*
 
 ## v0.25.0 (September 10, 2015)
 * *[v0.25.0-rc3]*

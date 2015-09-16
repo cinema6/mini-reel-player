@@ -8,6 +8,7 @@ import RumblePlayer from '../players/RumblePlayer.js';
 import SlideshowBobPlayer from '../players/SlideshowBobPlayer.js';
 import VinePlayer from '../players/VinePlayer.js';
 import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
+import VzaarPlayer from '../players/VzaarPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
@@ -33,6 +34,8 @@ class PlayerFactory {
             return new SlideshowBobPlayer();
         case 'vine':
             return new VinePlayer();
+        case 'vzaar':
+            return new VzaarPlayer();
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

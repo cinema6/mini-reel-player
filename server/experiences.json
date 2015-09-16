@@ -143,6 +143,38 @@
                 {
                     "data": {
                         "id": "5YN6a0tOc-",
+                        "controls": true,
+                        "skip": true,
+                        "related": 0,
+                        "autoplay": true,
+                        "videoid": "1380051",
+                        "href": "http://vzaar.tv/1380051",
+                        "thumbs": {
+                            "small": "https://view.vzaar.com/17069/thumb",
+                            "large": "https://view.vzaar.com/17069/thumb"
+                        }
+                    },
+                    "id": "rc-602d6f84a3d27b",
+                    "type": "vzaar",
+                    "title": "Vzaar Integration",
+                    "note": "Check it out.",
+                    "source": "Vzaar",
+                    "modules": [],
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "params": {}
+                },
+                {
+                    "data": {
+                        "id": "6TTBiGE1NR",
                         "thumbs": {
                             "small": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s150x150/e15/11327847_751884368268106_1665607169_n.jpg",
                             "large": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s320x320/e15/11327847_751884368268106_1665607169_n.jpg"

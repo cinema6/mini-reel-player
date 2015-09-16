@@ -49,6 +49,7 @@ function getCardType(card) {
     case 'embedded':
     case 'adUnit':
     case 'vine':
+    case 'vzaar':
         return 'video';
     default:
         return card.type;

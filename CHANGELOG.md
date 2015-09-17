@@ -1,6 +1,9 @@
 # MiniReel Player 2.0
 
 ## v0.26.0 (September 16, 2015)
+* *[v0.26.0-rc2]*
+  * [FIX]: Fixed issue with Instagram icon on all web players
+  
 * *[v0.26.0-rc1]*
   * [FEATURE]: Added support for Vzaar video cards
   * [FEATURE]: Added support for full width video only single card

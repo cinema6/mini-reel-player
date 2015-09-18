@@ -1,6 +1,5 @@
 # MiniReel Player 2.0
 
-## v0.26.1 (September 17, 2015)
 * *[v0.26.1-rc1]*
   * [FIX]: Fixed issue with Instagram icon on all web players
 

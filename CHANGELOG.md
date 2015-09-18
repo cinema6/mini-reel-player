@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
++* *[v0.26.1-rc1]*
+   * [FIX]: Fixed styles to hide sponsored text on full video only card in lightbox
+
 ## v0.26.0 (September 16, 2015)
 * *[v0.26.0-rc1]*
   * [FEATURE]: Added support for Vzaar video cards

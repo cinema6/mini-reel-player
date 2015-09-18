@@ -20,6 +20,9 @@
             z-index: 100;
             width: 3em;
         }
+        .MiniReel__group--SingleCardMR .MiniReel__closeBtn .sprite--close {
+            top: .5em;
+        }
         .MiniReel__group--SingleCardMR .player, .MiniReel__group--SingleCardMR .player__thumbnail {
             width: 100%;
         }
@@ -297,4 +300,18 @@
             .MiniReel__group--SingleCardMR .ballot__box {
                 z-index: 400;
             }
-            
+            .MiniReel__group--SingleCardMR .MiniReel__closeBtn {
+                top: 0.25em;
+                right: 0.25em;
+                width: 2em;
+                height: 2em;
+                border-radius: 50%;
+                background-color: #000;
+                border: 2px solid #eee;
+            }
+            .MiniReel__group--SingleCardMR .MiniReel__closeBtn .btn__label {
+                display: none;
+            }
+            .MiniReel__group--SingleCardMR .MiniReel__closeBtn .sprite--close {
+                top: 0.4em;
+            }

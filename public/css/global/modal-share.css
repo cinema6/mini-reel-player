@@ -118,6 +118,9 @@
             .socialIconsBe--pinterest:before {
                 background-position: -9rem -3rem;
             }
+            .socialIconsBe--instagram:before {
+                background-position: -11rem -3rem;
+            }
             .socialIconsBe--share:before {
                 background-position: -13rem -3rem;
             }
@@ -135,6 +138,16 @@
             }
             .socialIconsBe__light--pinterest:before {
                 background-position: -9rem -5rem;
+            }
+            .uiIconsBe--replay:before {
+                background-position:-1rem -9rem;
+            }
+            .uiIconsBe__dark--replay:before {
+                background-position:-1rem -7rem;
+            }
+            .uiIconsBe--link:before {
+                background-position:-3rem -9rem;
+                width:1.25rem;
             }
 /***close icon for modal***/
     .MiniReel__closeBtn--modal, .MiniReel__closeBtn--modal:active, .MiniReel__closeBtn--modal:focus {

@@ -27,6 +27,11 @@
                 text-align: right;
                 font-size:1em;
             }
+            @media screen and (orientation:portrait) {
+                .MiniReel__closeBtn .btn__label {
+                    display: none;
+                }
+            }
             .MiniReel__closeBtn .sprite--close {
                 position: absolute;
                 top:50%; right:0.5em;

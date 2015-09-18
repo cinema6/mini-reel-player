@@ -3,6 +3,7 @@
 * *[v0.26.1-rc1]*
   * [FIX]: Fixed styles to hide sponsored text on full video only card in lightbox
   * [FIX]: Fixed issue with Instagram icon on all web players
+  * [FIX]: Updated close button styles to look like mraid standard (round button without label)
 
 ## v0.26.0 (September 16, 2015)
 * *[v0.26.0-rc1]*

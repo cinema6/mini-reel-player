@@ -2,6 +2,9 @@
     .cards__item--FullVideoOnlyMR .playerHeight {
         right: 0;
     }
+	.cards__item--FullVideoOnlyMR .card__copy {
+		display: none;
+	}
     .cards__item--FullVideoOnlyMR .card__copy--companionAd {
         display: none;
     }

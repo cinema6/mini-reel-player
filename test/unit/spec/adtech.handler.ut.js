@@ -5,7 +5,21 @@ import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import imageLoader from '../../../src/services/image_loader.js';
 import completeUrl from '../../../src/fns/complete_url.js';
+import Card from '../../../src/models/Card.js';
+import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
 import { EventEmitter } from 'events';
+
+class MockCard extends Card {
+    constructor() {
+        super({
+            campaign: {},
+            data: {},
+            collateral: {},
+            params: {}
+        });
+    }
+}
+MockCard.mixin(SponsoredCard);
 
 describe('ADTECHHandler', function() {
     let card;
@@ -43,6 +57,7 @@ describe('ADTECHHandler', function() {
             collateral: {},
             campaign: {
                 minViewTime: 7,
+                loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}'],
                 clickUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
                 countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}'],
                 q1Urls: ['img5.jpg', 'img6.jpg?page={pageUrl}'],
@@ -53,8 +68,7 @@ describe('ADTECHHandler', function() {
         }, experience);
         minireel = new EventEmitter();
         minireel.campaign = {
-            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
-            loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}']
+            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}']
         };
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
@@ -103,25 +117,31 @@ describe('ADTECHHandler', function() {
         describe('init', function() {
             beforeEach(function() {
                 spyOn(imageLoader, 'load');
+                minireel.deck = [
+                    new MockCard(),
+                    card,
+                    new MockCard(),
+                    new MockCard(),
+                    new VideoCard({
+                        id: 'rc-6d51e674680718',
+                        type: 'youtube',
+                        data: {},
+                        params: {},
+                        links: {},
+                        collateral: {},
+                        campaign: {
+                            minViewTime: -1,
+                            loadUrls: ['img5.jpg?cb={cachebreaker}&url={pageUrl}', 'img6.jpg?cb={cachebreaker}'],
+                        }
+                    }, experience),
+                    new MockCard()
+                ];
 
                 minireel.emit('init');
             });
 
-            it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.loadUrls.map(completeUrl));
-            });
-
-            describe('if the minireel has no loadUrls', function() {
-                beforeEach(function() {
-                    delete minireel.campaign.loadUrls;
-                    imageLoader.load.calls.reset();
-
-                    minireel.emit('init');
-                });
-
-                it('should do nothing', function() {
-                    expect(imageLoader.load).not.toHaveBeenCalled();
-                });
+            it('should fire the loadPixels of all the cards', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(completeUrl));
             });
         });
     });

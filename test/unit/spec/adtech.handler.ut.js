@@ -9,6 +9,8 @@ import Card from '../../../src/models/Card.js';
 import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
 import { EventEmitter } from 'events';
 
+function completeUrlWithDefaults(url) { return completeUrl(url); }
+
 class MockCard extends Card {
     constructor() {
         super({
@@ -97,7 +99,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(completeUrlWithDefaults));
             });
 
             describe('if the minireel has no launchUrls', function() {
@@ -141,7 +143,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the loadPixels of all the cards', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(completeUrlWithDefaults));
             });
         });
     });
@@ -155,7 +157,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrlWithDefaults));
             });
 
             describe('if the minireel has no loadUrls', function() {
@@ -180,7 +182,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrlWithDefaults));
             });
 
             describe('if the minireel has no loadUrls', function() {
@@ -205,7 +207,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrlWithDefaults));
             });
 
             describe('if the minireel has no loadUrls', function() {
@@ -230,7 +232,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrlWithDefaults));
             });
 
             describe('if the minireel has no loadUrls', function() {
@@ -263,7 +265,7 @@ describe('ADTECHHandler', function() {
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrl));
+                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDefaults));
             });
         });
     });
@@ -275,7 +277,7 @@ describe('ADTECHHandler', function() {
         });
 
         it('should load the clickUrls', function() {
-            const urls = card.campaign.clickUrls.map(completeUrl);
+            const urls = card.campaign.clickUrls.map(completeUrlWithDefaults);
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 
@@ -300,7 +302,7 @@ describe('ADTECHHandler', function() {
         });
 
         it('should fire the pixels', function() {
-            const urls = card.campaign.countUrls.map(completeUrl);
+            const urls = card.campaign.countUrls.map(completeUrlWithDefaults);
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 

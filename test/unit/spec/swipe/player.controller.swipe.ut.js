@@ -11,6 +11,8 @@ import CardPannerView from '../../../../src/views/swipe/CardPannerView.js';
 import Runner from '../../../../lib/Runner.js';
 import View from '../../../../lib/core/View.js';
 import InfoPanelController from '../../../../src/controllers/swipe/InfoPanelController.js';
+import SafelyGettable from '../../../../src/mixins/SafelyGettable.js';
+import Mixable from '../../../../lib/core/Mixable.js';
 
 describe('SwipePlayerController', function() {
     let SwipePlayerCtrl;
@@ -43,13 +45,16 @@ describe('SwipePlayerController', function() {
         }
     }
 
-    class MockCard {
+    class MockCard extends Mixable {
         constructor(type) {
+            super(...arguments);
+
             this.type = type;
             this.data = {};
             this.hasSkipControl = false;
         }
     }
+    MockCard.mixin(SafelyGettable);
 
     beforeEach(function() {
         session = {};

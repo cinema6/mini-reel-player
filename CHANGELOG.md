@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v0.26.2-rc1]*
+  * [FIX]: Fix for an issue that caused card load pixels not to be
+    fired
+
 ## v0.26.1 (September 18, 2015)
 * *[v0.26.1-rc1]*
   * [FIX]: Fixed styles to hide sponsored text on full video only card in lightbox

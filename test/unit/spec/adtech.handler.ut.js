@@ -65,7 +65,8 @@ describe('ADTECHHandler', function() {
                 q1Urls: ['img5.jpg', 'img6.jpg?page={pageUrl}'],
                 q2Urls: ['img7.jpg', 'img8.jpg?page={pageUrl}'],
                 q3Urls: ['img9.jpg', 'img10.jpg?page={pageUrl}'],
-                q4Urls: ['img11.jpg', 'img12.jpg?page={pageUrl}']
+                q4Urls: ['img11.jpg', 'img12.jpg?page={pageUrl}'],
+                viewUrls: ['img13.jpg', 'img14.jpg?page={pageUrl}']
             }
         }, experience);
         minireel = new EventEmitter();
@@ -75,7 +76,7 @@ describe('ADTECHHandler', function() {
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
-        dispatcher.addSource('card', card, ['clickthrough']);
+        dispatcher.addSource('card', card, ['activate', 'deactivate', 'clickthrough']);
     });
 
     afterEach(function() {
@@ -266,6 +267,31 @@ describe('ADTECHHandler', function() {
 
             it('should fire the tracking pixels', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDefaults));
+            });
+        });
+
+        describe('activate', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+
+                card.emit('activate');
+            });
+
+            it('should fire the tracking pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.viewUrls.map(completeUrlWithDefaults));
+            });
+
+            describe('if the minireel has no viewUrls', function() {
+                beforeEach(function() {
+                    delete card.campaign.viewUrls;
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('activate');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
         });
     });

@@ -1,9 +1,20 @@
 # MiniReel Player 2.0
 
+* *[v0.27.0-rc1]*
+  * [FIX]: Fix for an issue that caused card load pixels not to be
+    fired
+  * [FEATURE]: Fire new pixels to Cinema6 when a card is viewed
+  * [FEATURE]: Add ability to specify how long it took for a video to
+    start playing when firing pixels to Cinema6
+  * Renamed some pixel names to make it more clear when they are being
+    fired
+
+## v0.26.1 (September 18, 2015)
 * *[v0.26.1-rc1]*
   * [FIX]: Fixed styles to hide sponsored text on full video only card in lightbox
   * [FIX]: Fixed issue with Instagram icon on all web players
   * [FIX]: Updated close button styles to look like mraid standard (round button without label)
+* *[/v0.26.1-rc1]*
 
 ## v0.26.0 (September 16, 2015)
 * *[v0.26.0-rc1]*

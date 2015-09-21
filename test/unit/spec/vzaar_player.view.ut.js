@@ -612,11 +612,12 @@ describe('VzaarPlayer', function() {
             });
 
             describe('pause', function() {
-                it('should call pause on the video if its loaded', function() {
+                it('should call pause on the video if its loaded', function(done) {
                     player.load();
                     setTimeout(() => {
                         player.pause();
                         expect(MockVzPlayer.prototype.pause).toHaveBeenCalled();
+                        done();
                     }, 1);
                 });
 

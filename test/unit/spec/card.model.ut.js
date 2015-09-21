@@ -125,6 +125,12 @@ describe('Card', function() {
             });
         });
 
+        describe('lastViewedTime', function() {
+            it('should be null', function() {
+                expect(card.lastViewedTime).toBeNull();
+            });
+        });
+
         describe('modules', function() {
             it('should be an empty object', function() {
                 expect(card.modules).toEqual({});
@@ -184,12 +190,22 @@ describe('Card', function() {
                 spy = jasmine.createSpy('spy()');
                 card.on('activate', spy);
                 card.active = false;
+                jasmine.clock().install();
+                jasmine.clock().mockDate();
 
                 card.activate();
             });
 
+            afterEach(function() {
+                jasmine.clock().uninstall();
+            });
+
             it('should set active to true', function() {
                 expect(card.active).toBe(true);
+            });
+
+            it('should set the lastViewedTime to the current date', function() {
+                expect(card.lastViewedTime).toEqual(new Date());
             });
 
             it('should emit the "activate" event', function() {
@@ -198,11 +214,16 @@ describe('Card', function() {
 
             describe('if called again', function() {
                 beforeEach(function() {
+                    jasmine.clock().tick(1000);
                     card.activate();
                 });
 
                 it('should not emit the event again', function() {
                     expect(spy.calls.count()).toBe(1);
+                });
+
+                it('should not update the date', function() {
+                    expect(card.lastViewedTime).not.toEqual(new Date());
                 });
             });
         });

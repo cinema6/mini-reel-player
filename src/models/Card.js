@@ -42,6 +42,7 @@ class Card extends Mixable {
         }, {});
 
         this.active = false;
+        this.lastViewedTime = null;
     }
 
     activate() {
@@ -50,6 +51,7 @@ class Card extends Mixable {
         this.active = true;
 
         if (wasInactive) {
+            this.lastViewedTime = new Date();
             this.emit('activate');
         }
     }

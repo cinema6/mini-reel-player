@@ -5,7 +5,7 @@ import {
     reduce
 } from '../../lib/utils.js';
 
-export default function completeUrl(url) {
+export default function completeUrl(url, params = {}) {
     const { debug, href, guid } = environment;
     const timestamp = Date.now();
     const pageUrl = (() => {
@@ -22,7 +22,9 @@ export default function completeUrl(url) {
 
         // DoubleClick Macros
         ['[timestamp]', timestamp]
-    ];
+    ].concat(reduce(Object.keys(params), (result, macro) => {
+        return result.concat([[macro, params[macro]]]);
+    }, []));
 
     return reduce(data, (result, [key, value]) => {
         return result.replace(new RegExp(escapeRegexp(key), 'g'), encodeURIComponent(value));

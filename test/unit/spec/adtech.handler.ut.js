@@ -60,7 +60,7 @@ describe('ADTECHHandler', function() {
             campaign: {
                 minViewTime: 7,
                 loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}'],
-                clickUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
+                playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
                 countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}'],
                 q1Urls: ['img5.jpg', 'img6.jpg?page={pageUrl}'],
                 q2Urls: ['img7.jpg', 'img8.jpg?page={pageUrl}'],
@@ -276,14 +276,14 @@ describe('ADTECHHandler', function() {
             handler.emit('AdClick', card);
         });
 
-        it('should load the clickUrls', function() {
-            const urls = card.campaign.clickUrls.map(completeUrlWithDefaults);
+        it('should load the playUrls', function() {
+            const urls = card.campaign.playUrls.map(completeUrlWithDefaults);
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 
-        describe('if there are no click urls', function() {
+        describe('if there are no playUrls', function() {
             beforeEach(function() {
-                delete card.campaign.clickUrls;
+                delete card.campaign.playUrls;
                 imageLoader.load.calls.reset();
 
                 handler.emit('AdClick', card);

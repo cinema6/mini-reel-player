@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v0.27.0 (September 21, 2015)
 * *[v0.27.0-rc1]*
   * [FIX]: Fix for an issue that caused card load pixels not to be
     fired
@@ -8,6 +9,7 @@
     start playing when firing pixels to Cinema6
   * Renamed some pixel names to make it more clear when they are being
     fired
+* *[/v0.27.0-rc1]*
 
 ## v0.26.1 (September 18, 2015)
 * *[v0.26.1-rc1]*

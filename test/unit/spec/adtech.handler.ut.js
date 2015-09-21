@@ -60,7 +60,7 @@ describe('ADTECHHandler', function() {
             campaign: {
                 minViewTime: 7,
                 loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}'],
-                playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}'],
+                playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}&delay={playDelay}'],
                 countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}'],
                 q1Urls: ['img5.jpg', 'img6.jpg?page={pageUrl}'],
                 q2Urls: ['img7.jpg', 'img8.jpg?page={pageUrl}'],
@@ -273,11 +273,21 @@ describe('ADTECHHandler', function() {
     describe('when the AdClick event is fired', function() {
         beforeEach(function() {
             spyOn(imageLoader, 'load');
+            jasmine.clock().install();
+            jasmine.clock().mockDate();
+            card.activate();
+
+            jasmine.clock().tick(500);
+
             handler.emit('AdClick', card);
         });
 
+        afterEach(function() {
+            jasmine.clock().uninstall();
+        });
+
         it('should load the playUrls', function() {
-            const urls = card.campaign.playUrls.map(completeUrlWithDefaults);
+            const urls = card.campaign.playUrls.map(url => completeUrl(url, { '{playDelay}': new Date() - card.lastViewedTime }));
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 

@@ -72,9 +72,14 @@
     }
     .shareBtn__label {
         vertical-align: middle;
-        font-size: 0.85em;
+        font-size: 0.75em;
         padding: 0.125em;
         color: #fff;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        font-weight: 400;
+        line-height: 1.25em;
+        text-shadow: 1px 1px #0A693D;
+}
     }
     .shareBtn .shareBtn__label a {
         color: #fff;

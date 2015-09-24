@@ -65,6 +65,10 @@
             position: absolute;
             z-index: 200;
             font-size: 1.2em;
+            padding-right: 2.5em;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         .MiniReel__group--SingleCardMR .card__desc{
             margin-top: 0.5em;
@@ -154,6 +158,10 @@
         }
             .MiniReel__group--SingleCardMR .card__group{ 
                 padding-bottom: 3em;
+            }
+            .MiniReel__group--SingleCardMR .card__title {
+                padding-right: 2em;
+                text-align: left;
             }
         .MiniReel__group--SingleCardMR .sponsor__goBtn {
             margin: 0.6875em 0.5em;
@@ -303,8 +311,8 @@
             .MiniReel__group--SingleCardMR .MiniReel__closeBtn {
                 top: 0.25em;
                 right: 0.25em;
-                width: 2em;
-                height: 2em;
+                width: 1.75em;
+                height: 1.75em;
                 border-radius: 50%;
                 background-color: #000;
                 border: 2px solid #eee;
@@ -315,3 +323,11 @@
             .MiniReel__group--SingleCardMR .MiniReel__closeBtn .sprite--close {
                 top: 0.4em;
             }
+    /*single card close button styles*/
+    .sprite--closeSmall {
+        width: 1rem;
+        height: 1rem;
+        background-position: -5rem -13rem;
+        background-size: 18.75em 18.75em;    
+        display: inline-block;
+    }

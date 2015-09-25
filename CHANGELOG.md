@@ -1,4 +1,6 @@
 # MiniReel Player 2.0
+* *[v0.27.1-rc2]*
+  * [FIX]: Hiding the single card close button when share modal is open to avoid showing 2 close buttons
 
 ## v0.27.1 (September 25, 2015)
 * *[v0.27.1-rc1]*

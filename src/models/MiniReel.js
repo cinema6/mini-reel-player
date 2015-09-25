@@ -185,6 +185,8 @@ export default class MiniReel extends Mixable {
             this.emit('becameSkippable');
         });
         _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
+        _(this).openedModalHandler = () => this.emit('openedModal');
+        _(this).closedModalHandler = () => this.emit('closedModal');
 
         cinema6.getAppData()
             .then(appData => initialize.call(this, whitelist, appData))
@@ -293,6 +295,8 @@ export default class MiniReel extends Mixable {
             currentCard.on('becameUnskippable', _(this).becameUnskippableHandler);
             currentCard.on('becameSkippable', _(this).becameSkippableHandler);
             currentCard.on('skippableProgress', _(this).skippableProgressHandler);
+            currentCard.on('openedModal', _(this).openedModalHandler);
+            currentCard.on('closedModal', _(this).closedModalHandler);
         }
 
         if (previousCard) {
@@ -300,6 +304,8 @@ export default class MiniReel extends Mixable {
             previousCard.removeListener('becameUnskippable', _(this).becameUnskippableHandler);
             previousCard.removeListener('becameSkippable', _(this).becameSkippableHandler);
             previousCard.removeListener('skippableProgress', _(this).skippableProgressHandler);
+            previousCard.removeListener('openedModal', _(this).openedModalHandler);
+            previousCard.removeListener('closedModal', _(this).closedModalHandler);
         }
 
         if (previousCard) { previousCard.deactivate(); }

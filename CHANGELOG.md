@@ -1,10 +1,12 @@
 # MiniReel Player 2.0
 
+## v0.27.1 (September 25, 2015)
 * *[v0.27.1-rc1]*
   * [FIX]: Fixed the share button rendering issue on mac
   * [FIX]: Made close button smaller for mobile single card 
   * [FIX]: Fixed the padding issue on title for single card with close button
-  
+* *[/v0.27.1-rc1]*
+
 ## v0.27.0 (September 21, 2015)
 * *[v0.27.0-rc1]*
   * [FIX]: Fix for an issue that caused card load pixels not to be

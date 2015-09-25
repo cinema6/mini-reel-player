@@ -37,6 +37,9 @@ export default class MobilePlayerController extends PlayerController {
         this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
         this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
 
+        this.minireel.on('openedModal', () => this.view.singleCloseButton.hide());
+        this.minireel.on('closedModal', () => this.view.singleCloseButton.show());
+
         this.initFullscreen();
     }
 

@@ -1172,6 +1172,40 @@ describe('MiniReel', function() {
                     });
                 });
 
+                describe('when the currentCard emits "openedModal"', function() {
+                    let openedModal;
+
+                    beforeEach(function() {
+                        openedModal = jasmine.createSpy('openedModal()');
+
+                        minireel.moveToIndex(0);
+                        minireel.on('openedModal', openedModal);
+
+                        minireel.currentCard.emit('openedModal');
+                    });
+
+                    it('should emit "openedModal"', function() {
+                        expect(openedModal).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when the currentCard emits "closedModal"', function() {
+                    let closedModal;
+
+                    beforeEach(function() {
+                        closedModal = jasmine.createSpy('closedModal()');
+
+                        minireel.moveToIndex(0);
+                        minireel.on('closedModal', closedModal);
+
+                        minireel.currentCard.emit('closedModal');
+                    });
+
+                    it('should emit "closedModal"', function() {
+                        expect(closedModal).toHaveBeenCalled();
+                    });
+                });
+
                 describe('when the currentCard emits "canAdvance"', function() {
                     beforeEach(function() {
                         spyOn(minireel, 'next').and.callThrough();

@@ -18,6 +18,7 @@ import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardCo
 import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
 import PrerollCard from '../../../../src/models/PrerollCard.js';
+import CloseButtonView from '../../../../src/views/CloseButtonView.js';
 
 describe('MobilePlayerController', function() {
     let MobilePlayerCtrl;
@@ -150,6 +151,24 @@ describe('MobilePlayerController', function() {
                     it('should call updateView()', function() {
                         expect(MobilePlayerCtrl.updateView).toHaveBeenCalled();
                     });
+                });
+            });
+
+            describe('openedModal', function() {
+                it('should hide the singleCloseButton', function() {
+                    MobilePlayerCtrl.view.singleCloseButton = new CloseButtonView();
+                    spyOn(MobilePlayerCtrl.view.singleCloseButton, 'hide');
+                    MobilePlayerCtrl.minireel.emit('openedModal');
+                    expect(MobilePlayerCtrl.view.singleCloseButton.hide).toHaveBeenCalled();
+                });
+            });
+
+            describe('closedModal', function() {
+                it('should show the singleCloseButton', function() {
+                    MobilePlayerCtrl.view.singleCloseButton = new CloseButtonView();
+                    spyOn(MobilePlayerCtrl.view.singleCloseButton, 'show');
+                    MobilePlayerCtrl.minireel.emit('closedModal');
+                    expect(MobilePlayerCtrl.view.singleCloseButton.show).toHaveBeenCalled();
                 });
             });
         });

@@ -159,6 +159,7 @@
         border: 3px solid #fff;
         -webkit-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
         box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
+        padding-top: 0.25em;
     }
         .MiniReel__closeBtn--modal:hover, .ballot__btn0:hover::before, .actionsModal__btn:hover::after, .playlist__item.playlist__item--current:hover, .player__playBtn:hover, .btnSecondary:hover {
             background-color: rgb(217, 64, 64);

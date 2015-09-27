@@ -11,9 +11,13 @@ class MockWistia {
     pause() {}
     volume() {}
     time() {}
+    unbind() {}
+    bind() {}
+    hasData() {}
+    ready() {}
 }
 
-fdescribe('WistiaPlayer', function() {
+describe('WistiaPlayer', function() {
     let player, mockWistia;
 
     function milliWait() {
@@ -32,6 +36,10 @@ fdescribe('WistiaPlayer', function() {
         spyOn(mockWistia, 'pause');
         spyOn(mockWistia, 'volume');
         spyOn(mockWistia, 'time');
+        spyOn(mockWistia, 'unbind');
+        spyOn(mockWistia, 'bind');
+        spyOn(mockWistia, 'hasData');
+        spyOn(mockWistia, 'ready');
     });
 
     it('should exist', function() {
@@ -342,8 +350,8 @@ fdescribe('WistiaPlayer', function() {
 
             describe('changing seeking to false', function() {
                 it('should emit seeked', function() {
-                    player.__private__.state.seeked = true;
-                    player.__private__.setState('seeked', false);
+                    player.__private__.state.seeking = true;
+                    player.__private__.setState('seeking', false);
                     expect(player.emit).toHaveBeenCalledWith('seeked');
                 });
             });
@@ -359,64 +367,346 @@ fdescribe('WistiaPlayer', function() {
             describe('changing currentTime', function() {
                 it('should emit timeupdate', function() {
                     player.__private__.state.currentTime = 123;
+                    player.__private__.setState('currentTime', 321);
+                    expect(player.emit).toHaveBeenCalledWith('timeupdate');
                 });
             });
 
             describe('changing paused to true', function() {
                 it('should emit pause', function() {
-
+                    player.__private__.state.paused = false;
+                    player.__private__.setState('paused', true);
+                    expect(player.emit).toHaveBeenCalledWith('pause');
                 });
             });
 
             describe('changing paused to false', function() {
-                it('should emit play', function() {
+                beforeEach(function() {
+                    player.__private__.state.paused = true;
+                    player.__private__.setState('paused', false);
+                });
 
+                it('should emit play', function() {
+                    expect(player.emit).toHaveBeenCalledWith('play');
                 });
 
                 it('should emit playing', function() {
-
+                    expect(player.emit).toHaveBeenCalledWith('playing');
                 });
             });
 
             describe('changing volume', function() {
                 it('should emit volumechange', function() {
-
+                    player.__private__.state.volume = 0.25;
+                    player.__private__.setState('volume', 0.5);
+                    expect(player.emit).toHaveBeenCalledWith('volumechange');
                 });
             });
 
             describe('changing src to null', function() {
                 it('should emit emptied', function() {
-
+                    player.__private__.state.src = 'not null';
+                    player.__private__.setState('src', null);
+                    expect(player.emit).toHaveBeenCalledWith('emptied');
                 });
             });
 
             describe('changing readyState to HAVE_METADATA', function() {
                 it('should emit loadedmetadata', function() {
-
+                    player.__private__.state.readyState = 0;
+                    player.__private__.setState('readyState', 1);
+                    expect(player.emit).toHaveBeenCalledWith('loadedmetadata');
                 });
             });
 
             describe('changing readyState to HAVE_FUTURE_DATA', function() {
                 it('should emit canplay', function() {
-
+                    player.__private__.state.readyState = 0;
+                    player.__private__.setState('readyState', 3);
+                    expect(player.emit).toHaveBeenCalledWith('canplay');
                 });
             });
 
             describe('changing readyState to HAVE_ENOUGH_DATA', function() {
                 it('should emit canplaythrough', function() {
-
+                    player.__private__.state.readyState = 0;
+                    player.__private__.setState('readyState', 4);
+                    expect(player.emit).toHaveBeenCalledWith('canplaythrough');
                 });
             });
 
             describe('changing width', function() {
                 it('should emit resize', function() {
-
+                    player.__private__.state.width = 123;
+                    player.__private__.setState('width', 321);
+                    expect(player.emit).toHaveBeenCalledWith('resize');
                 });
             });
 
             describe('changing height', function() {
                 it('should emit resize', function() {
+                    player.__private__.state.height = 123;
+                    player.__private__.setState('height', 321);
+                    expect(player.emit).toHaveBeenCalledWith('resize');
+                });
+            });
+        });
 
+        describe('removeEventListeners', function() {
+            beforeEach(function() {
+                player.__private__.wistiaEmbed = mockWistia;
+                player.__private__.removeEventListeners();
+            });
+
+            ['end', 'pause', 'play', 'seek', 'timechange', 'volumechange', 'widthchange', 'heightchange'].forEach(event => {
+                it('should unbind ' + event, function() {
+                    expect(player.__private__.wistiaEmbed.unbind).toHaveBeenCalledWith(event);
+                });
+            });
+        });
+
+        describe('addEventListeners', function() {
+            beforeEach(function() {
+                player.__private__.wistiaEmbed = mockWistia;
+                player.__private__.addEventListeners();
+            });
+
+            ['end', 'pause', 'play', 'seek', 'timechange', 'volumechange', 'widthchange', 'heightchange'].forEach(event => {
+                it('should bind ' + event, function() {
+                    expect(player.__private__.wistiaEmbed.bind).toHaveBeenCalledWith(event, jasmine.any(Function));
+                });
+            });
+        });
+
+        describe('ensurePlayerReady', function() {
+            var fulfillSpy;
+
+            beforeEach(function() {
+                player.__private__.ensurePlayerReady.and.callThrough();
+                fulfillSpy = jasmine.createSpy('fulfillSpy');
+                player.__private__.pending = Promise.resolve();
+            });
+
+            describe('when the ready state is greater than 3', function() {
+                it('should fulfill', function(done) {
+                    player.__private__.state.readyState = 3;
+                    player.__private__.ensurePlayerReady().then(() => {
+                        fulfillSpy();
+                        expect(fulfillSpy).toHaveBeenCalled();
+                        done();
+                    }).catch(error => {
+                        expect(error).not.toBeDefined();
+                        done();
+                    });
+                });
+            });
+
+            describe('when the ready state is less than 3', function() {
+                beforeEach(function() {
+                    player.__private__.state.readyState = 2;
+                });
+
+                describe('when the player is loading', function() {
+                    it('should fulfill on canplay', function(done) {
+                        player.__private__.loading = true;
+                        player.__private__.ensurePlayerReady()
+                        .then(fulfillSpy)
+                        .catch(error => {
+                            expect(error).not.toBeDefined();
+                        });
+                        milliWait().then(() => {
+                            expect(fulfillSpy).not.toHaveBeenCalled();
+                            Runner.run(() => {
+                                player.emit('canplay');
+                            });
+                            return milliWait();
+                        }).then(() => {
+                            expect(fulfillSpy).toHaveBeenCalled();
+                            done();
+                        });
+                    });
+                });
+
+                describe('when the player is not loading', function() {
+                    it('should reject', function(done) {
+                        player.__private__.loading = false;
+                        player.__private__.ensurePlayerReady()
+                        .then(() => {
+                            fulfillSpy();
+                            expect(fulfillSpy).not.toHaveBeenCalled();
+                            done();
+                        })
+                        .catch(() => {
+                            fulfillSpy();
+                            expect(fulfillSpy).toHaveBeenCalled();
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        describe('cleanState', function() {
+            beforeEach(function() {
+                player.__private__.state = {
+                    currentTime: 123,
+                    duration: 123,
+                    ended: true,
+                    paused: false,
+                    muted: true,
+                    volume: 1,
+                    seeking: true,
+                    src: 'some src',
+                    error: 'some error',
+                    readyState: 3,
+                    poster: 'some poster',
+                    currentSrc: 'some src',
+                    width: 123,
+                    height: 123
+                };
+            });
+
+            it('should reset every state property except for src', function() {
+                player.__private__.cleanState();
+                expect(player.__private__.state).toEqual({
+                    currentTime: 0,
+                    duration: 0,
+                    ended: false,
+                    paused: true,
+                    muted: false,
+                    volume: 0,
+                    seeking: false,
+                    src: 'some src',
+                    error: null,
+                    readyState: 0,
+                    poster: null,
+                    currentSrc: null,
+                    width: 0,
+                    height: 0
+                });
+            });
+        });
+
+        describe('unloadEmbed', function() {
+            beforeEach(function() {
+                Runner.run(() => {
+                    player.create();
+                });
+                spyOn(player.__private__, 'removeEventListeners');
+                spyOn(player.__private__, 'cleanState');
+                spyOn(player.element, 'removeChild');
+            });
+
+            it('should remove event listeners', function() {
+                Runner.run(() => player.__private__.unloadEmbed());
+                expect(player.__private__.removeEventListeners).toHaveBeenCalled();
+            });
+
+            it('should set the wistiaEmbed to null', function() {
+                player.__private__.wistiaEmbed = 'not null';
+                Runner.run(() => player.__private__.unloadEmbed());
+                expect(player.__private__.wistiaEmbed).toBeNull();
+            });
+
+            it('should clean the state', function() {
+                Runner.run(() => player.__private__.unloadEmbed());
+                expect(player.__private__.cleanState).toHaveBeenCalled();
+            });
+
+            it('should set the loadedVideoId to be null', function() {
+                player.__private__.loadedVideoId = 'not null';
+                Runner.run(() => player.__private__.unloadEmbed());
+                expect(player.__private__.loadedVideoId).toBeNull();
+            });
+
+            it('should remove the iframe', function() {
+                let iframe = document.createElement('iframe');
+                player.element.appendChild(iframe);
+                Runner.run(() => player.__private__.unloadEmbed());
+                expect(player.element.removeChild).toHaveBeenCalled();
+            });
+        });
+
+        describe('loadEmbed', function() {
+            beforeEach(function() {
+                Runner.run(() => player.create());
+                spyOn(player.element, 'appendChild');
+                spyOn(codeLoader, 'load').and.returnValue(Promise.resolve());
+            });
+
+            describe('when the src does not exist', function() {
+                it('should do nothing', function() {
+                    player.__private__.state.src = null;
+                    player.__private__.loadEmbed();
+                    expect(player.element.appendChild).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when the video is already loaded', function() {
+                it('should do nothing', function() {
+                    player.__private__.loadedVideoId = 'loaded video';
+                    player.__private__.state.src = 'loaded video';
+                    player.__private__.loadEmbed();
+                    expect(player.element.appendChild).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when the video is not already loaded', function() {
+                beforeEach(function() {
+                    player.__private__.state.src = 'some src';
+                    spyOn(player.__private__, 'unloadEmbed');
+                    Runner.run(() => player.__private__.loadEmbed());
+                });
+
+                it('should set loading to true', function() {
+                    expect(player.__private__.loading).toBe(true);
+                });
+
+                it('should unload the embed', function() {
+                    expect(player.__private__.unloadEmbed).toHaveBeenCalled();
+                });
+
+                it('should set the loadedVideoId', function() {
+                    expect(player.__private__.loadedVideoId).toBe('some src');
+                });
+
+                it('should append the iframe', function() {
+                    expect(player.element.appendChild).toHaveBeenCalled();
+                });
+
+                describe('when the iframe loads', function() {
+                    beforeEach(function(done) {
+                        let iframe = player.element.appendChild.calls.mostRecent().args[0];
+                        spyOn(player, 'emit');
+                        spyOn(player.__private__, 'addEventListeners');
+                        iframe.wistiaApi = mockWistia;
+                        iframe.onload();
+                        milliWait().then(done);
+                    });
+
+                    it('should call the codeLoader', function() {
+                        expect(codeLoader.load).toHaveBeenCalled();
+                    });
+
+                    it('should emit loadstart', function() {
+                        expect(player.emit).toHaveBeenCalledWith('loadstart');
+                    });
+
+                    it('should set the wistiaEmbed', function() {
+                        expect(player.__private__.wistiaEmbed).toEqual(jasmine.any(MockWistia));
+                    });
+
+                    it('should add event listeners', function() {
+                        expect(player.__private__.addEventListeners).toHaveBeenCalled();
+                    });
+
+                    it('should add a callback for hasData', function() {
+                        expect(player.__private__.wistiaEmbed.hasData).toHaveBeenCalled();
+                    });
+
+                    it('should add a callback for ready', function() {
+                        expect(player.__private__.wistiaEmbed.ready).toHaveBeenCalled();
+                    });
                 });
             });
         });

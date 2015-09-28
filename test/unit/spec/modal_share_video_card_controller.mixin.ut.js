@@ -107,9 +107,9 @@ describe('ModalShareVideoCardController mixin', function() {
                         });
 
                         it('should emit openedModal', function() {
-                            spyOn(Ctrl.model, 'emit');
+                            spyOn(Ctrl, 'emit');
                             Ctrl.__private__.updateView();
-                            expect(Ctrl.model.emit).toHaveBeenCalledWith('openedModal');
+                            expect(Ctrl.emit).toHaveBeenCalledWith('openedModal');
                         });
                     });
 
@@ -137,9 +137,9 @@ describe('ModalShareVideoCardController mixin', function() {
                         });
 
                         it('should emit closedModal', function() {
-                            spyOn(Ctrl.model, 'emit');
+                            spyOn(Ctrl, 'emit');
                             Ctrl.__private__.updateView();
-                            expect(Ctrl.model.emit).toHaveBeenCalledWith('closedModal');
+                            expect(Ctrl.emit).toHaveBeenCalledWith('closedModal');
                         });
                     });
                 });

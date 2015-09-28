@@ -17,13 +17,13 @@ class Private {
                 this.__public__.view.playerOutlet.hide();
             }
             this.shareView.show();
-            this.__public__.model.emit('openedModal');
+            this.__public__.emit('openedModal');
         } else {
             this.shareView.hide();
             if(this.__public__.view.playerOutlet) {
                 this.__public__.view.playerOutlet.show();
             }
-            this.__public__.model.emit('closedModal');
+            this.__public__.emit('closedModal');
         }
     }
 }

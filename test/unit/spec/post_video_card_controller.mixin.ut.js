@@ -70,7 +70,7 @@ describe('PostVideoCardController', function() {
                         describe('activate', function() {
                             beforeEach(function() {
                                 spyOn(Ctrl.view.playerOutlet, 'hide');
-                                spyOn(Ctrl.model, 'emit');
+                                spyOn(Ctrl, 'emit');
                                 Ctrl.PostCtrl.emit('activate');
                             });
 
@@ -79,14 +79,14 @@ describe('PostVideoCardController', function() {
                             });
 
                             it('should emit openedModal', function() {
-                                expect(Ctrl.model.emit).toHaveBeenCalledWith('openedModal');
+                                expect(Ctrl.emit).toHaveBeenCalledWith('openedModal');
                             });
                         });
 
                         describe('deactivate', function() {
                             beforeEach(function() {
                                 spyOn(Ctrl.view.playerOutlet, 'show');
-                                spyOn(Ctrl.model, 'emit');
+                                spyOn(Ctrl, 'emit');
                                 Ctrl.PostCtrl.emit('deactivate');
                             });
 
@@ -95,7 +95,7 @@ describe('PostVideoCardController', function() {
                             });
 
                             it('should emit closed modal', function() {
-                                expect(Ctrl.model.emit).toHaveBeenCalledWith('closedModal');
+                                expect(Ctrl.emit).toHaveBeenCalledWith('closedModal');
                             });
                         });
 

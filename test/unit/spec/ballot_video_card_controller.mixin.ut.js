@@ -70,24 +70,32 @@ describe('BallotVideoCardController mixin', function() {
                         describe('activate', function() {
                             beforeEach(function() {
                                 spyOn(Ctrl.view.playerOutlet, 'hide');
-
+                                spyOn(Ctrl, 'emit');
                                 Ctrl.BallotCtrl.emit('activate');
                             });
 
                             it('should hide the playerOutlet', function() {
                                 expect(Ctrl.view.playerOutlet.hide).toHaveBeenCalled();
                             });
+
+                            it('should emit openedModal', function() {
+                                expect(Ctrl.emit).toHaveBeenCalledWith('openedModal');
+                            });
                         });
 
                         describe('deactivate', function() {
                             beforeEach(function() {
                                 spyOn(Ctrl.view.playerOutlet, 'show');
-
+                                spyOn(Ctrl, 'emit');
                                 Ctrl.BallotCtrl.emit('deactivate');
                             });
 
                             it('should show the playerOutlet', function() {
                                 expect(Ctrl.view.playerOutlet.show).toHaveBeenCalled();
+                            });
+
+                            it('should emit closedModal', function() {
+                                expect(Ctrl.emit).toHaveBeenCalledWith('closedModal');
                             });
                         });
 

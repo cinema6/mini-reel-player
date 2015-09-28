@@ -10,11 +10,11 @@ PostModuleVideoCardController.prototype = {
 
         PostCtrl.on('activate', () => {
             this.view.playerOutlet.hide();
-            this.model.emit('openedModal');
+            this.emit('openedModal');
         });
         PostCtrl.on('deactivate', () => {
-            this.view.playerOutlet.show()
-            this.model.emit('closedModal');
+            this.view.playerOutlet.show();
+            this.emit('closedModal');
         });
         PostCtrl.on('replay', () => this.player.play());
 

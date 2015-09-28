@@ -13,6 +13,8 @@ import Runner from '../../../lib/Runner.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
 import DeckView from '../../../src/views/DeckView.js';
 import environment from '../../../src/environment.js';
+import { EventEmitter } from 'events';
+import Mixable from '../../../lib/core/Mixable.js';
 
 describe('PlayerController', function() {
     let PlayerCtrl;
@@ -22,14 +24,16 @@ describe('PlayerController', function() {
     let experience;
     let profile;
 
-    class CardController {
+    class CardController extends Mixable {
         constructor(model, parentView) {
+            super(...arguments);
             this.model = model;
             this.parentView = parentView;
         }
 
         render() {}
     }
+    CardController.mixin(EventEmitter);
 
     class VideoCardController extends CardController {}
     class TextCardController extends CardController {}
@@ -132,6 +136,51 @@ describe('PlayerController', function() {
     });
 
     describe('events:', function() {
+        describe('controller', function() {
+            beforeEach(function() {
+                spyOn(PlayerCtrl.view, 'appendTo');
+                spyOn(PlayerCtrl, 'updateView');
+                environment.mode = 'some-mode';
+                PlayerCtrl.view.prerollOutlet = new View();
+
+                PlayerCtrl.minireel.branding = 'my-branding';
+                PlayerCtrl.minireel.deck = [
+                    new TextCard({ data: {} }, experience),
+                    new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                    new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                    new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
+                    new RecapCard({}, experience, profile, PlayerCtrl.minireel)
+                ];
+                PlayerCtrl.minireel.adConfig = {
+                    video: {
+
+                    }
+                };
+                PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, { flash: false }, PlayerCtrl.minireel);
+                PlayerCtrl.minireel.campaign = {};
+                spyOn(CardController.prototype, 'render');
+                spyOn(PrerollCardController.prototype, 'renderInto');
+
+                Runner.run(() => PlayerCtrl.minireel.emit('init'));
+            });
+
+            describe('openedModal', function() {
+                it('should call openedModal()', function() {
+                    spyOn(PlayerCtrl, 'openedModal');
+                    PlayerCtrl.cardCtrls[0].emit('openedModal');
+                    expect(PlayerCtrl.openedModal).toHaveBeenCalled();
+                });
+            });
+
+            describe('closedModal', function() {
+                it('should call closedModal()', function() {
+                    spyOn(PlayerCtrl, 'closedModal');
+                    PlayerCtrl.cardCtrls[0].emit('closedModal');
+                    expect(PlayerCtrl.closedModal).toHaveBeenCalled();
+                });
+            });
+        });
+
         describe('minireel', function() {
             describe('init', function() {
                 beforeEach(function() {

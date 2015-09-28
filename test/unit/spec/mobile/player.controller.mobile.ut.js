@@ -153,24 +153,6 @@ describe('MobilePlayerController', function() {
                     });
                 });
             });
-
-            describe('openedModal', function() {
-                it('should hide the singleCloseButton', function() {
-                    MobilePlayerCtrl.view.singleCloseButton = new CloseButtonView();
-                    spyOn(MobilePlayerCtrl.view.singleCloseButton, 'hide');
-                    MobilePlayerCtrl.minireel.emit('openedModal');
-                    expect(MobilePlayerCtrl.view.singleCloseButton.hide).toHaveBeenCalled();
-                });
-            });
-
-            describe('closedModal', function() {
-                it('should show the singleCloseButton', function() {
-                    MobilePlayerCtrl.view.singleCloseButton = new CloseButtonView();
-                    spyOn(MobilePlayerCtrl.view.singleCloseButton, 'show');
-                    MobilePlayerCtrl.minireel.emit('closedModal');
-                    expect(MobilePlayerCtrl.view.singleCloseButton.show).toHaveBeenCalled();
-                });
-            });
         });
     });
 
@@ -408,6 +390,24 @@ describe('MobilePlayerController', function() {
                         }));
                     });
                 });
+            });
+        });
+
+        describe('openedModal', function() {
+            it('should hide the singleCloseButton', function() {
+                MobilePlayerCtrl.view.singleCloseButton = new CloseButtonView();
+                spyOn(MobilePlayerCtrl.view.singleCloseButton, 'hide');
+                MobilePlayerCtrl.openedModal();
+                expect(MobilePlayerCtrl.view.singleCloseButton.hide).toHaveBeenCalled();
+            });
+        });
+
+        describe('closedModal', function() {
+            it('should show the singleCloseButton', function() {
+                MobilePlayerCtrl.view.singleCloseButton = new CloseButtonView();
+                spyOn(MobilePlayerCtrl.view.singleCloseButton, 'show');
+                MobilePlayerCtrl.closedModal();
+                expect(MobilePlayerCtrl.view.singleCloseButton.show).toHaveBeenCalled();
             });
         });
     });

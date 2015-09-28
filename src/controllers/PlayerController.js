@@ -26,10 +26,12 @@ export default class PlayerController extends Controller {
         this.minireel.on('init', () => {
             this.updateView();
 
+            const openEvent = () => this.openedModal();
+            const closeEvent = () => this.closedModal();
             this.cardCtrls = map(this.minireel.deck, card => {
                 const ctrl = new this.CardControllers[card.type](card, this.view.cards);
-                ctrl.on('openedModal', () => this.openedModal());
-                ctrl.on('closedModal', () => this.closedModal());
+                ctrl.on('openedModal', openEvent);
+                ctrl.on('closedModal', closeEvent);
                 return ctrl;
             });
             this.PrerollCardCtrl = new this.CardControllers.preroll(this.minireel.prerollCard);

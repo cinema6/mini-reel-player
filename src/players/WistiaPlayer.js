@@ -9,7 +9,10 @@ import RunnerPromise from '../../lib/RunnerPromise.js';
 
 {
     codeLoader.configure('wistia', {
-        src: urlParser.parse('//fast.wistia.net/assets/external/E-v1.js').href
+        src: urlParser.parse('//fast.wistia.net/assets/external/E-v1.js').href,
+        after() {
+            return global.Wistia;
+        }
     });
 }
 
@@ -62,13 +65,14 @@ class Private {
             const params = Object.keys(WISTIA_EMBED_OPTIONS).map(key => {
                 return key + '=' + WISTIA_EMBED_OPTIONS[key];
             }).join('&');
-            const embed = template.replace('{{videoId}}', videoId)
-                .replace('{{params}}', params);
+            const embed = template.replace(/{{videoId}}/g, videoId)
+                .replace(/{{params}}/g, params);
             const workspace = document.createElement('div');
             workspace.innerHTML = embed;
             const iframe = workspace.firstChild;
             iframe.onload = () => {
-                codeLoader.load('wistia').then(() => {
+                codeLoader.load('wistia').then(Wistia => {
+                    Wistia.reinitialize();
                     this.__public__.emit('loadstart');
                     this.wistiaEmbed = iframe.wistiaApi;
                     this.addEventListeners();

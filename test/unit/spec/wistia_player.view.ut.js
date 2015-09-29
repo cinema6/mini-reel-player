@@ -6,6 +6,10 @@ import codeLoader from '../../../src/services/code_loader.js';
 import browser from '../../../src/services/browser.js';
 import {defer} from '../../../lib/utils.js';
 
+class GlobalWistia {
+    reinitialize() {}
+}
+
 class MockWistia {
     play() {}
     pause() {}
@@ -18,7 +22,7 @@ class MockWistia {
 }
 
 describe('WistiaPlayer', function() {
-    let player, mockWistia;
+    let player, globalWistia, mockWistia;
 
     function milliWait() {
         const deferred = defer(Promise);
@@ -30,9 +34,11 @@ describe('WistiaPlayer', function() {
 
     beforeEach(function() {
         player = new WistiaPlayer();
+        globalWistia = new GlobalWistia();
         mockWistia = new MockWistia();
 
         spyOn(player.__private__, 'ensurePlayerReady');
+        spyOn(globalWistia, 'reinitialize');
         spyOn(mockWistia, 'pause');
         spyOn(mockWistia, 'volume');
         spyOn(mockWistia, 'time');
@@ -631,7 +637,7 @@ describe('WistiaPlayer', function() {
             beforeEach(function() {
                 Runner.run(() => player.create());
                 spyOn(player.element, 'appendChild');
-                spyOn(codeLoader, 'load').and.returnValue(Promise.resolve());
+                spyOn(codeLoader, 'load').and.returnValue(Promise.resolve(globalWistia));
             });
 
             describe('when the src does not exist', function() {
@@ -686,6 +692,10 @@ describe('WistiaPlayer', function() {
 
                     it('should call the codeLoader', function() {
                         expect(codeLoader.load).toHaveBeenCalled();
+                    });
+
+                    it('should reinitialize in case there are new iframes', function() {
+                        expect(globalWistia.reinitialize).toHaveBeenCalled();
                     });
 
                     it('should emit loadstart', function() {

@@ -50,6 +50,7 @@ function getCardType(card) {
     case 'adUnit':
     case 'vine':
     case 'vzaar':
+    case 'wistia':
         return 'video';
     default:
         return card.type;

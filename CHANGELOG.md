@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v0.28.0-rc1]*
+  * [FEATURE]: Added support for Wistia video cards
+
 ## v0.27.1 (September 25, 2015)
 * *[v0.27.1-rc2]*
   * [FIX]: Hiding the single card close button when share modal is open to avoid showing 2 close buttons
@@ -8,7 +11,7 @@
 
 * *[v0.27.1-rc1]*
   * [FIX]: Fixed the share button rendering issue on mac
-  * [FIX]: Made close button smaller for mobile single card 
+  * [FIX]: Made close button smaller for mobile single card
   * [FIX]: Fixed the padding issue on title for single card with close button
 * *[/v0.27.1-rc1]*
 

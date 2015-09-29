@@ -12,6 +12,7 @@ import VinePlayer from '../../../src/players/VinePlayer.js';
 import InstagramVideoCard from '../../../src/models/InstagramVideoCard.js';
 import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
 import VzaarPlayer from '../../../src/players/VzaarPlayer.js';
+import WistiaPlayer from '../../../src/players/WistiaPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -170,6 +171,22 @@ describe('playerFactory', function() {
 
                 it('should be a VzaarPlayer', function() {
                     expect(result).toEqual(jasmine.any(VzaarPlayer));
+                });
+            });
+
+            describe('if the card is from Wistia', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'wistia',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a WistiaPlayer', function() {
+                    expect(result).toEqual(jasmine.any(WistiaPlayer));
                 });
             });
 

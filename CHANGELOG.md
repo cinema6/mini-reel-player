@@ -1,7 +1,9 @@
 # MiniReel Player 2.0
 
+## v0.28.0 (September 29, 2015)
 * *[v0.28.0-rc1]*
   * [FEATURE]: Added support for Wistia video cards
+* *[/v0.28.0-rc1]*
 
 ## v0.27.1 (September 25, 2015)
 * *[v0.27.1-rc3]*

@@ -26,8 +26,13 @@ export default class PlayerController extends Controller {
         this.minireel.on('init', () => {
             this.updateView();
 
+            const openEvent = () => this.openedModal();
+            const closeEvent = () => this.closedModal();
             this.cardCtrls = map(this.minireel.deck, card => {
-                return new this.CardControllers[card.type](card, this.view.cards);
+                const ctrl = new this.CardControllers[card.type](card, this.view.cards);
+                ctrl.on('openedModal', openEvent);
+                ctrl.on('closedModal', closeEvent);
+                return ctrl;
             });
             this.PrerollCardCtrl = new this.CardControllers.preroll(this.minireel.prerollCard);
 
@@ -45,6 +50,12 @@ export default class PlayerController extends Controller {
         this.minireel.on('becameUnskippable', () => this.view.disableNavigation());
         this.minireel.on('becameSkippable', () => this.view.enableNavigation());
         this.minireel.on('skippableProgress', remaining => this.view.updateSkipTimer(remaining));
+    }
+
+    openedModal() {
+    }
+
+    closedModal() {
     }
 
     addListeners() {

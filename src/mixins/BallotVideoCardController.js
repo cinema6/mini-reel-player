@@ -8,8 +8,14 @@ BallotVideoCardController.prototype = {
 
         const BallotCtrl = this.BallotCtrl = new BallotController(ballot);
 
-        BallotCtrl.on('activate', () => this.view.playerOutlet.hide());
-        BallotCtrl.on('deactivate', () => this.view.playerOutlet.show());
+        BallotCtrl.on('activate', () => {
+            this.view.playerOutlet.hide();
+            this.emit('openedModal');
+        });
+        BallotCtrl.on('deactivate', () => {
+            this.view.playerOutlet.show();
+            this.emit('closedModal');
+        });
         BallotCtrl.on('vote', () => BallotCtrl.deactivate());
 
         this.player.on('play', () => BallotCtrl.deactivate());

@@ -40,6 +40,16 @@ export default class MobilePlayerController extends PlayerController {
         this.initFullscreen();
     }
 
+    openedModal() {
+        super(...arguments);
+        this.view.singleCloseButton.hide();
+    }
+
+    closedModal() {
+        super(...arguments);
+        this.view.singleCloseButton.show();
+    }
+
     updateView() {
         const {minireel} = this;
         const { standalone, currentIndex, length, skippable, closeable } = minireel;

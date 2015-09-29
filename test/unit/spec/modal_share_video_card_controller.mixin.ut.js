@@ -105,6 +105,12 @@ describe('ModalShareVideoCardController mixin', function() {
                             Ctrl.__private__.updateView();
                             expect(Ctrl.__private__.shareView.show).toHaveBeenCalled();
                         });
+
+                        it('should emit openedModal', function() {
+                            spyOn(Ctrl, 'emit');
+                            Ctrl.__private__.updateView();
+                            expect(Ctrl.emit).toHaveBeenCalledWith('openedModal');
+                        });
                     });
 
                     describe('when the modal is not shown', function() {
@@ -128,6 +134,12 @@ describe('ModalShareVideoCardController mixin', function() {
                             Ctrl.view.playerOutlet = null;
                             Ctrl.__private__.updateView();
                             expect(showSpy).not.toHaveBeenCalled();
+                        });
+
+                        it('should emit closedModal', function() {
+                            spyOn(Ctrl, 'emit');
+                            Ctrl.__private__.updateView();
+                            expect(Ctrl.emit).toHaveBeenCalledWith('closedModal');
                         });
                     });
                 });

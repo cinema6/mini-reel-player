@@ -3,6 +3,7 @@ import CardController from '../../../src/controllers/CardController.js';
 import Card from '../../../src/models/Card.js';
 import CardView from '../../../src/views/CardView.js';
 import View from '../../../lib/core/View.js';
+import { EventEmitter } from 'events';
 
 describe('CardController', function() {
     let CardCtrl;
@@ -26,6 +27,10 @@ describe('CardController', function() {
 
     it('should exist', function() {
         expect(CardCtrl).toEqual(jasmine.any(Controller));
+    });
+
+    it('should mixin EventEmitter', function() {
+        expect(CardController.mixins).toContain(EventEmitter);
     });
 
     describe('properties:', function() {

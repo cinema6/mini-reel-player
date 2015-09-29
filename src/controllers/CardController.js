@@ -1,12 +1,13 @@
 import Controller from '../../lib/core/Controller.js';
 import {createKey} from 'private-parts';
+import { EventEmitter } from 'events';
 import {
     extend
 } from '../../lib/utils.js';
 
 const _ = createKey();
 
-export default class CardController extends Controller {
+class CardController extends Controller {
     constructor(model, deckView) {
         super(...arguments);
 
@@ -30,3 +31,5 @@ export default class CardController extends Controller {
         _(this).deck.append(this.view);
     }
 }
+CardController.mixin(EventEmitter);
+export default CardController;

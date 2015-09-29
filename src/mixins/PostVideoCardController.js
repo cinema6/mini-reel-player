@@ -8,8 +8,14 @@ PostModuleVideoCardController.prototype = {
 
         const PostCtrl = this.PostCtrl = new PostController(post);
 
-        PostCtrl.on('activate', () => this.view.playerOutlet.hide());
-        PostCtrl.on('deactivate', () => this.view.playerOutlet.show());
+        PostCtrl.on('activate', () => {
+            this.view.playerOutlet.hide();
+            this.emit('openedModal');
+        });
+        PostCtrl.on('deactivate', () => {
+            this.view.playerOutlet.show();
+            this.emit('closedModal');
+        });
         PostCtrl.on('replay', () => this.player.play());
 
         this.model.on('deactivate', () => PostCtrl.deactivate());

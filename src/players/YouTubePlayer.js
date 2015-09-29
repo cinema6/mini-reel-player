@@ -75,6 +75,8 @@ export default class YouTubePlayer extends CorePlayer {
         _(this).interval = null;
         _(this).seekStart = null;
         _(this).hasPlayed = false;
+
+        if (global.__karma__) { this.__private__ = _(this); }
     }
 
     get currentTime() {
@@ -159,7 +161,7 @@ export default class YouTubePlayer extends CorePlayer {
     }
 
     pause() {
-        if (_(this).player) {
+        if (_(this).player && !this.paused) {
             _(this).player.pauseVideo();
         }
     }

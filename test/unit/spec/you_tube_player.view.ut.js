@@ -400,6 +400,7 @@ describe('YouTubePlayer', function() {
                 spyOn(youtube, 'Player').and.returnValue(ytPlayer);
 
                 player.src = 'uf_QhUZX3BM';
+                player.__private__.state.paused = false;
             });
 
             describe('if called before load()', function() {
@@ -454,11 +455,17 @@ describe('YouTubePlayer', function() {
                 describe('and after the video is ready', function() {
                     beforeEach(function() {
                         youtube.Player.calls.mostRecent().args[1].events.onReady();
-                        player.pause();
                     });
 
                     it('should call pauseVideo()', function() {
+                        player.pause();
                         expect(ytPlayer.pauseVideo).toHaveBeenCalled();
+                    });
+
+                    it('should not call pauseVideo() if the player is already paused', function() {
+                        player.__private__.state.paused = true;
+                        player.pause();
+                        expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
                     });
                 });
             });

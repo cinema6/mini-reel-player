@@ -4,6 +4,11 @@
   * [FEATURE]: Added support for Wistia video cards
 
 ## v0.27.1 (September 25, 2015)
+* *[v0.27.1-rc3]*
+  * [FIX]: Fix for an issue which caused a YouTube player to get into an unplayable state on mobile.
+  * [FIX]: Fix for an issue which caused the post-video action buttons to be displayed incorrectly.
+* *[/v0.27.1-rc3]*
+
 * *[v0.27.1-rc2]*
   * [FIX]: Hiding the single card close button when share modal is open to avoid showing 2 close buttons
   * [FIX]: Hiding the single card close button for ballot modal

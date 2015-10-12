@@ -787,14 +787,15 @@ describe('YouTubePlayer', function() {
                 });
 
                 describe('when the video ends', function() {
-                    beforeEach(function() {
-                        fetcher.flush();
-                        jasmine.clock().tick(1);
-                        jasmine.clock().tick(1);
-
-                        ytPlayer.getCurrentTime.and.returnValue(player.duration - 0.2);
-                        config.events.onStateChange({ data: youtube.PlayerState.ENDED });
-                        jasmine.clock().tick(250);
+                    beforeEach(function(done) {
+                        Promise.all([
+                            fetcher.flush(),
+                            codeLoader.load('youtube')
+                        ]).then(() => {
+                            ytPlayer.getCurrentTime.and.returnValue(player.duration - 0.2);
+                            config.events.onStateChange({ data: youtube.PlayerState.ENDED });
+                            jasmine.clock().tick(250);
+                        }).then(done, done.fail);
                     });
 
                     it('should set the currentTime to the duration', function() {
@@ -1129,13 +1130,7 @@ describe('YouTubePlayer', function() {
                     let pause;
                     let timeupdate;
 
-                    beforeEach(function() {
-                        fetcher.flush();
-                        jasmine.clock().tick(1);
-                        jasmine.clock().tick(1);
-
-                        config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
-
+                    beforeEach(function(done) {
                         ended = jasmine.createSpy('ended()');
                         player.on('ended', ended);
 
@@ -1145,7 +1140,13 @@ describe('YouTubePlayer', function() {
                         timeupdate = jasmine.createSpy('timeupdate()');
                         player.on('timeupdate', timeupdate);
 
-                        config.events.onStateChange({ data: youtube.PlayerState.ENDED });
+                        Promise.all([
+                            codeLoader.load('youtube'),
+                            fetcher.flush()
+                        ]).then(() => {
+                            config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
+                            config.events.onStateChange({ data: youtube.PlayerState.ENDED });
+                        }).then(done, done.fail);
                     });
 
                     it('should set paused to true', function() {

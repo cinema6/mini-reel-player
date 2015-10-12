@@ -6,6 +6,9 @@ global.addEventListener = function() {
     return realAddEventListener.apply(global, arguments);
 };
 
+const realSetTimeout = global.setTimeout;
+Promise._setScheduler(flush => realSetTimeout(flush, 1));
+
 global.c6 = {};
 
 beforeEach(function() {

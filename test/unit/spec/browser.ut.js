@@ -5,6 +5,21 @@ import {
 } from '../../../lib/utils.js';
 
 describe('browser', function() {
+    let tests;
+
+    beforeAll(function() {
+        tests = browser.__private__.tests;
+    });
+
+    afterAll(function(done) {
+        browser.__private__.tests = tests;
+        Promise.resolve().then(done);
+    });
+
+    beforeEach(function() {
+        browser.constructor();
+    });
+
     it('should exist', function() {
         expect(browser).toEqual(jasmine.any(Object));
     });
@@ -127,6 +142,101 @@ describe('browser', function() {
                         it('should call the testFn() again', function() {
                             expect(testFn).toHaveBeenCalled();
                         });
+                    });
+                });
+            });
+        });
+
+        describe('getProfile(timeout)', function() {
+            let success, failure;
+            let timeout;
+            let result;
+
+            beforeEach(function(done) {
+                timeout = 400;
+
+                jasmine.clock().install();
+
+                success = jasmine.createSpy('success()');
+                failure = jasmine.createSpy('failure()');
+
+                browser.addTest('test1', () => Promise.resolve(true));
+                browser.addTest('testB', () => Promise.resolve(false));
+                browser.addTest('test3', () => Promise.resolve(true));
+
+                spyOn(browser, 'test').and.callThrough();
+
+                result = browser.getProfile(timeout);
+                result.then(success, failure).then(done, done);
+
+                const mousemove = document.createEvent('CustomEvent');
+                mousemove.initCustomEvent('mousemove');
+                document.body.dispatchEvent(mousemove);
+            });
+
+            afterEach(function() {
+                jasmine.clock().uninstall();
+            });
+
+            it('should return a RunnerPromise', function() {
+                expect(result).toEqual(jasmine.any(RunnerPromise));
+            });
+
+            it('should test each feature', function() {
+                expect(browser.test).toHaveBeenCalledWith('test1');
+                expect(browser.test).toHaveBeenCalledWith('testB');
+                expect(browser.test).toHaveBeenCalledWith('test3');
+            });
+
+            it('should fulfill with an Object with the result of each test', function() {
+                expect(success).toHaveBeenCalledWith({
+                    test1: true,
+                    testB: false,
+                    test3: true
+                });
+            });
+
+            describe('if the timeout is reached before a test result is given', function() {
+                beforeEach(function(done) {
+                    browser.addTest('testB', () => new Promise(() => {}));
+                    success.calls.reset();
+                    failure.calls.reset();
+
+                    browser.getProfile(timeout).then(success, failure).then(done);
+
+                    jasmine.clock().tick(timeout);
+                });
+
+                it('should not include the results for that test', function() {
+                    expect(success).toHaveBeenCalledWith({
+                        test1: true,
+                        test3: true
+                    });
+                });
+            });
+
+            describe('if no timeout is provided', function() {
+                let resolveOne, resolveTwo;
+
+                beforeEach(function(done) {
+                    browser.constructor();
+                    success.calls.reset();
+                    failure.calls.reset();
+                    browser.addTest('one', () => new Promise(resolve => resolveOne = resolve));
+                    browser.addTest('two', () => new Promise(resolve => resolveTwo = resolve));
+
+                    browser.getProfile().then(success, failure).then(done);
+
+                    jasmine.clock().tick(9);
+                    resolveOne(false);
+                    Promise.resolve().then(() => {}).then(() => {}).then(() => {
+                        jasmine.clock().tick(1);
+                    });
+                });
+
+                it('should default to 10 ms', function() {
+                    expect(success).toHaveBeenCalledWith({
+                        one: false
                     });
                 });
             });

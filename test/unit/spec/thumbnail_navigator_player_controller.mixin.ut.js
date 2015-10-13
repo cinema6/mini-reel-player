@@ -7,6 +7,7 @@ import Runner from '../../../lib/Runner.js';
 import LinksListView from '../../../src/views/LinksListView.js';
 import PrerollCardController from '../../../src/controllers/PrerollCardController.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 class DeckView extends View {
     show() {}
     hide() {}
@@ -22,6 +23,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
     MyPlayerController.mixin(ThumbnailNavigatorPlayerController);
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         experience = { data: { collateral: {} } };
         profile = { flash: false };
         view = new PlayerView();

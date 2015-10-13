@@ -195,13 +195,6 @@ export default class MiniReel extends Mixable {
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));
             session.on('hide', () => this.close());
-            session.on('initAnalytics', config => {
-                dispatcher.addClient(GoogleAnalyticsHandler, this, config);
-                dispatcher.addClient(MoatHandler, config);
-                if (config.container === 'jumpramp'){
-                    dispatcher.addClient(JumpRampHandler );
-                }
-            });
             session.on('showCard', id => this.moveTo(find(this.deck, card => card.id === id)));
         });
 
@@ -225,8 +218,11 @@ export default class MiniReel extends Mixable {
         // friendly iframe
         global.parent.addEventListener('beforeunload', () => Runner.run(() => this.close()), false);
 
+        dispatcher.addClient(GoogleAnalyticsHandler, this);
+        dispatcher.addClient(MoatHandler);
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
+        if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
     }
 

@@ -1,7 +1,9 @@
+import RecapCard from '../../../src/models/RecapCard.js';
+import Card from '../../../src/models/Card.js';
+import MiniReel from '../../../src/models/MiniReel.js';
+import dispatcher from '../../../src/services/dispatcher.js';
+
 describe('RecapCard', function() {
-    import RecapCard from '../../../src/models/RecapCard.js';
-    import Card from '../../../src/models/Card.js';
-    import MiniReel from '../../../src/models/MiniReel.js';
     let card, minireel;
 
     const experience = {
@@ -39,6 +41,7 @@ describe('RecapCard', function() {
     /* jshint quotmark:single */
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         minireel = new MiniReel();
         minireel.splash = '/collateral/experiences/e-42108b552a05ea/splash';
         card = new RecapCard(data, experience, profile, minireel);

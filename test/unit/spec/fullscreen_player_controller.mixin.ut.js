@@ -6,6 +6,7 @@ import PlayerView from '../../../src/views/PlayerView.js';
 import Runner from '../../../lib/Runner.js';
 import View from '../../../lib/core/View.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 class MyPlayerController extends PlayerController {}
 MyPlayerController.mixin(FullscreenPlayerController);
 class DeckView extends View {
@@ -18,6 +19,7 @@ describe('FullscreenPlayerController', function() {
     let experience;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         experience = { data: { collateral: {} } };
 
         Ctrl = new MyPlayerController(new View(document.createElement('body')));

@@ -10,6 +10,7 @@ const realSetTimeout = global.setTimeout;
 Promise._setScheduler(flush => realSetTimeout(flush, 1));
 
 global.c6 = {};
+global.ga = jasmine.createSpy('ga()');
 
 beforeEach(function() {
     jasmine.addMatchers({

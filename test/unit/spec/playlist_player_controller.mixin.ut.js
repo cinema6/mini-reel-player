@@ -8,6 +8,7 @@ import Runner from '../../../lib/Runner.js';
 import PlayerView from '../../../src/views/PlayerView.js';
 import View from '../../../lib/core/View.js';
 import CardView from '../../../src/views/CardView.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 class MyPlayerController extends PlayerController {}
 MyPlayerController.mixin(PlaylistPlayerController);
 class DeckView extends View {
@@ -21,6 +22,8 @@ describe('PlaylistPlayerController mixin', function() {
     let profile;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         experience = { data: {} };
         profile = { flash: false };
 

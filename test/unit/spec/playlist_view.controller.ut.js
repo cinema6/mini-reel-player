@@ -3,12 +3,15 @@ import ViewController from '../../../src/controllers/ViewController.js';
 import MiniReel from '../../../src/models/MiniReel.js';
 import PlaylistView from '../../../src/views/PlaylistView.js';
 import VideoCard from '../../../src/models/VideoCard.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 
 describe('PlaylistViewController', function() {
     let PlaylistViewCtrl;
     let minireel;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         minireel = new MiniReel();
         spyOn(PlaylistViewController.prototype, 'addListeners').and.callThrough();
 

@@ -5,6 +5,7 @@ import RecapCard from '../../../../src/models/RecapCard.js';
 import View from '../../../../lib/core/View.js';
 import RecapCardController from '../../../../src/controllers/RecapCardController.js';
 import MobileRecapCardView from '../../../../src/views/mobile/MobileRecapCardView.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('MobileRecapCardController', function() {
    let MobileRecapCardCtrl;
@@ -18,6 +19,7 @@ describe('MobileRecapCardController', function() {
     const profile = { flash: false };
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         minireel = new MiniReel();
         minireel.deck = [
             new VideoCard({

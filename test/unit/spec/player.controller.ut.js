@@ -15,6 +15,7 @@ import DeckView from '../../../src/views/DeckView.js';
 import environment from '../../../src/environment.js';
 import { EventEmitter } from 'events';
 import Mixable from '../../../lib/core/Mixable.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 
 describe('PlayerController', function() {
     let PlayerCtrl;
@@ -60,6 +61,8 @@ describe('PlayerController', function() {
     beforeEach(function() {
         cinema6.constructor();
         environment.constructor();
+
+        spyOn(dispatcher, 'addClient');
 
         experience = {
             data: {

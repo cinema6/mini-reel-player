@@ -3,6 +3,7 @@ import ViewController from '../../../../src/controllers/ViewController.js';
 import cinema6 from '../../../../src/services/cinema6.js';
 import TableOfContentsView from '../../../../src/views/mobile/TableOfContentsView.js';
 import MiniReel from '../../../../src/models/MiniReel.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('TableOfContentsViewController', function() {
     let TableOfContentsViewCtrl;
@@ -218,6 +219,7 @@ describe('TableOfContentsViewController', function() {
     const profile = { flash: false };
 
     beforeEach(function(done) {
+        spyOn(dispatcher, 'addClient');
         spyOn(cinema6, 'getAppData').and.returnValue(Promise.resolve({
             experience: experience,
             profile: profile

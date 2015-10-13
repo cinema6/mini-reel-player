@@ -702,6 +702,9 @@ describe('MiniReel', function() {
         profile = { flash: false };
 
         environment.constructor();
+        environment.params = {
+            container: 'jun'
+        };
 
         session = new EventEmitter();
         session.ping = jasmine.createSpy('session.ping()');
@@ -746,6 +749,18 @@ describe('MiniReel', function() {
 
     it('should add the PostMessageHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(PostMessageHandler, window.parent.postMessage);
+    });
+
+    it('should add the GoogleAnalyticsHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel);
+    });
+
+    it('should add the MoatHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler);
+    });
+
+    it('should not add the JumpRampHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).not.toHaveBeenCalledWith(JumpRampHandler);
     });
 
     it('should add itself as a source', function() {
@@ -1578,40 +1593,6 @@ describe('MiniReel', function() {
         });
     });
 
-    describe('when the session pings "initAnalytics" with container != jumpramp', function() {
-        let config;
-
-        beforeEach(function() {
-            config = { data: 'foo' };
-
-            session.emit('initAnalytics', config);
-        });
-
-        it('should add the GoogleAnalytics and Moat Handlers', function() {
-            expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel, config);
-            expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler, config);
-
-            expect(dispatcher.addClient).not.toHaveBeenCalledWith(JumpRampHandler );
-        });
-    });
-
-    describe('when the session pings "initAnalytics" with container == jumpramp', function() {
-        let config;
-
-        beforeEach(function() {
-            config = { data: 'foo', container : 'jumpramp' };
-
-            session.emit('initAnalytics', config);
-        });
-
-        it('should add the GoogleAnalytics, Moat and JumpRamp Handlers', function() {
-            expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel, config);
-            expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler, config);
-
-            expect(dispatcher.addClient).toHaveBeenCalledWith(JumpRampHandler );
-        });
-    });
-
     describe('when the minireel becomes unskippable', function() {
         var becameUncloseable;
 
@@ -2008,6 +1989,19 @@ describe('MiniReel', function() {
                     kv: { mode: 'cinema6' }
                 }));
             });
+        });
+    });
+
+    describe('if the container is jumpramp', function() {
+        beforeEach(function() {
+            environment.params.container = 'jumpramp';
+            dispatcher.addClient.calls.reset();
+
+            minireel = new MiniReel();
+        });
+
+        it('should add the JumpRampHandler to the dispatcher', function() {
+            expect(dispatcher.addClient).toHaveBeenCalledWith(JumpRampHandler);
         });
     });
 

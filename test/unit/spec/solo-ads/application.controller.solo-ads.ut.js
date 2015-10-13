@@ -1,11 +1,14 @@
 import SoloAdsApplicationController from '../../../../src/controllers/solo-ads/SoloAdsApplicationController.js';
 import ApplicationController from '../../../../src/controllers/ApplicationController.js';
 import SoloAdsPlayerController from '../../../../src/controllers/solo-ads/SoloAdsPlayerController.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('SoloAdsApplicationController', function() {
     let SoloAdsApplicationCtrl;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         SoloAdsApplicationCtrl = new SoloAdsApplicationController(document.createElement('body'));
     });
 

@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+* *[v1.0.0-rc1]*
+  * Add support for bootstrapping via the player service
+  * Add support for sending performance timings when firing tracking
+    pixels
+  * **Note**: `v2.40.0` of [cinema6/c6embed](https://github.com/cinema6/c6embed) must be deployed first
+
 ## v0.28.0 (September 29, 2015)
 * *[v0.28.0-rc1]*
   * [FEATURE]: Added support for Wistia video cards

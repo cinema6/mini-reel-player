@@ -2,9 +2,9 @@ import moatApi from '../services/moat.js';
 import environment from '../environment.js';
 
 export default class MoatHandler {
-    constructor(register,config ) {
-        const { container } = config;
+    constructor(register) {
         const site = environment.hostname;
+        const { container } = environment.params;
 
         function moatEvent(evtType,player){
             var vol = player.volume;

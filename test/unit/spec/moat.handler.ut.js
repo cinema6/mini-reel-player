@@ -3,9 +3,10 @@ import moatApi from '../../../src/services/moat.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';
+import environment from '../../../src/environment.js';
 
 describe('MoatHandler', function() {
-    let handler, config;
+    let handler;
 
     class MockHandler extends MoatHandler {
         constructor() {
@@ -18,15 +19,13 @@ describe('MoatHandler', function() {
         spyOn(moatApi,'initTracker');
         spyOn(moatApi,'dispatchEvent');
 
-        moatApi.constructor();
-        dispatcher.constructor();
-        config = {
-            accountId: '12345',
-            clientId: 'abcde' ,
-            context: 'standalone',
+        environment.params = {
             container: 'jun'
         };
-        dispatcher.addClient(MockHandler, config);
+
+        moatApi.constructor();
+        dispatcher.constructor();
+        dispatcher.addClient(MockHandler);
     });
 
     afterAll(function() {

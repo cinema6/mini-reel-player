@@ -59,6 +59,7 @@ class Environment {
         }.call(this));
 
         this.initTime = c6.kStartTime;
+        this.loadStartTime = c6.kLoadStart || global.performance.timing.requestStart || null;
         this.guid = (() => {
             const guid = storage.get(GUID_KEY) || generateId(32);
             storage.set(GUID_KEY, guid);

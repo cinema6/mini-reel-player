@@ -184,6 +184,53 @@ describe('environment', function() {
             });
         });
 
+        describe('loadStartTime', function() {
+            it('should be the requestStart from the navigation performance API', function() {
+                expect(environment.loadStartTime).toBe(window.performance.timing.requestStart);
+            });
+
+            describe('if there is no requestStart timing', function() {
+                let orig;
+
+                beforeEach(function() {
+                    orig = window.performance.timing.requestStart;
+
+                    try {
+                        delete window.performance.timing.requestStart;
+                    } catch(e) {}
+
+                    environment.constructor();
+                });
+
+                afterEach(function() {
+                    try {
+                        window.performance.timing.requestStart = orig;
+                    } catch(e) {}
+                });
+
+                it('should be null', function() {
+                    if (!window.performance.timing.requestStart) {
+                        expect(environment.loadStartTime).toBeNull();
+                    }
+                });
+            });
+
+            describe('if there is a c6.kLoadStart', function() {
+                beforeEach(function() {
+                    c6.kLoadStart = Date.now();
+                    environment.constructor();
+                });
+
+                afterEach(function() {
+                    delete c6.kLoadStart;
+                });
+
+                it('should be that', function() {
+                    expect(environment.loadStartTime).toBe(c6.kLoadStart);
+                });
+            });
+        });
+
         describe('guid', function() {
             describe('if there is no __c6_guid__ in localStorage', function() {
                 beforeEach(function() {

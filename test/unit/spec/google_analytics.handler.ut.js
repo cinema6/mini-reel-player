@@ -19,7 +19,6 @@ import {
 describe('GoogleAnalyticsHandler', function() {
     let handler;
     let trckr;
-    let config;
     let minireel;
     let experience;
 
@@ -52,7 +51,6 @@ describe('GoogleAnalyticsHandler', function() {
         experience = { data: {} };
 
         trckr = tracker.get('c6mr');
-        config = { accountId: '12345', clientId: 'abcde' };
         minireel = new MiniReel();
 
         spyOn(trckr, 'create');
@@ -67,11 +65,22 @@ describe('GoogleAnalyticsHandler', function() {
             }
         };
         environment.initTime = Date.now() - 450;
+        environment.params = {
+            context: 'some-context',
+            container: 'pocketmath',
+            group: 'my-group',
+            ex: 'some-experiment',
+            vr: 'some-variant',
+            campaign: 'cam-fu439ryh483r',
+            experience: 'e-jdn8239yr84'
+        };
 
         environment.ancestorOrigins = ['http://localhost:8000', 'http://cinema6.com', 'http://minireel.tv'];
         environment.hostname = 'cinema6.com';
 
-        Runner.run(() => dispatcher.addClient(MockHandler, minireel, config));
+        spyOn(GoogleAnalyticsHandler.prototype, 'getAccountID').and.returnValue('UA-44457821-10');
+
+        Runner.run(() => dispatcher.addClient(MockHandler, minireel));
     });
 
     afterAll(function() {
@@ -85,9 +94,8 @@ describe('GoogleAnalyticsHandler', function() {
     });
 
     it('should create the tracker', function() {
-        expect(trckr.create).toHaveBeenCalledWith(config.accountId, {
+        expect(trckr.create).toHaveBeenCalledWith(handler.getAccountID(), {
             name: 'c6mr',
-            clientId: config.clientId,
             storage: 'none',
             cookieDomain: 'none'
         });
@@ -130,9 +138,31 @@ describe('GoogleAnalyticsHandler', function() {
     });
 
     describe('properties:', function() {
+        describe('config', function() {
+            it('should be formulated from the environment', function() {
+                expect(handler.config).toEqual({
+                    context: environment.params.context,
+                    container: environment.params.container,
+                    group: environment.params.group,
+                    experiment: environment.params.ex,
+                    variant: environment.params.vr
+                });
+            });
+        });
+
         describe('tracker', function() {
             it('should be the c6mr tracker', function() {
                 expect(handler.tracker).toBe(trckr);
+            });
+        });
+
+        describe('account', function() {
+            it('should be an object with configuration', function() {
+                expect(handler.account).toEqual({
+                    id: 'UA-44457821',
+                    min: 31,
+                    max: 35
+                });
             });
         });
     });
@@ -617,6 +647,20 @@ describe('GoogleAnalyticsHandler', function() {
     });
 
     describe('methods:', function() {
+        describe('getAccountID()', function() {
+            let result;
+
+            beforeEach(function() {
+                handler.getAccountID.and.callThrough();
+
+                result = handler.getAccountID();
+            });
+
+            it('should return a GA account ID', function() {
+                expect(result).toMatch(/^UA-44457821-3[1-5]$/);
+            });
+        });
+
         describe('getTrackingData(data)', function() {
             let result;
             let card, params;
@@ -636,6 +680,8 @@ describe('GoogleAnalyticsHandler', function() {
                 minireel.currentIndex = 3;
 
                 spyOn(trckr, 'trackEvent');
+
+                handler.config = {};
 
                 result = handler.getTrackingData(params);
             });
@@ -695,11 +741,11 @@ describe('GoogleAnalyticsHandler', function() {
 
             describe('if analyticsConfig has been set',function() {
                 beforeEach(function() {
-                    config.experiment = null;
-                    config.variant = null;
-                    config.context = 'howard1';
-                    config.container = 'cont1';
-                    config.group = 'grp1';
+                    handler.config.experiment = null;
+                    handler.config.variant = null;
+                    handler.config.context = 'howard1';
+                    handler.config.container = 'cont1';
+                    handler.config.group = 'grp1';
                 });
                 it('should use all if set',function() {
                     expect(handler.getTrackingData())
@@ -708,15 +754,15 @@ describe('GoogleAnalyticsHandler', function() {
                         }));
                 });
                 it('should use container if set',function() {
-                    delete config.group;
+                    handler.config.group = undefined;
                     expect(handler.getTrackingData())
                         .toEqual(jasmine.objectContaining({
                             page: `/mr/${minireel.id}/${card.id}/?cx=howard1&ct=cont1&ix=3&bd=urbantimes`,
                         }));
                 });
                 it('should use context if set',function() {
-                    delete config.group;
-                    delete config.container;
+                    handler.config.group = undefined;
+                    handler.config.container = undefined;
                     expect(handler.getTrackingData())
                         .toEqual(jasmine.objectContaining({
                             page: `/mr/${minireel.id}/${card.id}/?cx=howard1&ix=3&bd=urbantimes`,
@@ -724,10 +770,10 @@ describe('GoogleAnalyticsHandler', function() {
                 });
 
                 it('should use experiment and variant if set', function() {
-                    delete config.group;
-                    delete config.container;
-                    config.experiment = 'my-experiment';
-                    config.variant = 'my-variant';
+                    handler.config.group = undefined;
+                    handler.config.container = undefined;
+                    handler.config.experiment = 'my-experiment';
+                    handler.config.variant = 'my-variant';
 
                     expect(handler.getTrackingData())
                         .toEqual(jasmine.objectContaining({

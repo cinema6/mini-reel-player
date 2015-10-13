@@ -1,13 +1,17 @@
-describe('cinema6', function() {
-    import cinema6 from '../../../src/services/cinema6.js';
-    import {EventEmitter} from 'events';
-    import RunnerPromise from '../../../lib/RunnerPromise.js';
-    import postMessage from '../../../src/services/post_message.js';
-    import global from '../../../lib/global.js';
-    import {
-        defer
-    } from '../../../lib/utils.js';
+import cinema6 from '../../../src/services/cinema6.js';
+import { EventEmitter } from 'events';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import postMessage from '../../../src/services/post_message.js';
+import global from '../../../lib/global.js';
+import resource from '../../../src/services/resource.js';
+import browser from '../../../src/services/browser.js';
+import environment from '../../../src/environment.js';
+import {
+    defer,
+    extend
+} from '../../../lib/utils.js';
 
+describe('cinema6', function() {
     let _private,
         session,
         requestPromise,
@@ -51,7 +55,11 @@ describe('cinema6', function() {
                 initResult = cinema6.init(config);
                 handshakeData = {
                     success: true,
-                    appData: {}
+                    appData: {
+                        experience: { id: 'e-82y93r8e34', data: { deck: [] } },
+                        standalone: true,
+                        interstitial: false
+                    }
                 };
             });
 
@@ -105,7 +113,7 @@ describe('cinema6', function() {
                 });
 
                 it('should resolve the appData promise', function() {
-                    expect(done).toHaveBeenCalledWith(handshakeData.appData);
+                    expect(done).toHaveBeenCalledWith(extend(handshakeData.appData, { autoLaunch: false }));
                 });
 
                 describe('if a setup method is configured', function() {
@@ -126,7 +134,7 @@ describe('cinema6', function() {
                         });
 
                         it('should call the setup method with the appData', function() {
-                            expect(initConfig.setup).toHaveBeenCalledWith(handshakeData.appData);
+                            expect(initConfig.setup).toHaveBeenCalledWith(extend(handshakeData.appData, { autoLaunch: false }));
                         });
                     });
 
@@ -182,8 +190,89 @@ describe('cinema6', function() {
         });
 
         describe('getAppData()', function() {
-            it('should return the appData promise', function() {
-                expect(cinema6.getAppData()).toBe(_private.appData.promise);
+            let resources;
+            let appData;
+            let profile;
+            let success, failure;
+
+            beforeEach(function(done) {
+                appData = {
+                    experience: { id: 'e-dhf8934yr843', data: { deck: [] } },
+                    profile: { flash: true },
+                    standalone: false
+                };
+                _private.appData.fulfill(appData);
+
+                profile = {
+                    flash: false
+                };
+                spyOn(browser, 'getProfile').and.returnValue(RunnerPromise.resolve(profile));
+
+                environment.params = {
+                    standalone: false,
+                    interstitial: true,
+                    autoLaunch: false,
+                    container: 'pocketmath',
+                    campaign: 'cam-h8394rh834'
+                };
+
+                resources = {
+                    experience: { id: 'e-hu837ry4738ry', data: { deck: [] } }
+                };
+                spyOn(resource, 'get').and.callFake(src => {
+                    const resource = resources[src];
+
+                    if (resource) {
+                        return RunnerPromise.resolve(resource);
+                    } else {
+                        return RunnerPromise.reject(new Error('Not found.'));
+                    }
+                });
+
+                success = jasmine.createSpy('success()');
+                failure = jasmine.createSpy('failure()');
+
+                cinema6.getAppData().then(success, failure).then(done);
+            });
+
+            it('should return appData that is formulated from the environment and the experience resource', function() {
+                expect(success).toHaveBeenCalledWith({
+                    experience: resources.experience,
+                    standalone: environment.params.standalone,
+                    interstitial: environment.params.interstitial,
+                    autoLaunch: environment.params.autoLaunch,
+                    profile: profile
+                });
+            });
+
+            describe('if there is no autoLaunch param', function() {
+                beforeEach(function(done) {
+                    success.calls.reset();
+                    failure.calls.reset();
+                    delete environment.params.autoLaunch;
+
+                    cinema6.getAppData().then(success, failure).then(done);
+                });
+
+                it('should make autoLaunch true', function() {
+                    expect(success).toHaveBeenCalledWith(jasmine.objectContaining({
+                        autoLaunch: true
+                    }));
+                });
+            });
+
+            describe('if there is no experience resource', function() {
+                beforeEach(function(done) {
+                    delete resources.experience;
+                    success.calls.reset();
+                    failure.calls.reset();
+
+                    cinema6.getAppData().then(success, failure).then(done);
+                });
+
+                it('should fulfill with the appData from the session', function() {
+                    expect(success).toHaveBeenCalledWith(appData);
+                });
             });
         });
 

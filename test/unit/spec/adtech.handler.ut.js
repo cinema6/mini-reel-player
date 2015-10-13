@@ -8,6 +8,7 @@ import completeUrl from '../../../src/fns/complete_url.js';
 import Card from '../../../src/models/Card.js';
 import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
 import { EventEmitter } from 'events';
+import environment from '../../../src/environment.js';
 
 function completeUrlWithDefaults(url) { return completeUrl(url); }
 
@@ -45,6 +46,8 @@ describe('ADTECHHandler', function() {
         jasmine.clock().install();
         jasmine.clock().mockDate();
 
+        environment.loadStartTime = Date.now();
+
         experience = {
             data: {}
         };
@@ -59,7 +62,7 @@ describe('ADTECHHandler', function() {
             collateral: {},
             campaign: {
                 minViewTime: 7,
-                loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}'],
+                loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}', 'img4.jpg?cb={cachebreaker}&delay={loadDelay}'],
                 playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}&delay={playDelay}'],
                 countUrls: ['img3.jpg', 'img4.jpg?page={pageUrl}'],
                 q1Urls: ['img5.jpg', 'img6.jpg?page={pageUrl}'],
@@ -71,7 +74,7 @@ describe('ADTECHHandler', function() {
         }, experience);
         minireel = new EventEmitter();
         minireel.campaign = {
-            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}', 'img2.jpg?cb={cachebreaker}']
+            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}', 'img2.jpg?cb={cachebreaker}']
         };
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
@@ -96,11 +99,29 @@ describe('ADTECHHandler', function() {
             beforeEach(function() {
                 spyOn(imageLoader, 'load');
 
+                jasmine.clock().tick(150);
+
                 minireel.emit('launch');
             });
 
             it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(completeUrlWithDefaults));
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(url => completeUrl(url, {
+                    '{launchDelay}': 150
+                })));
+            });
+
+            describe('if the loadStartTime is unknown', function() {
+                beforeEach(function() {
+                    environment.loadStartTime = null;
+                    imageLoader.load.calls.reset();
+                    minireel.emit('launch');
+                });
+
+                it('should replace the {launchDelay} macro with null', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(url => completeUrl(url, {
+                        '{launchDelay}': null
+                    })));
+                });
             });
 
             describe('if the minireel has no launchUrls', function() {
@@ -134,17 +155,35 @@ describe('ADTECHHandler', function() {
                         collateral: {},
                         campaign: {
                             minViewTime: -1,
-                            loadUrls: ['img5.jpg?cb={cachebreaker}&url={pageUrl}', 'img6.jpg?cb={cachebreaker}'],
+                            loadUrls: ['img5.jpg?cb={cachebreaker}&url={pageUrl}&delay={loadDelay}', 'img6.jpg?cb={cachebreaker}'],
                         }
                     }, experience),
                     new MockCard()
                 ];
 
+                jasmine.clock().tick(33);
+
                 minireel.emit('init');
             });
 
             it('should fire the loadPixels of all the cards', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(completeUrlWithDefaults));
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
+                    '{loadDelay}': 33
+                })));
+            });
+
+            describe('if the loadStartTime is unknown', function() {
+                beforeEach(function() {
+                    environment.loadStartTime = null;
+                    imageLoader.load.calls.reset();
+                    minireel.emit('init');
+                });
+
+                it('should replace the {launchDelay} macro with null', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
+                        '{loadDelay}': null
+                    })));
+                });
             });
         });
     });

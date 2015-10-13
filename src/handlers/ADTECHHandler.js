@@ -1,6 +1,7 @@
 import imageLoader from '../services/image_loader.js';
 import BillingHandler from './BillingHandler.js';
 import completeUrl from '../fns/complete_url.js';
+import environment from '../environment.js';
 import {
     map,
     reduce
@@ -14,13 +15,22 @@ export default class ADTECHHandler extends BillingHandler {
 
         register(({ target: minireel }) => {
             const { launchUrls } = minireel.campaign;
+            const { loadStartTime } = environment;
+            const launchDelay = loadStartTime && (Date.now() - loadStartTime);
 
-            if (launchUrls) { imageLoader.load(...map(launchUrls, completeUrlWithDefaults)); }
+            if (launchUrls) {
+                imageLoader.load(...map(launchUrls, url => completeUrl(url, {
+                    '{launchDelay}': launchDelay
+                })));
+            }
         }, 'navigation', 'launch');
         register(({ target: minireel }) => {
+            const { loadStartTime } = environment;
+            const loadDelay = loadStartTime && (Date.now() - loadStartTime);
+
             imageLoader.load(...map(reduce(minireel.deck, (result, card) => {
                 return result.concat(card.get('campaign.loadUrls') || []);
-            }, []), completeUrlWithDefaults));
+            }, []), url => completeUrl(url, { '{loadDelay}': loadDelay })));
         }, 'navigation', 'init');
 
         register(({ data: card }) => {

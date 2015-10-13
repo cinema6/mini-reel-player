@@ -216,7 +216,12 @@ export default class MiniReel extends Mixable {
 
         // TO-DO Place this listener on own window, not parent, when we switch away from
         // friendly iframe
-        global.parent.addEventListener('beforeunload', () => Runner.run(() => this.close()), false);
+        const handleBeforeunload = (() => Runner.run(() => this.close()));
+        try {
+            global.parent.addEventListener('beforeunload', handleBeforeunload, false);
+        } catch(e) {
+            global.addEventListener('beforeunload', handleBeforeunload, false);
+        }
 
         dispatcher.addClient(GoogleAnalyticsHandler, this);
         dispatcher.addClient(MoatHandler);

@@ -1714,11 +1714,13 @@ describe('MiniReel', function() {
             });
 
             spyOn(Card.prototype, 'prepare');
+            spyOn(minireel, 'moveToIndex');
 
             appDataDeferred.fulfill({
                 experience: experience,
                 standalone: true,
                 interstitial: true,
+                autoLaunch: false,
                 profile: profile
             });
         });
@@ -1779,6 +1781,10 @@ describe('MiniReel', function() {
             expect(minireel.socialLinks).toEqual(makeSocialLinks(minireel.links));
         });
 
+        it('should not launch the MiniReel', function() {
+            expect(minireel.moveToIndex).not.toHaveBeenCalled();
+        });
+
         it('should load the branding styles for the minireel', function() {
             expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme.css`);
             expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core.css`);
@@ -1812,6 +1818,26 @@ describe('MiniReel', function() {
             it('should load branding hover styles', function() {
                 expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme--hover.css`);
                 expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core--hover.css`);
+            });
+        });
+
+        describe('if autoLaunch is true', function() {
+            beforeEach(function(done) {
+                cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
+                    experience: experience,
+                    standalone: true,
+                    interstitial: true,
+                    autoLaunch: true,
+                    profile: profile
+                }));
+
+                minireel = new MiniReel();
+                spyOn(minireel, 'moveToIndex');
+                minireel.once('init', () => process.nextTick(done));
+            });
+
+            it('should launch the MiniReel', function() {
+                expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
             });
         });
 

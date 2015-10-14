@@ -12,12 +12,14 @@ import FullInstagramImageCardController from '../../../../src/controllers/full/F
 import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('FullNPPlayerController', function() {
     let FullNPPlayerCtrl;
     let rootView;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         rootView = new View(document.createElement('body'));
         spyOn(FullNPPlayerController.prototype, 'addView').and.callThrough();
         spyOn(FullNPPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();

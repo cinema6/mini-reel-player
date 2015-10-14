@@ -96,8 +96,6 @@ describe('PrerollCardController', function() {
                 });
 
                 afterEach(function() {
-                    jasmine.clock().tick(5000);
-                    jasmine.clock().tick(1);
                     jasmine.clock().uninstall();
                 });
 
@@ -114,9 +112,9 @@ describe('PrerollCardController', function() {
                 });
 
                 describe('if the player does not player after 5 seconds', function() {
-                    beforeEach(function() {
+                    beforeEach(function(done) {
                         jasmine.clock().tick(5000);
-                        jasmine.clock().tick(1);
+                        Promise.resolve().then(() => {}).then(() => {}).then(() => {}).then(done);
                     });
 
                     it('should abort() the card', function() {
@@ -125,11 +123,11 @@ describe('PrerollCardController', function() {
                 });
 
                 describe('if the player plays before three seconds', function() {
-                    beforeEach(function() {
+                    beforeEach(function(done) {
                         jasmine.clock().tick(4500);
                         player.emit('play');
                         jasmine.clock().tick(500);
-                        jasmine.clock().tick(1);
+                        Promise.resolve().then(() => {}).then(() => {}).then(() => {}).then(done);
                     });
 
                     it('should not abort() the card', function() {

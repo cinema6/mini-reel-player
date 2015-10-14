@@ -1,5 +1,4 @@
-var c6embed = require('../resources/c6embed-server');
-var grunt = require('grunt');
+var httpMock = require('http-mock');
 
 module.exports = {
     options: {
@@ -14,13 +13,10 @@ module.exports = {
                 'use strict';
 
                 return [
-                    c6embed({
-                        playerFile: '.build/index.html',
-                        urlRoot: 'mothership',
+                    httpMock({
+                        '/': 'server/index.js',
 
-                        params: grunt.config.get('server.params'),
-                        experiences: [grunt.config.get('server.exp')],
-                        index: 0
+                        '@verbosity': 0
                     })
                 ].concat(middleware);
             }

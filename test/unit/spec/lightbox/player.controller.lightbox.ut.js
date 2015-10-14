@@ -12,11 +12,13 @@ import FullInstagramImageCardController from '../../../../src/controllers/full/F
 import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('LightboxPlayerController', function() {
     let LightboxPlayerCtrl;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         spyOn(LightboxPlayerController.prototype, 'addView').and.callThrough();
         spyOn(LightboxPlayerController.prototype, 'initFullscreen').and.callThrough();
         spyOn(LightboxPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();

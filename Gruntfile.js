@@ -1,7 +1,3 @@
-var request = require('request-promise');
-var BluebirdPromise = require('bluebird').Promise;
-var url = require('url');
-
 module.exports = function(grunt) {
     'use strict';
 
@@ -61,16 +57,12 @@ module.exports = function(grunt) {
      *
      *********************************************************************************************/
 
-    grunt.registerTask('server', 'start a development server', function(_index_) {
-        var done = this.async();
+    grunt.registerTask('server', 'start a development server', function(exp) {
         var tdd = grunt.option('tdd');
-        var modeOverride = grunt.option('mode');
+        var mode = grunt.option('mode') || 'full-np';
 
         var withTests = !!tdd;
         var target = (typeof tdd === 'string') ? tdd : 'app';
-        var index = _index_ === undefined ?
-            0 : (isNaN(parseInt(_index_)) ? undefined : parseInt(_index_));
-        var expId = index === undefined ? _index_ : undefined;
         var campId = grunt.option('campaign');
         var params = (function() {
             try {
@@ -80,64 +72,30 @@ module.exports = function(grunt) {
             }
         }());
 
-        function getMockExperience(index) {
-            var experiences = grunt.file.readJSON(grunt.config('settings.experiencesJSON'));
-
-            return BluebirdPromise.resolve(experiences[index]);
-        }
-
-        function getStagingExperience(expId, campId) {
-            return request.get({
-                uri: url.format({
-                    protocol: 'http',
-                    hostname: 'staging.cinema6.com',
-                    pathname: 'api/public/content/experience/' + expId,
-                    query: {
-                        preview: true,
-                        campaign: campId
-                    }
-                }),
-                json: true
-            });
-        }
-
-        function getExperience(index, expId, campId) {
-            return (!expId ? getMockExperience(index) : getStagingExperience(expId, campId))
-                .then(function setMode(experience) {
-                    if (modeOverride) {
-                        experience.data.mode = modeOverride;
-                    }
-
-                    return experience;
-                });
-        }
-
-        getExperience(index, expId, campId).then(function runSubTasks(experience) {
-            var mode = experience.data.mode;
-
-            grunt.config.set('browserify.server.files', [
-                {
-                    src: grunt.config('package.scripts.' + mode + '.js'),
-                    dest: 'server/.build/' + mode + '.js'
-                }
-            ]);
-            grunt.config.set('server.exp', experience);
-            grunt.config.set('server.params', params);
-
-            grunt.task.run('babelhelpers:build');
-
-            if (withTests) {
-                grunt.task.run('clean:test');
-                grunt.task.run('copy:test');
-                grunt.task.run('karma:server:foo:' + target);
+        grunt.config.set('browserify.server.files', [
+            {
+                src: grunt.config('package.scripts.' + mode + '.js'),
+                dest: 'server/.build/' + mode + '.js'
             }
-            grunt.task.run('clean:server');
-            grunt.task.run('connect:server');
-            grunt.task.run('copy:server');
-            grunt.task.run('browserify:server');
-            grunt.task.run('open:server');
-            grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
-        }).catch(done).finally(done);
+        ]);
+        grunt.config.set('server.campId', campId);
+        grunt.config.set('server.mode', mode);
+        grunt.config.set('server.exp', exp || '0');
+        grunt.config.set('server.params', params);
+
+        grunt.task.run('babelhelpers:build');
+
+        if (withTests) {
+            grunt.task.run('clean:test');
+            grunt.task.run('copy:test');
+            grunt.task.run('karma:server:foo:' + target);
+        }
+        grunt.task.run('clean:server');
+        grunt.task.run('connect:server');
+        grunt.task.run('copy:server');
+        grunt.task.run('browserify:server');
+        grunt.task.run('open:server');
+        grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
     });
 
     grunt.registerTask('server:docs', 'start a YUIDoc server', [

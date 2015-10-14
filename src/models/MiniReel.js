@@ -57,7 +57,7 @@ function getCardType(card) {
     }
 }
 
-function initialize(whitelist, { experience, standalone, interstitial, profile }) { // jshint ignore:line
+function initialize(whitelist, { experience, standalone, interstitial, profile, autoLaunch }) { // jshint ignore:line
     const deck = filter(experience.data.deck, card => whitelist.indexOf(getCardType(card)) > -1);
 
     this.standalone = standalone;
@@ -141,6 +141,8 @@ function initialize(whitelist, { experience, standalone, interstitial, profile }
     _(this).ready = true;
     this.emit('init');
     this.deck[0].prepare();
+
+    if (autoLaunch) { this.moveToIndex(0); }
 }
 
 export default class MiniReel extends Mixable {
@@ -193,13 +195,6 @@ export default class MiniReel extends Mixable {
         cinema6.getSession().then(session => {
             session.on('show', () => this.moveToIndex(0));
             session.on('hide', () => this.close());
-            session.on('initAnalytics', config => {
-                dispatcher.addClient(GoogleAnalyticsHandler, this, config);
-                dispatcher.addClient(MoatHandler, config);
-                if (config.container === 'jumpramp'){
-                    dispatcher.addClient(JumpRampHandler );
-                }
-            });
             session.on('showCard', id => this.moveTo(find(this.deck, card => card.id === id)));
         });
 
@@ -221,10 +216,18 @@ export default class MiniReel extends Mixable {
 
         // TO-DO Place this listener on own window, not parent, when we switch away from
         // friendly iframe
-        global.parent.addEventListener('beforeunload', () => Runner.run(() => this.close()), false);
+        const handleBeforeunload = (() => Runner.run(() => this.close()));
+        try {
+            global.parent.addEventListener('beforeunload', handleBeforeunload, false);
+        } catch(e) {
+            global.addEventListener('beforeunload', handleBeforeunload, false);
+        }
 
+        dispatcher.addClient(GoogleAnalyticsHandler, this);
+        dispatcher.addClient(MoatHandler);
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
+        if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
     }
 

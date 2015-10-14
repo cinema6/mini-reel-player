@@ -12,6 +12,10 @@ function existy(value) {
     return value !== undefined && value !== null;
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function waitFor(emitter, event, timeout = 1000) {
     return new Promise((fulfill, reject) => {
         emitter.once(event, () => fulfill(emitter));
@@ -22,20 +26,29 @@ function waitFor(emitter, event, timeout = 1000) {
 }
 
 export default class GoogleAnalyticsHandler extends BillingHandler {
-    constructor(register, minireel, config) {
-        const { accountId, clientId } = config;
+    constructor(register, minireel) {
+        const { context, container, group, ex, vr } = environment.params;
 
         super(...arguments);
+
+        this.account = {
+            id: 'UA-44457821',
+            min: 31,
+            max: 35
+        };
 
         this.tracker = tracker.get('c6mr');
         this.startedSession = false;
 
         this.minireel = minireel;
-        this.config = config;
+        this.config = {
+            context, container, group,
+            experiment: ex,
+            variant: vr
+        };
 
-        this.tracker.create(accountId, {
+        this.tracker.create(this.getAccountID(), {
             name: 'c6mr',
-            clientId,
             storage: 'none',
             cookieDomain: 'none'
         });
@@ -163,6 +176,10 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
         this.on('AdCount', (card, player) => {
             this.tracker.trackEvent(this.getVideoTrackingData(player, 'AdCount'));
         });
+    }
+
+    getAccountID() {
+        return `${this.account.id}-${getRandomInt(this.account.min, this.account.max)}`;
     }
 
     getTrackingData(params = {}) {

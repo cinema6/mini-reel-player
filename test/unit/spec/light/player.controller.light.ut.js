@@ -11,11 +11,14 @@ import LightPrerollCardController from '../../../../src/controllers/light/LightP
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
 import LightInstagramVideoCardController from '../../../../src/controllers/light/LightInstagramVideoCardController.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('LightPlayerController', function() {
     let LightPlayerCtrl;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         spyOn(LightPlayerController.prototype, 'addView').and.callThrough();
         spyOn(LightPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();
 

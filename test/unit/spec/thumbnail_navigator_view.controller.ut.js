@@ -4,12 +4,14 @@ import MiniReel from '../../../src/models/MiniReel.js';
 import ThumbnailNavigatorView from '../../../src/views/ThumbnailNavigatorView.js';
 import Runner from '../../../lib/Runner.js';
 import ThumbnailNavigatorButtonView from '../../../src/views/ThumbnailNavigatorButtonView.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 
 describe('ThumbnailNavigatorViewController', function() {
     let ThumbnailNavigatorViewCtrl;
     let minireel;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         spyOn(ThumbnailNavigatorViewController.prototype, 'addView').and.callThrough();
         minireel = new MiniReel();
         minireel.campaign = {};

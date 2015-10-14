@@ -60,15 +60,17 @@
     "minifyify": "^6.3.2",
     "partialify": "^3.1.3",
     "q": "^1.1.2",
-    "request-promise": "^0.4.3",
-    "underscore": "^1.7.0"
+    "request-promise": "~0.4.3",
+    "underscore": "^1.7.0",
+    "http-mock": "git://github.com/cinema6/http-mock#v0.2.0",
+    "cwrx": "git+ssh://git@github.com:cinema6/cwrx"
   },
   "dependencies": {
     "babel-core": "^5.2.6",
     "es6-promise": "^2.0.1",
     "escape-regexp": "0.0.1",
     "gsap": "^1.15.1",
-    "prefix": "^0.2.1",
+    "prefix": "0.2.2",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",
     "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js#v0.3.1",

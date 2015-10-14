@@ -182,7 +182,6 @@ describe('SwipeableView mixin', function() {
             });
 
             it('should set the transition-property', function() {
-                prefix.dash('transform'); // Hack for PhantomJS regex bug
                 expect(view.element.style[prefix('transition-property')]).toBe(prefix.dash('transform'));
             });
 

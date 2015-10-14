@@ -1,10 +1,13 @@
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
 import postMessage from './post_message.js';
-import global from '../../lib/global.js';
-import {createKey} from 'private-parts';
+import resource from './resource.js';
+import browser from './browser.js';
+import environment from '../environment.js';
+import { createKey } from 'private-parts';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import {
-    defer
+    defer,
+    extend
 } from '../../lib/utils.js';
 
 const _ = createKey();
@@ -25,7 +28,8 @@ class Cinema6 extends EventEmitter {
     init(config = {}) {
         const session = postMessage.createSession(global.parent);
 
-        session.request('handshake').then(handshakeData => {
+        session.request('handshake').then(({ appData }) => {
+            const data = extend(appData, { autoLaunch: false });
             const completeHandshake = () => {
                 this.ready = true;
                 this.emit('ready', true);
@@ -34,12 +38,12 @@ class Cinema6 extends EventEmitter {
                 _(this).session.fulfill(session);
             };
 
-            _(this).appData.fulfill(handshakeData.appData);
+            _(this).appData.fulfill(data);
 
             let setupResult;
 
             if (config.setup) {
-                setupResult = config.setup(handshakeData.appData);
+                setupResult = config.setup(data);
             }
 
             if (setupResult instanceof Promise) {
@@ -59,7 +63,15 @@ class Cinema6 extends EventEmitter {
     }
 
     getAppData() {
-        return _(this).appData.promise;
+        const { standalone, interstitial, autoLaunch = true } = environment.params; // jshint ignore:line
+
+        return resource.get('experience').then(experience => browser.getProfile().then(profile => ({
+            experience,
+            profile,
+            standalone,
+            interstitial,
+            autoLaunch
+        }))).catch(() => _(this).appData.promise);
     }
 
     fullscreen(bool) {

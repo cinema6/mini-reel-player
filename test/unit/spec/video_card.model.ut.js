@@ -617,13 +617,13 @@ describe('VideoCard', function() {
                 describe('after the specified time', function() {
                     let becameSkippable;
 
-                    beforeEach(function() {
+                    beforeEach(function(done) {
                         becameSkippable = jasmine.createSpy('becameSkippable()');
                         card.on('becameSkippable', becameSkippable);
 
                         jasmine.clock().tick(10000);
                         skippableProgress.calls.reset();
-                        jasmine.clock().tick(5);
+                        Promise.resolve().then(done);
                     });
 
                     it('should set skippable to true', function() {

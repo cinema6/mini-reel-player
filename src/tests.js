@@ -75,3 +75,11 @@ browser.addTest('mouse', () => {
         document.body.addEventListener('touchstart', touchstart, false);
     });
 });
+
+browser.addTest('flash', () => {
+    try {
+        return new global.ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+    } catch(e) {
+        return global.navigator.mimeTypes['application/x-shockwave-flash'];
+    }
+});

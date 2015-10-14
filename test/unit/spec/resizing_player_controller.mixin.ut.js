@@ -1,6 +1,7 @@
 import PlayerController from '../../../src/controllers/PlayerController.js';
 import ResizingPlayerController from '../../../src/mixins/ResizingPlayerController.js';
 import Runner from '../../../lib/Runner.js';
+import dispatcher from '../../../src/services/dispatcher.js';
 import PlayerView from '../../../src/views/PlayerView.js';
 import {
     map
@@ -16,6 +17,8 @@ describe('ResizingPlayerController mixin', function() {
     let Ctrl;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         Ctrl = new MyPlayerController();
     });
 

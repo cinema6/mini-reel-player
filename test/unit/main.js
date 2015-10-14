@@ -6,7 +6,19 @@ global.addEventListener = function() {
     return realAddEventListener.apply(global, arguments);
 };
 
+const realSetTimeout = global.setTimeout;
+Promise._setScheduler(flush => realSetTimeout(flush, 1));
+
 global.c6 = {};
+global.ga = jasmine.createSpy('ga()');
+
+try {
+    global.performance = {
+        timing: {
+            requestStart: Date.now()
+        }
+    };
+} catch(e) {}
 
 beforeEach(function() {
     jasmine.addMatchers({

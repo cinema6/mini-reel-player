@@ -13,6 +13,7 @@ import View from '../../../../lib/core/View.js';
 import InfoPanelController from '../../../../src/controllers/swipe/InfoPanelController.js';
 import SafelyGettable from '../../../../src/mixins/SafelyGettable.js';
 import Mixable from '../../../../lib/core/Mixable.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('SwipePlayerController', function() {
     let SwipePlayerCtrl;
@@ -57,6 +58,8 @@ describe('SwipePlayerController', function() {
     MockCard.mixin(SafelyGettable);
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         session = {};
         parentView = new View();
         parentView.tag = 'body';

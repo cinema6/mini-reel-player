@@ -1,12 +1,14 @@
+import RecapCardController from '../../../src/controllers/RecapCardController.js';
+import CardController from '../../../src/controllers/CardController.js';
+import RecapCard from '../../../src/models/RecapCard.js';
+import VideoCard from '../../../src/models/VideoCard.js';
+import View from '../../../lib/core/View.js';
+import CardView from '../../../src/views/CardView.js';
+import Runner from '../../../lib/Runner.js';
+import MiniReel from '../../../src/models/MiniReel.js';
+import dispatcher from '../../../src/services/dispatcher.js';
+
 describe('RecapCardController', function() {
-    import RecapCardController from '../../../src/controllers/RecapCardController.js';
-    import CardController from '../../../src/controllers/CardController.js';
-    import RecapCard from '../../../src/models/RecapCard.js';
-    import VideoCard from '../../../src/models/VideoCard.js';
-    import View from '../../../lib/core/View.js';
-    import CardView from '../../../src/views/CardView.js';
-    import Runner from '../../../lib/Runner.js';
-    import MiniReel from '../../../src/models/MiniReel.js';
     let RecapCardCtrl;
 
     let card, minireel;
@@ -18,6 +20,8 @@ describe('RecapCardController', function() {
     const profile = { flash: false };
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
+
         minireel = new MiniReel();
         minireel.deck = [
             new VideoCard({

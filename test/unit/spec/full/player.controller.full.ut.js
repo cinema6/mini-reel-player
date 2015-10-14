@@ -13,12 +13,14 @@ import FullInstagramImageCardController from '../../../../src/controllers/full/F
 import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
 import PlaylistPlayerController from '../../../../src/mixins/PlaylistPlayerController.js';
 import ResizingPlayerController from '../../../../src/mixins/ResizingPlayerController.js';
+import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('FullPlayerController', function() {
     let FullPlayerCtrl;
     let rootView;
 
     beforeEach(function() {
+        spyOn(dispatcher, 'addClient');
         rootView = new View(document.createElement('body'));
         spyOn(FullPlayerController.prototype, 'addView').and.callThrough();
         spyOn(FullPlayerController.prototype, 'initPlaylist').and.callThrough();

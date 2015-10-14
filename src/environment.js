@@ -1,15 +1,23 @@
 import urlParser from './services/url_parser.js';
+import typeify from './fns/typeify.js';
+import {
+    parse as parseQueryString
+} from 'querystring';
+import {
+    basename
+} from 'path';
 import {
     reduce
 } from '../lib/utils.js';
 
 /*jshint scripturl:true*/
 const c6 = global.c6 || {};
-const $location = (() => {
+const $location = urlParser.parse(global.location.href);
+const $$location = (() => {
     try {
         return urlParser.parse(global.parent.location.href);
     } catch (e) {
-        return urlParser.parse(global.location.href);
+        return $location;
     }
 }());
 const GUID_KEY = '__c6_guid__';
@@ -35,14 +43,15 @@ const storage = {
 class Environment {
     constructor() {
         this.debug = !!c6.kDebug;
-        this.secure = $location.protocol === 'https';
+        this.secure = $$location.protocol === 'https';
         this.apiRoot = c6.kEnvUrlRoot || '//portal.cinema6.com';
-        this.mode = c6.kMode;
+        this.mode = c6.kMode || basename($location.pathname);
+        this.params = c6.kParams || typeify(parseQueryString($location.search));
 
-        this.protocol = ((/https?/).test($location.protocol) ? $location.protocol : 'http') + ':';
-        this.hostname = $location.hostname;
-        this.href = $location.href;
-        this.origin = $location.origin;
+        this.protocol = ((/https?/).test($$location.protocol) ? $$location.protocol : 'http') + ':';
+        this.hostname = $$location.hostname;
+        this.href = $$location.href;
+        this.origin = $$location.origin;
         this.ancestorOrigins = (function() {
             return window.location.ancestorOrigins ?
                 Array.prototype.slice.call(window.location.ancestorOrigins) :
@@ -50,6 +59,7 @@ class Environment {
         }.call(this));
 
         this.initTime = c6.kStartTime;
+        this.loadStartTime = c6.kLoadStart || global.performance.timing.requestStart || null;
         this.guid = (() => {
             const guid = storage.get(GUID_KEY) || generateId(32);
             storage.set(GUID_KEY, guid);

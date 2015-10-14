@@ -280,9 +280,9 @@ describe('VPAIDPlayer', function() {
             });
 
             describe('when the load is complete', function() {
-                beforeEach(function() {
+                beforeEach(function(done) {
                     loadDeferred.fulfill(vpaid);
-                    jasmine.clock().tick(1);
+                    Promise.resolve(loadDeferred.promise).then(done);
                 });
 
                 it('should call initAd()', function() {

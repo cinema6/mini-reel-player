@@ -1,4 +1,11 @@
 import environment from '../../../src/environment.js';
+import typeify from '../../../src/fns/typeify.js';
+import {
+    parse as parseURL
+} from 'url';
+import {
+    basename
+} from 'path';
 
 describe('environment', function() {
     let c6;
@@ -82,6 +89,27 @@ describe('environment', function() {
             });
         });
 
+        describe('params', function() {
+            it('should be the parsed query params of the page', function() {
+                expect(environment.params).toEqual(typeify(parseURL(window.location.href, true).query));
+            });
+
+            describe('if there is a c6.kParams object', function() {
+                beforeEach(function() {
+                    c6.kParams = { foo: 'bar' };
+                    environment.constructor();
+                });
+
+                afterEach(function() {
+                    delete c6.kParams;
+                });
+
+                it('should be that object', function() {
+                    expect(environment.params).toBe(c6.kParams);
+                });
+            });
+        });
+
         describe('mode', function() {
             beforeEach(function() {
                 c6.kMode = 'mobile';
@@ -90,6 +118,17 @@ describe('environment', function() {
 
             it('should be the value of c6.kMode', function() {
                 expect(environment.mode).toBe(c6.kMode);
+            });
+
+            describe('if there is no kMode', function() {
+                beforeEach(function() {
+                    delete c6.kMode;
+                    environment.constructor();
+                });
+
+                it('should be the basename() of the page', function() {
+                    expect(environment.mode).toBe(basename(parseURL(window.location.href).pathname));
+                });
             });
         });
 
@@ -142,6 +181,53 @@ describe('environment', function() {
 
             it('should be c6.kStartTime', function() {
                 expect(environment.initTime).toBe(c6.kStartTime);
+            });
+        });
+
+        describe('loadStartTime', function() {
+            it('should be the requestStart from the navigation performance API', function() {
+                expect(environment.loadStartTime).toBe(window.performance.timing.requestStart);
+            });
+
+            describe('if there is no requestStart timing', function() {
+                let orig;
+
+                beforeEach(function() {
+                    orig = window.performance.timing.requestStart;
+
+                    try {
+                        delete window.performance.timing.requestStart;
+                    } catch(e) {}
+
+                    environment.constructor();
+                });
+
+                afterEach(function() {
+                    try {
+                        window.performance.timing.requestStart = orig;
+                    } catch(e) {}
+                });
+
+                it('should be null', function() {
+                    if (!window.performance.timing.requestStart) {
+                        expect(environment.loadStartTime).toBeNull();
+                    }
+                });
+            });
+
+            describe('if there is a c6.kLoadStart', function() {
+                beforeEach(function() {
+                    c6.kLoadStart = Date.now();
+                    environment.constructor();
+                });
+
+                afterEach(function() {
+                    delete c6.kLoadStart;
+                });
+
+                it('should be that', function() {
+                    expect(environment.loadStartTime).toBe(c6.kLoadStart);
+                });
             });
         });
 

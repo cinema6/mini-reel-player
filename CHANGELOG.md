@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v1.0.0 (October 14, 2015)
+* *[v1.0.0-rc2]*
+  * [PERFORMANCE]: Replace GSAP animation library with moti.js CSS
+    animation library
+* *[/v1.0.0-rc2]*
+
 * *[v1.0.0-rc1]*
   * Add support for bootstrapping via the player service
   * Add support for sending performance timings when firing tracking

@@ -1,6 +1,6 @@
 {
   "name": "mini-reel-player",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "private": true,
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
@@ -69,7 +69,7 @@
     "babel-core": "^5.2.6",
     "es6-promise": "^2.0.1",
     "escape-regexp": "0.0.1",
-    "gsap": "^1.15.1",
+    "moti.js": "^0.1.0",
     "prefix": "0.2.2",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",

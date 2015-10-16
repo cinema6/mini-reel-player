@@ -1,5 +1,10 @@
 import animator from '../../lib/animator.js';
-import TimelineLite from 'gsap/src/uncompressed/TimelineLite.js';
+import {
+    select,
+    set,
+    transition,
+    many
+} from 'moti.js';
 
 function getOrientation() {
     if (window.innerHeight > window.innerWidth) {
@@ -9,27 +14,53 @@ function getOrientation() {
     return 'landscape';
 }
 
+function getTransformValue(offset) {
+    if (getOrientation() === 'portrait') {
+        return `translate3d(0px, ${offset}, 0)`;
+    } else {
+        return `translate3d(${offset}, 0px, 0)`;
+    }
+}
+
+function isHidden(element) {
+    return window.getComputedStyle(element).display === 'none';
+}
+
+function rejectIf(predicate, reason) {
+    return function test(element) {
+        if (predicate(element)) {
+            return Promise.reject(new Error(reason));
+        } else {
+            return element;
+        }
+    };
+}
+
 const animations = {
     navbar: {
-        show(view, done) {
-            const {element} = view;
-            const prop = getOrientation() === 'portrait' ? 'y' : 'x';
+        shown: true,
 
-            (new TimelineLite()).set(element, { display: '', [prop]: '-100%' })
-                .to(element, 0.5, { [prop]: '0%', force3D: true })
-                .set(element, { clearProps: 'transform' })
-                .call(done);
+        show(view, done) {
+            const { element } = view;
+
+            select(element)
+                .then(many([set('display', ''), set('transform', getTransformValue('-100%'))]))
+                .then(rejectIf(isHidden, 'Element is hidden.'))
+                .then(transition('transform', getTransformValue('0%'), 0.5))
+                .then(set('transform', ''))
+                .finally(done);
         },
 
         hide(view, done) {
-            const {element} = view;
-            const prop = getOrientation() === 'portrait' ? 'y' : 'x';
+            const { element } = view;
 
             this.shown = false;
 
-            (new TimelineLite()).to(element, 0.5, { [prop]: '-100%', force3D: true })
-                .set(element, { clearProps: 'transform', display: 'none' })
-                .call(done);
+            select(element)
+                .then(rejectIf(isHidden, 'Element is hidden.'))
+                .then(transition('transform', getTransformValue('-100%'), 0.5))
+                .then(many([set('transform', ''), set('display', 'none')]))
+                .finally(done);
         }
     },
 
@@ -37,32 +68,25 @@ const animations = {
         shown: false,
 
         show(view, done) {
-            const {element} = view;
-            const prop = getOrientation() === 'portrait' ? 'y' : 'x';
-
-            element.style.display = '';
+            const { element } = view;
 
             this.shown = true;
 
-            const tl = new TimelineLite();
-
-            tl.set(element, { [prop]: '100%' })
-                .to(element, 0.5, { [prop]: '0%', force3D: true })
-                .set(element, { clearProps: 'transform' })
-                .call(done);
+            select(element)
+                .then(many([set('display', ''), set('transform', getTransformValue('100%'))]))
+                .then(transition('transform', getTransformValue('0%'), 0.5))
+                .then(set('transform', ''))
+                .finally(done);
         },
 
         hide(view, done) {
+            const { element } = view;
             if (!this.shown) { return done(); }
 
-            const tl = new TimelineLite();
-            const prop = getOrientation() === 'portrait' ? 'y' : 'x';
-
-            this.shown = false;
-
-            tl.to(view.element, 0.5, { [prop]: '100%', force3D: true })
-                .set(view.element, { clearProps: 'transform', display: 'none' })
-                .call(done);
+            select(element)
+                .then(transition('transform', getTransformValue('100%'), 0.5))
+                .then(many([set('transform', ''), set('display', 'none')]))
+                .finally(done);
         }
     }
 };

@@ -51,7 +51,7 @@ describe('EmbedHandler', function() {
     });
 
     it('should add the session as a source', function() {
-        expect(dispatcher.addSource).toHaveBeenCalledWith('session', handler.session, ['show', 'hide', 'showCard']);
+        expect(dispatcher.addSource).toHaveBeenCalledWith('session', handler.session, ['ready', 'show', 'hide', 'showCard', 'vpaid:pauseAd', 'vpaid:resumeAd']);
     });
 
     describe('events:', function() {

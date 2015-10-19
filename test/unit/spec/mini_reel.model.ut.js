@@ -6,6 +6,7 @@ import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
 import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
+import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
 import Mixable from '../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
@@ -766,6 +767,10 @@ describe('MiniReel', function() {
 
     it('should not add the JumpRampHandler to the dispatcher', function() {
         expect(dispatcher.addClient).not.toHaveBeenCalledWith(JumpRampHandler);
+    });
+
+    it('should not add the VPAIDHandler', function() {
+        expect(dispatcher.addClient).not.toHaveBeenCalledWith(VPAIDHandler);
     });
 
     it('should add itself as a source', function() {
@@ -1943,6 +1948,19 @@ describe('MiniReel', function() {
 
         it('should add the JumpRampHandler to the dispatcher', function() {
             expect(dispatcher.addClient).toHaveBeenCalledWith(JumpRampHandler);
+        });
+    });
+
+    describe('if vpaid is true', function() {
+        beforeEach(function() {
+            environment.params.vpaid = true;
+            dispatcher.addClient.calls.reset();
+
+            minireel = new MiniReel();
+        });
+
+        it('should add the VPAIDHandler to the dispatcher', function() {
+            expect(dispatcher.addClient).toHaveBeenCalledWith(VPAIDHandler);
         });
     });
 

@@ -12,7 +12,9 @@ export default class EmbedHandler {
                 minireel.once('init', resolve);
             }))
         });
-        dispatcher.addSource('session', this.session, ['show', 'hide', 'showCard']);
+        dispatcher.addSource('session', this.session, [
+            'ready', 'show', 'hide', 'showCard', 'vpaid:pauseAd', 'vpaid:resumeAd'
+        ]);
 
         register(() => this.ping('open'), 'navigation', 'launch');
         register(() => this.ping('close'), 'navigation', 'close');

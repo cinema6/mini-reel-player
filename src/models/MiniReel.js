@@ -7,6 +7,7 @@ import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
 import JumpRampHandler from '../handlers/JumpRampHandler.js';
+import VPAIDHandler from '../handlers/VPAIDHandler.js';
 import Mixable from '../../lib/core/Mixable.js';
 import SafelyGettable from '../mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
@@ -221,6 +222,8 @@ export default class MiniReel extends Mixable {
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
         if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
+        if (environment.params.vpaid) { dispatcher.addClient(VPAIDHandler); }
+
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
     }
 

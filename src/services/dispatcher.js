@@ -3,7 +3,22 @@ import {
     forEach
 } from '../../lib/utils.js';
 
-const _ = createKey();
+const _ = createKey({
+    dispatchEvent(type, event, ...args) {
+        const { listeners } = this;
+        const bucket = ((listeners[type] || {})[event]) || [];
+
+        forEach(bucket.slice(), entry => {
+            const {handler, removed} = entry;
+
+            if (removed) {
+                bucket.slice(bucket.indexOf(entry), 1);
+            } else {
+                handler(...args);
+            }
+        });
+    }
+});
 
 class Dispatcher {
     constructor() {
@@ -43,29 +58,23 @@ class Dispatcher {
     }
 
     addSource(type, emitter, events, data = {}) {
-        const {listeners, emitterHandlers} = _(this);
+        const { emitterHandlers } = _(this);
         const handlers = emitterHandlers.get(emitter) || [];
 
         emitterHandlers.set(emitter, handlers);
 
         forEach(events, event => {
             const eventData = { type, data, name: event, target: emitter };
-            const handler = ((...args) => {
-                const bucket = ((listeners[type] || {})[event]) || [];
-
-                forEach(bucket.slice(), entry => {
-                    const {handler, removed} = entry;
-
-                    if (removed) {
-                        bucket.slice(bucket.indexOf(entry), 1);
-                    } else {
-                        handler(eventData, ...args);
-                    }
-                });
-            });
+            const handler = ((...args) => _(this).dispatchEvent(type, event, eventData, ...args));
 
             emitter.on(event, handler);
             handlers.push({event , handler});
+        });
+
+        _(this).dispatchEvent(type, '@addSource', {
+            type, data,
+            name: '@addSource',
+            target: emitter
         });
     }
 

@@ -108,6 +108,8 @@ describe('dispatcher', function() {
             let emitter1, emitter2;
             let data;
 
+            let addVideoSource, addNavigationSource;
+
             class Module {
                 constructor(_register_) {
                     register = _register_;
@@ -124,10 +126,24 @@ describe('dispatcher', function() {
                     title: 'Foo'
                 };
 
+                addVideoSource = jasmine.createSpy('addVideoSource()');
+                addNavigationSource = jasmine.createSpy('addNavigationSource()');
+
                 dispatcher.addClient(Module);
+
+                register(addVideoSource, 'video', '@addSource');
+                register(addNavigationSource, 'navigation', '@addSource');
 
                 dispatcher.addSource('video', emitter1, ['play', 'pause', 'timeupdate'], data);
                 dispatcher.addSource('navigation', emitter2, ['play', 'move', 'launch']);
+            });
+
+            it('should trigger the @addSource event', function() {
+                expect(addVideoSource).toHaveBeenCalledWith({ type: 'video', name: '@addSource', target: emitter1, data: data });
+                expect(addVideoSource.calls.count()).toBe(1);
+
+                expect(addNavigationSource).toHaveBeenCalledWith({ type: 'navigation', name: '@addSource', target: emitter2, data: {} });
+                expect(addNavigationSource.calls.count()).toBe(1);
             });
 
             describe('the register function', function() {
@@ -290,7 +306,7 @@ describe('dispatcher', function() {
 
                 register(handler, 'video', 'play');
 
-                dispatcher.addSource('video', emitter1, ['play']);
+                dispatcher.addSource('video', emitter1, ['play'], { foo: 'bar' });
                 dispatcher.addSource('video', emitter2, ['play']);
 
                 dispatcher.removeSource(emitter1);

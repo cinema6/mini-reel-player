@@ -125,7 +125,7 @@ describe('VideoCardController', function() {
 
     it('should add its model as an event source', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('card', card,
-            ['activate','deactivate'], player);
+            ['activate','deactivate','complete'], player);
     });
 
     describe('properties:', function() {

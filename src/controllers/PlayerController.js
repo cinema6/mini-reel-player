@@ -1,6 +1,5 @@
 import Controller from '../../lib/core/Controller.js';
 import MiniReel from '../models/MiniReel.js';
-import cinema6 from '../services/cinema6.js';
 import Runner from '../../lib/Runner.js';
 import {createKey} from 'private-parts';
 import {
@@ -18,7 +17,6 @@ export default class PlayerController extends Controller {
 
         this.CardControllers = {};
 
-        this.session = cinema6.init();
         this.minireel = new MiniReel();
         this.cardCtrls = [];
         this.PrerollCardCtrl = null;

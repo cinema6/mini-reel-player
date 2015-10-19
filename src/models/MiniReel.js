@@ -1,6 +1,7 @@
 import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import dispatcher from '../services/dispatcher.js';
+import EmbedHandler from '../handlers/EmbedHandler.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
@@ -19,7 +20,6 @@ import makeSocialLinks from '../fns/make_social_links.js';
 import {
     map,
     forEach,
-    find,
     filter
 } from '../../lib/utils.js';
 import ArticleCard from './ArticleCard.js';
@@ -192,14 +192,6 @@ export default class MiniReel extends Mixable {
         cinema6.getAppData()
             .then(appData => initialize.call(this, whitelist, appData))
             .catch(error => this.emit('error', error));
-        cinema6.getSession().then(session => {
-            session.on('show', () => this.moveToIndex(0));
-            session.on('hide', () => this.close());
-            session.on('showCard', id => this.moveTo(find(this.deck, card => card.id === id)));
-        });
-
-        this.on('launch', () => cinema6.getSession().then(session => session.ping('open')));
-        this.on('close', () => cinema6.getSession().then(session => session.ping('close')));
 
         this.on('becameUnskippable', () => {
             if (this.interstitial) {
@@ -223,6 +215,7 @@ export default class MiniReel extends Mixable {
             global.addEventListener('beforeunload', handleBeforeunload, false);
         }
 
+        dispatcher.addClient(EmbedHandler, this);
         dispatcher.addClient(GoogleAnalyticsHandler, this);
         dispatcher.addClient(MoatHandler);
         dispatcher.addClient(ADTECHHandler);

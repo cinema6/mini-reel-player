@@ -6,6 +6,7 @@ import global from '../../../lib/global.js';
 import resource from '../../../src/services/resource.js';
 import browser from '../../../src/services/browser.js';
 import environment from '../../../src/environment.js';
+import Runner from '../../../lib/Runner.js';
 import {
     defer,
     extend
@@ -152,6 +153,8 @@ describe('cinema6', function() {
                             initConfig = {
                                 setup: jasmine.createSpy('cinema6 setup (promise)').and.returnValue(deferred.promise)
                             };
+
+                            cinema6.once('ready', () => Runner.schedule('render', null, () => {}));
 
                             cinema6.init(initConfig);
                             requestPromiseSuccessHandler(handshakeData);

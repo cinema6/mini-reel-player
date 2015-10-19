@@ -1,4 +1,3 @@
-import cinema6 from '../../../src/services/cinema6.js';
 import PlayerController from '../../../src/controllers/PlayerController.js';
 import Controller from '../../../lib/core/Controller.js';
 import ApplicationView from '../../../src/views/ApplicationView.js';
@@ -21,7 +20,6 @@ describe('PlayerController', function() {
     let PlayerCtrl;
 
     let applicationView;
-    let session;
     let experience;
     let profile;
 
@@ -59,7 +57,6 @@ describe('PlayerController', function() {
     }
 
     beforeEach(function() {
-        cinema6.constructor();
         environment.constructor();
 
         spyOn(dispatcher, 'addClient');
@@ -71,11 +68,6 @@ describe('PlayerController', function() {
         };
 
         profile = { flash: false };
-
-        const init = cinema6.init;
-        spyOn(cinema6, 'init').and.callFake(function() {
-            return (session = init.apply(cinema6, arguments));
-        });
 
         applicationView = new ApplicationView(document.createElement('body'));
 
@@ -90,7 +82,6 @@ describe('PlayerController', function() {
     });
 
     afterAll(function() {
-        cinema6.constructor();
         environment.constructor();
     });
 
@@ -98,17 +89,7 @@ describe('PlayerController', function() {
         expect(PlayerCtrl).toEqual(jasmine.any(Controller));
     });
 
-    it('should initialize a cinema6 session', function() {
-        expect(cinema6.init).toHaveBeenCalled();
-    });
-
     describe('properties:', function() {
-        describe('session', function() {
-            it('should be the cinema6 session', function() {
-                expect(PlayerCtrl.session).toBe(session);
-            });
-        });
-
         describe('cardCtrls', function() {
             it('should be an empty array', function() {
                 expect(PlayerCtrl.cardCtrls).toEqual([]);
@@ -265,7 +246,6 @@ describe('PlayerController', function() {
 
             describe('launch', function() {
                 beforeEach(function() {
-                    spyOn(cinema6, 'fullscreen');
                     spyOn(PlayerCtrl, 'updateView');
 
                     PlayerCtrl.minireel.deck = [

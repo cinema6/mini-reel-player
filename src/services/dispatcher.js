@@ -25,6 +25,7 @@ class Dispatcher {
         _(this).listeners = {};
         _(this).listenersByClient = new WeakMap();
         _(this).emitterHandlers = new WeakMap();
+        _(this).instances = new WeakMap();
     }
 
     addClient(Client, ...args) {
@@ -47,14 +48,19 @@ class Dispatcher {
             });
         });
 
-        new Client(register, ...args);
+        _(this).instances.set(Client, new Client(register, ...args));
     }
 
     removeClient(Client) {
-        const {listenersByClient} = _(this);
+        const { listenersByClient, instances } = _(this);
 
         forEach(listenersByClient.get(Client), entry => entry.removed = true);
         listenersByClient.delete(Client);
+        instances.delete(Client);
+    }
+
+    getClient(Client) {
+        return _(this).instances.get(Client);
     }
 
     addSource(type, emitter, events, data = {}) {

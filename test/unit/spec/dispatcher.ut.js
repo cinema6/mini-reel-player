@@ -49,6 +49,33 @@ describe('dispatcher', function() {
             });
         });
 
+        describe('getClient(Module)', function() {
+            let mod;
+            let result;
+
+            class Module {
+                constructor() {
+                    mod = this;
+                }
+            }
+
+            beforeEach(function() {
+                dispatcher.addClient(Module);
+
+                result = dispatcher.getClient(Module);
+            });
+
+            it('should be the created instance', function() {
+                expect(result).toBe(mod);
+            });
+
+            describe('if passed a Client that has not been added', function() {
+                it('should return undefined', function() {
+                    expect(dispatcher.getClient(function() {})).toBeUndefined();
+                });
+            });
+        });
+
         describe('removeClient(Module)', function() {
             let register1, register2;
             let handler1, handler2;

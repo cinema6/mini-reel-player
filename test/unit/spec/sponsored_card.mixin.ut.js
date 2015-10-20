@@ -165,8 +165,8 @@ describe('SponsoredCard mixin', function() {
                 card.clickthrough('Twitter');
             });
 
-            it('should emit the clickthrough event with the link config', function() {
-                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter);
+            it('should emit the clickthrough event with the link config and type', function() {
+                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter, 'Twitter');
             });
 
             describe('if the link cannot be found', function() {

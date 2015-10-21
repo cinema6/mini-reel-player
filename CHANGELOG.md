@@ -1,5 +1,7 @@
 # MiniReel Player 2.0
 
+* [FEATURE]: Add support for VPAID 2.0
+
 ## v1.0.0 (October 14, 2015)
 * *[v1.0.0-rc2]*
   * [PERFORMANCE]: Replace GSAP animation library with moti.js CSS

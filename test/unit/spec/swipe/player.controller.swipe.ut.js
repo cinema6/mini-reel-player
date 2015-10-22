@@ -65,7 +65,6 @@ describe('SwipePlayerController', function() {
         parentView.tag = 'body';
 
         spyOn(SwipePlayerController.prototype, 'addView').and.callThrough();
-        spyOn(cinema6, 'init').and.returnValue(session);
 
         SwipePlayerCtrl = new SwipePlayerController(parentView);
     });
@@ -78,12 +77,6 @@ describe('SwipePlayerController', function() {
         describe('showInfo', function() {
             it('should be false', function() {
                 expect(SwipePlayerCtrl.showInfo).toBe(false);
-            });
-        });
-
-        describe('session', function() {
-            it('should be a cinema6 session', function() {
-                expect(SwipePlayerCtrl.session).toBe(session);
             });
         });
 

@@ -1,3 +1,4 @@
+import Runner from '../../../../lib/Runner.js';
 import LightPlayerController from '../../../../src/controllers/light/LightPlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import LightPlayerView from '../../../../src/views/light/LightPlayerView.js';
@@ -12,17 +13,19 @@ import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardCo
 import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
 import LightInstagramVideoCardController from '../../../../src/controllers/light/LightInstagramVideoCardController.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
+import EmbedHandler from '../../../../src/handlers/EmbedHandler.js';
 
 describe('LightPlayerController', function() {
     let LightPlayerCtrl;
 
     beforeEach(function() {
-        spyOn(dispatcher, 'addClient');
+        spyOn(dispatcher, 'addClient').and.callThrough();
+        spyOn(EmbedHandler.prototype, 'setStyles');
 
         spyOn(LightPlayerController.prototype, 'addView').and.callThrough();
         spyOn(LightPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();
 
-        LightPlayerCtrl = new LightPlayerController();
+        Runner.run(() => LightPlayerCtrl = new LightPlayerController());
     });
 
     it('should exist', function() {
@@ -32,6 +35,16 @@ describe('LightPlayerController', function() {
     it('should mixin the ThumbnailNavigatorPlayerController', function() {
         expect(LightPlayerController.mixins).toContain(ThumbnailNavigatorPlayerController);
         expect(LightPlayerCtrl.initThumbnailNavigator).toHaveBeenCalled();
+    });
+
+    it('should set the styles on the embed', function() {
+        expect(dispatcher.getClient(EmbedHandler).setStyles).toHaveBeenCalledWith({
+            minWidth: '18.75em',
+            padding: '0 0 85% 0',
+            fontSize: '16px',
+            height: '0px',
+            overflow: 'hidden'
+        });
     });
 
     describe('properties:', function() {
@@ -94,34 +107,6 @@ describe('LightPlayerController', function() {
             describe('.instagramVideo', function() {
                 it('should be LightInstagramVideoCardController', function() {
                     expect(LightPlayerCtrl.CardControllers.instagramVideo).toBe(LightInstagramVideoCardController);
-                });
-            });
-        });
-    });
-
-    describe('events:', function() {
-        describe('session', function() {
-            let session;
-
-            beforeEach(function() {
-                session = LightPlayerCtrl.session;
-            });
-
-            describe('ready', function() {
-                beforeEach(function() {
-                    spyOn(session, 'ping');
-
-                    session.emit('ready');
-                });
-
-                it('should ping up some responsive styles', function() {
-                    expect(session.ping).toHaveBeenCalledWith('responsiveStyles', {
-                        minWidth: '18.75em',
-                        padding: '0 0 85% 0',
-                        fontSize: '16px',
-                        height: '0px',
-                        overflow: 'hidden'
-                    });
                 });
             });
         });

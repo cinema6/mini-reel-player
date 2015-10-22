@@ -124,8 +124,7 @@ describe('VideoCardController', function() {
     });
 
     it('should add its model as an event source', function() {
-        expect(dispatcher.addSource).toHaveBeenCalledWith('card', card,
-            ['activate','deactivate'], player);
+        expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['activate', 'deactivate', 'complete', 'becameUnskippable', 'becameSkippable', 'skippableProgress', 'clickthrough'], player);
     });
 
     describe('properties:', function() {

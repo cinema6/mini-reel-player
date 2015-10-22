@@ -30,7 +30,7 @@ function SponsoredCard(data) {
 SponsoredCard.prototype.clickthrough = function clickthrough(linkName) {
     const link = this.links[linkName];
 
-    if (link) { this.emit('clickthrough', link); }
+    if (link) { this.emit('clickthrough', link, linkName); }
 };
 
 export default SponsoredCard;

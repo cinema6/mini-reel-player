@@ -1,10 +1,12 @@
 import MiniReel from '../../../src/models/MiniReel.js';
 import dispatcher from '../../../src/services/dispatcher.js';
+import EmbedHandler from '../../../src/handlers/EmbedHandler.js';
 import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
 import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
 import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
+import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
 import Mixable from '../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
@@ -743,6 +745,10 @@ describe('MiniReel', function() {
         expect(MiniReel.mixins).toContain(SafelyGettable);
     });
 
+    it('should add the EmbedHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).toHaveBeenCalledWith(EmbedHandler, minireel);
+    });
+
     it('should add the ADTECHHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(ADTECHHandler);
     });
@@ -761,6 +767,10 @@ describe('MiniReel', function() {
 
     it('should not add the JumpRampHandler to the dispatcher', function() {
         expect(dispatcher.addClient).not.toHaveBeenCalledWith(JumpRampHandler);
+    });
+
+    it('should not add the VPAIDHandler', function() {
+        expect(dispatcher.addClient).not.toHaveBeenCalledWith(VPAIDHandler);
     });
 
     it('should add itself as a source', function() {
@@ -879,30 +889,6 @@ describe('MiniReel', function() {
         describe('adConfig', function() {
             it('should be null', function() {
                 expect(minireel.adConfig).toBeNull();
-            });
-        });
-    });
-
-    describe('events:', function() {
-        describe('launch', function() {
-            beforeEach(function(done) {
-                minireel.emit('launch');
-                Promise.resolve(sessionDeferred.promise).then(done);
-            });
-
-            it('should ping the session with the "open" event', function() {
-                expect(session.ping).toHaveBeenCalledWith('open');
-            });
-        });
-
-        describe('close', function() {
-            beforeEach(function(done) {
-                minireel.emit('close');
-                Promise.resolve(sessionDeferred.promise).then(done);
-            });
-
-            it('should ping the session with the "close" event', function() {
-                expect(session.ping).toHaveBeenCalledWith('close');
             });
         });
     });
@@ -1553,46 +1539,6 @@ describe('MiniReel', function() {
         });
     });
 
-    describe('when the session pings "show"', function() {
-        beforeEach(function() {
-            spyOn(minireel, 'moveToIndex');
-            session.emit('show');
-        });
-
-        it('should start the minireel', function() {
-            expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
-        });
-    });
-
-    describe('when the session pings "hide"', function() {
-        beforeEach(function() {
-            spyOn(minireel, 'close');
-            session.emit('hide');
-        });
-
-        it('should close the MiniReel', function() {
-            expect(minireel.close).toHaveBeenCalled();
-        });
-    });
-
-    describe('when the session pings "showCard"', function() {
-        beforeEach(function() {
-            minireel.deck = [
-                { id: 'rc-a559bb3015e2f5' },
-                { id: 'rc-8a38720e81e1d1' },
-                { id: 'rc-cc22c2f8a3466b' },
-                { id: 'rc-835de0eb246c56' }
-            ];
-            spyOn(minireel, 'moveTo');
-
-            session.emit('showCard', minireel.deck[1].id);
-        });
-
-        it('should call moveTo() with the card with said id', function() {
-            expect(minireel.moveTo).toHaveBeenCalledWith(minireel.deck[1]);
-        });
-    });
-
     describe('when the minireel becomes unskippable', function() {
         var becameUncloseable;
 
@@ -2002,6 +1948,19 @@ describe('MiniReel', function() {
 
         it('should add the JumpRampHandler to the dispatcher', function() {
             expect(dispatcher.addClient).toHaveBeenCalledWith(JumpRampHandler);
+        });
+    });
+
+    describe('if vpaid is true', function() {
+        beforeEach(function() {
+            environment.params.vpaid = true;
+            dispatcher.addClient.calls.reset();
+
+            minireel = new MiniReel();
+        });
+
+        it('should add the VPAIDHandler to the dispatcher', function() {
+            expect(dispatcher.addClient).toHaveBeenCalledWith(VPAIDHandler);
         });
     });
 

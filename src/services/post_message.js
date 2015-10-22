@@ -10,12 +10,17 @@ import Runner from '../../lib/Runner.js';
 
 const _ = createKey({
     ping(win, event, type, data) {
-        const message = { __c6__: { event: event, type: type, data: data } };
+        const id = (() => {
+            const parsed = parseInt(type.split(':')[1], 10);
+
+            return isNaN(parsed) ? undefined : parsed;
+        }());
+        const message = { __c6__: { id: id, event: event, type: type, data: data } };
 
         win.postMessage(JSON.stringify(message), '*');
     },
 
-    newRequestId(session) {
+    newMessageId(session) {
         let id = 0;
 
         while (session._pending[id]) {
@@ -85,7 +90,7 @@ class Session extends EventEmitter {
 
     request(event, data) {
         const deferred = defer(RunnerPromise);
-        const id = _(this)._.newRequestId(this);
+        const id = _(this)._.newMessageId(this);
 
         this._pending[id] = deferred;
 

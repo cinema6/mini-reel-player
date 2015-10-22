@@ -72,10 +72,25 @@ describe('postMessage', function() {
                     expect(message.__c6__.event).toBe('test');
                     expect(message.__c6__.data).toEqual(data);
                     expect(message.__c6__.type).toBe('request');
+                    expect(message.__c6__.id).toBeUndefined();
+                });
+
+                it('should add an id when the message has an id', function() {
+                    let message;
+
+                    win.postMessage.calls.reset();
+                    _private.ping(win, 'my-event', 'request:33', { foo: 'bar' });
+                    message = JSON.parse(win.postMessage.calls.mostRecent().args[0]);
+                    expect(message.__c6__.id).toBe(33);
+
+                    win.postMessage.calls.reset();
+                    _private.ping(win, 'my-event', 'request:0', { foo: 'bar' });
+                    message = JSON.parse(win.postMessage.calls.mostRecent().args[0]);
+                    expect(message.__c6__.id).toBe(0);
                 });
             });
 
-            describe('newRequestId', function() {
+            describe('newMessageId', function() {
                 let sessions;
 
                 beforeEach(function() {
@@ -93,14 +108,14 @@ describe('postMessage', function() {
                 });
 
                 it('should use the first unused id starting at 0', function() {
-                    expect(_private.newRequestId(sessions[0])).toBe(0);
+                    expect(_private.newMessageId(sessions[0])).toBe(0);
                 });
 
                 it('should not use an id if a session already has a request with that id', function() {
                     sessions[0]._pending[0] = {};
                     sessions[0]._pending[1] = {};
 
-                    expect(_private.newRequestId(sessions[0])).toBe(2);
+                    expect(_private.newMessageId(sessions[0])).toBe(2);
                 });
 
                 it('should still use an id even if there is an id with a higher value', function() {
@@ -109,7 +124,7 @@ describe('postMessage', function() {
                     sessions[2]._pending[2] = {};
                     sessions[2]._pending[5] = {};
 
-                    expect(_private.newRequestId(sessions[2])).toBe(3);
+                    expect(_private.newMessageId(sessions[2])).toBe(3);
                 });
             });
 

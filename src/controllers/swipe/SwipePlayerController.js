@@ -23,7 +23,6 @@ export default class SwipePlayerController extends Controller {
 
         _(this).parentView = parentView;
 
-        this.session = cinema6.init();
         this.model = new MiniReel(['text', 'video']);
         this.view = this.addView(new SwipePlayerView());
 

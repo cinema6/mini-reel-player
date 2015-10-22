@@ -7,7 +7,8 @@ import { createKey } from 'private-parts';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import {
     defer,
-    extend
+    extend,
+    noop
 } from '../../lib/utils.js';
 
 const _ = createKey();
@@ -39,18 +40,7 @@ class Cinema6 extends EventEmitter {
             };
 
             _(this).appData.fulfill(data);
-
-            let setupResult;
-
-            if (config.setup) {
-                setupResult = config.setup(data);
-            }
-
-            if (setupResult instanceof Promise) {
-                setupResult.then(completeHandshake);
-            } else {
-                completeHandshake();
-            }
+            RunnerPromise.resolve((config.setup || noop)(data)).then(completeHandshake);
         });
 
         _(this).options = config;

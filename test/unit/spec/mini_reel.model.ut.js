@@ -707,6 +707,7 @@ describe('MiniReel', function() {
         environment.params = {
             container: 'jun'
         };
+        environment.loader = 'c6embed';
 
         session = new EventEmitter();
         session.ping = jasmine.createSpy('session.ping()');
@@ -1771,6 +1772,25 @@ describe('MiniReel', function() {
         describe('if the minireel has no branding', function() {
             beforeEach(function(done) {
                 delete experience.data.branding;
+                codeLoader.loadStyles.calls.reset();
+                browser.test.calls.reset();
+
+                minireel = new MiniReel();
+                minireel.on('init', done);
+            });
+
+            it('should not load styles', function() {
+                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
+            });
+
+            it('should not test for a mouse', function() {
+                expect(browser.test).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('if the player was loaded by the player service', function() {
+            beforeEach(function(done) {
+                environment.loader = 'service';
                 codeLoader.loadStyles.calls.reset();
                 browser.test.calls.reset();
 

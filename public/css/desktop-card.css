@@ -1,0 +1,49 @@
+/*  ================================================
+    desktop single video card player import styles
+    ================================================ */
+
+
+    /*  global / reset styles
+        c6 copy classes : general type and color styles
+        helper / ui classes
+        ng-animate classes
+        MiniReel classes
+        More Reels card classes
+        ad skip styles
+        Splash Screen classes
+        ============================================= */
+        @import url('desktop-card/desktop__base.css');
+
+    /*  global hover classes
+        ============================================= */
+        @import url('global/hover.css');
+
+    /*  Mini Reel Cards classes
+            Ballot
+            actions Modal group classes
+        ============================================= */
+        @import url('desktop-card/video-card.css');
+
+    /*  sponsored card classes
+        ============================================= 
+        @import url('desktop-card/sponsored-card.css');*/
+
+    /*  social share modal styles
+            popup : portrait view
+            popup : landscape view
+        ============================================= */ 
+        @import url('global/modal-share.css');
+
+    /*  full width video only styles
+            full video : portrait view
+            full video : landscape view
+        ============================================= */ 
+        @import url('desktop-card/full-video.css');
+
+    /*  instagram card
+        ============================================= */
+        @import url('./desktop-card/instagram-card.css');
+
+    /*  article card classes
+        ============================================= */
+        @import url('./desktop-card/article-card.css');

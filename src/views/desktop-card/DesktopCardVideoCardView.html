@@ -1,0 +1,59 @@
+<div class="card__group">
+
+    <div data-view="postOutlet:View"></div>
+    <div data-view="shareOutlet:View"></div>
+
+    <div class="player__group">
+        <div class="player js-playerBox">
+            <div data-view="playerOutlet:PlayerOutletView" class="js-playerBox player"></div>
+        </div>
+    </div><!-- .player__group--> <!--video embed -->
+
+    <div class="social__group">
+        <!--Add sponsor website link in the anchor below-->
+        <span data-if="website.logo"
+            data-view="logoView:LinkItemView" data-model="website"
+            data-target="controller" data-action="clickthrough">
+            <a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
+                <span class="sponsorProfile__small--text">Sponsored by</span>
+                <!-- sponsor logo -->
+                <img src="{{logo}}" class="sponsorProfile__img" alt="{{text}}" />
+                <!-- .sponsor logo -->
+            </a>
+        </span>
+        <ul data-view="links:LinksListView" data-model="links"><!-- social network links and the share button-->
+            <li class="social__group--item" data-target="controller" data-action="clickthrough">
+                <a href="{{href}}" target="_blank" title="{{label}}" class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}"><span class="ir">{{label}}</span></a>
+            </li>
+        </ul>
+        <ul data-if="canShare">
+            <li class="social__group--item">
+                <button data-view="shareButton:ButtonView"
+                    data-target="controller" data-action="showShare"
+                    class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--share"><span class="ir">Share</span>
+                </button>
+            </li>
+        </ul>
+    </div><!-- .social__group-->
+
+    <!--copy and cta below -->
+    <div class="info__group">
+        <div class="card__copyBox">
+            <div class="card__copy card__copy--hasSponsor">
+
+                <div class="card__copy--content">
+                    <div class="card__title"><h1 class="tk--hdr">{{title}}</h1></div>
+                    <div class="card__desc"><p>{{note}}</p></div>
+                </div>
+                <!-- call to action link below-->
+                <div class="cta__group" data-if="action.text"
+                    data-view="ctaView:LinkItemView" data-model="action"
+                    data-target="controller" data-action="clickthrough">
+                    <a class="sponsoredBtn" href="{{href}}" target="_blank">{{text}}</a>
+                </div><!-- .cta__group-->
+
+            </div>
+        </div>
+    </div><!-- .info__group-->
+
+</div><!-- .card__group-->

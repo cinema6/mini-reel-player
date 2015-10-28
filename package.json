@@ -5,17 +5,19 @@
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
     "test": "grunt test:unit",
-    "mobile": "./src/mobile.js",
-    "swipe": "./src/swipe.js",
-    "full": "./src/full.js",
-    "full-np": "./src/full-np.js",
-    "lightbox-playlist": "./src/lightbox-playlist.js",
-    "lightbox": "./src/lightbox.js",
-    "light": "./src/light.js",
-    "solo": "./src/solo.js",
-    "solo-ads": "./src/solo-ads.js",
     "postinstall": "cd ./tasks/resources/c6embed-server && npm install"
   },
+  "builds": [
+    "mobile",
+    "swipe",
+    "full",
+    "full-np",
+    "lightbox-playlist",
+    "lightbox",
+    "light",
+    "solo",
+    "solo-ads"
+  ],
   "repository": {
     "type": "git",
     "url": "git@bitbucket.org:cinema6/es6-stub.git"

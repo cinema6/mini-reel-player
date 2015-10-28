@@ -1,7 +1,6 @@
 import BillingHandler from './BillingHandler.js';
 import tracker from '../services/tracker.js';
 import timer from '../../lib/timer.js';
-import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import {
     noop,
@@ -63,24 +62,6 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             checkProtocolTask: noop,
             hostname: environment.hostname,
             origins: environment.ancestorOrigins.join('|')
-        });
-
-        Runner.schedule('afterRender', null, () => {
-            const now = Date.now();
-
-            this.tracker.trackTiming(this.getTrackingData({
-                timingCategory: 'Player',
-                timingVar: 'jsBootstrap',
-                timingLabel: 'null',
-                timingValue: now - environment.initTime
-            }));
-
-            this.tracker.trackTiming(this.getTrackingData({
-                timingCategory: 'Player',
-                timingVar: 'bootstrap',
-                timingLabel: 'null',
-                timingValue: now - global.performance.timing.domLoading
-            }));
         });
 
         register(({ target: minireel }) => {

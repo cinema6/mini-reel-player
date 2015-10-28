@@ -119,24 +119,6 @@ describe('GoogleAnalyticsHandler', function() {
         });
     });
 
-    it('should send a timing event for the player bootstrap', function() {
-        expect(trckr.trackTiming).toHaveBeenCalledWith(handler.getTrackingData({
-            timingCategory: 'Player',
-            timingVar: 'bootstrap',
-            timingLabel: 'null',
-            timingValue: Date.now() - global.performance.timing.domLoading
-        }));
-    });
-
-    it('should send a timing event for the player JS bootstrap', function() {
-        expect(trckr.trackTiming).toHaveBeenCalledWith(handler.getTrackingData({
-            timingCategory: 'Player',
-            timingVar: 'jsBootstrap',
-            timingLabel: 'null',
-            timingValue: Date.now() - environment.initTime
-        }));
-    });
-
     describe('properties:', function() {
         describe('config', function() {
             it('should be formulated from the environment', function() {

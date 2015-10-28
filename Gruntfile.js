@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 
         grunt.config.set('browserify.server.files', [
             {
-                src: grunt.config('package.scripts.' + mode + '.js'),
+                src: 'src/' + mode + '.js',
                 dest: 'server/.build/' + mode + '.js'
             }
         ]);

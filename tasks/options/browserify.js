@@ -2,7 +2,7 @@
 
 var grunt = require('grunt');
 var path = require('path');
-var concat = require('concat-stream');
+var builds = require('../../package.json').builds;
 var iteration = 0;
 
 module.exports = {
@@ -39,88 +39,18 @@ module.exports = {
                 }
             }
         },
-        files: [
-            {
-                src: '.tmp/<%= package.scripts.mobile %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/mobile.js'
-            },
-            {
-                src: '.tmp/<%= package.scripts.swipe %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/swipe.js'
-            },
-            {
-                src: '.tmp/<%= package.scripts.full %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/full.js'
-            },
-            {
-                src: '.tmp/<%= grunt.config("package.scripts.full-np") %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/full-np.js'
-            },
-            {
-                src: '.tmp/<%= grunt.config("package.scripts.lightbox-playlist") %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/' +
-                    '<%= _version %>/lightbox-playlist.js'
-            },
-            {
-                src: '.tmp/<%= package.scripts.lightbox %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/lightbox.js'
-            },
-            {
-                src: '.tmp/<%= package.scripts.light %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/light.js'
-            },
-            {
-                src: '.tmp/<%= package.scripts.solo %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/solo.js'
-            },
-            {
-                src: '.tmp/<%= grunt.config("package.scripts.solo-ads") %>',
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/solo-ads.js'
-            }
-        ]
+        files: builds.map(function(type) {
+            return {
+                src: '.tmp/src/' + type + '.js',
+                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>/' + type + '.js'
+            };
+        })
     },
     server: {
         options: {
             watch: true,
             keepAlive: false
-        },
-        files: [
-            {
-                src: '<%= package.scripts.mobile %>',
-                dest: 'server/.build/mobile.js'
-            },
-            {
-                src: '<%= package.scripts.swipe %>',
-                dest: 'server/.build/swipe.js'
-            },
-            {
-                src: '<%= package.scripts.full %>',
-                dest: 'server/.build/full.js'
-            },
-            {
-                src: '<%= grunt.config("package.scripts.full-np") %>',
-                dest: 'server/.build/full-np.js'
-            },
-            {
-                src: '<%= grunt.config("package.scripts.lightbox-playlist") %>',
-                dest: 'server/.build/lightbox-playlist.js'
-            },
-            {
-                src: '<%= package.scripts.lightbox %>',
-                dest: 'server/.build/lightbox.js'
-            },
-            {
-                src: '<%= package.scripts.light %>',
-                dest: 'server/.build/light.js'
-            },
-            {
-                src: '<%= package.scripts.solo %>',
-                dest: 'server/.build/solo.js'
-            },
-            {
-                src: '<%= grunt.config("package.scripts.solo-ads") %>',
-                dest: 'server/.build/solo-ads.js'
-            }
-        ]
+        }
+        // files are set via CLI options in Gruntfile.js
     }
 };

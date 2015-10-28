@@ -74,7 +74,7 @@ module.exports = function(httpMock) {
             origin: 'http://www.cinema6.com/',
             mobileType: 'mobile'
         },
-        validTypes: Object.keys(grunt.config.get('package.scripts'))
+        validTypes: grunt.config.get('package.builds')
     });
     var cliOptions = {
         campaign: grunt.config.get('server.campId'),

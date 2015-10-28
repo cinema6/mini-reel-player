@@ -124,7 +124,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
     this.prerollCard = new PrerollCard(null, experience, profile, this);
 
 
-    if (this.branding) {
+    if (this.branding && environment.loader !== 'service') {
         const { apiRoot, mode } = environment;
         const base = `${apiRoot}/collateral/branding/${this.branding}/styles`;
 

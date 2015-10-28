@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v1.1.1-rc1]*
+  * [PERFORMACE]: Only load branding stylesheets if the player was not
+    loaded by the player service
+
 ## v1.1.0 (October 26, 2015)
 * *[v1.1.0-rc1]*
   * [FEATURE]: Add support for VPAID 2.0

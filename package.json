@@ -16,7 +16,8 @@
     "lightbox",
     "light",
     "solo",
-    "solo-ads"
+    "solo-ads",
+    "desktop-card"
   ],
   "repository": {
     "type": "git",

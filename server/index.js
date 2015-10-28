@@ -3,6 +3,7 @@
 var resolvePath = require('path').resolve;
 var readFileSync = require('fs').readFileSync;
 var Player = require('cwrx/bin/player');
+var BrowserInfo = require('cwrx/lib/browserInfo');
 var grunt = require('grunt');
 var inspect = require('util').inspect;
 var basename = require('path').basename;
@@ -27,6 +28,13 @@ module.exports = function(httpMock) {
             root: 'http://localhost:9000/',
             player: {
                 endpoint: './.build/index.html'
+            },
+            branding: {
+                endpoint: 'mothership/collateral/branding/',
+                cacheTTLs: {
+                    fresh: 0,
+                    max: 0
+                }
             },
             experience: {
                 endpoint: 'api/experience/',
@@ -119,7 +127,8 @@ module.exports = function(httpMock) {
         if (player.config.validTypes.indexOf(filename) > -1) {
             this.respond(200, player.get(extend(cliOptions, req.query, {
                 preview: true,
-                type: filename
+                type: filename,
+                desktop: new BrowserInfo(req.headers['user-agent']).isDesktop
             })).catch(function(error) {
                 return inspect(error);
             }));

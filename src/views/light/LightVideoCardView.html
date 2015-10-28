@@ -29,7 +29,7 @@
                 </span>
             </h1>
 
-            <div data-view="links:LinksListView" data-model="links" class="sponsorProfile__links" data-if="links.length">
+            <div class="sponsorProfile__links">
                 <span data-if="sponsor"
                     data-view="websiteView:LinkItemView" data-model="website"
                     data-target="controller" data-action="clickthrough"
@@ -37,12 +37,14 @@
                     Sponsored by
                     <a href="{{href}}" target="_blank" class="textLink" title="{{text}}">{{text}}</a>
                 </span>
-                <span data-target="controller" data-action="clickthrough"><a href="{{href}}"
-                    target="_blank"
-                    title="{{label}}"
-                    class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
-                    <span class="ir">{{label}}</span>
-                </a></span>
+                <span data-view="links:LinksListView" data-model="links" data-if="links.length">
+                    <span data-target="controller" data-action="clickthrough"><a href="{{href}}"
+                        target="_blank"
+                        title="{{label}}"
+                        class="sponsorProfile__link spriteBe socialIconsBe socialIconsBe--{{type}}">
+                        <span class="ir">{{label}}</span>
+                    </a></span>
+                </span>
             </div>
             <!--share to social-->
             <div data-if="canShare" class="sponsorProfile__linkBtn">

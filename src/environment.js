@@ -65,6 +65,7 @@ class Environment {
             storage.set(GUID_KEY, guid);
             return guid;
         }());
+        this.loader = !!c6.kParams ? 'c6embed' : 'service';
     }
 }
 

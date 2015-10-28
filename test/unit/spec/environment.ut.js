@@ -277,5 +277,29 @@ describe('environment', function() {
                 });
             });
         });
+
+        describe('loader', function() {
+            describe('with kParams', function() {
+                beforeEach(function() {
+                    global.c6.kParams = {};
+                    environment.constructor();
+                });
+
+                it('should be "c6embed"', function() {
+                    expect(environment.loader).toBe('c6embed');
+                });
+            });
+
+            describe('without kParams', function() {
+                beforeEach(function() {
+                    delete global.c6.kParams;
+                    environment.constructor();
+                });
+
+                it('should be "service"', function() {
+                    expect(environment.loader).toBe('service');
+                });
+            });
+        });
     });
 });

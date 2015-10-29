@@ -112,7 +112,7 @@
                 line-height: 1;
             }
             .card__desc {
-                margin:0.3125rem 0 0;
+                margin: 0;
                 font-size:0.875em;
                 line-height:1.25rem;
             }
@@ -156,6 +156,8 @@
         height: 80%; 
         width: 12.5%;
         position: absolute;
+        top: 0;
+        right: 0;
         padding: 0;
         display: inline-block;
         text-align: center;
@@ -226,12 +228,20 @@
 
     .info__group {
         height: 20%;
+        position: absolute;
+        bottom: 0;
         -webkit-transition: max-height 0.5s ease-in-out, box-shadow 0.6s linear;
         -moz-transition: max-height 0.5s ease-in-out, box-shadow 0.6s linear;
         -o-transition: max-height 0.5s ease-in-out, box-shadow 0.6s linear;
         -ms-transition: max-height 0.5s ease-in-out, box-shadow 0.6s linear;
         transition: max-height 0.5s ease-in-out, box-shadow 0.6s linear;
     }
+        .info__group:hover {
+            height: auto;
+            min-height: 20%;
+            max-height: 60%;
+            overflow-y: auto;
+        }
         .info__group--expands:hover {
             height: auto;
             margin-top: -15%;
@@ -267,7 +277,7 @@
             }
                 
             .card__copy--content {
-                padding: 0.5em 0.25em 0.25em 0.625rem;
+                padding: 0.25em 0.25em 0 0.625rem;
                 width: 74%;
                 float: left;
                 overflow-y: auto;
@@ -294,8 +304,15 @@
                 float: right;
                 padding: 0.25em 0.25em 0 0;
                 height: 100%;
-                position: relative;
+                position: absolute;
+                right: 0;
+                bottom: 0.25em;
+                top: 0.25em;
                 max-height: 80px;
+            }
+            .info__group:hover .cta__group {
+                position: absolute;
+                height: 100%;
             }
                 .sponsoredBtn {
                     right: 0;
@@ -361,6 +378,7 @@
     }
     .card__copy--content {
         width: 70%;
+        padding: 0 0.25em 0 0.625rem;
     }
         .card__title {
             width: 98%;
@@ -371,11 +389,14 @@
                 font-weight: 500;
             }    
         .card__desc p{
-            margin: 0.25em 0;
+            margin: 0;
         }
     .cta__group {
         width: 26%;
         max-height: 56px;
+        padding: 0;
+        top: 0.125em;
+        right: 0.125em;
     }
         .sponsoredBtn {
             right: 0;
@@ -391,6 +412,7 @@
             line-height: 1.25;
             text-transform: capitalize;
             font-weight: bold;
+            height: 56px;
         }
 }
 @media screen and (min-width: 600px) and (max-width: 799px) { 
@@ -411,7 +433,7 @@
         line-height: 1.25em;
     }
     .card__desc p{
-        margin: 0.25em 0;
+        margin: 0;
     }
     .cta__group {
        max-height: 64px;
@@ -419,6 +441,7 @@
         .sponsoredBtn {
             font-size: 0.8em;
             line-height: 1.25em;
+            height: 60px;
         }
 }
 @media screen and (min-width: 800px) { 
@@ -439,6 +462,9 @@
         width: 98%;
         font-size: 1.125em;
         padding-top: 0.25em;
+    }
+    .sponsoredBtn {
+        height: 80px;
     }
 }
 
@@ -645,3 +671,25 @@
                 margin:0 0 1.5em 0;
             }
         }
+.card__closeGroup {
+    position: relative;
+    margin: 1px auto 0;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    overflow: hidden;
+    z-index: 1000;
+    height: 20px;
+    text-align: center;
+    width: 100px;
+    
+}
+button.desktopCard__closeBtn {
+    color: #fff;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 100%;
+    font-size: 12px;
+}

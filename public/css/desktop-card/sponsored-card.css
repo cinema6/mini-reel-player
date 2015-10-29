@@ -1,0 +1,75 @@
+
+
+/*  ================================================
+    sponsored card styles
+    ================================================ */
+    .card__copyBox {
+        position:relative;
+    }
+        .card__copy--hasSponsor {
+            width:calc(100% - 13.125em);
+            margin:0 0 0 4.125em;
+        }
+            .text--low .card__copy--hasSponsor {
+                height:5rem;
+            }
+            .text--low .player__height--hasSponsor {
+                height:calc(100% - 8.875rem);
+            }
+            .card__copy--hasSponsor .card__title {
+                display: inline-block;
+            }
+            .card__copy--hasSponsor .sponsorProfile__links {
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .card__copy--hasSponsor .sponsorProfile__link {
+                border: 0;
+                margin: 0.125em;
+                vertical-align: text-bottom;
+            }
+            .MiniReel__group--soloMR .text--low .card__copy--hasSponsor {
+                height:7rem;
+            }
+            .MiniReel__group--soloMR .text--low .player__height--hasSponsor {
+                height:calc(100% - 7.5rem);
+            }
+    
+    .sponsorProfile__imgBox {
+        width:3em; height:3em;
+        border:1px solid #ddd;
+        margin:0;
+        display: block;
+        text-decoration: none;
+        position:absolute;
+        top:0.625em; left:0.625em;
+    }
+        .sponsorProfile__img {
+            width:3em; height:3em;
+            display: block;
+        }
+
+
+    .sponsorProfile__tag {
+        font-weight:normal;
+    }
+    
+        .sponsorProfile__link {
+            border:0;
+        }
+
+    .sponsorProfile__copy {
+        margin-right:3.5em;
+    }
+
+
+    .sponsor__actions {
+        position:absolute;
+        right:0.625em; top:0.625em;
+        width:8em;
+    }
+        .sponsor__goBtn {
+            padding:0.5em 0.25em;
+            border-radius:3px;
+            width:100%;
+        }

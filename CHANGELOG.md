@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v1.2.0 (October 29, 2015)
+* *[v1.2.0-rc1]*
+  * [FEATURE]: Added new `desktop-card` player for use in VPAID, with Q1
+    media, etc.
+* *[/v1.2.0-rc1]*
+
 ## v1.1.1 (October 29, 2015)
 * *[v1.1.1-rc1]*
   * [PERFORMACE]: Only load branding stylesheets if the player was not

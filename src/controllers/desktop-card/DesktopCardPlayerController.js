@@ -16,6 +16,6 @@ export default class DesktopCardPlayerController extends CardPlayerController {
             instagramVideo: LightInstagramVideoCardController
         };
 
-        this.view = new DesktopCardPlayerView();
+        this.view = this.addView(new DesktopCardPlayerView());
     }
 }

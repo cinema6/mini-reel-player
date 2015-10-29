@@ -2,6 +2,8 @@ import DesktopCardPlayerView from '../../../../src/views/desktop-card/DesktopCar
 import TemplateView from '../../../../lib/core/TemplateView.js';
 import Runner from '../../../../lib/Runner.js';
 import View from '../../../../lib/core/View.js';
+import ButtonView from '../../../../src/views/ButtonView.js';
+import SkipTimerView from '../../../../src/views/SkipTimerView.js';
 
 describe('DesktopCardPlayerView', function() {
     let view;
@@ -35,6 +37,18 @@ describe('DesktopCardPlayerView', function() {
             describe('cardOutlet', function() {
                 it('should be a View', function() {
                     expect(view.cardOutlet).toEqual(jasmine.any(View));
+                });
+            });
+
+            describe('skipButton', function() {
+                it('should be a ButtonView', function() {
+                    expect(view.skipButton).toEqual(jasmine.any(ButtonView));
+                });
+            });
+
+            describe('skipTimer', function() {
+                it('should be a SkipTimerView', function() {
+                    expect(view.skipTimer).toEqual(jasmine.any(SkipTimerView));
                 });
             });
         });

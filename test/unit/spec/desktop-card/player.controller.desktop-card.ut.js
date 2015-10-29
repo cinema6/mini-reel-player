@@ -14,6 +14,8 @@ describe('DesktopCardPlayerController', function() {
 
     beforeEach(function() {
         rootView = new View();
+        spyOn(DesktopCardPlayerController.prototype, 'addView').and.callThrough();
+
         Runner.run(() => DesktopCardPlayerCtrl = new DesktopCardPlayerController(rootView));
     });
 
@@ -51,6 +53,7 @@ describe('DesktopCardPlayerController', function() {
         describe('view', function() {
             it('should be a DesktopCardPlayerView', function() {
                 expect(DesktopCardPlayerCtrl.view).toEqual(jasmine.any(DesktopCardPlayerView));
+                expect(DesktopCardPlayerCtrl.addView).toHaveBeenCalledWith(DesktopCardPlayerCtrl.view);
             });
         });
     });

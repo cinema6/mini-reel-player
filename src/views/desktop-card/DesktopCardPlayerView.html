@@ -1,1 +1,17 @@
+<div class="card__closeGroup"> <!--skip button -->
+    <button data-if="closeable" data-view="skipButton:ButtonView"
+        data-target="controller" data-action="close"
+        class="desktopCard__closeBtn clearfix"
+        title="Close"
+        type="button">
+        <span class="btn__label">
+            Skip
+        </span>
+    </button><!--skip button : Ends-->
+    <div data-unless="skippable" data-view="skipTimer:SkipTimerView" data-model="skipTime"
+        class="nav__counter">
+        <span>Skip in </span>
+        <strong>{{remaining}}</strong>
+    </div><!--new skip button for single card mobile landscape: Ends -->
+</div>
 <ul data-view="cardOutlet:View"></ul>

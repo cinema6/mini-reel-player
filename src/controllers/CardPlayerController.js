@@ -40,8 +40,9 @@ export default class CardPlayerController extends Controller {
         const { skipTime } = this;
 
         this.view.update({
-            skippable, skipTime,
-            closeable: !standalone && closeable
+            showSkipTimer: !standalone && !skippable,
+            closeable: !standalone && closeable,
+            skipTime
         });
     }
 

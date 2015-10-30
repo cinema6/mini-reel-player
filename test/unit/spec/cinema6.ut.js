@@ -264,6 +264,38 @@ describe('cinema6', function() {
                 });
             });
 
+            describe('if there is no interstitial param', function() {
+                beforeEach(function(done) {
+                    success.calls.reset();
+                    failure.calls.reset();
+                    delete environment.params.interstitial;
+
+                    cinema6.getAppData().then(success, failure).then(done);
+                });
+
+                it('should make interstitial false', function() {
+                    expect(success).toHaveBeenCalledWith(jasmine.objectContaining({
+                        interstitial: false
+                    }));
+                });
+            });
+
+            describe('if there is no standalone param', function() {
+                beforeEach(function(done) {
+                    success.calls.reset();
+                    failure.calls.reset();
+                    delete environment.params.standalone;
+
+                    cinema6.getAppData().then(success, failure).then(done);
+                });
+
+                it('should make standalone true', function() {
+                    expect(success).toHaveBeenCalledWith(jasmine.objectContaining({
+                        standalone: true
+                    }));
+                });
+            });
+
             describe('if there is no experience resource', function() {
                 beforeEach(function(done) {
                     delete resources.experience;

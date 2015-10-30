@@ -53,7 +53,7 @@ class Cinema6 extends EventEmitter {
     }
 
     getAppData() {
-        const { standalone, interstitial, autoLaunch = true } = environment.params; // jshint ignore:line
+        const { standalone = true, interstitial = false, autoLaunch = true } = environment.params; // jshint ignore:line
 
         return resource.get('experience').then(experience => browser.getProfile().then(profile => ({
             experience,

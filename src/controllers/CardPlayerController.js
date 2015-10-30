@@ -18,6 +18,7 @@ export default class CardPlayerController extends Controller {
         this.minireel.once('init', () => {
             const card = this.minireel.deck[0];
 
+            this.updateView();
             rootView.append(this.view);
 
             this.CardCtrl = new this.CardControllers[card.type](card, this.view.cardOutlet);
@@ -39,8 +40,9 @@ export default class CardPlayerController extends Controller {
         const { skipTime } = this;
 
         this.view.update({
-            skippable, skipTime,
-            closeable: !standalone && closeable
+            showSkipTimer: !standalone && !skippable,
+            closeable: !standalone && closeable,
+            skipTime
         });
     }
 

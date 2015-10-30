@@ -67,6 +67,7 @@ describe('CardPlayerController', function() {
                         minireel.deck = [card];
                         CardPlayerCtrl.view = new View();
 
+                        spyOn(CardPlayerCtrl, 'updateView');
                         spyOn(parentView, 'append').and.callFake(view => view.cardOutlet = new View());
 
                         minireel.emit('init');
@@ -83,6 +84,10 @@ describe('CardPlayerController', function() {
 
                     it('should append its view to the parent', function() {
                         expect(parentView.append).toHaveBeenCalledWith(CardPlayerCtrl.view);
+                    });
+
+                    it('should call updateView()', function() {
+                        expect(CardPlayerCtrl.updateView).toHaveBeenCalled();
                     });
                 });
 
@@ -147,23 +152,90 @@ describe('CardPlayerController', function() {
 
             it('should update its view with MiniReel data', function() {
                 expect(view.update).toHaveBeenCalledWith({
-                    skippable: minireel.skippable,
-                    closeable: minireel.closeable,
+                    showSkipTimer: jasmine.any(Boolean),
+                    closeable: jasmine.any(Boolean),
                     skipTime: CardPlayerCtrl.skipTime
                 });
             });
 
             describe('closeable', function() {
-                describe('if standalone is true', function() {
+                describe('if closeable is true', function() {
                     beforeEach(function() {
                         view.update.calls.reset();
-                        minireel.standalone = true;
+                        minireel.closeable = true;
+
+                        CardPlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ closeable: true }));
+                    });
+
+                    describe('and standalone is true', function() {
+                        beforeEach(function() {
+                            view.update.calls.reset();
+                            minireel.standalone = true;
+
+                            CardPlayerCtrl.updateView();
+                        });
+
+                        it('should be false', function() {
+                            expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ closeable: false }));
+                        });
+                    });
+                });
+
+                describe('if closeable is false', function() {
+                    beforeEach(function() {
+                        view.update.calls.reset();
+                        minireel.closeable = false;
+
+                        CardPlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ closeable: false }));
+                    });
+                });
+            });
+
+            describe('showSkipTimer', function() {
+                describe('if skippable is true', function() {
+                    beforeEach(function() {
+                        view.update.calls.reset();
+                        minireel.skippable = true;
 
                         CardPlayerCtrl.updateView();
                     });
 
                     it('should be false', function() {
-                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ closeable: false }));
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ showSkipTimer: false }));
+                    });
+                });
+
+                describe('if skippable is false', function() {
+                    beforeEach(function() {
+                        view.update.calls.reset();
+                        minireel.skippable = false;
+
+                        CardPlayerCtrl.updateView();
+                    });
+
+                    it('should be true', function() {
+                        expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ showSkipTimer: true }));
+                    });
+
+                    describe('and standalone is true', function() {
+                        beforeEach(function() {
+                            view.update.calls.reset();
+                            minireel.standalone = true;
+
+                            CardPlayerCtrl.updateView();
+                        });
+
+                        it('should be false', function() {
+                            expect(view.update).toHaveBeenCalledWith(jasmine.objectContaining({ showSkipTimer: false }));
+                        });
                     });
                 });
             });

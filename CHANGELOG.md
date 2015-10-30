@@ -1,5 +1,13 @@
 # MiniReel Player 2.0
 
+* *[v1.2.1-rc1]*
+  * [FIX]: Loading a player service URL directly into the browser no
+    longer causes a "Close" button to appear
+  * [FIX]: Fix for an issue where the close button appeared when it
+    should not in the desktop player (if the video had no skip control)
+  * [FIX]: Fix for an issue that caused the player to render incorrectly
+    on mobile if loaded via the player service
+
 ## v1.2.0 (October 29, 2015)
 * *[v1.2.0-rc2]*
   * Support MRAID over https

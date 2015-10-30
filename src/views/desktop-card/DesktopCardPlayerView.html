@@ -8,7 +8,7 @@
             Skip
         </span>
     </button><!--skip button : Ends-->
-    <div data-unless="skippable" data-view="skipTimer:SkipTimerView" data-model="skipTime"
+    <div data-if="showSkipTimer" data-view="skipTimer:SkipTimerView" data-model="skipTime"
         class="nav__counter">
         <span>Skip in </span>
         <strong>{{remaining}}</strong>

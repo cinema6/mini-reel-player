@@ -67,6 +67,7 @@ describe('CardPlayerController', function() {
                         minireel.deck = [card];
                         CardPlayerCtrl.view = new View();
 
+                        spyOn(CardPlayerCtrl, 'updateView');
                         spyOn(parentView, 'append').and.callFake(view => view.cardOutlet = new View());
 
                         minireel.emit('init');
@@ -83,6 +84,10 @@ describe('CardPlayerController', function() {
 
                     it('should append its view to the parent', function() {
                         expect(parentView.append).toHaveBeenCalledWith(CardPlayerCtrl.view);
+                    });
+
+                    it('should call updateView()', function() {
+                        expect(CardPlayerCtrl.updateView).toHaveBeenCalled();
                     });
                 });
 

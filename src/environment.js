@@ -48,7 +48,7 @@ class Environment {
         this.mode = c6.kMode || basename($location.pathname);
         this.params = c6.kParams || typeify(parseQueryString($location.search));
 
-        this.protocol = ((/https?/).test($$location.protocol) ? $$location.protocol : 'http') + ':';
+        this.protocol = (/https?/.test($$location.protocol) ? $$location.protocol : 'https') + ':';
         this.hostname = $$location.hostname;
         this.href = $$location.href;
         this.origin = $$location.origin;

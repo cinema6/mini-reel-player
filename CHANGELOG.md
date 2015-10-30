@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v1.2.0 (October 29, 2015)
+* *[v1.2.0-rc2]*
+  * Support MRAID over https
+* *[/v1.2.0-rc2]*
+
 * *[v1.2.0-rc1]*
   * [FEATURE]: Added new `desktop-card` player for use in VPAID, with Q1
     media, etc.

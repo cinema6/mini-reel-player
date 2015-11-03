@@ -1,5 +1,2 @@
-@import url(../light/instagram-card.css);
+@import url(../global/instagram-card.css);
 
-.card__group div.instag____player__group {
-    top: 0px; bottom: 0px;
-}

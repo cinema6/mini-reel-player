@@ -77,6 +77,11 @@
 			    right:18.75rem;
 			}
 
+			.instag____mediaVid__group {
+		        left:1em;
+		        right:17.5em;
+		    }
+
 /*  ================================================
     Media Queries
     ================================================ */
@@ -138,6 +143,10 @@
 		.instag____mediaImg__group {
 		    right:13.75rem;
 		}
+
+		.instag____mediaVid__group {
+	        right:12em;
+	    }
 
     }
 

@@ -74,7 +74,7 @@
 
 			.instag____mediaImg__group {
 			    left:1em;
-			    right:18.75rem;
+			    right:20rem;
 			}
 
 			.instag____mediaVid__group {
@@ -91,9 +91,12 @@
         	h: 0 - 496px	*/
 
         .instag____post__group {
-		    width:12.5rem;
+		    width:13.25rem;
 		    padding:0.5em;
 		    font-size:0.875rem;
+			top:0.25em;
+		    right:0.25em;
+		    bottom:0.25em;
 		}
 
 			.instag____postAccount__group {
@@ -141,11 +144,17 @@
 				}
 
 		.instag____mediaImg__group {
+			left:0.25em;
 		    right:13.75rem;
+		    top:0.25em;
+    		bottom:0.25em;
 		}
 
 		.instag____mediaVid__group {
+			left:0.25em;
 	        right:12em;
+	        top:0.25em;
+    		bottom:0.25em;
 	    }
 
     }

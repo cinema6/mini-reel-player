@@ -166,7 +166,8 @@
                             .instag____socialMedia__icon--facebook:before,
                             .instag____socialMedia__icon--twitter:before,
                             .instag____socialMedia__icon--pinterest:before,
-                            .instag____socialMedia__icon--instagram:before {
+                            .instag____socialMedia__icon--instagram:before,
+                            .instag____socialMedia__icon--share:before {
                                 content:'';
                                 width:1rem;
                                 height:1rem;
@@ -198,6 +199,10 @@
                                background:url('../../img/sprite--alpha@2x.png') -11rem -3rem/18.75rem 18.75rem no-repeat;
                             }
 
+                            .instag____socialMedia__icon--share:before {
+                               background:url('../../img/sprite--alpha@2x.png') -13rem -3rem/18.75rem 18.75rem no-repeat;
+                            }
+
 
 
 
@@ -214,7 +219,7 @@
                     border-radius:4px 0 0 4px;
                     border:1px solid #eeefef;
                     border-right:none;
-                    background:#fafafa center/contain no-repeat;
+                    background:#000 center/contain no-repeat;
                 }
 
 
@@ -251,6 +256,7 @@
                         width:50%;
                         float:left;
                         font-size:1em;
+                        font-weight:400;
                         word-wrap:break-word;
                         color:#125688;
                     }
@@ -267,7 +273,7 @@
 
                 .instag____post__title {
                     font-size:1.125em;
-                    font-weight:600;
+                    font-weight:500;
                     width:100%;
                     border-bottom:2px solid #eeefef;
                     margin:0 0 0.75em 0;

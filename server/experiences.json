@@ -1273,65 +1273,8 @@
                     "org": "o-e4e8b0f244bafc",
                     "lastUpdated": "2015-08-25T13:08:51.002Z",
                     "id": "rc-970d98ddf187a9"
-                },
-                {
-                    "data": {
-                        "hideSource": true,
-                        "autoplay": true,
-                        "controls": false,
-                        "autoadvance": false,
-                        "skip": true,
-                        "modestbranding": 0,
-                        "rel": 0,
-                        "videoid": "FcPckhjgZyI",
-                        "href": "https://www.youtube.com/watch?v=FcPckhjgZyI",
-                        "thumbs": {
-                            "small": "//img.youtube.com/vi/FcPckhjgZyI/2.jpg",
-                            "large": "//img.youtube.com/vi/FcPckhjgZyI/0.jpg"
-                        }
-                    },
-                    "type": "youtube",
-                    "title": "Word Just Won't Do",
-                    "note": "When Hyundai set out to build the 2015 Sonata, we transformed everything, from its appearance to its performance. Advanced high-strength steel, enhanced driving dynamics and sophisticated safety features are just the beginning. Was all of this extra effort really worth it? Get behind the wheel of the completely redesigned Hyundai Sonata and see for yourself. \n\nExperience the 2015 Hyundai Sonata by clicking the link below.",
-                    "source": "YouTube",
-                    "modules": [],
-                    "thumbs": null,
-                    "placementId": null,
-                    "templateUrl": null,
-                    "sponsored": true,
-                    "campaign": {
-                        "campaignId": null,
-                        "advertiserId": null,
-                        "minViewTime": -1,
-                        "countUrls": [],
-                        "clickUrls": []
-                    },
-                    "collateral": {
-                        "logo": "https://yt3.ggpht.com/-a2s49ySzhek/AAAAAAAAAAI/AAAAAAAAAAA/5_V6O3cMIXs/s100-c-k-no/photo.jpg"
-                    },
-                    "links": {
-                        "Website": "https://www.hyundaiusa.com/sonata/technology.aspx",
-                        "Facebook": "https://www.facebook.com/Hyundai",
-                        "Twitter": "https://twitter.com/hyundai",
-                        "YouTube": "https://www.youtube.com/user/HyundaiUSA",
-                        "Action": "hyundaiusa.com/sonata"
-                    },
-                    "params": {
-                        "sponsor": "Hyundai",
-                        "ad": false,
-                        "action": {
-                            "type": "button",
-                            "label": "bring this moving masterpiece to your life"
-                        }
-                    },
-                    "campaignId": "cam-24482b245c9bbe",
-                    "id": "rc-73e06057d14d2a",
-                    "created": "2015-08-20T17:06:27.797Z",
-                    "lastUpdated": "2015-08-20T17:06:27.797Z",
-                    "status": "active",
-                    "user": "u-86e21912d40ab4",
-                    "org": "o-a61cbc73256d22"
                 }
+                
             ]
         },
         "versionId": "c803f38d",

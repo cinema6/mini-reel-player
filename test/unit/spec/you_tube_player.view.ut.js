@@ -113,7 +113,7 @@ describe('YouTubePlayer', function() {
                         };
                         spyOn(youtube, 'Player').and.returnValue(ytPlayer);
 
-                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=VSL0vtRrTYk&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=VSL0vtRrTYk&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                             /* jshint quotmark:double */
                             .respond(200, {
                                 "kind": "youtube#videoListResponse",
@@ -253,7 +253,7 @@ describe('YouTubePlayer', function() {
             beforeEach(function() {
                 autoplayDeferred = defer(RunnerPromise);
 
-                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=VSL0vtRrTYk&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=VSL0vtRrTYk&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                     /* jshint quotmark:double */
                     .respond(200, {
                         "kind": "youtube#videoListResponse",
@@ -415,7 +415,7 @@ describe('YouTubePlayer', function() {
 
             describe('if called after load', function() {
                 beforeEach(function(done) {
-                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=uf_QhUZX3BM&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=uf_QhUZX3BM&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                         /* jshint quotmark:double */
                         .respond(200, {
                             "kind": "youtube#videoListResponse",
@@ -496,7 +496,7 @@ describe('YouTubePlayer', function() {
                 loadstart = jasmine.createSpy('loadstart');
                 player.on('loadstart', loadstart);
 
-                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                     /* jshint quotmark:double */
                     .respond(200, {
                         "kind": "youtube#videoListResponse",
@@ -575,7 +575,7 @@ describe('YouTubePlayer', function() {
 
                         youtube.Player.calls.reset();
 
-                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=HSGHNfxxDjw&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=HSGHNfxxDjw&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                             /* jshint quotmark:double */
                             .respond(200, {
                                 "kind": "youtube#videoListResponse",
@@ -639,7 +639,7 @@ describe('YouTubePlayer', function() {
                     player.src = 'DcylVx2ex78';
                     player.controls = false;
 
-                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                         /* jshint quotmark:double */
                         .respond(200, {
                             "kind": "youtube#videoListResponse",
@@ -831,7 +831,7 @@ describe('YouTubePlayer', function() {
                         beforeEach(function(done) {
                             jasmine.clock().uninstall();
 
-                            fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                            fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                                 /* jshint quotmark:double */
                                 .respond(200, {
                                     "kind": "youtube#videoListResponse",
@@ -933,7 +933,7 @@ describe('YouTubePlayer', function() {
                         beforeEach(function(done) {
                             jasmine.clock().uninstall();
 
-                            fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                            fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                                 /* jshint quotmark:double */
                                 .respond(200, {
                                     "kind": "youtube#videoListResponse",
@@ -1213,7 +1213,7 @@ describe('YouTubePlayer', function() {
                         prevFrame = iframe;
 
                         youtube.Player.calls.reset();
-                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=w_x7rSZ5aJQ&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=w_x7rSZ5aJQ&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                             /* jshint quotmark:double */
                             .respond(200, {
                                 "kind": "youtube#videoListResponse",
@@ -1265,7 +1265,7 @@ describe('YouTubePlayer', function() {
             beforeEach(function(done) {
                 player.src = 'UkOKCWDJ4iA';
 
-                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=UkOKCWDJ4iA&key=AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok')
+                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=UkOKCWDJ4iA&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
                     /* jshint quotmark:double */
                     .respond(200, {
                         "kind": "youtube#videoListResponse",

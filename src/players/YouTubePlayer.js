@@ -32,7 +32,7 @@ import {
     });
 }
 
-const YT_API_KEY  = 'AIzaSyBYOutFJ1yBx8MAYy5OgtTvslvBiFk8wok';
+const YT_API_KEY  = 'AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74';
 const CLEAN_STATE = {
     readyState: 0,
     duration: 0,

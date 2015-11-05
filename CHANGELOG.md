@@ -1,12 +1,14 @@
 # MiniReel Player 2.0
 
+## v1.2.2 (November 5, 2015)
 * *[v1.2.2-rc1]*
   * [FIX]: CSS Transition caused animation on description area of desktop-card 
   	to malfunction on hover in Safari browser only
   * [FIX]: Fix for an issue that caused YouTube video metadata not to be
     loaded
+* *[/v1.2.2-rc1]*
 
-## v1.2.0 (November 2, 2015)
+## v1.2.1 (November 2, 2015)
 * *[v1.2.1-rc1]*
   * [FIX]: Loading a player service URL directly into the browser no
     longer causes a "Close" button to appear

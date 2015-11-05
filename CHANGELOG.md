@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v1.2.2-rc1]*
+  * [FIX]: CSS Transition caused animation on description area of desktop-card 
+  	to malfunction on hover in Safari browser only
+
 ## v1.2.0 (November 2, 2015)
 * *[v1.2.1-rc1]*
   * [FIX]: Loading a player service URL directly into the browser no

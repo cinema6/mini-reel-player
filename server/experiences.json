@@ -143,6 +143,40 @@
                 },
                 {
                     "data": {
+                        "autoplay": true,
+                        "skip": true,
+                        "service": "jwplayer",
+                        "videoid": "iGznZrKK-J8paEl8S",
+                        "href": "http://content.jwplatform.com/previews/njFhMDbi-h5bP9bKQ",
+                        "thumbs": {
+                            "small": "https://embed-ssl.wistia.com/deliveries/6928fcba8355e38de4d95863a659e1de23cb2071.jpg?image_crop_resized=960x540",
+                            "large": "https://embed-ssl.wistia.com/deliveries/6928fcba8355e38de4d95863a659e1de23cb2071.jpg?image_crop_resized=960x540"
+                        }
+                    },
+                    "id": "rc-8a2697c33",
+                    "type": "jwplayer",
+                    "title": "JWPlayer",
+                    "note": null,
+                    "source": "JWPlayer",
+                    "modules": [],
+                    "thumbs": null,
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null,
+                        "countUrls": [],
+                        "clickUrls": []
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "shareLinks": {},
+                    "params": {}
+                },
+                {
+                    "data": {
                         "skip": true,
                         "service": "wistia",
                         "videoid": "9iqvphjp4u",

@@ -13,6 +13,7 @@ import InstagramVideoCard from '../../../src/models/InstagramVideoCard.js';
 import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
 import VzaarPlayer from '../../../src/players/VzaarPlayer.js';
 import WistiaPlayer from '../../../src/players/WistiaPlayer.js';
+import JWPlayer from '../../../src/players/JWPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -187,6 +188,22 @@ describe('playerFactory', function() {
 
                 it('should be a WistiaPlayer', function() {
                     expect(result).toEqual(jasmine.any(WistiaPlayer));
+                });
+            });
+
+            describe('if the card is from JWPlayer', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'jwplayer',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a JWPlayer', function() {
+                    expect(result).toEqual(jasmine.any(JWPlayer));
                 });
             });
 

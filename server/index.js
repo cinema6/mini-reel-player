@@ -23,59 +23,6 @@ function extend(/*...objects*/) {
 }
 
 module.exports = function(httpMock) {
-    var player = new Player({
-        api: {
-            root: 'http://localhost:9000/',
-            player: {
-                endpoint: './.build/index.html'
-            },
-            branding: {
-                endpoint: 'mothership/collateral/branding/',
-                cacheTTLs: {
-                    fresh: 0,
-                    max: 0
-                }
-            },
-            experience: {
-                endpoint: 'api/experience/',
-                validParams: [
-                    'campaign', 'branding', 'placementId',
-                    'container', 'wildCardPlacement',
-                    'pageUrl', 'hostApp', 'network'
-                ],
-                cacheTTLs: {
-                    fresh: 0,
-                    max: 0
-                }
-            },
-            card: {
-                endpoint: 'api/card/',
-                cacheTTLs: {
-                    fresh: 0,
-                    max: 0
-                }
-            }
-        },
-        adtech: {
-            server: 'adserver.adtechus.com',
-            network: '5491.1',
-            request: {
-                maxSockets: 250,
-                timeout: 3000
-            }
-        },
-        cloudwatch: {
-            namespace: 'C6/Player',
-            region: 'us-east-1',
-            sendInterval: 0, // 5 mins
-            dimensions: [{ Name: 'Environment', Value: 'Player Development' }]
-        },
-        defaults: {
-            origin: 'http://www.cinema6.com/',
-            mobileType: 'mobile'
-        },
-        validTypes: grunt.config.get('package.builds')
-    });
     var cliOptions = {
         campaign: grunt.config.get('server.campId'),
         experience: grunt.config.get('server.exp')
@@ -123,6 +70,60 @@ module.exports = function(httpMock) {
 
     httpMock.whenGET('/**', function(req) {
         var filename = basename(req.pathname);
+        var host = req.headers.host;
+        var player = new Player({
+            api: {
+                root: 'http://' + host + '/',
+                player: {
+                    endpoint: './.build/index.html'
+                },
+                branding: {
+                    endpoint: 'mothership/collateral/branding/',
+                    cacheTTLs: {
+                        fresh: 0,
+                        max: 0
+                    }
+                },
+                experience: {
+                    endpoint: 'api/experience/',
+                    validParams: [
+                        'campaign', 'branding', 'placementId',
+                        'container', 'wildCardPlacement',
+                        'pageUrl', 'hostApp', 'network'
+                    ],
+                    cacheTTLs: {
+                        fresh: 0,
+                        max: 0
+                    }
+                },
+                card: {
+                    endpoint: 'api/card/',
+                    cacheTTLs: {
+                        fresh: 0,
+                        max: 0
+                    }
+                }
+            },
+            adtech: {
+                server: 'adserver.adtechus.com',
+                network: '5491.1',
+                request: {
+                    maxSockets: 250,
+                    timeout: 3000
+                }
+            },
+            cloudwatch: {
+                namespace: 'C6/Player',
+                region: 'us-east-1',
+                sendInterval: 0, // 5 mins
+                dimensions: [{ Name: 'Environment', Value: 'Player Development' }]
+            },
+            defaults: {
+                origin: 'http://www.cinema6.com/',
+                mobileType: 'mobile'
+            },
+            validTypes: grunt.config.get('package.builds')
+        });
 
         if (player.config.validTypes.indexOf(filename) > -1) {
             this.respond(200, player.get(extend(cliOptions, req.query, {

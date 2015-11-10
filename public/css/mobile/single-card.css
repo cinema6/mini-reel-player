@@ -165,6 +165,10 @@
             }
         .MiniReel__group--SingleCardMR .sponsor__goBtn {
             margin: 0.6875em 0.5em;
+            display: block;
+        }
+        .MiniReel__group--SingleCardMR .btn__label {
+            display: inherit;
         }
     }   
  /*scaling description based on screen size*/

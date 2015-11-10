@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v1.2.3-rc1]*
+  * [FIX]: CSS positioning bug fix for ads with less content on desktop-card
+
 ## v1.2.2 (November 5, 2015)
 * *[v1.2.2-rc1]*
   * [FIX]: CSS Transition caused animation on description area of desktop-card 

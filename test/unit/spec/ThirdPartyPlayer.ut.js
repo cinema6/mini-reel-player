@@ -617,7 +617,8 @@ describe('ThirdPartyPlayer', function() {
             it('should emit when changing values', function() {
                 player.__private__.approximateState.set('volume', 0);
                 player.__private__.approximateState.set('volume', 123);
-                expect(player.emit).toHaveBeenCalledWith('volumechange');
+                expect(player.emit).toHaveBeenCalledWith('volumechange', 0);
+                expect(player.emit).toHaveBeenCalledWith('volumechange', 123);
                 expect(player.emit.calls.all().length).toBe(2);
             });
         });
@@ -656,11 +657,6 @@ describe('ThirdPartyPlayer', function() {
             it('should emit when changing to true', function() {
                 player.__private__.approximateState.set('ended', true);
                 expect(player.emit).toHaveBeenCalledWith('ended');
-            });
-
-            it('should emit when changing to false', function() {
-                player.__private__.approximateState.set('ended', false);
-                expect(player.emit).toHaveBeenCalledWith('playing');
             });
         });
     });

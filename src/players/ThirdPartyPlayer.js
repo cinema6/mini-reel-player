@@ -50,12 +50,13 @@ class Private {
         this.approximateState.on('change:currentTime', () => {
             this.__public__.emit('timeupdate');
         });
-        this.approximateState.on('becameTrue:paused', () => {
-            this.__public__.emit('pause');
-        });
-        this.approximateState.on('becameFalse:paused', () => {
-            this.__public__.emit('play');
-            this.__public__.emit('playing');
+        this.approximateState.on('change:paused', newValue => {
+            if(newValue === true) {
+                this.__public__.emit('pause');
+            } else if(newValue === false) {
+                this.__public__.emit('play');
+                this.__public__.emit('playing');
+            }
         });
         this.approximateState.on('change:duration', () => {
             this.__public__.emit('durationchange');
@@ -76,14 +77,15 @@ class Private {
                 break;
             }
         });
-        this.approximateState.on('change:volume', () => {
-            this.__public__.emit('volumechange');
+        this.approximateState.on('change:volume', newValue => {
+            this.__public__.emit('volumechange', newValue);
         });
-        this.approximateState.on('becameTrue:seeking', () => {
-            this.__public__.emit('seeking');
-        });
-        this.approximateState.on('becameFalse:seeking', () => {
-            this.__public__.emit('seeked');
+        this.approximateState.on('change:seeking', newValue => {
+            if(newValue === true) {
+                this.__public__.emit('seeking');
+            } else if(newValue === false) {
+                this.__public__.emit('seeked');
+            }
         });
         this.approximateState.on('change:width', () => {
             this.__public__.emit('resize');
@@ -91,11 +93,10 @@ class Private {
         this.approximateState.on('change:height', () => {
             this.__public__.emit('resize');
         });
-        this.approximateState.on('becameTrue:ended', () => {
-            this.__public__.emit('ended');
-        });
-        this.approximateState.on('becameFalse:ended', () => {
-            this.__public__.emit('playing');
+        this.approximateState.on('change:ended', newValue => {
+            if(newValue === true) {
+                this.__public__.emit('ended');
+            }
         });
     }
 
@@ -237,6 +238,42 @@ class Private {
 
 const _ = createKey(instance => new Private(instance));
 
+/**
+    Set properties on this __api__ object to implement a third party player.
+    Explanation of properties:
+    name:
+        The name of the third party player
+
+    methods:
+        An object of implemented api methods. The values for the keys must be functions which
+        implement the given api method. Each of these functions is passed a reference to the third
+        party player's api and may return a promise signifying that the action is complete. The
+        load implementation is special. The load function takes a src as a parameter and must
+        return a promise resolved with the third party player's api when the player is loaded,
+        ready, and able to play.
+        Supported methods:
+            play, pause, load, unload, seek, volume, minimize, addEventListener
+            removeEventListener
+
+    properties:
+        An object of implemented api properties. The values for the keys must be synchronous
+        functions which return the value of the given property. These functions are passed a
+        reference to the third party player's api.
+        Supported properties:
+            currentTime, paused, duration, readyState, muted, volume, seeking, minimized, width,
+            height, ended, error
+
+    events:
+        An object of implemented api events. The keys of this object correspond to events fired by
+        the third party player. The values of these keys are the event handlers, passed any
+        arguments that would normally be given to a handler of the implemented event. Within these
+        handlers __setProperty__ should be called to update this class' knoledge of changes to
+        properties signaled by the event.
+
+    autoplayTest:
+        A boolean indicating whether the browser should be tested for autoplayability before
+        autoplaying a player.
+*/
 export default class ThirdPartyPlayer extends CorePlayer {
     constructor() {
         super(...arguments);

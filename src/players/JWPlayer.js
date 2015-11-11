@@ -6,7 +6,7 @@ import RunnerPromise from '../../lib/RunnerPromise.js';
 export default class JWPlayer extends ThirdPartyPlayer {
     constructor() {
         super(...arguments);
-        
+
         this.__api__.name = 'JWPlayer';
         this.__api__.methods = {
             load: src => {
@@ -60,7 +60,9 @@ export default class JWPlayer extends ThirdPartyPlayer {
                 api.setVolume(vol);
             },
             addEventListener: (api, name, handler) => {
-                api.on(name, handler);
+                api.on(name, (...args) => Runner.run(() => {
+                    handler(...args);
+                }));
             },
             removeEventListener: (api, name) => {
                 api.off(name);
@@ -93,9 +95,9 @@ export default class JWPlayer extends ThirdPartyPlayer {
             }
         };
         this.__api__.events = {
-            time: time => {
-                this.__setProperty__('duration', time.duration);
-                this.__setProperty__('currentTime', time.position);
+            time: data => {
+                this.__setProperty__('duration', data.duration);
+                this.__setProperty__('currentTime', data.position);
             },
             seek: () => {
                 this.__setProperty__('seeking', true);
@@ -103,26 +105,28 @@ export default class JWPlayer extends ThirdPartyPlayer {
             seeked: () => {
                 this.__setProperty__('seeking', false);
             },
-            setupError: message => {
-                this.__setProperty__('error', message);
+            setupError: data => {
+                this.__setProperty__('error', data.message);
             },
             play: () => {
                 this.__setProperty__('paused', false);
+                this.__setProperty__('ended', false);
             },
             pause: () => {
                 this.__setProperty__('paused', true);
             },
             complete: () => {
                 this.__setProperty__('ended', true);
+                this.__setProperty__('paused', true);
             },
-            error: message => {
-                this.__setProperty__('error', message);
+            error: data => {
+                this.__setProperty__('error', data.message);
             },
-            mute: muted => {
-                this.__setProperty__('muted', muted);
+            mute: data => {
+                this.__setProperty__('muted', data.mute);
             },
-            volume: volume => {
-                this.__setProperty__('volume', volume);
+            volume: data => {
+                this.__setProperty__('volume', data.volume);
             }
         };
     }

@@ -1,15 +1,14 @@
-import CorePlayer from './CorePlayer.js';
 import Runner from '../../lib/Runner.js';
 import { defer } from '../../lib/utils.js';
-import ThirdPartyPlayer from '../../src/mixins/ThirdPartyPlayer.js';
+import ThirdPartyPlayer from './ThirdPartyPlayer.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 
-class JWPlayer extends CorePlayer {
+export default class JWPlayer extends ThirdPartyPlayer {
     constructor() {
         super(...arguments);
         
-        this.playerName = 'JWPlayer';
-        this.playerMethods = {
+        this.__api__.name = 'JWPlayer';
+        this.__api__.methods = {
             load: src => {
                 const deferred = defer(RunnerPromise);
                 const id = 'botr_' + src.replace('-', '_') + '_div';
@@ -47,14 +46,14 @@ class JWPlayer extends CorePlayer {
                 api.pause(true);
             },
             seek: (api, time) => {
-                api.seek(time);
                 const deferred = defer(RunnerPromise);
-                this.once('seeked', () => Runner.run(() => {
+                api.seek(time);
+                this.once('seeked', () => {
                     deferred.fulfill();
-                }));
+                });
                 setTimeout(() => {
                     deferred.reject('failed to confirm seek');
-                }, 5000);
+                }, 2000);
                 return deferred.promise;
             },
             volume: (api, vol) => {
@@ -67,7 +66,7 @@ class JWPlayer extends CorePlayer {
                 api.off(name);
             }
         };
-        this.playerPropertyGetters = {
+        this.__api__.properties = {
             currentTime: api => {
                 return api.getPosition();
             },
@@ -84,7 +83,7 @@ class JWPlayer extends CorePlayer {
                 return api.getVolume();
             },
             minimized: api => {
-                return api.getFullscreen();
+                return !api.getFullscreen();
             },
             width: api => {
                 return api.getWidth();
@@ -93,42 +92,38 @@ class JWPlayer extends CorePlayer {
                 return api.getHeight();
             }
         };
-        this.apiEventHandlers = {
+        this.__api__.events = {
             time: time => {
-                this.setEventDrivenProperty('duration', time.duration);
-                this.setEventDrivenProperty('currentTime', time.position);
+                this.__setProperty__('duration', time.duration);
+                this.__setProperty__('currentTime', time.position);
             },
             seek: () => {
-                this.setEventDrivenProperty('seeking', true);
+                this.__setProperty__('seeking', true);
             },
             seeked: () => {
-                this.setEventDrivenProperty('seeking', false);
+                this.__setProperty__('seeking', false);
             },
             setupError: message => {
-                this.setEventDrivenProperty('error', message);
+                this.__setProperty__('error', message);
             },
             play: () => {
-                this.setEventDrivenProperty('paused', false);
+                this.__setProperty__('paused', false);
             },
             pause: () => {
-                this.setEventDrivenProperty('paused', true);
+                this.__setProperty__('paused', true);
             },
             complete: () => {
-                this.setEventDrivenProperty('ended', true);
+                this.__setProperty__('ended', true);
             },
             error: message => {
-                this.setEventDrivenProperty('error', message);
+                this.__setProperty__('error', message);
             },
             mute: muted => {
-                this.setEventDrivenProperty('muted', muted);
+                this.__setProperty__('muted', muted);
             },
             volume: volume => {
-                this.setEventDrivenProperty('volume', volume);
+                this.__setProperty__('volume', volume);
             }
         };
-
-        window.wubalub = this;
     }
 }
-JWPlayer.mixin(ThirdPartyPlayer);
-export default JWPlayer;

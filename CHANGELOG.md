@@ -1,9 +1,11 @@
 # MiniReel Player 2.0
 
+## v1.2.3 (November 11, 2015)
 * *[v1.2.3-rc1]*
   * [FIX]: CSS positioning bug fix for ads with less content on desktop-card
   * [FIX]: Updated CTA width for single card mobile portrait layout to optimize
     preview on selfie and smaller mobile screens
+* *[/v1.2.3-rc1]*
 
 ## v1.2.2 (November 5, 2015)
 * *[v1.2.2-rc1]*

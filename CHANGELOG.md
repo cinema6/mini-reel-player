@@ -1,7 +1,9 @@
 # MiniReel Player 2.0
 
+## v1.3.0 (November 12, 2015)
 * *[v1.3.0-rc1]*
   * [FEATURE]: Added support for JWPlayer video cards
+* *[/v1.3.0-rc1]*
 
 ## v1.2.3 (November 11, 2015)
 * *[v1.2.3-rc1]*

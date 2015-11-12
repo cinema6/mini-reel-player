@@ -16,7 +16,7 @@ describe('ThirdPartyPlayer', function() {
         spyOn(player, 'emit');
         spyOn(player, 'load').and.callThrough();
         spyOn(player, 'unload').and.callThrough();
-        spyOn(player.__private__, 'getPlayerProperty').and.callThrough();
+        spyOn(player.__private__.state, 'get').and.callThrough();
         spyOn(player.__private__, 'playerSeek').and.callThrough();
         spyOn(player.__private__, 'playerVolume').and.callThrough();
         spyOn(player.__private__, 'playerLoad').and.callThrough();
@@ -113,36 +113,6 @@ describe('ThirdPartyPlayer', function() {
                         done();
                     });
                 });
-            });
-        });
-
-        describe('getPlayerProperty', function() {
-            let getTimeSpy;
-
-            beforeEach(function() {
-                getTimeSpy = jasmine.createSpy('getCurrentTime').and.returnValue(123);
-                player.__api__.properties.currentTime = getTimeSpy;
-            });
-
-            it('should not return a value for a property not on the whitelist', function() {
-                expect(player.__private__.getPlayerProperty('foo')).not.toBeDefined();
-            });
-
-            it('should use a getter function for the property if one exists and there is an api', function() {
-                player.__private__.api = 'the api';
-                expect(player.__private__.getPlayerProperty('currentTime')).toBe(123);
-                expect(getTimeSpy).toHaveBeenCalledWith('the api');
-            });
-
-            it('should get a value from the approximate state if it is not null', function() {
-                player.__private__.approximateState.set('currentTime', 123);
-                expect(player.__private__.getPlayerProperty('currentTime')).toBe(123);
-                expect(getTimeSpy).not.toHaveBeenCalled();
-            });
-
-            it('should fallback to a default value', function() {
-                expect(player.__private__.getPlayerProperty('currentTime')).toBe(0);
-                expect(getTimeSpy).not.toHaveBeenCalled();
             });
         });
 
@@ -254,7 +224,7 @@ describe('ThirdPartyPlayer', function() {
                 player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
-                    expect(player.__private__.approximateState.get('readyState')).toBe(3);
+                    expect(player.__private__.state.get('readyState')).toBe(3);
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -414,9 +384,9 @@ describe('ThirdPartyPlayer', function() {
 
             it('should reset the approximate state if there is an api', function(done) {
                 player.__private__.api = 'the api';
-                spyOn(player.__private__.approximateState, 'reset');
+                spyOn(player.__private__.state, 'reset');
                 player.__private__.playerUnload().then(() => {
-                    expect(player.__private__.approximateState.reset).toHaveBeenCalled();
+                    expect(player.__private__.state.reset).toHaveBeenCalled();
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -474,7 +444,7 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should pause the player after seeking if it was paused pre-seek', function(done) {
-                player.__private__.getPlayerProperty.and.returnValue(true);
+                player.__private__.state.get.and.returnValue(true);
                 player.__private__.api = 'the api';
                 player.__private__.playerSeek(123).then(() => {
                     expect(player.__private__.playerPause).toHaveBeenCalled();
@@ -486,7 +456,7 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should play the player after seeking if it was playing pre-seek', function(done) {
-                player.__private__.getPlayerProperty.and.returnValue(false);
+                player.__private__.state.get.and.returnValue(false);
                 player.__private__.api = 'the api';
                 player.__private__.playerSeek(123).then(() => {
                     expect(player.__private__.playerPlay).toHaveBeenCalled();
@@ -553,26 +523,26 @@ describe('ThirdPartyPlayer', function() {
             expect(player.__private__.api).toBe(null);
             expect(player.__private__.eventListeners).toEqual([]);
             expect(player.__private__.serializer).toEqual(jasmine.any(PromiseSerializer));
-            expect(player.__private__.approximateState).toEqual(jasmine.any(Observable));
+            expect(player.__private__.state).toEqual(jasmine.any(Observable));
         });
 
         describe('currentTime', function() {
             it('should emit if changing values', function() {
-                player.__private__.approximateState.set('currentTime', 0);
-                player.__private__.approximateState.set('currentTime', 123);
+                player.__private__.state.set('currentTime', 123);
                 expect(player.emit).toHaveBeenCalledWith('timeupdate');
-                expect(player.emit.calls.all().length).toBe(2);
             });
         });
 
         describe('paused', function() {
             it('should emit when changing to true', function() {
-                player.__private__.approximateState.set('paused', true);
+                player.__private__.state.set('paused', false);
+                expect(player.emit).not.toHaveBeenCalledWith('pause');
+                player.__private__.state.set('paused', true);
                 expect(player.emit).toHaveBeenCalledWith('pause');
             });
 
             it('should emit when changing to false', function() {
-                player.__private__.approximateState.set('paused', false);
+                player.__private__.state.set('paused', false);
                 expect(player.emit).toHaveBeenCalledWith('play');
                 expect(player.emit).toHaveBeenCalledWith('playing');
             });
@@ -580,82 +550,73 @@ describe('ThirdPartyPlayer', function() {
 
         describe('duration', function() {
             it('should emit if changing values', function() {
-                player.__private__.approximateState.set('duration', 0);
-                player.__private__.approximateState.set('duration', 123);
+                player.__private__.state.set('duration', 123);
                 expect(player.emit).toHaveBeenCalledWith('durationchange');
-                expect(player.emit.calls.all().length).toBe(2);
             });
         });
 
         describe('readyState', function() {
             it('should be able to emit emptied', function() {
-                player.__private__.approximateState.set('readyState', 0);
+                player.__private__.state.set('readyState', 3);
+                expect(player.emit).not.toHaveBeenCalledWith('emptied');
+                player.__private__.state.set('readyState', 0);
                 expect(player.emit).toHaveBeenCalledWith('emptied');
-                expect(player.emit.calls.all().length).toBe(1);
             });
 
             it('should be able to emit loadedmetadata', function() {
-                player.__private__.approximateState.set('readyState', 1);
+                player.__private__.state.set('readyState', 1);
                 expect(player.emit).toHaveBeenCalledWith('loadedmetadata');
-                expect(player.emit.calls.all().length).toBe(1);
             });
 
             it('should be able to emit canplay', function() {
-                player.__private__.approximateState.set('readyState', 3);
+                player.__private__.state.set('readyState', 3);
                 expect(player.emit).toHaveBeenCalledWith('canplay');
-                expect(player.emit.calls.all().length).toBe(1);
             });
 
             it('should be able to emit canplaythrough', function() {
-                player.__private__.approximateState.set('readyState', 4);
+                player.__private__.state.set('readyState', 4);
                 expect(player.emit).toHaveBeenCalledWith('canplaythrough');
-                expect(player.emit.calls.all().length).toBe(1);
             });
         });
 
         describe('volume', function() {
             it('should emit when changing values', function() {
-                player.__private__.approximateState.set('volume', 0);
-                player.__private__.approximateState.set('volume', 123);
-                expect(player.emit).toHaveBeenCalledWith('volumechange', 0);
+                player.__private__.state.set('volume', 123);
                 expect(player.emit).toHaveBeenCalledWith('volumechange', 123);
-                expect(player.emit.calls.all().length).toBe(2);
             });
         });
 
         describe('seeking', function() {
             it('should emit when changing to true', function() {
-                player.__private__.approximateState.set('seeking', true);
+                player.__private__.state.set('seeking', true);
                 expect(player.emit).toHaveBeenCalledWith('seeking');
             });
 
             it('should emit when changing to false', function() {
-                player.__private__.approximateState.set('seeking', false);
+                player.__private__.state.set('seeking', true);
+                expect(player.emit).not.toHaveBeenCalledWith('seeked');
+                player.__private__.state.set('seeking', false);
                 expect(player.emit).toHaveBeenCalledWith('seeked');
             });
         });
 
         describe('width', function() {
             it('should emit when changing values', function() {
-                player.__private__.approximateState.set('width', 0);
-                player.__private__.approximateState.set('width', 123);
+                player.__private__.state.set('width', 123);
                 expect(player.emit).toHaveBeenCalledWith('resize');
-                expect(player.emit.calls.all().length).toBe(2);
             });
         });
 
         describe('height', function() {
             it('should emit when changing values', function() {
-                player.__private__.approximateState.set('height', 0);
-                player.__private__.approximateState.set('height', 123);
+                player.__private__.state.set('height', 123);
                 expect(player.emit).toHaveBeenCalledWith('resize');
-                expect(player.emit.calls.all().length).toBe(2);
             });
         });
 
         describe('ended', function() {
             it('should emit when changing to true', function() {
-                player.__private__.approximateState.set('ended', true);
+                player.__private__.state.set('ended', true);
                 expect(player.emit).toHaveBeenCalledWith('ended');
             });
         });
@@ -785,12 +746,12 @@ describe('ThirdPartyPlayer', function() {
         describe('__setProperty__', function() {
             it('should set an allowed property on the approximate state', function() {
                 player.__setProperty__('currentTime', 123);
-                expect(player.__private__.approximateState.get('currentTime')).toBe(123);
+                expect(player.__private__.state.get('currentTime')).toBe(123);
             });
 
             it('should not set disallowed properties', function() {
                 player.__setProperty__('foo', 'bar');
-                expect(player.__private__.approximateState.get('foo')).not.toBeDefined();
+                expect(player.__private__.state.get('foo')).not.toBeDefined();
             });
         });
     });
@@ -801,7 +762,6 @@ describe('ThirdPartyPlayer', function() {
                 expect(player.__api__).toEqual({
                     name: '',
                     methods: {},
-                    properties: {},
                     events: {},
                     autoplayTest: true
                 });
@@ -836,9 +796,9 @@ describe('ThirdPartyPlayer', function() {
 
         describe('get currentTime', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(123);
+                player.__private__.state.get.and.returnValue(123);
                 expect(player.currentTime).toBe(123);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('currentTime');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('currentTime');
             });
         });
 
@@ -859,9 +819,9 @@ describe('ThirdPartyPlayer', function() {
 
         describe('get volume', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(123);
+                player.__private__.state.get.and.returnValue(123);
                 expect(player.volume).toBe(123);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('volume');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('volume');
             });
         });
 
@@ -882,57 +842,57 @@ describe('ThirdPartyPlayer', function() {
 
         describe('get paused', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(true);
+                player.__private__.state.get.and.returnValue(true);
                 expect(player.paused).toBe(true);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('paused');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('paused');
             });
         });
 
         describe('get duration', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(123);
+                player.__private__.state.get.and.returnValue(123);
                 expect(player.duration).toBe(123);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('duration');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('duration');
             });
         });
 
         describe('get ended', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(true);
+                player.__private__.state.get.and.returnValue(true);
                 expect(player.ended).toBe(true);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('ended');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('ended');
             });
         });
 
         describe('get muted', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(true);
+                player.__private__.state.get.and.returnValue(true);
                 expect(player.muted).toBe(true);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('muted');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('muted');
             });
         });
 
         describe('get readyState', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(3);
+                player.__private__.state.get.and.returnValue(3);
                 expect(player.readyState).toBe(3);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('readyState');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('readyState');
             });
         });
 
         describe('get seeking', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue(true);
+                player.__private__.state.get.and.returnValue(true);
                 expect(player.seeking).toBe(true);
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('seeking');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('seeking');
             });
         });
 
         describe('get error', function() {
             it('should get this player property', function() {
-                player.__private__.getPlayerProperty.and.returnValue('epic fail');
+                player.__private__.state.get.and.returnValue('epic fail');
                 expect(player.error).toBe('epic fail');
-                expect(player.__private__.getPlayerProperty).toHaveBeenCalledWith('error');
+                expect(player.__private__.state.get).toHaveBeenCalledWith('error');
             });
         });
     });

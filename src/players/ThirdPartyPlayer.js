@@ -15,7 +15,7 @@ const HAVE_ENOUGH_DATA = 4;
 const PLAYER_PROPERTIES = ['currentTime', 'paused', 'duration', 'readyState', 'muted', 'volume',
     'seeking', 'minimized', 'width', 'height', 'ended', 'error'];
 
-// fallback return values when retrieving a player property
+// defaults
 const DEFAULT_PLAYER_PROPERTIES = {
     currentTime: 0,
     paused: true,
@@ -42,15 +42,11 @@ class Private {
         this.api = null;
         this.eventListeners = [];
         this.serializer = new PromiseSerializer(RunnerPromise);
-        const observableConfig = {};
-        PLAYER_PROPERTIES.forEach(property => {
-            observableConfig[property] = null;
-        });
-        this.approximateState = new Observable(observableConfig);
-        this.approximateState.on('change:currentTime', () => {
+        this.state = new Observable(DEFAULT_PLAYER_PROPERTIES);
+        this.state.on('change:currentTime', () => {
             this.__public__.emit('timeupdate');
         });
-        this.approximateState.on('change:paused', newValue => {
+        this.state.on('change:paused', newValue => {
             if(newValue === true) {
                 this.__public__.emit('pause');
             } else if(newValue === false) {
@@ -58,10 +54,10 @@ class Private {
                 this.__public__.emit('playing');
             }
         });
-        this.approximateState.on('change:duration', () => {
+        this.state.on('change:duration', () => {
             this.__public__.emit('durationchange');
         });
-        this.approximateState.on('change:readyState', newValue => {
+        this.state.on('change:readyState', newValue => {
             switch(newValue) {
             case HAVE_NOTHING:
                 this.__public__.emit('emptied');
@@ -77,23 +73,23 @@ class Private {
                 break;
             }
         });
-        this.approximateState.on('change:volume', newValue => {
+        this.state.on('change:volume', newValue => {
             this.__public__.emit('volumechange', newValue);
         });
-        this.approximateState.on('change:seeking', newValue => {
+        this.state.on('change:seeking', newValue => {
             if(newValue === true) {
                 this.__public__.emit('seeking');
             } else if(newValue === false) {
                 this.__public__.emit('seeked');
             }
         });
-        this.approximateState.on('change:width', () => {
+        this.state.on('change:width', () => {
             this.__public__.emit('resize');
         });
-        this.approximateState.on('change:height', () => {
+        this.state.on('change:height', () => {
             this.__public__.emit('resize');
         });
-        this.approximateState.on('change:ended', newValue => {
+        this.state.on('change:ended', newValue => {
             if(newValue === true) {
                 this.__public__.emit('ended');
             }
@@ -112,21 +108,6 @@ class Private {
             }
         } else {
             return RunnerPromise.reject(`${methodName} not implemented`);
-        }
-    }
-
-    getPlayerProperty(property) {
-        const getterFns = this.__public__.__api__.properties;
-        if(PLAYER_PROPERTIES.indexOf(property) !== -1) {
-            if(getterFns && getterFns[property] && this.api) {
-                const value = getterFns[property](this.api);
-                this.approximateState.set(property, value);
-                return value;
-            } else if(this.approximateState.get(property) !== null) {
-                return this.approximateState.get(property);
-            } else {
-                return DEFAULT_PLAYER_PROPERTIES[property];
-            }
         }
     }
 
@@ -160,7 +141,7 @@ class Private {
         if(this.src && this.src !== '' && !this.api) {
             return this.callPlayerMethod('load', [this.src]).then(api => {
                 this.api = api;
-                this.approximateState.set('readyState', HAVE_FUTURE_DATA);
+                this.state.set('readyState', HAVE_FUTURE_DATA);
                 return this.addEventListeners();
             });
         } else {
@@ -200,7 +181,7 @@ class Private {
                 return this.callPlayerMethod('unload');
             }).then(() => {
                 this.api = null;
-                this.approximateState.reset();
+                this.state.reset();
             });
         } else {
             return RunnerPromise.resolve();
@@ -209,7 +190,7 @@ class Private {
 
     playerSeek(position) {
         if(this.api) {
-            const wasPaused = this.getPlayerProperty('paused');
+            const wasPaused = this.state.get('paused');
             return this.callPlayerMethod('seek', [position])
                 .then(() => {
                     return this[(wasPaused)?'playerPause':'playerPlay']();
@@ -255,14 +236,6 @@ const _ = createKey(instance => new Private(instance));
             play, pause, load, unload, seek, volume, minimize, addEventListener
             removeEventListener
 
-    properties:
-        An object of implemented api properties. The values for the keys must be synchronous
-        functions which return the value of the given property. These functions are passed a
-        reference to the third party player's api.
-        Supported properties:
-            currentTime, paused, duration, readyState, muted, volume, seeking, minimized, width,
-            height, ended, error
-
     events:
         An object of implemented api events. The keys of this object correspond to events fired by
         the third party player. The values of these keys are the event handlers, passed any
@@ -280,7 +253,6 @@ export default class ThirdPartyPlayer extends CorePlayer {
         this.__api__ = {
             name: '',
             methods: {},
-            properties: {},
             events: {},
             autoplayTest: true
         };
@@ -289,7 +261,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
 
     __setProperty__(property, value) {
         if(PLAYER_PROPERTIES.indexOf(property) !== -1) {
-            _(this).approximateState.set(property, value);
+            _(this).state.set(property, value);
         }
     }
 
@@ -364,7 +336,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     }
 
     get currentTime() {
-        return _(this).getPlayerProperty('currentTime');
+        return _(this).state.get('currentTime');
     }
 
     set currentTime(val) {
@@ -374,7 +346,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     }
 
     get volume() {
-        return _(this).getPlayerProperty('volume');
+        return _(this).state.get('volume');
     }
 
     set volume(val) {
@@ -384,30 +356,30 @@ export default class ThirdPartyPlayer extends CorePlayer {
     }
 
     get paused() {
-        return _(this).getPlayerProperty('paused');
+        return _(this).state.get('paused');
     }
 
     get duration() {
-        return _(this).getPlayerProperty('duration');
+        return _(this).state.get('duration');
     }
 
     get ended() {
-        return _(this).getPlayerProperty('ended');
+        return _(this).state.get('ended');
     }
 
     get muted() {
-        return _(this).getPlayerProperty('muted');
+        return _(this).state.get('muted');
     }
 
     get readyState() {
-        return _(this).getPlayerProperty('readyState');
+        return _(this).state.get('readyState');
     }
 
     get seeking() {
-        return _(this).getPlayerProperty('seeking');
+        return _(this).state.get('seeking');
     }
 
     get error() {
-        return _(this).getPlayerProperty('error');
+        return _(this).state.get('error');
     }
 }

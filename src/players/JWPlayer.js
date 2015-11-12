@@ -68,32 +68,6 @@ export default class JWPlayer extends ThirdPartyPlayer {
                 api.off(name);
             }
         };
-        this.__api__.properties = {
-            currentTime: api => {
-                return api.getPosition();
-            },
-            paused: api => {
-                return (api.getState() !== 'playing');
-            },
-            duration: api => {
-                return api.getDuration();
-            },
-            muted: api => {
-                return api.getMute();
-            },
-            volume: api => {
-                return api.getVolume();
-            },
-            minimized: api => {
-                return !api.getFullscreen();
-            },
-            width: api => {
-                return api.getWidth();
-            },
-            height: api => {
-                return api.getHeight();
-            }
-        };
         this.__api__.events = {
             time: data => {
                 this.__setProperty__('duration', data.duration);
@@ -127,6 +101,13 @@ export default class JWPlayer extends ThirdPartyPlayer {
             },
             volume: data => {
                 this.__setProperty__('volume', data.volume);
+            },
+            fullscreen: data => {
+                this.__setProperty__('minimized', data.fullscreen);
+            },
+            resize: data => {
+                this.__setProperty__('width', data.width);
+                this.__setProperty__('height', data.height);
             }
         };
     }

@@ -178,60 +178,6 @@ describe('JWPlayer', function() {
         });
     });
 
-    describe('the set api property getters', function() {
-        it('should implement currentTime', function() {
-            mockApi.getPosition.and.returnValue(123);
-            expect(player.__api__.properties.currentTime(mockApi)).toBe(123);
-            expect(mockApi.getPosition).toHaveBeenCalled();
-        });
-
-        it('should implement paused', function() {
-            mockApi.getState.and.returnValue('playing');
-            expect(player.__api__.properties.paused(mockApi)).toBe(false);
-            expect(mockApi.getState).toHaveBeenCalled();
-            mockApi.getState.and.returnValue('idle');
-            expect(player.__api__.properties.paused(mockApi)).toBe(true);
-        });
-
-        it('should implement duration', function() {
-            mockApi.getDuration.and.returnValue(123);
-            expect(player.__api__.properties.duration(mockApi)).toBe(123);
-            expect(mockApi.getDuration).toHaveBeenCalled();
-        });
-
-        it('should implement muted', function() {
-            mockApi.getMute.and.returnValue(true);
-            expect(player.__api__.properties.muted(mockApi)).toBe(true);
-            expect(mockApi.getMute).toHaveBeenCalled();
-        });
-
-        it('should implement volume', function() {
-            mockApi.getVolume.and.returnValue(123);
-            expect(player.__api__.properties.volume(mockApi)).toBe(123);
-            expect(mockApi.getVolume).toHaveBeenCalled();
-        });
-
-        it('should implement minimized', function() {
-            mockApi.getFullscreen.and.returnValue(true);
-            expect(player.__api__.properties.minimized(mockApi)).toBe(false);
-            expect(mockApi.getFullscreen).toHaveBeenCalled();
-            mockApi.getFullscreen.and.returnValue(false);
-            expect(player.__api__.properties.minimized(mockApi)).toBe(true);
-        });
-
-        it('should implement width', function() {
-            mockApi.getWidth.and.returnValue(123);
-            expect(player.__api__.properties.width(mockApi)).toBe(123);
-            expect(mockApi.getWidth).toHaveBeenCalled();
-        });
-
-        it('should implement height', function() {
-            mockApi.getHeight.and.returnValue(123);
-            expect(player.__api__.properties.height(mockApi)).toBe(123);
-            expect(mockApi.getHeight).toHaveBeenCalled();
-        });
-    });
-
     describe('the implemented api events', function() {
         it('should handle the time event', function() {
             player.__api__.events.time({

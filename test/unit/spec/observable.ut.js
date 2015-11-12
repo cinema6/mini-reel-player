@@ -48,26 +48,6 @@ describe('Observable', function() {
             observable.set('prop1', 'new value');
             expect(observable.emit).toHaveBeenCalledWith('change:prop1', 'new value');
         });
-
-        it('should be able to emit becameNull events', function() {
-            observable.set('prop1', null);
-            expect(observable.emit).toHaveBeenCalledWith('becameNull:prop1', null);
-        });
-
-        it('should be able to emit becameUndefined events', function() {
-            observable.set('prop1', undefined);
-            expect(observable.emit).toHaveBeenCalledWith('becameUndefined:prop1', undefined);
-        });
-
-        it('should be able to emit increased events', function() {
-            observable.set('count', 999);
-            expect(observable.emit).toHaveBeenCalledWith('increased:count', 999);
-        });
-
-        it('should be able to emit decreased events', function() {
-            observable.set('count', -999);
-            expect(observable.emit).toHaveBeenCalledWith('decreased:count', -999);
-        });
     });
 
     it('should be able to reset the state', function() {

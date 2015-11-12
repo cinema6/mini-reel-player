@@ -96,12 +96,19 @@ class Private {
         });
     }
 
+    callLoadPlayerMethod() {
+        const loadFn = this.__public__.__api__.loadPlayer;
+        if(loadFn) {
+            return loadFn(this.src);
+        } else {
+            return RunnerPromise.reject(`load not implemented`);
+        }
+    }
+
     callPlayerMethod(methodName, args = []) {
         const fns = this.__public__.__api__.methods;
         if(fns[methodName]) {
-            if(methodName === 'load') {
-                return fns.load(...args);
-            } else if(this.api) {
+            if(this.api) {
                 return RunnerPromise.resolve(fns[methodName](this.api, ...args));
             } else {
                 return RunnerPromise.reject(`cannot call ${methodName} as there is no api`);
@@ -139,7 +146,7 @@ class Private {
 
     playerLoad() {
         if(this.src && this.src !== '' && !this.api) {
-            return this.callPlayerMethod('load', [this.src]).then(api => {
+            return this.callLoadPlayerMethod().then(api => {
                 this.api = api;
                 this.state.set('readyState', HAVE_FUTURE_DATA);
                 return this.addEventListeners();
@@ -252,6 +259,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
         super(...arguments);
         this.__api__ = {
             name: '',
+            loadPlayer: null,
             methods: {},
             events: {},
             autoplayTest: true

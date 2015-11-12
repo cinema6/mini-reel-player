@@ -22,19 +22,9 @@ export default class Observable extends EventEmitter {
         if(oldValue !== undefined) {
             _(this).state[property] = value;
             const changed = (oldValue !== value);
-            const becameNull = (changed && value === null);
-            const becameUndefined = (changed && value === undefined);
-            const increased = (value > oldValue);
-            const decreased = (value < oldValue);
-            const events = [];
-            if(changed) { events.push('change'); }
-            if(becameNull) { events.push('becameNull'); }
-            if(becameUndefined) { events.push('becameUndefined'); }
-            if(increased) { events.push('increased'); }
-            if(decreased) { events.push('decreased'); }
-            events.forEach(eventName => {
-                this.emit(eventName + ':' + property, value);
-            });
+            if(changed) {
+                this.emit('change:' + property, value);
+            }
         }
     }
 

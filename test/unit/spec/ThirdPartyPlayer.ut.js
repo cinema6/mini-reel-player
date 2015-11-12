@@ -27,6 +27,7 @@ describe('ThirdPartyPlayer', function() {
         spyOn(player.__private__, 'addEventListeners').and.callThrough();
         spyOn(player.__private__, 'removeEventListeners').and.callThrough();
         spyOn(player.__private__, 'callPlayerMethod').and.callThrough();
+        spyOn(player.__private__, 'callLoadPlayerMethod').and.callThrough();
         spyOn(browser, 'test').and.callThrough();
         spyOn(player.__private__.serializer, 'call').and.callFake(promise => {
             serialFn = promise;
@@ -42,6 +43,26 @@ describe('ThirdPartyPlayer', function() {
     });
 
     describe('private methods', function() {
+        describe('callLoadPlayerMethod', function() {
+            let loadSpy;
+
+            beforeEach(function() {
+                loadSpy = jasmine.createSpy('load').and.returnValue(RunnerPromise.resolve('the api'));
+                player.__api__.loadPlayer = loadSpy;
+                player.__private__.src = 'some src';
+            });
+
+            it('should make the call to the defined load method', function(done) {
+                player.__private__.callLoadPlayerMethod().then(() => {
+                    expect(loadSpy).toHaveBeenCalledWith('some src');
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+        });
+
         describe('callPlayerMethod', function() {
             it('should reject the promise if the method is not implemented', function(done) {
                 player.__private__.callPlayerMethod('foo').then(success, failure).then(() => {
@@ -51,25 +72,6 @@ describe('ThirdPartyPlayer', function() {
                 }).catch(error => {
                     expect(error).not.toBeDefined();
                     done();
-                });
-            });
-
-            describe('when calling the load player method', function() {
-                let loadSpy;
-
-                beforeEach(function() {
-                    loadSpy = jasmine.createSpy('load').and.returnValue(RunnerPromise.resolve('the api'));
-                    player.__api__.methods.load = loadSpy;
-                });
-
-                it('should make the call to the defined load method', function(done) {
-                    player.__private__.callPlayerMethod('load', ['some src']).then(() => {
-                        expect(loadSpy).toHaveBeenCalledWith('some src');
-                        done();
-                    }).catch(error => {
-                        expect(error).not.toBeDefined();
-                        done();
-                    });
                 });
             });
 
@@ -197,10 +199,10 @@ describe('ThirdPartyPlayer', function() {
 
         describe('playerLoad', function() {
             it('should call the load player method if there is a proper src', function(done) {
-                player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve());
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve());
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
-                    expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('load', ['some src']);
+                    expect(player.__private__.callLoadPlayerMethod).toHaveBeenCalled();
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -209,7 +211,7 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should set the api after calling the load method', function(done) {
-                player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.api).toBe('the api');
@@ -221,7 +223,7 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should set the readyState after calling the load method', function(done) {
-                player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.state.get('readyState')).toBe(3);
@@ -233,7 +235,7 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should add any defined event listeners after calling the load method', function(done) {
-                player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.addEventListeners).toHaveBeenCalled();
@@ -761,6 +763,7 @@ describe('ThirdPartyPlayer', function() {
             it('should have defaults', function() {
                 expect(player.__api__).toEqual({
                     name: '',
+                    loadPlayer: null,
                     methods: {},
                     events: {},
                     autoplayTest: true

@@ -8,30 +8,30 @@ export default class JWPlayer extends ThirdPartyPlayer {
         super(...arguments);
 
         this.__api__.name = 'JWPlayer';
+        this.__api__.loadPlayer = src => {
+            const deferred = defer(RunnerPromise);
+            const id = 'botr_' + src.replace('-', '_') + '_div';
+            const iframe = document.createElement('iframe');
+            const div = document.createElement('div');
+            div.id = id;
+            const script = document.createElement('script');
+            script.setAttribute('type', 'application/javascript');
+            script.setAttribute('src', '//content.jwplatform.com/players/' + src + '.js');
+            script.addEventListener('load', () => {
+                const jwplayer = iframe.contentWindow.jwplayer;
+                const api = jwplayer(id);
+                api.on('ready', () => {
+                    deferred.fulfill(api);
+                });
+            });
+            div.appendChild(script);
+            Runner.schedule('afterRender', null, () => {
+                this.element.appendChild(iframe);
+                iframe.contentDocument.body.appendChild(div);
+            });
+            return deferred.promise;
+        };
         this.__api__.methods = {
-            load: src => {
-                const deferred = defer(RunnerPromise);
-                const id = 'botr_' + src.replace('-', '_') + '_div';
-                const iframe = document.createElement('iframe');
-                const div = document.createElement('div');
-                div.id = id;
-                const script = document.createElement('script');
-                script.setAttribute('type', 'application/javascript');
-                script.setAttribute('src', '//content.jwplatform.com/players/' + src + '.js');
-                script.addEventListener('load', () => {
-                    const jwplayer = iframe.contentWindow.jwplayer;
-                    const api = jwplayer(id);
-                    api.on('ready', () => {
-                        deferred.fulfill(api);
-                    });
-                });
-                div.appendChild(script);
-                Runner.schedule('afterRender', null, () => {
-                    this.element.appendChild(iframe);
-                    iframe.contentDocument.body.appendChild(div);
-                });
-                return deferred.promise;
-            },
             unload: api => {
                 api.stop();
                 api.remove();
@@ -60,9 +60,7 @@ export default class JWPlayer extends ThirdPartyPlayer {
                 api.setVolume(vol);
             },
             addEventListener: (api, name, handler) => {
-                api.on(name, (...args) => Runner.run(() => {
-                    handler(...args);
-                }));
+                api.on(name, handler);
             },
             removeEventListener: (api, name) => {
                 api.off(name);

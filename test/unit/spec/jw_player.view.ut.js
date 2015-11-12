@@ -50,79 +50,79 @@ describe('JWPlayer', function() {
         expect(player.__api__.name).toBe('JWPlayer');
     });
 
-    describe('the set api methods', function() {
-        describe('load', function() {
-            let iframe, div, script, api;
-            let appendToFrameSpy, appendToDivSpy, setAttributeSpy, addEventListenerSpy;
+    describe('the loadPlayer function', function() {
+        let iframe, div, script, api;
+        let appendToFrameSpy, appendToDivSpy, setAttributeSpy, addEventListenerSpy;
 
-            beforeEach(function(done) {
-                appendToFrameSpy = jasmine.createSpy('appendChild()');
-                appendToDivSpy = jasmine.createSpy('appendChild()');
-                setAttributeSpy = jasmine.createSpy('setAttribute()');
-                addEventListenerSpy = jasmine.createSpy('addEventListener()').and.callFake((name, callback) => {
-                    callback();
-                });
-                iframe = {
-                    contentDocument: {
-                        body: {
-                            appendChild: appendToFrameSpy
-                        }
-                    },
-                    contentWindow: {
-                        jwplayer: () => {
-                            return mockApi;
-                        }
+        beforeEach(function(done) {
+            appendToFrameSpy = jasmine.createSpy('appendChild()');
+            appendToDivSpy = jasmine.createSpy('appendChild()');
+            setAttributeSpy = jasmine.createSpy('setAttribute()');
+            addEventListenerSpy = jasmine.createSpy('addEventListener()').and.callFake((name, callback) => {
+                callback();
+            });
+            iframe = {
+                contentDocument: {
+                    body: {
+                        appendChild: appendToFrameSpy
                     }
-                };
-                div = {
-                    appendChild: appendToDivSpy
-                };
-                script = {
-                    setAttribute: setAttributeSpy,
-                    addEventListener: addEventListenerSpy
-                };
-                spyOn(document, 'createElement').and.callFake(element => {
-                    switch(element) {
-                    case 'iframe':
-                        return iframe;
-                    case 'div':
-                        return div;
-                    case 'script':
-                        return script;
+                },
+                contentWindow: {
+                    jwplayer: () => {
+                        return mockApi;
                     }
+                }
+            };
+            div = {
+                appendChild: appendToDivSpy
+            };
+            script = {
+                setAttribute: setAttributeSpy,
+                addEventListener: addEventListenerSpy
+            };
+            spyOn(document, 'createElement').and.callFake(element => {
+                switch(element) {
+                case 'iframe':
+                    return iframe;
+                case 'div':
+                    return div;
+                case 'script':
+                    return script;
+                }
+            });
+            Runner.run(() => {
+                player.__api__.loadPlayer('abc-123').then(result => {
+                    api = result;
+                    process.nextTick(done);
                 });
-                Runner.run(() => {
-                    player.__api__.methods.load('abc-123').then(result => {
-                        api = result;
-                        process.nextTick(done);
-                    });
-                });
-            });
-
-            it('should configure the iframe', function() {
-                expect(document.createElement).toHaveBeenCalledWith('iframe');
-                expect(player.element.appendChild).toHaveBeenCalledWith(iframe);
-                expect(appendToFrameSpy).toHaveBeenCalledWith(div);
-            });
-
-            it('should configure the div', function() {
-                expect(document.createElement).toHaveBeenCalledWith('div');
-                expect(div.id).toBe('botr_abc_123_div');
-                expect(appendToDivSpy).toHaveBeenCalledWith(script);
-            });
-
-            it('should configure the script', function() {
-                expect(document.createElement).toHaveBeenCalledWith('script');
-                expect(setAttributeSpy).toHaveBeenCalledWith('type', 'application/javascript');
-                expect(setAttributeSpy).toHaveBeenCalledWith('src', '//content.jwplatform.com/players/abc-123.js');
-                expect(addEventListenerSpy).toHaveBeenCalledWith('load', jasmine.any(Function));
-            });
-
-            it('should resolve with the api when the player is ready', function() {
-                expect(api).toBe(mockApi);
             });
         });
 
+        it('should configure the iframe', function() {
+            expect(document.createElement).toHaveBeenCalledWith('iframe');
+            expect(player.element.appendChild).toHaveBeenCalledWith(iframe);
+            expect(appendToFrameSpy).toHaveBeenCalledWith(div);
+        });
+
+        it('should configure the div', function() {
+            expect(document.createElement).toHaveBeenCalledWith('div');
+            expect(div.id).toBe('botr_abc_123_div');
+            expect(appendToDivSpy).toHaveBeenCalledWith(script);
+        });
+
+        it('should configure the script', function() {
+            expect(document.createElement).toHaveBeenCalledWith('script');
+            expect(setAttributeSpy).toHaveBeenCalledWith('type', 'application/javascript');
+            expect(setAttributeSpy).toHaveBeenCalledWith('src', '//content.jwplatform.com/players/abc-123.js');
+            expect(addEventListenerSpy).toHaveBeenCalledWith('load', jasmine.any(Function));
+        });
+
+        it('should resolve with the api when the player is ready', function() {
+            expect(api).toBe(mockApi);
+        });
+    });
+
+    describe('the set api methods', function() {
         it('should implement unload', function() {
             player.element.innerHTML = 'not empty';
             Runner.run(() => {

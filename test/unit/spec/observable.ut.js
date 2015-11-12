@@ -40,8 +40,12 @@ describe('Observable', function() {
         });
 
         it('should not be able to set unconfigured properties', function() {
-            observable.set('unknown', 'some value');
-            expect(observable.get('unknown')).not.toBeDefined();
+            try {
+                observable.set('unknown', 'some value');
+            } catch (error) {
+                expect(observable.get('unknown')).not.toBeDefined();
+                expect(error).toEqual(new Error('Observable has no unknown property'));
+            }
         });
 
         it('should be able to emit changed events', function() {

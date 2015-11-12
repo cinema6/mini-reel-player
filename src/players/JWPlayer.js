@@ -60,7 +60,9 @@ export default class JWPlayer extends ThirdPartyPlayer {
                 api.setVolume(vol);
             },
             addEventListener: (api, name, handler) => {
-                api.on(name, handler);
+                api.on(name, (...args) => process.nextTick(() => {
+                    Runner.run(() => handler(...args));
+                }));
             },
             removeEventListener: (api, name) => {
                 api.off(name);

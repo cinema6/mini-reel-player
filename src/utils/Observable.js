@@ -18,13 +18,15 @@ export default class Observable extends EventEmitter {
     }
 
     set(property, value) {
-        const oldValue = _(this).state[property];
-        if(oldValue !== undefined) {
+        if(property in _(this).state) {
+            const oldValue = _(this).state[property];
             _(this).state[property] = value;
             const changed = (oldValue !== value);
             if(changed) {
                 this.emit('change:' + property, value);
             }
+        } else {
+            throw new Error(`Observable has no ${property} property`);
         }
     }
 

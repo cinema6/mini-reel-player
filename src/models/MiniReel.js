@@ -52,6 +52,7 @@ function getCardType(card) {
     case 'vine':
     case 'vzaar':
     case 'wistia':
+    case 'jwplayer':
         return 'video';
     default:
         return card.type;

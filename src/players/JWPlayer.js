@@ -12,8 +12,17 @@ export default class JWPlayer extends ThirdPartyPlayer {
             const deferred = defer(RunnerPromise);
             const id = 'botr_' + src.replace('-', '_') + '_div';
             const iframe = document.createElement('iframe');
+
             const div = document.createElement('div');
             div.id = id;
+
+            const style = document.createElement('style');
+            style.innerHTML = `
+                div#${id} {
+                    height: 100% !important;
+                }
+            `;
+
             const script = document.createElement('script');
             script.setAttribute('type', 'application/javascript');
             script.setAttribute('src', '//content.jwplatform.com/players/' + src + '.js');
@@ -24,10 +33,15 @@ export default class JWPlayer extends ThirdPartyPlayer {
                     deferred.fulfill(api);
                 });
             });
+
             div.appendChild(script);
+            iframe.addEventListener('load', () => {
+                iframe.contentDocument.head.appendChild(style);
+                iframe.contentDocument.body.appendChild(div);
+            }, false);
+
             Runner.schedule('afterRender', null, () => {
                 this.element.appendChild(iframe);
-                iframe.contentDocument.body.appendChild(div);
             });
             return deferred.promise;
         };

@@ -51,20 +51,25 @@ describe('JWPlayer', function() {
     });
 
     describe('the loadPlayer function', function() {
-        let iframe, div, script, api;
-        let appendToFrameSpy, appendToDivSpy, setAttributeSpy, addEventListenerSpy;
+        let iframe, div, style, script, api;
+        let appendToFrameBodySpy, appendToFrameHeadSpy, appendToDivSpy, setAttributeSpy, addEventListenerSpy;
 
         beforeEach(function(done) {
-            appendToFrameSpy = jasmine.createSpy('appendChild()');
+            appendToFrameHeadSpy = jasmine.createSpy('appendToFrameHeadSpy()');
+            appendToFrameBodySpy = jasmine.createSpy('appendChild()');
             appendToDivSpy = jasmine.createSpy('appendChild()');
             setAttributeSpy = jasmine.createSpy('setAttribute()');
             addEventListenerSpy = jasmine.createSpy('addEventListener()').and.callFake((name, callback) => {
                 callback();
             });
             iframe = {
+                addEventListener: jasmine.createSpy('iframe.addEventListener()'),
                 contentDocument: {
+                    head: {
+                        appendChild: appendToFrameHeadSpy
+                    },
                     body: {
-                        appendChild: appendToFrameSpy
+                        appendChild: appendToFrameBodySpy
                     }
                 },
                 contentWindow: {
@@ -80,6 +85,9 @@ describe('JWPlayer', function() {
                 setAttribute: setAttributeSpy,
                 addEventListener: addEventListenerSpy
             };
+            style = {
+                innerHTML: ''
+            };
             spyOn(document, 'createElement').and.callFake(element => {
                 switch(element) {
                 case 'iframe':
@@ -88,6 +96,8 @@ describe('JWPlayer', function() {
                     return div;
                 case 'script':
                     return script;
+                case 'style':
+                    return style;
                 }
             });
             Runner.run(() => {
@@ -101,7 +111,20 @@ describe('JWPlayer', function() {
         it('should configure the iframe', function() {
             expect(document.createElement).toHaveBeenCalledWith('iframe');
             expect(player.element.appendChild).toHaveBeenCalledWith(iframe);
-            expect(appendToFrameSpy).toHaveBeenCalledWith(div);
+            expect(appendToFrameBodySpy).not.toHaveBeenCalledWith(div);
+            expect(appendToFrameHeadSpy).not.toHaveBeenCalledWith(style);
+            expect(iframe.addEventListener).toHaveBeenCalledWith('load', jasmine.any(Function), false);
+            expect(iframe.addEventListener.calls.count()).toBe(1);
+        });
+
+        it('should create some styles to fix JWPlayer\'s annoying rendering', function() {
+            expect(document.createElement).toHaveBeenCalledWith('style');
+            expect(style.innerHTML.replace(/\n|\s/g, '')).toBe(`
+                div#${div.id} {
+                    height: 100% !important;
+                }
+            `.replace(/\n|\s/g, ''));
+            expect(appendToFrameHeadSpy).not.toHaveBeenCalledWith(style);
         });
 
         it('should configure the div', function() {
@@ -119,6 +142,17 @@ describe('JWPlayer', function() {
 
         it('should resolve with the api when the player is ready', function() {
             expect(api).toBe(mockApi);
+        });
+
+        describe('when the <iframe> is loaded', function() {
+            beforeEach(function() {
+                iframe.addEventListener.calls.mostRecent().args[1]();
+            });
+
+            it('should append the <div> and <style>', function() {
+                expect(appendToFrameHeadSpy).toHaveBeenCalledWith(style);
+                expect(appendToFrameBodySpy).toHaveBeenCalledWith(div);
+            });
         });
     });
 

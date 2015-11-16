@@ -159,20 +159,23 @@
 
 /*******    Jess made changes below     *******/
 
-            .MiniReel__group--SingleCardMR .card__group{ 
+            .MiniReel__group--SingleCardMR .card__group { 
+                margin:0.5em;
                 padding-bottom:1em;
+                box-shadow: 0 0 3px 3px rgba(0,0,0,0.12);
+                border-radius:0;
             }
             .MiniReel__group--SingleCardMR .card__title {
-                padding-right:0.5em;
+                padding-right:2em;
                 text-align:left;
                 margin:1em 0 0.5em 4.5rem;
                 font-size:1em;
-                min-height:2.25em;
+                min-height:2.75em;
             }
 
             .MiniReel__group--SingleCardMR .sponsorProfile__imgBox {
                 position:absolute;
-                top:0.25em;
+                top:1em;
                 width:3.5em;
                 height:3.5em;
             }
@@ -184,14 +187,19 @@
 
             .MiniReel__group--SingleCardMR .sponsorProfile__tag {
                 position:absolute;
-                top:.25rem;
-                left:4.5rem;
+                top:1rem;
+                left:5rem;
                 font-size:.75em;
+                width:calc(100% - 10.5em);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align:left;
             }
 
             .MiniReel__group--SingleCardMR .sponsorProfile__group {
                 background:#f1f1f1;
-                border-bottom:2px solid #e7e7e7;
+                border-bottom:1px solid #e7e7e7;
                 padding:0.6875em 0.5em 0.375em;
                 margin:0;
             }

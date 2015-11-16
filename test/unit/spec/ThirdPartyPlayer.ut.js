@@ -627,7 +627,7 @@ describe('ThirdPartyPlayer', function() {
     describe('public methods', function() {
         describe('load', function() {
             it('should load the player after any pending operations', function(done) {
-                player.__api__.methods.load = 'not null';
+                player.__api__.loadPlayer = 'not null';
                 player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve('result'));
                 player.load();
                 expect(player.__private__.serializer.call).toHaveBeenCalled();
@@ -711,7 +711,7 @@ describe('ThirdPartyPlayer', function() {
 
         describe('reload', function() {
             it('should call unload and load', function() {
-                player.__api__.methods.load = 'not null';
+                player.__api__.loadPlayer = 'not null';
                 player.__api__.methods.unload = 'not null';
                 player.reload();
                 expect(player.unload).toHaveBeenCalled();

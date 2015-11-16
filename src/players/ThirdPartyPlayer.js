@@ -274,7 +274,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     }
 
     load() {
-        if(this.__api__.methods.load) {
+        if(this.__api__.loadPlayer) {
             _(this).serializer.call(() => {
                 return _(this).playerLoad();
             });
@@ -314,7 +314,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     }
 
     reload() {
-        if(this.__api__.methods.load && this.__api__.methods.unload) {
+        if(this.__api__.loadPlayer && this.__api__.methods.unload) {
             this.unload();
             this.load();
         } else {

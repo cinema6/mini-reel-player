@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v1.3.0 (November 12, 2015)
+* *[v1.3.0-rc3]*
+  * [FIX]: Fix for an issue that caused the JWPlayer not to load in non-autoplaying cards
+  * [FIX]: Fix for an issue that caused fixed width JWPlayers to be cut off or appear too small
+* *[/v1.3.0-rc3]*
+
 * *[v1.3.0-rc2]*
   * [FIX]: Fix for an issue that caused the JWPlayer not to load in a
     single-card player

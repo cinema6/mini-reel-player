@@ -19,7 +19,7 @@ export default class JWPlayer extends ThirdPartyPlayer {
             const style = document.createElement('style');
             style.innerHTML = `
                 div#${id} {
-                    height: 100% !important;
+                    width: 100% !important; height: 100% !important;
                 }
             `;
 

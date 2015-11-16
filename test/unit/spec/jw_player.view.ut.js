@@ -121,7 +121,7 @@ describe('JWPlayer', function() {
             expect(document.createElement).toHaveBeenCalledWith('style');
             expect(style.innerHTML.replace(/\n|\s/g, '')).toBe(`
                 div#${div.id} {
-                    height: 100% !important;
+                    width: 100% !important; height: 100% !important;
                 }
             `.replace(/\n|\s/g, ''));
             expect(appendToFrameHeadSpy).not.toHaveBeenCalledWith(style);

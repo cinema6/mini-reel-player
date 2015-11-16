@@ -156,13 +156,53 @@
         .MiniReel__group--SingleCardMR .cards__group{ 
             padding: 0.375em;
         }
+
+/*******    Jess made changes below     *******/
+
             .MiniReel__group--SingleCardMR .card__group{ 
-                padding-bottom: 3em;
+                padding-bottom:1em;
             }
             .MiniReel__group--SingleCardMR .card__title {
-                padding-right: 2em;
-                text-align: left;
+                padding-right:0.5em;
+                text-align:left;
+                margin:1em 0 0.5em 4.5rem;
+                font-size:1em;
+                min-height:2.25em;
             }
+
+            .MiniReel__group--SingleCardMR .sponsorProfile__imgBox {
+                position:absolute;
+                top:0.25em;
+                width:3.5em;
+                height:3.5em;
+            }
+
+                .MiniReel__group--SingleCardMR .sponsorProfile__img {
+                    width:3.5em;
+                    height:3.5em;
+                }
+
+            .MiniReel__group--SingleCardMR .sponsorProfile__tag {
+                position:absolute;
+                top:.25rem;
+                left:4.5rem;
+                font-size:.75em;
+            }
+
+            .MiniReel__group--SingleCardMR .sponsorProfile__group {
+                background:#f1f1f1;
+                border-bottom:2px solid #e7e7e7;
+                padding:0.6875em 0.5em 0.375em;
+                margin:0;
+            }
+
+                .MiniReel__group--SingleCardMR .sponsorProfile__copy {
+                    width:100%;
+                    text-align:center;
+                }
+
+/*******    Jess made changes above     *******/
+
         .MiniReel__group--SingleCardMR .sponsor__goBtn {
             margin: 0.6875em 0.5em;
             display: block;

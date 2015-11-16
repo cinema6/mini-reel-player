@@ -76,4 +76,10 @@
             full video : landscape view
         ============================================= */ 
         @import url('light/full-video.css');
+
+    /*  RC theme overrides
+        ============================================= */
+        @import url('light/rc-theme.css');
+
+
         

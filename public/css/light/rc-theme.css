@@ -1,0 +1,22 @@
+/*  ==========================================================================
+    RC theme overrides
+    ========================================================================== */
+    .MiniReel__group--soloMR .text--med .card__copy {
+	    height:8.5rem;
+	}
+
+	.MiniReel__group--soloMR .text--med .player__height--hasSponsor {
+	    height: calc(100% - 8.5rem);
+	}
+
+    .MiniReel__group--soloMR .text--high .card__copy {
+	    height:12rem;
+	}
+
+	.MiniReel__group--soloMR .text--high .player__height--hasSponsor {
+	    height: calc(100% - 12rem);
+	}
+
+	    .card__copy--hasSponsor .sponsorProfile__links {
+		    display:block;
+		}

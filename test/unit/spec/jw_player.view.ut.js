@@ -167,9 +167,32 @@ describe('JWPlayer', function() {
             expect(player.element.innerHTML).toBe('');
         });
 
-        it('should implement play', function() {
-            player.__api__.methods.play(mockApi);
-            expect(mockApi.play).toHaveBeenCalledWith(true);
+        describe('play', function() {
+            it('should resolve on the playing event', function(done) {
+                player.__private__.state.set('paused', true);
+                player.__api__.methods.play(mockApi).then(() => {
+                    expect(mockApi.play).toHaveBeenCalledWith(true);
+                    process.nextTick(done);
+                });
+                player.emit('playing');
+            });
+
+            it('should reject without the playing event', function(done) {
+                player.__private__.state.set('paused', true);
+                player.__api__.methods.play(mockApi).catch(error => {
+                    expect(mockApi.play).toHaveBeenCalledWith(true);
+                    expect(error).toBe('failed to confirm play');
+                    process.nextTick(done);
+                });
+            });
+
+            it('should resolve and not call play if already playing', function(done) {
+                player.__private__.state.set('paused', false);
+                player.__api__.methods.play(mockApi).then(() => {
+                    expect(mockApi.play).not.toHaveBeenCalled();
+                    process.nextTick(done);
+                });
+            });
         });
 
         it('should implement pause', function() {

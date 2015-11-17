@@ -3,6 +3,11 @@ import ThirdPartyPlayer from './ThirdPartyPlayer.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import codeLoader from '../services/code_loader.js';
 import urlParser from '../services/url_parser.js';
+import timer from '../../lib/timer.js';
+
+const WHITE_BG_CLASS = 'playerBox--whiteBg';
+const PLAY_RETRY_DELAY = 500;
+const PLAY_NUM_RETRIES = 10;
 
 codeLoader.configure('vidyard', {
     src: urlParser.parse('//play.vidyard.com/v0/api.js').href,
@@ -36,9 +41,10 @@ export default class VidyardPlayer extends ThirdPartyPlayer {
                 script.addEventListener('load', () => {
                     codeLoader.load('vidyard').then(Vidyard => {
                         const api = new Vidyard.player(src);
-                        api.on('ready', () => {
+                        api.on('ready', () => process.nextTick(() => Runner.run(() => {
+                            this.addClass(WHITE_BG_CLASS);
                             resolve(api);
-                        });
+                        })));
                     }).catch(error => {
                         reject(error);
                     });
@@ -47,7 +53,29 @@ export default class VidyardPlayer extends ThirdPartyPlayer {
         };
         this.__api__.methods = {
             play: api => {
-                api.play();
+                const attemptPlay = () => {
+                    api.play();
+                    return (!this.paused);
+                };
+                return new RunnerPromise((resolve, reject) => {
+                    if(attemptPlay()) {
+                        resolve();
+                    } else {
+                        var numAttempts = 0;
+                        const interval = timer.interval(() => {
+                            if(attemptPlay()) {
+                                timer.cancel(interval);
+                                resolve();
+                            } else {
+                                numAttempts++;
+                                if(numAttempts >= PLAY_NUM_RETRIES) {
+                                    timer.cancel(interval);
+                                    reject('failed to confirm play');
+                                }
+                            }
+                        }, PLAY_RETRY_DELAY);
+                    }
+                });
             },
             pause: api => {
                 api.pause();
@@ -55,6 +83,7 @@ export default class VidyardPlayer extends ThirdPartyPlayer {
             unload: () => {
                 Runner.schedule('afterRender', null, () => {
                     this.element.innerHTML = '';
+                    this.removeClass(WHITE_BG_CLASS);
                 });
             },
             seek: (api, time) => {

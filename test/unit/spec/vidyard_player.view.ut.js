@@ -35,6 +35,8 @@ describe('Vidyard Player', function() {
         });
         spyOn(player.element, 'appendChild');
         spyOn(player, '__setProperty__');
+        spyOn(player, 'addClass');
+        spyOn(player, 'removeClass');
     });
 
     it('should exist', function() {
@@ -81,6 +83,8 @@ describe('Vidyard Player', function() {
                 player.__api__.loadPlayer('abc_123').then(result => {
                     api = result;
                     process.nextTick(done);
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
                 });
             });
         });
@@ -109,12 +113,43 @@ describe('Vidyard Player', function() {
             expect(MockApi.prototype.on).toHaveBeenCalledWith('ready', jasmine.any(Function));
             expect(api).toEqual(jasmine.any(MockApi));
         });
+
+        it('should add the white bg class', function() {
+            expect(player.addClass).toHaveBeenCalledWith('playerBox--whiteBg');
+        });
     });
 
     describe('the set api methods', function() {
-        it('should implement play', function() {
-            player.__api__.methods.play(new MockApi());
-            expect(MockApi.prototype.play).toHaveBeenCalled();
+        describe('the play implementation', function() {
+            it('should implement play', function(done) {
+                player.__private__.state.set('paused', false);
+                player.__api__.methods.play(new MockApi()).then(() => {
+                    expect(MockApi.prototype.play).toHaveBeenCalled();
+                    var callCount = MockApi.prototype.play.calls.count();
+                    expect(callCount).toBe(1);
+                    process.nextTick(done);
+                });
+            });
+
+            it('should be able to retry the attempt to play the video', function(done) {
+                player.__private__.state.set('paused', true);
+                var callCount = 0;
+                MockApi.prototype.play.and.callFake(() => {
+                    callCount++;
+                    if(callCount === 5) {
+                        player.__private__.state.set('paused', false);
+                    }
+                });
+                const startTime = Date.now();
+                player.__api__.methods.play(new MockApi()).then(() => {
+                    const elapsed = Date.now() - startTime;
+                    expect(MockApi.prototype.play).toHaveBeenCalled();
+                    var callCount = MockApi.prototype.play.calls.count();
+                    expect(callCount).toBe(5);
+                    expect(elapsed).toBeGreaterThan(2000);
+                    process.nextTick(done);
+                });
+            });
         });
 
         it('should implement pause', function() {
@@ -122,12 +157,22 @@ describe('Vidyard Player', function() {
             expect(MockApi.prototype.pause).toHaveBeenCalled();
         });
 
-        it('should implement unload', function() {
-            player.element.innerHTML = 'not empty';
-            Runner.run(() => {
-                player.__api__.methods.unload(new MockApi());
+        describe('the unload implementation', function() {
+            it('should implement unload', function() {
+                player.element.innerHTML = 'not empty';
+                Runner.run(() => {
+                    player.__api__.methods.unload(new MockApi());
+                });
+                expect(player.element.innerHTML).toBe('');
             });
-            expect(player.element.innerHTML).toBe('');
+
+            it('should remove the white bg class', function() {
+                player.element.innerHTML = 'not empty';
+                Runner.run(() => {
+                    player.__api__.methods.unload(new MockApi());
+                });
+                expect(player.removeClass).toHaveBeenCalledWith('playerBox--whiteBg');
+            });
         });
 
         it('should implement seek', function() {

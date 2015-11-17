@@ -4,6 +4,7 @@ import RunnerPromise from '../../../lib/RunnerPromise.js';
 import browser from '../../../src/services/browser.js';
 import Observable from '../../../src/utils/Observable.js';
 import PromiseSerializer from '../../../src/utils/PromiseSerializer.js';
+import {noop} from '../../../lib/utils.js';
 
 describe('ThirdPartyPlayer', function() {
     let player, success, failure, serialFn;
@@ -199,7 +200,7 @@ describe('ThirdPartyPlayer', function() {
 
         describe('playerLoad', function() {
             it('should call the load player method if there is a proper src', function(done) {
-                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve());
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.callLoadPlayerMethod).toHaveBeenCalled();
@@ -227,6 +228,20 @@ describe('ThirdPartyPlayer', function() {
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.state.get('readyState')).toBe(3);
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
+            it('should call the api onReady callback', function(done) {
+                const onReady = jasmine.createSpy('onReady()');
+                player.__api__.onReady = onReady;
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                player.__private__.src = 'some src';
+                player.__private__.playerLoad().then(() => {
+                    expect(onReady).toHaveBeenCalledWith('the api');
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -319,6 +334,18 @@ describe('ThirdPartyPlayer', function() {
                 browser.test.and.returnValue(RunnerPromise.resolve(true));
                 player.__private__.playerPlay().then(() => {
                     expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
+            it('should emit attemptPlay after a sucessful autoplay test', function(done) {
+                player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve());
+                browser.test.and.returnValue(RunnerPromise.resolve(true));
+                player.__private__.playerPlay().then(() => {
+                    expect(player.emit).toHaveBeenCalledWith('attemptPlay');
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -752,8 +779,13 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should not set disallowed properties', function() {
-                player.__setProperty__('foo', 'bar');
-                expect(player.__private__.state.get('foo')).not.toBeDefined();
+                try {
+                    player.__setProperty__('foo', 'bar');
+                    expect(true).toBe(false);
+                } catch (error) {
+                    expect(player.__private__.state.get('foo')).not.toBeDefined();
+                    expect(error).toEqual(new Error('Cannot set invalid property foo'));
+                }
             });
         });
     });
@@ -766,7 +798,8 @@ describe('ThirdPartyPlayer', function() {
                     loadPlayer: null,
                     methods: {},
                     events: {},
-                    autoplayTest: true
+                    autoplayTest: true,
+                    onReady: noop
                 });
             });
         });

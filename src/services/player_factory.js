@@ -11,6 +11,7 @@ import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
 import VzaarPlayer from '../players/VzaarPlayer.js';
 import WistiaPlayer from '../players/WistiaPlayer.js';
 import JWPlayer from '../players/JWPlayer.js';
+import VidyardPlayer from '../players/VidyardPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
@@ -42,6 +43,8 @@ class PlayerFactory {
             return new WistiaPlayer();
         case 'jwplayer':
             return new JWPlayer();
+        case 'vidyard':
+            return new VidyardPlayer();
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

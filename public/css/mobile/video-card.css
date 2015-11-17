@@ -40,6 +40,14 @@
                 opacity:1;
                 background-color: #000000;
             }
+            .playerBox--whiteBg {
+                background-color: white;
+                background-image: none !important;
+                -webkit-transition: background-color 500ms ease-out;
+                -moz-transition: background-color 500ms ease-out;
+                -o-transition: background-color 500ms ease-out;
+                transition: background-color 500ms ease-out;
+            }
         .player--fly-away {
             margin-left:-5000%;
             float:left;

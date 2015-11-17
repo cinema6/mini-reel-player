@@ -26,7 +26,7 @@
             width:100%;  position:relative;
             background:black url('../../img/default_square.jpg') 50% 50% / cover no-repeat;
         }
-            
+
             .player__playBtn,
             .player__playBtn:focus {
                 width: 6em;
@@ -73,10 +73,18 @@
                         opacity:1;
                         background-color: #000000;
                     }
+                    .playerBox--whiteBg {
+                        background-color: white;
+                        background-image: none !important;
+                        -webkit-transition: background-color 500ms ease-out;
+                        -moz-transition: background-color 500ms ease-out;
+                        -o-transition: background-color 500ms ease-out;
+                        transition: background-color 500ms ease-out;
+                    }
             .player__thumbnail {
                 background:50% 50% / 112% auto no-repeat;
             }
-        .card__copy { 
+        .card__copy {
             margin: 0 0.625em;
             overflow-y:auto; overflow-x:hidden;
         }
@@ -136,7 +144,7 @@
             height:calc(100% - 8.75rem);
         }
 
-            
+
 
 
 /*  ================================================
@@ -149,7 +157,7 @@
     }
     .ballot__box {
         position:absolute; z-index:2;
-        top:45%; left:50%; 
+        top:45%; left:50%;
         width:33em;
         margin:-4.5em 0 0 -16.5em;
         border-radius:3px;
@@ -244,7 +252,7 @@
                         color:#fff;
                         font-weight:bold;
                         text-transform:uppercase;
-                        text-shadow: 0 1px 1px rgba(0,0,0,0.44); 
+                        text-shadow: 0 1px 1px rgba(0,0,0,0.44);
                     }
 
 
@@ -339,4 +347,3 @@
                 margin:0 0 1.5em 0;
             }
         }
-

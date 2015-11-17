@@ -1,4 +1,5 @@
 import {createKey} from 'private-parts';
+import {noop} from '../../lib/utils.js';
 import browser from '../services/browser.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import CorePlayer from './CorePlayer.js';
@@ -22,7 +23,7 @@ const DEFAULT_PLAYER_PROPERTIES = {
     duration: 0,
     readyState: HAVE_NOTHING,
     muted: false,
-    volume: 0,
+    volume: 1,
     seeking: false,
     minimized: false,
     width: 0,
@@ -149,6 +150,7 @@ class Private {
             return this.callLoadPlayerMethod().then(api => {
                 this.api = api;
                 this.state.set('readyState', HAVE_FUTURE_DATA);
+                this.__public__.__api__.onReady(api);
                 return this.addEventListeners();
             });
         } else {
@@ -168,6 +170,7 @@ class Private {
                 }
             }).then(autoplayable => {
                 if(autoplayable) {
+                    this.__public__.emit('attemptPlay');
                     return this.callPlayerMethod('play');
                 }
             });
@@ -262,7 +265,8 @@ export default class ThirdPartyPlayer extends CorePlayer {
             loadPlayer: null,
             methods: {},
             events: {},
-            autoplayTest: true
+            autoplayTest: true,
+            onReady: noop
         };
         if (global.__karma__) { this.__private__ = _(this); }
     }
@@ -270,6 +274,8 @@ export default class ThirdPartyPlayer extends CorePlayer {
     __setProperty__(property, value) {
         if(PLAYER_PROPERTIES.indexOf(property) !== -1) {
             _(this).state.set(property, value);
+        } else {
+            throw new Error(`Cannot set invalid property ${property}`);
         }
     }
 
@@ -306,6 +312,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     unload() {
         if(this.__api__.methods.unload) {
             _(this).serializer.call(() => {
+                super();
                 return _(this).playerUnload();
             });
         } else {

@@ -5,6 +5,7 @@ import browser from '../../../src/services/browser.js';
 import Observable from '../../../src/utils/Observable.js';
 import PromiseSerializer from '../../../src/utils/PromiseSerializer.js';
 import {noop} from '../../../lib/utils.js';
+import CorePlayer from '../../../src/players/CorePlayer.js';
 
 describe('ThirdPartyPlayer', function() {
     let player, success, failure, serialFn;
@@ -29,6 +30,7 @@ describe('ThirdPartyPlayer', function() {
         spyOn(player.__private__, 'removeEventListeners').and.callThrough();
         spyOn(player.__private__, 'callPlayerMethod').and.callThrough();
         spyOn(player.__private__, 'callLoadPlayerMethod').and.callThrough();
+        spyOn(CorePlayer.prototype, 'unload');
         spyOn(browser, 'test').and.callThrough();
         spyOn(player.__private__.serializer, 'call').and.callFake(promise => {
             serialFn = promise;
@@ -723,6 +725,20 @@ describe('ThirdPartyPlayer', function() {
                 expect(player.__private__.serializer.call).toHaveBeenCalled();
                 serialFn().then(() => {
                     expect(player.__private__.playerUnload).toHaveBeenCalled();
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
+            it('should call super after any pending operations', function(done) {
+                player.__api__.methods.unload = 'not null';
+                player.__private__.playerUnload.and.returnValue(RunnerPromise.resolve('result'));
+                player.unload();
+                expect(player.__private__.serializer.call).toHaveBeenCalled();
+                serialFn().then(() => {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();

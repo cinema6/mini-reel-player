@@ -20,3 +20,68 @@
 	    .card__copy--hasSponsor .sponsorProfile__links {
 		    display:block;
 		}
+
+
+
+/*  ==========================================================================
+    New classes
+    ========================================================================== */
+/* 
+    Base
+title = 94
+copy = 100
+195 characters or fewer = 
+*/
+	.MiniReel__group--soloMR .videoPreview__text--base .player__height--hasSponsor {
+	    height: calc(100% - 8.5rem);
+	}
+
+	.MiniReel__group--soloMR .videoPreview__text--base .card__copy {
+	    height:8.5rem;
+	}
+
+/* 	
+Low
+title= 94
+copy= 200
+295 characters or fewer =  
+*/
+
+    .MiniReel__group--soloMR .videoPreview__text--low .card__copy {
+	    height:11rem;
+	}
+
+	.MiniReel__group--soloMR .videoPreview__text--low .player__height--hasSponsor {
+	    height: calc(100% - 11rem);
+	}
+
+
+/* 	
+Medium 
+title= 94
+copy= 300
+395 characters or fewer = 
+*/
+
+    .MiniReel__group--soloMR .videoPreview__text--med .card__copy {
+	    height:12rem;
+	}
+
+	.MiniReel__group--soloMR .videoPreview__text--med .player__height--hasSponsor {
+	    height: calc(100% - 12rem);
+	}
+
+/* 		
+High
+title= 94
+copy= 400
+396 or more = 
+*/
+
+    .MiniReel__group--soloMR .videoPreview__text--high .card__copy {
+	    height:13.5rem;
+	}
+
+	.MiniReel__group--soloMR .videoPreview__text--high .player__height--hasSponsor {
+	    height: calc(100% - 13.5rem);
+	}

@@ -141,6 +141,8 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
         });
     }
 
+    this.closeable = !standalone;
+
     _(this).ready = true;
     this.emit('init');
     this.deck[0].prepare();
@@ -197,13 +199,13 @@ export default class MiniReel extends Mixable {
             .catch(error => this.emit('error', error));
 
         this.on('becameUnskippable', () => {
-            if (this.interstitial) {
+            if (this.interstitial && this.closeable) {
                 this.closeable = false;
                 this.emit('becameUncloseable');
             }
         });
         this.on('becameSkippable', () => {
-            if (!this.closeable) {
+            if (!this.closeable && !this.standalone) {
                 this.closeable = true;
                 this.emit('becameCloseable');
             }

@@ -4,6 +4,8 @@
   * [FEATURE]: Added support for Vidyard video cards
   * [FIX]: Fix for an issue where rapidly switching away from a loading JWPlayer would not pause it
   * [FEATURE]: Add support for lightboxes without close buttons
+  * Added support for new card resizing logic (based on copy character
+    count.)
 
 ## v1.3.0 (November 12, 2015)
 * *[v1.3.0-rc3]*

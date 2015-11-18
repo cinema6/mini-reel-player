@@ -44,6 +44,7 @@ class Private {
         this.eventListeners = [];
         this.serializer = new PromiseSerializer(RunnerPromise);
         this.state = new Observable(DEFAULT_PLAYER_PROPERTIES);
+        this.hasPlayed = false;
         this.state.on('change:currentTime', () => {
             this.__public__.emit('timeupdate');
         });
@@ -159,20 +160,28 @@ class Private {
     }
 
     playerPlay() {
-        if(this.api) {
+        const callPlay = () => {
+            this.__public__.emit('attemptPlay');
             return this.callPlayerMethod('play');
+        };
+
+        const attemptPlay = () => {
+            if(this.hasPlayed || !this.__public__.__api__.autoplayTest) {
+                return callPlay();
+            } else {
+                return browser.test('autoplay').then(autoplayable => {
+                    if(autoplayable) {
+                        return callPlay();
+                    }
+                });
+            }
+        };
+
+        if(this.api) {
+            return attemptPlay();
         } else {
             return this.playerLoad().then(() => {
-                if(this.__public__.__api__.autoplayTest) {
-                    return browser.test('autoplay');
-                } else {
-                    return true;
-                }
-            }).then(autoplayable => {
-                if(autoplayable) {
-                    this.__public__.emit('attemptPlay');
-                    return this.callPlayerMethod('play');
-                }
+                return attemptPlay();
             });
         }
     }
@@ -190,6 +199,7 @@ class Private {
             return this.removeEventListeners().then(() => {
                 return this.callPlayerMethod('unload');
             }).then(() => {
+                this.state.set('readyState', HAVE_NOTHING);
                 this.api = null;
                 this.state.reset();
             });
@@ -268,6 +278,12 @@ export default class ThirdPartyPlayer extends CorePlayer {
             autoplayTest: true,
             onReady: noop
         };
+        this.on('playing', () => {
+            _(this).hasPlayed = true;
+        });
+        this.on('emptied', () => {
+            _(this).hasPlayed = false;
+        });
         if (global.__karma__) { this.__private__ = _(this); }
     }
 

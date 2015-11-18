@@ -104,7 +104,7 @@ describe('Vidyard Player', function() {
             expect(setAttributeSpy).toHaveBeenCalledWith('type', 'text/javascript');
             expect(setAttributeSpy).toHaveBeenCalledWith('id', 'vidyard_embed_code_abc_123');
             expect(setAttributeSpy).toHaveBeenCalledWith('src', '//play.vidyard.com/abc_123.js?v=3.1.1&type=inline');
-            expect(addEventListenerSpy).toHaveBeenCalledWith('load', jasmine.any(Function));
+            expect(addEventListenerSpy).toHaveBeenCalledWith('load', jasmine.any(Function), false);
             expect(player.element.appendChild).toHaveBeenCalledWith(script);
         });
 

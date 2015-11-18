@@ -33,18 +33,18 @@ export default class VidyardPlayer extends ThirdPartyPlayer {
             script.setAttribute('type', 'text/javascript');
             script.setAttribute('id', 'vidyard_embed_code_' + src);
             script.setAttribute('src', '//play.vidyard.com/' + src + '.js?v=3.1.1&type=inline');
-            Runner.schedule('afterRender', null, () => {
-                this.element.appendChild(style);
-                this.element.appendChild(script);
-            });
             return new RunnerPromise((resolve, reject) => {
-                script.addEventListener('load', () => {
+                Runner.schedule('afterRender', null, () => {
+                    this.element.appendChild(style);
                     codeLoader.load('vidyard').then(Vidyard => {
-                        const api = new Vidyard.player(src);
-                        api.on('ready', () => process.nextTick(() => Runner.run(() => {
-                            this.addClass(WHITE_BG_CLASS);
-                            resolve(api);
-                        })));
+                        script.addEventListener('load', () => {
+                            const api = new Vidyard.player(src);
+                            api.on('ready', () => process.nextTick(() => Runner.run(() => {
+                                this.addClass(WHITE_BG_CLASS);
+                                resolve(api);
+                            })));
+                        }, false);
+                        this.element.appendChild(script);
                     }).catch(error => {
                         reject(error);
                     });

@@ -1,6 +1,13 @@
 # MiniReel Player 2.0
 
 ## v1.4.0 (November 19, 2015)
+* *[v1.4.0-rc2]*
+  * [FIX]: Fix for an issue where the host page is not visible
+    underneath a lightbox player.
+  * [FIX]: Fix for an issue where a black box was visible at the top of
+    the desktop card player if in standalone mode.
+* *[/v1.4.0-rc2]*
+
 * *[v1.4.0-rc1]*
   * [FEATURE]: Added support for Vidyard video cards
   * [FIX]: Fix for an issue where rapidly switching away from a loading JWPlayer would not pause it

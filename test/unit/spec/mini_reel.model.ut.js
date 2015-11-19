@@ -1646,7 +1646,7 @@ describe('MiniReel', function() {
 
             appDataDeferred.fulfill({
                 experience: experience,
-                standalone: true,
+                standalone: false,
                 interstitial: true,
                 autoLaunch: false,
                 profile: profile
@@ -1662,7 +1662,7 @@ describe('MiniReel', function() {
         });
 
         it('should copy the standalone property', function() {
-            expect(minireel.standalone).toBe(true);
+            expect(minireel.standalone).toBe(false);
         });
 
         it('should set the interstitial property', function() {
@@ -1753,7 +1753,7 @@ describe('MiniReel', function() {
             beforeEach(function(done) {
                 cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
                     experience: experience,
-                    standalone: true,
+                    standalone: false,
                     interstitial: true,
                     autoLaunch: true,
                     profile: profile
@@ -1766,6 +1766,97 @@ describe('MiniReel', function() {
 
             it('should launch the MiniReel', function() {
                 expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
+            });
+        });
+
+        describe('if standalone is true', function() {
+            beforeEach(function(done) {
+                cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
+                    experience: experience,
+                    standalone: true,
+                    interstitial: false,
+                    autoLaunch: true,
+                    profile: profile
+                }));
+
+                minireel = new MiniReel();
+                minireel.once('init', () => process.nextTick(done));
+            });
+
+            it('should set closeable to false', function() {
+                expect(minireel.closeable).toBe(false);
+            });
+
+            describe('and interstitial is true', function() {
+                beforeEach(function(done) {
+                    cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
+                        experience: experience,
+                        standalone: true,
+                        interstitial: true,
+                        autoLaunch: true,
+                        profile: profile
+                    }));
+
+                    minireel = new MiniReel();
+                    minireel.once('init', () => process.nextTick(done));
+                });
+
+                describe('and the MiniReel becomes unskippable', function() {
+                    let becameUncloseable;
+
+                    beforeEach(function() {
+                        becameUncloseable = jasmine.createSpy('becameUncloseable()');
+
+                        minireel.on('becameUncloseable', becameUncloseable);
+                        minireel.emit('becameUnskippable');
+                    });
+
+                    it('should not emit "becameUncloseable"', function() {
+                        expect(becameUncloseable).not.toHaveBeenCalled();
+                    });
+
+                    it('should leave closeable as false', function() {
+                        expect(minireel.closeable).toBe(false);
+                    });
+                });
+
+                describe('and the MiniReel becomes skippable', function() {
+                    let becameCloseable;
+
+                    beforeEach(function() {
+                        becameCloseable = jasmine.createSpy('becameCloseable()');
+
+                        minireel.on('becameCloseable', becameCloseable);
+                        minireel.emit('becameSkippable');
+                    });
+
+                    it('should not emit "becameCloseable"', function() {
+                        expect(becameCloseable).not.toHaveBeenCalled();
+                    });
+
+                    it('should leave closeable as false', function() {
+                        expect(minireel.closeable).toBe(false);
+                    });
+                });
+            });
+        });
+
+        describe('if standalone is false', function() {
+            beforeEach(function(done) {
+                cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
+                    experience: experience,
+                    standalone: false,
+                    interstitial: true,
+                    autoLaunch: true,
+                    profile: profile
+                }));
+
+                minireel = new MiniReel();
+                minireel.once('init', () => process.nextTick(done));
+            });
+
+            it('should set closeable to true', function() {
+                expect(minireel.closeable).toBe(true);
             });
         });
 

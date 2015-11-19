@@ -217,7 +217,6 @@ describe('MobilePlayerController', function() {
 
             it('should update its view', function() {
                 expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith({
-                    closeable: !MobilePlayerCtrl.minireel.standalone,
                     header: '4 of 5',
                     thumbs: {
                         next: 'fifth-thumb.jpg',
@@ -258,63 +257,6 @@ describe('MobilePlayerController', function() {
                             previous: null
                         }
                     }));
-                });
-            });
-
-            describe('if called on the first slide', function() {
-                beforeEach(function() {
-                    MobilePlayerCtrl.view.update.calls.reset();
-
-                    MobilePlayerCtrl.minireel.currentIndex = 0;
-                });
-
-                describe('if the player is not standalone', function() {
-                    beforeEach(function() {
-                        MobilePlayerCtrl.minireel.standalone = false;
-                    });
-
-                    describe('if the MiniReel is closeable', function() {
-                        beforeEach(function() {
-                            MobilePlayerCtrl.minireel.closeable = true;
-
-                            MobilePlayerCtrl.updateView();
-                        });
-
-                        it('should allow the user to go back', function() {
-                            expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                                closeable: true
-                            }));
-                        });
-                    });
-
-                    describe('if the MiniReel is not closeable', function() {
-                        beforeEach(function() {
-                            MobilePlayerCtrl.minireel.closeable = false;
-
-                            MobilePlayerCtrl.updateView();
-                        });
-
-                        it('should not allow the user to go back', function() {
-                            expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                                closeable: false
-                            }));
-                        });
-                    });
-                });
-
-                describe('if the player is standalone', function() {
-                    beforeEach(function() {
-                        MobilePlayerCtrl.minireel.standalone = true;
-                        MobilePlayerCtrl.minireel.closeable = true;
-
-                        MobilePlayerCtrl.updateView();
-                    });
-
-                    it('should not allow the user to go back', function() {
-                        expect(MobilePlayerCtrl.view.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                            closeable: false
-                        }));
-                    });
                 });
             });
 

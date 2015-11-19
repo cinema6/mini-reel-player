@@ -698,8 +698,10 @@
     height: 20px;
     text-align: center;
     width: 100px;
-
 }
+    .card__closeGroup:empty {
+        display: none;
+    }
 button.desktopCard__closeBtn {
     color: #fff;
     height: 20px;

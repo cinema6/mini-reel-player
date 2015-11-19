@@ -6,8 +6,10 @@
     .card__copyBox {
         position:relative;
     }
-        .card__copy--hasSponsor {
+        .card__copy--hasCtA {
             width:calc(100% - 13.125em);
+        }
+        .card__copy--hasSponsor {
             margin:0 0 0 4.125em;
         }
             .text--low .card__copy--hasSponsor {

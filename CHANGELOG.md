@@ -6,6 +6,8 @@
   * [FEATURE]: Add support for lightboxes without close buttons
   * Added support for new card resizing logic (based on copy character
     count.)
+  * [FIX]: Remove whitespace from sponsored video card
+    (light/desktop-card) if there is no call-to-action.
 
 ## v1.3.0 (November 12, 2015)
 * *[v1.3.0-rc3]*

@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+## v1.3.1
+* *[v1.3.1-rc1]*
+  * [FEATURE]: Design for single mobile card updated. Tile branding rearranged and social media icons isolated.
+
 ## v1.3.0 (November 12, 2015)
 * *[v1.3.0-rc2]*
   * [FIX]: Fix for an issue that caused the JWPlayer not to load in a

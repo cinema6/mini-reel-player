@@ -52,17 +52,17 @@ describe('JWPlayer', function() {
 
     describe('the loadPlayer function', function() {
         let iframe, div, style, script, api;
-        let appendToFrameBodySpy, appendToFrameHeadSpy, appendToDivSpy, setAttributeSpy, addEventListenerSpy;
+        let appendToFrameBodySpy, appendToFrameHeadSpy, setAttributeSpy, addEventListenerSpy;
 
         beforeEach(function(done) {
             appendToFrameHeadSpy = jasmine.createSpy('appendToFrameHeadSpy()');
             appendToFrameBodySpy = jasmine.createSpy('appendChild()');
-            appendToDivSpy = jasmine.createSpy('appendChild()');
             setAttributeSpy = jasmine.createSpy('setAttribute()');
             addEventListenerSpy = jasmine.createSpy('addEventListener()').and.callFake((name, callback) => {
                 callback();
             });
             iframe = {
+                setAttribute: setAttributeSpy,
                 addEventListener: jasmine.createSpy('iframe.addEventListener()'),
                 contentDocument: {
                     head: {
@@ -78,9 +78,7 @@ describe('JWPlayer', function() {
                     }
                 }
             };
-            div = {
-                appendChild: appendToDivSpy
-            };
+            div = { };
             script = {
                 setAttribute: setAttributeSpy,
                 addEventListener: addEventListenerSpy
@@ -110,6 +108,7 @@ describe('JWPlayer', function() {
 
         it('should configure the iframe', function() {
             expect(document.createElement).toHaveBeenCalledWith('iframe');
+            expect(setAttributeSpy).toHaveBeenCalledWith('src', 'blank.html');
             expect(player.element.appendChild).toHaveBeenCalledWith(iframe);
             expect(appendToFrameBodySpy).not.toHaveBeenCalledWith(div);
             expect(appendToFrameHeadSpy).not.toHaveBeenCalledWith(style);
@@ -130,7 +129,6 @@ describe('JWPlayer', function() {
         it('should configure the div', function() {
             expect(document.createElement).toHaveBeenCalledWith('div');
             expect(div.id).toBe('botr_abc_123_div');
-            expect(appendToDivSpy).toHaveBeenCalledWith(script);
         });
 
         it('should configure the script', function() {
@@ -149,9 +147,10 @@ describe('JWPlayer', function() {
                 iframe.addEventListener.calls.mostRecent().args[1]();
             });
 
-            it('should append the <div> and <style>', function() {
+            it('should append the <div>, <style>, and <script>', function() {
                 expect(appendToFrameHeadSpy).toHaveBeenCalledWith(style);
                 expect(appendToFrameBodySpy).toHaveBeenCalledWith(div);
+                expect(appendToFrameBodySpy).toHaveBeenCalledWith(script);
             });
         });
     });

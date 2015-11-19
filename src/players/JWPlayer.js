@@ -10,6 +10,7 @@ export default class JWPlayer extends ThirdPartyPlayer {
         this.__api__.loadPlayer = src => {
             const id = 'botr_' + src.replace('-', '_') + '_div';
             const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', 'blank.html');
 
             const div = document.createElement('div');
             div.id = id;
@@ -25,10 +26,10 @@ export default class JWPlayer extends ThirdPartyPlayer {
             script.setAttribute('type', 'application/javascript');
             script.setAttribute('src', '//content.jwplatform.com/players/' + src + '.js');
 
-            div.appendChild(script);
             iframe.addEventListener('load', () => {
                 iframe.contentDocument.head.appendChild(style);
                 iframe.contentDocument.body.appendChild(div);
+                iframe.contentDocument.body.appendChild(script);
             }, false);
 
             Runner.schedule('afterRender', null, () => {

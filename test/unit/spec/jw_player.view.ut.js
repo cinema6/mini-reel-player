@@ -52,17 +52,17 @@ describe('JWPlayer', function() {
 
     describe('the loadPlayer function', function() {
         let iframe, div, style, script, api;
-        let appendToFrameBodySpy, appendToFrameHeadSpy, appendToDivSpy, setAttributeSpy, addEventListenerSpy;
+        let appendToFrameBodySpy, appendToFrameHeadSpy, setAttributeSpy, addEventListenerSpy;
 
         beforeEach(function(done) {
             appendToFrameHeadSpy = jasmine.createSpy('appendToFrameHeadSpy()');
             appendToFrameBodySpy = jasmine.createSpy('appendChild()');
-            appendToDivSpy = jasmine.createSpy('appendChild()');
             setAttributeSpy = jasmine.createSpy('setAttribute()');
             addEventListenerSpy = jasmine.createSpy('addEventListener()').and.callFake((name, callback) => {
                 callback();
             });
             iframe = {
+                setAttribute: setAttributeSpy,
                 addEventListener: jasmine.createSpy('iframe.addEventListener()'),
                 contentDocument: {
                     head: {
@@ -78,9 +78,7 @@ describe('JWPlayer', function() {
                     }
                 }
             };
-            div = {
-                appendChild: appendToDivSpy
-            };
+            div = { };
             script = {
                 setAttribute: setAttributeSpy,
                 addEventListener: addEventListenerSpy
@@ -110,6 +108,7 @@ describe('JWPlayer', function() {
 
         it('should configure the iframe', function() {
             expect(document.createElement).toHaveBeenCalledWith('iframe');
+            expect(setAttributeSpy).toHaveBeenCalledWith('src', 'blank.html');
             expect(player.element.appendChild).toHaveBeenCalledWith(iframe);
             expect(appendToFrameBodySpy).not.toHaveBeenCalledWith(div);
             expect(appendToFrameHeadSpy).not.toHaveBeenCalledWith(style);
@@ -121,7 +120,7 @@ describe('JWPlayer', function() {
             expect(document.createElement).toHaveBeenCalledWith('style');
             expect(style.innerHTML.replace(/\n|\s/g, '')).toBe(`
                 div#${div.id} {
-                    height: 100% !important;
+                    width: 100% !important; height: 100% !important;
                 }
             `.replace(/\n|\s/g, ''));
             expect(appendToFrameHeadSpy).not.toHaveBeenCalledWith(style);
@@ -130,7 +129,6 @@ describe('JWPlayer', function() {
         it('should configure the div', function() {
             expect(document.createElement).toHaveBeenCalledWith('div');
             expect(div.id).toBe('botr_abc_123_div');
-            expect(appendToDivSpy).toHaveBeenCalledWith(script);
         });
 
         it('should configure the script', function() {
@@ -149,9 +147,10 @@ describe('JWPlayer', function() {
                 iframe.addEventListener.calls.mostRecent().args[1]();
             });
 
-            it('should append the <div> and <style>', function() {
+            it('should append the <div>, <style>, and <script>', function() {
                 expect(appendToFrameHeadSpy).toHaveBeenCalledWith(style);
                 expect(appendToFrameBodySpy).toHaveBeenCalledWith(div);
+                expect(appendToFrameBodySpy).toHaveBeenCalledWith(script);
             });
         });
     });
@@ -167,9 +166,32 @@ describe('JWPlayer', function() {
             expect(player.element.innerHTML).toBe('');
         });
 
-        it('should implement play', function() {
-            player.__api__.methods.play(mockApi);
-            expect(mockApi.play).toHaveBeenCalledWith(true);
+        describe('play', function() {
+            it('should resolve on the playing event', function(done) {
+                player.__private__.state.set('paused', true);
+                player.__api__.methods.play(mockApi).then(() => {
+                    expect(mockApi.play).toHaveBeenCalledWith(true);
+                    process.nextTick(done);
+                });
+                player.emit('playing');
+            });
+
+            it('should reject without the playing event', function(done) {
+                player.__private__.state.set('paused', true);
+                player.__api__.methods.play(mockApi).catch(error => {
+                    expect(mockApi.play).toHaveBeenCalledWith(true);
+                    expect(error).toBe('failed to confirm play');
+                    process.nextTick(done);
+                });
+            });
+
+            it('should resolve and not call play if already playing', function(done) {
+                player.__private__.state.set('paused', false);
+                player.__api__.methods.play(mockApi).then(() => {
+                    expect(mockApi.play).not.toHaveBeenCalled();
+                    process.nextTick(done);
+                });
+            });
         });
 
         it('should implement pause', function() {

@@ -18,7 +18,7 @@
         font-weight:300; 
         color:#444; 
         line-height: 1.5;
-        background:#fff; 
+        background:transparent;
         margin:0;
     }
     p {

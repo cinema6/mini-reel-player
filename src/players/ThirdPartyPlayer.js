@@ -1,4 +1,5 @@
 import {createKey} from 'private-parts';
+import {noop} from '../../lib/utils.js';
 import browser from '../services/browser.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import CorePlayer from './CorePlayer.js';
@@ -22,7 +23,7 @@ const DEFAULT_PLAYER_PROPERTIES = {
     duration: 0,
     readyState: HAVE_NOTHING,
     muted: false,
-    volume: 0,
+    volume: 1,
     seeking: false,
     minimized: false,
     width: 0,
@@ -43,6 +44,7 @@ class Private {
         this.eventListeners = [];
         this.serializer = new PromiseSerializer(RunnerPromise);
         this.state = new Observable(DEFAULT_PLAYER_PROPERTIES);
+        this.hasPlayed = false;
         this.state.on('change:currentTime', () => {
             this.__public__.emit('timeupdate');
         });
@@ -149,6 +151,7 @@ class Private {
             return this.callLoadPlayerMethod().then(api => {
                 this.api = api;
                 this.state.set('readyState', HAVE_FUTURE_DATA);
+                this.__public__.__api__.onReady(api);
                 return this.addEventListeners();
             });
         } else {
@@ -157,19 +160,28 @@ class Private {
     }
 
     playerPlay() {
-        if(this.api) {
+        const callPlay = () => {
+            this.__public__.emit('attemptPlay');
             return this.callPlayerMethod('play');
+        };
+
+        const attemptPlay = () => {
+            if(this.hasPlayed || !this.__public__.__api__.autoplayTest) {
+                return callPlay();
+            } else {
+                return browser.test('autoplay').then(autoplayable => {
+                    if(autoplayable) {
+                        return callPlay();
+                    }
+                });
+            }
+        };
+
+        if(this.api) {
+            return attemptPlay();
         } else {
             return this.playerLoad().then(() => {
-                if(this.__public__.__api__.autoplayTest) {
-                    return browser.test('autoplay');
-                } else {
-                    return true;
-                }
-            }).then(autoplayable => {
-                if(autoplayable) {
-                    return this.callPlayerMethod('play');
-                }
+                return attemptPlay();
             });
         }
     }
@@ -187,6 +199,7 @@ class Private {
             return this.removeEventListeners().then(() => {
                 return this.callPlayerMethod('unload');
             }).then(() => {
+                this.state.set('readyState', HAVE_NOTHING);
                 this.api = null;
                 this.state.reset();
             });
@@ -262,19 +275,28 @@ export default class ThirdPartyPlayer extends CorePlayer {
             loadPlayer: null,
             methods: {},
             events: {},
-            autoplayTest: true
+            autoplayTest: true,
+            onReady: noop
         };
+        this.on('playing', () => {
+            _(this).hasPlayed = true;
+        });
+        this.on('emptied', () => {
+            _(this).hasPlayed = false;
+        });
         if (global.__karma__) { this.__private__ = _(this); }
     }
 
     __setProperty__(property, value) {
         if(PLAYER_PROPERTIES.indexOf(property) !== -1) {
             _(this).state.set(property, value);
+        } else {
+            throw new Error(`Cannot set invalid property ${property}`);
         }
     }
 
     load() {
-        if(this.__api__.methods.load) {
+        if(this.__api__.loadPlayer) {
             _(this).serializer.call(() => {
                 return _(this).playerLoad();
             });
@@ -306,6 +328,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     unload() {
         if(this.__api__.methods.unload) {
             _(this).serializer.call(() => {
+                super();
                 return _(this).playerUnload();
             });
         } else {
@@ -314,7 +337,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     }
 
     reload() {
-        if(this.__api__.methods.load && this.__api__.methods.unload) {
+        if(this.__api__.loadPlayer && this.__api__.methods.unload) {
             this.unload();
             this.load();
         } else {

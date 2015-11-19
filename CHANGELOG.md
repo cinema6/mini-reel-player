@@ -1,6 +1,33 @@
 # MiniReel Player 2.0
 
+## v1.4.0 (November 19, 2015)
+* *[v1.4.0-rc3]*
+  * [FIX]: Fix for an issue where some JWPlayer videos would fail to load
+* *[/v1.4.0-rc3]*
+
+* *[v1.4.0-rc2]*
+  * [FIX]: Fix for an issue where the host page is not visible
+    underneath a lightbox player.
+  * [FIX]: Fix for an issue where a black box was visible at the top of
+    the desktop card player if in standalone mode.
+* *[/v1.4.0-rc2]*
+
+* *[v1.4.0-rc1]*
+  * [FEATURE]: Added support for Vidyard video cards
+  * [FIX]: Fix for an issue where rapidly switching away from a loading JWPlayer would not pause it
+  * [FEATURE]: Add support for lightboxes without close buttons
+  * Added support for new card resizing logic (based on copy character
+    count.)
+  * [FIX]: Remove whitespace from sponsored video card
+    (light/desktop-card) if there is no call-to-action.
+* *[/v1.4.0-rc1]*
+
 ## v1.3.0 (November 12, 2015)
+* *[v1.3.0-rc3]*
+  * [FIX]: Fix for an issue that caused the JWPlayer not to load in non-autoplaying cards
+  * [FIX]: Fix for an issue that caused fixed width JWPlayers to be cut off or appear too small
+* *[/v1.3.0-rc3]*
+
 * *[v1.3.0-rc2]*
   * [FIX]: Fix for an issue that caused the JWPlayer not to load in a
     single-card player

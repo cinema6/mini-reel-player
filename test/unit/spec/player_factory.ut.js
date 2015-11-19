@@ -14,6 +14,7 @@ import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
 import VzaarPlayer from '../../../src/players/VzaarPlayer.js';
 import WistiaPlayer from '../../../src/players/WistiaPlayer.js';
 import JWPlayer from '../../../src/players/JWPlayer.js';
+import VidyardPlayer from '../../../src/players/VidyardPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -204,6 +205,22 @@ describe('playerFactory', function() {
 
                 it('should be a JWPlayer', function() {
                     expect(result).toEqual(jasmine.any(JWPlayer));
+                });
+            });
+
+            describe('if the card is from Vidyard', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'vidyard',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a VidyardPlayer', function() {
+                    expect(result).toEqual(jasmine.any(VidyardPlayer));
                 });
             });
 

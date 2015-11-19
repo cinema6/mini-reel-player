@@ -14,12 +14,12 @@
                 width:calc(100% - 15.5em);
             }
         }
-        
+
         .player, .player__thumbnail {
             position:absolute; width:100%; height:100%;
         }
             .player iframe {
-                width:100%; height:100%; 
+                width:100%; height:100%;
                 position:absolute;
                 border:0;
             }
@@ -47,6 +47,14 @@
                     opacity:1;
                     background-color: #000000;
                 }
+                .playerBox--whiteBg {
+                    background-color: white;
+                    background-image: none !important;
+                    -webkit-transition: background-color 500ms ease-out;
+                    -moz-transition: background-color 500ms ease-out;
+                    -o-transition: background-color 500ms ease-out;
+                    transition: background-color 500ms ease-out;
+                }
 
         .player__thumbnail {
             background:50% 50% / 112% auto no-repeat;
@@ -69,7 +77,7 @@
                 background: url('../../img/play-icon.svg') 56% 50% / contain no-repeat;
             }
 
-    .card__copy { 
+    .card__copy {
         padding:0.75em 0 0; margin:0;
         overflow-y: auto; overflow-x:hidden;
         -webkit-transition:height 0.25s; transition:height 0.25s;
@@ -86,24 +94,24 @@
         }
 
         .card__title {
-            font-size:1.5em;/*24px*/ 
+            font-size:1.5em;/*24px*/
             color:#000;
-            padding:0; margin:0.125rem 0 0 0; 
+            padding:0; margin:0.125rem 0 0 0;
             line-height:1;
         }
             @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
             /*  h: 0 - 500px */
                 .card__title {
-                    font-size:1.25em;/*20px*/ 
+                    font-size:1.25em;/*20px*/
                 }
             }
         .card__attributes {
-            color:#999; 
+            color:#999;
             font-size:0.8125rem;/*13px*/
         }
         .card__desc {
             margin:0.375rem 0 0;
-            font-size:0.875em;/*14px*/ 
+            font-size:0.875em;/*14px*/
             line-height:1.125rem;
         }
         @media screen and (min-width:75rem) and (max-width:106rem) and (min-height:45rem) {
@@ -123,7 +131,7 @@
             }
         }
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
-            /*  w: 1697px ++ 
+            /*  w: 1697px ++
             /   h: 720px ++ */
 
             .card__title {
@@ -145,7 +153,7 @@
     }
 
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
-            /*  w: 1697px ++ 
+            /*  w: 1697px ++
             /   h: 720px ++ */
             .player__height,
             .playerHeight {
@@ -171,7 +179,7 @@
         }
     .ballot__box {
         position:absolute; z-index:2;
-        top:45%; left:50%; 
+        top:45%; left:50%;
         width:33em;
         margin:-4.5em 0 0 -16.5em;
         border-radius:3px;
@@ -266,7 +274,7 @@
                         color:#fff;
                         font-weight:bold;
                         text-transform:uppercase;
-                        text-shadow: 0 1px 1px rgba(0,0,0,0.44); 
+                        text-shadow: 0 1px 1px rgba(0,0,0,0.44);
                     }
 
 

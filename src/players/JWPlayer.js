@@ -1,5 +1,4 @@
 import Runner from '../../lib/Runner.js';
-import { defer } from '../../lib/utils.js';
 import ThirdPartyPlayer from './ThirdPartyPlayer.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 
@@ -9,9 +8,9 @@ export default class JWPlayer extends ThirdPartyPlayer {
 
         this.__api__.name = 'JWPlayer';
         this.__api__.loadPlayer = src => {
-            const deferred = defer(RunnerPromise);
             const id = 'botr_' + src.replace('-', '_') + '_div';
             const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', 'blank.html');
 
             const div = document.createElement('div');
             div.id = id;
@@ -19,31 +18,32 @@ export default class JWPlayer extends ThirdPartyPlayer {
             const style = document.createElement('style');
             style.innerHTML = `
                 div#${id} {
-                    height: 100% !important;
+                    width: 100% !important; height: 100% !important;
                 }
             `;
 
             const script = document.createElement('script');
             script.setAttribute('type', 'application/javascript');
             script.setAttribute('src', '//content.jwplatform.com/players/' + src + '.js');
-            script.addEventListener('load', () => {
-                const jwplayer = iframe.contentWindow.jwplayer;
-                const api = jwplayer(id);
-                api.on('ready', () => {
-                    deferred.fulfill(api);
-                });
-            });
 
-            div.appendChild(script);
             iframe.addEventListener('load', () => {
                 iframe.contentDocument.head.appendChild(style);
                 iframe.contentDocument.body.appendChild(div);
+                iframe.contentDocument.body.appendChild(script);
             }, false);
 
             Runner.schedule('afterRender', null, () => {
                 this.element.appendChild(iframe);
             });
-            return deferred.promise;
+            return new RunnerPromise(resolve => {
+                script.addEventListener('load', () => {
+                    const jwplayer = iframe.contentWindow.jwplayer;
+                    const api = jwplayer(id);
+                    api.on('ready', () => {
+                        resolve(api);
+                    });
+                });
+            });
         };
         this.__api__.methods = {
             unload: api => {
@@ -54,21 +54,33 @@ export default class JWPlayer extends ThirdPartyPlayer {
                 });
             },
             play: api => {
-                api.play(true);
+                return new RunnerPromise((resolve, reject) => {
+                    if(this.paused) {
+                        api.play(true);
+                        this.once('playing', () => {
+                            resolve();
+                        });
+                        setTimeout(() => {
+                            reject('failed to confirm play');
+                        }, 2000);
+                    } else {
+                        resolve();
+                    }
+                });
             },
             pause: api => {
                 api.pause(true);
             },
             seek: (api, time) => {
-                const deferred = defer(RunnerPromise);
                 api.seek(time);
-                this.once('seeked', () => {
-                    deferred.fulfill();
+                return new RunnerPromise((resolve, reject) => {
+                    this.once('seeked', () => {
+                        resolve();
+                    });
+                    setTimeout(() => {
+                        reject('failed to confirm seek');
+                    }, 2000);
                 });
-                setTimeout(() => {
-                    deferred.reject('failed to confirm seek');
-                }, 2000);
-                return deferred.promise;
             },
             volume: (api, vol) => {
                 api.setVolume(vol);

@@ -4,6 +4,8 @@ import RunnerPromise from '../../../lib/RunnerPromise.js';
 import browser from '../../../src/services/browser.js';
 import Observable from '../../../src/utils/Observable.js';
 import PromiseSerializer from '../../../src/utils/PromiseSerializer.js';
+import {noop} from '../../../lib/utils.js';
+import CorePlayer from '../../../src/players/CorePlayer.js';
 
 describe('ThirdPartyPlayer', function() {
     let player, success, failure, serialFn;
@@ -28,6 +30,7 @@ describe('ThirdPartyPlayer', function() {
         spyOn(player.__private__, 'removeEventListeners').and.callThrough();
         spyOn(player.__private__, 'callPlayerMethod').and.callThrough();
         spyOn(player.__private__, 'callLoadPlayerMethod').and.callThrough();
+        spyOn(CorePlayer.prototype, 'unload');
         spyOn(browser, 'test').and.callThrough();
         spyOn(player.__private__.serializer, 'call').and.callFake(promise => {
             serialFn = promise;
@@ -199,7 +202,7 @@ describe('ThirdPartyPlayer', function() {
 
         describe('playerLoad', function() {
             it('should call the load player method if there is a proper src', function(done) {
-                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve());
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.callLoadPlayerMethod).toHaveBeenCalled();
@@ -227,6 +230,20 @@ describe('ThirdPartyPlayer', function() {
                 player.__private__.src = 'some src';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.state.get('readyState')).toBe(3);
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
+            it('should call the api onReady callback', function(done) {
+                const onReady = jasmine.createSpy('onReady()');
+                player.__api__.onReady = onReady;
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                player.__private__.src = 'some src';
+                player.__private__.playerLoad().then(() => {
+                    expect(onReady).toHaveBeenCalledWith('the api');
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -273,68 +290,145 @@ describe('ThirdPartyPlayer', function() {
                 player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve());
             });
 
-            it('should call the player method play if there is an api', function(done) {
-                player.__private__.api = 'the api';
-                player.__private__.playerPlay().then(() => {
-                    expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
+            describe('when there is an api', function() {
+                beforeEach(function() {
+                    player.__private__.api = 'the api';
+                });
+
+                describe('if the video has never played', function() {
+                    beforeEach(function() {
+                        player.__private__.hasPlayed = false;
+                    });
+
+                    it('should test the browser for autoplay capability', function(done) {
+                        browser.test.and.returnValue(RunnerPromise.resolve(true));
+                        player.__private__.playerPlay().then(() => {
+                            expect(browser.test).toHaveBeenCalledWith('autoplay');
+                            done();
+                        });
+                    });
+
+                    it('should not test autoplayability if configured not to do so', function(done) {
+                        player.__api__.autoplayTest = false;
+                        player.__private__.playerPlay().then(() => {
+                            expect(browser.test).not.toHaveBeenCalledWith('autoplay');
+                            done();
+                        });
+                    });
+
+                    it('should call the player method play and emit an event if autoplayable', function(done) {
+                        browser.test.and.returnValue(RunnerPromise.resolve(true));
+                        player.__private__.playerPlay().then(() => {
+                            expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
+                            expect(player.emit).toHaveBeenCalledWith('attemptPlay');
+                            done();
+                        }).catch(error => {
+                            expect(error).not.toBeDefined();
+                            done();
+                        });
+                    });
+
+                    it('not call the player method play or emit if not autoplayable', function(done) {
+                        browser.test.and.returnValue(RunnerPromise.resolve(false));
+                        player.__private__.playerPlay().then(() => {
+                            expect(player.__private__.callPlayerMethod).not.toHaveBeenCalledWith('play');
+                            expect(player.emit).not.toHaveBeenCalledWith('attemptPlay');
+                            done();
+                        }).catch(error => {
+                            expect(error).not.toBeDefined();
+                            done();
+                        });
+                    });
+                });
+
+                describe('if the video has played before', function() {
+                    beforeEach(function() {
+                        player.__private__.hasPlayed = true;
+                    });
+
+                    it('should call the player method play and emit an event', function(done) {
+                        player.__private__.playerPlay().then(() => {
+                            expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
+                            expect(player.emit).toHaveBeenCalledWith('attemptPlay');
+                            done();
+                        }).catch(error => {
+                            expect(error).not.toBeDefined();
+                            done();
+                        });
+                    });
                 });
             });
 
-            it('should test the browser for autoplay capability if there is no api', function(done) {
-                browser.test.and.returnValue(RunnerPromise.resolve(true));
-                player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve());
-                player.__private__.playerPlay().then(() => {
-                    expect(browser.test).toHaveBeenCalledWith('autoplay');
-                    done();
+            describe('when there is no api', function() {
+                it('should call playerLoad', function(done) {
+                    player.__private__.hasPlayed = true;
+                    player.__private__.playerPlay().then(() => {
+                        expect(player.__private__.playerLoad).toHaveBeenCalled();
+                        done();
+                    });
                 });
-            });
 
-            it('should not test the browser for autoplay capability if configured not to do so', function(done) {
-                player.__api__.autoplayTest = false;
-                player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve());
-                player.__private__.playerPlay().then(() => {
-                    expect(browser.test).not.toHaveBeenCalled();
-                    done();
+                describe('if the video has never played', function() {
+                    beforeEach(function() {
+                        player.__private__.hasPlayed = false;
+                    });
+
+                    it('should test the browser for autoplay capability', function(done) {
+                        browser.test.and.returnValue(RunnerPromise.resolve(true));
+                        player.__private__.playerPlay().then(() => {
+                            expect(browser.test).toHaveBeenCalledWith('autoplay');
+                            done();
+                        });
+                    });
+
+                    it('should not test autoplayability if configured not to do so', function(done) {
+                        player.__api__.autoplayTest = false;
+                        player.__private__.playerPlay().then(() => {
+                            expect(browser.test).not.toHaveBeenCalledWith('autoplay');
+                            done();
+                        });
+                    });
+
+                    it('should call the player method play and emit an event if autoplayable', function(done) {
+                        browser.test.and.returnValue(RunnerPromise.resolve(true));
+                        player.__private__.playerPlay().then(() => {
+                            expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
+                            expect(player.emit).toHaveBeenCalledWith('attemptPlay');
+                            done();
+                        }).catch(error => {
+                            expect(error).not.toBeDefined();
+                            done();
+                        });
+                    });
+
+                    it('not call the player method play or emit if not autoplayable', function(done) {
+                        browser.test.and.returnValue(RunnerPromise.resolve(false));
+                        player.__private__.playerPlay().then(() => {
+                            expect(player.__private__.callPlayerMethod).not.toHaveBeenCalledWith('play');
+                            expect(player.emit).not.toHaveBeenCalledWith('attemptPlay');
+                            done();
+                        }).catch(error => {
+                            expect(error).not.toBeDefined();
+                            done();
+                        });
+                    });
                 });
-            });
 
-            it('should load the player before playing if there is no api', function(done) {
-                player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve());
-                browser.test.and.returnValue(RunnerPromise.resolve(true));
-                player.__private__.playerPlay().then(() => {
-                    expect(player.__private__.playerLoad).toHaveBeenCalled();
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
-                });
-            });
+                describe('if the video has played before', function() {
+                    beforeEach(function() {
+                        player.__private__.hasPlayed = true;
+                    });
 
-            it('should call the play player method after loading if there is no api', function(done) {
-                player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve());
-                browser.test.and.returnValue(RunnerPromise.resolve(true));
-                player.__private__.playerPlay().then(() => {
-                    expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
-                });
-            });
-
-            it('should not play if the player is not autoplayable in the browser', function(done) {
-                browser.test.and.returnValue(RunnerPromise.resolve(false));
-                player.__private__.playerPlay().then(() => {
-                    expect(player.__private__.playerLoad).toHaveBeenCalled();
-                    expect(player.__private__.callPlayerMethod).not.toHaveBeenCalled();
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
+                    it('should call the player method play and emit an event', function(done) {
+                        player.__private__.playerPlay().then(() => {
+                            expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('play');
+                            expect(player.emit).toHaveBeenCalledWith('attemptPlay');
+                            done();
+                        }).catch(error => {
+                            expect(error).not.toBeDefined();
+                            done();
+                        });
+                    });
                 });
             });
         });
@@ -417,6 +511,18 @@ describe('ThirdPartyPlayer', function() {
                     done();
                 });
             });
+
+            it('should set the readyState to HAVE_NOTHING if there is an api', function(done) {
+                player.__private__.api = 'the api';
+                player.__private__.state.set('readyState', 3);
+                player.__private__.playerUnload().then(() => {
+                    expect(player.__private__.state.get('readyState')).toBe(0);
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
         });
 
         describe('playerSeek', function() {
@@ -458,6 +564,7 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should play the player after seeking if it was playing pre-seek', function(done) {
+                player.__private__.hasPlayed = true;
                 player.__private__.state.get.and.returnValue(false);
                 player.__private__.api = 'the api';
                 player.__private__.playerSeek(123).then(() => {
@@ -526,6 +633,23 @@ describe('ThirdPartyPlayer', function() {
             expect(player.__private__.eventListeners).toEqual([]);
             expect(player.__private__.serializer).toEqual(jasmine.any(PromiseSerializer));
             expect(player.__private__.state).toEqual(jasmine.any(Observable));
+            expect(player.__private__.hasPlayed).toBe(false);
+        });
+
+        describe('hasPlayed', function() {
+            it('should be set to true when playing', function() {
+                player.emit.and.callThrough();
+                player.__private__.hasPlayed = false;
+                player.emit('playing');
+                expect(player.__private__.hasPlayed).toBe(true);
+            });
+
+            it('should be set to false when emptied', function() {
+                player.emit.and.callThrough();
+                player.__private__.hasPlayed = true;
+                player.emit('emptied');
+                expect(player.__private__.hasPlayed).toBe(false);
+            });
         });
 
         describe('currentTime', function() {
@@ -627,7 +751,7 @@ describe('ThirdPartyPlayer', function() {
     describe('public methods', function() {
         describe('load', function() {
             it('should load the player after any pending operations', function(done) {
-                player.__api__.methods.load = 'not null';
+                player.__api__.loadPlayer = 'not null';
                 player.__private__.playerLoad.and.returnValue(RunnerPromise.resolve('result'));
                 player.load();
                 expect(player.__private__.serializer.call).toHaveBeenCalled();
@@ -703,6 +827,20 @@ describe('ThirdPartyPlayer', function() {
                 });
             });
 
+            it('should call super after any pending operations', function(done) {
+                player.__api__.methods.unload = 'not null';
+                player.__private__.playerUnload.and.returnValue(RunnerPromise.resolve('result'));
+                player.unload();
+                expect(player.__private__.serializer.call).toHaveBeenCalled();
+                serialFn().then(() => {
+                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
             it('should return an error if not implemented', function() {
                 player.__api__.name = 'MyPlayer';
                 expect(player.unload()).toEqual(new Error('MyPlayer cannot unload.'));
@@ -711,7 +849,7 @@ describe('ThirdPartyPlayer', function() {
 
         describe('reload', function() {
             it('should call unload and load', function() {
-                player.__api__.methods.load = 'not null';
+                player.__api__.loadPlayer = 'not null';
                 player.__api__.methods.unload = 'not null';
                 player.reload();
                 expect(player.unload).toHaveBeenCalled();
@@ -752,8 +890,13 @@ describe('ThirdPartyPlayer', function() {
             });
 
             it('should not set disallowed properties', function() {
-                player.__setProperty__('foo', 'bar');
-                expect(player.__private__.state.get('foo')).not.toBeDefined();
+                try {
+                    player.__setProperty__('foo', 'bar');
+                    expect(true).toBe(false);
+                } catch (error) {
+                    expect(player.__private__.state.get('foo')).not.toBeDefined();
+                    expect(error).toEqual(new Error('Cannot set invalid property foo'));
+                }
             });
         });
     });
@@ -766,7 +909,8 @@ describe('ThirdPartyPlayer', function() {
                     loadPlayer: null,
                     methods: {},
                     events: {},
-                    autoplayTest: true
+                    autoplayTest: true,
+                    onReady: noop
                 });
             });
         });

@@ -20,7 +20,7 @@
                 }
             }
             @media screen and (min-width:106.0625rem) and (min-height:45rem) {
-                /*  w: 1697px ++ 
+                /*  w: 1697px ++
                 /   h: 720px ++ */
                 .playerHeight {
                     height:calc(100% - 5.25em);
@@ -57,6 +57,14 @@
                 .playerBox--canplay iframe {
                     opacity:1;
                     background-color: #000000;
+                }
+                .playerBox--whiteBg {
+                    background-color: white;
+                    background-image: none !important;
+                    -webkit-transition: background-color 500ms ease-out;
+                    -moz-transition: background-color 500ms ease-out;
+                    -o-transition: background-color 500ms ease-out;
+                    transition: background-color 500ms ease-out;
                 }
 
         .player__thumbnail {
@@ -97,7 +105,7 @@
             margin:0 0 0.25em 0;
         }
         .card__attributes {
-            color:#999; 
+            color:#999;
             font-size:0.8125rem;/*13px*/
             line-height: 1;
         }
@@ -121,7 +129,7 @@
             }
         }
         @media screen and (min-width:106.0625rem) and (min-height:45rem) {
-            /*  w: 1697px ++ 
+            /*  w: 1697px ++
             /   h: 720px ++ */
             .card__title {
                 font-size:2.5em;
@@ -146,7 +154,7 @@
     }
     .ballot__box {
         position:absolute; z-index:2;
-        top:45%; left:50%; 
+        top:45%; left:50%;
         width:33em;
         margin:-4.5em 0 0 -16.5em;
         border-radius:3px;
@@ -241,7 +249,7 @@
                         color:#fff;
                         font-weight:bold;
                         text-transform:uppercase;
-                        text-shadow: 0 1px 1px rgba(0,0,0,0.44); 
+                        text-shadow: 0 1px 1px rgba(0,0,0,0.44);
                     }
 
 
@@ -336,6 +344,3 @@
                 margin:0 0 1.5em 0;
             }
         }
-
-
-

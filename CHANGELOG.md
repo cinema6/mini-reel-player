@@ -1,7 +1,7 @@
 # MiniReel Player 2.0
 
-## v1.4.0
-* *[v1.4.0-rc1]*
+## v1.5.0
+* *[v1.5.0-rc1]*
   * [FEATURE]: Design for single mobile card updated. Tile branding rearranged and social media icons isolated.
 
 ## v1.3.0 (November 12, 2015)

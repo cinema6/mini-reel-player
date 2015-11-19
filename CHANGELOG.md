@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v1.4.0 (November 19, 2015)
+* *[v1.4.0-rc3]*
+  * [FIX]: Fix for an issue where some JWPlayer videos would fail to load
+* *[/v1.4.0-rc3]*
+
 * *[v1.4.0-rc2]*
   * [FIX]: Fix for an issue where the host page is not visible
     underneath a lightbox player.

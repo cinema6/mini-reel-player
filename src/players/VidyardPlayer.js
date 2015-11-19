@@ -36,6 +36,8 @@ export default class VidyardPlayer extends ThirdPartyPlayer {
             return new RunnerPromise((resolve, reject) => {
                 Runner.schedule('afterRender', null, () => {
                     this.element.appendChild(style);
+                    /* Be careful here, it is important that Vidyard's global API is loaded before
+                        the script is added to the DOM */
                     codeLoader.load('vidyard').then(Vidyard => {
                         script.addEventListener('load', () => {
                             const api = new Vidyard.player(src);

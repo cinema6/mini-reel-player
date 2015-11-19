@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v1.4.0 (November 19, 2015)
 * *[v1.4.0-rc1]*
   * [FEATURE]: Added support for Vidyard video cards
   * [FIX]: Fix for an issue where rapidly switching away from a loading JWPlayer would not pause it
@@ -8,6 +9,7 @@
     count.)
   * [FIX]: Remove whitespace from sponsored video card
     (light/desktop-card) if there is no call-to-action.
+* *[/v1.4.0-rc1]*
 
 ## v1.3.0 (November 12, 2015)
 * *[v1.3.0-rc3]*

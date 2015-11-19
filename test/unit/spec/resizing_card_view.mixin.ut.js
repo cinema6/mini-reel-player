@@ -32,6 +32,22 @@ describe('ResizingCardView mixin', function() {
                 spyOn(view, 'addClass');
             });
 
+            describe('if there is no title or note', function() {
+                beforeEach(function() {
+                    data = {};
+
+                    Runner.run(() => view.update(data));
+                });
+
+                it('should call $super()', function() {
+                    expect(superUpdate).toHaveBeenCalledWith(data);
+                });
+
+                it('should not add any classes', function() {
+                    expect(view.addClass).not.toHaveBeenCalled();
+                });
+            });
+
             describe('if the title + note <= 100', function() {
                 beforeEach(function() {
                     [[10, 40], [20, 50], [50, 50], [40, null]].forEach(([titleLength, noteLength]) => {
@@ -49,8 +65,9 @@ describe('ResizingCardView mixin', function() {
                 });
 
                 it('should add the "text--low" class', function() {
-                    expect(view.addClass.calls.count()).toBe(4);
-                    view.addClass.calls.all().forEach(call => expect(call.args).toEqual(['text--low']));
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^text/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['text--low']));
                 });
             });
 
@@ -71,8 +88,9 @@ describe('ResizingCardView mixin', function() {
                 });
 
                 it('should add the "text--med" class', function() {
-                    expect(view.addClass.calls.count()).toBe(4);
-                    view.addClass.calls.all().forEach(call => expect(call.args).toEqual(['text--med']));
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^text/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['text--med']));
                 });
             });
 
@@ -93,8 +111,101 @@ describe('ResizingCardView mixin', function() {
                 });
 
                 it('should add the "text--high" class', function() {
-                    expect(view.addClass.calls.count()).toBe(4);
-                    view.addClass.calls.all().forEach(call => expect(call.args).toEqual(['text--high']));
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^text/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['text--high']));
+                });
+            });
+
+            describe('if the title + note is less than 195 characters', function() {
+                beforeEach(function() {
+                    [[1, 194], [50, 50], [30, 140], [60, null]].forEach(([titleLength, noteLength]) => {
+                        data = {
+                            title: makeString(titleLength),
+                            note: makeString(noteLength)
+                        };
+
+                        Runner.run(() => view.update(data));
+                    });
+                });
+
+                it('should call $super()', function() {
+                    expect(superUpdate).toHaveBeenCalledWith(data);
+                });
+
+                it('should add the "copy--base" class', function() {
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^copy/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['copy--base']));
+                });
+            });
+
+            describe('if the title + note is between 196 and 295', function() {
+                beforeEach(function() {
+                    [[1, 195], [100, 195], [70, 205], [200, null]].forEach(([titleLength, noteLength]) => {
+                        data = {
+                            title: makeString(titleLength),
+                            note: makeString(noteLength)
+                        };
+
+                        Runner.run(() => view.update(data));
+                    });
+                });
+
+                it('should call $super()', function() {
+                    expect(superUpdate).toHaveBeenCalledWith(data);
+                });
+
+                it('should add the "copy--low" class', function() {
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^copy/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['copy--low']));
+                });
+            });
+
+            describe('if the title + note is between 296 and 395', function() {
+                beforeEach(function() {
+                    [[1, 295], [150, 245], [70, 305], [300, null]].forEach(([titleLength, noteLength]) => {
+                        data = {
+                            title: makeString(titleLength),
+                            note: makeString(noteLength)
+                        };
+
+                        Runner.run(() => view.update(data));
+                    });
+                });
+
+                it('should call $super()', function() {
+                    expect(superUpdate).toHaveBeenCalledWith(data);
+                });
+
+                it('should add the "copy--med" class', function() {
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^copy/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['copy--med']));
+                });
+            });
+
+            describe('if the title + note is over 395', function() {
+                beforeEach(function() {
+                    [[1, 395], [200, 295], [170, 405], [400, null]].forEach(([titleLength, noteLength]) => {
+                        data = {
+                            title: makeString(titleLength),
+                            note: makeString(noteLength)
+                        };
+
+                        Runner.run(() => view.update(data));
+                    });
+                });
+
+                it('should call $super()', function() {
+                    expect(superUpdate).toHaveBeenCalledWith(data);
+                });
+
+                it('should add the "copy--high" class', function() {
+                    const calls = view.addClass.calls.all().filter(({ args }) => /^copy/.test(args[0]));
+                    expect(calls.length).toBe(4);
+                    calls.forEach(call => expect(call.args).toEqual(['copy--high']));
                 });
             });
         });

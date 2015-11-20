@@ -10,13 +10,13 @@
         .sponsorProfile__imgBox {
             width:2.75em; height:2.75em;
             float:left;
-            border:1px solid #ddd;
             margin:0 0.5em 0 0;
             display: block;
             text-decoration: none;
         }
             .sponsorProfile__img {
                 width:2.625em; height:2.625em;
+                border:1px solid #ddd;
                 display: block;
             }
 

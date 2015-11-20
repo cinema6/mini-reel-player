@@ -39,7 +39,6 @@
     
     .sponsorProfile__imgBox {
         width:3em; height:3em;
-        border:1px solid #ddd;
         margin:0;
         display: block;
         text-decoration: none;
@@ -48,6 +47,7 @@
     }
         .sponsorProfile__img {
             width:3em; height:3em;
+            border:1px solid #ddd;
             display: block;
         }
 

@@ -1,9 +1,12 @@
 # MiniReel Player 2.0
 
 ## v1.5.0 (November 20, 2015)
+* *[v1.5.0-rc2]*
+  * [FIX]: Fixed the css to show border on customer logo in mobile and light player
+
 * *[v1.5.0-rc1]*
   * [FEATURE]: Design for single mobile card updated. Tile branding rearranged and social media icons isolated.
-  * [FIX]: Fixed the css to show border on customer logo in light player
+  * [FIX]: Fixed the css to show border on customer logo in lightbox player
 * *[/v1.5.0-rc1]*
 
 ## v1.4.0 (November 19, 2015)

@@ -3,6 +3,7 @@
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*
   * [FIX]: Fixed the css to show border on customer logo in mobile and light player
+* *[/v1.5.0-rc2]*
 
 * *[v1.5.0-rc1]*
   * [FEATURE]: Design for single mobile card updated. Tile branding rearranged and social media icons isolated.

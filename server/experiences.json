@@ -278,6 +278,40 @@
                 },
                 {
                     "data": {
+                        "autoplay": true,
+                        "skip": true,
+                        "service": "vzaar",
+                        "videoid": "5700429",
+                        "href": "https://app.vzaar.com/videos/5700429",
+                        "thumbs": {
+                            "small": "https://view.vzaar.com/5700429/thumb",
+                            "large": "https://view.vzaar.com/5700429/thumb"
+                        }
+                    },
+                    "id": "rc-f9882ab87bc3",
+                    "type": "vzaar",
+                    "title": "Vzaar",
+                    "note": null,
+                    "source": "Vzaar",
+                    "modules": [],
+                    "thumbs": null,
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null,
+                        "countUrls": [],
+                        "clickUrls": []
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "shareLinks": {},
+                    "params": {}
+                },
+                {
+                    "data": {
                         "id": "6TTBiGE1NR",
                         "thumbs": {
                             "small": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s150x150/e15/11327847_751884368268106_1665607169_n.jpg",

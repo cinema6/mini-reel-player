@@ -6,6 +6,7 @@ import Observable from '../../../src/utils/Observable.js';
 import PromiseSerializer from '../../../src/utils/PromiseSerializer.js';
 import {noop} from '../../../lib/utils.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
+import timer from '../../../lib/timer.js';
 
 describe('ThirdPartyPlayer', function() {
     let player, success, failure, serialFn;
@@ -26,12 +27,16 @@ describe('ThirdPartyPlayer', function() {
         spyOn(player.__private__, 'playerPause').and.callThrough();
         spyOn(player.__private__, 'playerUnload').and.callThrough();
         spyOn(player.__private__, 'playerMinimize').and.callThrough();
+        spyOn(player.__private__, 'startPolling').and.callThrough();
+        spyOn(player.__private__, 'stopPolling').and.callThrough();
         spyOn(player.__private__, 'addEventListeners').and.callThrough();
         spyOn(player.__private__, 'removeEventListeners').and.callThrough();
         spyOn(player.__private__, 'callPlayerMethod').and.callThrough();
         spyOn(player.__private__, 'callLoadPlayerMethod').and.callThrough();
         spyOn(CorePlayer.prototype, 'unload');
         spyOn(browser, 'test').and.callThrough();
+        spyOn(timer, 'interval');
+        spyOn(timer, 'cancel');
         spyOn(player.__private__.serializer, 'call').and.callFake(promise => {
             serialFn = promise;
         });
@@ -118,6 +123,47 @@ describe('ThirdPartyPlayer', function() {
                         done();
                     });
                 });
+            });
+        });
+
+        describe('startPolling', function() {
+            it('should do nothing if there is no delay set', function() {
+                player.__private__.startPolling();
+                expect(timer.interval).not.toHaveBeenCalled();
+            });
+
+            it('should do nothing if there is already a polling interval set', function() {
+                player.__private__.pollingInterval = 'not null';
+                player.__private__.startPolling();
+                expect(timer.interval).not.toHaveBeenCalled();
+            });
+
+            it('should be able to set up a polling interval', function() {
+                const pollSpy = jasmine.createSpy('onPoll()');
+                player.__private__.api = 'the api';
+                player.__api__.pollingDelay = 1000;
+                player.__api__.onPoll = pollSpy;
+                player.__private__.startPolling();
+                expect(timer.interval).toHaveBeenCalledWith(jasmine.any(Function), 1000);
+                expect(player.__private__.pollingInterval).not.toBeNull();
+                const callback = timer.interval.calls.mostRecent().args[0];
+                expect(pollSpy).not.toHaveBeenCalled();
+                callback();
+                expect(pollSpy).toHaveBeenCalledWith('the api');
+            });
+        });
+
+        describe('stopPolling', function() {
+            it('should do nothing is there is no polling interval', function() {
+                player.__private__.stopPolling();
+                expect(timer.cancel).not.toHaveBeenCalled();
+            });
+
+            it('should be able to cancel the polling interval', function() {
+                player.__private__.pollingInterval = 'some interval';
+                player.__private__.stopPolling();
+                expect(timer.cancel).toHaveBeenCalledWith('some interval');
+                expect(player.__private__.pollingInterval).toBeNull();
             });
         });
 
@@ -277,6 +323,18 @@ describe('ThirdPartyPlayer', function() {
                 player.__private__.api = 'the api';
                 player.__private__.playerLoad().then(() => {
                     expect(player.__private__.callPlayerMethod).not.toHaveBeenCalled();
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
+            it('should try to start polling', function(done) {
+                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                player.__private__.src = 'some src';
+                player.__private__.playerLoad().then(() => {
+                    expect(player.__private__.startPolling).toHaveBeenCalled();
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -523,6 +581,17 @@ describe('ThirdPartyPlayer', function() {
                     done();
                 });
             });
+
+            it('should try to stop the polling', function(done) {
+                player.__private__.api = 'the api';
+                player.__private__.playerUnload().then(() => {
+                    expect(player.__private__.stopPolling).toHaveBeenCalled();
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
         });
 
         describe('playerSeek', function() {
@@ -634,6 +703,7 @@ describe('ThirdPartyPlayer', function() {
             expect(player.__private__.serializer).toEqual(jasmine.any(PromiseSerializer));
             expect(player.__private__.state).toEqual(jasmine.any(Observable));
             expect(player.__private__.hasPlayed).toBe(false);
+            expect(player.__private__.pollingInterval).toBeNull();
         });
 
         describe('hasPlayed', function() {
@@ -910,7 +980,9 @@ describe('ThirdPartyPlayer', function() {
                     methods: {},
                     events: {},
                     autoplayTest: true,
-                    onReady: noop
+                    onReady: noop,
+                    pollingDelay: null,
+                    onPoll: noop
                 });
             });
         });

@@ -5,6 +5,7 @@ import RunnerPromise from '../../lib/RunnerPromise.js';
 import CorePlayer from './CorePlayer.js';
 import Observable from '../utils/Observable.js';
 import PromiseSerializer from '../utils/PromiseSerializer.js';
+import timer from '../../lib/timer.js';
 
 // readyState constants
 const HAVE_NOTHING = 0;
@@ -41,6 +42,7 @@ class Private {
         this.__public__ = instance;
         this.src = null;
         this.api = null;
+        this.pollingInterval = null;
         this.eventListeners = [];
         this.serializer = new PromiseSerializer(RunnerPromise);
         this.state = new Observable(DEFAULT_PLAYER_PROPERTIES);
@@ -120,6 +122,21 @@ class Private {
         }
     }
 
+    startPolling() {
+        const delay = this.__public__.__api__.pollingDelay;
+        if(delay && !this.pollingInterval) {
+            this.pollingInterval = timer.interval(() => this.__public__.__api__.onPoll(this.api),
+                delay);
+        }
+    }
+
+    stopPolling() {
+        if(this.pollingInterval) {
+            timer.cancel(this.pollingInterval);
+            this.pollingInterval = null;
+        }
+    }
+
     addEventListeners() {
         const handlerFns = this.__public__.__api__.events;
         const listeners = [];
@@ -152,6 +169,7 @@ class Private {
                 this.api = api;
                 this.state.set('readyState', HAVE_FUTURE_DATA);
                 this.__public__.__api__.onReady(api);
+                this.startPolling();
                 return this.addEventListeners();
             });
         } else {
@@ -196,6 +214,7 @@ class Private {
 
     playerUnload() {
         if(this.api) {
+            this.stopPolling();
             return this.removeEventListeners().then(() => {
                 return this.callPlayerMethod('unload');
             }).then(() => {
@@ -276,7 +295,9 @@ export default class ThirdPartyPlayer extends CorePlayer {
             methods: {},
             events: {},
             autoplayTest: true,
-            onReady: noop
+            onReady: noop,
+            pollingDelay: null,
+            onPoll: noop
         };
         this.on('playing', () => {
             _(this).hasPlayed = true;

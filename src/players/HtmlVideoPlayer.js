@@ -1,6 +1,8 @@
-import CorePlayer from './CorePlayer.js';
 import Runner from '../../lib/Runner.js';
-import { createKey } from 'private-parts';
+import RunnerPromise from '../../lib/RunnerPromise.js';
+import ThirdPartyPlayer from './ThirdPartyPlayer.js';
+
+const HAVE_METADATA = 1;
 
 let exitFullscreen = function(video) {
     const documentExitFullscreen = document.exitFullscreen ||
@@ -26,177 +28,88 @@ let exitFullscreen = function(video) {
     exitFullscreen(video);
 };
 
-class Private {
-    constructor(instance) {
-        this.__public__ = instance;
-        this.loadedmetadata = () => {
-            Runner.run(() => {
-                this.__public__.emit('loadedmetadata');
-            });
-        };
-        this.canplay = () => {
-            Runner.run(() => {
-                this.__public__.emit('canplay');
-            });
-        };
-        this.play = () => {
-            Runner.run(() => {
-                this.__public__.emit('play');
-            });
-        };
-        this.pause = () => {
-            Runner.run(() => {
-                this.__public__.emit('pause');
-            });
-        };
-        this.error = () => {
-            Runner.run(() => {
-                this.__public__.emit('error');
-            });
-        };
-        this.ended = () => {
-            Runner.run(() => {
-                this.__public__.emit('ended');
-            });
-        };
-        this.timeupdate = () => {
-            Runner.run(() => {
-                this.__public__.emit('timeupdate');
-            });
-        };
-    }
-}
-
-const _ = createKey(instance => new Private(instance));
-
-export default class HtmlVideoPlayer extends CorePlayer {
+export default class HtmlVideoPlayer extends ThirdPartyPlayer {
     constructor() {
         super(...arguments);
+        
+        this.__api__.name = 'HtmlVideoPlayer';
 
-        this.src = null;
-        this.loop = false;
-
-        _(this).htmlVideo = null;
-
-        if (global.__karma__) { this.__private__ = _(this); }
+        this.__api__.autoplayTest = false;
+        
+        this.__api__.loadPlayer = src => {
+            const video = document.createElement('video');
+            video.setAttribute('src', src);
+            video.setAttribute('controls', 'true');
+            return new RunnerPromise(resolve => {
+                Runner.schedule('afterRender', null, () => {
+                    const loadstartFn = () => process.nextTick(() => Runner.run(() => {
+                        video.removeEventListener('loadstart', loadstartFn, false);
+                        resolve(video);
+                    }));
+                    video.addEventListener('loadstart', loadstartFn, false);
+                    this.element.appendChild(video);
+                });
+            });
+        };
+        
+        this.__api__.methods = {
+            seek: (api, time) => {
+                api.currentTime = time;
+            },
+            play: api => {
+                api.play();
+            },
+            pause: api => {
+                api.pause();
+            },
+            minimize: api => {
+                exitFullscreen(api);
+            },
+            unload: api => {
+                Runner.schedule('afterRender', this.element, 'removeChild', [api]);
+            },
+            addEventListener: (api, name, handler) => {
+                const handlerFn = () => process.nextTick(() => Runner.run(() => {
+                    handler(api);
+                }));
+                api.addEventListener(name, handlerFn, false);
+                return handlerFn;
+            },
+            removeEventListener: (api, name, handler) => {
+                api.removeEventListener(name, handler, false);
+            }
+        };
+        
+        this.__api__.events = {
+            loadedmetadata: api => {
+                this.__setProperty__('duration', api.duration);
+                this.__setProperty__('readyState', HAVE_METADATA);
+            },
+            play: api => {
+                this.__setProperty__('paused', api.paused);
+            },
+            pause: api => {
+                this.__setProperty__('paused', api.paused);
+            },
+            error: api => {
+                this.__setProperty__('error', api.error);
+            },
+            ended: api => {
+                this.__setProperty__('ended', api.ended);
+            },
+            timeupdate: api => {
+                this.__setProperty__('currentTime', api.currentTime);
+            },
+            volumechange: api => {
+                this.__setProperty__('muted', api.muted);
+                this.__setProperty__('volume', api.volume);
+            },
+            seeking: api => {
+                this.__setProperty__('seeking', api.seeking);
+            },
+            seeked: api => {
+                this.__setProperty__('seeking', api.seeking);
+            }
+        };
     }
-
-    get currentTime() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.currentTime : 0;
-    }
-    set currentTime(value) {
-        const { htmlVideo } = _(this);
-        if(htmlVideo) {
-            htmlVideo.currentTime = value;
-        }
-    }
-
-    get duration() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.duration : 0;
-    }
-
-    get ended() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.ended : false;
-    }
-
-    get paused() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.paused : true;
-    }
-
-    get muted() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.muted : false;
-    }
-
-    get volume() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.volume : 0;
-    }
-
-    get readyState() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.readyState : 0;
-    }
-
-    get seeking() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.seeking : false;
-    }
-
-    get error() {
-        const { htmlVideo } = _(this);
-        return htmlVideo ? htmlVideo.error : null;
-    }
-
-    play() {
-        this.load();
-        _(this).htmlVideo.play();
-    }
-
-    pause() {
-        _(this).htmlVideo.pause();
-    }
-
-    minimize() {
-        exitFullscreen(_(this).htmlVideo);
-    }
-
-    load() {
-        if(_(this).htmlVideo && this.src === _(this).htmlVideo.getAttribute('src')) {
-            return;
-        }
-        this.unload();
-
-        const element = this.element || this.create();
-
-        const video = document.createElement('video');
-        video.setAttribute('src', this.src);
-        video.setAttribute('controls', 'true');
-        if(this.loop) {
-            video.setAttribute('loop', true);
-        }
-        video.addEventListener('loadedmetadata', _(this).loadedmetadata, false);
-        video.addEventListener('canplay', _(this).canplay, false);
-        video.addEventListener('play', _(this).play, false);
-        video.addEventListener('pause', _(this).pause, false);
-        video.addEventListener('error', _(this).error, false);
-        video.addEventListener('ended', _(this).ended, false);
-        video.addEventListener('timeupdate', _(this).timeupdate, false);
-        _(this).htmlVideo = video;
-        Runner.schedule('afterRender', null, () => {
-            element.appendChild(video);
-        });
-    }
-
-    unload() {
-        const { element } = this;
-        const video = _(this).htmlVideo;
-        if (!element || !video) { return super(); }
-
-        _(this).src = null;
-
-        video.removeEventListener('loadedmetadata', _(this).loadedmetadata);
-        video.removeEventListener('canplay', _(this).canplay);
-        video.removeEventListener('play', _(this).play);
-        video.removeEventListener('pause', _(this).pause);
-        video.removeEventListener('error', _(this).error);
-        video.removeEventListener('ended', _(this).ended);
-        video.removeEventListener('timeupdate', _(this).timeupdate);
-        Runner.schedule('afterRender', null, () => {
-            element.removeChild(_(this).htmlVideo);
-            _(this).htmlVideo = null;
-        });
-
-        return super();
-    }
-
-    reload() {
-        this.unload();
-        this.load();
-    }
-
 }

@@ -1,285 +1,194 @@
 import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
-import CorePlayer from '../../../src/players/CorePlayer.js';
+import ThirdPartyPlayer from '../../../src/players/ThirdPartyPlayer.js';
 import Runner from '../../../lib/Runner.js';
 import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
-import {EventEmitter} from 'events';
 
 describe('HtmlVideoPlayer', function() {
-    let player, video, spy;
-
-    function Video() {
-        EventEmitter.call(this);
-        for (var method in EventEmitter.prototype) {
-            this[method] = EventEmitter.prototype[method];
-        }
-
-        this.play = jasmine.createSpy('Runner.run(() => player.play());');
-        this.pause = jasmine.createSpy('player.pause()');
-        this.load = jasmine.createSpy('Runner.run(() => player.load());');
-        this.webkitExitFullscreen = jasmine.createSpy('player.webkitExitFullscreen()');
-        this.currentTime = 0;
-        this.ended = false;
-        this.duration = NaN;
-        this.volume = 0;
-        this.paused = true;
-        this.muted = false;
-        this.src = null;
-        this.readyState = 0;
-
-        /* constants */
-        this.HAVE_NOTHING = 0;
-        this.HAVE_METADATA = 1;
-        this.HAVE_CURRENT_DATA = 2;
-        this.HAVE_FUTURE_DATA = 3;
-        this.HAVE_ENOUGH_DATA = 4;
-
-        this.addEventListener = this.on;
-        this.removeEventListener = this.removeListener;
-
-        return this;
-    }
+    let player, mockApi;
 
     beforeEach(function() {
         player = new HtmlVideoPlayer();
-        const createElement = document.createElement;
-        spyOn(document, 'createElement').and.callFake(type => {
-            switch (type.toLowerCase()) {
-            case 'video':
-                return (video = Video.call(createElement.call(document, 'span')));
-            default:
-                return createElement.apply(document, arguments);
-            }
+        mockApi = {
+            addEventListener: jasmine.createSpy('addEventListener()'),
+            removeEventListener: jasmine.createSpy('removeEventListener()'),
+            setAttribute: jasmine.createSpy('setAttribute()'),
+            webkitExitFullscreen: jasmine.createSpy('exitFullscreen()'),
+            currentTime: null,
+            play: jasmine.createSpy('play()'),
+            pause: jasmine.createSpy('pause()')
+        };
+        Runner.run(() => {
+            player.create();
         });
+        spyOn(player.element, 'appendChild');
+        spyOn(player.element, 'removeChild');
+        spyOn(player, '__setProperty__');
     });
 
     it('should exist', function() {
-        expect(player).toEqual(jasmine.any(CorePlayer));
+        expect(player).toEqual(jasmine.any(ThirdPartyPlayer));
     });
 
     it('should implement the PlayerInterface', function() {
         expect(player).toImplement(PlayerInterface);
     });
 
-    describe('properties:', function() {
-        describe('src', function() {
-            it('should be null', function() {
-                expect(player.src).toBeNull();
-            });
-        });
-
-        describe('loop', function() {
-            it('should be false', function() {
-                expect(player.loop).toBe(false);
-            });
-        });
-
-        describe('htmlVideo', function() {
-            it('should be null', function() {
-                expect(player.__private__.htmlVideo).toBeNull();
-            });
-        });
-
-        describe('currentTime', function() {
-            it('should be 0', () => expect(player.currentTime).toBe(0));
-            it('should be settable', () => expect(player.currentTime = 5).toBe(5));
-        });
-
-        describe('duration', function() {
-            beforeEach(() => {
-                Runner.run(() => player.load());
-                video.duration = 5;
-            });
-
-            it('should get the duration from the html video', () => expect(player.duration).toBe(5));
-            it('should not be settable', () => expect(() => player.duration = 5).toThrow());
-        });
-
-        describe('ended', function() {
-            beforeEach(() => {
-                Runner.run(() => player.load());
-            });
-
-            it('should be false', () => expect(player.ended).toBe(false));
-            it('should not be settable', () => expect(() => player.ended = true).toThrow());
-        });
-
-        describe('paused', function() {
-            beforeEach(() => {
-                Runner.run(() => player.load());
-            });
-
-            it('should be true', () => expect(player.paused).toBe(true));
-            it('should not be settable', () => expect(() => player.paused = false).toThrow());
-        });
-
-        describe('muted', function() {
-            beforeEach(() => {
-                Runner.run(() => player.load());
-            });
-
-            it('should be false', () => expect(player.muted).toBe(false));
-            it('should not be settable', () => expect(() => player.muted = true).toThrow());
-        });
-
-        describe('volume', function() {
-            beforeEach(() => {
-                Runner.run(() => player.load());
-                video.volume = 1;
-            });
-
-            it('should be 1', () => expect(player.volume).toBe(1));
-            it('should not be settable', () => expect(() => player.volume = 0).toThrow());
-        });
-
-        describe('readyState', function() {
-            beforeEach(() => {
-                Runner.run(() => player.load());
-            });
-
-            it('should be 0', () => expect(player.readyState).toBe(0));
-            it('should not be settable', () => expect(() => player.readyState = 3).toThrow());
-        });
-
-        describe('seeking', function() {
-            beforeEach(function() {
-                Runner.run(() => player.load());
-                video.seeking = true;
-            });
-
-            it('should be false', () => {
-                expect(player.seeking).toEqual(true);
-            });
-
-            it('should not be settable', () => expect(() => player.seeking = true).toThrow());
-        });
-
-        describe('error', function() {
-            beforeEach(function() {
-                Runner.run(() => player.load());
-                video.error = 'some error';
-            });
-            it('should be set', function() {
-                expect(player.error).toBe('some error');
-            });
-            it('should not be settable', () => expect(() => player.error = new Error()).toThrow());
-        });
+    it('should set the api name', function() {
+        expect(player.__api__.name).toBe('HtmlVideoPlayer');
     });
 
-    describe('methods:', function() {
-        describe('play', function() {
-            beforeEach(function() {
-                spyOn(player, 'load');
-                const video = document.createElement('video');
-                video.play = jasmine.createSpy('play');
-                player.__private__.htmlVideo = video;
-                player.play();
-            });
-
-            it('should call load', function() {
-                expect(player.load).toHaveBeenCalled();
-            });
-
-            it('should call play on the video', function() {
-                expect(player.__private__.htmlVideo.play).toHaveBeenCalled();
+    describe('the loadPlayer function', function() {
+        beforeEach(function() {
+            spyOn(document, 'createElement').and.callFake(name => {
+                if(name === 'video') {
+                    return mockApi;
+                }
             });
         });
-
-        describe('pause', function() {
-            beforeEach(function() {
-                const video = document.createElement('video');
-                video.pause = jasmine.createSpy('pause');
-                player.__private__.htmlVideo = video;
-                player.pause();
-            });
-
-            it('should call pause on the video', function() {
-                expect(player.__private__.htmlVideo.pause).toHaveBeenCalled();
-            });
+        
+        it('should create an html video element', function() {
+            player.__api__.loadPlayer('john_cena.mp4');
+            expect(document.createElement).toHaveBeenCalled();
+            expect(mockApi.setAttribute).toHaveBeenCalledWith('src', 'john_cena.mp4');
+            expect(mockApi.setAttribute).toHaveBeenCalledWith('controls', 'true');
         });
-
-        describe('minimize()', function() {
-            beforeEach(function() {
-                Runner.run(() => player.load());
-                player.minimize();
+        
+        it('should append the video', function() {
+            Runner.run(() => {
+                player.__api__.loadPlayer('john_cena.mp4');
             });
-
-            it('should exit fullscreen mode', function() {
-                expect(video.webkitExitFullscreen).toHaveBeenCalled();
-            });
+            expect(player.element.appendChild).toHaveBeenCalledWith(mockApi);
         });
-
-        describe('load()', function() {
-            beforeEach(function() {
-                Runner.run(() => player.create());
-                spyOn(player.element, 'appendChild');
+        
+        it('should resolve once the video can play', function(done) {
+            mockApi.addEventListener.and.callFake((name, handler) => {
+                if(name === 'loadstart') {
+                    handler();
+                }
             });
-
-            it('should append the video', () => {
-                Runner.run(() => player.load());
-                expect(player.element.appendChild).toHaveBeenCalled();
-            });
-        });
-
-        describe('unload()', function() {
-            beforeEach(function() {
-                Runner.run(() => player.create());
-                Runner.run(() => player.load());
-                spyOn(player.element, 'removeChild');
-                spy = jasmine.createSpy('spy');
-            });
-
-            it('should remove the video', () => {
-                Runner.run(() => player.unload());
-                expect(player.element.removeChild).toHaveBeenCalled();
-            });
-
-            it('should remove the event listeners', function() {
-                Runner.run(() => player.unload());
-                ['loadedmetadata', 'canplay', 'play', 'pause', 'error', 'ended', 'timeupdate'].forEach(event => {
-                    player.on(event, spy);
-                    try {
-                        video.emit(event);
-                    } catch(error) {
-                    }
-                    expect(spy).not.toHaveBeenCalled();
+            Runner.run(() => {
+                player.__api__.loadPlayer('john_cena.mp4').then(api => {
+                    expect(api).toBe(mockApi);
+                    expect(mockApi.addEventListener).toHaveBeenCalledWith('loadstart', jasmine.any(Function), false);
+                    const handler = mockApi.addEventListener.calls.mostRecent().args[1];
+                    expect(mockApi.removeEventListener).toHaveBeenCalledWith('loadstart', handler, false);
+                    process.nextTick(done);
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    process.nextTick(done);
                 });
-            });
-        });
-
-        describe('reload()', function() {
-            beforeEach(function() {
-                spyOn(player, 'unload');
-                spyOn(player, 'load');
-
-                Runner.run(() => player.reload());
-            });
-
-            it('should unload() then load() the player', function() {
-                expect(player.unload).toHaveBeenCalled();
-                expect(player.load).toHaveBeenCalled();
             });
         });
     });
 
-    describe('events', () => {
+    describe('the set api methods', function() {
+        it('should implement seek', function() {
+            player.__api__.methods.seek(mockApi, 123);
+            expect(mockApi.currentTime).toBe(123);
+        });
+        
+        it('should implement play', function() {
+            player.__api__.methods.play(mockApi);
+            expect(mockApi.play).toHaveBeenCalled();
+        });
+        
+        it('should implement pause', function() {
+            player.__api__.methods.pause(mockApi);
+            expect(mockApi.pause).toHaveBeenCalled();
+        });
+        
+        it('should implement minimize', function() {
+            player.__api__.methods.minimize(mockApi);
+            expect(mockApi.webkitExitFullscreen).toHaveBeenCalled();
+        });
+        
+        it('should impplement unload', function() {
+            Runner.run(() => {
+                player.__api__.methods.unload(mockApi);
+            });
+            expect(player.element.removeChild).toHaveBeenCalledWith(mockApi);
+        });
+        
+        it('should implement addEventListener', function(done) {
+            const handlerFn = jasmine.createSpy('handlerFn()');
+            const result = player.__api__.methods.addEventListener(mockApi, 'name', handlerFn);
+            expect(mockApi.addEventListener).toHaveBeenCalledWith('name', jasmine.any(Function), false);
+            expect(result).toEqual(jasmine.any(Function));
+            var fn = mockApi.addEventListener.calls.mostRecent().args[1];
+            fn();
+            process.nextTick(() => {
+                expect(handlerFn).toHaveBeenCalled();
+                done();
+            });
+        });
+        
+        it('should implement removeEventListener', function() {
+            player.__api__.methods.removeEventListener(mockApi, 'name', 'handler');
+            expect(mockApi.removeEventListener).toHaveBeenCalledWith('name', 'handler', false);
+        });
+    });
 
-        beforeEach(() => {
-            Runner.run(() => player.load());
-            spy = jasmine.createSpy('spy');
+    describe('the implemented api events', function() {
+        beforeEach(function() {
+            player.__setProperty__.and.callThrough();
+        });
+        
+        it('should handle the loadedmetadata event', function() {
+            mockApi.duration = 123;
+            mockApi.readyState = 0;
+            player.__api__.events.loadedmetadata(mockApi);
+            expect(player.duration).toBe(123);
+            expect(player.readyState).toBe(1);
+        });
+        
+        it('should handle the play event', function() {
+            mockApi.paused = true;
+            player.__api__.events.play(mockApi);
+            expect(player.paused).toBe(true);
+        });
+        
+        it('should handle the pause event', function() {
+            mockApi.paused = false;
+            player.__api__.events.pause(mockApi);
+            expect(player.paused).toBe(false);
+        });
+        
+        it('should handle the error event', function() {
+            mockApi.error = 'epic fail';
+            player.__api__.events.error(mockApi);
+            expect(player.error).toBe('epic fail');
+        });
+        
+        it('should handle the ended event', function() {
+            mockApi.ended = false;
+            player.__api__.events.ended(mockApi);
+            expect(player.ended).toBe(false);
+        });
+        
+        it('should handle the timeupdate event', function() {
+            mockApi.currentTime = 123;
+            player.__api__.events.timeupdate(mockApi);
+            expect(player.currentTime).toBe(123);
+        });
+        
+        it('should handle the volumechange event', function() {
+            mockApi.muted = false;
+            mockApi.volume = 0.5;
+            player.__api__.events.volumechange(mockApi);
+            expect(player.muted).toBe(false);
+            expect(player.volume).toBe(0.5);
+        });
+        
+        it('should handle the seeking event', function() {
+            mockApi.seeking = true;
+            player.__api__.events.seeking(mockApi);
+            expect(player.seeking).toBe(true);
         });
 
-
-        ['loadedmetadata', 'canplay', 'play', 'pause', 'error', 'ended', 'timeupdate'].forEach(event => {
-            describe(event + ' proxy', () => {
-                beforeEach(() => {
-                    player.on(event, spy);
-                    video.emit(event);
-                });
-
-                it('should proxy the event', () => {
-                    expect(spy).toHaveBeenCalled();
-                });
-            });
+        it('should handle the seeked event', function() {
+            mockApi.seeking = false;
+            player.__api__.events.seeked(mockApi);
+            expect(player.seeking).toBe(false);
         });
     });
 });

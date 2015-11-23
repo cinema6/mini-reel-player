@@ -179,11 +179,16 @@ describe('ThirdPartyPlayer', function() {
 
         describe('addEventListeners', function() {
             it('should set the private event listeners property', function(done) {
-                player.__api__.methods.addEventListener = () => {};
+                player.__api__.methods.addEventListener = (api, name) => {
+                    if(name !== 'event3') {
+                        return name + ' handler';
+                    }
+                };
                 player.__private__.api = 'the api';
                 player.__api__.events = {
                     event1: 'event1 handler',
-                    event2: 'event2 handler'
+                    event2: 'event2 handler',
+                    event3: 'event3 handler'
                 };
                 player.__private__.addEventListeners().then(() => {
                     expect(player.__private__.eventListeners).toEqual([{
@@ -192,6 +197,9 @@ describe('ThirdPartyPlayer', function() {
                     }, {
                         name: 'event2',
                         handler: 'event2 handler'
+                    }, {
+                        name: 'event3',
+                        handler: undefined
                     }]);
                     done();
                 }).catch(error => {

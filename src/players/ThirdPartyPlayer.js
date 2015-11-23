@@ -140,19 +140,17 @@ class Private {
 
     addEventListeners() {
         const handlerFns = this.__public__.__api__.events;
-        const listeners = [];
-        for(let eventName in handlerFns) {
+        const eventNames = Object.keys(handlerFns);
+        return RunnerPromise.all(eventNames.map(eventName => {
             const handlerFn = handlerFns[eventName];
-            listeners.push({
-                name: eventName,
-                handler: handlerFn
+            return this.callPlayerMethod('addEventListener', [eventName, handlerFn]);
+        })).then(results => {
+            this.eventListeners = results.map((handler, index) => {
+                return {
+                    name: eventNames[index],
+                    handler: handler
+                };
             });
-        }
-        return RunnerPromise.all(listeners.map(listener => {
-            return this.callPlayerMethod('addEventListener',
-                [listener.name, listener.handler]);
-        })).then(() => {
-            this.eventListeners = listeners;
         });
     }
 

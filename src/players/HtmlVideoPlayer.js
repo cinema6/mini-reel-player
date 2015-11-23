@@ -39,11 +39,11 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
         this.__api__.loadPlayer = src => {
             const video = document.createElement('video');
             video.setAttribute('src', src);
-            video.setAttribute('controls', 'true');
             return new RunnerPromise(resolve => {
                 Runner.schedule('afterRender', null, () => {
                     const loadstartFn = () => process.nextTick(() => Runner.run(() => {
                         video.removeEventListener('loadstart', loadstartFn, false);
+                        video.controls = true;
                         resolve(video);
                     }));
                     video.addEventListener('loadstart', loadstartFn, false);
@@ -67,6 +67,9 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
             },
             unload: api => {
                 Runner.schedule('afterRender', this.element, 'removeChild', [api]);
+            },
+            controls: (api, showControls) => {
+                api.controls = showControls;
             },
             addEventListener: (api, name, handler) => {
                 const handlerFn = () => process.nextTick(() => Runner.run(() => {

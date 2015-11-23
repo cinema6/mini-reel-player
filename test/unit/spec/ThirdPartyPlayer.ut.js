@@ -27,6 +27,7 @@ describe('ThirdPartyPlayer', function() {
         spyOn(player.__private__, 'playerPause').and.callThrough();
         spyOn(player.__private__, 'playerUnload').and.callThrough();
         spyOn(player.__private__, 'playerMinimize').and.callThrough();
+        spyOn(player.__private__, 'playerControls').and.callThrough();
         spyOn(player.__private__, 'startPolling').and.callThrough();
         spyOn(player.__private__, 'stopPolling').and.callThrough();
         spyOn(player.__private__, 'addEventListeners').and.callThrough();
@@ -711,6 +712,30 @@ describe('ThirdPartyPlayer', function() {
                 });
             });
         });
+        
+        describe('playerControls', function() {
+            it('should call the controls player method if there is an api', function(done) {
+                player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve());
+                player.__private__.api = 'the api';
+                player.__private__.playerControls(true).then(() => {
+                    expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('controls', [true]);
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+
+            it('should not change the volume if there is no api', function(done) {
+                player.__private__.playerControls().then(() => {
+                    expect(player.__private__.callPlayerMethod).not.toHaveBeenCalled();
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
+        });
     });
 
     describe('private properties', function() {
@@ -1130,6 +1155,29 @@ describe('ThirdPartyPlayer', function() {
                 player.__private__.state.get.and.returnValue('epic fail');
                 expect(player.error).toBe('epic fail');
                 expect(player.__private__.state.get).toHaveBeenCalledWith('error');
+            });
+        });
+        
+        describe('get controls', function() {
+            it('should get this player property', function() {
+                player.__private__.state.get.and.returnValue(true);
+                expect(player.controls).toBe(true);
+                expect(player.__private__.state.get).toHaveBeenCalledWith('controls');
+            });
+        });
+        
+        describe('set controls', function() {
+            it('should change the players volume after any pending operations', function(done) {
+                player.__private__.playerControls.and.returnValue(RunnerPromise.resolve('result'));
+                player.controls = true;
+                expect(player.__private__.serializer.call).toHaveBeenCalled();
+                serialFn().then(() => {
+                    expect(player.__private__.playerControls).toHaveBeenCalledWith(true);
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
             });
         });
     });

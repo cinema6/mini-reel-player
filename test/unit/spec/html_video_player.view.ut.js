@@ -13,7 +13,6 @@ describe('HtmlVideoPlayer', function() {
             removeEventListener: jasmine.createSpy('removeEventListener()'),
             setAttribute: jasmine.createSpy('setAttribute()'),
             webkitExitFullscreen: jasmine.createSpy('exitFullscreen()'),
-            currentTime: null,
             play: jasmine.createSpy('play()'),
             pause: jasmine.createSpy('pause()')
         };
@@ -50,7 +49,6 @@ describe('HtmlVideoPlayer', function() {
             player.__api__.loadPlayer('john_cena.mp4');
             expect(document.createElement).toHaveBeenCalled();
             expect(mockApi.setAttribute).toHaveBeenCalledWith('src', 'john_cena.mp4');
-            expect(mockApi.setAttribute).toHaveBeenCalledWith('controls', 'true');
         });
         
         it('should append the video', function() {
@@ -60,7 +58,7 @@ describe('HtmlVideoPlayer', function() {
             expect(player.element.appendChild).toHaveBeenCalledWith(mockApi);
         });
         
-        it('should resolve once the video can play', function(done) {
+        it('should resolve once the video has started to load', function(done) {
             mockApi.addEventListener.and.callFake((name, handler) => {
                 if(name === 'loadstart') {
                     handler();
@@ -72,6 +70,23 @@ describe('HtmlVideoPlayer', function() {
                     expect(mockApi.addEventListener).toHaveBeenCalledWith('loadstart', jasmine.any(Function), false);
                     const handler = mockApi.addEventListener.calls.mostRecent().args[1];
                     expect(mockApi.removeEventListener).toHaveBeenCalledWith('loadstart', handler, false);
+                    process.nextTick(done);
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    process.nextTick(done);
+                });
+            });
+        });
+        
+        it('should initially display video controls', function(done) {
+            mockApi.addEventListener.and.callFake((name, handler) => {
+                if(name === 'loadstart') {
+                    handler();
+                }
+            });
+            Runner.run(() => {
+                player.__api__.loadPlayer('john_cena.mp4').then(() => {
+                    expect(mockApi.controls).toBe(true);
                     process.nextTick(done);
                 }).catch(error => {
                     expect(error).not.toBeDefined();
@@ -107,6 +122,11 @@ describe('HtmlVideoPlayer', function() {
                 player.__api__.methods.unload(mockApi);
             });
             expect(player.element.removeChild).toHaveBeenCalledWith(mockApi);
+        });
+        
+        it('should implement controls', function() {
+            player.__api__.methods.controls(mockApi, true);
+            expect(mockApi.controls).toBe(true);
         });
         
         it('should implement addEventListener', function(done) {

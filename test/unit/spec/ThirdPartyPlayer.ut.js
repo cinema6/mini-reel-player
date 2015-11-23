@@ -69,6 +69,16 @@ describe('ThirdPartyPlayer', function() {
                     done();
                 });
             });
+
+            it('should emit the loadstart event', function(done) {
+                player.__private__.callLoadPlayerMethod().then(() => {
+                    expect(player.emit).toHaveBeenCalledWith('loadstart');
+                    done();
+                }).catch(error => {
+                    expect(error).not.toBeDefined();
+                    done();
+                });
+            });
         });
 
         describe('callPlayerMethod', function() {

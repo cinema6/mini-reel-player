@@ -1,6 +1,7 @@
 # MiniReel Player 2.0
 
 * *[v1.5.1-rc1]*
+  * [FIX]: Fixed buggy spacing in single mobile player around share and social links. Adjusted spacing around CTA and description.
   * [FIX]: Fixed bug where bg of social media links container appears when there are no social links.
   * Update the Vzaar player to be consistent with the behavior of newer players
   * Update the Vine player to be consistent with the behavior of newer players

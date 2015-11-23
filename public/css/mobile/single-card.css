@@ -199,15 +199,12 @@
             }
 
             .MiniReel__group--SingleCardMR .sponsorProfile__links {
-            	padding:0.6875em 0.5em 0.375em;
+            	padding:0.6875em 0 0.375em;
             }
 
             	.MiniReel__group--SingleCardMR .sponsorProfile__linkBtn {
-            		padding:0.5em;
+            		padding:0.6875em 0;
             	}
-
-
-            
 
             .MiniReel__group--SingleCardMR .sponsorProfile__group {
                 background:#f1f1f1;
@@ -220,9 +217,13 @@
                     text-align:center;
                 }
 
+            .MiniReel__group--SingleCardMR .card__desc:empty {
+            	margin:0;
+            	padding:0;
+            } 
 
         .MiniReel__group--SingleCardMR .sponsor__goBtn {
-            margin:1.75em 0.5em 0;
+            margin:1em 0.5em 0;
             display: block;
         }
         .MiniReel__group--SingleCardMR .btn__label {

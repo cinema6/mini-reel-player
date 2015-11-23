@@ -15,7 +15,7 @@ const HAVE_ENOUGH_DATA = 4;
 
 // internal player properties
 const PLAYER_PROPERTIES = ['currentTime', 'paused', 'duration', 'readyState', 'muted', 'volume',
-    'seeking', 'minimized', 'width', 'height', 'ended', 'error'];
+    'seeking', 'minimized', 'width', 'height', 'ended', 'error', 'controls'];
 
 // defaults
 const DEFAULT_PLAYER_PROPERTIES = {
@@ -30,7 +30,8 @@ const DEFAULT_PLAYER_PROPERTIES = {
     width: 0,
     height: 0,
     error: null,
-    ended: false
+    ended: false,
+    controls: true
 };
 
 function noMethodError(name, method) {
@@ -103,6 +104,7 @@ class Private {
     callLoadPlayerMethod() {
         const loadFn = this.__public__.__api__.loadPlayer;
         if(loadFn) {
+            this.__public__.emit('loadstart');
             return loadFn(this.src);
         } else {
             return RunnerPromise.reject(`load not implemented`);
@@ -139,19 +141,17 @@ class Private {
 
     addEventListeners() {
         const handlerFns = this.__public__.__api__.events;
-        const listeners = [];
-        for(let eventName in handlerFns) {
+        const eventNames = Object.keys(handlerFns);
+        return RunnerPromise.all(eventNames.map(eventName => {
             const handlerFn = handlerFns[eventName];
-            listeners.push({
-                name: eventName,
-                handler: handlerFn
+            return this.callPlayerMethod('addEventListener', [eventName, handlerFn]);
+        })).then(results => {
+            this.eventListeners = results.map((handler, index) => {
+                return {
+                    name: eventNames[index],
+                    handler: handler
+                };
             });
-        }
-        return RunnerPromise.all(listeners.map(listener => {
-            return this.callPlayerMethod('addEventListener',
-                [listener.name, listener.handler]);
-        })).then(() => {
-            this.eventListeners = listeners;
         });
     }
 
@@ -254,6 +254,14 @@ class Private {
             return RunnerPromise.resolve();
         }
     }
+
+    playerControls(showControls) {
+        if(this.api) {
+            return this.callPlayerMethod('controls', [showControls]);
+        } else {
+            return RunnerPromise.resolve();
+        }
+    }
 }
 
 const _ = createKey(instance => new Private(instance));
@@ -273,7 +281,7 @@ const _ = createKey(instance => new Private(instance));
         ready, and able to play.
         Supported methods:
             play, pause, load, unload, seek, volume, minimize, addEventListener
-            removeEventListener
+            removeEventListener, controls
 
     events:
         An object of implemented api events. The keys of this object correspond to events fired by
@@ -433,5 +441,15 @@ export default class ThirdPartyPlayer extends CorePlayer {
 
     get error() {
         return _(this).state.get('error');
+    }
+    
+    get controls() {
+        return _(this).state.get('controls');
+    }
+    
+    set controls(val) {
+        _(this).serializer.call(() => {
+            return _(this).playerControls(val);
+        });
     }
 }

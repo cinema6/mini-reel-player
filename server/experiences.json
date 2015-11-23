@@ -244,6 +244,40 @@
                 },
                 {
                     "data": {
+                        "autoplay": true,
+                        "skip": true,
+                        "service": "vine",
+                        "videoid": "izhDO703WBZ",
+                        "href": "https://vine.co/v/izhDO703WBZ",
+                        "thumbs": {
+                            "small": "https://v.cdn.vine.co/r/videos/29063ED1D51280352251709890560_49d73af968d.3.0.12647524363093772380.mp4.jpg?versionId=klV6cUzhq85veSIIS5l_SE4k.ZNvh5r0",
+                            "large": "https://v.cdn.vine.co/r/videos/29063ED1D51280352251709890560_49d73af968d.3.0.12647524363093772380.mp4.jpg?versionId=klV6cUzhq85veSIIS5l_SE4k.ZNvh5r0"
+                        }
+                    },
+                    "id": "rc-55af211a00c8d3",
+                    "type": "vine",
+                    "title": "Vine",
+                    "note": null,
+                    "source": "Vine",
+                    "modules": [],
+                    "thumbs": null,
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null,
+                        "countUrls": [],
+                        "clickUrls": []
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "shareLinks": {},
+                    "params": {}
+                },
+                {
+                    "data": {
                         "id": "6TTBiGE1NR",
                         "thumbs": {
                             "small": "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s150x150/e15/11327847_751884368268106_1665607169_n.jpg",

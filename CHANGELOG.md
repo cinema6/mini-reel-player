@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v1.5.1-rc1]*
+  * Update the Vine player to be consistent with the behavior of newer players
+
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*
   * [FIX]: Fixed the css to show border on customer logo in mobile and light player

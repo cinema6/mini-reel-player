@@ -103,6 +103,7 @@ class Private {
     callLoadPlayerMethod() {
         const loadFn = this.__public__.__api__.loadPlayer;
         if(loadFn) {
+            this.__public__.emit('loadstart');
             return loadFn(this.src);
         } else {
             return RunnerPromise.reject(`load not implemented`);

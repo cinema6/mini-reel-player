@@ -222,7 +222,7 @@
 
 
         .MiniReel__group--SingleCardMR .sponsor__goBtn {
-            margin: 0.6875em 0.5em;
+            margin:1.75em 0.5em 0;
             display: block;
         }
         .MiniReel__group--SingleCardMR .btn__label {

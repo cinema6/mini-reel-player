@@ -40,7 +40,6 @@ function getCardType(card) {
     case 'youtube':
     case 'vimeo':
     case 'dailymotion':
-    case 'rumble':
     case 'embedded':
     case 'adUnit':
     case 'vine':

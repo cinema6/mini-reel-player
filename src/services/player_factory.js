@@ -4,7 +4,6 @@ import VASTPlayer from '../players/VASTPlayer.js';
 import VPAIDPlayer from '../players/VPAIDPlayer.js';
 import DailymotionPlayer from '../players/DailymotionPlayer.js';
 import EmbeddedPlayer from '../players/EmbeddedPlayer.js';
-import RumblePlayer from '../players/RumblePlayer.js';
 import SlideshowBobPlayer from '../players/SlideshowBobPlayer.js';
 import VinePlayer from '../players/VinePlayer.js';
 import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
@@ -31,8 +30,6 @@ class PlayerFactory {
             return new DailymotionPlayer();
         case 'embedded':
             return new EmbeddedPlayer();
-        case 'rumble':
-            return new RumblePlayer();
         case 'slideshow-bob':
             return new SlideshowBobPlayer();
         case 'vine':

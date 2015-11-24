@@ -1,7 +1,6 @@
 import PlayerController from '../PlayerController.js';
 import LightPlayerView from '../../views/light/LightPlayerView.js';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
-import LightArticleCardController from './LightArticleCardController.js';
 import LightImageCardController from './LightImageCardController.js';
 import LightVideoCardController from './LightVideoCardController.js';
 import LightboxRecapCardController from '../lightbox/LightboxRecapCardController.js';
@@ -16,7 +15,6 @@ export default class LightPlayerController extends PlayerController {
 
         this.view = this.addView(new LightPlayerView());
         this.CardControllers = {
-            article: LightArticleCardController,
             image: LightImageCardController,
             video: LightVideoCardController,
             recap: LightboxRecapCardController,

@@ -89,7 +89,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             view.links = new LinksListView();
                         });
 
-                        ['recap', 'article', 'instagramImage', 'instagramVideo'].forEach(type => {
+                        ['recap', 'instagramImage', 'instagramVideo'].forEach(type => {
                             describe(`if the currentCard is a ${type} card`, function() {
                                 beforeEach(function() {
                                     Ctrl.minireel.currentCard = { type };

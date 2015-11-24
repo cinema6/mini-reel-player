@@ -5,7 +5,7 @@ import LightboxArticleCardController from '../../../../src/controllers/lightbox/
 import LightboxTextCardController from '../../../../src/controllers/lightbox/LightboxTextCardController.js';
 import LightboxImageCardController from '../../../../src/controllers/lightbox/LightboxImageCardController.js';
 import LightboxVideoCardController from '../../../../src/controllers/lightbox/LightboxVideoCardController.js';
-import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightboxRecapCardController from '../../../../src/controllers/lightbox/LightboxRecapCardController.js';
 import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import FullNPInstagramImageCardController from '../../../../src/controllers/full-np/FullNPInstagramImageCardController.js';
@@ -72,8 +72,8 @@ describe('LightboxPlayerController', function() {
             });
 
             describe('.recap', function() {
-                it('should be LightboxPlaylistRecapCardController', function() {
-                    expect(LightboxPlayerCtrl.CardControllers.recap).toBe(LightboxPlaylistRecapCardController);
+                it('should be LightboxRecapCardController', function() {
+                    expect(LightboxPlayerCtrl.CardControllers.recap).toBe(LightboxRecapCardController);
                 });
             });
 

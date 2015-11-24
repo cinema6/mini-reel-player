@@ -5,8 +5,7 @@ import LightArticleCardController from './LightArticleCardController.js';
 import LightTextCardController from './LightTextCardController.js';
 import LightImageCardController from './LightImageCardController.js';
 import LightVideoCardController from './LightVideoCardController.js';
-import LightboxPlaylistRecapCardController
-    from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightboxRecapCardController from '../lightbox/LightboxRecapCardController.js';
 import LightPrerollCardController from './LightPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import LightInstagramImageCardController from './LightInstagramImageCardController.js';
@@ -24,7 +23,7 @@ export default class LightPlayerController extends PlayerController {
             text: LightTextCardController,
             image: LightImageCardController,
             video: LightVideoCardController,
-            recap: LightboxPlaylistRecapCardController,
+            recap: LightboxRecapCardController,
             preroll: LightPrerollCardController,
             displayAd: DisplayAdCardController,
             instagramImage: LightInstagramImageCardController,

@@ -4,8 +4,7 @@ import LightboxArticleCardController from './LightboxArticleCardController.js';
 import LightboxTextCardController from './LightboxTextCardController.js';
 import LightboxImageCardController from './LightboxImageCardController.js';
 import LightboxVideoCardController from './LightboxVideoCardController.js';
-import LightboxPlaylistRecapCardController
-    from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightboxRecapCardController from './LightboxRecapCardController.js';
 import LightboxPrerollCardController from './LightboxPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullNPInstagramImageCardController from '../full-np/FullNPInstagramImageCardController.js';
@@ -24,7 +23,7 @@ export default class LightboxPlayerController extends PlayerController {
             text: LightboxTextCardController,
             image: LightboxImageCardController,
             video: LightboxVideoCardController,
-            recap: LightboxPlaylistRecapCardController,
+            recap: LightboxRecapCardController,
             preroll: LightboxPrerollCardController,
             displayAd: DisplayAdCardController,
             instagramImage: FullNPInstagramImageCardController,

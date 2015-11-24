@@ -2,7 +2,6 @@ import FullNPPlayerController from '../../../../src/controllers/full-np/FullNPPl
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import View from '../../../../lib/core/View.js';
 import FullNPArticleCardController from '../../../../src/controllers/full-np/FullNPArticleCardController.js';
-import FullNPTextCardController from '../../../../src/controllers/full-np/FullNPTextCardController.js';
 import FullNPImageCardController from '../../../../src/controllers/full-np/FullNPImageCardController.js';
 import FullNPVideoCardController from '../../../../src/controllers/full-np/FullNPVideoCardController.js';
 import FullNPRecapCardController from '../../../../src/controllers/full-np/FullNPRecapCardController.js';
@@ -47,7 +46,6 @@ describe('FullNPPlayerController', function() {
         describe('CardControllers', function() {
             it('should have a Controller for each card type', function() {
                 expect(FullNPPlayerCtrl.CardControllers.article).toBe(FullNPArticleCardController);
-                expect(FullNPPlayerCtrl.CardControllers.text).toBe(FullNPTextCardController);
                 expect(FullNPPlayerCtrl.CardControllers.image).toBe(FullNPImageCardController);
                 expect(FullNPPlayerCtrl.CardControllers.video).toBe(FullNPVideoCardController);
                 expect(FullNPPlayerCtrl.CardControllers.recap).toBe(FullNPRecapCardController);

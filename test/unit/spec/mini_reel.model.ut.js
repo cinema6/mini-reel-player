@@ -17,7 +17,6 @@ import {
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import Card from '../../../src/models/Card.js';
 import ArticleCard from '../../../src/models/ArticleCard.js';
-import TextCard from '../../../src/models/TextCard.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
@@ -1615,6 +1614,8 @@ describe('MiniReel', function() {
 
         describe('if standalone is false', function() {
             beforeEach(function(done) {
+                experience.data.deck[1].data.skip = true;
+
                 cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
                     experience: experience,
                     standalone: false,
@@ -1722,7 +1723,6 @@ describe('MiniReel', function() {
 
         it('should fill the deck with the cards', function() {
             expect(minireel.deck).toEqual([
-                jasmine.any(TextCard),
                 jasmine.any(AdUnitCard),
                 jasmine.any(EmbeddedVideoCard),
                 jasmine.any(VideoCard),
@@ -1754,20 +1754,12 @@ describe('MiniReel', function() {
                 });
         });
 
-        it('should pass the minireel\'s splash property to the text cards', function() {
-            minireel.deck.filter(card => card instanceof TextCard)
-                .forEach(card => expect(card.thumbs).toEqual({
-                    small: minireel.splash,
-                    large: minireel.splash
-                }));
-        });
-
         it('should give the recap card a reference to itself', function() {
             expect(minireel.deck[minireel.deck.length - 1].data).toBe(minireel);
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(21);
+            expect(minireel.length).toBe(20);
         });
     });
 
@@ -1802,7 +1794,7 @@ describe('MiniReel', function() {
             appDataDeferred = defer(RunnerPromise);
             cinema6.getAppData.and.returnValue(appDataDeferred.promise);
 
-            minireel = new MiniReel(['text', 'video']);
+            minireel = new MiniReel(['video']);
             minireel.once('init', done);
 
             appDataDeferred.fulfill({ experience, profile });
@@ -1810,7 +1802,6 @@ describe('MiniReel', function() {
 
         it('should create a deck with only the cards of those types', function() {
             expect(minireel.deck).toEqual([
-                jasmine.any(TextCard),
                 jasmine.any(AdUnitCard),
                 jasmine.any(EmbeddedVideoCard),
                 jasmine.any(VideoCard),

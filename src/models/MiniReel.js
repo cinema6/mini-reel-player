@@ -23,7 +23,6 @@ import {
     filter
 } from '../../lib/utils.js';
 import ArticleCard from './ArticleCard.js';
-import TextCard from './TextCard.js';
 import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
@@ -33,7 +32,7 @@ import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'slideshow-bob', 'recap', 'instagram'];
+const CARD_WHITELIST = ['video', 'article', 'image', 'slideshow-bob', 'recap', 'instagram'];
 
 const _ = createKey();
 
@@ -70,8 +69,6 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
         switch (card.type) {
          case 'article':
             return new ArticleCard(card, experience, profile);
-        case 'text':
-            return new TextCard(card, experience, profile);
         case 'image':
             return new ImageCard(card, experience, profile);
         case 'recap':

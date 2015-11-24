@@ -2,7 +2,6 @@ import PlayerController from '../../../src/controllers/PlayerController.js';
 import Controller from '../../../lib/core/Controller.js';
 import ApplicationView from '../../../src/views/ApplicationView.js';
 import MiniReel from '../../../src/models/MiniReel.js';
-import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import View from '../../../lib/core/View.js';
@@ -34,7 +33,6 @@ describe('PlayerController', function() {
     CardController.mixin(EventEmitter);
 
     class VideoCardController extends CardController {}
-    class TextCardController extends CardController {}
     class RecapCardController extends CardController {}
 
     class PlayerView extends TemplateView {
@@ -70,7 +68,6 @@ describe('PlayerController', function() {
         Runner.run(() => PlayerCtrl = new PlayerController(applicationView));
         PlayerCtrl.view = new PlayerView();
         PlayerCtrl.CardControllers = {
-            text: TextCardController,
             video: VideoCardController,
             recap: RecapCardController
         };
@@ -118,7 +115,6 @@ describe('PlayerController', function() {
 
                 PlayerCtrl.minireel.branding = 'my-branding';
                 PlayerCtrl.minireel.deck = [
-                    new TextCard({ data: {} }, experience),
                     new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                     new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                     new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
@@ -162,7 +158,6 @@ describe('PlayerController', function() {
 
                     PlayerCtrl.minireel.branding = 'my-branding';
                     PlayerCtrl.minireel.deck = [
-                        new TextCard({ data: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
@@ -185,7 +180,6 @@ describe('PlayerController', function() {
 
                 it('should create a CardController based on the type of card', function() {
                     expect(PlayerCtrl.cardCtrls).toEqual([
-                        jasmine.any(TextCardController),
                         jasmine.any(VideoCardController),
                         jasmine.any(VideoCardController),
                         jasmine.any(VideoCardController),
@@ -225,7 +219,6 @@ describe('PlayerController', function() {
                     spyOn(PlayerCtrl, 'updateView');
 
                     PlayerCtrl.minireel.deck = [
-                        new TextCard({ data: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),

@@ -23,7 +23,6 @@ import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
-import DisplayAdCard from '../../../src/models/DisplayAdCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
 import election from '../../../src/services/election.js';
@@ -1992,7 +1991,6 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(ArticleCard),
                 jasmine.any(ImageCard),
-                jasmine.any(DisplayAdCard),
                 jasmine.any(RecapCard)
             ]);
         });
@@ -2022,7 +2020,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(22);
+            expect(minireel.length).toBe(21);
         });
 
         it('should set the adtech defaults', function() {

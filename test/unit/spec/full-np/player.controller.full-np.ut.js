@@ -7,7 +7,6 @@ import FullNPImageCardController from '../../../../src/controllers/full-np/FullN
 import FullNPVideoCardController from '../../../../src/controllers/full-np/FullNPVideoCardController.js';
 import FullNPRecapCardController from '../../../../src/controllers/full-np/FullNPRecapCardController.js';
 import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
-import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import FullNPInstagramImageCardController from '../../../../src/controllers/full-np/FullNPInstagramImageCardController.js';
 import FullNPInstagramVideoCardController from '../../../../src/controllers/full-np/FullNPInstagramVideoCardController.js';
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
@@ -54,7 +53,6 @@ describe('FullNPPlayerController', function() {
                 expect(FullNPPlayerCtrl.CardControllers.video).toBe(FullNPVideoCardController);
                 expect(FullNPPlayerCtrl.CardControllers.recap).toBe(FullNPRecapCardController);
                 expect(FullNPPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
-                expect(FullNPPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
                 expect(FullNPPlayerCtrl.CardControllers.instagramImage).toBe(FullNPInstagramImageCardController);
                 expect(FullNPPlayerCtrl.CardControllers.instagramVideo).toBe(FullNPInstagramVideoCardController);
             });

@@ -7,7 +7,6 @@ import LightboxImageCardController from '../../../../src/controllers/lightbox/Li
 import LightboxVideoCardController from '../../../../src/controllers/lightbox/LightboxVideoCardController.js';
 import LightboxRecapCardController from '../../../../src/controllers/lightbox/LightboxRecapCardController.js';
 import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
-import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import FullNPInstagramImageCardController from '../../../../src/controllers/full-np/FullNPInstagramImageCardController.js';
 import FullNPInstagramVideoCardController from '../../../../src/controllers/full-np/FullNPInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
@@ -80,12 +79,6 @@ describe('LightboxPlayerController', function() {
             describe('.preroll', function() {
                 it('should be a LightboxPrerollCardController', function() {
                     expect(LightboxPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
-                });
-            });
-
-            describe('.displayAd', function() {
-                it('should be DisplayAdCardController', function() {
-                    expect(LightboxPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
                 });
             });
 

@@ -9,7 +9,6 @@
   },
   "builds": [
     "mobile",
-    "swipe",
     "full-np",
     "lightbox",
     "light",

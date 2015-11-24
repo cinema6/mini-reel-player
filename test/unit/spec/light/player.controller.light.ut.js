@@ -7,7 +7,7 @@ import LightArticleCardController from '../../../../src/controllers/light/LightA
 import LightTextCardController from '../../../../src/controllers/light/LightTextCardController.js';
 import LightImageCardController from '../../../../src/controllers/light/LightImageCardController.js';
 import LightVideoCardController from '../../../../src/controllers/light/LightVideoCardController.js';
-import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
+import LightboxRecapCardController from '../../../../src/controllers/lightbox/LightboxRecapCardController.js';
 import LightPrerollCardController from '../../../../src/controllers/light/LightPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
@@ -81,8 +81,8 @@ describe('LightPlayerController', function() {
             });
 
             describe('.recap', function() {
-                it('should be LightboxPlaylistRecapCardController', function() {
-                    expect(LightPlayerCtrl.CardControllers.recap).toBe(LightboxPlaylistRecapCardController);
+                it('should be LightboxRecapCardController', function() {
+                    expect(LightPlayerCtrl.CardControllers.recap).toBe(LightboxRecapCardController);
                 });
             });
 

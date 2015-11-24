@@ -19,7 +19,6 @@ import Card from '../../../src/models/Card.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
-import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import browser from '../../../src/services/browser.js';
 import codeLoader from '../../../src/services/code_loader.js';
@@ -1723,7 +1722,6 @@ describe('MiniReel', function() {
         it('should fill the deck with the cards', function() {
             expect(minireel.deck).toEqual([
                 jasmine.any(AdUnitCard),
-                jasmine.any(EmbeddedVideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
@@ -1756,7 +1754,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(18);
+            expect(minireel.length).toBe(17);
         });
     });
 
@@ -1800,7 +1798,6 @@ describe('MiniReel', function() {
         it('should create a deck with only the cards of those types', function() {
             expect(minireel.deck).toEqual([
                 jasmine.any(AdUnitCard),
-                jasmine.any(EmbeddedVideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),

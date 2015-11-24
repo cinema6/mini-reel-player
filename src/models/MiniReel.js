@@ -25,7 +25,6 @@ import {
 import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
-import EmbeddedVideoCard from './EmbeddedVideoCard.js';
 import RecapCard from './RecapCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
@@ -40,7 +39,6 @@ function getCardType(card) {
     case 'youtube':
     case 'vimeo':
     case 'dailymotion':
-    case 'embedded':
     case 'adUnit':
     case 'vine':
     case 'vzaar':
@@ -71,8 +69,6 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
             return new RecapCard(card, experience, profile, this);
         case 'adUnit':
             return new AdUnitCard(card, experience, profile);
-        case 'embedded':
-            return new EmbeddedVideoCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
         case 'instagram':

@@ -4,7 +4,6 @@ import MobileVideoCardView from '../../../../src/views/mobile/MobileVideoCardVie
 import View from '../../../../lib/core/View.js';
 import VideoCard from '../../../../src/models/VideoCard.js';
 import playerFactory from '../../../../src/services/player_factory.js';
-import InlineBallotResultsVideoCardController from '../../../../src/mixins/InlineBallotResultsVideoCardController.js';
 import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('MobileVideoCardController', function() {
@@ -86,7 +85,6 @@ describe('MobileVideoCardController', function() {
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
         spyOn(MobileVideoCardController.prototype, 'addView').and.callThrough();
-        spyOn(MobileVideoCardController.prototype, 'initBallotResults').and.callThrough();
         spyOn(MobileVideoCardController.prototype, 'initShare').and.callThrough();
 
         MobileVideoCardCtrl = new MobileVideoCardController(card, parentView);
@@ -94,11 +92,6 @@ describe('MobileVideoCardController', function() {
 
     it('should be a VideoCardController', function() {
         expect(MobileVideoCardCtrl).toEqual(jasmine.any(VideoCardController));
-    });
-
-    it('should mixin the InlineBallotResultsVideoCardController', function() {
-        expect(MobileVideoCardController.mixins).toContain(InlineBallotResultsVideoCardController);
-        expect(MobileVideoCardCtrl.initBallotResults).toHaveBeenCalled();
     });
 
     it('should mixin the ModalShareVideoCardController', function() {

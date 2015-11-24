@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events';
 import SafelyGettable from '../mixins/SafelyGettable.js';
 import Post from './Post.js';
-import Ballot from './Ballot.js';
 import Mixable from '../../lib/core/Mixable.js';
 import {
     extend,
@@ -24,8 +23,6 @@ class Card extends Mixable {
                 switch (module) {
                 case 'post':
                     return new Post(card, experience);
-                case 'ballot':
-                    return new Ballot(card, experience);
                 default:
                     return undefined;
                 }

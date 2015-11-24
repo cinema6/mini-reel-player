@@ -2,7 +2,6 @@ import LightboxVideoCardController from '../../../../src/controllers/lightbox/Li
 import VideoCardController from '../../../../src/controllers/VideoCardController.js';
 import LightboxVideoCardView from '../../../../src/views/lightbox/LightboxVideoCardView.js';
 import {EventEmitter} from 'events';
-import ModalBallotResultsVideoCardController from '../../../../src/mixins/ModalBallotResultsVideoCardController.js';
 import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 describe('LightboxVideoCardController', function() {
@@ -16,7 +15,6 @@ describe('LightboxVideoCardController', function() {
         card.thumbs = {};
         card.getSrc = jasmine.createSpy('card.getSrc()');
         spyOn(LightboxVideoCardController.prototype, 'addView').and.callThrough();
-        spyOn(LightboxVideoCardController.prototype, 'initBallotResults').and.callThrough();
         spyOn(LightboxVideoCardController.prototype, 'initShare').and.callThrough();
 
         LightboxVideoCardCtrl = new LightboxVideoCardController(card);
@@ -24,11 +22,6 @@ describe('LightboxVideoCardController', function() {
 
     it('should exist', function() {
         expect(LightboxVideoCardCtrl).toEqual(jasmine.any(VideoCardController));
-    });
-
-    it('should mixin the ModalBallotResultsVideoCardController', function() {
-        expect(LightboxVideoCardController.mixins).toContain(ModalBallotResultsVideoCardController);
-        expect(LightboxVideoCardCtrl.initBallotResults).toHaveBeenCalled();
     });
 
     it('should mixin the ModalShareVideoCardController', function() {

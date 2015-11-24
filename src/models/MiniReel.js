@@ -13,7 +13,6 @@ import SafelyGettable from '../mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
-import adtech from '../services/adtech.js';
 import browser from '../services/browser.js';
 import codeLoader from '../services/code_loader.js';
 import normalizeLinks from '../fns/normalize_links.js';
@@ -112,12 +111,6 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
     this.logo = experience.data.collateral.logo || null;
     this.links = normalizeLinks(experience.data.links);
     this.socialLinks = makeSocialLinks(this.links);
-
-    adtech.setDefaults({
-        network: experience.data.adServer.network,
-        server: experience.data.adServer.server,
-        kv: { mode: this.adConfig.display.waterfall || 'default' },
-    });
 
     this.prerollCard = new PrerollCard(null, experience, profile, this);
 

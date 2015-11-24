@@ -22,7 +22,6 @@ import {
     forEach,
     filter
 } from '../../lib/utils.js';
-import ArticleCard from './ArticleCard.js';
 import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
@@ -32,7 +31,7 @@ import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
 
-const CARD_WHITELIST = ['video', 'article', 'image', 'slideshow-bob', 'recap', 'instagram'];
+const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
 
 const _ = createKey();
 
@@ -67,8 +66,6 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
     this.splash = experience.data.collateral.splash;
     this.deck = map(deck, card => {
         switch (card.type) {
-         case 'article':
-            return new ArticleCard(card, experience, profile);
         case 'image':
             return new ImageCard(card, experience, profile);
         case 'recap':

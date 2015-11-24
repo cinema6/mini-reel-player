@@ -16,7 +16,6 @@ import {
 } from '../../../lib/utils.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import Card from '../../../src/models/Card.js';
-import ArticleCard from '../../../src/models/ArticleCard.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
@@ -1740,7 +1739,6 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
-                jasmine.any(ArticleCard),
                 jasmine.any(ImageCard),
                 jasmine.any(RecapCard)
             ]);
@@ -1759,7 +1757,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(20);
+            expect(minireel.length).toBe(19);
         });
     });
 

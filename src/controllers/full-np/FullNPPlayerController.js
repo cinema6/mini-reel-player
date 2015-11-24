@@ -1,6 +1,5 @@
 import PlayerController from '../PlayerController.js';
 import FullNPPlayerView from '../../views/full-np/FullNPPlayerView.js';
-import FullNPArticleCardController from './FullNPArticleCardController.js';
 import FullNPImageCardController from './FullNPImageCardController.js';
 import FullNPVideoCardController from './FullNPVideoCardController.js';
 import FullNPRecapCardController from './FullNPRecapCardController.js';
@@ -15,7 +14,6 @@ export default class FullNPPlayerController extends PlayerController {
         this.view = this.addView(new FullNPPlayerView());
 
         this.CardControllers = {
-            article: FullNPArticleCardController,
             image: FullNPImageCardController,
             video: FullNPVideoCardController,
             recap: FullNPRecapCardController,

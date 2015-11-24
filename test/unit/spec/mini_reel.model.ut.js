@@ -430,7 +430,7 @@ describe('MiniReel', function() {
                   "videoid": "G2tTBVSqPAE"
                 },
                 "id": "rc-e5df36410f7142",
-                "type": "youtube",
+                "type": "rumble",
                 "title": "6. Django Unchained",
                 "note": "Django Unchained may not be remembered as Quentin Tarantino’s most important film. The director had already proven himself again and again as an adept craftsman of heartstopping, violent action set-pieces and hilarious, idiosyncratic dialogue, both of which are in ample supply here. But what sets Django apart from his other films — aside from maybe Inglourious Basterds which lacks Django’s near-flawless execution — is a strong emotional resonance to the storytelling. Yes, it culls some of that resonance by being set amidst the horrors of American slavery (which angered many commentators like Spike Lee, regardless of whether they saw the film). But by depicting this era in all its utter monstrousness, Tarantino earns the gravitas that history lends to Django‘s story of empowerment in the face of institutional evil.",
                 "source": "YouTube",
@@ -1738,7 +1738,6 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
-                jasmine.any(VideoCard),
                 jasmine.any(ImageCard),
                 jasmine.any(RecapCard)
             ]);
@@ -1757,7 +1756,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(19);
+            expect(minireel.length).toBe(18);
         });
     });
 
@@ -1802,7 +1801,6 @@ describe('MiniReel', function() {
             expect(minireel.deck).toEqual([
                 jasmine.any(AdUnitCard),
                 jasmine.any(EmbeddedVideoCard),
-                jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),

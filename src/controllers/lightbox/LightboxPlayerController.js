@@ -6,7 +6,6 @@ import LightboxImageCardController from './LightboxImageCardController.js';
 import LightboxVideoCardController from './LightboxVideoCardController.js';
 import LightboxRecapCardController from './LightboxRecapCardController.js';
 import LightboxPrerollCardController from './LightboxPrerollCardController.js';
-import DisplayAdCardController from '../DisplayAdCardController.js';
 import FullNPInstagramImageCardController from '../full-np/FullNPInstagramImageCardController.js';
 import FullNPInstagramVideoCardController from '../full-np/FullNPInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
@@ -25,7 +24,6 @@ export default class LightboxPlayerController extends PlayerController {
             video: LightboxVideoCardController,
             recap: LightboxRecapCardController,
             preroll: LightboxPrerollCardController,
-            displayAd: DisplayAdCardController,
             instagramImage: FullNPInstagramImageCardController,
             instagramVideo: FullNPInstagramVideoCardController
         };

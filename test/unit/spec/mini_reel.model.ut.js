@@ -11,7 +11,6 @@ import Mixable from '../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
 import cinema6 from '../../../src/services/cinema6.js';
-import adtech from '../../../src/services/adtech.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -1629,7 +1628,6 @@ describe('MiniReel', function() {
 
         beforeEach(function(_done) {
             done = jasmine.createSpy('done()').and.callFake(_done);
-            spyOn(adtech, 'setDefaults');
 
             mouseDeferred = defer(RunnerPromise);
             spyOn(browser, 'test').and.returnValue(mouseDeferred.promise);
@@ -2021,29 +2019,6 @@ describe('MiniReel', function() {
 
         it('should set the length', function() {
             expect(minireel.length).toBe(21);
-        });
-
-        it('should set the adtech defaults', function() {
-            expect(adtech.setDefaults).toHaveBeenCalledWith({
-                network: experience.data.adServer.network,
-                server: experience.data.adServer.server,
-                kv: { mode: 'default' }
-            });
-        });
-
-        describe('if the experience has a display waterfall configured', function() {
-            beforeEach(function(done) {
-                adtech.setDefaults.calls.reset();
-                experience.data.adConfig.display.waterfall = 'cinema6';
-                minireel = new MiniReel();
-                minireel.on('init', done);
-            });
-
-            it('should set the kv.mode to the waterfall', function() {
-                expect(adtech.setDefaults).toHaveBeenCalledWith(jasmine.objectContaining({
-                    kv: { mode: 'cinema6' }
-                }));
-            });
         });
     });
 

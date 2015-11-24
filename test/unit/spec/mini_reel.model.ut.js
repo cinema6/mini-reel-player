@@ -24,7 +24,6 @@ import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import PrerollCard from '../../../src/models/PrerollCard.js';
-import election from '../../../src/services/election.js';
 import browser from '../../../src/services/browser.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import environment from '../../../src/environment.js';
@@ -718,8 +717,6 @@ describe('MiniReel', function() {
 
         spyOn(dispatcher, 'addClient');
         spyOn(dispatcher, 'addSource');
-
-        spyOn(election, 'getResults').and.returnValue(new RunnerPromise(() => {}));
 
         minireel = new MiniReel();
 

@@ -5,6 +5,10 @@ import Runner from '../../../lib/Runner.js';
 describe('InstagramCaptionView', function() {
     let view;
 
+    beforeAll(function(done) {
+        process.nextTick(done);
+    });
+
     beforeEach(function() {
         view = new InstagramCaptionView();
     });

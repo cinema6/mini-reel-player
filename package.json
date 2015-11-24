@@ -10,7 +10,6 @@
   "builds": [
     "mobile",
     "swipe",
-    "full",
     "full-np",
     "lightbox-playlist",
     "lightbox",

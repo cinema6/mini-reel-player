@@ -2,7 +2,7 @@ import SoloAdsPlayerController from '../../../../src/controllers/solo-ads/SoloAd
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import SoloPlayerView from '../../../../src/views/solo/SoloPlayerView.js';
 import SoloAdsVideoCardController from '../../../../src/controllers/solo-ads/SoloAdsVideoCardController.js';
-import FullPrerollCardController from '../../../../src/controllers/full/FullPrerollCardController.js';
+import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
 
 describe('SoloAdsPlayerController', function() {
@@ -33,8 +33,8 @@ describe('SoloAdsPlayerController', function() {
             });
 
             describe('.preroll', function() {
-                it('should be FullPrerollCardController', function() {
-                    expect(SoloAdsPlayerCtrl.CardControllers.preroll).toBe(FullPrerollCardController);
+                it('should be LightboxPrerollCardController', function() {
+                    expect(SoloAdsPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
                 });
             });
         });

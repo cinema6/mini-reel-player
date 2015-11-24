@@ -1,6 +1,6 @@
 import ArticleCardController from '../../../src/controllers/ArticleCardController.js';
 import CardController from '../../../src/controllers/CardController.js';
-import FullArticleCardView from '../../../src/views/full/FullArticleCardView.js';
+import FullNPArticleCardView from '../../../src/views/full-np/FullNPArticleCardView.js';
 import ArticleCard from '../../../src/models/ArticleCard.js';
 
 describe('ArticleCardController', function() {
@@ -21,7 +21,7 @@ describe('ArticleCardController', function() {
 
         ArticleCardCtrl = new ArticleCardController(card);
         ArticleCardCtrl.model = card;
-        ArticleCardCtrl.view = new FullArticleCardView();
+        ArticleCardCtrl.view = new FullNPArticleCardView();
 
     });
 

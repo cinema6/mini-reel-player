@@ -1,7 +1,7 @@
 import PlayerController from '../PlayerController.js';
 import SoloPlayerView from '../../views/solo/SoloPlayerView.js';
 import SoloAdsVideoCardController from './SoloAdsVideoCardController.js';
-import FullPrerollCardController from '../full/FullPrerollCardController.js';
+import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardController.js';
 
 export default class SoloAdsPlayerController extends PlayerController {
     constructor() {
@@ -9,7 +9,7 @@ export default class SoloAdsPlayerController extends PlayerController {
 
         this.CardControllers = {
             video: SoloAdsVideoCardController,
-            preroll: FullPrerollCardController
+            preroll: LightboxPrerollCardController
         };
 
         this.view = new SoloPlayerView();

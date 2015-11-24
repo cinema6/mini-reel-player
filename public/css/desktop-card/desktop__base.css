@@ -83,7 +83,16 @@
         clear: both;
     }
 
-
+    .social__group--item.social__group--SVG {
+        display: block;
+        text-align: center;
+        margin: 0.375em auto 0;
+        width: 1.25em;
+        height:1.25em;
+        background: #fff;
+        border: 0px solid white;
+        border-radius: 5px;
+    }
 
     .sprite,
     .spriteAf:after,
@@ -144,6 +153,43 @@
                 width:1.25rem;
             }
 
+            .SVGicon {
+                width:1.25em;
+                height:1.25em;
+            }
+
+            .socialIconSVG--youtube {
+                fill:#e22d24;
+            }
+
+            .socialIconSVG--vimeo {
+                fill:#445566;
+            }
+
+            .socialIconSVG--facebook {
+                fill:#3b5998;
+            }
+
+            .socialIconSVG--twitter {
+                fill:#00b0ed;
+            }
+
+            .socialIconSVG--pinterest {
+                fill:#c92228;
+            }
+
+            .socialIconSVG--instagram {
+                fill:#125688;
+            }
+
+            .socialIconSVG--share {
+                fill:#0c7e4a;
+            }
+            
+
+            
+
+            
 
     .overlay {
         background:rgb(0,0,0); background:rgba(0,0,0,0.8);

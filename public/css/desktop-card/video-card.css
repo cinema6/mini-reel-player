@@ -484,7 +484,55 @@
     }
 }
 
+/*  ================================================
+    sponsored card media queries
+    ================================================ */
 
+@media screen and (max-width: 431px) and (max-height: 252px) {
+    
+    .card__copy--content {
+        padding-left:0.5rem;
+    }
+        .card__title h1 {
+            font-size:0.625em;
+            font-weight:600;
+            line-height:1.125;
+        }
+
+        .card__desc p {
+            margin:0;
+        }
+
+        .cta__group {
+            bottom:0.0625em;
+            top:0.0625em;
+            max-height:44px;
+            min-height:44px;
+            width:25%
+        }
+
+    .sponsorProfile__imgBox {
+        margin-left:0;
+        top:-0.25em;
+    }
+
+    .sponsorProfile__imgBox:before {
+        content:'Sponsor:';
+        font-size:0.625em;
+        color:#000;
+    }
+
+    .social__group ul {
+        top:-0.5em;
+    }
+
+        .social__group--item {
+            margin-top:0.125em;
+        }
+
+    .sponsorProfile__small--text {
+        display:none;
+    }
 
 
 /*  ================================================

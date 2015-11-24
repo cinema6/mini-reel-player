@@ -5,6 +5,7 @@
   * Update the Wistia player to be consistent with the behavior of newer players
   * Update the Vzaar player to be consistent with the behavior of newer players
   * Update the Vine player to be consistent with the behavior of newer players
+  * [FEATURE]: Design for single sponsored desktop-card updated for 430x251 size
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

@@ -8,8 +8,8 @@ import LightboxPlaylistVideoCardController from '../../../../src/controllers/lig
 import LightboxPlaylistRecapCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightboxPlaylistPrerollCardController from '../../../../src/controllers/lightbox-playlist/LightboxPlaylistPrerollCardController.js';
 import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
-import FullInstagramImageCardController from '../../../../src/controllers/full/FullInstagramImageCardController.js';
-import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
+import FullNPInstagramImageCardController from '../../../../src/controllers/full-np/FullNPInstagramImageCardController.js';
+import FullNPInstagramVideoCardController from '../../../../src/controllers/full-np/FullNPInstagramVideoCardController.js';
 import PlaylistPlayerController from '../../../../src/mixins/PlaylistPlayerController.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
@@ -95,14 +95,14 @@ describe('LightboxPlaylistPlayerController', function() {
             });
 
             describe('.instagramImage', function() {
-                it('should be FullInstagramImageCardController', function() {
-                    expect(LightboxPlaylistPlayerCtrl.CardControllers.instagramImage).toBe(FullInstagramImageCardController);
+                it('should be FullNPInstagramImageCardController', function() {
+                    expect(LightboxPlaylistPlayerCtrl.CardControllers.instagramImage).toBe(FullNPInstagramImageCardController);
                 });
             });
 
             describe('.instagramVideo', function() {
-                it('should be FullInstagramVideoCardController', function() {
-                    expect(LightboxPlaylistPlayerCtrl.CardControllers.instagramVideo).toBe(FullInstagramVideoCardController);
+                it('should be FullNPInstagramVideoCardController', function() {
+                    expect(LightboxPlaylistPlayerCtrl.CardControllers.instagramVideo).toBe(FullNPInstagramVideoCardController);
                 });
             });
         });

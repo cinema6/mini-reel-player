@@ -1,6 +1,6 @@
 import InstagramCardController from '../../../src/controllers/InstagramCardController.js';
 import CardController from '../../../src/controllers/CardController.js';
-import FullInstagramImageCardView from '../../../src/views/full/FullInstagramImageCardView.js';
+import FullNPInstagramImageCardView from '../../../src/views/full-np/FullNPInstagramImageCardView.js';
 import InstagramImageCard from '../../../src/models/InstagramImageCard.js';
 import Runner from '../../../lib/Runner.js';
 import InstagramCaptionView from '../../../src/views/InstagramCaptionView.js';
@@ -73,7 +73,7 @@ describe('InstagramCardController', function() {
 
         InstagramCardCtrl = new InstagramCardController(card);
         InstagramCardCtrl.model = card;
-        InstagramCardCtrl.view = new FullInstagramImageCardView();
+        InstagramCardCtrl.view = new FullNPInstagramImageCardView();
     });
 
     it('should exist', function() {

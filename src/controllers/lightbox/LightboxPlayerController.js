@@ -8,8 +8,8 @@ import LightboxPlaylistRecapCardController
     from '../lightbox-playlist/LightboxPlaylistRecapCardController.js';
 import LightboxPrerollCardController from './LightboxPrerollCardController.js';
 import DisplayAdCardController from '../DisplayAdCardController.js';
-import FullInstagramImageCardController from '../full/FullInstagramImageCardController.js';
-import FullInstagramVideoCardController from '../full/FullInstagramVideoCardController.js';
+import FullNPInstagramImageCardController from '../full-np/FullNPInstagramImageCardController.js';
+import FullNPInstagramVideoCardController from '../full-np/FullNPInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
@@ -27,8 +27,8 @@ export default class LightboxPlayerController extends PlayerController {
             recap: LightboxPlaylistRecapCardController,
             preroll: LightboxPrerollCardController,
             displayAd: DisplayAdCardController,
-            instagramImage: FullInstagramImageCardController,
-            instagramVideo: FullInstagramVideoCardController
+            instagramImage: FullNPInstagramImageCardController,
+            instagramVideo: FullNPInstagramVideoCardController
         };
 
         this.initFullscreen();

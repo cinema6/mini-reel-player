@@ -1,6 +1,6 @@
 import ImageCardController from '../../../src/controllers/ImageCardController.js';
 import CardController from '../../../src/controllers/CardController.js';
-import FullVideoCardView from '../../../src/views/full/FullVideoCardView.js';
+import FullNPVideoCardView from '../../../src/views/full-np/FullNPVideoCardView.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import FlickrEmbedView from '../../../src/views/image_embeds/FlickrEmbedView.js';
 import GettyEmbedView from '../../../src/views/image_embeds/GettyEmbedView.js';
@@ -28,7 +28,7 @@ describe('ImageCardController', function() {
 
         ImageCardCtrl = new ImageCardController(card);
         ImageCardCtrl.model = card;
-        ImageCardCtrl.view = new FullVideoCardView();
+        ImageCardCtrl.view = new FullNPVideoCardView();
         ImageCardCtrl.view.playerOutlet = new PlayerOutletView();
 
     });

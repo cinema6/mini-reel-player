@@ -5,6 +5,8 @@
   * Update the Wistia player to be consistent with the behavior of newer players
   * Update the Vzaar player to be consistent with the behavior of newer players
   * Update the Vine player to be consistent with the behavior of newer players
+  * [FIX]: Fixed bug where bg of social media links container appears when there are no social links.
+  * [FIX]: Fixed buggy spacing in single mobile player around share and social links. Adjusted spacing around CTA and description.
   * [FEATURE]: Design for single sponsored desktop-card updated for 430x251, 800x450, 800x600 and 900x500. Social and share icons are now SVGs.
 
 ## v1.5.0 (November 20, 2015)

@@ -6,7 +6,6 @@ import MobileTextCardController from './MobileTextCardController.js';
 import MobileImageCardController from './MobileImageCardController.js';
 import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
-import MobilePrerollCardController from './MobilePrerollCardController.js';
 import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
@@ -23,7 +22,6 @@ export default class MobilePlayerController extends PlayerController {
             image: MobileImageCardController,
             video: MobileVideoCardController,
             recap: MobileRecapCardController,
-            preroll: MobilePrerollCardController,
             instagramImage: MobileInstagramImageCardController,
             instagramVideo: MobileInstagramVideoCardController
         };

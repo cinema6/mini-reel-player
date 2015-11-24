@@ -23,7 +23,6 @@ import VideoCard from '../../../src/models/VideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import EmbeddedVideoCard from '../../../src/models/EmbeddedVideoCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
-import PrerollCard from '../../../src/models/PrerollCard.js';
 import browser from '../../../src/services/browser.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import environment from '../../../src/environment.js';
@@ -870,21 +869,9 @@ describe('MiniReel', function() {
             });
         });
 
-        describe('prerollCard', function() {
-            it('should be null', function() {
-                expect(minireel.prerollCard).toBeNull();
-            });
-        });
-
         describe('length', function() {
             it('should be 0', function() {
                 expect(minireel.length).toBe(0);
-            });
-        });
-
-        describe('adConfig', function() {
-            it('should be null', function() {
-                expect(minireel.adConfig).toBeNull();
             });
         });
     });
@@ -955,14 +942,12 @@ describe('MiniReel', function() {
                     beforeEach(function() {
                         index = 3;
                         minireel.deck.forEach(card => spyOn(card, 'cleanup'));
-                        spyOn(minireel.prerollCard, 'cleanup');
 
                         minireel.deck.forEach((card, index) => minireel.moveToIndex(index));
                     });
 
                     it('should not cleanup any of the cards', function() {
                         minireel.deck.forEach(card => expect(card.cleanup).not.toHaveBeenCalled());
-                        expect(minireel.prerollCard.cleanup).not.toHaveBeenCalled();
                     });
                 });
 
@@ -972,14 +957,12 @@ describe('MiniReel', function() {
 
                         minireel.deck.forEach(card => spyOn(card, 'cleanup').and.callFake(() => expect(minireel.deck[2].deactivate).toHaveBeenCalled()));
                         minireel.deck[0].prepare.and.callFake(() => minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled()));
-                        spyOn(minireel.prerollCard, 'cleanup');
 
                         minireel.moveToIndex(-1);
                     });
 
                     it('should cleanup all of the cards', function() {
                         minireel.deck.forEach(card => expect(card.cleanup).toHaveBeenCalled());
-                        expect(minireel.prerollCard.cleanup).toHaveBeenCalled();
                     });
                 });
 
@@ -1258,207 +1241,6 @@ describe('MiniReel', function() {
                         }).toThrow(new RangeError('Cannot move past the last index.'));
                     });
                 });
-
-                describe('when it comes to preroll advertising', function() {
-                    beforeEach(function() {
-                        spyOn(minireel.prerollCard, 'prepare');
-                        spyOn(minireel.prerollCard, 'activate');
-                        spyOn(minireel.prerollCard, 'deactivate');
-
-                        move.calls.reset();
-                    });
-
-                    describe('if the firstPlacement is -1', function() {
-                        beforeEach(function() {
-                            minireel.adConfig.video.firstPlacement = -1;
-
-                            minireel.deck.forEach((card, index) => minireel.moveToIndex(index));
-                        });
-
-                        it('should never prepare() or activate() the prerollCard', function() {
-                            expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                            expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if the firstPlacement is above 1', function() {
-                        beforeEach(function() {
-                            minireel.adConfig.video.firstPlacement = 3;
-                        });
-
-                        it('should call prepare() on the card after the minireel has been navigated that number of times', function() {
-                            minireel.moveToIndex(3);
-                            minireel.moveToIndex(5);
-                            expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                            expect(minireel.currentIndex).toBe(5);
-                            expect(minireel.currentCard).toBe(minireel.deck[5]);
-
-                            minireel.moveToIndex(1);
-                            expect(minireel.prerollCard.prepare).toHaveBeenCalled();
-                            expect(move.calls.count()).toBe(3);
-                            expect(minireel.currentCard).toBe(minireel.deck[1]);
-                            expect(minireel.currentIndex).toBe(1);
-                        });
-
-                        it('should call activate() on the card when the minireel has been navigated that number of times + 1', function() {
-                            minireel.moveToIndex(0);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(1);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(3);
-                            minireel.skippable = true;
-                            expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                            expect(move.calls.count()).toBe(3);
-                            expect(minireel.currentCard).toBe(minireel.deck[3]);
-                            expect(minireel.currentIndex).toBe(3);
-
-                            minireel.moveToIndex(6);
-                            expect(minireel.deck[3].deactivate).toHaveBeenCalled();
-                            expect(minireel.deck[6].activate).not.toHaveBeenCalled();
-                            expect(minireel.prerollCard.activate).toHaveBeenCalled();
-                            expect(move.calls.count()).toBe(4);
-                            expect(minireel.currentCard).toBe(minireel.prerollCard);
-                            expect(minireel.currentIndex).toBe(null);
-                        });
-
-                        it('should listen for the canAdvance event on the preroll card when going to the last card', function() {
-                            minireel.moveToIndex(0);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(1);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(3);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(minireel.length - 1);
-                            minireel.skippable = true;
-                            spyOn(minireel, 'next');
-                            minireel.prerollCard.emit('canAdvance');
-
-                            expect(minireel.next).toHaveBeenCalled();
-                        });
-
-                        it('should not show preroll if the requested index is -1', function() {
-                            minireel.moveToIndex(0);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(1);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(3);
-                            minireel.skippable = true;
-                            minireel.moveToIndex(-1);
-
-                            expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                            expect(minireel.currentIndex).toBe(-1);
-                            expect(minireel.currentCard).toBeNull();
-                        });
-
-                        describe('after the first preroll video has been shown', function() {
-                            beforeEach(function() {
-                                minireel.moveToIndex(0);
-                                minireel.skippable = true;
-                                minireel.moveToIndex(1);
-                                minireel.skippable = true;
-                                minireel.moveToIndex(2);
-                                minireel.skippable = true;
-                                minireel.deck.forEach(card => card.prepare.calls.reset());
-
-                                minireel.moveToIndex(8);
-                                expect(minireel.prerollCard.activate).toHaveBeenCalled();
-
-                                minireel.prerollCard.activate.calls.reset();
-                                minireel.prerollCard.prepare.calls.reset();
-                            });
-
-                            it('should preload the next card', function() {
-                                minireel.deck.forEach((card, index) => {
-                                    if (index !== 8) {
-                                        expect(card.prepare).not.toHaveBeenCalled();
-                                    } else {
-                                        expect(card.prepare).toHaveBeenCalled();
-                                    }
-                                });
-                            });
-
-                            describe('calling next()', function() {
-                                beforeEach(function() {
-                                    spyOn(minireel, 'moveToIndex').and.callThrough();
-
-                                    minireel.next();
-                                });
-
-                                it('should cause the MiniReel to proceed past the preroll card to the card the user was trying to navigate to', function() {
-                                    expect(minireel.moveToIndex).toHaveBeenCalledWith(8);
-                                });
-                            });
-
-                            describe('calling previous()', function() {
-                                beforeEach(function() {
-                                    spyOn(minireel, 'moveToIndex').and.callThrough();
-
-                                    minireel.previous();
-                                });
-
-                                it('should cause the MiniReel to proceed past the preroll card to the card the user was on before', function() {
-                                    expect(minireel.moveToIndex).toHaveBeenCalledWith(2);
-                                });
-                            });
-
-                            describe('if the frequency is 0', function() {
-                                beforeEach(function() {
-                                    minireel.adConfig.video.frequency = 0;
-
-                                    minireel.deck.forEach((card, index) => minireel.moveToIndex(index));
-                                });
-
-                                it('should not prepare or show any more preroll', function() {
-                                    expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                                    expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                                });
-                            });
-
-                            describe('if the frequency is greater than 0', function() {
-                                beforeEach(function() {
-                                    minireel.adConfig.video.frequency = 2;
-
-                                    minireel.prerollCard.prepare.calls.reset();
-                                    minireel.prerollCard.activate.calls.reset();
-                                });
-
-                                it('should use the frequency as an interval to prepare() and activate() the prerollCard', function() {
-                                    minireel.moveToIndex(4);
-                                    expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                                    expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-
-                                    minireel.moveToIndex(6);
-                                    expect(minireel.prerollCard.prepare).toHaveBeenCalled();
-                                    expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                                    minireel.prerollCard.prepare.calls.reset();
-
-                                    minireel.moveToIndex(8);
-                                    expect(minireel.deck[6].deactivate).toHaveBeenCalled();
-                                    expect(minireel.deck[8].activate).not.toHaveBeenCalled();
-                                    expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                                    expect(minireel.prerollCard.activate).toHaveBeenCalled();
-
-                                    minireel.prerollCard.prepare.calls.reset();
-                                    minireel.prerollCard.activate.calls.reset();
-
-                                    minireel.moveToIndex(2);
-                                    expect(minireel.prerollCard.deactivate).toHaveBeenCalled();
-                                    expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                                    expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-
-                                    minireel.moveToIndex(7);
-                                    expect(minireel.prerollCard.prepare).toHaveBeenCalled();
-                                    expect(minireel.prerollCard.activate).not.toHaveBeenCalled();
-                                    minireel.prerollCard.prepare.calls.reset();
-
-                                    minireel.moveToIndex(11);
-                                    expect(minireel.prerollCard.prepare).not.toHaveBeenCalled();
-                                    expect(minireel.prerollCard.activate).toHaveBeenCalled();
-                                });
-                            });
-                        });
-                    });
-                });
             });
         });
 
@@ -1681,10 +1463,6 @@ describe('MiniReel', function() {
 
         it('should set the splash', function() {
             expect(minireel.splash).toBe(experience.data.collateral.splash);
-        });
-
-        it('should copy the adConfig', function() {
-            expect(minireel.adConfig).toBe(experience.data.adConfig);
         });
 
         it('should copy the sponsor', function() {
@@ -1942,28 +1720,6 @@ describe('MiniReel', function() {
             });
         });
 
-        describe('if the experience has no adConfig', function() {
-            beforeEach(function(done) {
-                delete experience.data.adConfig;
-                minireel = new MiniReel();
-                minireel.on('init', done);
-            });
-
-            it('should create a default adConfig', function() {
-                expect(minireel.adConfig).toEqual({
-                    video: {
-                        firstPlacement: 1,
-                        frequency: 3,
-                        waterfall: 'cinema6',
-                        skip: 6
-                    },
-                    display: {
-                        waterfall: 'cinema6'
-                    }
-                });
-            });
-        });
-
         it('should fill the deck with the cards', function() {
             expect(minireel.deck).toEqual([
                 jasmine.any(TextCard),
@@ -1988,10 +1744,6 @@ describe('MiniReel', function() {
                 jasmine.any(ImageCard),
                 jasmine.any(RecapCard)
             ]);
-        });
-
-        it('should make prerollCard a PrerollCard', function() {
-            expect(minireel.prerollCard).toEqual(jasmine.any(PrerollCard));
         });
 
         it('should pass the minireel\'s autoplay and autoadvance properites to the video cards', function() {

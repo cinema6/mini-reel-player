@@ -8,7 +8,6 @@ import LightTextCardController from '../../../../src/controllers/light/LightText
 import LightImageCardController from '../../../../src/controllers/light/LightImageCardController.js';
 import LightVideoCardController from '../../../../src/controllers/light/LightVideoCardController.js';
 import LightboxRecapCardController from '../../../../src/controllers/lightbox/LightboxRecapCardController.js';
-import LightPrerollCardController from '../../../../src/controllers/light/LightPrerollCardController.js';
 import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
 import LightInstagramVideoCardController from '../../../../src/controllers/light/LightInstagramVideoCardController.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
@@ -82,12 +81,6 @@ describe('LightPlayerController', function() {
             describe('.recap', function() {
                 it('should be LightboxRecapCardController', function() {
                     expect(LightPlayerCtrl.CardControllers.recap).toBe(LightboxRecapCardController);
-                });
-            });
-
-            describe('.preroll', function() {
-                it('should be LightPrerollCardController', function() {
-                    expect(LightPlayerCtrl.CardControllers.preroll).toBe(LightPrerollCardController);
                 });
             });
 

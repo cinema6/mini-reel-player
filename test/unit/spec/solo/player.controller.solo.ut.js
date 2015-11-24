@@ -2,7 +2,6 @@ import SoloPlayerController from '../../../../src/controllers/solo/SoloPlayerCon
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import SoloPlayerView from '../../../../src/views/solo/SoloPlayerView.js';
 import SoloVideoCardController from '../../../../src/controllers/solo/SoloVideoCardController.js';
-import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
 import Runner from '../../../../lib/Runner.js';
 
 describe('SoloPlayerController', function() {
@@ -27,12 +26,6 @@ describe('SoloPlayerController', function() {
             describe('.video', function() {
                 it('should be SoloVideoCardController', function() {
                     expect(SoloPlayerCtrl.CardControllers.video).toBe(SoloVideoCardController);
-                });
-            });
-
-            describe('.preroll', function() {
-                it('should be LightboxPrerollCardController', function() {
-                    expect(SoloPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
                 });
             });
         });

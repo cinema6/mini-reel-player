@@ -13,10 +13,8 @@ import MobileVideoCardController from '../../../../src/controllers/mobile/Mobile
 import MobileRecapCardController from '../../../../src/controllers/mobile/MobileRecapCardController.js';
 import View from '../../../../lib/core/View.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
-import MobilePrerollCardController from '../../../../src/controllers/mobile/MobilePrerollCardController.js';
 import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
-import PrerollCard from '../../../../src/models/PrerollCard.js';
 import CloseButtonView from '../../../../src/views/CloseButtonView.js';
 
 describe('MobilePlayerController', function() {
@@ -74,7 +72,6 @@ describe('MobilePlayerController', function() {
                 expect(MobilePlayerCtrl.CardControllers.image).toBe(MobileImageCardController);
                 expect(MobilePlayerCtrl.CardControllers.video).toBe(MobileVideoCardController);
                 expect(MobilePlayerCtrl.CardControllers.recap).toBe(MobileRecapCardController);
-                expect(MobilePlayerCtrl.CardControllers.preroll).toBe(MobilePrerollCardController);
                 expect(MobilePlayerCtrl.CardControllers.instagramImage).toBe(MobileInstagramImageCardController);
                 expect(MobilePlayerCtrl.CardControllers.instagramVideo).toBe(MobileInstagramVideoCardController);
             });
@@ -120,12 +117,10 @@ describe('MobilePlayerController', function() {
 
                     MobilePlayerCtrl.minireel.deck = [];
                     MobilePlayerCtrl.minireel.campaign = {};
-                    spyOn(MobilePrerollCardController.prototype, 'renderInto');
 
                     MobilePlayerCtrl.minireel.adConfig = {
                         video: {}
                     };
-                    MobilePlayerCtrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, { flash: false }, MobilePlayerCtrl.minireel);
 
                     MobilePlayerCtrl.view.toc = new View();
                     MobilePlayerCtrl.view.cards = new View(document.createElement('span'));

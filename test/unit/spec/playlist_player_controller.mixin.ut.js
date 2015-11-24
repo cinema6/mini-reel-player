@@ -1,12 +1,9 @@
 import PlayerController from '../../../src/controllers/PlayerController.js';
 import PlaylistPlayerController from '../../../src/mixins/PlaylistPlayerController.js';
 import PlaylistViewController from '../../../src/controllers/PlaylistViewController.js';
-import PrerollCardController from '../../../src/controllers/PrerollCardController.js';
-import PrerollCard from '../../../src/models/PrerollCard.js';
 import Runner from '../../../lib/Runner.js';
 import PlayerView from '../../../src/views/PlayerView.js';
 import View from '../../../lib/core/View.js';
-import CardView from '../../../src/views/CardView.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 class MyPlayerController extends PlayerController {}
 MyPlayerController.mixin(PlaylistPlayerController);
@@ -27,7 +24,6 @@ describe('PlaylistPlayerController mixin', function() {
         profile = { flash: false };
 
         Ctrl = new MyPlayerController(new View(document.createElement('body')));
-        Ctrl.CardControllers.preroll = PrerollCardController;
     });
 
     it('should exist', function() {
@@ -48,33 +44,6 @@ describe('PlaylistPlayerController mixin', function() {
             });
 
             describe('events:', function() {
-                describe('PrerollCardCtrl', function() {
-                    beforeEach(function() {
-                        Ctrl.view.cards = new DeckView();
-                        Ctrl.view.prerollOutlet = new DeckView();
-                        Ctrl.minireel.adConfig = {
-                            video: {}
-                        };
-                        Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
-                        Ctrl.minireel.campaign = {};
-                        spyOn(PrerollCardController.prototype, 'renderInto');
-                        spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
-                        Runner.run(() => Ctrl.minireel.emit('init'));
-                    });
-
-                    describe('showingCompanion', function() {
-                        beforeEach(function() {
-                            spyOn(Ctrl.PlaylistViewCtrl, 'contract');
-
-                            Ctrl.PrerollCardCtrl.emit('showingCompanion');
-                        });
-
-                        it('should contract() the playlist', function() {
-                            expect(Ctrl.PlaylistViewCtrl.contract).toHaveBeenCalled();
-                        });
-                    });
-                });
-
                 describe('minireel', function() {
                     beforeEach(function() {
                         spyOn(Ctrl.PlaylistViewCtrl.view, 'update');
@@ -87,11 +56,9 @@ describe('PlaylistPlayerController mixin', function() {
                             Ctrl.view.cards = new DeckView();
                             Ctrl.view.prerollOutlet = new DeckView();
                             spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
-                            spyOn(PrerollCardController.prototype, 'renderInto');
                             Ctrl.minireel.adConfig = {
                                 video: {}
                             };
-                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
                             Ctrl.minireel.campaign = {};
 
                             Runner.run(() => Ctrl.minireel.emit('init'));
@@ -167,34 +134,6 @@ describe('PlaylistPlayerController mixin', function() {
                             it('should show the playlist', function() {
                                 expect(Ctrl.PlaylistViewCtrl.show).toHaveBeenCalled();
                                 expect(Ctrl.PlaylistViewCtrl.hide).not.toHaveBeenCalled();
-                            });
-                        });
-                    });
-
-                    describe('.prerollCard', function() {
-                        beforeEach(function() {
-                            Ctrl.view.cards = new DeckView();
-                            Ctrl.view.prerollOutlet = new DeckView();
-                            Ctrl.minireel.adConfig = {
-                                video: {}
-                            };
-                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
-                            Ctrl.minireel.campaign = {};
-                            spyOn(PrerollCardController.prototype, 'renderInto');
-                            spyOn(Ctrl.PlaylistViewCtrl, 'renderInto');
-                            Runner.run(() => Ctrl.minireel.emit('init'));
-                            Ctrl.PrerollCardCtrl.view = new CardView();
-                        });
-
-                        describe('deactivate', function() {
-                            beforeEach(function() {
-                                spyOn(Ctrl.PlaylistViewCtrl, 'expand');
-
-                                Runner.run(() => Ctrl.minireel.prerollCard.emit('deactivate'));
-                            });
-
-                            it('should expand the playlist', function() {
-                                expect(Ctrl.PlaylistViewCtrl.expand).toHaveBeenCalled();
                             });
                         });
                     });

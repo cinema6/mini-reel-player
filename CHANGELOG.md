@@ -10,6 +10,7 @@
   * [FEATURE]: Design for single sponsored desktop-card updated for 430x251, 800x450, 800x600 and 900x500. Social and share icons are now SVGs.
   * [FIX]: Fix for an issue that caused certain icons not to render in
     Firefox or IE
+  * [FIX]: Fix for an issue that caused social links not to render on IE
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

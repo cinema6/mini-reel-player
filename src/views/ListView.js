@@ -5,6 +5,7 @@ import {
     forEach,
     filter
 } from '../../lib/utils.js';
+const slice = Array.prototype.slice;
 
 const _ = createKey();
 
@@ -83,16 +84,18 @@ export default class ListView extends View {
     }
 
     didCreateElement() {
-        const children = filter(this.element.childNodes, child => child instanceof Element);
+        const childNodes = this.element.childNodes;
+        const childElements = filter(childNodes, child => child instanceof Element);
 
-        if (children.length > 1) {
+        if (childElements.length > 1) {
             throw new RangeError(
                 `ListView [${this.id}] cannot have more than one child element in its template.`
             );
         }
 
-        _(this).childElement = children[0];
-        this.element.innerHTML = '';
+        _(this).childElement = childElements[0];
+        // Child elements cannot be removed by setting innerHTML to '' as it breaks IE.
+        forEach(slice.call(childNodes), child => this.element.removeChild(child));
 
         return super();
     }

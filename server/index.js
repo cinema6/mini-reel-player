@@ -132,7 +132,7 @@ module.exports = function(httpMock) {
 
         if (player.config.validTypes.indexOf(filename) > -1) {
             this.setHeaders({
-                'Content-Type': 'text/html'
+                'Content-Type': 'application/xhtml+xml; charset=UTF-8'
             });
 
             this.respond(200, player.get(extend(cliOptions, req.query, {

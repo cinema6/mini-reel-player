@@ -1,6 +1,6 @@
 # MiniReel Player 2.0
 
-* *[v1.5.1-rc1]*
+* *[v1.6.0-rc1]*
   * Update the HtmlVideo player to be consistent with the behavior of newer players
   * Update the Wistia player to be consistent with the behavior of newer players
   * Update the Vzaar player to be consistent with the behavior of newer players

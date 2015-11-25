@@ -19,7 +19,6 @@ export default class PlayerController extends Controller {
 
         this.minireel = new MiniReel();
         this.cardCtrls = [];
-        this.PrerollCardCtrl = null;
 
         this.minireel.on('init', () => {
             this.updateView();
@@ -32,10 +31,8 @@ export default class PlayerController extends Controller {
                 ctrl.on('closedModal', closeEvent);
                 return ctrl;
             });
-            this.PrerollCardCtrl = new this.CardControllers.preroll(this.minireel.prerollCard);
 
             forEach(this.cardCtrls.slice(0, 1), Ctrl => Ctrl.render());
-            this.PrerollCardCtrl.renderInto(this.view.prerollOutlet);
 
             this.view.appendTo(_(this).parentView);
         });

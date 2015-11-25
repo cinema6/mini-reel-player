@@ -1,13 +1,9 @@
 import PlayerController from '../PlayerController.js';
 import MobilePlayerView from '../../views/mobile/MobilePlayerView.js';
 import TableOfContentsViewController from './TableOfContentsViewController.js';
-import MobileArticleCardController from './MobileArticleCardController.js';
-import MobileTextCardController from './MobileTextCardController.js';
 import MobileImageCardController from './MobileImageCardController.js';
 import MobileVideoCardController from './MobileVideoCardController.js';
 import MobileRecapCardController from './MobileRecapCardController.js';
-import MobilePrerollCardController from './MobilePrerollCardController.js';
-import DisplayAdCardController from '../DisplayAdCardController.js';
 import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
@@ -19,13 +15,9 @@ export default class MobilePlayerController extends PlayerController {
         this.view = this.addView(new MobilePlayerView());
         this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
         this.CardControllers = {
-            article: MobileArticleCardController,
-            text: MobileTextCardController,
             image: MobileImageCardController,
             video: MobileVideoCardController,
             recap: MobileRecapCardController,
-            preroll: MobilePrerollCardController,
-            displayAd: DisplayAdCardController,
             instagramImage: MobileInstagramImageCardController,
             instagramVideo: MobileInstagramVideoCardController
         };

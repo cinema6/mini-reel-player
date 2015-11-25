@@ -6,7 +6,6 @@ import PostBallotView from '../../../src/views/PostBallotView.js';
 import View from '../../../lib/core/View.js';
 import Runner from '../../../lib/Runner.js';
 import ButtonView from '../../../src/views/ButtonView.js';
-import election from '../../../src/services/election.js';
 
 describe('PostController', function() {
     let PostCtrl;
@@ -21,8 +20,6 @@ describe('PostController', function() {
         };
         experience = { data: {} };
         spyOn(PostController.prototype, 'addView').and.callThrough();
-
-        spyOn(election, 'getResults').and.returnValue(new Promise(() => {}));
 
         post = new Post(card, experience);
         PostCtrl = new PostController(post);

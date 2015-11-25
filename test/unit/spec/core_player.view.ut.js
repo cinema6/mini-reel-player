@@ -5,6 +5,10 @@ import Runner from '../../../lib/Runner.js';
 describe('CorePlayer', function() {
     let player;
 
+    beforeAll(function(done) {
+        process.nextTick(done);
+    });
+
     beforeEach(function() {
         player = new CorePlayer();
     });

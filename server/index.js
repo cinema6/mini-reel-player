@@ -131,6 +131,10 @@ module.exports = function(httpMock) {
         });
 
         if (player.config.validTypes.indexOf(filename) > -1) {
+            this.setHeaders({
+                'Content-Type': 'text/html'
+            });
+
             this.respond(200, player.get(extend(cliOptions, req.query, {
                 preview: true,
                 type: filename,

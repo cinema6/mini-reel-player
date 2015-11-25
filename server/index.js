@@ -10,6 +10,7 @@ var basename = require('path').basename;
 var request = require('request-promise');
 var parseURL = require('url').parse;
 var formatURL = require('url').format;
+var mime = require('mime');
 
 function extend(/*...objects*/) {
     var objects = Array.prototype.slice.call(arguments);
@@ -31,6 +32,10 @@ module.exports = function(httpMock) {
     function serveStatic(req) {
         // jshint validthis:true
         var path = resolvePath(__dirname, req.pathname.replace(/^\//, ''));
+
+        this.setHeaders({
+            'Content-Type': mime.lookup(path)
+        });
 
         try {
             this.respond(200, readFileSync(path));

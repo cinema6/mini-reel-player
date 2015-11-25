@@ -1,0 +1,33 @@
+<section class="ballot__box">
+    <h2 class="ballot__title ballot__title--results tk--hdr">Voting Results:</h2>
+
+    <ul class="ballot__list">
+        <li class="ballot__resultsItem ballot__item0">
+            <div class="ballot__result ballot__result0">
+                <span class="ballot__btnLabel btn__label tk--action">{{results.0.choice}} : {{results.0.result}}</span>
+            </div>
+        </li>
+        <li class="ballot__resultsItem ballot__item1">
+            <div class="ballot__result ballot__result1">
+                <span class="ballot__btnLabel btn__label tk--action">{{results.1.choice}} : {{results.1.result}}</span>
+            </div>
+        </li>
+    </ul>
+
+    <div class="ballot__textLinks">
+        <a data-view="watchAgainButton:ButtonView"
+            data-target="controller" data-action="deactivate"
+            title="Watch Video Again"
+            class="ballot__textLink ballot__textLink--replay textLink spriteBe spriteBe--small uiIconsBe uiIconsBe--replay">
+            <span class="textLink__label">Watch Video Again</span>
+        </a>
+    </div>
+</section>
+
+<div class="overlay">
+    <button data-view="closeButton:ButtonView"
+        data-target="controller" data-action="deactivate"
+        class="sprite sprite--close overlay__closeBtn">
+        <span class="ir">Close</span>
+    </button>
+</div>

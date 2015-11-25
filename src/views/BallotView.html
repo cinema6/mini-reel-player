@@ -1,0 +1,51 @@
+<section class="ballot__box">
+    <span class="ballot__intro">Please answer the following:</span>
+    <h2 class="ballot__title tk--hdr">{{prompt}}</h2>
+    <ul class="ballot__list">
+        <li class="ballot__item ballot__item0">
+            <button data-view="choice1Button:ButtonView"
+                data-target="controller" data-action="vote"
+                data-vote="0"
+                class="ballot__btn btnPrimary ballot__btn0"
+                type="button"
+                title="{{choices.0}}">
+                <span class="ballot__btnLabel btn__label tk--action">{{choices.0}}</span>
+            </button>
+        </li>
+        <li class="ballot__item ballot__item1">
+            <button data-view="choice2Button:ButtonView"
+                data-target="controller" data-action="vote"
+                data-vote="1"
+                class="ballot__btn btnPrimary ballot__btn1"
+                type="button"
+                title="{{choices.1}}">
+                <span class="ballot__btnLabel btn__label tk--action">{{choices.1}}</span>
+            </button>
+        </li>
+    </ul>
+
+    <div class="ballot__textLinks">
+        <a data-view="watchAgainButton:ButtonView"
+            data-target="controller" data-action="deactivate"
+            title="Watch Video Again"
+            class="ballot__textLink ballot__textLink--replay spriteBe uiIconsBe uiIconsBe--replay">
+            <span class="textLink__label textLink">Watch Video Again</span>
+        </a>
+        <a data-view="showResultsButton:ButtonView"
+            data-target="controller" data-action="vote"
+            data-vote="-1"
+            title="Show Voting Results"
+            class="ballot__textLink ballot__textLink--results">
+            <span class="textLink__label textLink">Show Voting Results</span>
+        </a>
+    </div>
+    <button data-view="closeButton:ButtonView"
+        data-target="controller" data-action="deactivate"
+        class="sprite sprite--close overlay__closeBtn MiniReel__closeBtn ui__btn">
+        <span class="sprite sprite--close"><span class="ir">Close</span></span>
+    </button>
+</section>
+
+<div class="overlay">
+
+</div>

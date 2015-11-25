@@ -1,27 +1,12 @@
 # MiniReel Player 2.0
 
-* *[v2.0.0-rc1]*
+* *[v1.5.1-rc1]*
   * Update the HtmlVideo player to be consistent with the behavior of newer players
   * Update the Wistia player to be consistent with the behavior of newer players
   * Update the Vzaar player to be consistent with the behavior of newer players
   * Update the Vine player to be consistent with the behavior of newer players
   * [FIX]: Fixed bug where bg of social media links container appears when there are no social links.
   * [FIX]: Fixed buggy spacing in single mobile player around share and social links. Adjusted spacing around CTA and description.
-  * [DEPRECATION]: Remove the lightbox with playlist player
-  * [DEPRECATION]: Remove the full-page with playlist player
-  * [DEPRECATION]: Remove the full-page, single-card with display ads
-    player
-  * [DEPRECATION]: Remove the mobile swiping player
-  * [DEPRECATION]: Remove support for display ads
-  * [DEPRECATION]: Remove support for ballots where the results are
-    shown to the user
-  * [DEPRECATION]: Remove support for preroll (in-between card)
-    advertising
-  * [DEPRECATION]: Remove support for text-only cards
-  * [DEPRECATION]: Remove support for website (article) cards
-  * [DEPRECATION]: Remove support for videos from rumble.com
-  * [DEPRECATION]: Remove support for videos from AOL On
-  * [DEPRECATION]: Remove support for videos from Yahoo! Screen
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

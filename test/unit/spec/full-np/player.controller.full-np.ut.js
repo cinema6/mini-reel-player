@@ -1,11 +1,15 @@
 import FullNPPlayerController from '../../../../src/controllers/full-np/FullNPPlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
 import View from '../../../../lib/core/View.js';
-import FullNPImageCardController from '../../../../src/controllers/full-np/FullNPImageCardController.js';
-import FullNPVideoCardController from '../../../../src/controllers/full-np/FullNPVideoCardController.js';
-import FullNPRecapCardController from '../../../../src/controllers/full-np/FullNPRecapCardController.js';
-import FullNPInstagramImageCardController from '../../../../src/controllers/full-np/FullNPInstagramImageCardController.js';
-import FullNPInstagramVideoCardController from '../../../../src/controllers/full-np/FullNPInstagramVideoCardController.js';
+import FullArticleCardController from '../../../../src/controllers/full/FullArticleCardController.js';
+import FullTextCardController from '../../../../src/controllers/full/FullTextCardController.js';
+import FullImageCardController from '../../../../src/controllers/full/FullImageCardController.js';
+import FullVideoCardController from '../../../../src/controllers/full/FullVideoCardController.js';
+import FullRecapCardController from '../../../../src/controllers/full/FullRecapCardController.js';
+import LightboxPrerollCardController from '../../../../src/controllers/lightbox/LightboxPrerollCardController.js';
+import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
+import FullInstagramImageCardController from '../../../../src/controllers/full/FullInstagramImageCardController.js';
+import FullInstagramVideoCardController from '../../../../src/controllers/full/FullInstagramVideoCardController.js';
 import FullNPPlayerView from '../../../../src/views/full-np/FullNPPlayerView.js';
 import ThumbnailNavigatorPlayerController from '../../../../src/mixins/ThumbnailNavigatorPlayerController.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
@@ -44,11 +48,15 @@ describe('FullNPPlayerController', function() {
 
         describe('CardControllers', function() {
             it('should have a Controller for each card type', function() {
-                expect(FullNPPlayerCtrl.CardControllers.image).toBe(FullNPImageCardController);
-                expect(FullNPPlayerCtrl.CardControllers.video).toBe(FullNPVideoCardController);
-                expect(FullNPPlayerCtrl.CardControllers.recap).toBe(FullNPRecapCardController);
-                expect(FullNPPlayerCtrl.CardControllers.instagramImage).toBe(FullNPInstagramImageCardController);
-                expect(FullNPPlayerCtrl.CardControllers.instagramVideo).toBe(FullNPInstagramVideoCardController);
+                expect(FullNPPlayerCtrl.CardControllers.article).toBe(FullArticleCardController);
+                expect(FullNPPlayerCtrl.CardControllers.text).toBe(FullTextCardController);
+                expect(FullNPPlayerCtrl.CardControllers.image).toBe(FullImageCardController);
+                expect(FullNPPlayerCtrl.CardControllers.video).toBe(FullVideoCardController);
+                expect(FullNPPlayerCtrl.CardControllers.recap).toBe(FullRecapCardController);
+                expect(FullNPPlayerCtrl.CardControllers.preroll).toBe(LightboxPrerollCardController);
+                expect(FullNPPlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
+                expect(FullNPPlayerCtrl.CardControllers.instagramImage).toBe(FullInstagramImageCardController);
+                expect(FullNPPlayerCtrl.CardControllers.instagramVideo).toBe(FullInstagramVideoCardController);
             });
         });
     });

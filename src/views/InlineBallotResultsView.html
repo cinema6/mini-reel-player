@@ -1,0 +1,17 @@
+<section class="results__group">
+    <h2 class="results__title">Voting Results:</h2>
+
+    <ul class="results__list">
+        <li class="results__item results__item0">
+            <p class="results__option tk--action">{{results.0.choice}}</p>
+            <p class="results__tally tk--action">{{results.0.result}}</p>
+        </li>
+        <li class="results__item results__item1">
+            <p class="results__option tk--action">{{results.1.choice}}</p>
+            <p class="results__tally tk--action">{{results.1.result}}</p>
+        </li>
+    </ul>
+    <div class="results__meter">
+        <div class="results__bar1" style="width: {{results.0.result}};">&nbsp;</div>
+    </div>
+</section>

@@ -1,24 +1,32 @@
 import PlayerController from '../PlayerController.js';
 import FullNPPlayerView from '../../views/full-np/FullNPPlayerView.js';
-import FullNPImageCardController from './FullNPImageCardController.js';
-import FullNPVideoCardController from './FullNPVideoCardController.js';
-import FullNPRecapCardController from './FullNPRecapCardController.js';
-import FullNPInstagramImageCardController from './FullNPInstagramImageCardController.js';
-import FullNPInstagramVideoCardController from './FullNPInstagramVideoCardController.js';
+import FullArticleCardController from '../full/FullArticleCardController.js';
+import FullTextCardController from '../full/FullTextCardController.js';
+import FullImageCardController from '../full/FullImageCardController.js';
+import FullVideoCardController from '../full/FullVideoCardController.js';
+import FullRecapCardController from '../full/FullRecapCardController.js';
+import LightboxPrerollCardController from '../lightbox/LightboxPrerollCardController.js';
+import DisplayAdCardController from '../DisplayAdCardController.js';
+import FullInstagramImageCardController from '../full/FullInstagramImageCardController';
+import FullInstagramVideoCardController from '../full/FullInstagramVideoCardController';
 import ThumbnailNavigatorPlayerController from '../../mixins/ThumbnailNavigatorPlayerController.js';
 
-export default class FullNPPlayerController extends PlayerController {
+export default class FullPlayerController extends PlayerController {
     constructor() {
         super(...arguments);
 
         this.view = this.addView(new FullNPPlayerView());
 
         this.CardControllers = {
-            image: FullNPImageCardController,
-            video: FullNPVideoCardController,
-            recap: FullNPRecapCardController,
-            instagramImage: FullNPInstagramImageCardController,
-            instagramVideo: FullNPInstagramVideoCardController
+            article: FullArticleCardController,
+            text: FullTextCardController,
+            image: FullImageCardController,
+            video: FullVideoCardController,
+            recap: FullRecapCardController,
+            preroll: LightboxPrerollCardController,
+            displayAd: DisplayAdCardController,
+            instagramImage: FullInstagramImageCardController,
+            instagramVideo: FullInstagramVideoCardController
         };
 
         this.initThumbnailNavigator();
@@ -29,4 +37,4 @@ export default class FullNPPlayerController extends PlayerController {
         return super(...arguments);
     }
 }
-FullNPPlayerController.mixin(ThumbnailNavigatorPlayerController); // jshint ignore:line
+FullPlayerController.mixin(ThumbnailNavigatorPlayerController); // jshint ignore:line

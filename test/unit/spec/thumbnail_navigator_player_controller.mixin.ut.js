@@ -5,6 +5,8 @@ import PlayerView from '../../../src/views/PlayerView.js';
 import View from '../../../lib/core/View.js';
 import Runner from '../../../lib/Runner.js';
 import LinksListView from '../../../src/views/LinksListView.js';
+import PrerollCardController from '../../../src/controllers/PrerollCardController.js';
+import PrerollCard from '../../../src/models/PrerollCard.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 class DeckView extends View {
     show() {}
@@ -27,6 +29,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
         view = new PlayerView();
 
         Ctrl = new MyPlayerController(new View(document.createElement('body')));
+        Ctrl.CardControllers.preroll = PrerollCardController;
         Ctrl.view = view;
     });
 
@@ -54,9 +57,11 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             view.pagerOutlet = new View();
                             view.links = new LinksListView();
                             spyOn(Ctrl.ThumbnailNavigatorViewCtrl, 'renderInto');
+                            spyOn(PrerollCardController.prototype, 'renderInto');
                             Ctrl.minireel.adConfig = {
                                 video: {}
                             };
+                            Ctrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, profile, Ctrl.minireel);
                             Ctrl.minireel.length = 5;
                             Ctrl.minireel.campaign = {};
 
@@ -89,7 +94,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             view.links = new LinksListView();
                         });
 
-                        ['recap', 'instagramImage', 'instagramVideo'].forEach(type => {
+                        ['recap', 'text', 'displayAd', 'article', 'instagramImage', 'instagramVideo'].forEach(type => {
                             describe(`if the currentCard is a ${type} card`, function() {
                                 beforeEach(function() {
                                     Ctrl.minireel.currentCard = { type };
@@ -143,7 +148,7 @@ describe('ThumbnailNavigatorPlayerController', function() {
                             });
                         });
 
-                        ['video'].forEach(type => {
+                        ['video', 'text'].forEach(type => {
                             describe(`if the currentCard is a ${type} card`, function() {
                                 beforeEach(function() {
                                     Ctrl.minireel.currentCard = { type };

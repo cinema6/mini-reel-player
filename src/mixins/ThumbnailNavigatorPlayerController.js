@@ -14,7 +14,7 @@ ThumbnailNavigatorPlayerController.prototype = {
             if (!this.minireel.currentCard) { return; }
             const { currentCard: { type } } = this.minireel;
 
-            if ((/^(instagramImage|instagramVideo|recap)$/).test(type)) {
+            if ((/^(article|instagramImage|instagramVideo|text|recap|displayAd)$/).test(type)) {
                 this.ThumbnailNavigatorViewCtrl.expand();
             } else {
                 this.ThumbnailNavigatorViewCtrl.contract();

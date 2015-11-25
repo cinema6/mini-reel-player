@@ -15,6 +15,11 @@ export default class Ballot extends EventEmitter {
         this.results = map(this.choices, () => null);
 
         this.choice = null;
+
+        election.getResults(this.election, this.id).then(results => {
+            this.results = results;
+            this.emit('hasResults');
+        });
     }
 
     cast(vote) {

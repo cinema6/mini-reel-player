@@ -24,8 +24,8 @@
         <ul data-view="links:LinksListView" data-model="links"><!-- social network links and the share button-->
             <li class="social__group--item social__group--SVG" data-target="controller" data-action="clickthrough">
                 <a href="{{href}}" target="_blank" title="{{label}}" class="sponsorProfile__link socialIconSVG--{{type}}">
-                    <svg class="SVGicon socialIconSVG--{{type}}">
-                        <use xlink:href="#socialIconSVG--{{type}}"></use>
+                    <svg class="SVGicon socialIconSVG--{{type}}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <use xlink:href="#{{type}}"></use>
                     </svg>
                     <span class="ir">{{label}}</span>
                 </a>
@@ -39,7 +39,7 @@
                 <button data-view="shareButton:ButtonView"
                     data-target="controller" data-action="showShare"
                     class="sponsorProfile__link socialIconSVG--share">
-                    <svg class="SVGicon socialIconSVG--share">
+                    <svg class="SVGicon socialIconSVG--share" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <use xlink:href="#socialIconSVG--share"></use>
                     </svg>
                     <span class="ir">Share</span>
@@ -74,7 +74,7 @@
 <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <defs>
-        <symbol id="socialIconSVG--facebook" viewBox="0 0 1024 1024">
+        <symbol id="facebook" viewBox="0 0 1024 1024">
             <title>facebook2</title>
             <path class="path1" d="M853.35 0h-682.702c-94.25 0-170.648 76.42-170.648 170.686v682.63c0 94.266 76.398 170.684 170.648 170.684h341.352v-448h-128v-128h128v-96c0-88.366 71.634-160 160-160h160v128h-160c-17.674 0-32 14.328-32 32v96h176l-32 128h-144v448h213.35c94.25 0 170.65-76.418 170.65-170.684v-682.63c0-94.266-76.4-170.686-170.65-170.686z"></path>
         </symbol>

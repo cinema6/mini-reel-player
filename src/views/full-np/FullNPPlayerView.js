@@ -3,7 +3,7 @@ import LinksListView from '../LinksListView.js';
 import DeckView from '../DeckView.js';
 import View from '../../../lib/core/View.js';
 
-export default class FullNPPlayerView extends PlayerView {
+export default class FullPlayerView extends PlayerView {
     constructor() {
         super(...arguments);
 

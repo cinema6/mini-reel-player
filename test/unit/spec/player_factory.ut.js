@@ -5,6 +5,8 @@ import VimeoPlayer from '../../../src/players/VimeoPlayer.js';
 import VASTPlayer from '../../../src/players/VASTPlayer.js';
 import VPAIDPlayer from '../../../src/players/VPAIDPlayer.js';
 import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
+import EmbeddedPlayer from '../../../src/players/EmbeddedPlayer.js';
+import RumblePlayer from '../../../src/players/RumblePlayer.js';
 import SlideshowBobPlayer from '../../../src/players/SlideshowBobPlayer.js';
 import VinePlayer from '../../../src/players/VinePlayer.js';
 import InstagramVideoCard from '../../../src/models/InstagramVideoCard.js';
@@ -76,6 +78,40 @@ describe('playerFactory', function() {
 
                 it('should be a DailymotionPlayer', function() {
                     expect(result).toEqual(jasmine.any(DailymotionPlayer));
+                });
+            });
+
+            describe('if the card is an embedded video', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'embedded',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be an EmbeddedPlayer', function() {
+                    expect(result).toEqual(jasmine.any(EmbeddedPlayer));
+                });
+            });
+
+            describe('if the card is from Rumble.com', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'rumble',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a RumblePlayer', function() {
+                    expect(result).toEqual(jasmine.any(RumblePlayer));
                 });
             });
 

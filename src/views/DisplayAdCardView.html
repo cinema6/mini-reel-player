@@ -1,0 +1,31 @@
+<div class="displayAdCard__group">
+    <p data-if="sponsor" class="displayAdBrand__tagline">
+        Presented by
+        <a href="{{website}}"
+            target="_blank"
+            class="displayAdBrand__taglineLink textLink"
+            title="{{sponsor}}">
+            {{sponsor}}
+        </a>
+    </p>
+    <div data-view="displayAdOutlet:View" class="displayAdCard__adModule"></div>
+    <div data-if="hasLinks" class="displayAdBrand__linksBox">
+        <a data-if="website"
+            href="{{website}}"
+            title="{{sponsor}} - Official Website"
+            target="_blank"
+            class="displayAdBrand__link">
+            <span class="displayAdBrand__linkLabel">Official Website</span>
+        </a>
+        <span data-if="links.length" data-view="links:LinksListView">
+            <span>
+                <a href="{{href}}"
+                    title="{{label}}"
+                    target="_blank"
+                    class="displayAdBrand__link tk--{{type}} spriteBe socialIconsBe socialIconsBe--{{type}}">
+                    <span class="displayAdBrand__linkLabel">{{label}}</span>
+                </a>
+            </span>
+        </span>
+    </div>
+</div>

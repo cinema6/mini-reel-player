@@ -1,6 +1,6 @@
 import InstagramVideoCardController from '../../../src/controllers/InstagramVideoCardController.js';
 import InstagramCardController from '../../../src/controllers/InstagramCardController.js';
-import FullNPInstagramVideoCardView from '../../../src/views/full-np/FullNPInstagramVideoCardView.js';
+import FullInstagramVideoCardView from '../../../src/views/full/FullInstagramVideoCardView.js';
 import InstagramVideoCard from '../../../src/models/InstagramVideoCard.js';
 import View from '../../../lib/core/View.js';
 import HtmlVideoPlayer from '../../../src/players/HtmlVideoPlayer.js';
@@ -65,7 +65,7 @@ describe('InstagramVideoCardController', function() {
 
         InstagramVideoCardCtrl = new InstagramVideoCardController(card);
         InstagramVideoCardCtrl.model = card;
-        InstagramVideoCardCtrl.view = new FullNPInstagramVideoCardView();
+        InstagramVideoCardCtrl.view = new FullInstagramVideoCardView();
     });
 
     it('should exist', function() {

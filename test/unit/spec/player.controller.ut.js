@@ -2,8 +2,10 @@ import PlayerController from '../../../src/controllers/PlayerController.js';
 import Controller from '../../../lib/core/Controller.js';
 import ApplicationView from '../../../src/views/ApplicationView.js';
 import MiniReel from '../../../src/models/MiniReel.js';
+import TextCard from '../../../src/models/TextCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
+import PrerollCard from '../../../src/models/PrerollCard.js';
 import View from '../../../lib/core/View.js';
 import Card from '../../../src/models/Card.js';
 import Runner from '../../../lib/Runner.js';
@@ -33,7 +35,11 @@ describe('PlayerController', function() {
     CardController.mixin(EventEmitter);
 
     class VideoCardController extends CardController {}
+    class TextCardController extends CardController {}
     class RecapCardController extends CardController {}
+    class PrerollCardController extends CardController {
+        renderInto() {}
+    }
 
     class PlayerView extends TemplateView {
         constructor() {
@@ -68,8 +74,10 @@ describe('PlayerController', function() {
         Runner.run(() => PlayerCtrl = new PlayerController(applicationView));
         PlayerCtrl.view = new PlayerView();
         PlayerCtrl.CardControllers = {
+            text: TextCardController,
             video: VideoCardController,
-            recap: RecapCardController
+            recap: RecapCardController,
+            preroll: PrerollCardController
         };
     });
 
@@ -85,6 +93,12 @@ describe('PlayerController', function() {
         describe('cardCtrls', function() {
             it('should be an empty array', function() {
                 expect(PlayerCtrl.cardCtrls).toEqual([]);
+            });
+        });
+
+        describe('PrerollCardCtrl', function() {
+            it('should be null', function() {
+                expect(PlayerCtrl.PrerollCardCtrl).toBeNull();
             });
         });
 
@@ -115,6 +129,7 @@ describe('PlayerController', function() {
 
                 PlayerCtrl.minireel.branding = 'my-branding';
                 PlayerCtrl.minireel.deck = [
+                    new TextCard({ data: {} }, experience),
                     new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                     new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                     new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
@@ -125,8 +140,10 @@ describe('PlayerController', function() {
 
                     }
                 };
+                PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, { flash: false }, PlayerCtrl.minireel);
                 PlayerCtrl.minireel.campaign = {};
                 spyOn(CardController.prototype, 'render');
+                spyOn(PrerollCardController.prototype, 'renderInto');
 
                 Runner.run(() => PlayerCtrl.minireel.emit('init'));
             });
@@ -158,6 +175,7 @@ describe('PlayerController', function() {
 
                     PlayerCtrl.minireel.branding = 'my-branding';
                     PlayerCtrl.minireel.deck = [
+                        new TextCard({ data: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
@@ -168,8 +186,10 @@ describe('PlayerController', function() {
 
                         }
                     };
+                    PlayerCtrl.minireel.prerollCard = new PrerollCard({ collateral: {}, data: {}, params: {} }, experience, { flash: false }, PlayerCtrl.minireel);
                     PlayerCtrl.minireel.campaign = {};
                     spyOn(CardController.prototype, 'render');
+                    spyOn(PrerollCardController.prototype, 'renderInto');
 
                     Runner.run(() => PlayerCtrl.minireel.emit('init'));
                 });
@@ -180,6 +200,7 @@ describe('PlayerController', function() {
 
                 it('should create a CardController based on the type of card', function() {
                     expect(PlayerCtrl.cardCtrls).toEqual([
+                        jasmine.any(TextCardController),
                         jasmine.any(VideoCardController),
                         jasmine.any(VideoCardController),
                         jasmine.any(VideoCardController),
@@ -189,6 +210,15 @@ describe('PlayerController', function() {
                         expect(Ctrl.model).toBe(PlayerCtrl.minireel.deck[index]);
                         expect(Ctrl.parentView).toBe(PlayerCtrl.view.cards);
                     });
+                });
+
+                it('should create the PrerollCardCtrl', function() {
+                    expect(PlayerCtrl.PrerollCardCtrl).toEqual(jasmine.any(PrerollCardController));
+                    expect(PlayerCtrl.PrerollCardCtrl.model).toBe(PlayerCtrl.minireel.prerollCard);
+                });
+
+                it('should render the PrerollCardCtrl', function() {
+                    expect(PlayerCtrl.PrerollCardCtrl.renderInto).toHaveBeenCalledWith(PlayerCtrl.view.prerollOutlet);
                 });
 
                 it('should only render the first card', function() {
@@ -219,6 +249,7 @@ describe('PlayerController', function() {
                     spyOn(PlayerCtrl, 'updateView');
 
                     PlayerCtrl.minireel.deck = [
+                        new TextCard({ data: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
                         new VideoCard({ type: 'youtube', collateral: {}, data: {}, params: {} }, experience),
@@ -356,6 +387,7 @@ describe('PlayerController', function() {
                 ];
                 PlayerCtrl.minireel.length = 5;
                 PlayerCtrl.minireel.adConfig = { video: {} };
+                PlayerCtrl.minireel.prerollCard = new PrerollCard({}, experience, profile, PlayerCtrl.minireel);
 
 
                 PlayerCtrl.minireel.sponsor = 'Netflix';

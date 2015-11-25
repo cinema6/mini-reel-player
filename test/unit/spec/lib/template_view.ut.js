@@ -161,6 +161,70 @@ describe('TemplateView', function() {
                 }).not.toThrow();
             });
 
+            describe('if the template contains a <use></use> element', function() {
+                let element;
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <use xlink:href="#{{type}}"></use>'
+                    `;
+
+                    view.create();
+                    element = view.element.querySelector('use');
+                });
+
+                it('should give the attribute an absolute URL', function() {
+                    expect(element.getAttribute('xlink:href')).toBe(window.location.href + '#{{type}}');
+                });
+
+                describe('when update is called', function() {
+                    beforeEach(function() {
+                        view.update({ type: 'hello' });
+                        queues.render.pop()();
+                    });
+
+                    it('should keep the URL as absolute', function() {
+                        expect(element.getAttribute('xlink:href')).toBe(window.location.href + '#hello');
+                    });
+                });
+
+                describe('without an xlink:href', function() {
+                    beforeEach(function() {
+                        view = new TemplateView();
+                        view.tag = 'span';
+                        view.template = `
+                            <use></use>'
+                        `;
+
+                        view.create();
+                        element = view.element.querySelector('use');
+                    });
+
+                    it('should not give it an xlink:href', function() {
+                        expect(element.getAttribute('xlink:href')).toBeNull();
+                    });
+                });
+
+                describe('with an absolute xlink:href', function() {
+                    beforeEach(function() {
+                        view = new TemplateView();
+                        view.tag = 'span';
+                        view.template = `
+                            <use xlink:href="foo#{{type}}"></use>'
+                        `;
+
+                        view.create();
+                        element = view.element.querySelector('use');
+                    });
+
+                    it('should not change the value', function() {
+                        expect(element.getAttribute('xlink:href')).toBe('foo#{{type}}');
+                    });
+                });
+            });
+
             describe('if the template contains a data-attributes="" directive', function() {
                 let element;
 

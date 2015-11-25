@@ -9,6 +9,7 @@
   * [FIX]: Fixed buggy spacing in single mobile player around share and social links. Adjusted spacing around CTA and description.
   * [FIX]: Fix for an issue that caused certain icons not to render in
     Firefox or IE
+  * [FIX]: Fix for an issue that caused social links not to render on IE
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

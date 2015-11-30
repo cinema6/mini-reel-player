@@ -34,16 +34,16 @@ export default class MobileVideoCardController extends VideoCardController {
 
     replay() {
         if (this.DisplayAdCtrl) { this.DisplayAdCtrl.deactivate(); }
-        return super();
+        return super.replay();
     }
 
     canAutoadvance() {
         const { displayAd } = this.model.modules;
-        return super() && (!displayAd || displayAd.isDefault);
+        return super.canAutoadvance() && (!displayAd || displayAd.isDefault);
     }
 
     render() {
-        super(...arguments);
+        super.render(...arguments);
         if (this.DisplayAdCtrl) { this.DisplayAdCtrl.renderInto(this.view.displayAdOutlet); }
     }
 }

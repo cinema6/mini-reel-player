@@ -100,18 +100,18 @@ export default class DailymotionPlayer extends CorePlayer {
             this.emit('attemptPlay');
             _(this).video.call('play');
         });
-        const play = (() => {
+        const doPlay = (() => {
             browser.test('autoplay').then(autoplayable => {
                 if (autoplayable) { return callPlay(); }
             });
         });
 
-        if (ready) { play(); } else { this.once('canplay', play); }
+        if (ready) { doPlay(); } else { this.once('canplay', doPlay); }
     }
 
     unload() {
         const { video, iframe } = _(this);
-        if (!video) { return super(); }
+        if (!video) { return super.unload(); }
 
         video.destroy();
         _(this).state = getInitialState();
@@ -121,7 +121,7 @@ export default class DailymotionPlayer extends CorePlayer {
 
         Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
 
-        return super();
+        return super.unload();
     }
 
     reload() {
@@ -209,6 +209,6 @@ export default class DailymotionPlayer extends CorePlayer {
 
     didInsertElement() {
         if (this.autoplay) { this.play(); }
-        return super();
+        return super.didInsertElement();
     }
 }

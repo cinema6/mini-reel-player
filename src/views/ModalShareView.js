@@ -12,7 +12,7 @@ class ModalShareView extends TemplateView {
     }
 
     update(data) {
-        super(data);
+        super.update(data);
         if(data.shareLinks && data.shareLinks.length > 0) {
             this.shareLinks.update(data.shareLinks);
         }

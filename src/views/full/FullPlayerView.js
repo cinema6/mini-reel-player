@@ -20,7 +20,7 @@ export default class FullPlayerView extends PlayerView {
     }
 
     didCreateElement() {
-        super();
+        super.didCreateElement();
 
         this.nextButtons.push(this.nextButton);
         this.previousButtons.push(this.previousButton);

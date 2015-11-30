@@ -1,8 +1,9 @@
+import Hideable from '../../../src/mixins/Hideable.js';
+import View from '../../../lib/core/View.js';
+import Runner from '../../../lib/Runner.js';
+import animator from '../../../lib/animator.js';
+
 describe('Hideable', function() {
-    import Hideable from '../../../src/mixins/Hideable.js';
-    import View from '../../../lib/core/View.js';
-    import Runner from '../../../lib/Runner.js';
-    import animator from '../../../lib/animator.js';
     let testView;
 
     class TestView extends View {

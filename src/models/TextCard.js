@@ -13,6 +13,6 @@ export default class TextCard extends Card {
 
     complete() {
         this.emit('canAdvance');
-        return super();
+        return super.complete();
     }
 }

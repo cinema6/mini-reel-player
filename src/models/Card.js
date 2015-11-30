@@ -21,7 +21,7 @@ class Card extends Mixable {
         this.data = {};
 
         this.modules = reduce(card.modules || [], (modules, module) => {
-            const model = (() => {
+            const model = ((() => {
                 switch (module) {
                 case 'displayAd':
                     return new DisplayAd(card, experience);
@@ -32,7 +32,7 @@ class Card extends Mixable {
                 default:
                     return undefined;
                 }
-            }());
+            })());
 
             if (model) {
                 modules[module] = model;

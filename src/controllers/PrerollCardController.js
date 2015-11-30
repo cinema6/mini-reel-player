@@ -58,7 +58,7 @@ export default class PrerollCardController extends ViewController {
 
     renderInto(view) {
         this.view.hide();
-        super(view);
+        super.renderInto(view);
         this.view.playerOutlet.append(this.player);
     }
 }

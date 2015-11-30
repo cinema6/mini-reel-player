@@ -13,7 +13,7 @@ export default class PlaylistCardView extends TemplateView {
 
     update(data) {
         if (data.active) { this.addClass(ACTIVE_CLASS); } else { this.removeClass(ACTIVE_CLASS); }
-        return super(data);
+        return super.update(data);
     }
 
     click() {

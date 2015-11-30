@@ -115,13 +115,13 @@ export default class RumblePlayer extends CorePlayer {
             this.emit('attemptPlay');
             player.call('play');
         });
-        const play = (() => {
+        const doPlay = (() => {
             browser.test('autoplay').then(autoplayable => {
                 if (autoplayable) { return callPlay(); }
             });
         });
 
-        if (ready) { play(); } else { player.once('ready', play); }
+        if (ready) { doPlay(); } else { player.once('ready', doPlay); }
     }
 
     load() {
@@ -257,7 +257,7 @@ export default class RumblePlayer extends CorePlayer {
 
     unload() {
         const {player, iframe} = _(this);
-        if (!player) { return super(); }
+        if (!player) { return super.unload(); }
 
         player.destroy();
         Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
@@ -266,7 +266,7 @@ export default class RumblePlayer extends CorePlayer {
         _(this).iframe = null;
         _(this).player = null;
 
-        return super();
+        return super.unload();
     }
 
     reload() {
@@ -281,6 +281,6 @@ export default class RumblePlayer extends CorePlayer {
     didInsertElement() {
         if (this.autoplay) { this.play(); }
 
-        return super(...arguments);
+        return super.didInsertElement(...arguments);
     }
 }

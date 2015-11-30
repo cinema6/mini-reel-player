@@ -19,7 +19,7 @@ class NavButtonView extends ButtonView {
         this.preview = new NavButtonPreviewView();
         this.append(this.preview);
 
-        return super(...arguments);
+        return super.didCreateElement(...arguments);
     }
 }
 NavButtonView.mixin(Hideable);

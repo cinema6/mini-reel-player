@@ -17,7 +17,7 @@ export default class BallotController extends ModuleController {
 
     activate() {
         this.updateView();
-        return super();
+        return super.activate();
     }
 
     vote(button) {

@@ -24,7 +24,7 @@ export default class InfoPanelController extends ViewController {
         this.activate(false);
         this.updateView();
 
-        return super(view);
+        return super.renderInto(view);
     }
 
     activate(yes) {

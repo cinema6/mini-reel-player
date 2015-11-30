@@ -11,6 +11,7 @@
   * [FIX]: Fix for an issue that caused certain icons not to render in
     Firefox or IE
   * [FIX]: Fix for an issue that caused social links not to render on IE
+  * [DEV]: Update [Babel](http://babeljs.io/) to v6.x.x.
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

@@ -132,7 +132,7 @@ SwipeableView.prototype = {
         const { LEFT, RIGHT } = DIRECTIONS;
         const offset = phase === START ? this.getOffset() : _(this).offset;
         const desiredPosition = offset + deltaX;
-        const modifier = (() => {
+        const modifier = ((() => {
             if (desiredPosition > max) {
                 return (desiredPosition - max) * RESISTANCE_FACTOR;
             } else if (desiredPosition < min) {
@@ -140,7 +140,7 @@ SwipeableView.prototype = {
             }
 
             return 0;
-        }());
+        })());
         const position = Math.min(max, Math.max(min, desiredPosition)) + modifier;
 
         if (phase === MOVE) {
@@ -148,7 +148,7 @@ SwipeableView.prototype = {
             this.setOffset(position);
         } else if (phase === END && snapPoints.length > 0) {
             const velocity = velocityX * 1000; // px/s
-            const extraDistance = (-Math.pow(velocity, 2) / (2 * this.decelerationRate)) * (() => {
+            const extraDistance = (-Math.pow(velocity, 2) / (2 * this.decelerationRate)) * ((() => {
                 switch (directionX) {
                 case LEFT:
                     return -1;
@@ -157,7 +157,7 @@ SwipeableView.prototype = {
                 default:
                     return 0;
                 }
-            }());
+            })());
             const scrolledPosition = position + extraDistance;
             const distances = map(snapPoints, point => Math.abs(scrolledPosition - point));
             const snapPoint = this.validateSnap(

@@ -32,9 +32,9 @@ function objectify(query) {
 
 const _ = createKey({
     delegateMessage: function(event) {
-        const data = (() => {
+        const data = ((() => {
             try { return JSON.parse(event.data); } catch(e) { return {}; }
-        }());
+        })());
         const player = this.players[data.id];
 
         if (!player) { return; }

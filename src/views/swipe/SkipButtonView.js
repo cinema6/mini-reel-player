@@ -20,14 +20,14 @@ export default class SkipButtonView extends ButtonView {
         if (this.attributes.disabled) { return; }
 
         Runner.scheduleOnce('render', this, setText, ['Skip in ...']);
-        return super();
+        return super.disable();
     }
 
     enable() {
         if (!this.attributes.disabled) { return; }
 
         Runner.scheduleOnce('render', this, setText, ['Skip']);
-        return super();
+        return super.enable();
     }
 
     update(time) {

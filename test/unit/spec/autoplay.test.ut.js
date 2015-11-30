@@ -44,7 +44,7 @@ describe('autoplay test', function() {
         };
         Audio.prototype.canPlayType = jasmine.createSpy('Audio.prototype.canPlayType()').and.returnValue('maybe');
 
-        import '../../../src/tests.js';
+        require('../../../src/tests.js');
     });
 
     afterAll(function() {

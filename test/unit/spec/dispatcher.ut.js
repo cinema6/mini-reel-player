@@ -22,9 +22,9 @@ describe('dispatcher', function() {
             let argumentsSpy;
 
             class Module {
-                constructor(_register_, ...args) {
+                constructor(_register_, ...moduleArgs) {
                     register = _register_;
-                    argumentsSpy(...args);
+                    argumentsSpy(...moduleArgs);
                     mod = this;
                 }
             }

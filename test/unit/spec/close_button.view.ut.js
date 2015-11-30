@@ -1,7 +1,8 @@
+import ButtonView from '../../../src/views/ButtonView.js';
+import CloseButtonView from '../../../src/views/CloseButtonView.js';
+import Hideable from '../../../src/mixins/Hideable.js';
+
 describe('CloseButtonView', function() {
-    import ButtonView from '../../../src/views/ButtonView.js';
-    import CloseButtonView from '../../../src/views/CloseButtonView.js';
-    import Hideable from '../../../src/mixins/Hideable.js';
     let closeButtonView;
 
     beforeEach(function() {

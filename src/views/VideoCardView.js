@@ -13,9 +13,9 @@ export default class VideoCardView extends CardView {
     }
 
     update(data) {
-        if (!data.links || !('videoOnly' in data)) { return super(data); }
+        if (!data.links || !('videoOnly' in data)) { return super.update(data); }
 
-        super(extend(data, {
+        super.update(extend(data, {
             isSponsored: !!(data.website.logo || data.links.length > 0 || data.sponsor),
             hasSponsoredCopy: !!(data.links.length > 0 || data.sponsor),
             hasLinks: !!(data.links.length > 0 || data.website.href)
@@ -29,7 +29,7 @@ export default class VideoCardView extends CardView {
     }
 
     didCreateElement() {
-        super(...arguments);
+        super.didCreateElement(...arguments);
 
         this.moduleOutlets = {
             displayAd: this.displayAdOutlet,

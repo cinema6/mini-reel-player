@@ -27,7 +27,7 @@ export default class SkipProgressTimerView extends SkipTimerView {
 
         TemplateView.prototype.update.call(this, { width });
 
-        return super(time);
+        return super.update(time);
     }
 
     reset() {

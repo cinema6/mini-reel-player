@@ -13,7 +13,7 @@ class ActionableItemView extends TemplateView {
     }
 
     update(data) {
-        super(data);
+        super.update(data);
         _(this).item = data;
     }
 

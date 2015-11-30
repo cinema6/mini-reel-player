@@ -22,26 +22,26 @@ export default class SwipeBallotController extends BallotController {
 
         BallotResultsController.prototype.updateView.call(this);
 
-        return super();
+        return super.updateView();
     }
 
     activate() {
         const { model: { choice } } = this;
 
         this.resultsShown = (Number(choice) === choice);
-        return super();
+        return super.activate();
     }
 
     vote() {
         this.resultsShown = true;
         this.updateView();
 
-        return super(...arguments);
+        return super.vote(...arguments);
     }
 
     renderInto(view) {
         this.updateView();
 
-        return super(view);
+        return super.renderInto(view);
     }
 }

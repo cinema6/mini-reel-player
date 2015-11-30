@@ -70,12 +70,12 @@ export default class CorePlayer extends View {
 
     didCreateElement() {
         Runner.scheduleOnce('render', this, updatePoster);
-        return super(...arguments);
+        return super.didCreateElement(...arguments);
     }
 
     willRemoveElement() {
         this.unload();
 
-        return super(...arguments);
+        return super.willRemoveElement(...arguments);
     }
 }

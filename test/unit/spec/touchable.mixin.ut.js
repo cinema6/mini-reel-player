@@ -1,6 +1,7 @@
+import Touchable from '../../../src/mixins/Touchable.js';
+import View from '../../../lib/core/View.js';
+
 describe('Touchable', function() {
-    import Touchable from '../../../src/mixins/Touchable.js';
-    import View from '../../../lib/core/View.js';
     let testView, clickSpy;
 
     class TestView extends View {

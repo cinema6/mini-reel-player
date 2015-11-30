@@ -1,9 +1,10 @@
+import CardView from '../../../src/views/CardView.js';
+import ListView from '../../../src/views/ListView.js';
+import RecapCardView from '../../../src/views/RecapCardView.js';
+import RecapCardItemView from '../../../src/views/RecapCardItemView.js';
+import Runner from '../../../lib/Runner.js';
+
 describe('RecapCardView', function() {
-    import CardView from '../../../src/views/CardView.js';
-    import ListView from '../../../src/views/ListView.js';
-    import RecapCardView from '../../../src/views/RecapCardView.js';
-    import RecapCardItemView from '../../../src/views/RecapCardItemView.js';
-    import Runner from '../../../lib/Runner.js';
     let recapCardView;
 
     beforeEach(function() {

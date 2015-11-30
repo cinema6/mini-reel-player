@@ -41,12 +41,12 @@ export default class MobilePlayerController extends PlayerController {
     }
 
     openedModal() {
-        super(...arguments);
+        super.openedModal(...arguments);
         this.view.singleCloseButton.hide();
     }
 
     closedModal() {
-        super(...arguments);
+        super.closedModal(...arguments);
         this.view.singleCloseButton.show();
     }
 
@@ -57,7 +57,7 @@ export default class MobilePlayerController extends PlayerController {
         const prevCard = minireel.deck[minireel.currentIndex - 1];
         const isSolo = (minireel.length === 1);
 
-        super();
+        super.updateView();
 
         this.view.update({
             showFooter: !isSolo || !skippable,

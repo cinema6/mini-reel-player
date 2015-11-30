@@ -22,7 +22,7 @@ export default class LightboxPlaylistVideoCardView extends VideoCardView {
     }
 
     didCreateElement() {
-        super();
+        super.didCreateElement();
 
         this.skipTimer.hide();
     }

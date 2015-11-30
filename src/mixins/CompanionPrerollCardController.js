@@ -15,7 +15,7 @@ CompanionPrerollCardController.prototype = {
 
             _(this).hasCompanion = true;
 
-            this.companion.populateWith(() => {
+            this.companion.populateWith((() => {
                 switch (companion.adType) {
                 case 'iframe':
                     return `<iframe src="${companion.fileURI}" scrolling="no"></iframe>`;
@@ -24,7 +24,7 @@ CompanionPrerollCardController.prototype = {
                 case 'html':
                     return companion.fileURI;
                 }
-            }());
+            })());
             this.companion.show();
 
             if (this.model.active) {

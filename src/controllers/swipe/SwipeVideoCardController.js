@@ -63,7 +63,7 @@ export default class SwipeVideoCardController extends VideoCardController {
             total: total.toString()
         });
 
-        return super();
+        return super.render();
     }
 
     canAutoadvance() {

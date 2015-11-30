@@ -74,25 +74,25 @@ export default class CardPannerView extends View {
 
     append(child) {
         _(this).children.push(child);
-        return super(child);
+        return super.append(child);
     }
 
     didInsertElement() {
         window.addEventListener('resize', _(this).resize, false);
 
-        return super();
+        return super.didInsertElement();
     }
 
     willRemoveElement() {
         window.removeEventListener('resize', _(this).resize, false);
 
-        return super();
+        return super.willRemoveElement();
     }
 
     validateSnap(offset, { deltaX, velocityX }) {
         const { currentIndex, snapPoints } = this;
         const currentOffset = snapPoints[currentIndex];
-        const index = (() => {
+        const index = ((() => {
             if (velocityX > 0.2) {
                 const lastIndex = this.snapPoints.length - 1;
                 const firstIndex = 0;
@@ -102,7 +102,7 @@ export default class CardPannerView extends View {
             } else {
                 return snapPoints.indexOf(offset);
             }
-        }());
+        })());
 
         if (this.locked) { return currentOffset; }
 

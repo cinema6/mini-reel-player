@@ -36,7 +36,7 @@ export default class FullPlayerController extends PlayerController {
 
     updateView() {
         this.view.update({ splash: this.minireel.splash });
-        return super(...arguments);
+        return super.updateView(...arguments);
     }
 }
 FullPlayerController.mixin(PlaylistPlayerController, ResizingPlayerController); // jshint ignore:line

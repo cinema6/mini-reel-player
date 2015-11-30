@@ -6,7 +6,7 @@ export default class VPAIDHandler {
         const updateState = (state => {
             return dispatcher.getClient(EmbedHandler).ping('vpaid:stateUpdated', state);
         });
-        const videoCall = (() => {
+        const videoCall = ((() => {
             const queue = [];
 
             let video;
@@ -22,7 +22,7 @@ export default class VPAIDHandler {
                     }
                 }
             };
-        }());
+        })());
 
         // Pause video when vpaid.pauseAd() is called (3.1.6)
         register(() => videoCall('pause'), 'session', 'vpaid:pauseAd');

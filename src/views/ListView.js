@@ -97,6 +97,6 @@ export default class ListView extends View {
         // Child elements cannot be removed by setting innerHTML to '' as it breaks IE.
         forEach(slice.call(childNodes), child => this.element.removeChild(child));
 
-        return super();
+        return super.didCreateElement();
     }
 }

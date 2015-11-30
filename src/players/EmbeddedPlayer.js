@@ -123,7 +123,7 @@ export default class EmbeddedPlayer extends CorePlayer {
 
     unload() {
         const { element } = this;
-        if (!element) { return super(); }
+        if (!element) { return super.unload(); }
 
         _(this).src = null;
         _(this).readyState = 0;
@@ -136,7 +136,7 @@ export default class EmbeddedPlayer extends CorePlayer {
 
         _(this).embedChildren.length = 0;
 
-        return super();
+        return super.unload();
     }
 
     reload() {

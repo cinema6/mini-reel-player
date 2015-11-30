@@ -7,7 +7,7 @@ export default class PrerollCard extends AdUnitCard {
             collateral: {},
             data: {
                 skip: minireel.adConfig.video.skip,
-                vast: (() => {
+                vast: ((() => {
                     switch (minireel.adConfig.video.waterfall) {
                     case 'cinema6':
                         return 'http://ads.adaptv.advertising.com//a/h/DCQzzI0K2rv1k0TZythPvTfWml' +
@@ -24,8 +24,8 @@ export default class PrerollCard extends AdUnitCard {
                             'U6FwIZz5J5C0Fsw29iCueyXx8iw==?cb={cachebreaker}&pageUrl={pageUrl}&eo' +
                             'v=eov';
                     }
-                }()),
-                vpaid: (() => {
+                })()),
+                vpaid: ((() => {
                     switch (minireel.adConfig.video.waterfall) {
                     case 'cinema6':
                         return 'http://u-ads.adap.tv/a/h/DCQzzI0K2rv1k0TZythPvYyD60pQS_90o8grI6Qm' +
@@ -40,18 +40,18 @@ export default class PrerollCard extends AdUnitCard {
                         return 'http://u-ads.adap.tv/a/h/DCQzzI0K2runZ1YEc6FP2fCQPSbU6FwIdK4EW3jl' +
                             'LzbnPQftO7fDdA==?cb={cachebreaker}&pageUrl={pageUrl}&eov=eov';
                     }
-                }())
+                })())
             }
         }, experience, profile);
     }
 
     deactivate() {
         this.reset();
-        return super();
+        return super.deactivate();
     }
 
     abort() {
-        super();
+        super.abort();
         this.emit('canAdvance');
     }
 }

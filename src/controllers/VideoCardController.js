@@ -102,7 +102,7 @@ export default class VideoCardController extends CardController {
         });
         this.view.playerOutlet.append(this.player);
 
-        return super(...arguments);
+        return super.render(...arguments);
     }
 
     shareItemClicked(shareItem, shareLink) {

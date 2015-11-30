@@ -20,7 +20,7 @@ export default class PlaylistView extends TemplateView {
     }
 
     didCreateElement() {
-        super(...arguments);
+        super.didCreateElement(...arguments);
 
         this.cards.on('addChild', (childView, index) => {
             const id = _(this).cards[index].id;
@@ -31,7 +31,7 @@ export default class PlaylistView extends TemplateView {
     update(data) {
         _(this).cards = data.cards;
 
-        super(data);
+        super.update(data);
         this.cards.update(data.cards);
 
         if (data.expanded) {

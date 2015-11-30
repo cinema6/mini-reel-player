@@ -16,14 +16,14 @@ export default class InstagramVideoCardController extends InstagramCardControlle
     }
 
     prepare() {
-        super();
+        super.prepare();
         if (this.model.data.preload) {
             _(this).player.load();
         }
     }
 
     activate() {
-        super();
+        super.activate();
         if(this.model.data.autoplay) {
             _(this).player.play();
         } else {
@@ -32,12 +32,12 @@ export default class InstagramVideoCardController extends InstagramCardControlle
     }
 
     deactivate() {
-        super();
+        super.deactivate();
         _(this).player.pause();
     }
 
     render() {
-        super();
+        super.render();
         this.view.playerOutlet.append(_(this).player);
     }
 }

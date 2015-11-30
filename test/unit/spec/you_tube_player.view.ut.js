@@ -1,15 +1,16 @@
+import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
+import CorePlayer from '../../../src/players/CorePlayer.js';
+import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
+import codeLoader from '../../../src/services/code_loader.js';
+import fetcher from '../../../lib/fetcher.js';
+import browser from '../../../src/services/browser.js';
+import Runner from '../../../lib/Runner.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import {
+    defer
+} from '../../../lib/utils.js';
+
 describe('YouTubePlayer', function() {
-    import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
-    import CorePlayer from '../../../src/players/CorePlayer.js';
-    import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
-    import codeLoader from '../../../src/services/code_loader.js';
-    import fetcher from '../../../lib/fetcher.js';
-    import browser from '../../../src/services/browser.js';
-    import Runner from '../../../lib/Runner.js';
-    import RunnerPromise from '../../../lib/RunnerPromise.js';
-    import {
-        defer
-    } from '../../../lib/utils.js';
     let player, youtube;
     const intervals = [];
 

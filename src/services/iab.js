@@ -187,13 +187,13 @@ function toQueryParams(object) {
 }
 
 function getProp(player, prop) {
-    return ((player && player.getAdProperties) || undefined) && (() => {
+    return ((player && player.getAdProperties) || undefined) && ((() => {
         try {
             return player.getAdProperties()[prop];
         } catch (e) {
             return undefined;
         }
-    }());
+    })());
 }
 
 function callMethod(player, method, args, errorMessage) {
@@ -319,7 +319,7 @@ class IAB {
         this.VPAIDPlayer = VPAIDPlayer;
 
         global.addEventListener('message', event => {
-            const data = (() => {
+            const data = ((() => {
                 try {
                     const data = JSON.parse(event.data).__vpaid__;
                     if (!data) { throw false; }
@@ -327,7 +327,7 @@ class IAB {
                 } catch (e) {
                     return { id: null, type: null };
                 }
-            }());
+            })());
             const player = _(this).players[data.id];
 
             if (player) { Runner.run(() => player.emit(data.type)); }

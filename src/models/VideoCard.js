@@ -71,11 +71,11 @@ class VideoCard extends Card {
             this.once('becameSkippable', () => this.hasSkipControl = false);
         }
 
-        return super(...arguments);
+        return super.activate(...arguments);
     }
 
     complete() {
-        super(...arguments);
+        super.complete(...arguments);
         const advance = (() => this.emit('canAdvance'));
 
         if (this.data.autoadvance) {
@@ -85,7 +85,7 @@ class VideoCard extends Card {
 
     reset() {
         this.hasSkipControl = _(this).skip !== true;
-        return super();
+        return super.reset();
     }
 
     abort() {
@@ -94,7 +94,7 @@ class VideoCard extends Card {
             this.emit('becameSkippable');
         }
 
-        return super();
+        return super.abort();
     }
 
     setPlaybackState({ currentTime, duration }) {

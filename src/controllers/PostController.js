@@ -22,16 +22,16 @@ export default class PostController extends ModuleController {
     }
 
     vote(button) {
-        const vote = (() => {
+        const choice = ((() => {
             switch (button.id) {
             case 'post-module-vote1':
                 return 0;
             case 'post-module-vote2':
                 return 1;
             }
-        }());
+        })());
 
-        this.model.ballot.cast(vote);
+        this.model.ballot.cast(choice);
         this.deactivate();
 
         Runner.runNext(() => {
@@ -56,6 +56,6 @@ export default class PostController extends ModuleController {
             }
         });
 
-        return super(...arguments);
+        return super.renderInto(...arguments);
     }
 }

@@ -22,7 +22,7 @@ export default class FullVideoCardView extends VideoCardView {
     }
 
     didCreateElement() {
-        super(...arguments);
+        super.didCreateElement(...arguments);
 
         this.skipTimer.hide();
     }

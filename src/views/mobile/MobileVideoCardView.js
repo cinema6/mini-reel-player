@@ -22,7 +22,7 @@ export default class MobileVideoCardView extends VideoCardView {
     }
 
     didCreateElement() {
-        super(...arguments);
+        super.didCreateElement(...arguments);
 
         this.replayContainer.hide();
     }

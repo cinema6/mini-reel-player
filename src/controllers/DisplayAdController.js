@@ -10,7 +10,7 @@ export default class DisplayAdController extends ModuleController {
     }
 
     activate() {
-        if (this.active) { return super(); }
+        if (this.active) { return super.activate(); }
         const { view, model } = this;
 
         if (!view.adContainer) {
@@ -19,6 +19,6 @@ export default class DisplayAdController extends ModuleController {
 
         adtech.load({ placement: model.placement, adContainerId: view.adContainer.id });
 
-        return super();
+        return super.activate();
     }
 }

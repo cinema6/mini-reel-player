@@ -37,7 +37,7 @@ export default class ThumbnailNavigatorButtonView extends ButtonView {
     }
 
     didCreateElement() {
-        super();
+        super.didCreateElement();
 
         this.thumb = new View(this.element.firstChild);
     }

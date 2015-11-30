@@ -123,7 +123,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             });
         });
 
-        const trackPlayedEvent = (() => {
+        const trackPlayedEvent = ((() => {
             const cache = {};
 
             return ((card, player) => {
@@ -134,7 +134,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
                     value: Math.round(player.currentTime)
                 }));
             });
-        }());
+        })());
 
         register(({ target: card, data: player }) => {
             if (currentPlayer) {
@@ -168,7 +168,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
         const { config } = this;
         const card = (currentCard && currentCard.id) ? currentCard : undefined;
 
-        const pagePath = (() => {
+        const pagePath = ((() => {
             const cardId = card && card.id;
             let result = '/mr/' + id + (cardId ? '/' + cardId : '') + '/';
             const qf = [];
@@ -191,7 +191,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
             if (qf.length){ result += '?' + qf.join('&'); }
 
             return result;
-        }());
+        })());
 
         return extend(params, {
             page: pagePath,

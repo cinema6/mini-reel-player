@@ -1,11 +1,12 @@
+import postMessage from '../../../src/services/post_message.js';
+import global from '../../../lib/global.js';
+import {
+    noop
+} from '../../../lib/utils.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
+import Runner from '../../../lib/Runner.js';
+
 describe('postMessage', function() {
-    import postMessage from '../../../src/services/post_message.js';
-    import global from '../../../lib/global.js';
-    import {
-        noop
-    } from '../../../lib/utils.js';
-    import RunnerPromise from '../../../lib/RunnerPromise.js';
-    import Runner from '../../../lib/Runner.js';
     let _private;
 
     beforeEach(function() {

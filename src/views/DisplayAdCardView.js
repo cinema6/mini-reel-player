@@ -11,7 +11,7 @@ export default class DisplayAdCardView extends CardView {
     }
 
     update(data) {
-        super(data);
+        super.update(data);
         if (data.links) { this.links.update(data.links); }
     }
 }

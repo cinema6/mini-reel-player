@@ -27,6 +27,6 @@ export default class ModuleController extends ViewController {
     renderInto(...args) {
         this.view.hide();
 
-        return super(...args);
+        return super.renderInto(...args);
     }
 }

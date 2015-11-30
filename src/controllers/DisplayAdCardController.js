@@ -15,7 +15,7 @@ export default class DisplayAdCardController extends CardController {
     }
 
     render() {
-        super();
+        super.render();
 
         const { sponsor, links: { Website }, socialLinks: links } = this.model;
 

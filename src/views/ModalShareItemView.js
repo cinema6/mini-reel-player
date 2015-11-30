@@ -11,7 +11,7 @@ export default class ModalShareItemView extends ActionableItemView {
     }
 
     update(data) {
-        super(data);
+        super.update(data);
         while(_(this).classes.length > 0) {
             const clss = _(this).classes.pop();
             this.removeClass(clss);

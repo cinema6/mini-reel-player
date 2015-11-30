@@ -3,13 +3,13 @@ import Hideable from '../mixins/Hideable.js';
 
 export default class SkipTimerView extends TemplateView {
     update(time) {
-        return super({
+        return super.update({
             remaining: time.toString()
         });
     }
 
     didCreateElement() {
-        super();
+        super.didCreateElement();
 
         this.update('...');
     }

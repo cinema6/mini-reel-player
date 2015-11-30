@@ -166,24 +166,24 @@ export default class VPAIDPlayer extends CorePlayer {
         this.load();
 
         const { state: { ready, started }, player } = _(this);
-        const play = (() => {
+        const doPlay = (() => {
             if (started) { player.resumeAd(); } else { player.startAd(); }
         });
 
-        if (ready) { play(); } else { this.once('canplay', play); }
+        if (ready) { doPlay(); } else { this.once('canplay', doPlay); }
     }
 
     pause() {
         const { state: { ready }, player } = _(this);
         if (!player) { return; }
 
-        const pause = (() => player.pauseAd());
+        const callPause = (() => player.pauseAd());
 
-        if (ready) { pause(); } else { this.once('canplay', pause); }
+        if (ready) { callPause(); } else { this.once('canplay', callPause); }
     }
 
     unload() {
-        super();
+        super.unload();
         const { state: { ready }, player } = _(this);
         if (!player) { return; }
 

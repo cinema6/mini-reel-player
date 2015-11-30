@@ -24,6 +24,6 @@ export default class SwipePostController extends ModuleController {
 
     renderInto() {
         this.updateView();
-        return super(...arguments);
+        return super.renderInto(...arguments);
     }
 }

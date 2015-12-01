@@ -1,7 +1,7 @@
-describe('codeLoader', function() {
-    import codeLoader from '../../../src/services/code_loader.js';
-    import RunnerPromise from '../../../lib/RunnerPromise.js';
+import codeLoader from '../../../src/services/code_loader.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
 
+describe('codeLoader', function() {
     class Script {
         constructor() {
             this.src = null;

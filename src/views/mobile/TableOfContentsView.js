@@ -14,7 +14,7 @@ class TableOfContentsView extends TemplateView {
     }
 
     update(data) {
-        super({ title: data.title });
+        super.update({ title: data.title });
 
         this.list.on('addChild', (card, index) => {
             card.on('select', () => this.emit('selectCard', data.cards[index].id));

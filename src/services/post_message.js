@@ -10,11 +10,11 @@ import Runner from '../../lib/Runner.js';
 
 const _ = createKey({
     ping(win, event, type, data) {
-        const id = (() => {
+        const id = ((() => {
             const parsed = parseInt(type.split(':')[1], 10);
 
             return isNaN(parsed) ? undefined : parsed;
-        }());
+        })());
         const message = { __c6__: { id: id, event: event, type: type, data: data } };
 
         win.postMessage(JSON.stringify(message), '*');

@@ -33,7 +33,7 @@ export default class MobilePlayerView extends PlayerView {
     }
 
     didCreateElement() {
-        super(...arguments);
+        super.didCreateElement(...arguments);
 
         this.nextButtons.push(this.nextButton, this.landscapeNextButton);
         this.previousButtons.push(this.previousButton, this.landscapePreviousButton);
@@ -51,7 +51,7 @@ export default class MobilePlayerView extends PlayerView {
     }
 
     update(data) {
-        if (!data.thumbs) { return super(data); }
+        if (!data.thumbs) { return super.update(data); }
 
         forEach(this.nextButtons, button => {
             button.setThumb(data.thumbs.next);
@@ -61,17 +61,17 @@ export default class MobilePlayerView extends PlayerView {
             button.setThumb(data.thumbs.previous);
         });
 
-        return super(data);
+        return super.update(data);
     }
 
     hideNavigation() {
         forEach(this.tocButtons, view => view.hide());
-        return super(...arguments);
+        return super.hideNavigation(...arguments);
     }
 
     showNavigation() {
         forEach(this.tocButtons, view => view.show());
-        return super(...arguments);
+        return super.showNavigation(...arguments);
     }
 
     hideChrome() {

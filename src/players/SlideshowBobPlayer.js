@@ -69,12 +69,12 @@ export default class SlideshowBobPlayer extends CorePlayer {
         const { state: { ready } } = _(this);
         this.load();
 
-        const play = (() => {
+        const doPlay = (() => {
             this.emit('attemptPlay');
             _(this).video.call('play');
         });
 
-        if (ready) { play(); } else { this.once('canplay', play); }
+        if (ready) { doPlay(); } else { this.once('canplay', doPlay); }
     }
 
     unload() {
@@ -141,7 +141,7 @@ export default class SlideshowBobPlayer extends CorePlayer {
 
     didInsertElement() {
         if (this.autoplay) { this.play(); }
-        return super();
+        return super.didInsertElement();
     }
 }
 

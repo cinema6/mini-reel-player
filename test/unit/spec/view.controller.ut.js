@@ -1,8 +1,9 @@
+import ViewController from '../../../src/controllers/ViewController.js';
+import Controller from '../../../lib/core/Controller.js';
+import View from '../../../lib/core/View.js';
+import {EventEmitter} from 'events';
+
 describe('ViewController', function() {
-    import ViewController from '../../../src/controllers/ViewController.js';
-    import Controller from '../../../lib/core/Controller.js';
-    import View from '../../../lib/core/View.js';
-    import {EventEmitter} from 'events';
     let ViewCtrl;
 
     beforeEach(function() {

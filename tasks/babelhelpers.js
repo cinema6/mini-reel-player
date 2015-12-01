@@ -1,15 +1,22 @@
 'use strict';
 
-var babel = require('babel-core');
+var resolvePath = require('path').resolve;
 
 module.exports = function(grunt) {
     grunt.registerMultiTask('babelhelpers', 'Build external babel helpers', function() {
         var options = this.options({
-            whitelist: null,
             dest: './external-helpers.js'
         });
+        var done = this.async();
 
-        grunt.file.write(options.dest, babel.buildExternalHelpers(options.whitelist));
-        grunt.log.ok('Wrote Babel helpers to ' + options.dest + '!');
+        grunt.util.spawn({
+            cmd: resolvePath(process.cwd(), './node_modules/.bin/babel-external-helpers')
+        }, function(error, result, code) {
+            if (error || code !== 0) { done(false); }
+
+            grunt.file.write(options.dest, result.toString());
+            grunt.log.ok('Wrote Babel helpers to ' + options.dest + '!');
+            done();
+        });
     });
 };

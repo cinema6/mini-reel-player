@@ -357,7 +357,7 @@ export default class ThirdPartyPlayer extends CorePlayer {
     unload() {
         if(this.__api__.methods.unload) {
             _(this).serializer.call(() => {
-                super();
+                super.unload();
                 return _(this).playerUnload();
             });
         } else {

@@ -1,6 +1,7 @@
+import CardView from '../../../src/views/CardView.js';
+import TemplateView from '../../../lib/core/TemplateView.js';
+
 describe('CardView', function() {
-    import CardView from '../../../src/views/CardView.js';
-    import TemplateView from '../../../lib/core/TemplateView.js';
     let cardView;
 
     beforeEach(function() {

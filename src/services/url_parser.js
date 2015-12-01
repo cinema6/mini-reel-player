@@ -1,12 +1,12 @@
 import {createKey} from 'private-parts';
 import environment from '../environment.js';
-const needsDoubleSet = (() => {
+const needsDoubleSet = ((() => {
     const a = document.createElement('a');
 
     a.setAttribute('href', '/foo');
 
     return !a.protocol;
-}());
+})());
 
 const _ = createKey();
 

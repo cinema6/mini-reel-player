@@ -1,5 +1,6 @@
+import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
+
 describe('PlayerInterface', function() {
-    import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
     let iface;
 
     beforeEach(function() {

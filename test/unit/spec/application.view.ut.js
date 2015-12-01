@@ -1,6 +1,7 @@
+import ApplicationView from '../../../src/views/ApplicationView.js';
+import View from '../../../lib/core/View.js';
+
 describe('ApplicationView', function() {
-    import ApplicationView from '../../../src/views/ApplicationView.js';
-    import View from '../../../lib/core/View.js';
     let applicationView;
 
     beforeEach(function() {

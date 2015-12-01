@@ -1,8 +1,9 @@
+import MobileApplicationController from '../../../../src/controllers/mobile/MobileApplicationController.js';
+import ApplicationController from '../../../../src/controllers/ApplicationController.js';
+import MobilePlayerController from '../../../../src/controllers/mobile/MobilePlayerController.js';
+import Runner from '../../../../lib/Runner.js';
+
 describe('MobileApplicationController', function() {
-    import MobileApplicationController from '../../../../src/controllers/mobile/MobileApplicationController.js';
-    import ApplicationController from '../../../../src/controllers/ApplicationController.js';
-    import MobilePlayerController from '../../../../src/controllers/mobile/MobilePlayerController.js';
-    import Runner from '../../../../lib/Runner.js';
     let MobileApplicationCtrl;
 
     let root;

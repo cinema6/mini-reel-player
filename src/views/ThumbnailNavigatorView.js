@@ -133,11 +133,11 @@ export default class ThumbnailNavigatorView extends TemplateView {
 
         Runner.scheduleOnce('afterRender', this, 'scrollToActiveItem');
 
-        return super(data);
+        return super.update(data);
     }
 
     didCreateElement() {
-        super();
+        super.didCreateElement();
 
         _(this).buttons = [this.previousButton, this.nextButton];
 
@@ -145,13 +145,13 @@ export default class ThumbnailNavigatorView extends TemplateView {
     }
 
     didInsertElement() {
-        super();
+        super.didInsertElement();
 
         global.addEventListener('resize', _(this).resizeHandler, false);
     }
 
     willRemoveElement() {
-        super();
+        super.willRemoveElement();
 
         global.removeEventListener('resize', _(this).resizeHandler, false);
     }

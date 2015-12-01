@@ -259,7 +259,7 @@ export default class VASTPlayer extends CorePlayer {
     unload() {
         const {video} = _(this);
 
-        if (!video) { return super(); }
+        if (!video) { return super.unload(); }
 
         media.unloadMedia(video);
 
@@ -268,7 +268,7 @@ export default class VASTPlayer extends CorePlayer {
 
         Runner.schedule('afterRender', this.element, 'removeChild', [video]);
 
-        return super();
+        return super.unload();
     }
     reload() {
         this.unload();
@@ -293,7 +293,7 @@ export default class VASTPlayer extends CorePlayer {
             });
         }
 
-        return super(...arguments);
+        return super.didInsertElement(...arguments);
     }
 
     click() {

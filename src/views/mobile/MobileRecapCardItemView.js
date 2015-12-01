@@ -13,6 +13,6 @@ export default class MobileRecapCardItemView extends RecapCardItemView {
 
     didCreateElement() {
         this.element.onclick = noop;
-        return super(...arguments);
+        return super.didCreateElement(...arguments);
     }
 }

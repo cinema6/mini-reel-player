@@ -13,13 +13,13 @@ import {
 /*jshint scripturl:true*/
 const c6 = global.c6 || {};
 const $location = urlParser.parse(global.location.href);
-const $$location = (() => {
+const $$location = ((() => {
     try {
         return urlParser.parse(global.parent.location.href);
     } catch (e) {
         return $location;
     }
-}());
+})());
 const GUID_KEY = '__c6_guid__';
 
 const POSSIBILITES = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -60,11 +60,11 @@ class Environment {
 
         this.initTime = c6.kStartTime;
         this.loadStartTime = c6.kLoadStart || global.performance.timing.requestStart || null;
-        this.guid = (() => {
+        this.guid = ((() => {
             const guid = storage.get(GUID_KEY) || generateId(32);
             storage.set(GUID_KEY, guid);
             return guid;
-        }());
+        })());
         this.loader = !!c6.kParams ? 'c6embed' : 'service';
     }
 }

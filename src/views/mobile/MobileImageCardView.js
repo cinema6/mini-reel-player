@@ -14,7 +14,7 @@ export default class MobileImageCardView extends CardView {
     }
 
     didCreateElement() {
-        super(...arguments);
+        super.didCreateElement(...arguments);
 
         this.replayContainer.hide();
     }

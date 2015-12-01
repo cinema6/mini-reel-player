@@ -115,13 +115,13 @@ export default class VimeoPlayer extends CorePlayer {
             this.emit('attemptPlay');
             player.call('play');
         });
-        const play = (() => {
+        const doPlay = (() => {
             browser.test('autoplay').then(autoplayable => {
                 if (autoplayable) { return callPlay(); }
             });
         });
 
-        if (ready) { play(); } else { player.once('ready', play); }
+        if (ready) { doPlay(); } else { player.once('ready', doPlay); }
     }
 
     load() {
@@ -257,7 +257,7 @@ export default class VimeoPlayer extends CorePlayer {
 
     unload() {
         const {player, iframe} = _(this);
-        if (!player) { return super(); }
+        if (!player) { return super.unload(); }
 
         player.destroy();
         _(this).state = getInitialState();
@@ -267,7 +267,7 @@ export default class VimeoPlayer extends CorePlayer {
 
         Runner.schedule('afterRender', this.element, 'removeChild', [iframe]);
 
-        return super();
+        return super.unload();
     }
 
     reload() {
@@ -282,6 +282,6 @@ export default class VimeoPlayer extends CorePlayer {
     didInsertElement() {
         if (this.autoplay) { this.play(); }
 
-        return super(...arguments);
+        return super.didInsertElement(...arguments);
     }
 }

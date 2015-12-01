@@ -1,6 +1,7 @@
+import TemplateView from '../../../lib/core/TemplateView.js';
+import RecapCardItemView from '../../../src/views/RecapCardItemView.js';
+
 describe('RecapCardItemView', function() {
-    import TemplateView from '../../../lib/core/TemplateView.js';
-    import RecapCardItemView from '../../../src/views/RecapCardItemView.js';
     let recapCardItemView;
 
     beforeEach(function() {

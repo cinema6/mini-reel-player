@@ -20,7 +20,7 @@ export default class LightboxPlayerView extends PlayerView {
     }
 
     didCreateElement() {
-        super();
+        super.didCreateElement();
 
         this.closeButtons.push(this.closeButton);
         this.previousButtons.push(this.previousButton);

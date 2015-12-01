@@ -24,7 +24,7 @@ export default class PlayerView extends TemplateView {
     }
 
     update(data) {
-        super(...arguments);
+        super.update(...arguments);
 
         if ('canGoForward' in data) {
             forEach(this.nextButtons, button => {

@@ -54,6 +54,6 @@ export default class RecapCardController extends CardController {
             }))
         });
 
-        return super(...arguments);
+        return super.render(...arguments);
     }
 }

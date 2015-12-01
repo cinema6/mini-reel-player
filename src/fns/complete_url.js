@@ -8,12 +8,12 @@ import {
 export default function completeUrl(url, params = {}) {
     const { debug, href, guid } = environment;
     const timestamp = Date.now();
-    const pageUrl = (() => {
+    const pageUrl = ((() => {
         if (debug) { return 'mutantplayground.com'; }
         const url = urlParser.parse(href);
 
         return url.origin + url.pathname;
-    }());
+    })());
     const data = [
         // Cinema6 Macros
         ['{pageUrl}', pageUrl],

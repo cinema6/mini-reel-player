@@ -150,14 +150,14 @@ export default class YouTubePlayer extends CorePlayer {
             this.emit('attemptPlay');
             _(this).player.playVideo();
         });
-        const play = (() => {
+        const doPlay = (() => {
             browser.test('autoplay').then(autoplayable => {
                 if (autoplayable) { return callPlay(); }
             });
         });
 
         this.load();
-        if (_(this).player) { play(); } else { this.once('canplay', play); }
+        if (_(this).player) { doPlay(); } else { this.once('canplay', doPlay); }
     }
 
     pause() {
@@ -313,7 +313,7 @@ export default class YouTubePlayer extends CorePlayer {
         _(this).player = null;
         _(this).hasPlayed = false;
 
-        return super();
+        return super.unload();
     }
 
     reload() {
@@ -334,6 +334,6 @@ export default class YouTubePlayer extends CorePlayer {
             this.play();
         }
 
-        return super(...arguments);
+        return super.didInsertElement(...arguments);
     }
 }

@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.1.0-rc1]*
+  * [FEATURE]: Add support for video cards with a video URL
+
 ## v2.0.0 (December 1, 2015)
 * *[v2.0.0-rc2]*
   * [FIX]: Fix for an issue that caused some icons not to render when

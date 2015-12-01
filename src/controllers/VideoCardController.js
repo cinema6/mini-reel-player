@@ -102,31 +102,6 @@ export default class VideoCardController extends CardController {
 
         return super.render(...arguments);
     }
-
-    shareItemClicked(shareItem, shareLink) {
-        const sizes = {
-            facebook: {
-                w: 570,
-                h: 550
-            },
-            twitter: {
-                w: 580,
-                h: 250
-            },
-            pinterest: {
-                w: 750,
-                h: 550
-            }
-        };
-        const w = sizes[shareLink.type].w;
-        const h = sizes[shareLink.type].h;
-        const left = (screen.width/2)-(w/2);
-        const top = (screen.height/2)-(h/2)-50;
-        const title = 'Share to ' + shareLink.type.charAt(0).toUpperCase() +
-            shareLink.type.slice(1);
-        return window.open(shareLink.href, title,
-            `width=${w},height=${h},top=${top},left=${left}`);
-    }
 }
 VideoCardController.mixin(// jshint ignore:line
     PostVideoCardController,

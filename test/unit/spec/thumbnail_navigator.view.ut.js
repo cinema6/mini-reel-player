@@ -128,7 +128,8 @@ describe('ThumbnailNavigatorView', function() {
             };
 
             Runner.run(() => view.update(data));
-            return data;
+
+            return view.data;
         }
 
         beforeAll(function() {
@@ -290,7 +291,7 @@ describe('ThumbnailNavigatorView', function() {
             let scroller;
 
             function setActive(index) {
-                data.items.forEach((item, itemIndex) => item.active = itemIndex === index);
+                populateThumbs(data.items.length, index);
                 Runner.run(() => view.scrollToActiveItem());
             }
 

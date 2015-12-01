@@ -419,53 +419,6 @@ describe('VideoCardController', function() {
             });
         });
 
-        describe('shareItemClicked(shareItem, shareLink)', function() {
-            let link;
-
-            beforeEach(function() {
-                spyOn(window, 'open');
-                link = {
-                    href: 'www.site.com'
-                };
-            });
-
-            describe('for facebook', function() {
-                it('should open a window with the correct link and size', function() {
-                    link.type = 'facebook';
-                    VideoCardCtrl.shareItemClicked(null, link);
-                    const args = window.open.calls.mostRecent().args;
-                    expect(args[0]).toBe('www.site.com');
-                    expect(args[1]).toBe('Share to Facebook');
-                    expect(args[2]).toContain('width=570');
-                    expect(args[2]).toContain('height=550');
-                });
-            });
-
-            describe('for twitter', function() {
-                it('should open a window with the correct link and size', function() {
-                    link.type = 'twitter';
-                    VideoCardCtrl.shareItemClicked(null, link);
-                    const args = window.open.calls.mostRecent().args;
-                    expect(args[0]).toBe('www.site.com');
-                    expect(args[1]).toBe('Share to Twitter');
-                    expect(args[2]).toContain('width=580');
-                    expect(args[2]).toContain('height=250');
-                });
-            });
-
-            describe('for pinterest', function() {
-                it('should open a window with the correct link and size', function() {
-                    link.type = 'pinterest';
-                    VideoCardCtrl.shareItemClicked(null, link);
-                    const args = window.open.calls.mostRecent().args;
-                    expect(args[0]).toBe('www.site.com');
-                    expect(args[1]).toBe('Share to Pinterest');
-                    expect(args[2]).toContain('width=750');
-                    expect(args[2]).toContain('height=550');
-                });
-            });
-        });
-
         describe('render()', function() {
             let result;
 

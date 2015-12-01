@@ -36,9 +36,10 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
 
         this.__api__.autoplayTest = false;
         
-        this.__api__.loadPlayer = src => {
+        this.__api__.loadPlayer = (src, poster) => {
             const video = document.createElement('video');
             video.setAttribute('src', src);
+            video.setAttribute('poster', poster);
             return new RunnerPromise(resolve => {
                 Runner.schedule('afterRender', null, () => {
                     const loadstartFn = () => process.nextTick(() => Runner.run(() => {

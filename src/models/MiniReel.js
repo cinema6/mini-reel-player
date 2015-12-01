@@ -45,6 +45,7 @@ function getCardType(card) {
     case 'wistia':
     case 'jwplayer':
     case 'vidyard':
+    case 'htmlvideo':
         return 'video';
     default:
         return card.type;

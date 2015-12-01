@@ -1,6 +1,9 @@
 import makeSocialLinks from '../fns/make_social_links.js';
 import makeShareLinks from '../fns/make_share_links.js';
 import normalizeLinks from '../fns/normalize_links.js';
+import {
+    find
+} from '../../lib/utils.js';
 
 function SponsoredCard(data) {
     this.sponsored = data.sponsored;
@@ -33,6 +36,12 @@ SponsoredCard.prototype.clickthrough = function clickthrough(linkName) {
     const link = this.links[linkName];
 
     if (link) { this.emit('clickthrough', link, linkName); }
+};
+
+SponsoredCard.prototype.share = function share(type) {
+    const link = find(this.shareLinks, link => link.type === type);
+
+    if (link) { this.emit('share', link); }
 };
 
 export default SponsoredCard;

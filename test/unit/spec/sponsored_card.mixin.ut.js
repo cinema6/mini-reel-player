@@ -166,5 +166,32 @@ describe('SponsoredCard mixin', function() {
                 });
             });
         });
+
+        describe('share(type)', function() {
+            let share;
+
+            beforeEach(function() {
+                share = jasmine.createSpy('share()');
+                card.on('share', share);
+
+                card.share('twitter');
+            });
+
+            it('should emit the share event with the share link config', function() {
+                expect(share).toHaveBeenCalledWith(card.shareLinks[1]);
+            });
+
+            describe('if the link cannot be found', function() {
+                beforeEach(function() {
+                    share.calls.reset();
+
+                    card.share('jsdhf');
+                });
+
+                it('should not emit the event', function() {
+                    expect(share).not.toHaveBeenCalled();
+                });
+            });
+        });
     });
 });

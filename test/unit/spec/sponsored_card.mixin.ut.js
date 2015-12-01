@@ -2,6 +2,7 @@ import Card from '../../../src/models/Card.js';
 import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
 import normalizeLinks from '../../../src/fns/normalize_links.js';
 import makeSocialLinks from '../../../src/fns/make_social_links.js';
+import makeShareLinks from '../../../src/fns/make_share_links.js';
 class MyInstagramCard extends Card {}
 MyInstagramCard.mixin(SponsoredCard);
 
@@ -133,23 +134,7 @@ describe('SponsoredCard mixin', function() {
             expect(card.logo).toBe('www.site.com/logo');
             expect(card.links).toEqual(normalizeLinks(instagramData.links));
             expect(card.socialLinks).toEqual(makeSocialLinks(card.links));
-            expect(card.shareLinks).toEqual([
-                {
-                    type: 'facebook',
-                    label: 'Share',
-                    href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.cinema6.com'
-                },
-                {
-                    type: 'twitter',
-                    label: 'Tweet',
-                    href: 'https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.cinema6.com'
-                },
-                {
-                    type: 'pinterest',
-                    label: 'Pin it',
-                    href: 'https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.cinema6.com&media=https%3A%2F%2Fscontent.cdninstagram.com%2Fhphotos-xfa1%2Ft51.2885-15%2Fs320x320%2Fe15%2F11351507_836701216398426_1156749946_n.jpg'
-                }
-            ]);
+            expect(card.shareLinks).toEqual(makeShareLinks(instagramData.shareLinks, instagramData.data.thumbs.large, instagramData.title));
             expect(card.ad).toBe(true);
         });
     });

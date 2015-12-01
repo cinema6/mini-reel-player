@@ -19,9 +19,11 @@ function SponsoredCard(data) {
         this.socialLinks = makeSocialLinks(this.links);
         this.shareLinks = makeShareLinks(
             data.shareLinks,
-            (data.data.thumbs && (data.data.thumbs.large || data.data.thumbs.small)) ||
-                (data.thumbs && (data.thumbs.large || data.thumbs.small)),
-            data.title || ''
+            (
+                (data.data.thumbs && (data.data.thumbs.large || data.data.thumbs.small)) ||
+                (data.thumbs && (data.thumbs.large || data.thumbs.small))
+            ),
+            data.title
         );
         this.ad = !!data.params.ad;
     }

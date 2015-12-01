@@ -23,17 +23,9 @@
         ============================================= */
         @import url('lightbox/video-card.css');
 
-    /*  article card classes
-        ============================================= */
-        @import url('lightbox/article-card.css');
-
     /*  image card classes
         ============================================= */
         @import url('lightbox/image-card.css');
-
-    /*  text only card classes
-        ============================================= */
-        @import url('lightbox/text-card.css');
 
     /*  sponsored card classes
         ============================================= */
@@ -42,11 +34,6 @@
     /*  recap card classes
         ============================================= */
         @import url('lightbox/recap-card.css');
-
-    /*  video/display ad card classes
-        display ad module classes
-        ============================================= */
-        @import url('lightbox/ad-styles.css');
 
     /*  branded MR classes
         ============================================= */

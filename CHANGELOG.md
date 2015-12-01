@@ -27,6 +27,7 @@
   * [DEPRECATION]: Remove support for videos from rumble.com
   * [DEPRECATION]: Remove support for videos from AOL On
   * [DEPRECATION]: Remove support for videos from Yahoo! Screen
+  * [FEATURE]: Support tracking share link clicks
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

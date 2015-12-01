@@ -79,7 +79,7 @@ describe('ADTECHHandler', function() {
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
-        dispatcher.addSource('card', card, ['activate', 'deactivate', 'clickthrough']);
+        dispatcher.addSource('card', card, ['activate', 'deactivate', 'clickthrough', 'share']);
     });
 
     afterEach(function() {
@@ -302,6 +302,26 @@ describe('ADTECHHandler', function() {
                 spyOn(imageLoader, 'load');
 
                 card.emit('clickthrough', data);
+            });
+
+            it('should fire the tracking pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDefaults));
+            });
+        });
+
+        describe('share', function() {
+            let data;
+
+            beforeEach(function() {
+                data = {
+                    type: 'facebook',
+                    label: 'Facebook',
+                    href: 'http://imgur.com/S3GiV63',
+                    tracking: ['img15.jpg', 'img16.jpg?page={pageUrl}']
+                };
+                spyOn(imageLoader, 'load');
+
+                card.emit('share', data);
             });
 
             it('should fire the tracking pixels', function() {

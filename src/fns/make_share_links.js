@@ -1,3 +1,4 @@
+import normalizeLinks from './normalize_links.js';
 import {
     map,
     filter
@@ -5,40 +6,42 @@ import {
 
 const SOCIAL_LINKS = ['facebook', 'pinterest', 'twitter'];
 
-export default function makeShareLinks(links, thumbUrl, title) {
+export default function makeShareLinks(links, thumbUrl, title = '') {
     if(!links) { return []; }
+
+    const normalizedLinks = normalizeLinks(links);
+
     return map(
         filter(
-            Object.keys(links),
+            Object.keys(normalizedLinks),
             key => SOCIAL_LINKS.indexOf(key) > -1 && (key !== 'pinterest' || thumbUrl)
         ),
-        key => {
-            var href, label;
-            const url = encodeURIComponent(links[key]);
-            const media = encodeURIComponent(thumbUrl);
-            const desc = encodeURIComponent(title);
-            switch(key) {
-            case 'facebook':
-                label = 'Share';
-                href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-                break;
-            case 'twitter':
-                label = 'Tweet';
-                href = `https://twitter.com/intent/tweet?url=${url}`;
-                break;
-            case 'pinterest':
-                label = 'Pin it';
-                href = `https://pinterest.com/pin/create/button/?url=${url}&media=${media}`;
-                if(desc) {
-                    href = href + `&description=${desc}`;
+        type => {
+            const entry = normalizedLinks[type];
+
+            const label = ((() => {
+                switch (type) {
+                case 'facebook':
+                    return 'Share';
+                case 'twitter':
+                    return 'Tweet';
+                case 'pinterest':
+                    return 'Pin it';
                 }
-                break;
-            }
-            return {
-                type: key,
-                label: label,
-                href: href
-            };
+            })());
+            const href  = (((uri, image, description) => {
+                switch (type) {
+                case 'facebook':
+                    return `https://www.facebook.com/sharer/sharer.php?u=${uri}`;
+                case 'twitter':
+                    return `https://twitter.com/intent/tweet?url=${uri}`;
+                case 'pinterest':
+                    return `https://pinterest.com/pin/create/button/` +
+                        `?url=${uri}&media=${image}&description=${description}`;
+                }
+            }).apply(null, map([entry.uri, thumbUrl, title], encodeURIComponent)));
+
+            return { type, label, href, tracking: entry.tracking };
         }
     );
 }

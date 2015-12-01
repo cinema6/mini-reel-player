@@ -59,9 +59,9 @@ export default class ADTECHHandler extends BillingHandler {
 
             if (viewUrls) { imageLoader.load(...map(viewUrls, completeUrlWithDefaults)); }
         }, 'card', 'activate');
-        register((event, data) => {
-            imageLoader.load(...map(data.tracking, completeUrlWithDefaults));
-        }, 'card', 'clickthrough');
+        register((event, { tracking }) => {
+            imageLoader.load(...map(tracking, completeUrlWithDefaults));
+        }, 'card', 'clickthrough', 'share');
 
         this.on('AdClick', card => {
             const { campaign: { playUrls }, lastViewedTime } = card;

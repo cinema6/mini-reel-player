@@ -54,6 +54,17 @@ describe('TemplateView', function() {
                 expect(view.instantiates).toEqual({});
             });
         });
+
+        describe('data', function() {
+            it('should be and empty, frozen Object', function() {
+                expect(view.data).toEqual({});
+                expect(Object.isFrozen(view.data)).toBe(true);
+            });
+
+            it('should not be settable', function() {
+                expect(() => view.data = {}).toThrow();
+            });
+        });
     });
 
     describe('methods:', function() {
@@ -76,6 +87,11 @@ describe('TemplateView', function() {
                 tbCompileFns.forEach(fn => expect(fn).toHaveBeenCalledWith(data));
             });
 
+            it('should update the data property', function() {
+                expect(view.data).toEqual(data);
+                expect(Object.isFrozen(view.data)).toBe(true);
+            });
+
             describe('if called again', function() {
                 beforeEach(function() {
                     view.update({
@@ -96,6 +112,15 @@ describe('TemplateView', function() {
                         name: 'Josh',
                         age: 23
                     }));
+                });
+
+                it('should update the data property', function() {
+                    expect(view.data).toEqual({
+                        company: 'Cinema6',
+                        name: 'Josh',
+                        age: 23
+                    });
+                    expect(Object.isFrozen(view.data)).toBe(true);
                 });
             });
 

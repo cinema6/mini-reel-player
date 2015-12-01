@@ -9,14 +9,10 @@
   },
   "builds": [
     "mobile",
-    "swipe",
-    "full",
     "full-np",
-    "lightbox-playlist",
     "lightbox",
     "light",
     "solo",
-    "solo-ads",
     "desktop-card"
   ],
   "repository": {

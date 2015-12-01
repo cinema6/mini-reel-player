@@ -3,7 +3,6 @@ import CardPlayerController from '../../../../src/controllers/CardPlayerControll
 import View from '../../../../lib/core/View.js';
 import Runner from '../../../../lib/Runner.js';
 import DesktopCardVideoCardController from '../../../../src/controllers/desktop-card/DesktopCardVideoCardController.js';
-import LightArticleCardController from '../../../../src/controllers/light/LightArticleCardController.js';
 import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
 import LightInstagramVideoCardController from '../../../../src/controllers/light/LightInstagramVideoCardController.js';
 import DesktopCardPlayerView from '../../../../src/views/desktop-card/DesktopCardPlayerView.js';
@@ -28,12 +27,6 @@ describe('DesktopCardPlayerController', function() {
             describe('.video', function() {
                 it('should be the DesktopCardVideoCardController', function() {
                     expect(DesktopCardPlayerCtrl.CardControllers.video).toBe(DesktopCardVideoCardController);
-                });
-            });
-
-            describe('.article', function() {
-                it('should be the LightArticleCardController', function() {
-                    expect(DesktopCardPlayerCtrl.CardControllers.article).toBe(LightArticleCardController);
                 });
             });
 

@@ -4,13 +4,7 @@ ResizingPlayerController.prototype = {
         this.minireel.on('move', () => {
             const { currentCard } = this.minireel;
             if (!currentCard) { return; }
-            const {  title, note, type } = currentCard;
-
-            if (type === 'text') {
-                this.view.hideNavigation();
-            } else {
-                this.view.showNavigation();
-            }
+            const {  title, note } = currentCard;
 
             const length = (title || '').length + (note || '').length;
 

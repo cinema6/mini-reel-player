@@ -5,7 +5,6 @@ import Mixable from '../../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../../src/mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
 import DesktopCardVideoCardView from '../../../../src/views/desktop-card/DesktopCardVideoCardView.js';
-import ModalBallotResultsVideoCardController from '../../../../src/mixins/ModalBallotResultsVideoCardController.js';
 import ModalShareVideoCardController from '../../../../src/mixins/ModalShareVideoCardController.js';
 
 class MockCard extends Mixable {
@@ -32,7 +31,6 @@ describe('DesktopCardVideoCardController', function() {
         rootView = new View();
 
         spyOn(DesktopCardVideoCardController.prototype, 'addView').and.callThrough();
-        spyOn(DesktopCardVideoCardController.prototype, 'initBallotResults').and.callThrough();
         spyOn(DesktopCardVideoCardController.prototype, 'initShare').and.callThrough();
 
         DesktopCardVideoCardCtrl = new DesktopCardVideoCardController(card, rootView);
@@ -40,11 +38,6 @@ describe('DesktopCardVideoCardController', function() {
 
     it('should exist', function() {
         expect(DesktopCardVideoCardCtrl).toEqual(jasmine.any(VideoCardController));
-    });
-
-    it('should mixin ModalBallotResultsVideoCardController', function() {
-        expect(DesktopCardVideoCardController.mixins).toContain(ModalBallotResultsVideoCardController);
-        expect(DesktopCardVideoCardCtrl.initBallotResults).toHaveBeenCalled();
     });
 
     it('should mixin ModalShareVideoCardController', function() {

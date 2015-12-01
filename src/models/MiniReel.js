@@ -13,7 +13,6 @@ import SafelyGettable from '../mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
 import {createKey} from 'private-parts';
 import cinema6 from '../services/cinema6.js';
-import adtech from '../services/adtech.js';
 import browser from '../services/browser.js';
 import codeLoader from '../services/code_loader.js';
 import normalizeLinks from '../fns/normalize_links.js';
@@ -23,21 +22,15 @@ import {
     forEach,
     filter
 } from '../../lib/utils.js';
-import ArticleCard from './ArticleCard.js';
-import TextCard from './TextCard.js';
 import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
 import AdUnitCard from './AdUnitCard.js';
-import EmbeddedVideoCard from './EmbeddedVideoCard.js';
-import DisplayAdCard from './DisplayAdCard.js';
 import RecapCard from './RecapCard.js';
-import PrerollCard from './PrerollCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
 
-const CARD_WHITELIST = ['text', 'video', 'article', 'image', 'displayAd', 'slideshow-bob', 'recap',
-                        'instagram'];
+const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
 
 const _ = createKey();
 
@@ -46,8 +39,6 @@ function getCardType(card) {
     case 'youtube':
     case 'vimeo':
     case 'dailymotion':
-    case 'rumble':
-    case 'embedded':
     case 'adUnit':
     case 'vine':
     case 'vzaar':
@@ -72,20 +63,12 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
     this.splash = experience.data.collateral.splash;
     this.deck = map(deck, card => {
         switch (card.type) {
-         case 'article':
-            return new ArticleCard(card, experience, profile);
-        case 'text':
-            return new TextCard(card, experience, profile);
         case 'image':
             return new ImageCard(card, experience, profile);
         case 'recap':
             return new RecapCard(card, experience, profile, this);
         case 'adUnit':
             return new AdUnitCard(card, experience, profile);
-        case 'embedded':
-            return new EmbeddedVideoCard(card, experience, profile);
-        case 'displayAd':
-            return new DisplayAdCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
         case 'instagram':
@@ -100,31 +83,11 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
         }
     });
     this.length = this.deck.length;
-    this.adConfig = experience.data.adConfig || {
-        video: {
-            firstPlacement: 1,
-            frequency: 3,
-            waterfall: 'cinema6',
-            skip: 6
-        },
-        display: {
-            waterfall: 'cinema6'
-        }
-    };
 
     this.sponsor = experience.data.params.sponsor || null;
     this.logo = experience.data.collateral.logo || null;
     this.links = normalizeLinks(experience.data.links);
     this.socialLinks = makeSocialLinks(this.links);
-
-    adtech.setDefaults({
-        network: experience.data.adServer.network,
-        server: experience.data.adServer.server,
-        kv: { mode: this.adConfig.display.waterfall || 'default' },
-    });
-
-    this.prerollCard = new PrerollCard(null, experience, profile, this);
-
 
     if (this.branding && environment.loader !== 'service') {
         const { apiRoot, mode } = environment;
@@ -163,9 +126,7 @@ export default class MiniReel extends Mixable {
         this.campaign = null;
         this.splash = null;
         this.deck = [];
-        this.prerollCard = null;
         this.length = 0;
-        this.adConfig = null;
 
         this.sponsor = null;
         this.logo = null;
@@ -178,10 +139,6 @@ export default class MiniReel extends Mixable {
         this.closeable = true;
 
         _(this).ready = false;
-        _(this).cardsShown = 0;
-        _(this).prerollShown = 0;
-        _(this).previousIndex = this.currentIndex - 1;
-        _(this).nextIndex = this.currentIndex + 1;
 
         _(this).cardCanAdvanceHandler = (() => this.next());
         _(this).becameUnskippableHandler = (() => {
@@ -253,44 +210,13 @@ export default class MiniReel extends Mixable {
         }
 
         const previousCard = this.currentCard;
-        const previousIndex = this.currentIndex;
-        let currentCard = this.deck[index] || null;
-        let nextCard = this.deck[index + 1] || null;
-        let currentIndex = index;
-
-        _(this).previousIndex = index - 1;
-        _(this).nextIndex = index + 1;
+        const currentCard = this.deck[index] || null;
+        const nextCard = this.deck[index + 1] || null;
 
         if (currentCard === previousCard) { return; }
 
-        const { cardsShown, prerollShown } = _(this);
-        const firstPlacement = this.adConfig.video.firstPlacement > -1 ?
-            this.adConfig.video.firstPlacement : Infinity;
-        const frequency = this.adConfig.video.frequency || Infinity;
-        const showedFirstPreroll = prerollShown > 0;
-        const cardsShownSinceFirstPreroll = (cardsShown - firstPlacement);
-        const shouldLoadPreroll = ((cardsShown + 1) === firstPlacement) ||
-            (((cardsShownSinceFirstPreroll + 1) % frequency) === 0);
-        const shouldShowPreroll = (index > -1) &&
-            (((cardsShown === firstPlacement) && !showedFirstPreroll) ||
-            (showedFirstPreroll && (prerollShown <= (cardsShownSinceFirstPreroll / frequency))));
-
-        if (shouldLoadPreroll) { nextCard = this.prerollCard; }
-
-        if (shouldShowPreroll) {
-            currentIndex = null;
-            nextCard = currentCard;
-            currentCard = this.prerollCard;
-            _(this).prerollShown++;
-
-            _(this).nextIndex = index;
-            _(this).previousIndex = previousIndex;
-        } else {
-            _(this).cardsShown++;
-        }
-
         if (currentCard) {
-            if (currentIndex !== (this.length - 1)) {
+            if (index !== (this.length - 1)) {
                 currentCard.on('canAdvance', _(this).cardCanAdvanceHandler);
             }
 
@@ -304,15 +230,17 @@ export default class MiniReel extends Mixable {
             previousCard.removeListener('becameUnskippable', _(this).becameUnskippableHandler);
             previousCard.removeListener('becameSkippable', _(this).becameSkippableHandler);
             previousCard.removeListener('skippableProgress', _(this).skippableProgressHandler);
+
+            previousCard.deactivate();
         }
 
-        if (previousCard) { previousCard.deactivate(); }
-        this.currentIndex = currentIndex;
+        this.currentIndex = index;
         this.currentCard = currentCard;
-        if (currentCard) { currentCard.activate(); }
 
-        if (!currentCard) {
-            forEach(this.deck.concat([this.prerollCard]), card => card.cleanup());
+        if (currentCard) {
+            currentCard.activate();
+        } else {
+            forEach(this.deck, card => card.cleanup());
         }
 
         if (nextCard) { nextCard.prepare(); }
@@ -333,11 +261,11 @@ export default class MiniReel extends Mixable {
     }
 
     next() {
-        return this.moveToIndex(_(this).nextIndex);
+        return this.moveToIndex(this.currentIndex + 1);
     }
 
     previous() {
-        return this.moveToIndex(_(this).previousIndex);
+        return this.moveToIndex(this.currentIndex - 1);
     }
 
     close() {

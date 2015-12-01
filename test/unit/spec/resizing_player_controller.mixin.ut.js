@@ -46,30 +46,6 @@ describe('ResizingPlayerController mixin', function() {
                             spyOn(PlayerController.prototype, 'updateView');
                         });
 
-                        describe('if the current card is a TextCard', function() {
-                            beforeEach(function() {
-                                Ctrl.minireel.currentCard = { type: 'text', modules: {} };
-                                Runner.run(() => Ctrl.minireel.emit('move'));
-                            });
-
-                            it('should hide the navigation', function() {
-                                expect(Ctrl.view.hideNavigation).toHaveBeenCalled();
-                                expect(Ctrl.view.showNavigation).not.toHaveBeenCalled();
-                            });
-                        });
-
-                        describe('if the current card is not a TextCard', function() {
-                            beforeEach(function() {
-                                Ctrl.minireel.currentCard = { type: 'video', modules: {} };
-                                Runner.run(() => Ctrl.minireel.emit('move'));
-                            });
-
-                            it('should show the navigation', function() {
-                                expect(Ctrl.view.hideNavigation).not.toHaveBeenCalled();
-                                expect(Ctrl.view.showNavigation).toHaveBeenCalled();
-                            });
-                        });
-
                         describe('if the currentCard\'s title and note are <= 100 chars', function() {
                             beforeEach(function() {
                                 [[25, 10], [30, 55], [50, 50]].forEach(([titleLength, noteLength]) => {

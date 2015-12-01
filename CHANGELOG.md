@@ -1,6 +1,6 @@
 # MiniReel Player 2.0
 
-* *[v1.6.0-rc1]*
+* *[v2.0.0-rc1]*
   * Update the HtmlVideo player to be consistent with the behavior of newer players
   * Update the Wistia player to be consistent with the behavior of newer players
   * Update the Vzaar player to be consistent with the behavior of newer players
@@ -12,6 +12,21 @@
     Firefox or IE
   * [FIX]: Fix for an issue that caused social links not to render on IE
   * [DEV]: Update [Babel](http://babeljs.io/) to v6.x.x.
+  * [DEPRECATION]: Remove the lightbox with playlist player
+  * [DEPRECATION]: Remove the full-page with playlist player
+  * [DEPRECATION]: Remove the full-page, single-card with display ads
+    player
+  * [DEPRECATION]: Remove the mobile swiping player
+  * [DEPRECATION]: Remove support for display ads
+  * [DEPRECATION]: Remove support for ballots where the results are
+    shown to the user
+  * [DEPRECATION]: Remove support for preroll (in-between card)
+    advertising
+  * [DEPRECATION]: Remove support for text-only cards
+  * [DEPRECATION]: Remove support for website (article) cards
+  * [DEPRECATION]: Remove support for videos from rumble.com
+  * [DEPRECATION]: Remove support for videos from AOL On
+  * [DEPRECATION]: Remove support for videos from Yahoo! Screen
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

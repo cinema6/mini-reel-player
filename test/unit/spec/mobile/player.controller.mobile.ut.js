@@ -6,18 +6,13 @@ import Runner from '../../../../lib/Runner.js';
 import MobilePlayerView from '../../../../src/views/mobile/MobilePlayerView.js';
 import TableOfContentsViewController from '../../../../src/controllers/mobile/TableOfContentsViewController.js';
 import Card from '../../../../src/models/Card.js';
-import MobileArticleCardController from '../../../../src/controllers/mobile/MobileArticleCardController.js';
-import MobileTextCardController from '../../../../src/controllers/mobile/MobileTextCardController.js';
 import MobileImageCardController from '../../../../src/controllers/mobile/MobileImageCardController.js';
 import MobileVideoCardController from '../../../../src/controllers/mobile/MobileVideoCardController.js';
 import MobileRecapCardController from '../../../../src/controllers/mobile/MobileRecapCardController.js';
 import View from '../../../../lib/core/View.js';
 import FullscreenPlayerController from '../../../../src/mixins/FullscreenPlayerController.js';
-import MobilePrerollCardController from '../../../../src/controllers/mobile/MobilePrerollCardController.js';
-import DisplayAdCardController from '../../../../src/controllers/DisplayAdCardController.js';
 import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
-import PrerollCard from '../../../../src/models/PrerollCard.js';
 import CloseButtonView from '../../../../src/views/CloseButtonView.js';
 
 describe('MobilePlayerController', function() {
@@ -70,13 +65,9 @@ describe('MobilePlayerController', function() {
 
         describe('CardControllers', function() {
             it('should be a mapping of CardControllers', function() {
-                expect(MobilePlayerCtrl.CardControllers.article).toBe(MobileArticleCardController);
-                expect(MobilePlayerCtrl.CardControllers.text).toBe(MobileTextCardController);
                 expect(MobilePlayerCtrl.CardControllers.image).toBe(MobileImageCardController);
                 expect(MobilePlayerCtrl.CardControllers.video).toBe(MobileVideoCardController);
                 expect(MobilePlayerCtrl.CardControllers.recap).toBe(MobileRecapCardController);
-                expect(MobilePlayerCtrl.CardControllers.preroll).toBe(MobilePrerollCardController);
-                expect(MobilePlayerCtrl.CardControllers.displayAd).toBe(DisplayAdCardController);
                 expect(MobilePlayerCtrl.CardControllers.instagramImage).toBe(MobileInstagramImageCardController);
                 expect(MobilePlayerCtrl.CardControllers.instagramVideo).toBe(MobileInstagramVideoCardController);
             });
@@ -122,12 +113,10 @@ describe('MobilePlayerController', function() {
 
                     MobilePlayerCtrl.minireel.deck = [];
                     MobilePlayerCtrl.minireel.campaign = {};
-                    spyOn(MobilePrerollCardController.prototype, 'renderInto');
 
                     MobilePlayerCtrl.minireel.adConfig = {
                         video: {}
                     };
-                    MobilePlayerCtrl.minireel.prerollCard = new PrerollCard({ data: {}, collateral: {}, params: {} }, experience, { flash: false }, MobilePlayerCtrl.minireel);
 
                     MobilePlayerCtrl.view.toc = new View();
                     MobilePlayerCtrl.view.cards = new View(document.createElement('span'));

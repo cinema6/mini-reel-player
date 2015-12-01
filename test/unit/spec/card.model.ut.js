@@ -1,10 +1,7 @@
 import Card from '../../../src/models/Card.js';
 import { EventEmitter } from 'events';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
-import DisplayAd from '../../../src/models/DisplayAd.js';
 import Post from '../../../src/models/Post.js';
-import Ballot from '../../../src/models/Ballot.js';
-import election from '../../../src/services/election.js';
 import Mixable from '../../../lib/core/Mixable.js';
 
 describe('Card', function() {
@@ -136,20 +133,6 @@ describe('Card', function() {
                 expect(card.modules).toEqual({});
             });
 
-            describe('if the displayAd module is present', function() {
-                beforeEach(function() {
-                    data.modules = ['displayAd', 'someFakeModule'];
-
-                    card = new Card(data, experience);
-                });
-
-                it('should add the DisplayAd module', function() {
-                    expect(card.modules).toEqual({
-                        displayAd: jasmine.any(DisplayAd)
-                    });
-                });
-            });
-
             describe('if the post module is present', function() {
                 beforeEach(function() {
                     data.modules = ['anotherFakeThing', 'post'];
@@ -160,22 +143,6 @@ describe('Card', function() {
                 it('should add the Post module', function() {
                     expect(card.modules).toEqual({
                         post: jasmine.any(Post)
-                    });
-                });
-            });
-
-            describe('if the ballot module is present', function() {
-                beforeEach(function() {
-                    data.modules = ['whaddup', 'ballot'];
-                    data.ballot = { choices: [] };
-                    spyOn(election, 'getResults').and.returnValue(new Promise(() => {}));
-
-                    card = new Card(data, experience);
-                });
-
-                it('should add the Ballot module', function() {
-                    expect(card.modules).toEqual({
-                        ballot: jasmine.any(Ballot)
                     });
                 });
             });

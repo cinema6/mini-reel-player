@@ -19,8 +19,7 @@ export default class VideoCardController extends CardController {
 
         dispatcher.addSource('card', this.model, [
             'activate', 'deactivate', 'complete',
-            'becameUnskippable', 'becameSkippable', 'skippableProgress',
-            'clickthrough'
+            'becameUnskippable', 'becameSkippable', 'skippableProgress'
         ], player);
 
         /* VideoCard (model) events. */

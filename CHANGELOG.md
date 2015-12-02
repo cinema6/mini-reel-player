@@ -1,6 +1,13 @@
 # MiniReel Player 2.0
 
 ## v2.0.0 (December 1, 2015)
+* *[v2.0.0-rc2]*
+  * [FIX]: Fix for an issue that caused some icons not to render when
+    the player service is used
+  * [FIX]: Fix for an issue that caused social link tracking pixels to
+    be fired twice
+* *[/v2.0.0-rc2]*
+
 * *[v2.0.0-rc1]*
   * Update the HtmlVideo player to be consistent with the behavior of newer players
   * Update the Wistia player to be consistent with the behavior of newer players

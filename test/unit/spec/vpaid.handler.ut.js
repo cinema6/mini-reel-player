@@ -41,7 +41,8 @@ describe('VPAIDHandler', function() {
 
         dispatcher.addSource('navigation', minireel, ['init', 'error', 'close']);
         dispatcher.addSource('session', embedHandler.session, ['ready', 'vpaid:pauseAd', 'vpaid:resumeAd']);
-        dispatcher.addSource('card', card, ['complete', 'becameUnskippable', 'becameSkippable', 'skippableProgress', 'clickthrough'], video);
+        dispatcher.addSource('card', card, ['complete', 'becameUnskippable', 'becameSkippable', 'skippableProgress'], video);
+        dispatcher.addSource('card', card, ['clickthrough']);
         dispatcher.addSource('video', video, ['play', 'pause', 'loadedmetadata', 'timeupdate', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
     });
 

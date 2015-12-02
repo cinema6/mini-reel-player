@@ -380,3 +380,91 @@
         cursor:pointer;
         color:#fff; text-align: center; font-weight:bold;
     }
+
+/*  ================================================
+    Ad Styles
+    ================================================ */
+    .adSkip__group {
+        background:rgba(256,256,256,0.84);
+        position:absolute; z-index: 100;
+        bottom:0; left:0; right:0;
+        height:4em;
+    }
+        @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+            /*  w: 0 - 800px
+                h: 0 - 500px */
+            .adSkip__group2 {
+                right:15.5rem;
+            }
+        }
+        @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+            /*  w: 1697px ++ 
+            /   h: 720px ++ */
+            .adSkip__group {
+                height:5em;
+            }
+        }
+
+        .adSkip__message {
+            position:absolute;
+            top:50%; left:0; right:0;
+            margin:-0.5em 0 0 0;
+            text-align: center;
+            font-size:1em;
+            line-height: 1;
+            color:#6c6c6c;
+            font-weight:bold;
+        }
+
+    /*  Video Ad styles
+    ================================================ */
+        .adVideo__group {
+            position: absolute;
+            min-height:10em;
+            top:0; bottom:4.5em; left:0; right:19.5em;
+        }
+        .adVideo__label {
+            font-size: 0.75em; color: #6c6c6c; text-align: center;
+            margin:0;
+            position:absolute; 
+            left:0; right:19.5rem; bottom:1.25rem;
+        }
+            @media screen and (max-height:31.25rem), screen and (max-width:50rem) {
+                /*  w: 0 - 800px
+                    h: 0 - 500px */
+                .adVideo__group,
+                .adVideo__label {
+                    right:15.5rem;
+                }
+            }
+        .adVideo__videoHolder {
+            position:relative;
+            width:100%; height:100%;
+            text-align: center;
+            background: #000;
+        }
+            .adVideo__video {
+                width:100%; height:100%;
+                position:absolute; top:0; left:0;
+            }
+
+
+        .videoAd__label {
+            position:absolute;
+            z-index: 1;
+            color:#ccc;
+            width:100%;
+            text-align:center;
+            margin:0.25em 0 0 0;
+            font-weight:normal;
+            font-size:0.75em;
+        }
+
+        @media screen and (min-width:106.0625rem) and (min-height:45rem) {
+            /*  w: 1697px ++ 
+            /   h: 720px ++ */
+            .adVideo__group {
+                bottom:5.5em;
+            }
+        }
+    

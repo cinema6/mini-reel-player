@@ -18,7 +18,6 @@ module.exports = {
         'transform-es2015-spread',
         'transform-es2015-sticky-regex',
         ['transform-es2015-template-literals', { loose: true }],
-        'transform-es2015-typeof-symbol',
         'transform-es2015-unicode-regex',
 
         // External helpers to remove duplicate code
@@ -26,6 +25,5 @@ module.exports = {
         // IE compatibility
         'transform-proto-to-assign'
     ],
-    sourceMaps: true,
-    ignore: ['ext/**']
+    sourceMaps: true
 };

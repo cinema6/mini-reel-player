@@ -188,6 +188,22 @@ describe('playerFactory', function() {
                 });
             });
 
+            describe('if the card uses HtmlVideo', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'htmlvideo',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be an HtmlVideoPlayer', function() {
+                    expect(result).toEqual(jasmine.any(HtmlVideoPlayer));
+                });
+            });
+
             describe('if the card is an adUnit', function() {
                 beforeEach(function() {
                     card = new VideoCard({

@@ -59,11 +59,12 @@ describe('ThirdPartyPlayer', function() {
                 loadSpy = jasmine.createSpy('load').and.returnValue(RunnerPromise.resolve('the api'));
                 player.__api__.loadPlayer = loadSpy;
                 player.__private__.src = 'some src';
+                player.poster = 'image.jpg';
             });
 
             it('should make the call to the defined load method', function(done) {
                 player.__private__.callLoadPlayerMethod().then(() => {
-                    expect(loadSpy).toHaveBeenCalledWith('some src');
+                    expect(loadSpy).toHaveBeenCalledWith('some src', 'image.jpg');
                     done();
                 }).catch(error => {
                     expect(error).not.toBeDefined();

@@ -21,10 +21,6 @@
         ============================================= */    
         @import url('mobile/toc.css');
 
-    /*  article card classes
-        ============================================= */    
-        @import url('mobile/article-card.css');
-
     /*  image card classes
         ============================================= */   
         @import url('mobile/image-card.css');
@@ -40,12 +36,6 @@
     /*  recap card classes
         ============================================= */ 
         @import url('mobile/recap-card.css');
-
-    /*  Ad styles
-            Display Ad Card classes
-            Companion Ad classes
-        ============================================= */ 
-        @import url('mobile/ad-styles.css');
 
     /*  branded MR classes
         ============================================= */ 

@@ -2,6 +2,7 @@
 
 * *[v2.1.0-rc1]*
   * [FEATURE]: Add support for video cards with a video URL
+  * [DEPRECATION]: Remove unused styles for deprecated players and features
 
 ## v2.0.0 (December 1, 2015)
 * *[v2.0.0-rc3]*

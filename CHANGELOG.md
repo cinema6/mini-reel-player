@@ -1,8 +1,13 @@
 # MiniReel Player 2.0
 
+* *[v2.1.0-rc1]*
+  * [FEATURE]: Add support for video cards with a video URL
+  * [DEPRECATION]: Remove unused styles for deprecated players and features
+
 ## v2.0.0 (December 1, 2015)
 * *[v2.0.0-rc3]*
-  * [DEPRECATION]: Remove unused styles for deprecated players and features
+  * [FIX]: Restore IE 10 compatibility
+* *[/v2.0.0-rc3]*
 
 * *[v2.0.0-rc2]*
   * [FIX]: Fix for an issue that caused some icons not to render when

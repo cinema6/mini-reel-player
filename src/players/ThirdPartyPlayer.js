@@ -105,7 +105,7 @@ class Private {
         const loadFn = this.__public__.__api__.loadPlayer;
         if(loadFn) {
             this.__public__.emit('loadstart');
-            return loadFn(this.src);
+            return loadFn(this.src, this.__public__.poster);
         } else {
             return RunnerPromise.reject(`load not implemented`);
         }

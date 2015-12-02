@@ -39,6 +39,8 @@ class PlayerFactory {
             return new JWPlayer();
         case 'vidyard':
             return new VidyardPlayer();
+        case 'htmlvideo':
+            return new HtmlVideoPlayer();
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

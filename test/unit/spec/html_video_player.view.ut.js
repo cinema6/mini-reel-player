@@ -46,9 +46,10 @@ describe('HtmlVideoPlayer', function() {
         });
         
         it('should create an html video element', function() {
-            player.__api__.loadPlayer('john_cena.mp4');
+            player.__api__.loadPlayer('john_cena.mp4', 'image.jpg');
             expect(document.createElement).toHaveBeenCalled();
             expect(mockApi.setAttribute).toHaveBeenCalledWith('src', 'john_cena.mp4');
+            expect(mockApi.setAttribute).toHaveBeenCalledWith('poster', 'image.jpg');
         });
         
         it('should append the video', function() {

@@ -285,10 +285,9 @@ describe('dispatcher', function() {
                             emitter1.emit('complete');
                         });
 
-                        it('should call the handlers multiple times for each time the source was added', function() {
-                            expect(handler1).toHaveBeenCalledWith(jasmine.objectContaining({ data }));
+                        it('should call the handlers with the most-recent data', function() {
                             expect(handler1).toHaveBeenCalledWith(jasmine.objectContaining({ data: differentData }));
-                            expect(handler1.calls.count()).toBe(2);
+                            expect(handler1.calls.count()).toBe(1);
 
                             expect(handler3).toHaveBeenCalledWith(jasmine.objectContaining({ data: differentData }));
                             expect(handler3.calls.count()).toBe(1);

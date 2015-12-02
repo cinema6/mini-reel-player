@@ -1,6 +1,7 @@
 import {createKey} from 'private-parts';
 import {
-    forEach
+    forEach,
+    find
 } from '../../lib/utils.js';
 
 const _ = createKey({
@@ -70,6 +71,13 @@ class Dispatcher {
         emitterHandlers.set(emitter, handlers);
 
         forEach(events, event => {
+            const existingEntry = find(handlers, data => data.event === event);
+
+            if (existingEntry) {
+                handlers.splice(handlers.indexOf(existingEntry), 1);
+                emitter.removeListener(event, existingEntry.handler);
+            }
+
             const eventData = { type, data, name: event, target: emitter };
             const handler = ((...args) => _(this).dispatchEvent(type, event, eventData, ...args));
 

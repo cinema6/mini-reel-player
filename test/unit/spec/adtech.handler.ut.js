@@ -79,7 +79,8 @@ describe('ADTECHHandler', function() {
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
-        dispatcher.addSource('card', card, ['activate', 'deactivate', 'clickthrough', 'share']);
+        dispatcher.addSource('card', card, ['activate', 'deactivate'], player);
+        dispatcher.addSource('card', card, ['share', 'clickthrough']);
     });
 
     afterEach(function() {

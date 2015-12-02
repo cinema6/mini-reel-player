@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v2.0.0 (December 1, 2015)
 * *[v2.0.0-rc1]*
   * Update the HtmlVideo player to be consistent with the behavior of newer players
   * Update the Wistia player to be consistent with the behavior of newer players
@@ -28,6 +29,7 @@
   * [DEPRECATION]: Remove support for videos from AOL On
   * [DEPRECATION]: Remove support for videos from Yahoo! Screen
   * [FEATURE]: Support tracking share link clicks
+* *[/v2.0.0-rc1]*
 
 ## v1.5.0 (November 20, 2015)
 * *[v1.5.0-rc2]*

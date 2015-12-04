@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v2.1.0 (December 3, 2015)
+* *[v2.1.0-rc2]*
+  * [FIX]: Fix for an issue that caused campfire video play pixels not
+    to be fired in an MRAID context
+* *[/v2.1.0-rc2]*
+
 * *[v2.1.0-rc1]*
   * [FEATURE]: Add support for video cards with a video URL
   * [DEPRECATION]: Remove unused styles for deprecated players and features

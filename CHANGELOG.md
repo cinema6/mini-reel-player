@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.1.1 (December 4, 2015)
+* *[v2.1.1-rc1]*
+  * [FIX]: Small tweak made in an attempt to improve the play rate of
+    YouTube videos delivered via MRAID
+* *[/v2.1.1-rc1]*
+
 ## v2.1.0 (December 3, 2015)
 * *[v2.1.0-rc2]*
   * [FIX]: Fix for an issue that caused campfire video play pixels not

@@ -1,4 +1,5 @@
 import browser from './services/browser.js';
+import environment from './environment.js';
 
 const MP3 = 'data:audio/mpeg;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu///' +
     '/9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z' +
@@ -49,6 +50,8 @@ const OGG = 'data:audio/ogg;base64,T2dnUwACAAAAAAAAAACphkTnAAAAAEiFVKMBHgF2b3Jia
     'gxIwSTmwYUgAa8GtcE';
 
 browser.addTest('autoplay', () => {
+    if (environment.params.context === 'mraid') { return true; }
+
     return new Promise(fulfill => {
         const audio = new Audio();
 

@@ -1,8 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.1.2 (December 7, 2015)
 * *[v2.1.2-rc1]*
   * [PERFORMANCE]: Allow videos to be preloaded when running as an MRAID
     unit
+* *[/v2.1.2-rc1]*
 
 ## v2.1.1 (December 4, 2015)
 * *[v2.1.1-rc1]*

@@ -26,6 +26,9 @@ describe('ApplicationController', function() {
         spyOn(ApplicationView.prototype, 'create').and.callThrough();
 
         environment.mode = 'some-mode';
+        environment.params.context = 'embed';
+
+        spyOn(Runner.queues[1].prototype, 'flush').and.callThrough();
 
         Runner.run(() => ApplicationCtrl = new ApplicationController(root));
     });
@@ -40,6 +43,23 @@ describe('ApplicationController', function() {
 
     it('should check to see if the device has a mouse', function() {
         expect(browser.test).toHaveBeenCalledWith('mouse');
+    });
+
+    it('should not replace the flush() method on the RenderQueue', function() {
+        expect(Runner.queues[1].prototype.flush).not.toBe(Runner.queues[0].prototype.flush);
+    });
+
+    describe('if the context is "mraid"', function() {
+        beforeEach(function() {
+            ApplicationCtrl.appView.destroy();
+            environment.params.context = 'mraid';
+
+            Runner.run(() => ApplicationCtrl = new ApplicationController(root));
+        });
+
+        it('should give the render queue the same flush method as the beforeRender queue', function() {
+            expect(Runner.queues[1].prototype.flush).toBe(Runner.queues[0].prototype.flush);
+        });
     });
 
     describe('if the device has a mouse', function() {

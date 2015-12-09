@@ -160,6 +160,12 @@ describe('YouTubePlayer', function() {
                 });
 
                 describe('when the state changes', function() {
+                    beforeEach(function() {
+                        player.on('play', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+                        player.on('pause', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+                        player.on('ended', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+                    });
+
                     function stateChange(STATE) {
                         return youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: STATE });
                     }

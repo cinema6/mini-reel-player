@@ -50,7 +50,7 @@ export default class YouTubePlayer extends ThirdPartyPlayer {
                 const player = new YT.Player(iframe, {
                     events: {
                         onReady: () => resolve(player),
-                        onStateChange: ({ data }) => {
+                        onStateChange: ({ data }) => Runner.run(() => {
                             switch (data) {
                             case YT.PlayerState.PLAYING:
                                 this.__setProperty__('paused', false);
@@ -64,7 +64,7 @@ export default class YouTubePlayer extends ThirdPartyPlayer {
                                 this.__setProperty__('paused', true);
                                 break;
                             }
-                        }
+                        })
                     }
                 });
             }));

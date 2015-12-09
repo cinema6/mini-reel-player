@@ -7,6 +7,9 @@ const _ = createKey();
 export default class Observable extends EventEmitter {
     constructor(config) {
         super();
+
+        _(this).mutable = true;
+
         _(this).state = extend(config);
         _(this).defaultState = extend(config);
 
@@ -20,14 +23,27 @@ export default class Observable extends EventEmitter {
     set(property, value) {
         if(property in _(this).state) {
             const oldValue = _(this).state[property];
-            _(this).state[property] = value;
             const changed = (oldValue !== value);
+
             if(changed) {
-                this.emit('change:' + property, value);
+                if (!_(this).mutable) {
+                    return this.emit(`reject:${property}`, value);
+                }
+
+                _(this).state[property] = value;
+                this.emit(`change:${property}`, value);
             }
         } else {
             throw new Error(`Observable has no ${property} property`);
         }
+    }
+
+    mutable(value) {
+        if (value === undefined) {
+            return _(this).mutable;
+        }
+
+        return (_(this).mutable = value);
     }
 
     reset() {

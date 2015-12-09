@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.1.3 (December 9, 2015)
+* *[v2.1.3-rc1]*
+  * [PERFORMANCE]: Add hacks to force `<iframe>` players to buffer by
+    setting `prebuffer` to `true`
+* *[/v2.1.3-rc1]*
+
 ## v2.1.2 (December 7, 2015)
 * *[v2.1.2-rc1]*
   * [PERFORMANCE]: Allow videos to be preloaded when running as an MRAID

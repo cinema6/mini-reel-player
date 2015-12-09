@@ -144,6 +144,24 @@ describe('VzaarPlayer', function() {
                     expect(timer.cancel).toHaveBeenCalled();
                 });
             });
+
+            describe('if the player is buffering', function() {
+                beforeEach(function() {
+                    mockApi.play2.calls.reset();
+                    timer.interval.calls.reset();
+
+                    player.__private__.state.set('buffering', true);
+                    player.__setProperty__('paused', true);
+                    mockApi.play2.and.returnValue(undefined);
+
+                    player.__api__.methods.play(mockApi);
+                });
+
+                it('should only call play once', function() {
+                    expect(mockApi.play2.calls.count()).toBe(1);
+                    expect(timer.interval).not.toHaveBeenCalled();
+                });
+            });
         });
 
         it('should implement unload', function() {

@@ -2,6 +2,7 @@ import VinePlayer from '../../../src/players/VinePlayer.js';
 import ThirdPartyPlayer from '../../../src/players/ThirdPartyPlayer.js';
 import Runner from '../../../lib/Runner.js';
 import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
+import { noop } from '../../../lib/utils.js';
 
 describe('VinePlayer', function() {
     let player;
@@ -73,6 +74,10 @@ describe('VinePlayer', function() {
     });
 
     describe('the set api methods', function() {
+        it('should make buffer a noop', function() {
+            expect(player.__api__.methods.buffer).toBe(noop);
+        });
+
         it('should implement play', function() {
             player.__private__.loadWithAudio = false;
             player.__api__.methods.play();

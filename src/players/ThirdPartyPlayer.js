@@ -20,6 +20,7 @@ const PLAYER_PROPERTIES = ['currentTime', 'paused', 'duration', 'readyState', 'm
 // defaults
 const DEFAULT_PLAYER_PROPERTIES = {
     currentTime: 0,
+    buffering: false,
     paused: true,
     duration: 0,
     readyState: HAVE_NOTHING,
@@ -48,6 +49,14 @@ class Private {
         this.serializer = new PromiseSerializer(RunnerPromise);
         this.state = new Observable(DEFAULT_PLAYER_PROPERTIES);
         this.hasPlayed = false;
+
+        this.state.on('change:buffering', buffering => {
+            if (buffering) {
+                this.__public__.emit('buffering');
+            } else {
+                this.__public__.emit('buffered');
+            }
+        });
         this.state.on('change:currentTime', () => {
             this.__public__.emit('timeupdate');
         });
@@ -170,19 +179,22 @@ class Private {
     playerLoad() {
         if(this.src && this.src !== '' && !this.api) {
             return this.callLoadPlayerMethod().then(api => {
+                this.api = api;
+
+                this.startPolling();
+                return this.addEventListeners();
+            }).then(() => {
+                if (this.__public__.prebuffer) { return this.playerBuffer(); }
+            }).then(() => {
                 const setReadyState = (() => this.state.set('readyState', HAVE_FUTURE_DATA));
 
-                this.api = api;
+                this.__public__.__api__.onReady(this.api);
 
                 if (this.state.get('readyState') >= HAVE_METADATA) {
                     setReadyState();
                 } else {
                     this.state.once('change:duration', setReadyState);
                 }
-
-                this.__public__.__api__.onReady(api);
-                this.startPolling();
-                return this.addEventListeners();
             });
         } else {
             return RunnerPromise.resolve();
@@ -274,6 +286,29 @@ class Private {
             return RunnerPromise.resolve();
         }
     }
+
+    playerBuffer() {
+        if (!this.api) { return RunnerPromise.resolve(); }
+
+        this.state.set('buffering', true);
+
+        return this.callPlayerMethod('buffer').catch(() => {
+            this.state.mutable(false);
+
+            return browser.test('autoplay').then(autoplayable => {
+                if (!autoplayable) { return; }
+
+                this.playerVolume(0);
+                this.playerPlay();
+
+                return new RunnerPromise(resolve => {
+                    this.state.once('reject:paused', () => resolve());
+                }).then(() => this.playerPause()).then(() => {
+                    return this.playerVolume(1);
+                });
+            }).then(() => this.state.mutable(true));
+        }).then(() => this.state.set('buffering', false));
+    }
 }
 
 const _ = createKey(instance => new Private(instance));
@@ -309,6 +344,9 @@ const _ = createKey(instance => new Private(instance));
 export default class ThirdPartyPlayer extends CorePlayer {
     constructor() {
         super(...arguments);
+
+        this.prebuffer = false;
+
         this.__api__ = {
             name: '',
             loadPlayer: null,
@@ -319,12 +357,14 @@ export default class ThirdPartyPlayer extends CorePlayer {
             pollingDelay: null,
             onPoll: noop
         };
+
         this.on('playing', () => {
             _(this).hasPlayed = true;
         });
         this.on('emptied', () => {
             _(this).hasPlayed = false;
         });
+
         if (global.__karma__) { this.__private__ = _(this); }
     }
 
@@ -425,6 +465,10 @@ export default class ThirdPartyPlayer extends CorePlayer {
         _(this).serializer.call(() => {
             return _(this).playerVolume(val);
         });
+    }
+
+    get buffering() {
+        return _(this).state.get('buffering');
     }
 
     get paused() {

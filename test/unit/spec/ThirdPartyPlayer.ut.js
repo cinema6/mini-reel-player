@@ -4,7 +4,7 @@ import RunnerPromise from '../../../lib/RunnerPromise.js';
 import browser from '../../../src/services/browser.js';
 import Observable from '../../../src/utils/Observable.js';
 import PromiseSerializer from '../../../src/utils/PromiseSerializer.js';
-import {noop} from '../../../lib/utils.js';
+import { noop, defer } from '../../../lib/utils.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import timer from '../../../lib/timer.js';
 
@@ -288,6 +288,107 @@ describe('ThirdPartyPlayer', function() {
                 }).catch(error => {
                     expect(error).not.toBeDefined();
                     done();
+                });
+            });
+
+            describe('if the player is set to prebuffer', function() {
+                let bufferDeferred;
+                let success, failure;
+
+                beforeEach(function(done) {
+                    bufferDeferred = defer(RunnerPromise);
+                    success = jasmine.createSpy('success()');
+                    failure = jasmine.createSpy('failure()');
+
+                    player.prebuffer = true;
+
+                    spyOn(player.__private__, 'playerBuffer').and.returnValue(bufferDeferred.promise);
+                    spyOn(player.__api__, 'onReady');
+
+                    player.__private__.startPolling.calls.reset();
+                    player.__private__.addEventListeners.calls.reset();
+
+                    player.__private__.state.set('duration', 60);
+                    player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                    player.__private__.src = 'some src';
+
+                    player.__private__.playerLoad().then(success, failure);
+                    setTimeout(done, 5);
+                });
+
+                it('should not call onReady()', function() {
+                    expect(player.__api__.onReady).not.toHaveBeenCalled();
+                });
+
+                it('should start polling', function() {
+                    expect(player.__private__.startPolling).toHaveBeenCalled();
+                });
+
+                it('should add the event listeners', function() {
+                    expect(player.__private__.addEventListeners).toHaveBeenCalled();
+                });
+
+                it('should not change the readyState', function() {
+                    expect(player.readyState).not.toBe(3);
+                });
+
+                it('should not fulfill the promise', function() {
+                    expect(success).not.toHaveBeenCalled();
+                });
+
+                it('should call playerBuffer()', function() {
+                    expect(player.__private__.playerBuffer).toHaveBeenCalled();
+                });
+
+                describe('when the player is buffered', function() {
+                    beforeEach(function(done) {
+                        bufferDeferred.fulfill();
+                        setTimeout(done, 0);
+                    });
+
+                    it('should call onReady()', function() {
+                        expect(player.__api__.onReady).toHaveBeenCalled();
+                    });
+
+                    it('should change the readyState', function() {
+                        expect(player.readyState).toBe(3);
+                    });
+
+                    it('should fulfill the promise', function() {
+                        expect(success).toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('if the player is not set to prebuffer', function() {
+                let success, failure;
+
+                beforeEach(function(done) {
+                    success = jasmine.createSpy('success()');
+                    failure = jasmine.createSpy('failure()');
+
+                    player.prebuffer = false;
+
+                    spyOn(player.__private__, 'playerBuffer').and.returnValue(RunnerPromise.resolve());
+                    spyOn(player.__api__, 'onReady');
+
+                    player.__private__.startPolling.calls.reset();
+                    player.__private__.addEventListeners.calls.reset();
+
+                    player.__private__.state.set('duration', 60);
+                    player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                    player.__private__.src = 'some src';
+
+                    player.__private__.playerLoad().then(success, failure);
+                    setTimeout(done, 5);
+                });
+
+                it('should not call playerBuffer()', function() {
+                    expect(player.__private__.playerBuffer).not.toHaveBeenCalled();
+                });
+
+                it('should fulfill the promise', function() {
+                    expect(success).toHaveBeenCalled();
                 });
             });
 
@@ -780,6 +881,191 @@ describe('ThirdPartyPlayer', function() {
                 });
             });
         });
+
+        describe('playerBuffer()', function() {
+            let success, failure;
+            let callDeferred;
+
+            beforeEach(function(done) {
+                success = jasmine.createSpy('success()');
+                failure = jasmine.createSpy('failure()');
+
+                callDeferred = defer(RunnerPromise);
+
+                player.__private__.playerPlay.and.returnValue(RunnerPromise.resolve());
+
+                player.__private__.callPlayerMethod.and.returnValue(callDeferred.promise);
+                player.__private__.api = 'the api';
+
+                player.__private__.playerBuffer().then(success, failure);
+                setTimeout(done, 0);
+            });
+
+            it('should set buffering to true', function() {
+                expect(player.buffering).toBe(true);
+            });
+
+            it('should call the buffer method', function() {
+                expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('buffer');
+            });
+
+            it('should not make the state immutable', function() {
+                expect(player.__private__.state.mutable()).toBe(true);
+            });
+
+            it('should not play the player', function() {
+                expect(player.__private__.playerPlay).not.toHaveBeenCalled();
+            });
+
+            describe('when the player has buffered', function() {
+                beforeEach(function(done) {
+                    callDeferred.fulfill();
+                    setTimeout(done, 1);
+                });
+
+                it('should set buffering to false', function() {
+                    expect(player.buffering).toBe(false);
+                });
+
+                it('should fulfill the promise', function() {
+                    expect(success).toHaveBeenCalled();
+                });
+            });
+
+            describe('if there is no api', function() {
+                beforeEach(function(done) {
+                    success.calls.reset();
+                    failure.calls.reset();
+
+                    player.__private__.callPlayerMethod.calls.reset();
+                    player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.reject('No API!'));
+                    player.__private__.api = null;
+
+                    player.__private__.playerBuffer().then(success, failure).then(done, done.fail);
+                });
+
+                it('should not call callPlayerMethod()', function() {
+                    expect(player.__private__.callPlayerMethod).not.toHaveBeenCalled();
+                });
+
+                it('should fulfill the promise', function() {
+                    expect(success).toHaveBeenCalled();
+                });
+            });
+
+            describe('if callPlayerMethod() fails', function() {
+                let autoplayDeferred;
+
+                beforeEach(function(done) {
+                    success.calls.reset();
+                    failure.calls.reset();
+
+                    autoplayDeferred = defer(RunnerPromise);
+
+                    player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.reject('Method not implemented!'));
+                    browser.test.and.returnValue(autoplayDeferred.promise);
+
+                    player.__private__.playerPlay.and.returnValue(RunnerPromise.resolve());
+                    player.__private__.playerPause.and.returnValue(RunnerPromise.resolve());
+                    player.__private__.playerSeek.and.returnValue(RunnerPromise.resolve());
+                    player.__private__.playerVolume.and.returnValue(RunnerPromise.resolve());
+
+                    player.__private__.playerBuffer().then(success, failure);
+                    setTimeout(done, 1);
+                });
+
+                it('should not resolve the promise', function() {
+                    expect(success).not.toHaveBeenCalled();
+                    expect(failure).not.toHaveBeenCalled();
+                });
+
+                it('should set buffering to true', function() {
+                    expect(player.buffering).toBe(true);
+                });
+
+                it('should make the state immutable', function() {
+                    expect(player.__private__.state.mutable()).toBe(false);
+                });
+
+                it('should check if the device can autoplay', function() {
+                    expect(browser.test).toHaveBeenCalledWith('autoplay');
+                });
+
+                describe('if the device can autoplay', function() {
+                    beforeEach(function(done) {
+                        autoplayDeferred.fulfill(true);
+                        setTimeout(done, 5);
+                    });
+
+                    it('should call playerPlay()', function() {
+                        expect(player.__private__.playerPlay).toHaveBeenCalled();
+                    });
+
+                    it('should call playerVolume(0)', function() {
+                        expect(player.__private__.playerVolume).toHaveBeenCalledWith(0);
+                    });
+
+                    it('should not call playerPause()', function() {
+                        expect(player.__private__.playerPause).not.toHaveBeenCalled();
+                    });
+
+                    describe('when the video starts to play', function() {
+                        beforeEach(function(done) {
+                            player.__setProperty__('paused', false);
+
+                            setTimeout(done, 5);
+                        });
+
+                        it('should pause the player', function() {
+                            expect(player.__private__.playerPause).toHaveBeenCalled();
+                        });
+
+                        it('should unmute the player', function() {
+                            expect(player.__private__.playerVolume).toHaveBeenCalledWith(1);
+                        });
+
+                        it('should make the state mutable', function() {
+                            expect(player.__private__.state.mutable()).toBe(true);
+                        });
+
+                        it('should set buffering to false', function() {
+                            expect(player.buffering).toBe(false);
+                        });
+
+                        it('should fulfill the Promise', function() {
+                            expect(success).toHaveBeenCalled();
+                        });
+                    });
+                });
+
+                describe('if the device can\'t autoplay', function() {
+                    beforeEach(function(done) {
+                        autoplayDeferred.fulfill(false);
+                        setTimeout(done, 5);
+                    });
+
+                    it('should not call playerPlay()', function() {
+                        expect(player.__private__.playerPlay).not.toHaveBeenCalled();
+                    });
+
+                    it('should not call playerVolume(0)', function() {
+                        expect(player.__private__.playerVolume).not.toHaveBeenCalled();
+                    });
+
+                    it('should make the state mutable', function() {
+                        expect(player.__private__.state.mutable()).toBe(true);
+                    });
+
+                    it('should set buffering to false', function() {
+                        expect(player.buffering).toBe(false);
+                    });
+
+                    it('should fulfill the Promise', function() {
+                        expect(success).toHaveBeenCalled();
+                    });
+                });
+            });
+        });
     });
 
     describe('private properties', function() {
@@ -813,6 +1099,37 @@ describe('ThirdPartyPlayer', function() {
             it('should emit if changing values', function() {
                 player.__private__.state.set('currentTime', 123);
                 expect(player.emit).toHaveBeenCalledWith('timeupdate');
+            });
+        });
+
+        describe('buffering', function() {
+            it('should be false', function() {
+                expect(player.__private__.state.get('buffering')).toBe(false);
+            });
+
+            describe('when set to true', function() {
+                beforeEach(function() {
+                    player.__private__.state.set('buffering', true);
+                });
+
+                it('should emit "buffering"', function() {
+                    expect(player.emit).toHaveBeenCalledWith('buffering');
+                    expect(player.emit.calls.count()).toBe(1);
+                });
+            });
+
+            describe('when set to false', function() {
+                beforeEach(function() {
+                    player.__private__.state.set('buffering', true);
+                    player.emit.calls.reset();
+
+                    player.__private__.state.set('buffering', false);
+                });
+
+                it('should emit "buffered"', function() {
+                    expect(player.emit).toHaveBeenCalledWith('buffered');
+                    expect(player.emit.calls.count()).toBe(1);
+                });
             });
         });
 
@@ -1080,6 +1397,12 @@ describe('ThirdPartyPlayer', function() {
     });
 
     describe('public properties', function() {
+        describe('prebuffer', function() {
+            it('should be false', function() {
+                expect(player.prebuffer).toBe(false);
+            });
+        });
+
         describe('__api__', function() {
             it('should have defaults', function() {
                 expect(player.__api__).toEqual({
@@ -1164,6 +1487,14 @@ describe('ThirdPartyPlayer', function() {
                     expect(error).not.toBeDefined();
                     done();
                 });
+            });
+        });
+
+        describe('get buffering', function() {
+            it('should get this player property', function() {
+                player.__private__.state.get.and.returnValue(true);
+                expect(player.buffering).toBe(true);
+                expect(player.__private__.state.get).toHaveBeenCalledWith('buffering');
             });
         });
 

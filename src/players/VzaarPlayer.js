@@ -50,7 +50,7 @@ export default class VzaarPlayer extends ThirdPartyPlayer {
             play: api => {
                 const attemptPlay = () => {
                     api.play2();
-                    return (!this.paused);
+                    return !this.paused || this.buffering;
                 };
                 return new RunnerPromise((resolve, reject) => {
                     if(attemptPlay()) {

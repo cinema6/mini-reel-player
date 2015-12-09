@@ -61,6 +61,10 @@ class Private {
         });
         this.state.on('change:duration', () => {
             this.__public__.emit('durationchange');
+
+            if (this.state.get('readyState') < HAVE_METADATA) {
+                this.state.set('readyState', HAVE_METADATA);
+            }
         });
         this.state.on('change:readyState', newValue => {
             switch(newValue) {
@@ -166,8 +170,16 @@ class Private {
     playerLoad() {
         if(this.src && this.src !== '' && !this.api) {
             return this.callLoadPlayerMethod().then(api => {
+                const setReadyState = (() => this.state.set('readyState', HAVE_FUTURE_DATA));
+
                 this.api = api;
-                this.state.set('readyState', HAVE_FUTURE_DATA);
+
+                if (this.state.get('readyState') >= HAVE_METADATA) {
+                    setReadyState();
+                } else {
+                    this.state.once('change:duration', setReadyState);
+                }
+
                 this.__public__.__api__.onReady(api);
                 this.startPolling();
                 return this.addEventListeners();

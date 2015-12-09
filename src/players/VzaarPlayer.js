@@ -135,19 +135,19 @@ export default class VzaarPlayer extends ThirdPartyPlayer {
         };
 
         this.__api__.onReady = api => {
-            api.getTotalTime(duration => {
+            api.getTotalTime(duration => Runner.run(() => {
                 this.__setProperty__('duration', duration);
-            });
+            }));
         };
 
         this.__api__.pollingDelay = 250;
         this.__api__.onPoll = api => {
-            api.getTime(time => {
+            api.getTime(time => Runner.run(() => {
                 this.__setProperty__('currentTime', time);
-            });
-            api.getVolume(vol => {
+            }));
+            api.getVolume(vol => Runner.run(() => {
                 this.__setProperty__('volume', vol / MAX_VOLUME);
-            });
+            }));
         };
     }
 }

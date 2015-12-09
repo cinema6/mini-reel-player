@@ -291,15 +291,58 @@ describe('ThirdPartyPlayer', function() {
                 });
             });
 
-            it('should set the readyState after calling the load method', function(done) {
-                player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
-                player.__private__.src = 'some src';
-                player.__private__.playerLoad().then(() => {
+            describe('if the video has a duration', function() {
+                beforeEach(function(done) {
+                    player.__private__.state.set('duration', 60);
+
+                    player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                    player.__private__.src = 'some src';
+                    player.__private__.playerLoad().then(done, done.fail);
+                });
+
+                it('should set the readyState after calling the load method', function() {
                     expect(player.__private__.state.get('readyState')).toBe(3);
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
+                });
+            });
+
+            describe('if the video has no duration', function() {
+                beforeEach(function(done) {
+                    expect(player.duration).toBe(0);
+
+                    player.__private__.callLoadPlayerMethod.and.returnValue(RunnerPromise.resolve('the api'));
+                    player.__private__.src = 'some src';
+                    player.__private__.playerLoad().then(done, done.fail);
+                });
+
+                it('should not set the readyState to 3', function() {
+                    expect(player.readyState).toBe(0);
+                });
+
+                describe('when the duration is set', function() {
+                    let loadedmetadata, canplay;
+
+                    beforeEach(function() {
+                        player.emit.and.callThrough();
+
+                        loadedmetadata = jasmine.createSpy('loadedmetadata()').and.callFake(() => {
+                            expect(canplay).not.toHaveBeenCalled();
+                            expect(player.readyState).toBe(1);
+                        });
+                        canplay = jasmine.createSpy('canplay()').and.callFake(() => {
+                            expect(loadedmetadata).toHaveBeenCalled();
+                            expect(player.readyState).toBe(3);
+                        });
+
+                        player.on('loadedmetadata', loadedmetadata);
+                        player.on('canplay', canplay);
+
+                        player.__private__.state.set('duration', 30);
+                    });
+
+                    it('should emit loadedmetadata and canplay', function() {
+                        expect(loadedmetadata).toHaveBeenCalled();
+                        expect(canplay).toHaveBeenCalled();
+                    });
                 });
             });
 
@@ -789,9 +832,30 @@ describe('ThirdPartyPlayer', function() {
         });
 
         describe('duration', function() {
-            it('should emit if changing values', function() {
+            beforeEach(function() {
                 player.__private__.state.set('duration', 123);
+            });
+
+            it('should emit if changing values', function() {
                 expect(player.emit).toHaveBeenCalledWith('durationchange');
+            });
+
+            it('should set the readyState', function() {
+                expect(player.readyState).toBe(1);
+            });
+
+            describe('if the readyState is greater than 1', function() {
+                beforeEach(function() {
+                    player.__private__.state.set('duration', 0);
+                    player.__private__.state.set('readyState', 3);
+                    player.emit.calls.reset();
+
+                    player.__private__.state.set('duration', 33);
+                });
+
+                it('should not set the readyState', function() {
+                    expect(player.readyState).toBe(3);
+                });
             });
         });
 

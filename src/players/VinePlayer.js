@@ -2,6 +2,7 @@ import Runner from '../../lib/Runner.js';
 import ThirdPartyPlayer from './ThirdPartyPlayer.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import { createKey } from 'private-parts';
+import { noop } from '../../lib/utils.js';
 
 const _ = createKey();
 
@@ -44,7 +45,8 @@ export default class VinePlayer extends ThirdPartyPlayer {
                 Runner.schedule('afterRender', null, () => {
                     this.element.innerHTML = '';
                 });
-            }
+            },
+            buffer: noop
         };
         
         if (global.__karma__) { this.__private__ = _(this); }

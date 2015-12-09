@@ -150,6 +150,26 @@ describe('Vidyard Player', function() {
                     process.nextTick(done);
                 });
             });
+
+            describe('if the player is buffering', function() {
+                beforeEach(function() {
+                    MockApi.prototype.play.calls.reset();
+                    jasmine.clock().install();
+
+                    player.__private__.state.set('buffering', true);
+                    player.__api__.methods.play(new MockApi());
+
+                    jasmine.clock().tick(1000);
+                });
+
+                afterEach(function() {
+                    jasmine.clock().uninstall();
+                });
+
+                it('should only call play once', function() {
+                    expect(MockApi.prototype.play.calls.count()).toBe(1);
+                });
+            });
         });
 
         it('should implement pause', function() {

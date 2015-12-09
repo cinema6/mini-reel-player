@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v2.1.3 (December 9, 2015)
+* *[v2.1.3-rc2]*
+  * [FIX]: Make sure errors don't occur when a YouTube video plays,
+    pauses or ends
+* *[/v2.1.3-rc2]*
+
 * *[v2.1.3-rc1]*
   * [PERFORMANCE]: Add hacks to force `<iframe>` players to buffer by
     setting `prebuffer` to `true`

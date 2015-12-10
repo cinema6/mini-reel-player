@@ -7,7 +7,8 @@ import {
     basename
 } from 'path';
 import {
-    reduce
+    reduce,
+    extend
 } from '../lib/utils.js';
 
 /*jshint scripturl:true*/
@@ -46,7 +47,9 @@ class Environment {
         this.secure = $$location.protocol === 'https';
         this.apiRoot = c6.kEnvUrlRoot || '//portal.cinema6.com';
         this.mode = c6.kMode || basename($location.pathname);
-        this.params = c6.kParams || typeify(parseQueryString($location.search));
+        this.params = c6.kParams ?
+            extend({ autoLaunch: false }, c6.kParams) :
+            typeify(parseQueryString($location.search));
 
         this.protocol = (/https?/.test($$location.protocol) ? $$location.protocol : 'https') + ':';
         this.hostname = $$location.hostname;

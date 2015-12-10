@@ -25,6 +25,8 @@ import codeLoader from '../../../src/services/code_loader.js';
 import environment from '../../../src/environment.js';
 import normalizeLinks from '../../../src/fns/normalize_links.js';
 import makeSocialLinks from '../../../src/fns/make_social_links.js';
+import EmbedSession from '../../../src/utils/EmbedSession.js';
+import resource from '../../../src/services/resource.js';
 
 describe('MiniReel', function() {
     let experience;
@@ -33,6 +35,9 @@ describe('MiniReel', function() {
     let session;
     let appDataDeferred;
     let sessionDeferred;
+    let initDeferred;
+    let readyFn;
+    let experienceDeferred;
 
     beforeEach(function(done) {
         experience = {
@@ -695,6 +700,7 @@ describe('MiniReel', function() {
         };
 
         profile = { flash: false };
+        spyOn(browser, 'getProfile').and.returnValue(RunnerPromise.resolve(profile));
 
         environment.constructor();
         environment.params = {
@@ -714,11 +720,16 @@ describe('MiniReel', function() {
         spyOn(dispatcher, 'addClient');
         spyOn(dispatcher, 'addSource');
 
+        experienceDeferred = defer(RunnerPromise);
+        spyOn(resource, 'get').and.returnValue(experienceDeferred.promise);
+
+        readyFn = jasmine.createSpy('ready()');
+        initDeferred = defer(RunnerPromise);
+        spyOn(EmbedSession.prototype, 'init').and.returnValue(initDeferred.promise);
+
         minireel = new MiniReel();
 
-        sessionDeferred.fulfill(session);
-
-        Promise.resolve(sessionDeferred.promise).then(done);
+        process.nextTick(done);
     });
 
     afterAll(function() {
@@ -769,6 +780,10 @@ describe('MiniReel', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('navigation', minireel, ['launch','move','close','error','init']);
     });
 
+    it('should get the experience', function() {
+        expect(resource.get).toHaveBeenCalledWith('experience');
+    });
+
     describe('properties:', function() {
         describe('id', function() {
             it('should be null', function() {
@@ -785,6 +800,16 @@ describe('MiniReel', function() {
         describe('interstitial', function() {
             it('should be null', function() {
                 expect(minireel.interstitial).toBeNull();
+            });
+        });
+
+        describe('embed', function() {
+            it('should be an EmbedSession', function() {
+                expect(minireel.embed).toEqual(jasmine.any(EmbedSession));
+            });
+
+            it('should be initialized', function() {
+                expect(minireel.embed.init).toHaveBeenCalledWith();
             });
         });
 
@@ -899,7 +924,7 @@ describe('MiniReel', function() {
                         done();
                     });
 
-                    appDataDeferred.fulfill({ experience: experience, profile: profile });
+                    experienceDeferred.fulfill(experience);
                 });
 
                 it('should set the currentIndex and currentCard and emit "move"', function() {
@@ -1246,7 +1271,7 @@ describe('MiniReel', function() {
                 spyOn(minireel, 'moveToIndex').and.callThrough();
                 minireel.on('init', done);
 
-                appDataDeferred.fulfill({ experience: experience, profile: profile });
+                experienceDeferred.fulfill(experience);
             });
 
             it('should call moveToIndex() with the index of the provided card', function() {
@@ -1265,7 +1290,7 @@ describe('MiniReel', function() {
                 spyOn(minireel, 'moveToIndex').and.callThrough();
                 minireel.on('init', done);
 
-                appDataDeferred.fulfill({ experience: experience, profile: profile });
+                experienceDeferred.fulfill(experience);
             });
 
             it('should call moveToIndex() with the next index', function() {
@@ -1288,7 +1313,7 @@ describe('MiniReel', function() {
                     done();
                 });
 
-                appDataDeferred.fulfill({ experience: experience, profile: profile });
+                experienceDeferred.fulfill(experience);
             });
 
             it('should call moveToIndex() with the previous index', function() {
@@ -1398,7 +1423,18 @@ describe('MiniReel', function() {
         });
     });
 
-    describe('when the appData is available', function() {
+    describe('when the readyFn is available', function() {
+        beforeEach(function(done) {
+            initDeferred.fulfill(readyFn);
+            setTimeout(done, 0);
+        });
+
+        it('should not be called', function() {
+            expect(readyFn).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('when the experience is available', function() {
         let done;
         let mouseDeferred;
 
@@ -1417,12 +1453,43 @@ describe('MiniReel', function() {
             spyOn(Card.prototype, 'prepare');
             spyOn(minireel, 'moveToIndex');
 
-            appDataDeferred.fulfill({
-                experience: experience,
-                standalone: false,
-                interstitial: true,
-                autoLaunch: false,
-                profile: profile
+            environment.params.standalone = false;
+            environment.params.interstitial = true;
+            environment.params.autoLaunch = false;
+
+            experienceDeferred.fulfill(experience);
+        });
+
+        describe('via the embed appData', function() {
+            let embedMiniReel;
+
+            beforeEach(function(done) {
+                delete minireel.moveToIndex;
+
+                resource.get.and.returnValue(RunnerPromise.reject(new Error('Not found.')));
+                spyOn(EmbedSession.prototype, 'getExperience').and.returnValue(RunnerPromise.resolve(experience));
+
+                embedMiniReel = new MiniReel();
+                embedMiniReel.once('init', done);
+            });
+
+            it('should bootstrap the MiniReel', function() {
+                Object.keys(minireel).forEach(key => {
+                    if (typeof minireel[key] !== 'object') {
+                        expect(embedMiniReel[key]).toEqual(minireel[key]);
+                    }
+                });
+            });
+        });
+
+        describe('and the readyFn is available', function() {
+            beforeEach(function(done) {
+                initDeferred.fulfill(readyFn);
+                setTimeout(done, 0);
+            });
+
+            it('should be called', function() {
+                expect(readyFn).toHaveBeenCalledWith();
             });
         });
 
@@ -1520,13 +1587,55 @@ describe('MiniReel', function() {
 
         describe('if autoLaunch is true', function() {
             beforeEach(function(done) {
-                cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
-                    experience: experience,
-                    standalone: false,
-                    interstitial: true,
-                    autoLaunch: true,
-                    profile: profile
-                }));
+                environment.params.autoLaunch = true;
+
+                experienceDeferred.fulfill(experience);
+
+                minireel = new MiniReel();
+                spyOn(minireel, 'moveToIndex');
+                minireel.once('init', () => process.nextTick(done));
+            });
+
+            it('should launch the MiniReel', function() {
+                expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
+            });
+        });
+
+        describe('if standalone is not defined', function() {
+            beforeEach(function(done) {
+                delete environment.params.standalone;
+
+                experienceDeferred.fulfill(experience);
+
+                minireel = new MiniReel();
+                minireel.once('init', () => process.nextTick(done));
+            });
+
+            it('should be set to true', function() {
+                expect(minireel.standalone).toBe(true);
+            });
+        });
+
+        describe('if interstitial is not defined', function() {
+            beforeEach(function(done) {
+                delete environment.params.interstitial;
+
+                experienceDeferred.fulfill(experience);
+
+                minireel = new MiniReel();
+                minireel.once('init', () => process.nextTick(done));
+            });
+
+            it('should be set to false', function() {
+                expect(minireel.interstitial).toBe(false);
+            });
+        });
+
+        describe('if autoLaunch is not defined', function() {
+            beforeEach(function(done) {
+                delete environment.params.autoLaunch;
+
+                experienceDeferred.fulfill(experience);
 
                 minireel = new MiniReel();
                 spyOn(minireel, 'moveToIndex');
@@ -1540,13 +1649,10 @@ describe('MiniReel', function() {
 
         describe('if standalone is true', function() {
             beforeEach(function(done) {
-                cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
-                    experience: experience,
-                    standalone: true,
-                    interstitial: false,
-                    autoLaunch: true,
-                    profile: profile
-                }));
+                environment.params.standalone = true;
+                environment.params.interstitial = false;
+
+                experienceDeferred.fulfill(experience);
 
                 minireel = new MiniReel();
                 minireel.once('init', () => process.nextTick(done));
@@ -1558,13 +1664,10 @@ describe('MiniReel', function() {
 
             describe('and interstitial is true', function() {
                 beforeEach(function(done) {
-                    cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
-                        experience: experience,
-                        standalone: true,
-                        interstitial: true,
-                        autoLaunch: true,
-                        profile: profile
-                    }));
+                    environment.params.standalone = true;
+                    environment.params.interstitial = true;
+
+                    experienceDeferred.fulfill(experience);
 
                     minireel = new MiniReel();
                     minireel.once('init', () => process.nextTick(done));
@@ -1614,13 +1717,10 @@ describe('MiniReel', function() {
             beforeEach(function(done) {
                 experience.data.deck[1].data.skip = true;
 
-                cinema6.getAppData.and.returnValue(RunnerPromise.resolve({
-                    experience: experience,
-                    standalone: false,
-                    interstitial: true,
-                    autoLaunch: true,
-                    profile: profile
-                }));
+                environment.params.standalone = false;
+                environment.params.interstitial = true;
+
+                experienceDeferred.fulfill(experience);
 
                 minireel = new MiniReel();
                 minireel.once('init', () => process.nextTick(done));
@@ -1675,16 +1775,16 @@ describe('MiniReel', function() {
             beforeEach(function(done) {
                 error = jasmine.createSpy('error()');
 
-                appDataDeferred = defer(RunnerPromise);
-                cinema6.getAppData.and.returnValue(appDataDeferred.promise);
+                experienceDeferred = defer(RunnerPromise);
+                resource.get.and.returnValue(experienceDeferred.promise);
 
                 minireel = new MiniReel();
                 minireel.on('error', error);
 
                 delete experience.data;
 
-                appDataDeferred.fulfill({ experience, standalone: false, profile: profile });
-                Promise.resolve(appDataDeferred.promise).then(() => {}).then(done);
+                experienceDeferred.fulfill(experience);
+                Promise.resolve(experienceDeferred.promise).then(() => {}).then(done);
             });
 
             it('should emit the "error" event', function() {
@@ -1780,19 +1880,16 @@ describe('MiniReel', function() {
         });
 
         it('should add the VPAIDHandler to the dispatcher', function() {
-            expect(dispatcher.addClient).toHaveBeenCalledWith(VPAIDHandler);
+            expect(dispatcher.addClient).toHaveBeenCalledWith(VPAIDHandler, minireel.embed);
         });
     });
 
     describe('if the minireel is instantiated with a whitelist of card types', function() {
         beforeEach(function(done) {
-            appDataDeferred = defer(RunnerPromise);
-            cinema6.getAppData.and.returnValue(appDataDeferred.promise);
-
             minireel = new MiniReel(['video']);
             minireel.once('init', done);
 
-            appDataDeferred.fulfill({ experience, profile });
+            experienceDeferred.fulfill(experience);
         });
 
         it('should create a deck with only the cards of those types', function() {

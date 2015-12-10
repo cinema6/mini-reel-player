@@ -1,8 +1,6 @@
 import EmbedHandler from '../../../src/handlers/EmbedHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import { EventEmitter } from 'events';
-import cinema6 from '../../../src/services/cinema6.js';
-import RunnerPromise from '../../../lib/RunnerPromise.js';
 
 class MockSession extends EventEmitter {
     ping() {}
@@ -16,6 +14,12 @@ class MockCard extends EventEmitter {
 }
 
 class MockMiniReel extends EventEmitter {
+    constructor() {
+        super();
+
+        this.embed = new MockSession();
+    }
+
     moveToIndex() {}
     moveTo() {}
     close() {}
@@ -34,11 +38,9 @@ describe('EmbedHandler', function() {
 
     beforeEach(function() {
         minireel = new MockMiniReel();
-        session = new MockSession();
+        session = minireel.embed;
         card = new MockCard();
 
-        spyOn(cinema6, 'init').and.returnValue(session);
-        spyOn(cinema6, 'getSession').and.returnValue(RunnerPromise.resolve(session));
         spyOn(dispatcher, 'addSource').and.callThrough();
 
         dispatcher.addClient(MyHandler, minireel);
@@ -51,30 +53,30 @@ describe('EmbedHandler', function() {
     });
 
     it('should add the session as a source', function() {
-        expect(dispatcher.addSource).toHaveBeenCalledWith('session', handler.session, ['ready', 'show', 'hide', 'showCard', 'vpaid:pauseAd', 'vpaid:resumeAd']);
+        expect(dispatcher.addSource).toHaveBeenCalledWith('session', minireel.embed, ['ready', 'show', 'hide', 'showCard', 'vpaid:pauseAd', 'vpaid:resumeAd']);
     });
 
     describe('events:', function() {
         describe('navigation:', function() {
             describe('launch', function() {
                 beforeEach(function() {
-                    spyOn(handler, 'ping');
+                    spyOn(minireel.embed, 'ping');
                     minireel.emit('launch');
                 });
 
                 it('should ping open', function() {
-                    expect(handler.ping).toHaveBeenCalledWith('open');
+                    expect(minireel.embed.ping).toHaveBeenCalledWith('open');
                 });
             });
 
             describe('close', function() {
                 beforeEach(function() {
-                    spyOn(handler, 'ping');
+                    spyOn(minireel.embed, 'ping');
                     minireel.emit('close');
                 });
 
                 it('should ping close', function() {
-                    expect(handler.ping).toHaveBeenCalledWith('close');
+                    expect(minireel.embed.ping).toHaveBeenCalledWith('close');
                 });
             });
 
@@ -83,12 +85,12 @@ describe('EmbedHandler', function() {
 
                 beforeEach(function() {
                     error = new Error('I failed!');
-                    spyOn(handler, 'ping');
+                    spyOn(minireel.embed, 'ping');
                     minireel.emit('error', error);
                 });
 
                 it('should ping error', function() {
-                    expect(handler.ping).toHaveBeenCalledWith('error', error.message);
+                    expect(minireel.embed.ping).toHaveBeenCalledWith('error', error.message);
                 });
             });
         });
@@ -96,12 +98,12 @@ describe('EmbedHandler', function() {
         describe('card:', function() {
             describe('complete', function() {
                 beforeEach(function() {
-                    spyOn(handler, 'ping');
+                    spyOn(minireel.embed, 'ping');
                     card.emit('complete');
                 });
 
                 it('should ping cardComplete', function() {
-                    expect(handler.ping).toHaveBeenCalledWith('cardComplete', card.id);
+                    expect(minireel.embed.ping).toHaveBeenCalledWith('cardComplete', card.id);
                 });
             });
         });
@@ -148,107 +150,6 @@ describe('EmbedHandler', function() {
                 it('should moveTo() the card', function() {
                     expect(minireel.moveTo).toHaveBeenCalledWith(minireel.deck[2]);
                 });
-            });
-        });
-    });
-
-    describe('properties:', function() {
-        describe('session', function() {
-            it('should be a cinema6 session', function() {
-                expect(cinema6.init).toHaveBeenCalledWith({
-                    setup: jasmine.any(Function)
-                });
-                expect(handler.session).toBe(session);
-            });
-
-            describe('the setup function', function() {
-                let setup;
-                let success, failure;
-
-                beforeEach(function(done) {
-                    setup = cinema6.init.calls.mostRecent().args[0].setup;
-
-                    success = jasmine.createSpy('success()');
-                    failure = jasmine.createSpy('failure()');
-
-                    setup().then(success, failure);
-                    setTimeout(done, 0);
-                });
-
-                it('should not returned a fulfilled promise', function() {
-                    expect(success).not.toHaveBeenCalled();
-                    expect(failure).not.toHaveBeenCalled();
-                });
-
-                describe('when the MiniReel is initialized', function() {
-                    beforeEach(function(done) {
-                        minireel.emit('init');
-                        setTimeout(done, 0);
-                    });
-
-                    it('should fulfill the promise', function() {
-                        expect(success).toHaveBeenCalled();
-                    });
-                });
-
-                describe('if the minireel has an id (is already initialized)', function() {
-                    beforeEach(function(done) {
-                        success.calls.reset();
-                        failure.calls.reset();
-                        minireel.id = 'e-jfu9w3yr84';
-
-                        setup().then(success, failure);
-                        setTimeout(done, 0);
-                    });
-
-                    it('should fulfill the promise', function() {
-                        expect(success).toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-    });
-
-    describe('methods:', function() {
-        describe('ping(event, data)', function() {
-            let readySession;
-            let evt, data;
-
-            beforeEach(function(done) {
-                evt = 'someEvent';
-                data = { foo: 'bar' };
-
-                readySession = new MockSession();
-                spyOn(readySession, 'ping');
-                cinema6.getSession.and.returnValue(RunnerPromise.resolve(readySession));
-
-                handler.ping(evt, data);
-                setTimeout(done, 0);
-            });
-
-            it('should ping the ready session', function() {
-                expect(readySession.ping).toHaveBeenCalledWith(evt, data);
-            });
-        });
-
-        describe('setStyles(styles)', function() {
-            let styles;
-
-            beforeEach(function() {
-                styles = {
-                    minWidth: '18.75em',
-                    padding: '0 0 85% 0',
-                    fontSize: '16px',
-                    height: '0px',
-                    overflow: 'hidden'
-                };
-
-                spyOn(handler, 'ping');
-                handler.setStyles(styles);
-            });
-
-            it('should ping() with the styles', function() {
-                expect(handler.ping).toHaveBeenCalledWith('responsiveStyles', styles);
             });
         });
     });

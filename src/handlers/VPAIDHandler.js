@@ -1,10 +1,7 @@
-import dispatcher from '../services/dispatcher.js';
-import EmbedHandler from '../handlers/EmbedHandler.js';
-
 export default class VPAIDHandler {
-    constructor(register) {
+    constructor(register, session) {
         const updateState = (state => {
-            return dispatcher.getClient(EmbedHandler).ping('vpaid:stateUpdated', state);
+            return session.ping('vpaid:stateUpdated', state);
         });
         const videoCall = ((() => {
             const queue = [];

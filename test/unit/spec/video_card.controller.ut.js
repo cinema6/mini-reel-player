@@ -129,6 +129,10 @@ describe('VideoCardController', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['activate', 'deactivate', 'complete', 'becameUnskippable', 'becameSkippable', 'skippableProgress'], player);
     });
 
+    it('should add the video as a source', function() {
+        expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, ['buffering'], card);
+    });
+
     describe('properties:', function() {
         describe('player', function() {
             beforeEach(function() {

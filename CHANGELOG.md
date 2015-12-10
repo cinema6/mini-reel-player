@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v2.2.0-rc1]*
+  * [FEATURE]: Add support for tracking a video buffering
+  * [FEATURE]: Add support for tracking a delay with every event type
+
 ## v2.1.3 (December 9, 2015)
 * *[v2.1.3-rc2]*
   * [FIX]: Make sure errors don't occur when a YouTube video plays,

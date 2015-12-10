@@ -71,7 +71,8 @@ describe('ADTECHHandler', function() {
                 q2Urls: ['img7.jpg?delay={delay}', 'img8.jpg?page={pageUrl}'],
                 q3Urls: ['img9.jpg?delay={delay}', 'img10.jpg?page={pageUrl}'],
                 q4Urls: ['img11.jpg?delay={delay}', 'img12.jpg?page={pageUrl}'],
-                viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}']
+                viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}'],
+                bufferUrls: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}'],
             }
         }, experience);
         minireel = new EventEmitter();
@@ -80,7 +81,7 @@ describe('ADTECHHandler', function() {
         };
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
-        dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
+        dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete', 'buffering'], card);
         dispatcher.addSource('card', card, ['activate', 'deactivate'], player);
         dispatcher.addSource('card', card, ['share', 'clickthrough']);
     });
@@ -200,6 +201,45 @@ describe('ADTECHHandler', function() {
             card.activate();
         });
 
+        describe('buffering', function() {
+            beforeEach(function() {
+                spyOn(imageLoader, 'load');
+                jasmine.clock().tick(300);
+
+                player.emit('buffering');
+            });
+
+            it('should fire the bufferUrls', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': 300 })));
+            });
+
+            describe('if the loadStartTime is unknown', function() {
+                beforeEach(function() {
+                    environment.loadStartTime = null;
+                    imageLoader.load.calls.reset();
+
+                    player.emit('buffering');
+                });
+
+                it('should replace the {delay} macro with null', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': null })));
+                });
+            });
+
+            describe('if the card has no bufferUrls', function() {
+                beforeEach(function() {
+                    delete card.campaign.bufferUrls;
+                    imageLoader.load.calls.reset();
+
+                    player.emit('buffering');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+
         describe('firstQuartile', function() {
             beforeEach(function() {
                 spyOn(imageLoader, 'load');
@@ -213,12 +253,12 @@ describe('ADTECHHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrlWithDelay));
             });
 
-            describe('if the minireel has no loadUrls', function() {
+            describe('if the card has no q1Urls', function() {
                 beforeEach(function() {
                     delete card.campaign.q1Urls;
                     imageLoader.load.calls.reset();
 
-                    minireel.emit('firstQuartile');
+                    player.emit('firstQuartile');
                 });
 
                 it('should do nothing', function() {
@@ -240,12 +280,12 @@ describe('ADTECHHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrlWithDelay));
             });
 
-            describe('if the minireel has no loadUrls', function() {
+            describe('if the card has no q2Urls', function() {
                 beforeEach(function() {
                     delete card.campaign.q2Urls;
                     imageLoader.load.calls.reset();
 
-                    minireel.emit('midpoint');
+                    player.emit('midpoint');
                 });
 
                 it('should do nothing', function() {
@@ -267,12 +307,12 @@ describe('ADTECHHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrlWithDelay));
             });
 
-            describe('if the minireel has no loadUrls', function() {
+            describe('if the card has no q3Urls', function() {
                 beforeEach(function() {
                     delete card.campaign.q3Urls;
                     imageLoader.load.calls.reset();
 
-                    minireel.emit('thirdQuartile');
+                    player.emit('thirdQuartile');
                 });
 
                 it('should do nothing', function() {
@@ -294,12 +334,12 @@ describe('ADTECHHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrlWithDelay));
             });
 
-            describe('if the minireel has no loadUrls', function() {
+            describe('if the card has no q4Urls', function() {
                 beforeEach(function() {
                     delete card.campaign.q4Urls;
                     imageLoader.load.calls.reset();
 
-                    minireel.emit('complete');
+                    player.emit('complete');
                 });
 
                 it('should do nothing', function() {

@@ -23,6 +23,7 @@ export default class VideoCardController extends CardController {
             'activate', 'deactivate', 'complete',
             'becameUnskippable', 'becameSkippable', 'skippableProgress'
         ], player);
+        dispatcher.addSource('video', player, ['buffering'], this.model);
 
         /* VideoCard (model) events. */
         this.model.on('prepare', () =>  {

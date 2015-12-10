@@ -51,6 +51,11 @@ export default class ADTECHHandler extends BillingHandler {
         }, 'navigation', 'init');
 
         register(({ data: card }) => {
+            const { bufferUrls } = card.campaign;
+
+            if (bufferUrls) { imageLoader.load(...map(bufferUrls, completeUrlWithLoadDelay())); }
+        }, 'video', 'buffering');
+        register(({ data: card }) => {
             const { q1Urls } = card.campaign;
 
             if (q1Urls) { imageLoader.load(...map(q1Urls, completeUrlWithCardViewDelay(card))); }

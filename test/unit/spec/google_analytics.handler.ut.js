@@ -256,7 +256,7 @@ describe('GoogleAnalyticsHandler', function() {
                 minireel.currentIndex = 2;
 
                 dispatcher.addSource('video', player, [
-                    'attemptPlay', 'play', 'pause', 'ended', 'error',
+                    'buffering', 'attemptPlay', 'play', 'pause', 'ended', 'error',
                     'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'
                 ], card);
                 spyOn(trckr, 'trackEvent');
@@ -285,6 +285,16 @@ describe('GoogleAnalyticsHandler', function() {
                     it('should fire an event', function() {
                         expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Play', false));
                     });
+                });
+            });
+
+            describe('buffering', function() {
+                beforeEach(function() {
+                    player.emit('buffering');
+                });
+
+                it('should fire an event', function() {
+                    expect(trckr.trackEvent).toHaveBeenCalledWith(handler.getVideoTrackingData(player, 'Buffering', true));
                 });
             });
 

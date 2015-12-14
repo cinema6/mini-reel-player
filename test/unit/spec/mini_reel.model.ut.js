@@ -17,6 +17,7 @@ import RunnerPromise from '../../../lib/RunnerPromise.js';
 import Card from '../../../src/models/Card.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
+import BrightcoveVideoCard from '../../../src/models/BrightcoveVideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import browser from '../../../src/services/browser.js';
@@ -664,6 +665,40 @@ describe('MiniReel', function() {
                 "params": {
                   "sponsor": "My Sponsor"
                 }
+              },
+              {
+                  "data": {
+                      "service": "brightcove",
+                      "videoid": "4655415742001",
+                      "accountid": "4652941506001",
+                      "playerid": "71cf5be9-7515-44d8-bb99-29ddc6224ff8",
+                      "href": "http://players.brightcove.net/4652941506001/71cf5be9-7515-44d8-bb99-29ddc6224ff8_default/index.html?videoId=4655415742001",
+                      "thumbs": {
+                          "small": "http://brightcove.vo.llnwd.net/e1/pd/96980657001/96980657001_207566970001_titmouse-still.jpg?pubId=4652941506001&videoId=4655415742001",
+                          "large": "http://brightcove.vo.llnwd.net/e1/pd/96980657001/96980657001_207566970001_titmouse-still.jpg?pubId=4652941506001&videoId=4655415742001"
+                      }
+                  },
+                  "id": "rc-5ac14f008cef",
+                  "type": "brightcove",
+                  "title": "Birdz, Beautifully Blue: Brought to you By Brightcove",
+                  "note": null,
+                  "source": "Brightcove",
+                  "modules": [],
+                  "thumbs": null,
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                      "campaignId": null,
+                      "advertiserId": null,
+                      "minViewTime": null,
+                      "countUrls": [],
+                      "clickUrls": []
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "shareLinks": {},
+                  "params": {}
               },
               {
                 "data": {},
@@ -1833,6 +1868,7 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(ImageCard),
+                jasmine.any(BrightcoveVideoCard),
                 jasmine.any(RecapCard)
             ]);
         });
@@ -1850,7 +1886,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(17);
+            expect(minireel.length).toBe(18);
         });
     });
 
@@ -1904,7 +1940,8 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
-                jasmine.any(VideoCard)
+                jasmine.any(VideoCard),
+                jasmine.any(BrightcoveVideoCard)
             ]);
         });
     });

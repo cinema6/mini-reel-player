@@ -199,10 +199,10 @@ export default class MiniReel extends Mixable {
             browser.getProfile()
         ]).then(([experience, profile]) => {
             const {
-                standalone = true,
-                interstitial = false,
-                autoLaunch = true
-            } = environment.params;
+                standalone = true, // jshint ignore:line
+                interstitial = false, // jshint ignore:line
+                autoLaunch = true // jshint ignore:line
+            } = environment.params; // jshint ignore:line
 
             initialize.call(this, whitelist, {
                 experience,

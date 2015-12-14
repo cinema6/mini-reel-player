@@ -10,7 +10,6 @@ import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
 import Mixable from '../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
-import cinema6 from '../../../src/services/cinema6.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -713,9 +712,6 @@ describe('MiniReel', function() {
 
         appDataDeferred = defer(RunnerPromise);
         sessionDeferred = defer(RunnerPromise);
-
-        spyOn(cinema6, 'getAppData').and.returnValue(appDataDeferred.promise);
-        spyOn(cinema6, 'getSession').and.returnValue(sessionDeferred.promise);
 
         spyOn(dispatcher, 'addClient');
         spyOn(dispatcher, 'addSource');

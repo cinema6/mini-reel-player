@@ -25,10 +25,11 @@ function completeUrlWithLoadDelay() {
     };
 }
 
-function firePixels(campaign, type, mapper) {
-    const pixels = campaign[type];
-
-    if (pixels) { imageLoader.load(...map(pixels, mapper)); }
+function firePixels(pixels, mapper) {
+    if (pixels && !pixels.fired) {
+        imageLoader.load(...map(pixels, mapper));
+        pixels.fired = true;
+    }
 }
 
 export default class ADTECHHandler extends BillingHandler {
@@ -39,7 +40,7 @@ export default class ADTECHHandler extends BillingHandler {
             const { loadStartTime } = environment;
             const launchDelay = loadStartTime && (Date.now() - loadStartTime);
 
-            firePixels(minireel.campaign, 'launchUrls', url => completeUrl(url, {
+            firePixels(minireel.campaign.launchUrls, url => completeUrl(url, {
                 '{launchDelay}': launchDelay,
                 '{delay}': launchDelay
             }));
@@ -48,46 +49,46 @@ export default class ADTECHHandler extends BillingHandler {
             const { loadStartTime } = environment;
             const loadDelay = loadStartTime && (Date.now() - loadStartTime);
 
-            imageLoader.load(...map(reduce(minireel.deck, (result, card) => {
+            firePixels(reduce(minireel.deck, (result, card) => {
                 return result.concat(card.get('campaign.loadUrls') || []);
-            }, []), url => completeUrl(url, { '{loadDelay}': loadDelay, '{delay}': loadDelay })));
+            }, []), url => completeUrl(url, { '{loadDelay}': loadDelay, '{delay}': loadDelay }));
         }, 'navigation', 'init');
 
         register(({ data: card }) => {
-            firePixels(card.campaign, 'bufferUrls', completeUrlWithLoadDelay());
+            firePixels(card.get('campaign.bufferUrls'), completeUrlWithLoadDelay());
         }, 'video', 'buffering');
         register(({ data: card }) => {
-            firePixels(card.campaign, 'q1Urls', completeUrlWithCardViewDelay(card));
+            firePixels(card.get('campaign.q1Urls'), completeUrlWithCardViewDelay(card));
         }, 'video', 'firstQuartile');
         register(({ data: card }) => {
-            firePixels(card.campaign, 'q2Urls', completeUrlWithCardViewDelay(card));
+            firePixels(card.get('campaign.q2Urls'), completeUrlWithCardViewDelay(card));
         }, 'video', 'midpoint');
         register(({ data: card }) => {
-            firePixels(card.campaign, 'q3Urls', completeUrlWithCardViewDelay(card));
+            firePixels(card.get('campaign.q3Urls'), completeUrlWithCardViewDelay(card));
         }, 'video', 'thirdQuartile');
         register(({ data: card }) => {
-            firePixels(card.campaign, 'q4Urls', completeUrlWithCardViewDelay(card));
+            firePixels(card.get('campaign.q4Urls'), completeUrlWithCardViewDelay(card));
         }, 'video', 'complete');
 
         register(({ target: card }) => {
-            firePixels(card.campaign, 'viewUrls', completeUrlWithLoadDelay());
+            firePixels(card.get('campaign.viewUrls'), completeUrlWithLoadDelay());
         }, 'card', 'activate');
         register(({ target: card }, { tracking }) => {
-            imageLoader.load(...map(tracking, completeUrlWithCardViewDelay(card)));
+            firePixels(tracking, completeUrlWithCardViewDelay(card));
         }, 'card', 'clickthrough', 'share');
 
         this.on('AdClick', card => {
             const { lastViewedTime } = card;
             const playDelay = Date.now() - lastViewedTime;
 
-            firePixels(card.campaign, 'playUrls', url => completeUrl(url, {
+            firePixels(card.get('campaign.playUrls'), url => completeUrl(url, {
                 '{playDelay}': playDelay,
                 '{delay}': playDelay
             }));
         });
 
         this.on('AdCount', card => {
-            firePixels(card.campaign, 'countUrls', completeUrlWithCardViewDelay(card));
+            firePixels(card.get('campaign.countUrls'), completeUrlWithCardViewDelay(card));
         });
     }
 }

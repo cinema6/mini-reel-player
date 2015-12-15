@@ -5,6 +5,7 @@
   * [FEATURE]: Add support for tracking a delay with every event type
   * [REFACTOR]: Clean up the code used to communicate outside of the
     player `<iframe>`.
+  * Only fire tracking pixels a single time
 
 ## v2.1.3 (December 9, 2015)
 * *[v2.1.3-rc2]*

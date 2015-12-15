@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v2.2.0 (December 15, 2015)
 * *[v2.2.0-rc1]*
   * [FEATURE]: Add support for Brightcove videos
   * [FEATURE]: Add support for tracking a video buffering
@@ -7,6 +8,7 @@
   * [REFACTOR]: Clean up the code used to communicate outside of the
     player `<iframe>`.
   * Only fire tracking pixels a single time
+* *[/v2.2.0-rc1]*
 
 ## v2.1.3 (December 9, 2015)
 * *[v2.1.3-rc2]*

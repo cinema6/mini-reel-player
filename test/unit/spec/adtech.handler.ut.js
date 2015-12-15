@@ -84,6 +84,8 @@ describe('ADTECHHandler', function() {
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete', 'buffering'], card);
         dispatcher.addSource('card', card, ['activate', 'deactivate'], player);
         dispatcher.addSource('card', card, ['share', 'clickthrough']);
+
+        spyOn(imageLoader, 'load').and.callFake(urls => expect(urls.length).toBeGreaterThan(0));
     });
 
     afterEach(function() {
@@ -101,8 +103,6 @@ describe('ADTECHHandler', function() {
     describe('minireel events:', function() {
         describe('launch', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
-
                 jasmine.clock().tick(150);
 
                 minireel.emit('launch');
@@ -115,10 +115,24 @@ describe('ADTECHHandler', function() {
                 })));
             });
 
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('launch');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+
             describe('if the loadStartTime is unknown', function() {
                 beforeEach(function() {
                     environment.loadStartTime = null;
                     imageLoader.load.calls.reset();
+                    delete minireel.campaign.launchUrls.fired;
+
                     minireel.emit('launch');
                 });
 
@@ -146,7 +160,6 @@ describe('ADTECHHandler', function() {
 
         describe('init', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
                 minireel.deck = [
                     new MockCard(),
                     card,
@@ -203,7 +216,6 @@ describe('ADTECHHandler', function() {
 
         describe('buffering', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
                 jasmine.clock().tick(300);
 
                 player.emit('buffering');
@@ -213,10 +225,23 @@ describe('ADTECHHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': 300 })));
             });
 
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    player.emit('buffering');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+
             describe('if the loadStartTime is unknown', function() {
                 beforeEach(function() {
                     environment.loadStartTime = null;
                     imageLoader.load.calls.reset();
+                    delete card.campaign.bufferUrls.fired;
 
                     player.emit('buffering');
                 });
@@ -242,15 +267,25 @@ describe('ADTECHHandler', function() {
 
         describe('firstQuartile', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
-
                 jasmine.clock().tick(15);
 
                 player.emit('firstQuartile');
             });
 
-            it('should fire the minireel\'s launch pixels', function() {
+            it('should fire the q1Urls', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrlWithDelay));
+            });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    player.emit('firstQuartile');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
 
             describe('if the card has no q1Urls', function() {
@@ -269,15 +304,25 @@ describe('ADTECHHandler', function() {
 
         describe('midpoint', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
-
                 jasmine.clock().tick(30);
 
                 player.emit('midpoint');
             });
 
-            it('should fire the minireel\'s launch pixels', function() {
+            it('should fire the q2Urls', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrlWithDelay));
+            });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    player.emit('midpoint');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
 
             describe('if the card has no q2Urls', function() {
@@ -296,15 +341,25 @@ describe('ADTECHHandler', function() {
 
         describe('thirdQuartile', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
-
                 jasmine.clock().tick(45);
 
                 player.emit('thirdQuartile');
             });
 
-            it('should fire the minireel\'s launch pixels', function() {
+            it('should fire the q3Urls', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrlWithDelay));
+            });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    player.emit('thirdQuartile');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
 
             describe('if the card has no q3Urls', function() {
@@ -323,15 +378,25 @@ describe('ADTECHHandler', function() {
 
         describe('complete', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
-
                 jasmine.clock().tick(59);
 
                 player.emit('complete');
             });
 
-            it('should fire the minireel\'s launch pixels', function() {
+            it('should fire the q4Urls', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrlWithDelay));
+            });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    player.emit('complete');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
 
             describe('if the card has no q4Urls', function() {
@@ -362,7 +427,6 @@ describe('ADTECHHandler', function() {
                     uri: 'https://twitter.com/netflix',
                     tracking: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}']
                 };
-                spyOn(imageLoader, 'load');
 
                 jasmine.clock().tick(10);
 
@@ -371,6 +435,18 @@ describe('ADTECHHandler', function() {
 
             it('should fire the tracking pixels', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDelay));
+            });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    card.emit('clickthrough', data);
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
         });
 
@@ -384,7 +460,6 @@ describe('ADTECHHandler', function() {
                     href: 'http://imgur.com/S3GiV63',
                     tracking: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}']
                 };
-                spyOn(imageLoader, 'load');
 
                 jasmine.clock().tick(15);
 
@@ -394,13 +469,24 @@ describe('ADTECHHandler', function() {
             it('should fire the tracking pixels', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDelay));
             });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    card.emit('share', data);
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
         });
 
         describe('activate', function() {
             beforeEach(function() {
-                spyOn(imageLoader, 'load');
-
                 jasmine.clock().tick(250);
+                delete card.campaign.viewUrls.fired;
 
                 card.emit('activate');
             });
@@ -411,10 +497,23 @@ describe('ADTECHHandler', function() {
                 })));
             });
 
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    card.emit('activate');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+
             describe('if the loadStartTime is unknown', function() {
                 beforeEach(function() {
                     environment.loadStartTime = null;
                     imageLoader.load.calls.reset();
+                    delete card.campaign.viewUrls.fired;
 
                     card.emit('activate');
                 });
@@ -443,7 +542,6 @@ describe('ADTECHHandler', function() {
 
     describe('when the AdClick event is fired', function() {
         beforeEach(function() {
-            spyOn(imageLoader, 'load');
             jasmine.clock().install();
             jasmine.clock().mockDate();
             card.activate();
@@ -478,8 +576,6 @@ describe('ADTECHHandler', function() {
 
     describe('when the AdCount event is fired', function() {
         beforeEach(function() {
-            spyOn(imageLoader, 'load');
-
             card.activate();
             jasmine.clock().tick(3);
 

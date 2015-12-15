@@ -1,4 +1,5 @@
 import PostMessageSession from 'rc-post-message-session';
+import Runner from '../../lib/Runner.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import { createKey } from 'private-parts';
 import {
@@ -22,6 +23,14 @@ export default class EmbedSession extends PostMessageSession {
             forEach(_(this).pending, args => this.post(...args));
             _(this).pending = [];
         });
+    }
+
+    emit(event, ...args) {
+        if (event === 'data' || event === 'ready') {
+            return super.emit(event, ...args);
+        }
+
+        return Runner.run(() => super.emit(event, ...args));
     }
 
     post(type, event, data, id = EmbedSession.getID()) {

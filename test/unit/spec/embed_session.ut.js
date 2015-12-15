@@ -1,6 +1,7 @@
 import EmbedSession from '../../../src/utils/EmbedSession.js';
 import PostMessageSession from 'rc-post-message-session';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import Runner from '../../../lib/Runner.js';
 import { defer } from '../../../lib/utils.js';
 
 describe('EmbedSession', function() {
@@ -79,6 +80,29 @@ describe('EmbedSession', function() {
     });
 
     describe('methods:', function() {
+        describe('emit(event, ...args)', function() {
+            let evt, arg1, arg2;
+            let spy;
+
+            beforeEach(function(done) {
+                evt = 'foo';
+                arg1 = { data: 'foo' };
+                arg2 = { data: 'bar' };
+
+                spy = jasmine.createSpy('spy()').and.callFake(() => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+                session.on(evt, spy);
+
+                process.nextTick(() => {
+                    session.emit(evt, arg1, arg2);
+                    done();
+                });
+            });
+
+            it('should call super() in a Runner.run()', function() {
+                expect(spy).toHaveBeenCalledWith(arg1, arg2);
+            });
+        });
+
         describe('post(type, event, data, id)', function() {
             let type, evt, data, id;
             let result;
@@ -365,7 +389,7 @@ describe('EmbedSession', function() {
 
                         spyOn(session, 'ping');
 
-                        fn();
+                        Runner.run(fn);
                     });
 
                     it('should set ready to true', function() {

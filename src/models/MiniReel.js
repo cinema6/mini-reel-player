@@ -31,6 +31,7 @@ import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
+import BrightcoveVideoCard from './BrightcoveVideoCard.js';
 
 const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
 
@@ -48,6 +49,7 @@ function getCardType(card) {
     case 'jwplayer':
     case 'vidyard':
     case 'htmlvideo':
+    case 'brightcove':
         return 'video';
     default:
         return card.type;
@@ -81,6 +83,8 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
                 return new InstagramVideoCard(card, experience, profile);
             }
             break;
+        case 'brightcove':
+            return new BrightcoveVideoCard(card, experience, profile);
         default:
             return new VideoCard(card, experience, profile);
         }

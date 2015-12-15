@@ -1,6 +1,7 @@
 # MiniReel Player 2.0
 
 * *[v2.2.0-rc1]*
+  * [FEATURE]: Add support for Brightcove videos
   * [FEATURE]: Add support for tracking a video buffering
   * [FEATURE]: Add support for tracking a delay with every event type
   * [REFACTOR]: Clean up the code used to communicate outside of the

@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v2.2.0 (December 15, 2015)
+* *[v2.2.0-rc2]*
+  * [FIX]: Fix for an issue that caused players embeded via c6embed to
+    break
+* *[/v2.2.0-rc2]*
+
 * *[v2.2.0-rc1]*
   * [FEATURE]: Add support for Brightcove videos
   * [FEATURE]: Add support for tracking a video buffering

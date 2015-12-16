@@ -9,14 +9,14 @@ import LightboxRecapCardController from '../../../../src/controllers/lightbox/Li
 import LightInstagramImageCardController from '../../../../src/controllers/light/LightInstagramImageCardController.js';
 import LightInstagramVideoCardController from '../../../../src/controllers/light/LightInstagramVideoCardController.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
-import EmbedHandler from '../../../../src/handlers/EmbedHandler.js';
+import EmbedSession from '../../../../src/utils/EmbedSession.js';
 
 describe('LightPlayerController', function() {
     let LightPlayerCtrl;
 
     beforeEach(function() {
         spyOn(dispatcher, 'addClient').and.callThrough();
-        spyOn(EmbedHandler.prototype, 'setStyles');
+        spyOn(EmbedSession.prototype, 'setStyles');
 
         spyOn(LightPlayerController.prototype, 'addView').and.callThrough();
         spyOn(LightPlayerController.prototype, 'initThumbnailNavigator').and.callThrough();
@@ -34,7 +34,7 @@ describe('LightPlayerController', function() {
     });
 
     it('should set the styles on the embed', function() {
-        expect(dispatcher.getClient(EmbedHandler).setStyles).toHaveBeenCalledWith({
+        expect(LightPlayerCtrl.minireel.embed.setStyles).toHaveBeenCalledWith({
             minWidth: '18.75em',
             padding: '0 0 85% 0',
             fontSize: '16px',

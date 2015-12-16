@@ -1,6 +1,6 @@
 {
   "name": "mini-reel-player",
-  "version": "2.0.0",
+  "version": "2.2.0-rc2",
   "private": true,
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
@@ -87,16 +87,17 @@
     "babel-core": "~6.2.1"
   },
   "dependencies": {
+    "deep-freeze-node": "~1.1.1",
     "es6-promise": "^2.0.1",
     "escape-regexp": "0.0.1",
     "moti.js": "^0.1.0",
     "prefix": "0.2.2",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",
+    "rc-post-message-session": "^1.0.1",
     "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js#v0.3.1",
     "weak-map": "^1.0.5",
-    "whatwg-fetch": "^0.7.0",
-    "deep-freeze-node": "~1.1.1"
+    "whatwg-fetch": "^0.7.0"
   },
   "directories": {
     "test": "test"

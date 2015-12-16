@@ -1,9 +1,11 @@
 import TableOfContentsViewController from '../../../../src/controllers/mobile/TableOfContentsViewController.js';
 import ViewController from '../../../../src/controllers/ViewController.js';
-import cinema6 from '../../../../src/services/cinema6.js';
 import TableOfContentsView from '../../../../src/views/mobile/TableOfContentsView.js';
 import MiniReel from '../../../../src/models/MiniReel.js';
 import dispatcher from '../../../../src/services/dispatcher.js';
+import resource from '../../../../src/services/resource.js';
+import RunnerPromise from '../../../../lib/RunnerPromise.js';
+import environment from '../../../../src/environment.js';
 
 describe('TableOfContentsViewController', function() {
     let TableOfContentsViewCtrl;
@@ -216,22 +218,27 @@ describe('TableOfContentsViewController', function() {
     };
     /* jshint quotmark:single */
 
-    const profile = { flash: false };
+    beforeAll(function() {
+        environment.constructor();
+    });
 
     beforeEach(function(done) {
+        environment.params.autoLaunch = false;
+
         spyOn(dispatcher, 'addClient');
-        spyOn(cinema6, 'getAppData').and.returnValue(Promise.resolve({
-            experience: experience,
-            profile: profile
-        }));
+        spyOn(resource, 'get').and.returnValue(RunnerPromise.resolve(experience));
         minireel = new MiniReel();
         spyOn(TableOfContentsView.prototype, 'update');
         spyOn(TableOfContentsView.prototype, 'hide');
         spyOn(TableOfContentsView.prototype, 'show');
 
-        minireel.on('init', done);
+        minireel.on('init', () => process.nextTick(done));
 
         TableOfContentsViewCtrl = new TableOfContentsViewController(minireel);
+    });
+
+    afterAll(function() {
+        environment.constructor();
     });
 
     it('should be a ViewController', function() {

@@ -1,5 +1,4 @@
 import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
-import EmbedHandler from '../../../src/handlers/EmbedHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import { EventEmitter } from 'events';
 import CorePlayer from '../../../src/players/CorePlayer.js';
@@ -13,13 +12,21 @@ class MockCard extends EventEmitter {
 
 }
 
-class MockMiniReel extends EventEmitter {
+class MockSession extends EventEmitter {
+    ping() {}
+}
 
+class MockMiniReel extends EventEmitter {
+    constructor() {
+        super();
+
+        this.embed = new MockSession();
+    }
 }
 
 describe('VPAIDHandler', function() {
     let handler;
-    let minireel, video, card, embedHandler, session;
+    let minireel, video, card, session;
 
     class MyHandler extends VPAIDHandler {
         constructor() {
@@ -32,15 +39,12 @@ describe('VPAIDHandler', function() {
         minireel = new MockMiniReel();
         video = new MockPlayer();
         card = new MockCard();
+        session = minireel.embed;
 
-        dispatcher.addClient(EmbedHandler, minireel);
-        dispatcher.addClient(MyHandler);
-
-        embedHandler = dispatcher.getClient(EmbedHandler);
-        session = embedHandler.session;
+        dispatcher.addClient(MyHandler, minireel.embed);
 
         dispatcher.addSource('navigation', minireel, ['init', 'error', 'close']);
-        dispatcher.addSource('session', embedHandler.session, ['ready', 'vpaid:pauseAd', 'vpaid:resumeAd']);
+        dispatcher.addSource('session', session, ['ready', 'vpaid:pauseAd', 'vpaid:resumeAd']);
         dispatcher.addSource('card', card, ['complete', 'becameUnskippable', 'becameSkippable', 'skippableProgress'], video);
         dispatcher.addSource('card', card, ['clickthrough']);
         dispatcher.addSource('video', video, ['play', 'pause', 'loadedmetadata', 'timeupdate', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
@@ -54,14 +58,14 @@ describe('VPAIDHandler', function() {
         describe('navigation:', function() {
             describe('close', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     minireel.emit('close');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdUserClose'
                     });
                 });
@@ -125,14 +129,14 @@ describe('VPAIDHandler', function() {
         describe('card:', function() {
             describe('becameUnskippable', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     card.emit('becameUnskippable');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         prop: 'adSkippableState',
                         value: false,
                         event: 'AdSkippableStateChange'
@@ -142,14 +146,14 @@ describe('VPAIDHandler', function() {
 
             describe('becameSkippable', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     card.emit('becameSkippable');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         prop: 'adSkippableState',
                         value: true,
                         event: 'AdSkippableStateChange'
@@ -162,14 +166,14 @@ describe('VPAIDHandler', function() {
 
                 beforeEach(function(done) {
                     link = { uri: 'https://www.facebook.com/Hyundai', tracking: [] };
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     card.emit('clickthrough', link, 'facebook');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdClickThru',
                         params: [link.uri, 'facebook', false]
                     });
@@ -180,7 +184,7 @@ describe('VPAIDHandler', function() {
         describe('video:', function() {
             describe('loadedmetadata', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.duration = 35;
                     video.emit('loadedmetadata');
@@ -188,7 +192,7 @@ describe('VPAIDHandler', function() {
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         prop: 'adDuration',
                         value: 35,
                         event: 'AdDurationChange'
@@ -198,28 +202,28 @@ describe('VPAIDHandler', function() {
 
             describe('play', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.emit('play');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoStart'
                     });
                 });
 
                 describe('if resumeAd has not been called', function() {
                     beforeEach(function(done) {
-                        embedHandler.ping.calls.reset();
+                        session.ping.calls.reset();
                         video.emit('play');
 
                         setTimeout(done, 0);
                     });
 
                     it('should not ping the "AdPlaying" event', function() {
-                        expect(embedHandler.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        expect(session.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdPlaying'
                         });
                     });
@@ -227,14 +231,14 @@ describe('VPAIDHandler', function() {
 
                 describe('if resumeAd has been called', function() {
                     beforeEach(function(done) {
-                        embedHandler.ping.calls.reset();
+                        session.ping.calls.reset();
                         session.emit('vpaid:resumeAd');
                         video.emit('play');
                         setTimeout(done, 0);
                     });
 
                     it('should ping the "AdPlaying" event', function() {
-                        expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdPlaying'
                         });
                     });
@@ -243,7 +247,7 @@ describe('VPAIDHandler', function() {
 
             describe('pause', function() {
                 beforeEach(function() {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
                 });
 
                 describe('if pauseAd() has not been called', function() {
@@ -253,7 +257,7 @@ describe('VPAIDHandler', function() {
                     });
 
                     it('should not ping the "AdPaused" event', function() {
-                        expect(embedHandler.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        expect(session.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdPaused'
                         });
                     });
@@ -267,7 +271,7 @@ describe('VPAIDHandler', function() {
                     });
 
                     it('should ping the "AdPaused" event', function() {
-                        expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdPaused'
                         });
                     });
@@ -276,7 +280,7 @@ describe('VPAIDHandler', function() {
 
             describe('timeupdate', function() {
                 beforeEach(function() {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.duration = 30;
                     video.currentTime = 7;
@@ -284,7 +288,7 @@ describe('VPAIDHandler', function() {
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         prop: 'adRemainingTime',
                         value: video.duration - video.currentTime
                     });
@@ -292,14 +296,14 @@ describe('VPAIDHandler', function() {
 
                 describe('if the currentTime exceeds the duration', function() {
                     beforeEach(function() {
-                        embedHandler.ping.calls.reset();
+                        session.ping.calls.reset();
                         video.currentTime = 31;
 
                         video.emit('timeupdate');
                     });
 
                     it('should ping the session with adRemainingTime: 0', function() {
-                        expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             prop: 'adRemainingTime',
                             value: 0
                         });
@@ -308,28 +312,28 @@ describe('VPAIDHandler', function() {
 
                 describe('if the duration is unknown', function() {
                     beforeEach(function() {
-                        embedHandler.ping.calls.reset();
+                        session.ping.calls.reset();
                         video.duration = 0;
 
                         video.emit('timeupdate');
                     });
 
                     it('should not ping the session', function() {
-                        expect(embedHandler.ping).not.toHaveBeenCalled();
+                        expect(session.ping).not.toHaveBeenCalled();
                     });
                 });
             });
 
             describe('firstQuartile', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.emit('firstQuartile');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoFirstQuartile'
                     });
                 });
@@ -337,14 +341,14 @@ describe('VPAIDHandler', function() {
 
             describe('midpoint', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.emit('midpoint');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoMidpoint'
                     });
                 });
@@ -352,14 +356,14 @@ describe('VPAIDHandler', function() {
 
             describe('thirdQuartile', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.emit('thirdQuartile');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoThirdQuartile'
                     });
                 });
@@ -367,14 +371,14 @@ describe('VPAIDHandler', function() {
 
             describe('complete', function() {
                 beforeEach(function(done) {
-                    spyOn(embedHandler, 'ping');
+                    spyOn(session, 'ping');
 
                     video.emit('complete');
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
-                    expect(embedHandler.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoComplete'
                     });
                 });

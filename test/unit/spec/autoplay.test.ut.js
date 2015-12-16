@@ -1,5 +1,6 @@
 import browser from '../../../src/services/browser.js';
-import {createKey} from 'private-parts';
+import { createKey } from 'private-parts';
+import environment from '../../../src/environment.js';
 
 const _ = createKey();
 
@@ -19,6 +20,8 @@ describe('autoplay test', function() {
 
     /* global beforeAll, afterAll */
     beforeAll(function() {
+        environment.constructor();
+
         realAudio = global.Audio;
 
         global.Audio = class Audio {
@@ -48,6 +51,8 @@ describe('autoplay test', function() {
     });
 
     afterAll(function() {
+        environment.constructor();
+
         global.Audio = realAudio;
     });
 
@@ -55,10 +60,31 @@ describe('autoplay test', function() {
         spy = jasmine.createSpy('spy()');
         ticks = [];
 
+        environment.params.context = 'standalone';
+
         spyOn(process, 'nextTick').and.callFake(fn => ticks.push(fn));
         spyOn(global, 'setTimeout').and.callThrough();
 
         promise = browser.test('autoplay', true).then(spy);
+    });
+
+    describe('if the context is "mraid"', function() {
+        beforeEach(function(done) {
+            spy.calls.reset();
+            audio = null;
+
+            environment.params.context = 'mraid';
+
+            browser.test('autoplay', true).then(spy).then(done, done.fail);
+        });
+
+        it('should not create an Audio() element', function() {
+            expect(audio).not.toEqual(jasmine.any(Audio));
+        });
+
+        it('should fulfill with true', function() {
+            expect(spy).toHaveBeenCalledWith(true);
+        });
     });
 
     it('should create a new Audio() element', function() {

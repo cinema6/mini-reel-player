@@ -9,6 +9,7 @@ import playerFactory from '../../../src/services/player_factory.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import PostVideoCardController from '../../../src/mixins/PostVideoCardController.js';
 import SponsoredCardController from '../../../src/mixins/SponsoredCardController.js';
+import environment from '../../../src/environment.js';
 
 describe('VideoCardController', function() {
     let VideoCardCtrl;
@@ -25,6 +26,10 @@ describe('VideoCardController', function() {
         minimize() {}
         reload() {}
     }
+
+    beforeAll(function() {
+        environment.constructor();
+    });
 
     beforeEach(function() {
         parentView = new View();
@@ -103,6 +108,10 @@ describe('VideoCardController', function() {
         VideoCardCtrl.view = new VideoCardView();
     });
 
+    afterAll(function() {
+        environment.constructor();
+    });
+
     it('should be a CardController', function() {
         expect(VideoCardCtrl).toEqual(jasmine.any(CardController));
     });
@@ -118,6 +127,10 @@ describe('VideoCardController', function() {
 
     it('should add its model as an event source', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['activate', 'deactivate', 'complete', 'becameUnskippable', 'becameSkippable', 'skippableProgress'], player);
+    });
+
+    it('should add the video as a source', function() {
+        expect(dispatcher.addSource).toHaveBeenCalledWith('video', player, ['buffering'], card);
     });
 
     describe('properties:', function() {
@@ -146,6 +159,21 @@ describe('VideoCardController', function() {
             it('should set the start and end times', function() {
                 expect(player.start).toBe(card.data.start);
                 expect(player.end).toBe(card.data.end);
+            });
+
+            it('should set prebuffer', function() {
+                expect(player.prebuffer).toBe(false);
+            });
+
+            describe('if the prebuffer param is enabled', function() {
+                beforeEach(function() {
+                    environment.params.prebuffer = true;
+                    VideoCardCtrl = new VideoCardController(card);
+                });
+
+                it('should enable prebuffer on the video', function() {
+                    expect(player.prebuffer).toBe(true);
+                });
             });
         });
     });

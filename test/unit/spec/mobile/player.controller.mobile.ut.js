@@ -1,6 +1,5 @@
 import MobilePlayerController from '../../../../src/controllers/mobile/MobilePlayerController.js';
 import PlayerController from '../../../../src/controllers/PlayerController.js';
-import cinema6 from '../../../../src/services/cinema6.js';
 import ApplicationView from '../../../../src/views/ApplicationView.js';
 import Runner from '../../../../lib/Runner.js';
 import MobilePlayerView from '../../../../src/views/mobile/MobilePlayerView.js';
@@ -19,22 +18,14 @@ describe('MobilePlayerController', function() {
     let MobilePlayerCtrl;
 
     let applicationView;
-    let session;
     let experience;
 
     beforeEach(function() {
-        cinema6.constructor();
-
         experience = {
             data: {
                 collateral: {}
             }
         };
-
-        const init = cinema6.init;
-        spyOn(cinema6, 'init').and.callFake(function() {
-            return (session = init.apply(cinema6, arguments));
-        });
 
         spyOn(MobilePlayerController.prototype, 'addView').and.callThrough();
 

@@ -22,17 +22,9 @@
         ============================================= */
         @import url('full-np/video-card.css');
 
-    /*  article card classes
-        ============================================= */
-        @import url('full-np/article-card.css');
-
     /*  image card classes
         ============================================= */
         @import url('full-np/image-card.css');
-
-    /*  text only card classes
-        ============================================= */
-        @import url('full-np/text-card.css');
 
     /*  sponsored card classes
         ============================================= */
@@ -41,12 +33,6 @@
     /*  recap card classes
         ============================================= */
         @import url('full-np/recap-card.css');
-
-    /*  video/display ad _card_ classes
-        display ad classes
-        companion ad classes
-        ============================================= */
-        @import url('full-np/ad-styles.css');
 
     /*  branded MR classes
         ============================================= */

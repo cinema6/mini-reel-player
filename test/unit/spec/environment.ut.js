@@ -1,6 +1,9 @@
 import environment from '../../../src/environment.js';
 import typeify from '../../../src/fns/typeify.js';
 import {
+    extend
+} from '../../../lib/utils.js';
+import {
     parse as parseURL
 } from 'url';
 import {
@@ -105,7 +108,7 @@ describe('environment', function() {
                 });
 
                 it('should be that object', function() {
-                    expect(environment.params).toBe(c6.kParams);
+                    expect(environment.params).toEqual(extend({ autoLaunch: false }, c6.kParams));
                 });
             });
         });

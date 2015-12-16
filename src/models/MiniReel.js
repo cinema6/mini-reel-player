@@ -2,6 +2,7 @@ import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import dispatcher from '../services/dispatcher.js';
 import EmbedHandler from '../handlers/EmbedHandler.js';
+import resource from '../services/resource.js';
 import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
@@ -12,7 +13,7 @@ import Mixable from '../../lib/core/Mixable.js';
 import SafelyGettable from '../mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
 import {createKey} from 'private-parts';
-import cinema6 from '../services/cinema6.js';
+import EmbedSession from '../utils/EmbedSession.js';
 import browser from '../services/browser.js';
 import codeLoader from '../services/code_loader.js';
 import normalizeLinks from '../fns/normalize_links.js';
@@ -29,6 +30,8 @@ import RecapCard from './RecapCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
+import RunnerPromise from '../../lib/RunnerPromise.js';
+import BrightcoveVideoCard from './BrightcoveVideoCard.js';
 
 const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
 
@@ -46,6 +49,7 @@ function getCardType(card) {
     case 'jwplayer':
     case 'vidyard':
     case 'htmlvideo':
+    case 'brightcove':
         return 'video';
     default:
         return card.type;
@@ -79,6 +83,8 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
                 return new InstagramVideoCard(card, experience, profile);
             }
             break;
+        case 'brightcove':
+            return new BrightcoveVideoCard(card, experience, profile);
         default:
             return new VideoCard(card, experience, profile);
         }
@@ -121,6 +127,8 @@ export default class MiniReel extends Mixable {
         this.standalone = null;
         this.interstitial = null;
 
+        this.embed = new EmbedSession();
+
         this.id = null;
         this.title = null;
         this.branding = null;
@@ -152,10 +160,6 @@ export default class MiniReel extends Mixable {
         });
         _(this).skippableProgressHandler = (remaining => this.emit('skippableProgress', remaining));
 
-        cinema6.getAppData()
-            .then(appData => initialize.call(this, whitelist, appData))
-            .catch(error => this.emit('error', error));
-
         this.on('becameUnskippable', () => {
             if (this.interstitial && this.closeable) {
                 this.closeable = false;
@@ -184,9 +188,36 @@ export default class MiniReel extends Mixable {
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
         if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
-        if (environment.params.vpaid) { dispatcher.addClient(VPAIDHandler); }
+        if (environment.params.vpaid) { dispatcher.addClient(VPAIDHandler, this.embed); }
 
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
+
+        const getReady = ((() => {
+            const promise = this.embed.init();
+
+            return (() => promise);
+        })());
+
+        RunnerPromise.all([
+            resource.get('experience').catch(() => this.embed.getExperience()),
+            browser.getProfile()
+        ]).then(([experience, profile]) => {
+            const {
+                standalone = true, // jshint ignore:line
+                interstitial = false, // jshint ignore:line
+                autoLaunch = true // jshint ignore:line
+            } = environment.params; // jshint ignore:line
+
+            initialize.call(this, whitelist, {
+                experience,
+                profile,
+                standalone,
+                interstitial,
+                autoLaunch
+            });
+
+            getReady().then(ready => ready());
+        }).catch(error => this.emit('error', error));
     }
 
     moveToIndex(index) {

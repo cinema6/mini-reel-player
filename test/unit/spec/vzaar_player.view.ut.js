@@ -33,7 +33,7 @@ describe('VzaarPlayer', function() {
                 callback(123)
             }),
             getVolume: jasmine.createSpy('getVolume()').and.callFake(callback => {
-                callback(5);
+                callback(4);
             })
         };
         GlobalVzaar = function() {};
@@ -144,6 +144,24 @@ describe('VzaarPlayer', function() {
                     expect(timer.cancel).toHaveBeenCalled();
                 });
             });
+
+            describe('if the player is buffering', function() {
+                beforeEach(function() {
+                    mockApi.play2.calls.reset();
+                    timer.interval.calls.reset();
+
+                    player.__private__.state.set('buffering', true);
+                    player.__setProperty__('paused', true);
+                    mockApi.play2.and.returnValue(undefined);
+
+                    player.__api__.methods.play(mockApi);
+                });
+
+                it('should only call play once', function() {
+                    expect(mockApi.play2.calls.count()).toBe(1);
+                    expect(timer.interval).not.toHaveBeenCalled();
+                });
+            });
         });
 
         it('should implement unload', function() {
@@ -230,7 +248,13 @@ describe('VzaarPlayer', function() {
         });
 
         describe('the onReady event callabck', function() {
+            beforeEach(function() {
+                player.__setProperty__.and.callThrough();
+            });
+
             it('should set the duration', function() {
+                player.on('loadedmetadata', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+
                 player.__api__.onReady(mockApi);
                 expect(mockApi.getTotalTime).toHaveBeenCalledWith(jasmine.any(Function));
                 expect(player.__setProperty__).toHaveBeenCalledWith('duration', 123);
@@ -238,16 +262,24 @@ describe('VzaarPlayer', function() {
         });
 
         describe('the onPoll event callback', function() {
+            beforeEach(function() {
+                player.__setProperty__.and.callThrough();
+            });
+
             it('should set the current time', function() {
+                player.on('timeupdate', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+
                 player.__api__.onPoll(mockApi);
                 expect(mockApi.getTime).toHaveBeenCalledWith(jasmine.any(Function));
                 expect(player.__setProperty__).toHaveBeenCalledWith('currentTime', 123);
             });
 
             it('should set the current volume', function() {
+                player.on('volumechange', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+
                 player.__api__.onPoll(mockApi);
                 expect(mockApi.getVolume).toHaveBeenCalledWith(jasmine.any(Function));
-                expect(player.__setProperty__).toHaveBeenCalledWith('volume', 1);
+                expect(player.__setProperty__).toHaveBeenCalledWith('volume', 0.8);
             });
         });
     });

@@ -6,8 +6,6 @@ import LightVideoCardController from './LightVideoCardController.js';
 import LightboxRecapCardController from '../lightbox/LightboxRecapCardController.js';
 import LightInstagramImageCardController from './LightInstagramImageCardController.js';
 import LightInstagramVideoCardController from './LightInstagramVideoCardController.js';
-import dispatcher from '../../services/dispatcher.js';
-import EmbedHandler from '../../handlers/EmbedHandler.js';
 
 export default class LightPlayerController extends PlayerController {
     constructor() {
@@ -22,7 +20,7 @@ export default class LightPlayerController extends PlayerController {
             instagramVideo: LightInstagramVideoCardController
         };
 
-        dispatcher.getClient(EmbedHandler).setStyles({
+        this.minireel.embed.setStyles({
             minWidth: '18.75em',
             padding: '0 0 85% 0',
             fontSize: '16px',

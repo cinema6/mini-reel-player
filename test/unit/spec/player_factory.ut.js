@@ -13,6 +13,7 @@ import VzaarPlayer from '../../../src/players/VzaarPlayer.js';
 import WistiaPlayer from '../../../src/players/WistiaPlayer.js';
 import JWPlayer from '../../../src/players/JWPlayer.js';
 import VidyardPlayer from '../../../src/players/VidyardPlayer.js';
+import BrightcovePlayer from '../../../src/players/BrightcovePlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -185,6 +186,22 @@ describe('playerFactory', function() {
 
                 it('should be a VidyardPlayer', function() {
                     expect(result).toEqual(jasmine.any(VidyardPlayer));
+                });
+            });
+
+            describe('if the card is from Brightcove', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'brightcove',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = playerFactory.playerForCard(card);
+                });
+
+                it('should be a BrightcovePlayer', function() {
+                    expect(result).toEqual(jasmine.any(BrightcovePlayer));
                 });
             });
 

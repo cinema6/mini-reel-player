@@ -1,6 +1,5 @@
 import FullscreenPlayerController from '../../../src/mixins/FullscreenPlayerController.js';
 import PlayerController from '../../../src/controllers/PlayerController.js';
-import cinema6 from '../../../src/services/cinema6.js';
 import PlayerView from '../../../src/views/PlayerView.js';
 import Runner from '../../../lib/Runner.js';
 import View from '../../../lib/core/View.js';
@@ -40,7 +39,7 @@ describe('FullscreenPlayerController', function() {
                         beforeEach(function() {
                             Ctrl.view.cards = new DeckView();
                             Ctrl.view.prerollOutlet = new DeckView();
-                            spyOn(cinema6, 'fullscreen');
+                            spyOn(Ctrl.minireel.embed, 'ping');
                             spyOn(Ctrl.view, 'update');
 
                             Ctrl.minireel.adConfig = {
@@ -56,18 +55,18 @@ describe('FullscreenPlayerController', function() {
                         });
 
                         it('should enter fullscreen mode', function() {
-                            expect(cinema6.fullscreen).toHaveBeenCalledWith(true);
+                            expect(Ctrl.minireel.embed.ping).toHaveBeenCalledWith('fullscreen', true);
                         });
                     });
 
                     describe('close', function() {
                         beforeEach(function() {
-                            spyOn(cinema6, 'fullscreen');
+                            spyOn(Ctrl.minireel.embed, 'ping');
                             Ctrl.minireel.emit('close');
                         });
 
                         it('should leave fullscreen mode', function() {
-                            expect(cinema6.fullscreen).toHaveBeenCalledWith(false);
+                            expect(Ctrl.minireel.embed.ping).toHaveBeenCalledWith('fullscreen', false);
                         });
                     });
                 });

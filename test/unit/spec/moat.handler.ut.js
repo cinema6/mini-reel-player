@@ -154,6 +154,24 @@ describe('MoatHandler', function() {
                     expect(moatApi.dispatchEvent).toHaveBeenCalledWith(
                         'rc-abc123',{ type : 'AdStopped', adVolume: 0.5 } );
                 });
+
+                it('catches any Errors the moat api might throw', function() {
+                    moatApi.dispatchEvent.and.throwError(new Error('Moat is acting up!'));
+                    moatApi.initTracker.and.throwError(new Error('More Moath issues.'));
+
+                    expect(() => [
+                        'loadedmetadata',
+                        'play',
+                        'firstQuartile',
+                        'midpoint',
+                        'thirdQuartile',
+                        'complete'
+                    ].forEach(type => player.emit(type))).not.toThrow();
+
+                    expect(() => [
+                        'deactivate',
+                    ].forEach(type => card.emit(type))).not.toThrow();
+                });
             });
         });
     });

@@ -1,18 +1,27 @@
 import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
-import CorePlayer from '../../../src/players/CorePlayer.js';
-import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
+import ThirdPartyPlayer from '../../../src/players/ThirdPartyPlayer.js';
 import codeLoader from '../../../src/services/code_loader.js';
-import fetcher from '../../../lib/fetcher.js';
-import browser from '../../../src/services/browser.js';
 import Runner from '../../../lib/Runner.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
 import {
     defer
 } from '../../../lib/utils.js';
+import { stringify } from 'querystring';
 
 describe('YouTubePlayer', function() {
     let player, youtube;
-    const intervals = [];
+
+    class MockYouTube {
+        constructor() {
+            this.getCurrentTime = jasmine.createSpy('Player.getCurrentTime()').and.returnValue(0);
+            this.seekTo = jasmine.createSpy('Player.seekTo()');
+            this.pauseVideo = jasmine.createSpy('Player.pauseVideo()');
+            this.playVideo = jasmine.createSpy('Player.playVideo()');
+            this.getDuration = jasmine.createSpy('Player.getDuration()').and.returnValue(0);
+            this.setVolume = jasmine.createSpy('Player.setVolume()');
+            this.getVolume = jasmine.createSpy('Player.getVolume()').and.returnValue(100);
+        }
+    }
 
     /* global beforeAll */
     beforeAll(function() {
@@ -34,1418 +43,283 @@ describe('YouTubePlayer', function() {
         });
     });
 
-    beforeAll(function() {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-    });
-
-    afterAll(function() {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
-    });
-
     beforeEach(function(done) {
-        const setInterval = global.setInterval;
-
-        fetcher.constructor();
         Promise.resolve(codeLoader.load('youtube')).then(YT => {
             youtube = YT;
-            done();
-        }, err => {
-            console.log(err);
-            done();
-        });
+        }).then(done, done.fail);
+
         player = new YouTubePlayer();
-
-        spyOn(global, 'setInterval').and.callFake(() => {
-            return intervals[intervals.push(setInterval.call(global, ...arguments)) - 1];
-        });
     });
 
-    afterEach(function() {
-        let interval;
-
-        while (interval = intervals.shift()) {
-            global.clearInterval(interval);
-        }
-    });
-
-    it('should be a CorePlayer', function() {
-        expect(player).toEqual(jasmine.any(CorePlayer));
-    });
-
-    it('should implement the PlayerInterface', function() {
-        expect(player).toImplement(PlayerInterface);
+    it('should be a ThirdPartyPlayer', function() {
+        expect(player).toEqual(jasmine.any(ThirdPartyPlayer));
     });
 
     describe('properties:', function() {
-        describe('tag', function() {
-            it('should be div', function() {
-                expect(player.tag).toBe('div');
-            });
-        });
-
-        describe('readyState', function() {
-            it('should be 0', function() {
-                expect(player.readyState).toBe(0);
-            });
-        });
-
-        describe('currentTime', function() {
-            it('should be 0', function() {
-                expect(player.currentTime).toBe(0);
-            });
-
-            describe('setting', function() {
-                describe('before the player is ready', function() {
-                    beforeEach(function() {
-                        player.currentTime = 3;
-                    });
-
-                    it('should set the currentTime', function() {
-                        expect(player.currentTime).toBe(3);
-                    });
-                });
-
-                describe('after the player is ready', function() {
-                    let ytPlayer;
-
-                    beforeEach(function(done) {
-                        ytPlayer = {
-                            seekTo: jasmine.createSpy('Player.seekTo()')
-                        };
-                        spyOn(youtube, 'Player').and.returnValue(ytPlayer);
-
-                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=VSL0vtRrTYk&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                            /* jshint quotmark:double */
-                            .respond(200, {
-                                "kind": "youtube#videoListResponse",
-                                "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                                "pageInfo": {
-                                    "totalResults": 1,
-                                    "resultsPerPage": 1
-                                },
-                                "items": [
-                                    {
-                                        "kind": "youtube#video",
-                                        "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                        "id": "VSL0vtRrTYk",
-                                        "contentDetails": {
-                                            "duration": "PT3M2S",
-                                            "dimension": "2d",
-                                            "definition": "hd",
-                                            "caption": "false",
-                                            "licensedContent": true
-                                        }
-                                    }
-                                ]
-                            });
-                            /* jshint quotmark:single */
-
-                        player.src = 'VSL0vtRrTYk';
-                        Runner.run(() => player.load());
-                        Promise.all([Promise.resolve(codeLoader.load('youtube')).then(() => {
-                            youtube.Player.calls.mostRecent().args[1].events.onReady();
-                        }), fetcher.flush()]).then(() => {
-                            player.currentTime = 5;
-                            done();
-                        }, done);
-                    });
-
-                    it('should call seekTo() with the specified value', function() {
-                        expect(ytPlayer.seekTo).toHaveBeenCalledWith(5);
-                    });
-
-                    it('should not set the currentTime immediately', function() {
-                        expect(player.currentTime).not.toBe(5);
-                    });
+        describe('__api__', function() {
+            describe('.name', function() {
+                it('should be YouTubePlayer', function() {
+                    expect(player.__api__.name).toBe('YouTubePlayer');
                 });
             });
-        });
 
-        describe('duration', function() {
-            it('should be 0', function() {
-                expect(player.duration).toBe(0);
-            });
-        });
-
-        describe('volume', function() {
-            it('should be 0', function() {
-                expect(player.volume).toBe(0);
-            });
-        });
-
-        describe('muted', function() {
-            it('should be false', function() {
-                expect(player.muted).toBe(false);
-            });
-        });
-
-        describe('ended', function() {
-            it('should be false', function() {
-                expect(player.ended).toBe(false);
-            });
-        });
-
-        describe('paused', function() {
-            it('should be true', function() {
-                expect(player.paused).toBe(true);
-            });
-        });
-
-        describe('seeking', function() {
-            it('should be false', function() {
-                expect(player.seeking).toBe(false);
-            });
-        });
-
-        describe('src', function() {
-            it('should be null', function() {
-                expect(player.src).toBeNull();
-            });
-
-            describe('setting', function() {
-                beforeEach(function() {
-                    spyOn(player, 'unload').and.callThrough();
-                    player.src = 'Q8e5VTlzXgU';
+            describe('.pollingDelay', function() {
+                it('should be 250', function() {
+                    expect(player.__api__.pollingDelay).toBe(250);
                 });
-
-                it('should unload the player', function() {
-                    expect(player.unload).toHaveBeenCalled();
-                });
-            });
-        });
-
-        describe('error', function() {
-            it('should be null', function() {
-                expect(player.error).toBeNull();
-            });
-        });
-
-        describe('start', function() {
-            it('should be null', function() {
-                expect(player.start).toBeNull();
-            });
-        });
-
-        describe('end', function() {
-            it('should be null', function() {
-                expect(player.end).toBeNull();
-            });
-        });
-
-        describe('autoplay', function() {
-            it('should be false', function() {
-                expect(player.autoplay).toBe(false);
-            });
-        });
-
-        describe('controls', function() {
-            it('should be true', function() {
-                expect(player.controls).toBe(true);
             });
         });
     });
 
     describe('methods:', function() {
-        describe('play()', function() {
-            let ytPlayer;
-            let autoplayDeferred;
-            let attemptPlay;
-
+        describe('__api__', function() {
             beforeEach(function() {
-                autoplayDeferred = defer(RunnerPromise);
+                spyOn(player, '__setProperty__').and.callThrough();
 
-                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=VSL0vtRrTYk&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                    /* jshint quotmark:double */
-                    .respond(200, {
-                        "kind": "youtube#videoListResponse",
-                        "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                        "pageInfo": {
-                            "totalResults": 1,
-                            "resultsPerPage": 1
-                        },
-                        "items": [
-                            {
-                                "kind": "youtube#video",
-                                "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                "id": "VSL0vtRrTYk",
-                                "contentDetails": {
-                                    "duration": "PT3M2S",
-                                    "dimension": "2d",
-                                    "definition": "hd",
-                                    "caption": "false",
-                                    "licensedContent": true
-                                }
-                            }
-                        ]
-                    });
-                    /* jshint quotmark:single */
-
-                ytPlayer = {
-                    playVideo: jasmine.createSpy('Player.playVideo()')
-                };
-                spyOn(youtube, 'Player').and.returnValue(ytPlayer);
-                spyOn(player, 'load').and.callThrough();
-                spyOn(browser, 'test').and.returnValue(autoplayDeferred.promise);
-
-                attemptPlay = jasmine.createSpy('attemptPlay()');
-                player.on('attemptPlay', attemptPlay);
-
-                player.src = 'VSL0vtRrTYk';
+                Runner.run(() => player.create());
+                document.body.appendChild(player.element);
             });
 
-            describe('if the player has not been loaded', function() {
-                beforeEach(function() {
-                    Runner.run(() => player.play());
+            afterEach(function() {
+                document.body.removeChild(player.element);
+            });
+
+            describe('.loadPlayer(src)', function() {
+                let src;
+                let success, failure;
+                let result;
+                let iframe;
+
+                let yt;
+
+                beforeEach(function(done) {
+                    src = 'WdhvxJZDqzU';
+
+                    success = jasmine.createSpy('success()');
+                    failure = jasmine.createSpy('failure()');
+
+                    spyOn(document, 'createElement').and.callThrough();
+
+                    yt = new MockYouTube();
+                    spyOn(youtube, 'Player').and.returnValue(yt);
+
+                    Runner.run(() => result = player.__api__.loadPlayer(src));
+                    result.then(success, failure);
+
+                    iframe = document.createElement.calls.mostRecent().returnValue;
+
+                    process.nextTick(done);
                 });
 
-                it('should load the player', function() {
-                    expect(player.load).toHaveBeenCalled();
+                it('should return a RunnerPromise', function() {
+                    expect(result).toEqual(jasmine.any(RunnerPromise));
+                });
+
+                it('should create an <iframe> for the player', function() {
+                    expect(document.createElement).toHaveBeenCalledWith('iframe');
+
+                    const params = {
+                        html5: 1,
+                        wmode: 'opaque',
+                        rel: 0,
+                        enablejsapi: 1,
+                        playsinline: 1,
+                        controls: Number(player.controls)
+                    };
+                    expect(iframe.src).toBe(`https://www.youtube-nocookie.com/embed/${src}?${stringify(params)}`);
+                });
+
+                it('should put the <iframe> in the DOM', function() {
+                    expect(player.element.contains(iframe)).toBe(true);
+                });
+
+                it('should create a YT.Player() for the <iframe>', function() {
+                    expect(youtube.Player).toHaveBeenCalledWith(iframe, {
+                        events: {
+                            onReady: jasmine.any(Function),
+                            onStateChange: jasmine.any(Function)
+                        }
+                    });
+                });
+
+                it('should not resolve', function() {
+                    expect(success).not.toHaveBeenCalled();
+                    expect(failure).not.toHaveBeenCalled();
                 });
 
                 describe('when the player is ready', function() {
                     beforeEach(function(done) {
-                        Promise.resolve(codeLoader.load('youtube')).then(() => {
-                            expect(browser.test).not.toHaveBeenCalled();
-                            youtube.Player.calls.mostRecent().args[1].events.onReady();
-                        }).then(done, done);
-                    });
-
-                    it('should see if the device can autoplay', function() {
-                        expect(browser.test).toHaveBeenCalledWith('autoplay');
-                    });
-
-                    describe('if the device can autoplay', function() {
-                        beforeEach(function(done) {
-                            autoplayDeferred.fulfill(true);
-                            Promise.resolve(autoplayDeferred.promise).then(done, done);
-                        });
-
-                        it('should play the video', function() {
-                            expect(ytPlayer.playVideo).toHaveBeenCalled();
-                        });
-
-                        it('should emit "attemptPlay"', function() {
-                            expect(attemptPlay).toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if the device can\'t autoplay', function() {
-                        beforeEach(function(done) {
-                            autoplayDeferred.fulfill(false);
-                            Promise.resolve(autoplayDeferred.promise).then(done, done);
-                        });
-
-                        it('should not play the video', function() {
-                            expect(ytPlayer.playVideo).not.toHaveBeenCalled();
-                        });
-
-                        it('should not emit "attemptPlay"', function() {
-                            expect(attemptPlay).not.toHaveBeenCalled();
-                        });
-                    });
-                });
-            });
-
-            describe('if the player is already ready to play', function() {
-                beforeEach(function(done) {
-                    Runner.run(() => player.load());
-                    Promise.resolve(codeLoader.load('youtube')).then(() => {
                         youtube.Player.calls.mostRecent().args[1].events.onReady();
-                        player.play();
-                    }).then(done, done);
-                });
 
-                it('should see if the device can autoplay', function() {
-                    expect(browser.test).toHaveBeenCalledWith('autoplay');
-                });
-
-                describe('if the device can autoplay', function() {
-                    beforeEach(function(done) {
-                        autoplayDeferred.fulfill(true);
-                        Promise.resolve(autoplayDeferred.promise).then(done, done);
+                        setTimeout(done, 0);
                     });
 
-                    it('should play the video', function() {
-                        expect(ytPlayer.playVideo).toHaveBeenCalled();
-                    });
-
-                    it('should emit "attemptPlay"', function() {
-                        expect(attemptPlay).toHaveBeenCalled();
+                    it('should fulfill with the player', function() {
+                        expect(success).toHaveBeenCalledWith(yt);
                     });
                 });
 
-                describe('if the device can\'t autoplay', function() {
-                    beforeEach(function(done) {
-                        autoplayDeferred.fulfill(false);
-                        Promise.resolve(autoplayDeferred.promise).then(done, done);
-                    });
-
-                    it('should not play the video', function() {
-                        expect(ytPlayer.playVideo).not.toHaveBeenCalled();
-                    });
-
-                    it('should not emit "attemptPlay"', function() {
-                        expect(attemptPlay).not.toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-
-        describe('pause()', function() {
-            let ytPlayer;
-
-            beforeEach(function() {
-                ytPlayer = {
-                    pauseVideo: jasmine.createSpy('Player.pauseVideo()')
-                };
-                spyOn(youtube, 'Player').and.returnValue(ytPlayer);
-
-                player.src = 'uf_QhUZX3BM';
-                player.__private__.state.paused = false;
-            });
-
-            describe('if called before load()', function() {
-                beforeEach(function() {
-                    player.pause();
-                });
-
-                it('should do nothing', function() {
-                    expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if called after load', function() {
-                beforeEach(function(done) {
-                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=uf_QhUZX3BM&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                        /* jshint quotmark:double */
-                        .respond(200, {
-                            "kind": "youtube#videoListResponse",
-                            "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                            "pageInfo": {
-                                "totalResults": 1,
-                                "resultsPerPage": 1
-                            },
-                            "items": [
-                                {
-                                    "kind": "youtube#video",
-                                    "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                    "id": "uf_QhUZX3BM",
-                                    "contentDetails": {
-                                        "duration": "PT3M2S",
-                                        "dimension": "2d",
-                                        "definition": "hd",
-                                        "caption": "false",
-                                        "licensedContent": true
-                                    }
-                                }
-                            ]
-                        });
-                        /* jshint quotmark:single */
-
-                    Runner.run(() => player.load());
-                    Promise.resolve(codeLoader.load('youtube')).then(() => {
-                        player.pause();
-                        done();
-                    });
-                });
-
-                it('should do nothing', function() {
-                    expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
-                });
-
-                describe('and after the video is ready', function() {
+                describe('when the state changes', function() {
                     beforeEach(function() {
-                        youtube.Player.calls.mostRecent().args[1].events.onReady();
+                        player.on('play', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+                        player.on('pause', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
+                        player.on('ended', () => expect(() => Runner.schedule('render', null, () => {})).not.toThrow());
                     });
 
-                    it('should call pauseVideo()', function() {
-                        player.pause();
-                        expect(ytPlayer.pauseVideo).toHaveBeenCalled();
-                    });
-
-                    it('should not call pauseVideo() if the player is already paused', function() {
-                        player.__private__.state.paused = true;
-                        player.pause();
-                        expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
-                    });
-                });
-            });
-        });
-
-        describe('load()', function() {
-            let iframe, ytPlayer;
-            let loadstart;
-
-            beforeEach(function(_done) {
-                const createElement = document.createElement;
-
-                function done() { process.nextTick(_done); }
-                codeLoader.load('youtube').then(done, done);
-
-                spyOn(codeLoader, 'load').and.callThrough();
-                spyOn(document, 'createElement').and.callFake(function() {
-                    return (iframe = createElement.call(document, ...arguments));
-                });
-
-                ytPlayer = {
-                    getCurrentTime: jasmine.createSpy('Player.getCurrentTime()').and.returnValue(0),
-                    seekTo: jasmine.createSpy('Player.seekTo()'),
-                    pauseVideo: jasmine.createSpy('Player.pauseVideo()')
-                };
-                spyOn(youtube, 'Player').and.returnValue(ytPlayer);
-
-                loadstart = jasmine.createSpy('loadstart');
-                player.on('loadstart', loadstart);
-
-                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                    /* jshint quotmark:double */
-                    .respond(200, {
-                        "kind": "youtube#videoListResponse",
-                        "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                        "pageInfo": {
-                            "totalResults": 1,
-                            "resultsPerPage": 1
-                        },
-                        "items": [
-                            {
-                                "kind": "youtube#video",
-                                "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                "id": "DcylVx2ex78",
-                                "contentDetails": {
-                                    "duration": "PT7M5S",
-                                    "dimension": "2d",
-                                    "definition": "hd",
-                                    "caption": "false",
-                                    "licensedContent": true
-                                }
-                            }
-                        ]
-                    });
-                    /* jshint quotmark:single */
-
-                player.src = 'DcylVx2ex78';
-                Runner.run(() => player.load());
-            });
-
-            it('should emit loadstart', function() {
-                expect(loadstart).toHaveBeenCalled();
-            });
-
-            it('should load the youtube library', function() {
-                expect(codeLoader.load).toHaveBeenCalledWith('youtube');
-            });
-
-            it('should fetch the video metadata', function(done) {
-                fetcher.flush().then(done);
-            });
-
-            describe('after the metadata is fetched', function() {
-                let loadedmetadata, durationchange;
-
-                beforeEach(function(done) {
-                    loadedmetadata = jasmine.createSpy('loadedmetadata()');
-                    durationchange = jasmine.createSpy('durationchange()');
-
-                    player.on('loadedmetadata', loadedmetadata);
-                    player.on('durationchange', durationchange);
-                    player.start = undefined;
-                    player.end = undefined;
-
-                    fetcher.flush().then(() => process.nextTick(done));
-                });
-
-                it('should set the duration', function() {
-                    expect(player.duration).toBe(425);
-                });
-
-                it('should emit durationchange', function() {
-                    expect(durationchange).toHaveBeenCalled();
-                });
-
-                it('should set readyState to 1', function() {
-                    expect(player.readyState).toBe(1);
-                });
-
-                it('should emit loadedmetadata', function() {
-                    expect(loadedmetadata).toHaveBeenCalled();
-                });
-
-                describe('if the API is ready', function() {
-                    beforeEach(function(done) {
-                        player = new YouTubePlayer();
-
-                        youtube.Player.calls.reset();
-
-                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=HSGHNfxxDjw&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                            /* jshint quotmark:double */
-                            .respond(200, {
-                                "kind": "youtube#videoListResponse",
-                                "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                                "pageInfo": {
-                                    "totalResults": 1,
-                                    "resultsPerPage": 1
-                                },
-                                "items": [
-                                    {
-                                        "kind": "youtube#video",
-                                        "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                        "id": "HSGHNfxxDjw",
-                                        "contentDetails": {
-                                            "duration": "PT1H5S",
-                                            "dimension": "2d",
-                                            "definition": "hd",
-                                            "caption": "false",
-                                            "licensedContent": true
-                                        }
-                                    }
-                                ]
-                            });
-                            /* jshint quotmark:single */
-
-                        player.src = 'HSGHNfxxDjw';
-                        Runner.run(() => player.load());
-                        Promise.resolve(codeLoader.load('youtube')).then(() => {
-                            youtube.Player.calls.mostRecent().args[1].events.onReady();
-                            fetcher.flush().then(() => process.nextTick(done));
-                        });
-                    });
-
-                    it('should not change the readyState', function() {
-                        expect(player.readyState).not.toBe(1);
-                    });
-                });
-            });
-
-            it('should create a new YT.Player()', function() {
-                expect(youtube.Player).toHaveBeenCalledWith(iframe, {
-                    events: {
-                        onReady: jasmine.any(Function),
-                        onStateChange: jasmine.any(Function)
+                    function stateChange(STATE) {
+                        return youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: STATE });
                     }
-                });
-            });
 
-            it('should create an iframe and append it to the player', function() {
-                expect(document.createElement).toHaveBeenCalledWith('iframe');
-                expect(player.element.childNodes).toContain(iframe);
-            });
-
-            it('should set the iframe src based on the player src', function() {
-                expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1&controls=1`);
-            });
-
-            describe('if controls is false', function() {
-                beforeEach(function() {
-                    player = new YouTubePlayer();
-                    player.src = 'DcylVx2ex78';
-                    player.controls = false;
-
-                    fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                        /* jshint quotmark:double */
-                        .respond(200, {
-                            "kind": "youtube#videoListResponse",
-                            "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                            "pageInfo": {
-                                "totalResults": 1,
-                                "resultsPerPage": 1
-                            },
-                            "items": [
-                                {
-                                    "kind": "youtube#video",
-                                    "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                    "id": "DcylVx2ex78",
-                                    "contentDetails": {
-                                        "duration": "PT7M5S",
-                                        "dimension": "2d",
-                                        "definition": "hd",
-                                        "caption": "false",
-                                        "licensedContent": true
-                                    }
-                                }
-                            ]
-                        });
-                        /* jshint quotmark:single */
-
-                    Runner.run(() => player.load());
-                });
-
-                it('should set the iframe src with no controls', function() {
-                    expect(iframe.src).toBe(`https://www.youtube.com/embed/${player.src}?html5=1&wmode=opaque&rel=0&enablejsapi=1&playsinline=1&controls=0`);
-                });
-            });
-
-            describe('when the api is ready', function() {
-                let canplay, timeupdate;
-                let config;
-
-                beforeEach(function() {
-                    config = youtube.Player.calls.mostRecent().args[1];
-
-                    canplay = jasmine.createSpy('canplay()');
-                    player.on('canplay', canplay);
-
-                    timeupdate = jasmine.createSpy('timeupdate()');
-                    player.on('timeupdate', timeupdate);
-
-                    jasmine.clock().install();
-                    config.events.onReady();
-                });
-
-                afterEach(function() {
-                    jasmine.clock().uninstall();
-                });
-
-                it('should emit canplay', function() {
-                    expect(canplay).toHaveBeenCalled();
-                });
-
-                it('should set the readyState to 3', function() {
-                    expect(player.readyState).toBe(3);
-                });
-
-                describe('if the video is seeked', function() {
-                    let seeking;
-
-                    beforeEach(function() {
-                        ytPlayer.getCurrentTime.and.returnValue(2);
-                        jasmine.clock().tick(250);
-
-                        seeking = jasmine.createSpy('seeking()');
-                        player.on('seeking', seeking);
-
-                        player.currentTime = 5;
-                    });
-
-                    it('should set seeking to true', function() {
-                        expect(player.seeking).toBe(true);
-                    });
-
-                    it('should emit seeking', function() {
-                        expect(seeking).toHaveBeenCalled();
-                    });
-
-                    describe('when the currentTime changes', function() {
-                        let seeked;
-
+                    describe('to PLAYING', function() {
                         beforeEach(function() {
-                            seeked = jasmine.createSpy('seeked()');
-                            player.on('seeked', seeked);
-
-                            jasmine.clock().tick(250);
-                            expect(seeked).not.toHaveBeenCalled();
-                            expect(player.seeking).toBe(true);
-
-                            ytPlayer.getCurrentTime.and.returnValue(5);
-                            jasmine.clock().tick(250);
+                            stateChange(youtube.PlayerState.PLAYING);
                         });
 
-                        it('should set seeking to false', function() {
-                            expect(player.seeking).toBe(false);
+                        it('should set paused to false', function() {
+                            expect(player.__setProperty__).toHaveBeenCalledWith('paused', false);
                         });
 
-                        it('should emit seeked', function() {
-                            expect(seeked).toHaveBeenCalled();
-                        });
-                    });
-                });
-
-                describe('if the video is not seeked', function() {
-                    let seeked;
-
-                    beforeEach(function() {
-                        ytPlayer.getCurrentTime.and.returnValue(3);
-
-                        seeked = jasmine.createSpy('seeked()');
-                        player.on('seeked', seeked);
-
-                        jasmine.clock().tick(250);
-                    });
-
-                    it('should not emit seeked', function() {
-                        expect(seeked).not.toHaveBeenCalled();
-                    });
-                });
-
-                it('should poll the video to emit "timeupdate" and update the currentTime whenever the currentTime changes', function() {
-                    jasmine.clock().tick(250);
-                    expect(player.currentTime).toBe(0);
-                    expect(timeupdate).not.toHaveBeenCalled();
-
-                    ytPlayer.getCurrentTime.and.returnValue(2.5);
-                    jasmine.clock().tick(250);
-                    expect(player.currentTime).toBe(2.5);
-                    expect(timeupdate).toHaveBeenCalled();
-                    timeupdate.calls.reset();
-
-                    jasmine.clock().tick(250);
-                    expect(player.currentTime).toBe(2.5);
-                    expect(timeupdate).not.toHaveBeenCalled();
-
-                    ytPlayer.getCurrentTime.and.returnValue(3.2);
-                    jasmine.clock().tick(250);
-                    expect(player.currentTime).toBe(3.2);
-                    expect(timeupdate).toHaveBeenCalled();
-                });
-
-                describe('when the video ends', function() {
-                    beforeEach(function(done) {
-                        Promise.all([
-                            fetcher.flush(),
-                            codeLoader.load('youtube')
-                        ]).then(() => {
-                            ytPlayer.getCurrentTime.and.returnValue(player.duration - 0.2);
-                            config.events.onStateChange({ data: youtube.PlayerState.ENDED });
-                            jasmine.clock().tick(250);
-                        }).then(done, done.fail);
-                    });
-
-                    it('should set the currentTime to the duration', function() {
-                        expect(timeupdate).toHaveBeenCalled();
-                        expect(player.currentTime).toBe(player.duration);
-                    });
-                });
-
-                describe('if there is a start time', function() {
-                    beforeEach(function() {
-                        player.start = 15;
-                    });
-
-                    it('should account for the start time when computing the currentTime', function() {
-                        ytPlayer.getCurrentTime.and.returnValue(10);
-                        jasmine.clock().tick(250);
-                        expect(player.currentTime).toBe(0);
-
-                        ytPlayer.getCurrentTime.and.returnValue(16);
-                        jasmine.clock().tick(250);
-                        expect(player.currentTime).toBe(1);
-                    });
-
-                    it('should account for the start time when setting currentTime', function() {
-                        player.currentTime = 10;
-                        expect(ytPlayer.seekTo).toHaveBeenCalledWith(25);
-
-                        player.currentTime = -3;
-                        expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
-                    });
-
-                    describe('when accounting for the duration', function() {
-                        beforeEach(function(done) {
-                            jasmine.clock().uninstall();
-
-                            fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                                /* jshint quotmark:double */
-                                .respond(200, {
-                                    "kind": "youtube#videoListResponse",
-                                    "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                                    "pageInfo": {
-                                        "totalResults": 1,
-                                        "resultsPerPage": 1
-                                    },
-                                    "items": [
-                                        {
-                                            "kind": "youtube#video",
-                                            "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                            "id": "DcylVx2ex78",
-                                            "contentDetails": {
-                                                "duration": "PT1M5S",
-                                                "dimension": "2d",
-                                                "definition": "hd",
-                                                "caption": "false",
-                                                "licensedContent": true
-                                            }
-                                        }
-                                    ]
-                                });
-                                /* jshint quotmark:single */
-
-                            Runner.run(() => player.reload());
-                            fetcher.flush().then(() => process.nextTick(done));
-                        });
-
-                        afterEach(function() {
-                            jasmine.clock().install();
-                        });
-
-                        it('should use the start time', function() {
-                            expect(player.duration).toBe(50);
+                        it('should set ended to false', function() {
+                            expect(player.__setProperty__).toHaveBeenCalledWith('ended', false);
                         });
                     });
 
-                    describe('if the video is playing', function() {
+                    describe('to PAUSED', function() {
                         beforeEach(function() {
-                            config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
+                            stateChange(youtube.PlayerState.PAUSED);
                         });
 
-                        it('should call seekTo() with the start time if the currentTime is less than the start time - 2 seconds', function() {
-                            ytPlayer.getCurrentTime.and.returnValue(10);
-                            jasmine.clock().tick(250);
-                            expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
-                            ytPlayer.seekTo.calls.reset();
-
-                            ytPlayer.getCurrentTime.and.returnValue(12.99);
-                            jasmine.clock().tick(250);
-                            expect(ytPlayer.seekTo).toHaveBeenCalledWith(15);
-                            ytPlayer.seekTo.calls.reset();
-
-                            ytPlayer.getCurrentTime.and.returnValue(13);
-                            jasmine.clock().tick(250);
-                            expect(ytPlayer.seekTo).not.toHaveBeenCalled();
+                        it('should set paused to true', function() {
+                            expect(player.__setProperty__).toHaveBeenCalledWith('paused', true);
                         });
                     });
 
-                    describe('if the video is not playing', function() {
-                        it('should not call seekTo()', function() {
-                            ytPlayer.getCurrentTime.and.returnValue(0.25);
-                            jasmine.clock().tick(250);
-                            expect(ytPlayer.seekTo).not.toHaveBeenCalled();
-                        });
-                    });
-                });
-
-                describe('if there is no start time', function() {
-                    beforeEach(function() {
-                        player.start = null;
-
-                        ytPlayer.getCurrentTime.and.returnValue(10);
-                        jasmine.clock().tick(250);
-                    });
-
-                    it('should not call seekTo()', function() {
-                        expect(ytPlayer.seekTo).not.toHaveBeenCalled();
-                    });
-                });
-
-                describe('if there is an end time', function() {
-                    let ended;
-
-                    beforeEach(function() {
-                        ended = jasmine.createSpy('ended()');
-                        player.on('ended', ended);
-
-                        player.end = 45;
-                    });
-
-                    it('should account for the end time when setting the currentTime', function() {
-                        player.currentTime = 50;
-                        expect(ytPlayer.seekTo).toHaveBeenCalledWith(45);
-                    });
-
-                    describe('when accounting for the duration', function() {
-                        beforeEach(function(done) {
-                            jasmine.clock().uninstall();
-
-                            fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=DcylVx2ex78&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                                /* jshint quotmark:double */
-                                .respond(200, {
-                                    "kind": "youtube#videoListResponse",
-                                    "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                                    "pageInfo": {
-                                        "totalResults": 1,
-                                        "resultsPerPage": 1
-                                    },
-                                    "items": [
-                                        {
-                                            "kind": "youtube#video",
-                                            "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                            "id": "DcylVx2ex78",
-                                            "contentDetails": {
-                                                "duration": "PT1M5S",
-                                                "dimension": "2d",
-                                                "definition": "hd",
-                                                "caption": "false",
-                                                "licensedContent": true
-                                            }
-                                        }
-                                    ]
-                                });
-                                /* jshint quotmark:single */
-
-                            Runner.run(() => player.reload());
-                            fetcher.flush().then(() => process.nextTick(done));
-                        });
-
-                        afterEach(function() {
-                            jasmine.clock().install();
-                        });
-
-                        it('should use the end time', function() {
-                            expect(player.duration).toBe(45);
-                        });
-                    });
-
-                    describe('if the currentTime is < the end time', function() {
+                    describe('to ENDED', function() {
                         beforeEach(function() {
-                            config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
-
-                            ytPlayer.getCurrentTime.and.returnValue(2);
-                            jasmine.clock().tick(250);
-
-                            ytPlayer.getCurrentTime.and.returnValue(30);
-                            jasmine.clock().tick(250);
-
-                            ytPlayer.getCurrentTime.and.returnValue(41);
-                            jasmine.clock().tick(250);
-
-                            ytPlayer.getCurrentTime.and.returnValue(44.99);
-                            jasmine.clock().tick(250);
-                        });
-
-                        it('should not pause the video', function() {
-                            expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
-                        });
-
-                        it('should not set ended to true', function() {
-                            expect(player.ended).not.toBe(true);
-                        });
-
-                        it('should not emit ended', function() {
-                            expect(ended).not.toHaveBeenCalled();
-                        });
-                    });
-
-                    describe('if the currentTime is >= the end time', function() {
-                        beforeEach(function() {
-                            config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
-
-                            ytPlayer.getCurrentTime.and.returnValue(45);
-                            jasmine.clock().tick(250);
-                        });
-
-                        it('should pause the video', function() {
-                            expect(ytPlayer.pauseVideo).toHaveBeenCalled();
+                            stateChange(youtube.PlayerState.ENDED);
                         });
 
                         it('should set ended to true', function() {
-                            expect(player.ended).toBe(true);
+                            expect(player.__setProperty__).toHaveBeenCalledWith('ended', true);
                         });
 
-                        it('should emit ended', function() {
-                            expect(ended).toHaveBeenCalled();
-                        });
-
-                        describe('if the video is not playing', function() {
-                            beforeEach(function() {
-                                ytPlayer.pauseVideo.calls.reset();
-                                config.events.onStateChange({ data: youtube.PlayerState.PAUSED });
-                                jasmine.clock().tick(250);
-                            });
-
-                            it('should not pause the video again', function() {
-                                expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
-                            });
+                        it('should set paused to true', function() {
+                            expect(player.__setProperty__).toHaveBeenCalledWith('paused', true);
                         });
                     });
                 });
+            });
 
-                describe('if there is no end time', function() {
+            describe('.onReady(api)', function() {
+                let api;
+
+                beforeEach(function() {
+                    api = new MockYouTube();
+                    api.getDuration.and.returnValue(47);
+
+                    Runner.run(() => player.create());
+                    Runner.run(() => player.__api__.onReady(api));
+                });
+
+                it('should set the duration', function() {
+                    expect(player.__setProperty__).toHaveBeenCalledWith('duration', api.getDuration());
+                });
+            });
+
+            describe('.onPoll(api)', function() {
+                let api;
+
+                beforeEach(function() {
+                    api = new MockYouTube();
+                    api.getDuration.and.returnValue(33);
+                    api.getCurrentTime.and.returnValue(21);
+                    api.getVolume.and.returnValue(76);
+
+                    Runner.run(() => player.create());
+                    Runner.run(() => player.__api__.onPoll(api));
+                });
+
+                it('should set the currentTime', function() {
+                    expect(player.__setProperty__).toHaveBeenCalledWith('currentTime', api.getCurrentTime());
+                });
+
+                it('should set the duration', function() {
+                    expect(player.__setProperty__).toHaveBeenCalledWith('duration', api.getDuration());
+                });
+
+                it('should set the volume', function() {
+                    expect(player.__setProperty__).toHaveBeenCalledWith('volume', api.getVolume() / 100);
+                });
+            });
+
+            describe('.methods', function() {
+                let api;
+
+                beforeEach(function(done) {
+                    api = new MockYouTube();
+                    spyOn(youtube, 'Player').and.returnValue(api);
+
+                    Runner.run(() => Promise.resolve(player.__api__.loadPlayer('748r934')).then(done, done.fail));
+
+                    process.nextTick(() => youtube.Player.calls.mostRecent().args[1].events.onReady());
+                });
+
+                describe('.unload(api)', function() {
                     beforeEach(function() {
-                        player.end = null;
-
-                        config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
-
-                        ytPlayer.getCurrentTime.and.returnValue(2);
-                        jasmine.clock().tick(250);
+                        Runner.run(() => player.__api__.methods.unload(api));
                     });
 
-                    it('should not pause the video', function() {
-                        expect(ytPlayer.pauseVideo).not.toHaveBeenCalled();
+                    it('should remove the <iframe> from the DOM', function() {
+                        expect(player.element.querySelector('iframe')).toBeNull();
                     });
                 });
 
-                describe('when the video starts playing', function() {
-                    let play;
+                describe('.seek(api, time)', function() {
+                    let time;
 
                     beforeEach(function() {
-                        config.events.onStateChange({ data: youtube.PlayerState.ENDED });
-                        config.events.onStateChange({ data: youtube.PlayerState.BUFFERING });
+                        time = 33;
 
-                        play = jasmine.createSpy('play()');
-                        player.on('play', play);
-
-                        config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
+                        Runner.run(() => player.__api__.methods.seek(api, time));
                     });
 
-                    it('should set paused to "false"', function() {
-                        expect(player.paused).toBe(false);
-                    });
-
-                    it('should set ended to "false"', function() {
-                        expect(player.ended).toBe(false);
-                    });
-
-                    it('should emit "play"', function() {
-                        expect(play).toHaveBeenCalled();
-                    });
-
-                    describe('if the last state was BUFFERING', function() {
-                        beforeEach(function() {
-                            play.calls.reset();
-
-                            config.events.onStateChange({ data: youtube.PlayerState.BUFFERING });
-                            config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
-                        });
-
-                        it('should not emit "play"', function() {
-                            expect(play).not.toHaveBeenCalled();
-                        });
+                    it('should call seekTo()', function() {
+                        expect(api.seekTo).toHaveBeenCalledWith(time);
                     });
                 });
 
-                describe('when the video pauses', function() {
-                    let pause;
+                describe('.volume(api, volume)', function() {
+                    let volume;
 
                     beforeEach(function() {
-                        config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
+                        volume = 0.77;
 
-                        pause = jasmine.createSpy('pause()');
-                        player.on('pause', pause);
-
-                        config.events.onStateChange({ data: youtube.PlayerState.BUFFERING });
-                        config.events.onStateChange({ data: youtube.PlayerState.PAUSED });
+                        Runner.run(() => player.__api__.methods.volume(api, volume));
                     });
 
-                    it('should set paused to true', function() {
-                        expect(player.paused).toBe(true);
-                    });
-
-                    it('should emit pause', function() {
-                        expect(pause).toHaveBeenCalled();
-                    });
-
-                    describe('if the last state was BUFFERING', function() {
-                        beforeEach(function() {
-                            pause.calls.reset();
-
-                            config.events.onStateChange({ data: youtube.PlayerState.BUFFERING });
-                            config.events.onStateChange({ data: youtube.PlayerState.PAUSED });
-                        });
-
-                        it('should not emit "pause"', function() {
-                            expect(pause).not.toHaveBeenCalled();
-                        });
+                    it('should call setVolume()', function() {
+                        expect(api.setVolume).toHaveBeenCalledWith(volume * 100);
                     });
                 });
 
-                describe('when the video ends', function() {
-                    let ended;
-                    let pause;
-                    let timeupdate;
-
-                    beforeEach(function(done) {
-                        ended = jasmine.createSpy('ended()');
-                        player.on('ended', ended);
-
-                        pause = jasmine.createSpy('pause()');
-                        player.on('pause', pause);
-
-                        timeupdate = jasmine.createSpy('timeupdate()');
-                        player.on('timeupdate', timeupdate);
-
-                        Promise.all([
-                            codeLoader.load('youtube'),
-                            fetcher.flush()
-                        ]).then(() => {
-                            config.events.onStateChange({ data: youtube.PlayerState.PLAYING });
-                            config.events.onStateChange({ data: youtube.PlayerState.ENDED });
-                        }).then(done, done.fail);
+                describe('.pause(api)', function() {
+                    beforeEach(function() {
+                        Runner.run(() => player.__api__.methods.pause(api));
                     });
 
-                    it('should set paused to true', function() {
-                        expect(player.paused).toBe(true);
-                    });
-
-                    it('should emit "pause"', function() {
-                        expect(pause).toHaveBeenCalled();
-                    });
-
-                    it('should set ended to true', function() {
-                        expect(player.ended).toBe(true);
-                    });
-
-                    it('should set the currentTime to the duration', function() {
-                        expect(player.currentTime).toBe(player.duration);
-                    });
-
-                    it('should emit timeupdate', function() {
-                        expect(timeupdate).toHaveBeenCalled();
-                    });
-
-                    it('should emit "ended"', function() {
-                        expect(ended).toHaveBeenCalled();
+                    it('should call pauseVideo()', function() {
+                        expect(api.pauseVideo).toHaveBeenCalled();
                     });
                 });
-            });
 
-            describe('if called again', function() {
-                beforeEach(function() {
-                    document.createElement.calls.reset();
-                    spyOn(fetcher, 'fetch').and.callThrough();
-                    codeLoader.load.calls.reset();
-                    loadstart.calls.reset();
-
-                    player.src = player.src;
-                    Runner.run(() => player.load());
-                });
-
-                it('should not remove the previous iframe', function() {
-                    expect(player.element.childNodes).toContain(iframe);
-                });
-
-                it('should not create any new elements', function() {
-                    expect(document.createElement).not.toHaveBeenCalled();
-                });
-
-                it('should not fetch anything', function() {
-                    expect(fetcher.fetch).not.toHaveBeenCalled();
-                });
-
-                it('should not reload the iframe api', function() {
-                    expect(codeLoader.load).not.toHaveBeenCalled();
-                });
-
-                it('should not emit loadstart', function() {
-                    expect(loadstart).not.toHaveBeenCalled();
-                });
-
-                describe('if the src changes', function() {
-                    let prevFrame;
-
-                    beforeEach(function(done) {
-                        prevFrame = iframe;
-
-                        youtube.Player.calls.reset();
-                        fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=w_x7rSZ5aJQ&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                            /* jshint quotmark:double */
-                            .respond(200, {
-                                "kind": "youtube#videoListResponse",
-                                "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                                "pageInfo": {
-                                    "totalResults": 1,
-                                    "resultsPerPage": 1
-                                },
-                                "items": [
-                                    {
-                                        "kind": "youtube#video",
-                                        "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                        "id": "w_x7rSZ5aJQ",
-                                        "contentDetails": {
-                                            "duration": "PT59S",
-                                            "dimension": "2d",
-                                            "definition": "hd",
-                                            "caption": "false",
-                                            "licensedContent": true
-                                        }
-                                    }
-                                ]
-                            });
-                            /* jshint quotmark:single */
-
-                        Runner.run(() => player.src = 'w_x7rSZ5aJQ');
-                        Runner.run(() => player.load());
-                        codeLoader.load('youtube').then(done);
+                describe('.play(api)', function() {
+                    beforeEach(function() {
+                        Runner.run(() => player.__api__.methods.play(api));
                     });
 
-                    it('should remove the previous iframe', function() {
-                        expect(player.element.childNodes).not.toContain(prevFrame);
+                    it('should call playVideo()', function() {
+                        expect(api.playVideo).toHaveBeenCalled();
                     });
-
-                    it('should create a new iframe', function() {
-                        expect(document.createElement).toHaveBeenCalledWith('iframe');
-                    });
-
-                    it('should create a new youtube.Player', function() {
-                        expect(youtube.Player).toHaveBeenCalledWith(iframe, jasmine.any(Object));
-                    });
-                });
-            });
-        });
-
-        describe('unload()', function() {
-            let iframe, ytPlayer;
-
-            beforeEach(function(done) {
-                player.src = 'UkOKCWDJ4iA';
-
-                fetcher.expect('GET', 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=UkOKCWDJ4iA&key=AIzaSyC8RX1-kLvuHgRQrjYNwSzt3I9sG1xaF74')
-                    /* jshint quotmark:double */
-                    .respond(200, {
-                        "kind": "youtube#videoListResponse",
-                        "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/sIFI89DqvelExXrnNpMtej8AGvc\"",
-                        "pageInfo": {
-                            "totalResults": 1,
-                            "resultsPerPage": 1
-                        },
-                        "items": [
-                            {
-                                "kind": "youtube#video",
-                                "etag": "\"9Y5jTkxN1JET3y-M4wKMA5aK7Mk/3SdJJ2pdgmy0jBGcJ3JyHZby0fs\"",
-                                "id": "UkOKCWDJ4iA",
-                                "contentDetails": {
-                                    "duration": "PT59S",
-                                    "dimension": "2d",
-                                    "definition": "hd",
-                                    "caption": "false",
-                                    "licensedContent": true
-                                }
-                            }
-                        ]
-                    });
-                    /* jshint quotmark:single */
-
-                ytPlayer = {
-                    playVideo: jasmine.createSpy('Player.playVideo()'),
-                    getCurrentTime: jasmine.createSpy('Player.getCurrentTime()').and.returnValue(3),
-                    seekTo: jasmine.createSpy('Player.seekTo()')
-                };
-                spyOn(youtube, 'Player').and.returnValue(ytPlayer);
-                spyOn(CorePlayer.prototype, 'unload');
-
-                jasmine.clock().install();
-
-                Runner.run(() => player.load());
-                iframe = player.element.querySelector('iframe');
-                Promise.all([Promise.resolve(codeLoader.load('youtube')).then(() => {
-                    youtube.Player.calls.mostRecent().args[1].events.onReady();
-                    youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: youtube.PlayerState.PLAYING });
-                    jasmine.clock().tick(250);
-                    ytPlayer.getCurrentTime.calls.reset();
-                }), fetcher.flush()]).then(() => {
-                    player.currentTime = 2;
-                    Runner.run(() => player.unload());
-                    done();
-                }).catch(done);
-            });
-
-            afterEach(function() {
-                jasmine.clock().uninstall();
-            });
-
-            describe('if the player was playing', function() {
-                beforeEach(function() {
-                    youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: youtube.PlayerState.PLAYING });
-                    Runner.run(() => player.unload());
-                });
-
-                it('should reset paused', function() {
-                    expect(player.paused).toBe(true);
-                });
-            });
-
-            describe('if the player had ended', function() {
-                beforeEach(function() {
-                    youtube.Player.calls.mostRecent().args[1].events.onStateChange({ data: youtube.PlayerState.ENDED });
-                    Runner.run(() => player.unload());
-                });
-
-                it('should reset ended', function() {
-                    expect(player.ended).toBe(false);
-                });
-            });
-
-            it('should call super()', function() {
-                expect(CorePlayer.prototype.unload).toHaveBeenCalled();
-            });
-
-            it('should reset seeking', function() {
-                expect(player.seeking).toBe(false);
-            });
-
-            it('should reset the readyState', function() {
-                expect(player.readyState).toBe(0);
-            });
-
-            it('should reset the duration', function() {
-                expect(player.duration).toBe(0);
-            });
-
-            it('should reset the currentTime', function() {
-                expect(player.currentTime).toBe(0);
-            });
-
-            it('should remove any iframe from the DOM', function() {
-                expect(player.element.childNodes).not.toContain(iframe);
-            });
-
-            it('should stop polling the player', function() {
-                jasmine.clock().tick(250);
-                expect(ytPlayer.getCurrentTime).not.toHaveBeenCalled();
-            });
-
-            it('should cause play() to require the video to autoplay again', function() {
-                ytPlayer.playVideo.calls.reset();
-                spyOn(browser, 'test').and.returnValue(RunnerPromise.resolve(false));
-                spyOn(player, 'load');
-                Runner.run(() => player.play());
-                youtube.Player.calls.mostRecent().args[1].events.onReady();
-
-                expect(browser.test).toHaveBeenCalledWith('autoplay');
-            });
-
-            describe('if called initially', function() {
-                beforeEach(function() {
-                    player = new YouTubePlayer();
-
-                    Runner.run(() => player.unload());
-                });
-
-                it('should call super()', function() {
-                    expect(CorePlayer.prototype.unload).toHaveBeenCalled();
-                });
-            });
-        });
-
-        describe('reload()', function() {
-            beforeEach(function() {
-                spyOn(player, 'unload');
-                spyOn(player, 'load');
-
-                Runner.run(() => player.reload());
-            });
-
-            it('should call unload() then load()', function() {
-                expect(player.unload).toHaveBeenCalled();
-                expect(player.load).toHaveBeenCalled();
-            });
-        });
-
-        describe('minimize()', function() {
-            let result;
-
-            beforeEach(function() {
-                result = player.minimize();
-            });
-
-            it('should return an error', function() {
-                expect(result).toEqual(new Error('YouTubePlayer cannot be minimized.'));
-            });
-        });
-    });
-
-    describe('hooks:', function() {
-        describe('didInsertElement()', function() {
-            beforeEach(function() {
-                spyOn(player, 'play');
-            });
-
-            describe('if autoplay is false', function() {
-                beforeEach(function() {
-                    player.autoplay = false;
-                    player.didInsertElement();
-                });
-
-                it('should not play', function() {
-                    expect(player.play).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if autoplay is true', function() {
-                beforeEach(function() {
-                    player.autoplay = true;
-                    player.didInsertElement();
-                });
-
-                it('should play', function() {
-                    expect(player.play).toHaveBeenCalled();
                 });
             });
         });

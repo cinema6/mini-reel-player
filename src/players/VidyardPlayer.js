@@ -57,7 +57,7 @@ export default class VidyardPlayer extends ThirdPartyPlayer {
             play: api => {
                 const attemptPlay = () => {
                     api.play();
-                    return (!this.paused);
+                    return !this.paused || this.buffering;
                 };
                 return new RunnerPromise((resolve, reject) => {
                     if(attemptPlay()) {

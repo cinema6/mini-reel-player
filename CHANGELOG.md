@@ -1,8 +1,56 @@
 # MiniReel Player 2.0
 
+## v2.2.0 (December 15, 2015)
+* *[v2.2.0-rc3]*
+  * [FIX]: Design - fixed missing css issue for desktop-card player
+
+* *[v2.2.0-rc2]*
+  * [FIX]: Fix for an issue that caused players embeded via c6embed to
+    break
+* *[/v2.2.0-rc2]*
+
+* *[v2.2.0-rc1]*
+  * [FEATURE]: Add support for Brightcove videos
+  * [FEATURE]: Add support for tracking a video buffering
+  * [FEATURE]: Add support for tracking a delay with every event type
+  * [REFACTOR]: Clean up the code used to communicate outside of the
+    player `<iframe>`.
+  * Only fire tracking pixels a single time
+* *[/v2.2.0-rc1]*
+
+## v2.1.3 (December 9, 2015)
+* *[v2.1.3-rc2]*
+  * [FIX]: Make sure errors don't occur when a YouTube video plays,
+    pauses or ends
+* *[/v2.1.3-rc2]*
+
+* *[v2.1.3-rc1]*
+  * [PERFORMANCE]: Add hacks to force `<iframe>` players to buffer by
+    setting `prebuffer` to `true`
+* *[/v2.1.3-rc1]*
+
+## v2.1.2 (December 7, 2015)
+* *[v2.1.2-rc1]*
+  * [PERFORMANCE]: Allow videos to be preloaded when running as an MRAID
+    unit
+* *[/v2.1.2-rc1]*
+
+## v2.1.1 (December 4, 2015)
+* *[v2.1.1-rc1]*
+  * [FIX]: Small tweak made in an attempt to improve the play rate of
+    YouTube videos delivered via MRAID
+* *[/v2.1.1-rc1]*
+
+## v2.1.0 (December 3, 2015)
+* *[v2.1.0-rc2]*
+  * [FIX]: Fix for an issue that caused campfire video play pixels not
+    to be fired in an MRAID context
+* *[/v2.1.0-rc2]*
+
 * *[v2.1.0-rc1]*
   * [FEATURE]: Add support for video cards with a video URL
-  * [FIX]: Design - fixed missing css issue for desktop-card player
+  * [DEPRECATION]: Remove unused styles for deprecated players and features
+* *[/v2.1.0-rc1]*
 
 ## v2.0.0 (December 1, 2015)
 * *[v2.0.0-rc3]*

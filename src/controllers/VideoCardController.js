@@ -3,6 +3,7 @@ import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
 import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import SponsoredCardController from '../mixins/SponsoredCardController.js';
+import environment from '../environment.js';
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -14,6 +15,7 @@ export default class VideoCardController extends CardController {
         player.controls = this.model.data.controls;
         player.start = this.model.data.start;
         player.end = this.model.data.end;
+        player.prebuffer = !!environment.params.prebuffer;
 
         this.player = player;
 
@@ -21,6 +23,7 @@ export default class VideoCardController extends CardController {
             'activate', 'deactivate', 'complete',
             'becameUnskippable', 'becameSkippable', 'skippableProgress'
         ], player);
+        dispatcher.addSource('video', player, ['buffering'], this.model);
 
         /* VideoCard (model) events. */
         this.model.on('prepare', () =>  {

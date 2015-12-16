@@ -3,6 +3,7 @@ import urlParser from '../services/url_parser.js';
 import Runner from '../../lib/Runner.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
 import ThirdPartyPlayer from './ThirdPartyPlayer.js';
+import browser from '../services/browser.js';
 
 const WISTIA_EMBED_OPTIONS = {
     playerPreference: 'html5',
@@ -23,32 +24,37 @@ export default class WistiaPlayer extends ThirdPartyPlayer {
         this.__api__.name = 'WistiaPlayer';
 
         this.__api__.loadPlayer = src => {
-            // Create the Wistia iframe
-            const template = require('../../src/views/video_embeds/WistiaEmbedTemplate.html');
-            const params = Object.keys(WISTIA_EMBED_OPTIONS).map(key => {
-                return key + '=' + WISTIA_EMBED_OPTIONS[key];
-            }).join('&');
-            const embed = template.replace(/{{videoId}}/g, src)
-                .replace(/{{params}}/g, params);
-            const div = document.createElement('div');
-            div.innerHTML = embed;
-            const iframe = div.firstChild;
+            return browser.test('mobile').then(result => {
+                // Force quality to sd on mobile
+                WISTIA_EMBED_OPTIONS.videoQuality = result ? 'sd-only' : 'auto';
 
-            // Append to the player element
-            Runner.schedule('afterRender', this.element, 'appendChild', [iframe]);
+                // Create the Wistia iframe
+                const template = require('../../src/views/video_embeds/WistiaEmbedTemplate.html');
+                const params = Object.keys(WISTIA_EMBED_OPTIONS).map(key => {
+                    return key + '=' + WISTIA_EMBED_OPTIONS[key];
+                }).join('&');
+                const embed = template.replace(/{{videoId}}/g, src)
+                    .replace(/{{params}}/g, params);
+                const div = document.createElement('div');
+                div.innerHTML = embed;
+                const iframe = div.firstChild;
 
-            return new RunnerPromise((resolve, reject) => {
-                iframe.addEventListener('load', () => {
-                    codeLoader.load('wistia').then(Wistia => {
-                        Wistia.reinitialize();
-                        const api = iframe.wistiaApi;
-                        api.ready(() => process.nextTick(() => Runner.run(() => {
-                            resolve(api);
-                        })));
-                    }).catch(error => {
-                        reject(error);
-                    });
-                }, false);
+                // Append to the player element
+                Runner.schedule('afterRender', this.element, 'appendChild', [iframe]);
+
+                return new RunnerPromise((resolve, reject) => {
+                    iframe.addEventListener('load', () => {
+                        codeLoader.load('wistia').then(Wistia => {
+                            Wistia.reinitialize();
+                            const api = iframe.wistiaApi;
+                            api.ready(() => process.nextTick(() => Runner.run(() => {
+                                resolve(api);
+                            })));
+                        }).catch(error => {
+                            reject(error);
+                        });
+                    }, false);
+                });
             });
         };
 

@@ -1,5 +1,6 @@
 import browser from './services/browser.js';
 import environment from './environment.js';
+import BrowserInfo from 'rc-browser-info';
 
 const MP3 = 'data:audio/mpeg;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu///' +
     '/9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z' +
@@ -85,4 +86,9 @@ browser.addTest('flash', () => {
     } catch(e) {
         return global.navigator.mimeTypes['application/x-shockwave-flash'];
     }
+});
+
+const browserInfo = new BrowserInfo(window.navigator.userAgent);
+browser.addTest('mobile', () => {
+    return browserInfo.isMobile;
 });

@@ -3,6 +3,8 @@ import ThirdPartyPlayer from '../../../src/players/ThirdPartyPlayer.js';
 import Runner from '../../../lib/Runner.js';
 import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
 import codeLoader from '../../../src/services/code_loader.js';
+import browser from '../../../src/services/browser.js';
+import RunnerPromise from '../../../lib/RunnerPromise.js';
 
 describe('WistiaPlayer', function() {
     let player, mockApi, globalWistia;
@@ -35,6 +37,7 @@ describe('WistiaPlayer', function() {
         spyOn(player.element, 'appendChild');
         spyOn(player, '__setProperty__');
         spyOn(player.element, 'removeChild').and.callThrough();
+        spyOn(browser, 'test');
     });
 
     it('should exist', function() {
@@ -50,9 +53,9 @@ describe('WistiaPlayer', function() {
     });
 
     describe('the loadPlayer function', function() {
-        let api, mockDiv, mockFrame;
+        let mockDiv, mockFrame;
 
-        beforeEach(function(done) {
+        beforeEach(function() {
             mockFrame = {
                 addEventListener: jasmine.createSpy('addEventListener()').and.callFake((name, callback) => {
                     callback();
@@ -60,7 +63,8 @@ describe('WistiaPlayer', function() {
                 wistiaApi: mockApi
             };
             mockDiv = {
-                firstChild: mockFrame
+                firstChild: mockFrame,
+                innerHTML: ''
             };
            spyOn(codeLoader, 'load').and.returnValue(Promise.resolve(globalWistia));
            spyOn(document, 'createElement').and.callFake(name => {
@@ -68,19 +72,44 @@ describe('WistiaPlayer', function() {
                    return mockDiv;
                }
            });
-           Runner.run(() => {
-               player.__api__.loadPlayer('some src').then(result => {
-                   api = result;
-                   process.nextTick(done);
-               });
-           });
+           browser.test.and.returnValue(RunnerPromise.resolve(false));
         });
 
-        it('should append the iframe', function() {
-            expect(player.element.appendChild).toHaveBeenCalled();
+        describe('appending the iframe', function() {
+            it('should happen', function(done) {
+                player.__api__.loadPlayer('some src').then(() => {
+                    expect(player.element.appendChild).toHaveBeenCalled();
+                    process.nextTick(done);
+                }, done.fail);
+            });
+            
+            it('should be given the correct embed params on desktop', function(done) {
+                browser.test.and.returnValue(RunnerPromise.resolve(false));
+                player.__api__.loadPlayer('some src').then(() => {
+                    expect(mockDiv.innerHTML).toContain('?playerPreference=html5&volume=1&videoQuality=auto');
+                    process.nextTick(done);
+                }, done.fail);
+            });
+            
+            it('should be given the correct embed params on mobile', function(done) {
+                browser.test.and.returnValue(RunnerPromise.resolve(true));
+                player.__api__.loadPlayer('some src').then(() => {
+                    expect(mockDiv.innerHTML).toContain('?playerPreference=html5&volume=1&videoQuality=sd-only');
+                    process.nextTick(done);
+                }, done.fail);
+            });
         });
 
         describe('when the iframe loads', function() {
+            var api;
+            
+            beforeEach(function(done) {
+                player.__api__.loadPlayer('some src').then(result => {
+                    api = result;
+                    process.nextTick(done);
+                }, done.fail);
+            });
+            
             it('should call the codeLoader', function() {
                 expect(codeLoader.load).toHaveBeenCalled();
             });

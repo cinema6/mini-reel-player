@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.2.1-rc1]*
+  * Only play Wistia videos in standard definition when on mobile
+  
 ## v2.2.0 (December 15, 2015)
 * *[v2.2.0-rc3]*
   * [FIX]: Design - fixed missing css issue for desktop-card player

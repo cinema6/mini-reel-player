@@ -1,8 +1,13 @@
 # MiniReel Player 2.0
 
-* *[v2.2.1-rc1]*
+* *[v2.3.0-rc1]*
   * Only play Wistia videos in standard definition when on mobile
-  
+  * Add support for purely numerical skip timer values (`0` for
+    immediately skippable, `-1` for the entire duration of the video)
+  * Always sync the skip countdown with the video duration
+  * [FIX]: Fix for an issue that could cause a user to be stuck on a
+    card with a countdown if the video never starts playing
+
 ## v2.2.0 (December 15, 2015)
 * *[v2.2.0-rc3]*
   * [FIX]: Design - fixed missing css issue for desktop-card player

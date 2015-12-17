@@ -11,7 +11,7 @@ class VideoCard extends Card {
     constructor(data, { data: { autoplay = true, autoadvance = true, preloadVideos = true } }) { // jshint ignore:line
         super(...arguments);
         _(this).skip = (data.data.skip === undefined || data.data.skip === true) ?
-            0 : (data.data.skip === false ? -1 : data.data.skip);
+            0 : (data.data.skip === false || data.data.skip === -1 ? Infinity : data.data.skip);
 
         this.type = 'video';
         this.skippable = true;
@@ -78,8 +78,7 @@ class VideoCard extends Card {
         if (this.skippable) { return; }
 
         const { skip } = _(this);
-        const canSkipAfterCountdown = _(this).skip !== -1;
-        const remaining = Math.round((canSkipAfterCountdown ? skip : duration) - currentTime);
+        const remaining = Math.round(Math.min(skip, duration) - currentTime);
 
         this.emit('skippableProgress', remaining);
         if (remaining < 1) {

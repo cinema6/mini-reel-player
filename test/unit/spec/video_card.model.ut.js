@@ -622,6 +622,22 @@ describe('VideoCard', function() {
                         expect(becameSkippable).not.toHaveBeenCalled();
                     });
 
+                    describe('if the video is shorter than the skip value', function() {
+                        it('should shorten the skip time to the duration of the video', function() {
+                            card.setPlaybackState({ currentTime: 0.6, duration: 8 });
+                            expect(skippableProgress).toHaveBeenCalledWith(Math.round(7.4));
+                            skippableProgress.calls.reset();
+
+                            card.setPlaybackState({ currentTime: 2.5, duration: 8 });
+                            expect(skippableProgress).toHaveBeenCalledWith(Math.round(5.5));
+
+                            card.setPlaybackState({ currentTime: 5, duration: 8 });
+                            expect(skippableProgress).toHaveBeenCalledWith(3);
+
+                            expect(becameSkippable).not.toHaveBeenCalled();
+                        });
+                    });
+
                     describe('when the amount of time has been reached', function() {
                         beforeEach(function() {
                             card.setPlaybackState({ currentTime: 9.55, duration: 40 });

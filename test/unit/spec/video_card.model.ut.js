@@ -594,54 +594,50 @@ describe('VideoCard', function() {
                     expect(card.skippable).toBe(false);
                 });
 
-                it('should emit the skippableProgress event with the specified period of time', function() {
-                    expect(skippableProgress).toHaveBeenCalledWith(10);
+                it('should not emit skippableProgress', function() {
+                    expect(skippableProgress).not.toHaveBeenCalled();
                 });
 
-                it('should emit skippableProgress with each passing second', function() {
-                    skippableProgress.calls.reset();
-
-                    jasmine.clock().tick(1000);
-                    expect(skippableProgress).toHaveBeenCalledWith(9);
-                    skippableProgress.calls.reset();
-
-                    jasmine.clock().tick(1000);
-                    expect(skippableProgress).toHaveBeenCalledWith(8);
-                    skippableProgress.calls.reset();
-
-                    jasmine.clock().tick(1000);
-                    expect(skippableProgress).toHaveBeenCalledWith(7);
-                    skippableProgress.calls.reset();
-                });
-
-                describe('after the specified time', function() {
+                describe('when setPlaybackState() is called', function() {
                     let becameSkippable;
 
-                    beforeEach(function(done) {
+                    beforeEach(function() {
                         becameSkippable = jasmine.createSpy('becameSkippable()');
                         card.on('becameSkippable', becameSkippable);
+                    });
 
-                        jasmine.clock().tick(10000);
+                    it('should emit skippableProgress', function() {
+                        card.setPlaybackState({ currentTime: 0.6, duration: 30 });
+                        expect(skippableProgress).toHaveBeenCalledWith(Math.round(9.4));
                         skippableProgress.calls.reset();
-                        Promise.resolve().then(done);
+
+                        card.setPlaybackState({ currentTime: 2.5, duration: 30 });
+                        expect(skippableProgress).toHaveBeenCalledWith(Math.round(7.5));
+
+                        card.setPlaybackState({ currentTime: 5, duration: 30 });
+                        expect(skippableProgress).toHaveBeenCalledWith(5);
+
+                        expect(becameSkippable).not.toHaveBeenCalled();
                     });
 
-                    it('should set skippable to true', function() {
-                        expect(card.skippable).toBe(true);
-                    });
+                    describe('when the amount of time has been reached', function() {
+                        beforeEach(function() {
+                            card.setPlaybackState({ currentTime: 9.55, duration: 40 });
+                            card.setPlaybackState({ currentTime: 10, duration: 40 });
+                        });
 
-                    it('should set hasSkipControl to false', function() {
-                        expect(card.hasSkipControl).toBe(false);
-                    });
+                        it('should set skippable to true', function() {
+                            expect(card.skippable).toBe(true);
+                        });
 
-                    it('should emit the becameSkippable event', function() {
-                        expect(becameSkippable).toHaveBeenCalled();
-                        expect(becameSkippable.calls.count()).toBe(1);
-                    });
+                        it('should set hasSkipControl to false', function() {
+                            expect(card.hasSkipControl).toBe(false);
+                        });
 
-                    it('should stop counting', function() {
-                        jasmine.clock().tick(1000);
-                        expect(skippableProgress).not.toHaveBeenCalled();
+                        it('should emit becameSkippable', function() {
+                            expect(becameSkippable).toHaveBeenCalled();
+                            expect(becameSkippable.calls.count()).toBe(1);
+                        });
                     });
                 });
             });
@@ -731,23 +727,6 @@ describe('VideoCard', function() {
                     card = new VideoCard(data, experience);
                     card.on('skippableProgress', skippableProgress);
                     card.activate();
-
-                    card.setPlaybackState({ currentTime: 4, duration: 6 });
-                });
-
-                it('should do nothing', function() {
-                    expect(skippableProgress).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if the card can be skipped after a preset time', function() {
-                beforeEach(function() {
-                    data.data.skip = 5;
-                    card = new VideoCard(data, experience);
-                    card.on('skippableProgress', skippableProgress);
-                    spyOn(timer, 'interval').and.returnValue(new Promise(() => {}));
-                    card.activate();
-                    skippableProgress.calls.reset();
 
                     card.setPlaybackState({ currentTime: 4, duration: 6 });
                 });

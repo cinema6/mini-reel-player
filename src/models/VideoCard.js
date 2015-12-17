@@ -1,5 +1,4 @@
 import Card from './Card.js';
-import timer from '../../lib/timer.js';
 import SponsoredCard from '../mixins/SponsoredCard.js';
 import {
     extend
@@ -42,31 +41,9 @@ class VideoCard extends Card {
     }
 
     activate() {
-        let {skip} = _(this);
-        const { canSkipAfterCountdown } = _(this);
-
         if (this.hasSkipControl) {
             this.skippable = false;
             this.emit('becameUnskippable');
-
-            if (canSkipAfterCountdown) {
-                this.emit('skippableProgress', skip);
-
-                const interval = timer.interval(() => {
-                    const remaining = --skip;
-
-                    this.emit('skippableProgress', remaining);
-
-                    if (remaining < 1) {
-                        timer.cancel(interval);
-                    }
-                }, 1000);
-
-                interval.then(() => {
-                    this.skippable = true;
-                    this.emit('becameSkippable');
-                });
-            }
 
             this.once('becameSkippable', () => this.hasSkipControl = false);
         }
@@ -98,10 +75,10 @@ class VideoCard extends Card {
     }
 
     setPlaybackState({ currentTime, duration }) {
-        const {canSkipAfterCountdown} = _(this);
-        if (this.skippable || canSkipAfterCountdown) { return; }
+        if (this.skippable) { return; }
 
-        const remaining = Math.round(duration - currentTime);
+        const { canSkipAfterCountdown, skip } = _(this);
+        const remaining = Math.round((canSkipAfterCountdown ? skip : duration) - currentTime);
 
         this.emit('skippableProgress', remaining);
         if (remaining < 1) {

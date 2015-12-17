@@ -19,6 +19,12 @@ describe('VideoCardController', function() {
     let parentView;
 
     class MockPlayer extends View {
+        constructor() {
+            super(...arguments);
+
+            this.paused = true;
+        }
+
         load() {}
         unload() {}
         play() {}
@@ -352,15 +358,18 @@ describe('VideoCardController', function() {
                         player.emit('timeupdate');
                         expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
                             currentTime: player.currentTime,
-                            duration: player.duration
+                            duration: player.duration,
+                            paused: player.paused
                         });
                         VideoCardCtrl.model.setPlaybackState.calls.reset();
 
                         player.currentTime = 3;
+                        player.paused = false;
                         player.emit('timeupdate');
                         expect(VideoCardCtrl.model.setPlaybackState).toHaveBeenCalledWith({
                             currentTime: player.currentTime,
-                            duration: player.duration
+                            duration: player.duration,
+                            paused: player.paused
                         });
                     });
                 });

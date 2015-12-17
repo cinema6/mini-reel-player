@@ -3,7 +3,8 @@ import SponsoredCard from '../mixins/SponsoredCard.js';
 import {
     extend
 } from '../../lib/utils.js';
-import {createKey} from 'private-parts';
+import { createKey } from 'private-parts';
+import timer from '../../lib/timer.js';
 
 const _ = createKey();
 
@@ -42,10 +43,15 @@ class VideoCard extends Card {
 
     activate() {
         if (this.hasSkipControl) {
+            const aborter = timer.wait(Math.min(_(this).skip, 10) * 1000);
+
             this.skippable = false;
             this.emit('becameUnskippable');
 
             this.once('becameSkippable', () => this.hasSkipControl = false);
+            this.once('hasPlayed', () => timer.cancel(aborter));
+
+            aborter.then(() => this.abort());
         }
 
         return super.activate(...arguments);
@@ -62,6 +68,8 @@ class VideoCard extends Card {
 
     reset() {
         this.hasSkipControl = _(this).skip !== 0;
+        this.hasPlayed = false;
+
         return super.reset();
     }
 
@@ -74,7 +82,12 @@ class VideoCard extends Card {
         return super.abort();
     }
 
-    setPlaybackState({ currentTime, duration }) {
+    setPlaybackState({ currentTime, duration, paused }) {
+        if (!paused && !this.hasPlayed) {
+            this.hasPlayed = true;
+            this.emit('hasPlayed');
+        }
+
         if (this.skippable) { return; }
 
         const { skip } = _(this);

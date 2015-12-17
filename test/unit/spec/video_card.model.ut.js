@@ -547,26 +547,28 @@ describe('VideoCard', function() {
                 });
             });
 
-            describe('if the card can be skipped at anytime', function() {
-                beforeEach(function() {
-                    data.data.skip = true;
-                    card = new VideoCard(data, experience);
-                    card.on('becameUnskippable', becameUnskippable);
-                    card.on('skippableProgress', skippableProgress);
+            [true, 0].forEach(function(value) {
+                describe('if the card can be skipped at anytime', function() {
+                    beforeEach(function() {
+                        data.data.skip = value;
+                        card = new VideoCard(data, experience);
+                        card.on('becameUnskippable', becameUnskippable);
+                        card.on('skippableProgress', skippableProgress);
 
-                    card.activate();
-                });
+                        card.activate();
+                    });
 
-                it('should not emit becameUnskippable', function() {
-                    expect(becameUnskippable).not.toHaveBeenCalled();
-                });
+                    it('should not emit becameUnskippable', function() {
+                        expect(becameUnskippable).not.toHaveBeenCalled();
+                    });
 
-                it('should not emit skippableProgress', function() {
-                    expect(skippableProgress).not.toHaveBeenCalled();
-                });
+                    it('should not emit skippableProgress', function() {
+                        expect(skippableProgress).not.toHaveBeenCalled();
+                    });
 
-                it('should not set skippable to false', function() {
-                    expect(card.skippable).not.toBe(false);
+                    it('should not set skippable to false', function() {
+                        expect(card.skippable).not.toBe(false);
+                    });
                 });
             });
 
@@ -642,72 +644,74 @@ describe('VideoCard', function() {
                 });
             });
 
-            describe('if the card cannot be skipped until after the entire video is watched', function() {
-                beforeEach(function() {
-                    data.data.skip = false;
-                    card = new VideoCard(data, experience);
-                    card.on('becameUnskippable', becameUnskippable);
-                    card.on('skippableProgress', skippableProgress);
-                    spyOn(timer, 'interval').and.returnValue(new Promise(() => {}));
-
-                    card.activate();
-                });
-
-                it('should set skippable to false', function() {
-                    expect(card.skippable).toBe(false);
-                });
-
-                it('should emit becameUnskippable', function() {
-                    expect(becameUnskippable).toHaveBeenCalled();
-                });
-
-                it('should not set an interval', function() {
-                    expect(timer.interval).not.toHaveBeenCalled();
-                });
-
-                it('should not emit skippableProgress', function() {
-                    expect(skippableProgress).not.toHaveBeenCalled();
-                });
-
-                describe('when setPlaybackState() is called', function() {
-                    let becameSkippable;
-
+            [false, -1].forEach(function(value) {
+                describe('if the card cannot be skipped until after the entire video is watched', function() {
                     beforeEach(function() {
-                        becameSkippable = jasmine.createSpy('becameSkippable()');
-                        card.on('becameSkippable', becameSkippable);
+                        data.data.skip = value;
+                        card = new VideoCard(data, experience);
+                        card.on('becameUnskippable', becameUnskippable);
+                        card.on('skippableProgress', skippableProgress);
+                        spyOn(timer, 'interval').and.returnValue(new Promise(() => {}));
+
+                        card.activate();
                     });
 
-                    it('should emit skippableProgress', function() {
-                        card.setPlaybackState({ currentTime: 0.6, duration: 30 });
-                        expect(skippableProgress).toHaveBeenCalledWith(Math.round(29.4));
-                        skippableProgress.calls.reset();
-
-                        card.setPlaybackState({ currentTime: 2.5, duration: 30 });
-                        expect(skippableProgress).toHaveBeenCalledWith(Math.round(27.5));
-
-                        card.setPlaybackState({ currentTime: 5, duration: 30 });
-                        expect(skippableProgress).toHaveBeenCalledWith(25);
-
-                        expect(becameSkippable).not.toHaveBeenCalled();
+                    it('should set skippable to false', function() {
+                        expect(card.skippable).toBe(false);
                     });
 
-                    describe('when the video is effectively over', function() {
+                    it('should emit becameUnskippable', function() {
+                        expect(becameUnskippable).toHaveBeenCalled();
+                    });
+
+                    it('should not set an interval', function() {
+                        expect(timer.interval).not.toHaveBeenCalled();
+                    });
+
+                    it('should not emit skippableProgress', function() {
+                        expect(skippableProgress).not.toHaveBeenCalled();
+                    });
+
+                    describe('when setPlaybackState() is called', function() {
+                        let becameSkippable;
+
                         beforeEach(function() {
-                            card.setPlaybackState({ currentTime: 39.55, duration: 40 });
-                            card.setPlaybackState({ currentTime: 40, duration: 40 });
+                            becameSkippable = jasmine.createSpy('becameSkippable()');
+                            card.on('becameSkippable', becameSkippable);
                         });
 
-                        it('should set skippable to true', function() {
-                            expect(card.skippable).toBe(true);
+                        it('should emit skippableProgress', function() {
+                            card.setPlaybackState({ currentTime: 0.6, duration: 30 });
+                            expect(skippableProgress).toHaveBeenCalledWith(Math.round(29.4));
+                            skippableProgress.calls.reset();
+
+                            card.setPlaybackState({ currentTime: 2.5, duration: 30 });
+                            expect(skippableProgress).toHaveBeenCalledWith(Math.round(27.5));
+
+                            card.setPlaybackState({ currentTime: 5, duration: 30 });
+                            expect(skippableProgress).toHaveBeenCalledWith(25);
+
+                            expect(becameSkippable).not.toHaveBeenCalled();
                         });
 
-                        it('should set hasSkipControl to false', function() {
-                            expect(card.hasSkipControl).toBe(false);
-                        });
+                        describe('when the video is effectively over', function() {
+                            beforeEach(function() {
+                                card.setPlaybackState({ currentTime: 39.55, duration: 40 });
+                                card.setPlaybackState({ currentTime: 40, duration: 40 });
+                            });
 
-                        it('should emit becameSkippable', function() {
-                            expect(becameSkippable).toHaveBeenCalled();
-                            expect(becameSkippable.calls.count()).toBe(1);
+                            it('should set skippable to true', function() {
+                                expect(card.skippable).toBe(true);
+                            });
+
+                            it('should set hasSkipControl to false', function() {
+                                expect(card.hasSkipControl).toBe(false);
+                            });
+
+                            it('should emit becameSkippable', function() {
+                                expect(becameSkippable).toHaveBeenCalled();
+                                expect(becameSkippable.calls.count()).toBe(1);
+                            });
                         });
                     });
                 });

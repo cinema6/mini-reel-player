@@ -10,8 +10,8 @@ const _ = createKey();
 class VideoCard extends Card {
     constructor(data, { data: { autoplay = true, autoadvance = true, preloadVideos = true } }) { // jshint ignore:line
         super(...arguments);
-        _(this).skip = data.data.skip === undefined ? true : data.data.skip;
-        _(this).canSkipAfterCountdown = _(this).skip !== false;
+        _(this).skip = (data.data.skip === undefined || data.data.skip === true) ?
+            0 : (data.data.skip === false ? -1 : data.data.skip);
 
         this.type = 'video';
         this.skippable = true;
@@ -61,7 +61,7 @@ class VideoCard extends Card {
     }
 
     reset() {
-        this.hasSkipControl = _(this).skip !== true;
+        this.hasSkipControl = _(this).skip !== 0;
         return super.reset();
     }
 
@@ -77,7 +77,8 @@ class VideoCard extends Card {
     setPlaybackState({ currentTime, duration }) {
         if (this.skippable) { return; }
 
-        const { canSkipAfterCountdown, skip } = _(this);
+        const { skip } = _(this);
+        const canSkipAfterCountdown = _(this).skip !== -1;
         const remaining = Math.round((canSkipAfterCountdown ? skip : duration) - currentTime);
 
         this.emit('skippableProgress', remaining);

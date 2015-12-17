@@ -1,18 +1,18 @@
 import Card from './Card.js';
-import timer from '../../lib/timer.js';
 import SponsoredCard from '../mixins/SponsoredCard.js';
 import {
     extend
 } from '../../lib/utils.js';
-import {createKey} from 'private-parts';
+import { createKey } from 'private-parts';
+import timer from '../../lib/timer.js';
 
 const _ = createKey();
 
 class VideoCard extends Card {
     constructor(data, { data: { autoplay = true, autoadvance = true, preloadVideos = true } }) { // jshint ignore:line
         super(...arguments);
-        _(this).skip = data.data.skip === undefined ? true : data.data.skip;
-        _(this).canSkipAfterCountdown = _(this).skip !== false;
+        _(this).skip = (data.data.skip === undefined || data.data.skip === true) ?
+            0 : (data.data.skip === false || data.data.skip === -1 ? Infinity : data.data.skip);
 
         this.type = 'video';
         this.skippable = true;
@@ -42,33 +42,16 @@ class VideoCard extends Card {
     }
 
     activate() {
-        let {skip} = _(this);
-        const { canSkipAfterCountdown } = _(this);
-
         if (this.hasSkipControl) {
+            const aborter = timer.wait(Math.min(_(this).skip, 10) * 1000);
+
             this.skippable = false;
             this.emit('becameUnskippable');
 
-            if (canSkipAfterCountdown) {
-                this.emit('skippableProgress', skip);
-
-                const interval = timer.interval(() => {
-                    const remaining = --skip;
-
-                    this.emit('skippableProgress', remaining);
-
-                    if (remaining < 1) {
-                        timer.cancel(interval);
-                    }
-                }, 1000);
-
-                interval.then(() => {
-                    this.skippable = true;
-                    this.emit('becameSkippable');
-                });
-            }
-
             this.once('becameSkippable', () => this.hasSkipControl = false);
+            this.once('hasPlayed', () => timer.cancel(aborter));
+
+            aborter.then(() => this.abort());
         }
 
         return super.activate(...arguments);
@@ -84,7 +67,9 @@ class VideoCard extends Card {
     }
 
     reset() {
-        this.hasSkipControl = _(this).skip !== true;
+        this.hasSkipControl = _(this).skip !== 0;
+        this.hasPlayed = false;
+
         return super.reset();
     }
 
@@ -97,11 +82,16 @@ class VideoCard extends Card {
         return super.abort();
     }
 
-    setPlaybackState({ currentTime, duration }) {
-        const {canSkipAfterCountdown} = _(this);
-        if (this.skippable || canSkipAfterCountdown) { return; }
+    setPlaybackState({ currentTime, duration, paused }) {
+        if (!paused && !this.hasPlayed) {
+            this.hasPlayed = true;
+            this.emit('hasPlayed');
+        }
 
-        const remaining = Math.round(duration - currentTime);
+        if (this.skippable) { return; }
+
+        const { skip } = _(this);
+        const remaining = Math.round(Math.min(skip, duration) - currentTime);
 
         this.emit('skippableProgress', remaining);
         if (remaining < 1) {

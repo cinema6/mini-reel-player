@@ -48,10 +48,10 @@ export default class VideoCardController extends CardController {
 
         /* Player events. */
         player.on('timeupdate', () => {
-            const {currentTime, duration} = player;
+            const { currentTime, duration, paused } = player;
             if (!duration) { return; }
 
-            this.model.setPlaybackState({ currentTime, duration });
+            this.model.setPlaybackState({ currentTime, duration, paused });
         });
         player.on('ended', () => {
             const { duration } = player;

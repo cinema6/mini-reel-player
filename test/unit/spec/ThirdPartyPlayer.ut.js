@@ -859,25 +859,53 @@ describe('ThirdPartyPlayer', function() {
         });
         
         describe('playerControls', function() {
-            it('should call the controls player method if there is an api', function(done) {
-                player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve());
-                player.__private__.api = 'the api';
-                player.__private__.playerControls(true).then(() => {
-                    expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('controls', [true]);
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
+            describe('if there is an api', function() {
+                beforeEach(function() {
+                    player.__private__.api = 'the api';
+                });
+
+                describe('and calling the controls player method succeeds', function() {
+                    beforeEach(function(done) {
+                        player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.resolve());
+
+                        player.__private__.playerControls(false).then(done, done.fail);
+                    });
+
+                    it('should call the controls player method if there is an api', function() {
+                        expect(player.__private__.callPlayerMethod).toHaveBeenCalledWith('controls', [false]);
+                    });
+
+                    it('should not set the state', function() {
+                        expect(player.controls).not.toBe(false);
+                    });
+                });
+
+                describe('and calling the controls player method fails', function() {
+                    beforeEach(function(done) {
+                        player.__private__.callPlayerMethod.and.returnValue(RunnerPromise.reject(new Error()));
+
+                        player.__private__.playerControls(false).then(done, done.fail);
+                    });
+
+                    it('should set the state', function() {
+                        expect(player.controls).toBe(false);
+                    });
                 });
             });
 
-            it('should not change the volume if there is no api', function(done) {
-                player.__private__.playerControls().then(() => {
+            describe('if there is no API', function() {
+                beforeEach(function(done) {
+                    player.__private__.api = null;
+
+                    player.__private__.playerControls(false).then(done, done.fail);
+                });
+
+                it('should not call callPlayerMethod()', function() {
                     expect(player.__private__.callPlayerMethod).not.toHaveBeenCalled();
-                    done();
-                }).catch(error => {
-                    expect(error).not.toBeDefined();
-                    done();
+                });
+
+                it('should set the controls property', function() {
+                    expect(player.controls).toBe(false);
                 });
             });
         });

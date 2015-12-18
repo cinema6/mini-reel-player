@@ -280,11 +280,9 @@ class Private {
     }
 
     playerControls(showControls) {
-        if(this.api) {
-            return this.callPlayerMethod('controls', [showControls]);
-        } else {
-            return RunnerPromise.resolve();
-        }
+        return (this.api ? RunnerPromise.resolve() : RunnerPromise.reject())
+            .then(() => this.callPlayerMethod('controls', [showControls]))
+            .catch(() => this.state.set('controls', showControls));
     }
 
     playerBuffer() {

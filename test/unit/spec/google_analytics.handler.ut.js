@@ -820,6 +820,18 @@ describe('GoogleAnalyticsHandler', function() {
                         expect(result.label).toBe('null');
                     });
                 });
+
+                describe('if there is no card', function() {
+                    beforeEach(function() {
+                        minireel.currentCard = null;
+
+                        result = handler.getVideoTrackingData(player, 'Pause');
+                    });
+
+                    it('should set the label to null', function() {
+                        expect(result.label).toBe('null');
+                    });
+                });
             });
 
             describe('if nonInteractive is specified', function() {

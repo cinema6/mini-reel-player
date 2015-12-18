@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.3.1 (December 18, 2015)
+* *[v2.3.1-rc1]*
+  * [FIX]: Fix for an issue that caused prebuffering to break video
+    playback/event reporting
+* *[/v2.3.1-rc1]*
+
 ## v2.3.0 (December 17, 2015)
 * *[v2.3.0-rc1]*
   * Only play Wistia videos in standard definition when on mobile

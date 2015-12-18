@@ -208,7 +208,7 @@ export default class GoogleAnalyticsHandler extends BillingHandler {
         return this.getTrackingData({
             category: 'Video',
             action: event,
-            label: label || card.data.href || 'null',
+            label: label || (card && card.data.href) || 'null',
             nonInteraction: Number(nonInteractive)
         });
     }

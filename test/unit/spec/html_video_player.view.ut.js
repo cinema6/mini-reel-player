@@ -50,6 +50,7 @@ describe('HtmlVideoPlayer', function() {
             expect(document.createElement).toHaveBeenCalled();
             expect(mockApi.setAttribute).toHaveBeenCalledWith('src', 'john_cena.mp4');
             expect(mockApi.setAttribute).toHaveBeenCalledWith('poster', 'image.jpg');
+            expect(mockApi.setAttribute).toHaveBeenCalledWith('webkit-playsinline', '');
         });
         
         it('should append the video', function() {

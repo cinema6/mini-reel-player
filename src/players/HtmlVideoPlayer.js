@@ -40,6 +40,7 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
             const video = document.createElement('video');
             video.setAttribute('src', src);
             video.setAttribute('poster', poster);
+            video.setAttribute('webkit-playsinline', '');
             return new RunnerPromise(resolve => {
                 Runner.schedule('afterRender', null, () => {
                     const loadstartFn = () => process.nextTick(() => Runner.run(() => {

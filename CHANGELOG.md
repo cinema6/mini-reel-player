@@ -1,7 +1,8 @@
 # MiniReel Player 2.0
 
-## v2.3.3
 * *[v2.3.3-rc1]*
+  * [FIX]: Ensure Instagram videos play inline in mobile apps
+  * [FIX]: Ensure Brightcove videos play inline in mobile apps
   * [FIX]: Media queries for desktop-card ad unit sizes smoother
 
 ## v2.3.2 (December 18, 2015)

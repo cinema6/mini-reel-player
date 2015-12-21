@@ -508,10 +508,10 @@
 
         .cta__group {
             bottom:0.0625em;
-            top:0.0625em;
-            max-height:44px;
-            min-height:44px;
-            width:25%
+            top:0;
+            max-height:45px;
+            min-height:45px;
+            width: 25%;
         }
 
     .sponsorProfile__imgBox {
@@ -553,7 +553,7 @@
 
 }
 
-@media screen and (min-height: 299px) {
+@media screen and (min-height: 250px) {
     .cta__group {
         padding-top:0.125em;
         padding-right:0.375em;
@@ -597,9 +597,9 @@
 
 }
 
-@media screen and (min-height: 351px) and (max-height: 440px) {
+@media screen and (min-height: 351px) and (max-height: 399px) {
     .cta__group {
-        padding-top:0.25em;
+        padding-top:0.1875em;
         padding-right:0.375em;
         max-height:60px;
         min-height:60px;
@@ -632,6 +632,13 @@
 
 @media screen and (min-height: 299px) and (max-height: 350px) {
 
+    .cta__group {
+        padding-top:0.125em;
+        padding-right:0.1875em;
+        max-height:52px;
+        min-height:52px;
+    }
+
     .social__group--item.social__group--SVG,
     .SVGicon {
         width: 1.125em;
@@ -646,26 +653,63 @@
             margin-bottom:0.25em;
         }
 
+    .sponsorProfile__imgBox {
+        top:0;
+    }
+
     .social__group ul {
-        top:-1.5em;
+        top:-0.5em;
+    }
+
+    .sponsorProfile__imgBox:before {
+        content:'Sponsor:';
+        font-size:0.625em;
+        color:#fff;
+    }
+
+    .sponsorProfile__small--text {
+        display:none;
     }
 
 }
 
-@media screen and (min-height: 441px) and (max-height: 1000px) {
+@media screen and (min-height: 400px) and (max-height: 1000px) {
     .social__group--item.social__group--SVG,
     .SVGicon {
         width: 1.75em;
         height:1.75em;
     }
+
+    .social__group ul {
+        top:-1em;
+    }
 }
 
-@media screen and (min-height: 441px) and (max-height: 475px) {
+@media screen and (min-height: 400px) and (max-height: 444px) {
+    .cta__group {
+        padding-top:0.3125em;
+        padding-right:0.625em;
+        max-height:70px;
+        min-height:70px;
+    }
+
+    .info__group:hover .sponsoredBtn, 
+    .sponsoredBtn {
+        height:70px;
+    }
+
+    .social__group ul {
+        top:-2em;
+    }
+
+}
+
+@media screen and (min-height: 445px) and (max-height: 475px) {
     .cta__group {
         padding-top:0.125em;
         padding-right:0.375em;
-        max-height:70px;
-        min-height:70px;
+        max-height:78px;
+        min-height:78px;
     }
 
     .info__group:hover .sponsoredBtn, 
@@ -693,7 +737,7 @@
 @media screen and (min-height: 500px) and (max-height: 599px) {
     .cta__group {
         padding-top: 0.75em;
-        padding-right: 0.75em;
+        padding-right: 0.875em;
         max-height: 80px;
         min-height: 80px;
     }

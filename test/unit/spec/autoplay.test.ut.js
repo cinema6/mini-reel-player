@@ -30,10 +30,12 @@ describe('autoplay test', function() {
 
                 this.src = null;
 
+                /* jshint ignore:start */
                 this.addEventListener = jasmine.createSpy('audio.addEventListener()')
                     .and.callFake((...args) => {
                         _(this).listeners.push(args);
                     });
+                /* jshint ignore:end */
 
                 this.play = jasmine.createSpy('play()');
 

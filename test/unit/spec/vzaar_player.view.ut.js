@@ -30,7 +30,7 @@ describe('VzaarPlayer', function() {
                 callback(123);
             }),
             getTime: jasmine.createSpy('getTime()').and.callFake(callback => {
-                callback(123)
+                callback(123);
             }),
             getVolume: jasmine.createSpy('getVolume()').and.callFake(callback => {
                 callback(4);

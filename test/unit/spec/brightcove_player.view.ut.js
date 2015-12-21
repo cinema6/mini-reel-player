@@ -2,8 +2,6 @@ import BrightcovePlayer from '../../../src/players/BrightcovePlayer.js';
 import ThirdPartyPlayer from '../../../src/players/ThirdPartyPlayer.js';
 import Runner from '../../../lib/Runner.js';
 import PlayerInterface from '../../../src/interfaces/PlayerInterface.js';
-import codeLoader from '../../../src/services/code_loader.js';
-import RunnerPromise from '../../../lib/RunnerPromise.js';
 
 describe('Brightcove Player', function() {
     let player, mockApi;
@@ -167,7 +165,7 @@ describe('Brightcove Player', function() {
                 expect(mockApi.ready).toHaveBeenCalledWith(jasmine.any(Function));
             });
             
-            describe('when metadata is loaded', function(done) {
+            describe('when metadata is loaded', function() {
                 beforeEach(function() {
                     var handlerFn = mockApi.one.calls.mostRecent().args[1];
                     mockApi.duration.and.returnValue(123);

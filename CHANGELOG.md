@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.3.3-rc1]*
+  * [FIX]: Ensure Brightcove videos play inline in mobile apps
+
 ## v2.3.2 (December 18, 2015)
 * *[v2.3.2-rc1]*
   * [DESIGN]: Added support for 750x426 player, updated icon sizes, CTA and border

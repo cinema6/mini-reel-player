@@ -92,6 +92,7 @@ describe('Brightcove Player', function() {
                 expect(mockVideo.getAttribute('data-player')).toBe('player-123');
                 expect(mockVideo.getAttribute('data-embed')).toBe('embed-123');
                 expect(mockVideo.getAttribute('class')).toBe('video-js');
+                expect(mockVideo.hasAttribute('webkit-playsinline')).toBe(true);
                 expect(mockVideo.style.cssText).toContain('width: 100%');
                 expect(mockVideo.style.cssText).toContain('height: 100%');
                 expect(mockVideo.style.cssText).toContain('position: absolute');

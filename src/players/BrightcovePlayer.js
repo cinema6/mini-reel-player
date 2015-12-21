@@ -20,6 +20,7 @@ export default class BrightcovePlayer extends ThirdPartyPlayer {
             video.setAttribute('data-embed', ids.embedid);
             video.setAttribute('class', 'video-js');
             video.setAttribute('controls', '');
+            video.setAttribute('webkit-playsinline', '');
             video.style.width = '100%';
             video.style.height = '100%';
             video.style.position = 'absolute';

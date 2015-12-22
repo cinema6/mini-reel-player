@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.3.3 (December 22, 2015)
+* *[v2.3.3-rc2]*
+  * [FIX]: Fix for an issue that prevented Instagram videos from playing in an MRAID environment
+* *[/v2.3.3-rc2]*
+
 * *[v2.3.3-rc1]*
   * [FIX]: Ensure Instagram videos play inline in mobile apps
   * [FIX]: Ensure Brightcove videos play inline in mobile apps

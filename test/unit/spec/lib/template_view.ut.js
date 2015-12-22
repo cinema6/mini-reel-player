@@ -73,7 +73,9 @@ describe('TemplateView', function() {
 
             beforeEach(function() {
                 data = {
-                    company: 'Cinema6'
+                    company: 'Cinema6',
+                    stuff: ['foo', 'bar'],
+                    foo: null
                 };
                 view.template = '<span>Hello!</span><span>World!</span>';
 
@@ -90,15 +92,23 @@ describe('TemplateView', function() {
             it('should update the data property', function() {
                 expect(view.data).toEqual(data);
                 expect(Object.isFrozen(view.data)).toBe(true);
+                expect(Object.isFrozen(view.data.stuff)).toBe(true);
+            });
+
+            it('should not freeze the passed-in Object', function() {
+                expect(Object.isFrozen(data)).toBe(false);
+                expect(Object.isFrozen(data.stuff)).toBe(false);
             });
 
             describe('if called again', function() {
                 beforeEach(function() {
                     view.update({
-                        name: 'Josh'
+                        name: 'Josh',
+                        test: /hey/
                     });
                     view.update({
-                        age: 23
+                        age: 23,
+                        tester: /foo/gim
                     });
                     queues.render.shift()();
                     tbCompileFns.forEach(spy => spy.calls.reset());
@@ -109,18 +119,27 @@ describe('TemplateView', function() {
                 it('should extend the data each time', function() {
                     tbCompileFns.forEach(fn => expect(fn).toHaveBeenCalledWith({
                         company: 'Cinema6',
+                        stuff: ['foo', 'bar'],
+                        foo: null,
                         name: 'Josh',
-                        age: 23
+                        test: /hey/,
+                        age: 23,
+                        tester: /foo/gim
                     }));
                 });
 
                 it('should update the data property', function() {
                     expect(view.data).toEqual({
                         company: 'Cinema6',
+                        stuff: ['foo', 'bar'],
+                        foo: null,
                         name: 'Josh',
-                        age: 23
+                        test: /hey/,
+                        age: 23,
+                        tester: /foo/gim
                     });
                     expect(Object.isFrozen(view.data)).toBe(true);
+                    expect(Object.isFrozen(view.data.stuff)).toBe(true);
                 });
             });
 

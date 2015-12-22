@@ -1,9 +1,6 @@
 'use strict';
 
-var grunt = require('grunt');
-var path = require('path');
 var builds = require('../../package.json').builds;
-var iteration = 0;
 
 module.exports = {
     options: {
@@ -21,22 +18,11 @@ module.exports = {
     },
     tmp: {
         options: {
-            preBundleCB: function(browserify) {
-                var srcs = grunt.task.current.filesSrc;
-                var src = path.resolve(process.cwd(), srcs[iteration++]);
-                var basename = path.basename(src);
-                var output = grunt.config.process(
-                    path.resolve(
-                        process.cwd(),
-                        './.tmp/<%= settings.distDir %>/<%= _version %>/' + basename + '.map'
-                    )
-                );
-
-                browserify.plugin('minifyify', { map: basename + '.map', output: output });
-
-                if (iteration === srcs.length) {
-                    iteration = 0;
-                }
+            browserifyOptions: {
+                debug: false
+            },
+            configure: function(browserify) {
+                browserify.transform('uglifyify', { global: true });
             }
         },
         files: builds.map(function(type) {

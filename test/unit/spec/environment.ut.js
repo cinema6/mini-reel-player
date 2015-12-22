@@ -1,4 +1,5 @@
 import environment from '../../../src/environment.js';
+import BrowserInfo from 'rc-browser-info';
 import typeify from '../../../src/fns/typeify.js';
 import {
     extend
@@ -302,6 +303,12 @@ describe('environment', function() {
                 it('should be "service"', function() {
                     expect(environment.loader).toBe('service');
                 });
+            });
+        });
+
+        describe('browser', function() {
+            it('should be a BrowserInfo instance', function() {
+                expect(environment.browser).toEqual(new BrowserInfo(window.navigator.userAgent));
             });
         });
     });

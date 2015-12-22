@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.3.4 (December 22, 2015)
+* *[v2.3.4-rc1]*
+  * [FIX]: Fix for an issue that caused social sharing windows not to
+    open
+* *[/v2.3.4-rc1]*
+
 ## v2.3.3 (December 22, 2015)
 * *[v2.3.3-rc2]*
   * [FIX]: Fix for an issue that prevented Instagram videos from playing in an MRAID environment

@@ -50,7 +50,12 @@ const OGG = 'data:audio/ogg;base64,T2dnUwACAAAAAAAAAACphkTnAAAAAEiFVKMBHgF2b3Jia
     'gxIwSTmwYUgAa8GtcE';
 
 browser.addTest('autoplay', () => {
-    if (environment.params.context === 'mraid') { return true; }
+    if (
+        environment.browser.isDesktop ||
+        environment.params.context === 'mraid'
+    ) {
+        return true;
+    }
 
     return new Promise(fulfill => {
         const audio = new Audio();

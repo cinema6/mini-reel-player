@@ -18,6 +18,10 @@ describe('autoplay test', function() {
         }
     }
 
+    function set(object, property, value) {
+        return Object.defineProperty(object, property, { get: function() { return value; }, configurable: true });
+    }
+
     /* global beforeAll, afterAll */
     beforeAll(function() {
         environment.constructor();
@@ -67,7 +71,28 @@ describe('autoplay test', function() {
         spyOn(process, 'nextTick').and.callFake(fn => ticks.push(fn));
         spyOn(global, 'setTimeout').and.callThrough();
 
+        set(environment.browser, 'isDesktop', false);
+
         promise = browser.test('autoplay', true).then(spy);
+    });
+
+    describe('if the browser is a desktop browser', function() {
+        beforeEach(function(done) {
+            spy.calls.reset();
+            audio = null;
+
+            set(environment.browser, 'isDesktop', true);
+
+            browser.test('autoplay', true).then(spy).then(done, done.fail);
+        });
+
+        it('should not create an Audio() element', function() {
+            expect(audio).not.toEqual(jasmine.any(Audio));
+        });
+
+        it('should fulfill with true', function() {
+            expect(spy).toHaveBeenCalledWith(true);
+        });
     });
 
     describe('if the context is "mraid"', function() {

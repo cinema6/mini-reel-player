@@ -7,8 +7,8 @@ import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
-import JumpRampHandler from '../handlers/JumpRampHandler.js';
-import VPAIDHandler from '../handlers/VPAIDHandler.js';
+//import JumpRampHandler from '../handlers/JumpRampHandler.js';
+//import VPAIDHandler from '../handlers/VPAIDHandler.js';
 import Mixable from '../../lib/core/Mixable.js';
 import SafelyGettable from '../mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
@@ -18,20 +18,20 @@ import browser from '../services/browser.js';
 import codeLoader from '../services/code_loader.js';
 import normalizeLinks from '../fns/normalize_links.js';
 import makeSocialLinks from '../fns/make_social_links.js';
+import RunnerPromise from '../../lib/RunnerPromise.js';
 import {
     map,
     forEach,
     filter
 } from '../../lib/utils.js';
-import ImageCard from './ImageCard.js';
+//import ImageCard from './ImageCard.js';
 import VideoCard from './VideoCard.js';
-import AdUnitCard from './AdUnitCard.js';
-import RecapCard from './RecapCard.js';
-import SlideshowBobCard from './SlideshowBobCard.js';
-import InstagramImageCard from './InstagramImageCard.js';
-import InstagramVideoCard from './InstagramVideoCard.js';
-import RunnerPromise from '../../lib/RunnerPromise.js';
-import BrightcoveVideoCard from './BrightcoveVideoCard.js';
+//import AdUnitCard from './AdUnitCard.js';
+//import RecapCard from './RecapCard.js';
+//import SlideshowBobCard from './SlideshowBobCard.js';
+//import InstagramImageCard from './InstagramImageCard.js';
+//import InstagramVideoCard from './InstagramVideoCard.js';
+//import BrightcoveVideoCard from './BrightcoveVideoCard.js';
 
 const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
 
@@ -68,7 +68,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
     this.splash = experience.data.collateral.splash;
     this.deck = map(deck, card => {
         switch (card.type) {
-        case 'image':
+        /*case 'image':
             return new ImageCard(card, experience, profile);
         case 'recap':
             return new RecapCard(card, experience, profile, this);
@@ -84,7 +84,7 @@ function initialize(whitelist, { experience, standalone, interstitial, profile, 
             }
             break;
         case 'brightcove':
-            return new BrightcoveVideoCard(card, experience, profile);
+            return new BrightcoveVideoCard(card, experience, profile);*/
         default:
             return new VideoCard(card, experience, profile);
         }
@@ -187,8 +187,10 @@ export default class MiniReel extends Mixable {
         dispatcher.addClient(MoatHandler);
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
+        /*
         if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
-        if (environment.params.vpaid) { dispatcher.addClient(VPAIDHandler, this.embed); }
+        */
+        //if (environment.params.vpaid) { dispatcher.addClient(VPAIDHandler, this.embed); }
 
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
 

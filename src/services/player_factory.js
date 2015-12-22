@@ -1,26 +1,26 @@
 import YouTubePlayer from '../players/YouTubePlayer.js';
-import VimeoPlayer from '../players/VimeoPlayer.js';
-import VASTPlayer from '../players/VASTPlayer.js';
-import VPAIDPlayer from '../players/VPAIDPlayer.js';
-import DailymotionPlayer from '../players/DailymotionPlayer.js';
-import SlideshowBobPlayer from '../players/SlideshowBobPlayer.js';
-import VinePlayer from '../players/VinePlayer.js';
-import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
-import VzaarPlayer from '../players/VzaarPlayer.js';
-import WistiaPlayer from '../players/WistiaPlayer.js';
-import JWPlayer from '../players/JWPlayer.js';
-import VidyardPlayer from '../players/VidyardPlayer.js';
-import BrightcovePlayer from '../players/BrightcovePlayer.js';
+//import VimeoPlayer from '../players/VimeoPlayer.js';
+//import VASTPlayer from '../players/VASTPlayer.js';
+//import VPAIDPlayer from '../players/VPAIDPlayer.js';
+//import DailymotionPlayer from '../players/DailymotionPlayer.js';
+//import SlideshowBobPlayer from '../players/SlideshowBobPlayer.js';
+//import VinePlayer from '../players/VinePlayer.js';
+//import HtmlVideoPlayer from '../players/HtmlVideoPlayer.js';
+//import VzaarPlayer from '../players/VzaarPlayer.js';
+//import WistiaPlayer from '../players/WistiaPlayer.js';
+//import JWPlayer from '../players/JWPlayer.js';
+//import VidyardPlayer from '../players/VidyardPlayer.js';
+//import BrightcovePlayer from '../players/BrightcovePlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
-        if(card.type === 'instagramVideo') {
+        /*if(card.type === 'instagramVideo') {
             return new HtmlVideoPlayer();
-        }
+        }*/
         switch (card.data.type) {
         case 'youtube':
             return new YouTubePlayer();
-        case 'vimeo':
+        /*case 'vimeo':
             return new VimeoPlayer();
         case 'vast':
             return new VASTPlayer();
@@ -43,7 +43,7 @@ class PlayerFactory {
         case 'htmlvideo':
             return new HtmlVideoPlayer();
         case 'brightcove':
-            return new BrightcovePlayer();
+            return new BrightcovePlayer();*/
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

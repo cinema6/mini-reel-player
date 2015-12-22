@@ -1,11 +1,11 @@
 import PlayerController from '../PlayerController.js';
 import MobilePlayerView from '../../views/mobile/MobilePlayerView.js';
-import TableOfContentsViewController from './TableOfContentsViewController.js';
-import MobileImageCardController from './MobileImageCardController.js';
+//import TableOfContentsViewController from './TableOfContentsViewController.js';
+//import MobileImageCardController from './MobileImageCardController.js';
 import MobileVideoCardController from './MobileVideoCardController.js';
-import MobileRecapCardController from './MobileRecapCardController.js';
-import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
-import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
+//import MobileRecapCardController from './MobileRecapCardController.js';
+//import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
+//import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
 import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
 
 export default class MobilePlayerController extends PlayerController {
@@ -13,21 +13,21 @@ export default class MobilePlayerController extends PlayerController {
         super(...arguments);
 
         this.view = this.addView(new MobilePlayerView());
-        this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
+        //this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
         this.CardControllers = {
-            image: MobileImageCardController,
+            //image: MobileImageCardController,
             video: MobileVideoCardController,
-            recap: MobileRecapCardController,
-            instagramImage: MobileInstagramImageCardController,
-            instagramVideo: MobileInstagramVideoCardController
+            //recap: MobileRecapCardController,
+            //instagramImage: MobileInstagramImageCardController,
+            //instagramVideo: MobileInstagramVideoCardController
         };
 
-        this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
+        //this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
         this.minireel.on('becameUnskippable', () => this.updateView());
         this.minireel.on('becameSkippable', () => this.updateView());
 
-        this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
-        this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
+        //this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
+        //this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
 
         this.initFullscreen();
     }

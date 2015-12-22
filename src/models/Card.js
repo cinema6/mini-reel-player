@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import SafelyGettable from '../mixins/SafelyGettable.js';
-import Post from './Post.js';
+//import Post from './Post.js';
 import Mixable from '../../lib/core/Mixable.js';
 import {
     extend,
@@ -8,7 +8,7 @@ import {
 } from '../../lib/utils.js';
 
 class Card extends Mixable {
-    constructor(card, experience) {
+    constructor(card/*, experience*/) {
         super(...arguments);
 
         this.id = card.id;
@@ -21,8 +21,8 @@ class Card extends Mixable {
         this.modules = reduce(card.modules || [], (modules, module) => {
             const model = ((() => {
                 switch (module) {
-                case 'post':
-                    return new Post(card, experience);
+                /*case 'post':
+                    return new Post(card, experience);*/
                 default:
                     return undefined;
                 }

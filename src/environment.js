@@ -1,5 +1,6 @@
 import urlParser from './services/url_parser.js';
 import typeify from './fns/typeify.js';
+import BrowserInfo from 'rc-browser-info';
 import {
     parse as parseQueryString
 } from 'querystring';
@@ -43,6 +44,8 @@ const storage = {
 
 class Environment {
     constructor() {
+        this.browser = new BrowserInfo(window.navigator.userAgent);
+
         this.debug = !!c6.kDebug;
         this.secure = $$location.protocol === 'https';
         this.apiRoot = c6.kEnvUrlRoot || '//portal.cinema6.com';

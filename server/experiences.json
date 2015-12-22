@@ -472,6 +472,41 @@
                 },
                 {
                     "data": {
+                        "autoplay": true,
+                        "service": "kaltura",
+                        "partnerid": "2054981",
+                        "playerid": "32784031",
+                        "videoid": "1_dsup2iqd",
+                        "href": "",
+                        "thumbs": {
+                            "small": "https://lh4.googleusercontent.com/-7XOxnCrBu9k/AAAAAAAAAAI/AAAAAAAAAKI/yGNCVbp82gE/s0-c-k-no-ns/photo.jpg",
+                            "large": "https://lh4.googleusercontent.com/-7XOxnCrBu9k/AAAAAAAAAAI/AAAAAAAAAKI/yGNCVbp82gE/s0-c-k-no-ns/photo.jpg"
+                        }
+                    },
+                    "id": "rc-86afeb278139",
+                    "type": "kaltura",
+                    "title": "Kewltastic Kaltura",
+                    "note": "Autodesk makes quality, well engineered, bug free software.",
+                    "source": "Kaltura",
+                    "modules": [],
+                    "thumbs": null,
+                    "placementId": null,
+                    "templateUrl": null,
+                    "sponsored": false,
+                    "campaign": {
+                        "campaignId": null,
+                        "advertiserId": null,
+                        "minViewTime": null,
+                        "countUrls": [],
+                        "clickUrls": []
+                    },
+                    "collateral": {},
+                    "links": {},
+                    "shareLinks": {},
+                    "params": {}
+                },
+                {
+                    "data": {
                         "imageid": "16767833635",
                         "service": "flickr",
                         "src": "https://farm8.staticflickr.com/7646/16767833635_e32e25f32d_o.jpg",

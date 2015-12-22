@@ -8,11 +8,11 @@ export default class BrightcovePlayer extends ThirdPartyPlayer {
         
         this.__api__.name = 'BrightcovePlayer';
         this.__api__.loadPlayer = src => {
-            var ids = JSON.parse(src);
-            var iframe = document.createElement('iframe');
+            const ids = JSON.parse(src);
+            const iframe = document.createElement('iframe');
             iframe.setAttribute('src', 'blank.html');
 
-            var video = document.createElement('video');
+            const video = document.createElement('video');
             video.setAttribute('id', ids.videoid);
             video.setAttribute('data-video-id', ids.videoid);
             video.setAttribute('data-account', ids.accountid);
@@ -29,7 +29,7 @@ export default class BrightcovePlayer extends ThirdPartyPlayer {
             video.style.right = '0px';
             video.style.left = '0px';
 
-            var script = document.createElement('script');
+            const script = document.createElement('script');
             script.setAttribute('src', `https://players.brightcove.net/${
                 ids.accountid}/${ids.playerid}_${ids.embedid}/index.min.js`);
 

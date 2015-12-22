@@ -56,7 +56,7 @@ export default class VzaarPlayer extends ThirdPartyPlayer {
                     if(attemptPlay()) {
                         resolve();
                     } else {
-                        var numAttempts = 0;
+                        let numAttempts = 0;
                         const interval = timer.interval(() => {
                             if(attemptPlay()) {
                                 timer.cancel(interval);

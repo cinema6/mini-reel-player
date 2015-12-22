@@ -159,7 +159,7 @@ describe('HtmlVideoPlayer', function() {
             const result = player.__api__.methods.addEventListener(mockApi, 'name', handlerFn);
             expect(mockApi.addEventListener).toHaveBeenCalledWith('name', jasmine.any(Function), false);
             expect(result).toEqual(jasmine.any(Function));
-            var fn = mockApi.addEventListener.calls.mostRecent().args[1];
+            const fn = mockApi.addEventListener.calls.mostRecent().args[1];
             fn();
             process.nextTick(() => {
                 expect(handlerFn).toHaveBeenCalled();

@@ -46,8 +46,8 @@ describe('Brightcove Player', function() {
     });
 
     describe('the loadPlayer function', function() {
-        var mockIframe, mockVideo, mockScript;
-        var success, failure;
+        let mockIframe, mockVideo, mockScript;
+        let success, failure;
         
         beforeEach(function() {
             mockIframe = document.createElement('div');
@@ -125,7 +125,7 @@ describe('Brightcove Player', function() {
         
         describe('when the iframe loads', function() {
             beforeEach(function() {
-                var handlerFn = mockIframe.addEventListener.calls.mostRecent().args[1];
+                const handlerFn = mockIframe.addEventListener.calls.mostRecent().args[1];
                 mockIframe.contentDocument = {
                     body: {
                         appendChild: jasmine.createSpy('appendChild()')
@@ -147,7 +147,7 @@ describe('Brightcove Player', function() {
         
         describe('when the script loads', function() {
             beforeEach(function() {
-                var handlerFn = mockScript.addEventListener.calls.mostRecent().args[1];
+                const handlerFn = mockScript.addEventListener.calls.mostRecent().args[1];
                 mockIframe.contentWindow = {
                     videojs: jasmine.createSpy('videojs()').and.returnValue(mockApi)
                 };
@@ -168,7 +168,7 @@ describe('Brightcove Player', function() {
             
             describe('when metadata is loaded', function() {
                 beforeEach(function() {
-                    var handlerFn = mockApi.one.calls.mostRecent().args[1];
+                    const handlerFn = mockApi.one.calls.mostRecent().args[1];
                     mockApi.duration.and.returnValue(123);
                     handlerFn();
                 });

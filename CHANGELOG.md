@@ -1,7 +1,7 @@
 # MiniReel Player 2.0
 
-## v2.3.5
-* *[v2.3.5-rc1]*
+* *[v2.4.0-rc1]*
+  * [FEATURE]: Add support for Kaltura videos
   * [FIX]: Media queries for desktop-card ad unit sizes smoother
 
 ## v2.3.4 (December 22, 2015)

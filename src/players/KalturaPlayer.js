@@ -38,6 +38,9 @@ export default class KalturaPlayer extends ThirdPartyPlayer {
                                 },
                                 KalturaSupport: {
                                     LeadWithHTML5: true
+                                },
+                                controlBarContainer: {
+                                    plugin: this.controls
                                 }
                             },
                             /* jshint camelcase:false */
@@ -85,11 +88,6 @@ export default class KalturaPlayer extends ThirdPartyPlayer {
             },
             volume: (api, volume) => {
                 api.sendNotification('changeVolume', volume);
-            },
-            controls: (api, showControls) => {
-                api.sendNotification('enableGui', {
-                    guiEnabled: showControls
-                });
             }
         };
 
@@ -131,6 +129,9 @@ export default class KalturaPlayer extends ThirdPartyPlayer {
             },
             unmute: () => {
                 this.__setProperty__('muted', false);
+            },
+            mediaError: errorEvent => {
+                this.__setProperty__('error', errorEvent);
             }
         };
 

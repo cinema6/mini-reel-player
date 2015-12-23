@@ -79,6 +79,7 @@ describe('Kaltura Player', function() {
             
             describe('embedding the player in the afterRender queue', function() {
                 beforeEach(function() {
+                    player.__private__.state.set('controls', false);
                     Runner.schedule.calls.mostRecent().args[2]();
                 });
                 
@@ -101,6 +102,9 @@ describe('Kaltura Player', function() {
                             },
                             KalturaSupport: {
                                 LeadWithHTML5: true
+                            },
+                            controlBarContainer: {
+                                plugin: false
                             }
                         },
                         /* jshint camelcase:false */
@@ -169,18 +173,6 @@ describe('Kaltura Player', function() {
             player.__api__.methods.volume(mockApi, 0.5);
             expect(mockApi.sendNotification).toHaveBeenCalledWith('changeVolume', 0.5);
         });
-        
-        it('should implement controls', function() {
-            player.__api__.methods.controls(mockApi, false);
-            expect(mockApi.sendNotification).toHaveBeenCalledWith('enableGui', {
-                guiEnabled: false
-            });
-            mockApi.sendNotification.calls.reset();
-            player.__api__.methods.controls(mockApi, true);
-            expect(mockApi.sendNotification).toHaveBeenCalledWith('enableGui', {
-                guiEnabled: true
-            });
-        });
     });
 
     describe('the implemented api events', function() {
@@ -248,6 +240,11 @@ describe('Kaltura Player', function() {
         it('should handle the unmute event', function() {
             player.__api__.events.unmute();
             expect(player.__setProperty__).toHaveBeenCalledWith('muted', false);
+        });
+        
+        it('should handle the mediaError event', function() {
+            player.__api__.events.mediaError('epic fail');
+            expect(player.__setProperty__).toHaveBeenCalledWith('error', 'epic fail');
         });
     });
     

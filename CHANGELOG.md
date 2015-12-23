@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+## v2.3.5
+* *[v2.3.5-rc1]*
+  * [FIX]: Media queries for desktop-card ad unit sizes smoother
+
 ## v2.3.4 (December 22, 2015)
 * *[v2.3.4-rc1]*
   * [FIX]: Fix for an issue that caused social sharing windows not to

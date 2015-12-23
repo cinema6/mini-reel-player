@@ -41,15 +41,12 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
             video.setAttribute('src', src);
             video.setAttribute('poster', poster);
             video.setAttribute('webkit-playsinline', '');
+            video.setAttribute('preload', 'auto');
+            video.controls = this.controls;
             return new RunnerPromise(resolve => {
                 Runner.schedule('afterRender', null, () => {
-                    const loadstartFn = () => process.nextTick(() => Runner.run(() => {
-                        video.removeEventListener('loadstart', loadstartFn, false);
-                        video.controls = true;
-                        resolve(video);
-                    }));
-                    video.addEventListener('loadstart', loadstartFn, false);
                     this.element.appendChild(video);
+                    resolve(video);
                 });
             });
         };

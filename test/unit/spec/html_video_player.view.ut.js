@@ -51,8 +51,39 @@ describe('HtmlVideoPlayer', function() {
             expect(mockApi.setAttribute).toHaveBeenCalledWith('src', 'john_cena.mp4');
             expect(mockApi.setAttribute).toHaveBeenCalledWith('poster', 'image.jpg');
             expect(mockApi.setAttribute).toHaveBeenCalledWith('webkit-playsinline', '');
+            expect(mockApi.setAttribute).toHaveBeenCalledWith('preload', 'auto');
         });
         
+        describe('setting the video controls', function() {
+            beforeEach(function() {
+                spyOn(player.__private__.state, 'get');
+            });
+            
+            it('should set them to true if the players controls are true', function(done) {
+                player.__private__.state.get.and.callFake(prop => {
+                    return (prop === 'controls');
+                });
+                Runner.run(() => {
+                    player.__api__.loadPlayer('john_cena.mp4', 'image.jpg').then(() => {
+                        expect(mockApi.controls).toBe(true);
+                        process.nextTick(done);
+                    }, done.fail);
+                });
+            });
+            
+            it('should set them to false if the players controls are false', function(done) {
+                player.__private__.state.get.and.callFake(prop => {
+                    return (prop !== 'controls');
+                });
+                Runner.run(() => {
+                    player.__api__.loadPlayer('john_cena.mp4', 'image.jpg').then(() => {
+                        expect(mockApi.controls).toBe(false);
+                        process.nextTick(done);
+                    }, done.fail);
+                });
+            });
+        });
+
         it('should append the video', function() {
             Runner.run(() => {
                 player.__api__.loadPlayer('john_cena.mp4');
@@ -60,18 +91,10 @@ describe('HtmlVideoPlayer', function() {
             expect(player.element.appendChild).toHaveBeenCalledWith(mockApi);
         });
         
-        it('should resolve once the video has started to load', function(done) {
-            mockApi.addEventListener.and.callFake((name, handler) => {
-                if(name === 'loadstart') {
-                    handler();
-                }
-            });
+        it('should resolve', function(done) {
             Runner.run(() => {
                 player.__api__.loadPlayer('john_cena.mp4').then(api => {
                     expect(api).toBe(mockApi);
-                    expect(mockApi.addEventListener).toHaveBeenCalledWith('loadstart', jasmine.any(Function), false);
-                    const handler = mockApi.addEventListener.calls.mostRecent().args[1];
-                    expect(mockApi.removeEventListener).toHaveBeenCalledWith('loadstart', handler, false);
                     process.nextTick(done);
                 }).catch(error => {
                     expect(error).not.toBeDefined();

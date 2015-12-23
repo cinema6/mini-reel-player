@@ -1,9 +1,26 @@
 # MiniReel Player 2.0
 
+## v2.3.5
+* *[v2.3.5-rc1]*
+  * [FIX]: Media queries for desktop-card ad unit sizes smoother
+
+## v2.3.4 (December 22, 2015)
+* *[v2.3.4-rc1]*
+  * [FIX]: Fix for an issue that caused social sharing windows not to
+    open
+* *[/v2.3.4-rc1]*
+
+## v2.3.3 (December 22, 2015)
+* *[v2.3.3-rc2]*
+  * [FIX]: Fix for an issue that prevented Instagram videos from playing in an MRAID environment
+* *[/v2.3.3-rc2]*
+
 * *[v2.3.3-rc1]*
   * [FIX]: Ensure Instagram videos play inline in mobile apps
   * [FIX]: Ensure Brightcove videos play inline in mobile apps
-  * [FIX]: Media queries for desktop-card ad unit sizes smoother
+  * [PERFORMANCE]: Always autoplay videos on desktop devices (based on
+    user-agent)
+* *[/v2.3.3-rc1]*
 
 ## v2.3.2 (December 18, 2015)
 * *[v2.3.2-rc1]*

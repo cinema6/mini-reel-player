@@ -18,6 +18,7 @@ import Card from '../../../src/models/Card.js';
 import ImageCard from '../../../src/models/ImageCard.js';
 import VideoCard from '../../../src/models/VideoCard.js';
 import BrightcoveVideoCard from '../../../src/models/BrightcoveVideoCard.js';
+import KalturaVideoCard from '../../../src/models/KalturaVideoCard.js';
 import AdUnitCard from '../../../src/models/AdUnitCard.js';
 import RecapCard from '../../../src/models/RecapCard.js';
 import browser from '../../../src/services/browser.js';
@@ -683,6 +684,40 @@ describe('MiniReel', function() {
                   "title": "Birdz, Beautifully Blue: Brought to you By Brightcove",
                   "note": null,
                   "source": "Brightcove",
+                  "modules": [],
+                  "thumbs": null,
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                      "campaignId": null,
+                      "advertiserId": null,
+                      "minViewTime": null,
+                      "countUrls": [],
+                      "clickUrls": []
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "shareLinks": {},
+                  "params": {}
+              },
+              {
+                  "data": {
+                      "service": "kaltura",
+                      "partnerid": "2054981",
+                      "playerid": "32784031",
+                      "videoid": "1_dsup2iqd",
+                      "href": "",
+                      "thumbs": {
+                          "small": "https://lh4.googleusercontent.com/-7XOxnCrBu9k/AAAAAAAAAAI/AAAAAAAAAKI/yGNCVbp82gE/s0-c-k-no-ns/photo.jpg",
+                          "large": "https://lh4.googleusercontent.com/-7XOxnCrBu9k/AAAAAAAAAAI/AAAAAAAAAKI/yGNCVbp82gE/s0-c-k-no-ns/photo.jpg"
+                      }
+                  },
+                  "id": "rc-86afeb278139",
+                  "type": "kaltura",
+                  "title": "Kewltastic Kaltura",
+                  "note": "Autodesk makes quality, well engineered, bug free software.",
+                  "source": "Kaltura",
                   "modules": [],
                   "thumbs": null,
                   "placementId": null,
@@ -1869,6 +1904,7 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(ImageCard),
                 jasmine.any(BrightcoveVideoCard),
+                jasmine.any(KalturaVideoCard),
                 jasmine.any(RecapCard)
             ]);
         });
@@ -1886,7 +1922,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(18);
+            expect(minireel.length).toBe(19);
         });
     });
 
@@ -1941,7 +1977,8 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
-                jasmine.any(BrightcoveVideoCard)
+                jasmine.any(BrightcoveVideoCard),
+                jasmine.any(KalturaVideoCard)
             ]);
         });
     });

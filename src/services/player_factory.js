@@ -11,6 +11,7 @@ import WistiaPlayer from '../players/WistiaPlayer.js';
 import JWPlayer from '../players/JWPlayer.js';
 import VidyardPlayer from '../players/VidyardPlayer.js';
 import BrightcovePlayer from '../players/BrightcovePlayer.js';
+import KalturaPlayer from '../players/KalturaPlayer.js';
 
 class PlayerFactory {
     playerForCard(card) {
@@ -44,6 +45,8 @@ class PlayerFactory {
             return new HtmlVideoPlayer();
         case 'brightcove':
             return new BrightcovePlayer();
+        case 'kaltura':
+            return new KalturaPlayer();
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

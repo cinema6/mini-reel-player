@@ -101,7 +101,7 @@ describe('WistiaPlayer', function() {
         });
 
         describe('when the iframe loads', function() {
-            var api;
+            let api;
             
             beforeEach(function(done) {
                 player.__api__.loadPlayer('some src').then(result => {

@@ -14,6 +14,7 @@ import WistiaPlayer from '../../../src/players/WistiaPlayer.js';
 import JWPlayer from '../../../src/players/JWPlayer.js';
 import VidyardPlayer from '../../../src/players/VidyardPlayer.js';
 import BrightcovePlayer from '../../../src/players/BrightcovePlayer.js';
+import KalturaPlayer from '../../../src/players/KalturaPlayer.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -202,6 +203,22 @@ describe('playerFactory', function() {
 
                 it('should be a BrightcovePlayer', function() {
                     expect(result).toEqual(jasmine.any(BrightcovePlayer));
+                });
+            });
+            
+            describe('if the card is from Kaltura', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'kaltura',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = playerFactory.playerForCard(card);
+                });
+                
+                it('should be a KalturaPlayer', function() {
+                    expect(result).toEqual(jasmine.any(KalturaPlayer));
                 });
             });
 

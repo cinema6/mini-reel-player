@@ -125,7 +125,7 @@ describe('Vidyard Player', function() {
                 player.__private__.state.set('paused', false);
                 player.__api__.methods.play(new MockApi()).then(() => {
                     expect(MockApi.prototype.play).toHaveBeenCalled();
-                    var callCount = MockApi.prototype.play.calls.count();
+                    const callCount = MockApi.prototype.play.calls.count();
                     expect(callCount).toBe(1);
                     process.nextTick(done);
                 });
@@ -133,7 +133,7 @@ describe('Vidyard Player', function() {
 
             it('should be able to retry the attempt to play the video', function(done) {
                 player.__private__.state.set('paused', true);
-                var callCount = 0;
+                let callCount = 0;
                 MockApi.prototype.play.and.callFake(() => {
                     callCount++;
                     if(callCount === 5) {
@@ -144,7 +144,7 @@ describe('Vidyard Player', function() {
                 player.__api__.methods.play(new MockApi()).then(() => {
                     const elapsed = Date.now() - startTime;
                     expect(MockApi.prototype.play).toHaveBeenCalled();
-                    var callCount = MockApi.prototype.play.calls.count();
+                    const callCount = MockApi.prototype.play.calls.count();
                     expect(callCount).toBe(5);
                     expect(elapsed).toBeGreaterThan(2000);
                     process.nextTick(done);

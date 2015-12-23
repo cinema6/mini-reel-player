@@ -3,6 +3,7 @@
 * *[v2.4.0-rc1]*
   * [FEATURE]: Add support for Kaltura videos
   * [FIX]: Media queries for desktop-card ad unit sizes smoother
+  * [DEV]: Use different source-minifying tool
 
 ## v2.3.4 (December 22, 2015)
 * *[v2.3.4-rc1]*

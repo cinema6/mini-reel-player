@@ -102,9 +102,6 @@ describe('Kaltura Player', function() {
                             },
                             KalturaSupport: {
                                 LeadWithHTML5: true
-                            },
-                            controlBarContainer: {
-                                plugin: false
                             }
                         },
                         /* jshint camelcase:false */

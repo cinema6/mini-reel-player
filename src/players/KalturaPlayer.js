@@ -38,9 +38,6 @@ export default class KalturaPlayer extends ThirdPartyPlayer {
                                 },
                                 KalturaSupport: {
                                     LeadWithHTML5: true
-                                },
-                                controlBarContainer: {
-                                    plugin: this.controls
                                 }
                             },
                             /* jshint camelcase:false */

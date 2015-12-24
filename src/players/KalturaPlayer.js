@@ -14,7 +14,7 @@ export default class KalturaPlayer extends ThirdPartyPlayer {
             const random = Math.floor(Math.random() * 9000000000) + 1000000000;
             const containerId = `kaltura_player_${random}`;
             codeLoader.configure('kaltura', {
-                src: `http://cdnapi.kaltura.com/p/${ids.partnerid}/sp/${ids.partnerid}00/` +
+                src: `https://cdnapisec.kaltura.com/p/${ids.partnerid}/sp/${ids.partnerid}00/` +
                     `embedIframeJs/uiconf_id/${ids.playerid}/partner_id/${ids.partnerid}`,
                 after() {
                     return global.kWidget;

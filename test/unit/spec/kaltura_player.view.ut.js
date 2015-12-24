@@ -53,7 +53,7 @@ describe('Kaltura Player', function() {
         
         it('should configure the codeLoader', function() {
             expect(codeLoader.configure).toHaveBeenCalledWith('kaltura', {
-                src: 'https://cdnapisec.kaltura.com/p/2054981/sp/205498100/embedIframeJs/uiconf_id/32784031/partner_id/2054981',
+                src: 'http://cdnapi.kaltura.com/p/2054981/sp/205498100/embedIframeJs/uiconf_id/32784031/partner_id/2054981',
                 after: jasmine.any(Function)
             });
         });
@@ -102,9 +102,6 @@ describe('Kaltura Player', function() {
                             },
                             KalturaSupport: {
                                 LeadWithHTML5: true
-                            },
-                            controlBarContainer: {
-                                plugin: false
                             }
                         },
                         /* jshint camelcase:false */

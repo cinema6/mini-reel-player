@@ -1,15 +1,6 @@
 import environment from '../../../src/environment.js';
 import BrowserInfo from 'rc-browser-info';
-import typeify from '../../../src/fns/typeify.js';
-import {
-    extend
-} from '../../../lib/utils.js';
-import {
-    parse as parseURL
-} from 'url';
-import {
-    basename
-} from 'path';
+import resource from '../../../src/services/resource.js';
 
 describe('environment', function() {
     let c6;
@@ -94,45 +85,18 @@ describe('environment', function() {
         });
 
         describe('params', function() {
-            it('should be the parsed query params of the page', function() {
-                expect(environment.params).toEqual(typeify(parseURL(window.location.href, true).query));
-            });
-
-            describe('if there is a c6.kParams object', function() {
-                beforeEach(function() {
-                    c6.kParams = { foo: 'bar' };
-                    environment.constructor();
-                });
-
-                afterEach(function() {
-                    delete c6.kParams;
-                });
-
-                it('should be that object', function() {
-                    expect(environment.params).toEqual(extend({ autoLaunch: false }, c6.kParams));
-                });
+            it('should be the options resource', function() {
+                expect(environment.params).toEqual(resource.getSync('options'));
             });
         });
 
         describe('mode', function() {
             beforeEach(function() {
-                c6.kMode = 'mobile';
                 environment.constructor();
             });
 
-            it('should be the value of c6.kMode', function() {
-                expect(environment.mode).toBe(c6.kMode);
-            });
-
-            describe('if there is no kMode', function() {
-                beforeEach(function() {
-                    delete c6.kMode;
-                    environment.constructor();
-                });
-
-                it('should be the basename() of the page', function() {
-                    expect(environment.mode).toBe(basename(parseURL(window.location.href).pathname));
-                });
+            it('should be the value of the "type" option', function() {
+                expect(environment.mode).toBe(environment.params.type);
             });
         });
 

@@ -20,6 +20,23 @@ try {
     };
 } catch(e) {}
 
+{
+    const options = document.createElement('script');
+
+    options.setAttribute('type', 'application/json');
+    options.setAttribute('data-src', 'options');
+    options.innerHTML = JSON.stringify({
+        container: 'standalone',
+        context: 'standalone',
+        standalone: true,
+        type: 'full-np',
+        mobileType: 'mobile',
+        preview: true
+    });
+
+    document.head.appendChild(options);
+}
+
 beforeEach(function() {
     jasmine.addMatchers({
         toImplement() {

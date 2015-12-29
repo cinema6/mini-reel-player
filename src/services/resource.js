@@ -10,20 +10,23 @@ class Resource {
         _(this).cache = {};
     }
 
-    get(src) {
+    getSync(src) {
         const node = document.querySelector(`head script[data-src="${src}"]`);
-        const { cache } = _(this);
 
         if (!node) {
-            return RunnerPromise.reject(new Error(`Could not find resource [${src}].`));
+            throw new Error(`Could not find resource [${src}].`);
         }
 
         const type = node.getAttribute('type');
         const text = node.textContent;
 
-        return cache[src] || (cache[src] = RunnerPromise.resolve(
-            (type === JSON_MIME) ? JSON.parse(text) : text
-        ));
+        return (type === JSON_MIME) ? JSON.parse(text) : text;
+    }
+
+    get(src) {
+        const { cache } = _(this);
+
+        return cache[src] || (cache[src] = RunnerPromise.resolve().then(() => this.getSync(src)));
     }
 }
 

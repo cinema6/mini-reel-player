@@ -16,6 +16,61 @@ describe('resource', function() {
     });
 
     describe('methods:', function() {
+        describe('getSync(src)', function() {
+            let json, text;
+            let success, failure;
+            let result;
+
+            beforeEach(function() {
+                json = document.createElement('script');
+                json.setAttribute('type', 'application/json');
+                json.setAttribute('data-src', 'json-resource');
+                json.innerText = JSON.stringify({ hello: 'world', foo: 'bar' });
+
+                text = document.createElement('script');
+                text.setAttribute('type', 'text/plain');
+                text.setAttribute('data-src', 'text-resource');
+                text.innerText = JSON.stringify({ hey: 'there' });
+
+                success = jasmine.createSpy('success()');
+                failure = jasmine.createSpy('failure()');
+
+                document.head.appendChild(json);
+                document.head.appendChild(text);
+            });
+
+            afterEach(function() {
+                document.head.removeChild(json);
+                document.head.removeChild(text);
+            });
+
+            describe('if called with a non-existent src', function() {
+                it('should return a rejected RunnerPromise', function() {
+                    expect(() => resource.getSync('some-thing')).toThrow(new Error('Could not find resource [some-thing].'));
+                });
+            });
+
+            describe('if called with the src of a JSON resource', function() {
+                beforeEach(function() {
+                    result = resource.getSync('json-resource');
+                });
+
+                it('should return a RunnerPromise that fulfills with the parsed JSON', function() {
+                    expect(result).toEqual(JSON.parse(json.innerText));
+                });
+            });
+
+            describe('if called with the src of a text resource', function() {
+                beforeEach(function() {
+                    result = resource.getSync('text-resource');
+                });
+
+                it('should return a RunnerPromise that fulfills with the text', function() {
+                    expect(result).toEqual(text.innerText);
+                });
+            });
+        });
+
         describe('get(src)', function() {
             let json, text;
             let success, failure;

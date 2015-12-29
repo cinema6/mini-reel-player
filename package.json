@@ -24,6 +24,7 @@
     "Joshua D. Minzner <josh@cinema6.com>"
   ],
   "devDependencies": {
+    "aws-sdk": "^2.2.26",
     "babel-core": "~6.2.1",
     "babel-plugin-check-es2015-constants": "~6.2.0",
     "babel-plugin-external-helpers-2": "~6.1.18",

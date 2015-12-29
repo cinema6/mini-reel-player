@@ -125,7 +125,12 @@ module.exports = function(httpMock) {
             },
             defaults: {
                 origin: 'http://www.cinema6.com/',
-                mobileType: 'mobile'
+                context: 'standalone',
+                container: 'standalone',
+                mobileType: 'mobile',
+                standalone: true,
+                interstitial: false,
+                autoLaunch: true
             },
             validTypes: grunt.config.get('package.builds')
         });

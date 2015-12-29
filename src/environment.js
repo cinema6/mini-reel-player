@@ -1,16 +1,9 @@
 import urlParser from './services/url_parser.js';
-import typeify from './fns/typeify.js';
 import BrowserInfo from 'rc-browser-info';
 import {
-    parse as parseQueryString
-} from 'querystring';
-import {
-    basename
-} from 'path';
-import {
-    reduce,
-    extend
+    reduce
 } from '../lib/utils.js';
+import resource from './services/resource.js';
 
 /*jshint scripturl:true*/
 const c6 = global.c6 || {};
@@ -49,10 +42,8 @@ class Environment {
         this.debug = !!c6.kDebug;
         this.secure = $$location.protocol === 'https';
         this.apiRoot = c6.kEnvUrlRoot || '//portal.cinema6.com';
-        this.mode = c6.kMode || basename($location.pathname);
-        this.params = c6.kParams ?
-            extend({ autoLaunch: false }, c6.kParams) :
-            typeify(parseQueryString($location.search));
+        this.params = resource.getSync('options');
+        this.mode = this.params.type;
 
         this.protocol = (/https?/.test($$location.protocol) ? $$location.protocol : 'https') + ':';
         this.hostname = $$location.hostname;

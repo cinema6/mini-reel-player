@@ -58,7 +58,8 @@ function getCardType(card) {
     }
 }
 
-function initialize(whitelist, { experience, standalone, interstitial, profile, autoLaunch }) { // jshint ignore:line
+function initialize(whitelist, experience, profile) {
+    const { standalone, interstitial, autoLaunch } = environment.params;
     const deck = filter(experience.data.deck, card => whitelist.indexOf(getCardType(card)) > -1);
 
     this.standalone = standalone;
@@ -206,19 +207,7 @@ export default class MiniReel extends Mixable {
             resource.get('experience').catch(() => this.embed.getExperience()),
             browser.getProfile()
         ]).then(([experience, profile]) => {
-            const {
-                standalone = true, // jshint ignore:line
-                interstitial = false, // jshint ignore:line
-                autoLaunch = true // jshint ignore:line
-            } = environment.params; // jshint ignore:line
-
-            initialize.call(this, whitelist, {
-                experience,
-                profile,
-                standalone,
-                interstitial,
-                autoLaunch
-            });
+            initialize.call(this, whitelist, experience, profile);
 
             getReady().then(ready => ready());
         }).catch(error => this.emit('error', error));

@@ -1667,52 +1667,6 @@ describe('MiniReel', function() {
             });
         });
 
-        describe('if standalone is not defined', function() {
-            beforeEach(function(done) {
-                delete environment.params.standalone;
-
-                experienceDeferred.fulfill(experience);
-
-                minireel = new MiniReel();
-                minireel.once('init', () => process.nextTick(done));
-            });
-
-            it('should be set to true', function() {
-                expect(minireel.standalone).toBe(true);
-            });
-        });
-
-        describe('if interstitial is not defined', function() {
-            beforeEach(function(done) {
-                delete environment.params.interstitial;
-
-                experienceDeferred.fulfill(experience);
-
-                minireel = new MiniReel();
-                minireel.once('init', () => process.nextTick(done));
-            });
-
-            it('should be set to false', function() {
-                expect(minireel.interstitial).toBe(false);
-            });
-        });
-
-        describe('if autoLaunch is not defined', function() {
-            beforeEach(function(done) {
-                delete environment.params.autoLaunch;
-
-                experienceDeferred.fulfill(experience);
-
-                minireel = new MiniReel();
-                spyOn(minireel, 'moveToIndex');
-                minireel.once('init', () => process.nextTick(done));
-            });
-
-            it('should launch the MiniReel', function() {
-                expect(minireel.moveToIndex).toHaveBeenCalledWith(0);
-            });
-        });
-
         describe('if standalone is true', function() {
             beforeEach(function(done) {
                 environment.params.standalone = true;

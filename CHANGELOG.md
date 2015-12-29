@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v2.4.1-rc1]*
+  * [REFACTOR]: Clean-up the code the player uses to get its
+    configuration options
+
 ## v2.4.0 (December 23, 2015)
 * *[v2.4.0-rc3]*
   * [FIX]: CSS styles for desktop-card CTA reverted to v2.3.4 with some minor adjustments

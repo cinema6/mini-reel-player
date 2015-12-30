@@ -3,6 +3,8 @@
 * *[v2.4.1-rc1]*
   * [REFACTOR]: Clean-up the code the player uses to get its
     configuration options
+  * [FIX]: Fix for an issue that caused the player to fetch images that
+    do not exist
 
 ## v2.4.0 (December 23, 2015)
 * *[v2.4.0-rc3]*

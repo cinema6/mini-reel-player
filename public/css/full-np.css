@@ -46,9 +46,10 @@
         ============================================= */
         @import url('global/instagram-card.css');
 
-    /*  override global styles
+    /*  instagram card override classes
         ============================================= */
-        @import url('full-np/full-np__global.css');
+        @import url('full-np/instagram-card.css');
+
     /*  social share modal styles
         popup : portrait view
         popup : landscape view

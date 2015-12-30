@@ -32,7 +32,7 @@
         <span data-if="website.logo"
             data-view="logoView:LinkItemView" data-model="website"
             data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">
-            <img src="{{logo}}" alt="{{text}}" class="sponsorProfile__img">
+            <img tb-src="{{logo}}" alt="{{text}}" class="sponsorProfile__img">
         </a></span>
         <div data-if="hasSponsoredCopy" class="sponsorProfile__copy">
             <p data-if="sponsor"

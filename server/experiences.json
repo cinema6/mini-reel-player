@@ -21,7 +21,7 @@
             "campaign": {},
             "collateral": {
                 "splash": "http://staging.cinema6.com/collateral/experiences/e-2f086d707350b8/splash",
-                "logo": "https://pbs.twimg.com/profile_images/1764819620/Pando_Twitter_Logo_400x400.jpg"
+                "logo": "https://pbs.twimg.com/profile_images/618599793888239616/cnNK6_VF_400x400.png"
             },
             "splash": {
                 "source": "specified",
@@ -1268,8 +1268,8 @@
                             "creative": "Creative 1"
                         },
                         "thumbs": {
-                            "small": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg",
-                            "large": "http://colorlines.com/assets_c/2011/08/Aziz-Ansari-racism-hollywood-thumb-640xauto-3843.jpg"
+                            "small": "http://www.nripulse.com/wp-content/uploads/2015/10/AzizAnsari.jpg",
+                            "large": "http://www.nripulse.com/wp-content/uploads/2015/10/AzizAnsari.jpg"
                         }
                     },
                     "type": "vimeo",

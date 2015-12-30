@@ -3,6 +3,7 @@
 * *[v2.4.1-rc1]*
   * [REFACTOR]: Clean-up the code the player uses to get its
     configuration options
+  * [REFACTOR]: Clean-up the CSS Instagram code for full-np and lightbox. Overrides for global instagram styles are now in the instagram-card.css file in respective player css folder instead of [player-name]__global.css
   * [FIX]: Fix for an issue that caused the player to fetch images that
     do not exist
 

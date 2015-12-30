@@ -117,7 +117,7 @@
                     }
                     .page__btn {
                         cursor: pointer;
-                        background:black url('../img/default_square.jpg') 50% 50% / cover no-repeat;
+                        background:black url('../../img/default_square.jpg') 50% 50% / cover no-repeat;
                     }
                         .page__btn:before {
                             content:'';

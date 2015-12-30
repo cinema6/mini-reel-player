@@ -40,7 +40,7 @@
 
             .recap__imgBox {
                 width:8em; height:5em;
-                background:url('../img/default_square.jpg') 50% 50% / cover no-repeat;
+                background:url('../../img/default_square.jpg') 50% 50% / cover no-repeat;
                 float:left;
                 margin:0 1em 0 3em;
             }

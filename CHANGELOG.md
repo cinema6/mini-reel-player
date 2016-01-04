@@ -6,6 +6,7 @@
   * [REFACTOR]: Clean-up the CSS Instagram code for full-np and lightbox. Overrides for global instagram styles are now in the instagram-card.css file in respective player css folder instead of [player-name]__global.css
   * [FIX]: Fix for an issue that caused the player to fetch images that
     do not exist
+  * [FIX]: Media queries for desktop-card cleaned up and supports all necessary ad unit sizes.
 
 ## v2.4.0 (December 23, 2015)
 * *[v2.4.0-rc3]*

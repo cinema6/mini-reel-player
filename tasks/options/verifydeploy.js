@@ -2,7 +2,7 @@ var grunt = require('grunt');
 
 module.exports = {
     options: {
-        awsRegion: 'us-east-1',
+        aws: '<%= settings.aws %>',
         protocol: 'http',
         pathname: '/api/players/meta',
 

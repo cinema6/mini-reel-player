@@ -1,5 +1,6 @@
 # MiniReel Player 2.0
 
+## v2.4.1 (January 5, 2016)
 * *[v2.4.1-rc1]*
   * [REFACTOR]: Clean-up the code the player uses to get its
     configuration options
@@ -7,6 +8,7 @@
   * [FIX]: Fix for an issue that caused the player to fetch images that
     do not exist
   * [FIX]: Media queries for desktop-card cleaned up and supports all necessary ad unit sizes.
+* *[/v2.4.1-rc1]*
 
 ## v2.4.0 (December 23, 2015)
 * *[v2.4.0-rc3]*

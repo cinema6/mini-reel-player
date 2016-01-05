@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.4.1 (January 5, 2016)
+* *[v2.4.1-rc3]*
+  * [FIX]: Fix for an issue that broke the player in IE
+* *[/v2.4.1-rc3]*
+
 * *[v2.4.1-rc2]*
   * [FIX]: Fix for an issue that caused deployments to fail
 * *[/v2.4.1-rc2]*

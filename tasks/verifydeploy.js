@@ -16,7 +16,7 @@ module.exports = function verifyDeployFactory(grunt) {
         /* jshint validthis:true */
         var options = this.options({
             // required options:
-            awsRegion: undefined, // aws region (to configure the aws SDK)
+            aws: undefined, // aws config (to configure the aws SDK)
             asgNames: undefined, // Array of ASG names to check
 
             // optional options:
@@ -30,10 +30,7 @@ module.exports = function verifyDeployFactory(grunt) {
             json: true // Boolean indicating if the response body should be parsed as JSON.
         });
         var done = this.async();
-        var awsConfig = {
-            region: options.awsRegion
-        };
-        var asg = Bluebird.promisifyAll(new AWS.AutoScaling(awsConfig));
+        var asg = Bluebird.promisifyAll(new AWS.AutoScaling(options.aws));
 
         function checkURL(url) {
             return request.get(url, { json: options.json }).then(function check(response) {
@@ -57,7 +54,7 @@ module.exports = function verifyDeployFactory(grunt) {
                     return instance.InstanceId;
                 });
             }));
-            var ec2 = Bluebird.promisifyAll(new AWS.EC2(awsConfig));
+            var ec2 = Bluebird.promisifyAll(new AWS.EC2(options.aws));
 
             grunt.log.writeln('Describing ' + instanceIds.length + ' EC2 instances.');
 

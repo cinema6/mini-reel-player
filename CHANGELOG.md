@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.4.1 (January 5, 2016)
+* *[v2.4.1-rc2]*
+  * [FIX]: Fix for an issue that caused deployments to fail
+* *[/v2.4.1-rc2]*
+
 * *[v2.4.1-rc1]*
   * [REFACTOR]: Clean-up the code the player uses to get its
     configuration options

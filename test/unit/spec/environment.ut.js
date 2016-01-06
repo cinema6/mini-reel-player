@@ -141,17 +141,6 @@ describe('environment', function() {
             });
         });
 
-        describe('initTime', function() {
-            beforeEach(function() {
-                c6.kStartTime = Date.now();
-                environment.constructor();
-            });
-
-            it('should be c6.kStartTime', function() {
-                expect(environment.initTime).toBe(c6.kStartTime);
-            });
-        });
-
         describe('loadStartTime', function() {
             it('should be the requestStart from the navigation performance API', function() {
                 expect(environment.loadStartTime).toBe(window.performance.timing.requestStart);

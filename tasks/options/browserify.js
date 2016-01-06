@@ -1,20 +1,14 @@
 'use strict';
 
 var builds = require('../../package.json').builds;
+var buildConfig = require('../../build.json');
 
 module.exports = {
     options: {
         browserifyOptions: {
             debug: true
         },
-        transform: [
-            ['babelify', require('../../tasks/resources/babel.config.js')],
-            ['partialify']
-        ],
-        postBundleCB: function(err, src, next) {
-            src = 'window.c6.kStartTime = new Date().getTime();' + src;
-            next(err, src);
-        }
+        transform: buildConfig.browserify.transforms
     },
     tmp: {
         options: {

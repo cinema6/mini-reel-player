@@ -1,3 +1,5 @@
+var buildConfig = require('../../build.json');
+
 module.exports = function(config) {
     config.set({
         frameworks: ['browserify', 'jasmine'],
@@ -15,10 +17,7 @@ module.exports = function(config) {
 
         browserify: {
             debug: true,
-            transform: [
-                ['babelify', require('../../tasks/resources/babel.config.js')],
-                ['partialify']
-            ]
+            transform: buildConfig.browserify.transforms
         }
     });
 };

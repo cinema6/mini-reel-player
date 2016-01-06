@@ -5,7 +5,7 @@
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
     "test": "grunt test:unit",
-    "postinstall": "cd ./tasks/resources/c6embed-server && npm install"
+    "babel-external-helpers": "babel-external-helpers > ./ext/external-helpers.js"
   },
   "builds": [
     "mobile",
@@ -87,6 +87,7 @@
     "underscore": "^1.7.0"
   },
   "dependencies": {
+    "babel-cli": "^6.3.17",
     "deep-freeze-node": "~1.1.1",
     "es6-promise": "^2.0.1",
     "escape-regexp": "0.0.1",
@@ -94,11 +95,11 @@
     "prefix": "0.2.2",
     "private-parts": "^0.4.1",
     "raf.js": "0.0.4",
+    "rc-browser-info": "^1.0.0",
     "rc-post-message-session": "^1.0.1",
     "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js#v0.3.2",
     "weak-map": "^1.0.5",
-    "whatwg-fetch": "^0.7.0",
-    "rc-browser-info": "^1.0.0"
+    "whatwg-fetch": "^0.7.0"
   },
   "directories": {
     "test": "test"

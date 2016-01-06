@@ -1,3 +1,5 @@
+var buildConfig = require('../../build.json');
+
 module.exports = function(config) {
     process.env.BROWSERIFYSWAP_ENV = 'test:app';
 
@@ -22,7 +24,7 @@ module.exports = function(config) {
         browserify: {
             debug: true,
             transform: [
-                ['babelify', require('../../tasks/resources/babel.config.js')],
+                ['babelify', buildConfig.browserify.transforms[0][1]],
                 ['browserify-swap'],
                 ['partialify']
             ]

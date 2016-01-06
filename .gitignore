@@ -36,7 +36,8 @@ server/.build
 .tmp
 build
 docs
-ext
+ext/**
+!ext/.keep
 
 # Tern (http://ternjs.net/) files
 .tern-project

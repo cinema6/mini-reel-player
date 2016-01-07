@@ -36,7 +36,16 @@
                 ],
                 "sourceMaps": true
             }],
-            ["partialify"]
+            ["htmlminifyify", {
+                "collapseBooleanAttributes": true,
+                "collapseWhitespace": true,
+                "removeAttributeQuotes": false,
+                "removeComments": true,
+                "removeEmptyAttributes": true,
+                "removeRedundantAttributes": true,
+                "removeScriptTypeAttributes": true,
+                "removeStyleLinkTypeAttributes": true
+            }]
         ]
     },
 
@@ -50,7 +59,7 @@
             "inline_script": false,
             "width": 80,
             "max_line_len": 32000,
-            "ie_proof": false,
+            "screw_ie8": true,
             "beautify": false,
             "source_map": null,
             "bracketize": false,

@@ -23,11 +23,9 @@ module.exports = function(config) {
 
         browserify: {
             debug: true,
-            transform: [
-                ['babelify', buildConfig.browserify.transforms[0][1]],
-                ['browserify-swap'],
-                ['partialify']
-            ]
+            transform: buildConfig.browserify.transforms.concat([
+                ['browserify-swap']
+            ])
         }
     });
 };

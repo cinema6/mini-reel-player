@@ -52,10 +52,19 @@ export default class VPAIDHandler {
             event: 'AdSkippableStateChange'
         }), 'card', 'becameSkippable');
         // Emit AdClickThru event when the user clicks on a link (3.3.14)
-        register((event, { uri }, type) => updateState({
-            event: 'AdClickThru',
-            params: [uri, type, false]
-        }), 'card', 'clickthrough');
+        register(((() => {
+            const fired = {};
+
+            return (event, { uri }, type) => {
+                if (fired[type]) { return; }
+
+                fired[type] = true;
+                return updateState({
+                    event: 'AdClickThru',
+                    params: [uri, type, false]
+                });
+            };
+        })()), 'card', 'clickthrough');
         // Set adDuration prop when the video duration changes (3.2.7)
         register(({ target: video }) => updateState({
             prop: 'adDuration',

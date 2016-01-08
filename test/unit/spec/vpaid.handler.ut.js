@@ -178,6 +178,35 @@ describe('VPAIDHandler', function() {
                         params: [link.uri, 'facebook', false]
                     });
                 });
+
+                describe('if a different link type is clicked', function() {
+                    beforeEach(function(done) {
+                        session.ping.calls.reset();
+
+                        card.emit('clickthrough', link, 'twitter');
+                        setTimeout(done, 0);
+                    });
+
+                    it('should ping the session', function() {
+                        expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                            event: 'AdClickThru',
+                            params: [link.uri, 'twitter', false]
+                        });
+                    });
+                });
+
+                describe('if the same link type is clicked again', function() {
+                    beforeEach(function(done) {
+                        session.ping.calls.reset();
+
+                        card.emit('clickthrough', link, 'facebook');
+                        setTimeout(done, 0);
+                    });
+
+                    it('should not ping the session', function() {
+                        expect(session.ping).not.toHaveBeenCalled();
+                    });
+                });
             });
         });
 

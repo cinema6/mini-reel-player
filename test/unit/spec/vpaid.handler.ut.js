@@ -4,6 +4,13 @@ import { EventEmitter } from 'events';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 
 class MockPlayer extends CorePlayer {
+    constructor() {
+        super(...arguments);
+
+        this.duration = 0;
+        this.currentTime = 0;
+    }
+
     play() {}
     pause() {}
 }
@@ -220,11 +227,16 @@ describe('VPAIDHandler', function() {
                     setTimeout(done, 0);
                 });
 
-                it('should ping the session', function() {
+                it('should ping the session twice', function() {
                     expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         prop: 'adDuration',
                         value: 35,
                         event: 'AdDurationChange'
+                    });
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        prop: 'adRemainingTime',
+                        value: 35,
+                        event: 'AdRemainingTimeChange'
                     });
                 });
             });
@@ -319,7 +331,8 @@ describe('VPAIDHandler', function() {
                 it('should ping the session', function() {
                     expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         prop: 'adRemainingTime',
-                        value: video.duration - video.currentTime
+                        value: video.duration - video.currentTime,
+                        event: 'AdRemainingTimeChange'
                     });
                 });
 
@@ -334,7 +347,8 @@ describe('VPAIDHandler', function() {
                     it('should ping the session with adRemainingTime: 0', function() {
                         expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             prop: 'adRemainingTime',
-                            value: 0
+                            value: 0,
+                            event: 'AdRemainingTimeChange'
                         });
                     });
                 });

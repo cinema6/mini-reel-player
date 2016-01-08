@@ -20,6 +20,16 @@ export default class VPAIDHandler {
                 }
             };
         })());
+        const updateAdRemainingTime = (video => {
+            if (!video.duration) { return; }
+            const value = Math.max(video.duration - video.currentTime, 0);
+
+            updateState({
+                prop: 'adRemainingTime',
+                value: value,
+                event: 'AdRemainingTimeChange'
+            });
+        });
 
         // Pause video when vpaid.pauseAd() is called (3.1.6)
         register(() => videoCall('pause'), 'session', 'vpaid:pauseAd');
@@ -66,18 +76,12 @@ export default class VPAIDHandler {
             };
         })()), 'card', 'clickthrough');
         // Set adDuration prop when the video duration changes (3.2.7)
-        register(({ target: video }) => updateState({
-            prop: 'adDuration',
-            value: video.duration,
-            event: 'AdDurationChange'
-        }), 'video', 'loadedmetadata');
-        // Set adRemainingTime property as playback progresses (3.2.6)
         register(({ target: video }) => {
-            if (!video.duration) { return; }
-            const value = Math.max(video.duration - video.currentTime, 0);
-
-            updateState({ prop: 'adRemainingTime', value });
-        }, 'video', 'timeupdate');
+            updateState({ prop: 'adDuration', value: video.duration, event: 'AdDurationChange' });
+            updateAdRemainingTime(video);
+        }, 'video', 'loadedmetadata');
+        // Set adRemainingTime property as playback progresses (3.2.6)
+        register(({ target: video }) => updateAdRemainingTime(video), 'video', 'timeupdate');
         // Emit AdVideoStart event when the video starts playing (3.3.13)
         register(() => updateState({
             event: 'AdVideoStart'

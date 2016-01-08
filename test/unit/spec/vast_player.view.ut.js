@@ -847,7 +847,6 @@ describe('<vast-player>', function() {
 
                     Runner.run(() => player.create());
                     spyOn(player.element, 'appendChild');
-                    spyOn(media, 'loadMedia');
 
                     player.src = 'http://i-am-an-adtag.com';
                     Runner.run(() => player.poster = 'my-poster.jpg');
@@ -865,10 +864,6 @@ describe('<vast-player>', function() {
 
                 it('should load the video', function() {
                     expect(video.load).toHaveBeenCalled();
-                });
-
-                it('should make the video autoplayable on mobile', function() {
-                    expect(media.loadMedia).toHaveBeenCalledWith(video);
                 });
 
                 it('should request the VAST', function() {
@@ -1027,7 +1022,6 @@ describe('<vast-player>', function() {
                     originalVideo = video;
                     spyOn(player.element, 'removeChild');
                     vastDeferred.fulfill(vastObject);
-                    spyOn(media, 'unloadMedia');
 
                     setTimeout(() => {
                         Runner.run(() => player.unload());
@@ -1054,10 +1048,6 @@ describe('<vast-player>', function() {
 
                 it('should remove the video', function() {
                     expect(player.element.removeChild).toHaveBeenCalledWith(video);
-                });
-
-                it('should clean up the global reference to the video', function() {
-                    expect(media.unloadMedia).toHaveBeenCalledWith(video);
                 });
 
                 it('should cause getCompanions() to return null again', function() {

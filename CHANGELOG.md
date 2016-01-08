@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v2.4.2 (January 7, 2016)
+* *[v2.4.2-rc2]*
+  * [FIX]: Fix for an issue that caused the player not to load if a VAST
+    video was used
+* *[/v2.4.2-rc2]*
+
 * *[v2.4.2-rc1]*
   * More preparations for building the player dynamically at runtime
 * *[/v2.4.2-rc1]*

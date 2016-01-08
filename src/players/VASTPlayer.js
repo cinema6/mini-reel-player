@@ -4,7 +4,6 @@ import iab from '../services/iab.js';
 import browser from '../services/browser.js';
 import Runner from '../../lib/Runner.js';
 import RunnerPromise from '../../lib/RunnerPromise.js';
-import media from '../services/media.js';
 
 const _ = createKey();
 
@@ -89,7 +88,6 @@ function initializeVideo(player) {
         if (player.poster) { video.poster = player.poster; }
         video.setAttribute('webkit-playsinline', '');
 
-        media.loadMedia(video);
         video.load();
         Runner.schedule('afterRender', element, 'appendChild', [video]);
 
@@ -260,8 +258,6 @@ export default class VASTPlayer extends CorePlayer {
         const {video} = _(this);
 
         if (!video) { return super.unload(); }
-
-        media.unloadMedia(video);
 
         _(this).video = null;
         _(this).vast = null;

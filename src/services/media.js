@@ -38,16 +38,6 @@ class Media {
 
         return best || okay || null;
     }
-
-    loadMedia(media) {
-        global.c6.html5Videos.push(media);
-    }
-
-    unloadMedia(media) {
-        const { html5Videos } = global.c6;
-
-        html5Videos.splice(html5Videos.indexOf(media), 1);
-    }
 }
 
 export default new Media();

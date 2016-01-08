@@ -142,53 +142,5 @@ describe('media', function() {
                 });
             });
         });
-
-        describe('loadMedia(media)', function() {
-            let video;
-
-            beforeEach(function() {
-                global.c6.html5Videos = [
-                    document.createElement('video'),
-                    document.createElement('video'),
-                    document.createElement('video')
-                ];
-
-                video = document.createElement('video');
-
-                media.loadMedia(video);
-            });
-
-            afterEach(function() {
-                global.c6.html5Videos = [];
-            });
-
-            it('should add the media to the c6.html5Videos array', function() {
-                expect(global.c6.html5Videos.indexOf(video)).toBe(3);
-            });
-        });
-
-        describe('unloadMedia(media)', function() {
-            let video;
-
-            beforeEach(function() {
-                global.c6.html5Videos = [
-                    document.createElement('video'),
-                    document.createElement('video'),
-                    document.createElement('video')
-                ];
-
-                video = global.c6.html5Videos[1];
-
-                media.unloadMedia(video);
-            });
-
-            afterEach(function() {
-                global.c6.html5Videos = [];
-            });
-
-            it('should remove the media from the c6.html5Videos array', function() {
-                expect(global.c6.html5Videos.indexOf(video)).toBe(-1);
-            });
-        });
     });
 });

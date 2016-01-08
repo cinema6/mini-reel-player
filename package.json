@@ -29,7 +29,7 @@
     "bluebird": "^2.9.34",
     "browserify": "^8.1.1",
     "browserify-swap": "^0.2.1",
-    "cwrx": "git+ssh://git@github.com:cinema6/cwrx",
+    "cwrx": "git+ssh://git@github.com:cinema6/cwrx#player-2.1.0",
     "function-bind": "^1.0.2",
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.0",

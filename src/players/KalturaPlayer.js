@@ -33,6 +33,7 @@ export default class KalturaPlayer extends ThirdPartyPlayer {
                             uiconf_id: ids.playerid,
                             /* jshint camelcase:true */
                             flashvars: {
+                                autoPlay: false,
                                 EmbedPlayer: {
                                     WebKitPlaysInline: true
                                 },

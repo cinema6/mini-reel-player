@@ -97,6 +97,7 @@ describe('Kaltura Player', function() {
                         uiconf_id: '32784031',
                         /* jshint camelcase:true */
                         flashvars: {
+                            autoPlay: false,
                             EmbedPlayer: {
                                 WebKitPlaysInline: true
                             },

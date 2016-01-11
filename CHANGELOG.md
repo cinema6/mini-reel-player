@@ -1,10 +1,12 @@
 # MiniReel Player 2.0
 
+## v2.4.3 (January 11, 2016)
 * *[v2.4.3-rc1]*
   * [FIX]: Fix for an issue that allowed some Kaltura videos to autoplay when told not to
   * The VPAID "AdClickThru" event is only fired once per link type
   * Added support for the VPAID "AdRemainingTimeChange" event (for
     backwards-compatibility with VPAID 1.x.)
+* *[/v2.4.3-rc1]*
 
 ## v2.4.2 (January 7, 2016)
 * *[v2.4.2-rc2]*

@@ -1,6 +1,7 @@
 import EmbedHandler from '../../../src/handlers/EmbedHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import { EventEmitter } from 'events';
+import CorePlayer from '../../../src/players/CorePlayer.js';
 
 class MockSession extends EventEmitter {
     ping() {}
@@ -25,9 +26,11 @@ class MockMiniReel extends EventEmitter {
     close() {}
 }
 
+class MockPlayer extends CorePlayer {}
+
 describe('EmbedHandler', function() {
     let handler;
-    let minireel, session, card;
+    let minireel, session, card, player;
 
     class MyHandler extends EmbedHandler {
         constructor() {
@@ -40,12 +43,18 @@ describe('EmbedHandler', function() {
         minireel = new MockMiniReel();
         session = minireel.embed;
         card = new MockCard();
+        player = new MockPlayer();
 
         spyOn(dispatcher, 'addSource').and.callThrough();
 
         dispatcher.addClient(MyHandler, minireel);
         dispatcher.addSource('navigation', minireel, ['init', 'error', 'launch', 'close']);
         dispatcher.addSource('card', card, ['complete'], new EventEmitter());
+        dispatcher.addSource('video', player, [
+            'attemptPlay', 'play', 'timeupdate', 'pause', 'ended', 'error',
+            'firstQuartile', 'midpoint', 'thirdQuartile', 'complete',
+            'loadedmetadata'
+        ], card);
     });
 
     afterEach(function() {
@@ -149,6 +158,20 @@ describe('EmbedHandler', function() {
 
                 it('should moveTo() the card', function() {
                     expect(minireel.moveTo).toHaveBeenCalledWith(minireel.deck[2]);
+                });
+            });
+        });
+
+        describe('video:', function() {
+            describe('play', function() {
+                beforeEach(function() {
+                    spyOn(session, 'ping');
+
+                    player.emit('play');
+                });
+
+                it('should ping the session with "video:play"', function() {
+                    expect(session.ping).toHaveBeenCalledWith('video:play');
                 });
             });
         });

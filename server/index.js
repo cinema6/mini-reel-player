@@ -12,6 +12,7 @@ var parseURL = require('url').parse;
 var formatURL = require('url').format;
 var pump = require('pump');
 var stat = require('fs').stat;
+var assign = require('lodash/object/assign');
 
 var args = process.argv.slice(2);
 var cliOptions = {
@@ -54,13 +55,11 @@ var player = new Player({
             }
         }
     },
-    adtech: {
-        server: 'adserver.adtechus.com',
-        network: '5491.1',
-        request: {
-            maxSockets: 250,
-            timeout: 3000
-        }
+    app: {
+        version: 'master',
+        staticURL: 'static/',
+        entry: require.resolve('../public/main.html'),
+        config: require.resolve('./config.js')
     },
     cloudwatch: {
         namespace: 'C6/Player',
@@ -92,9 +91,10 @@ function extend(/*...objects*/) {
 }
 
 function serveStatic(req, res) {
-    var path = resolvePath(__dirname, req.path.replace(/^\//, ''));
+    var directory = resolvePath(__dirname, '../public');
+    var path = resolvePath(directory, req.path.replace(/^\/static\/master\//, './'));
 
-    stat(path, function verifyExists(error, stats) {
+    stat(path, function verifyExists(error) {
         if (error) {
             switch (error.code) {
             case 'ENOENT':
@@ -110,6 +110,48 @@ function serveStatic(req, res) {
     });
 
 }
+
+(function() {
+    var browserify = require('browserify');
+    var watchify = require('watchify');
+    var cache = {};
+
+    function init(main, config) {
+        var builder = browserify(assign(config.browserify.options || {}, {
+            cache: {},
+            packageCache: {},
+            entries: [main]
+        }));
+
+        builder.plugin(watchify, config.watchify.options || {});
+
+        (config.browserify.plugins || []).forEach(function(plugin) {
+            builder.plugin.apply(builder, plugin);
+        });
+
+        (config.browserify.transforms || []).forEach(function(transform) {
+            builder.transform.apply(builder, transform);
+        });
+
+        cache[main] = builder;
+
+        return builder.bundle();
+    }
+
+    server.get(player.config.app.builder.watchify.endpoint, function watchify(req, res) {
+        var query = req.query;
+        var main = query.main;
+        var config = JSON.parse(query.config);
+
+        res.set('Content-Type', mime.lookup(main));
+
+        if (main in cache) {
+            return cache[main].bundle().pipe(res.status(200));
+        }
+
+        return init(main, config).pipe(res.status(200));
+    });
+}());
 
 server.get('/api/experience/*', function getExperience(req, res) {
     var id = basename(req.path);
@@ -152,7 +194,8 @@ server.get('/*', function handleRoot(req, res) {
         player.get(extend(cliOptions, req.query, {
             preview: true,
             type: filename,
-            desktop: new BrowserInfo(req.get('User-Agent')).isDesktop
+            desktop: new BrowserInfo(req.get('User-Agent')).isDesktop,
+            debug: 3
         })).then(function respond(player) {
             res.status(200).end(player);
         }).catch(function fail(error) {
@@ -163,7 +206,7 @@ server.get('/*', function handleRoot(req, res) {
     }
 });
 
-server.get('/.build/*', serveStatic);
+server.get('/static/master/*', serveStatic);
 
 server.listen(process.env.PORT);
 process.stdout.write('Started server.\n');

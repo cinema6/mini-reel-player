@@ -4,7 +4,8 @@ module.exports = {
             'public/**/*.html',
             'public/**/*.css',
             'public/**/*.{png,jpg,jpeg,gif,webp,svg}',
-            'server/.build/**/*.js'
+            'src/**',
+            'lib/**'
         ],
         options: {
             livereload: true

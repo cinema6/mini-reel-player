@@ -21,5 +21,7 @@ export default class EmbedHandler {
         register((event, id) => {
             minireel.moveTo(find(minireel.deck, card => card.id === id));
         }, 'session', 'showCard');
+
+        register(() => embed.ping('video:play'), 'video', 'play');
     }
 }

@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v2.4.4-rc1]*
+  * Make it possible for the VPAID loader to know when a video starts
+    playing
+
 ## v2.4.3 (January 11, 2016)
 * *[v2.4.3-rc1]*
   * [FIX]: Fix for an issue that allowed some Kaltura videos to autoplay when told not to

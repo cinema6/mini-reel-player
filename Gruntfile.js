@@ -90,10 +90,7 @@ module.exports = function(grunt) {
             grunt.task.run('copy:test');
             grunt.task.run('karma:server:foo:' + target);
         }
-        grunt.task.run('clean:server');
-        grunt.task.run('connect:server');
-        grunt.task.run('copy:server');
-        grunt.task.run('browserify:server');
+        grunt.task.run('express:server');
         grunt.task.run('open:server');
         grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
     });

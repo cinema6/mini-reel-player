@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.4.5-rc1]*
+  * [DEV]: Use new player service for dev server
+
 ## v2.4.4 (January 12, 2016)
 * *[v2.4.4-rc1]*
   * Make it possible for the VPAID loader to know when a video starts

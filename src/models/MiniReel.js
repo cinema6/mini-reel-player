@@ -59,7 +59,6 @@ import ADTECHHandler from '../handlers/ADTECHHandler.js';
 import PostMessageHandler from '../handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../handlers/MoatHandler.js';
-import JumpRampHandler from '../handlers/JumpRampHandler.js';
 
 /* #if context !== 'standalone' */
 import EmbedHandler from '../handlers/EmbedHandler.js';
@@ -235,7 +234,6 @@ export default class MiniReel extends Mixable {
         dispatcher.addClient(MoatHandler);
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
-        if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
         if (context === CONTEXTS.VPAID) { dispatcher.addClient(VPAIDHandler, this.embed); }
 
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);

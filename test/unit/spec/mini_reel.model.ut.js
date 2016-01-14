@@ -5,7 +5,6 @@ import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
 import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
-import JumpRampHandler from '../../../src/handlers/JumpRampHandler.js';
 import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
 import Mixable from '../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
@@ -829,10 +828,6 @@ describe('MiniReel', function() {
 
     it('should add the MoatHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(MoatHandler);
-    });
-
-    it('should not add the JumpRampHandler to the dispatcher', function() {
-        expect(dispatcher.addClient).not.toHaveBeenCalledWith(JumpRampHandler);
     });
 
     it('should not add the VPAIDHandler', function() {
@@ -1878,19 +1873,6 @@ describe('MiniReel', function() {
 
         it('should set the length', function() {
             expect(minireel.length).toBe(19);
-        });
-    });
-
-    describe('if the container is jumpramp', function() {
-        beforeEach(function() {
-            environment.params.container = 'jumpramp';
-            dispatcher.addClient.calls.reset();
-
-            minireel = new MiniReel();
-        });
-
-        it('should add the JumpRampHandler to the dispatcher', function() {
-            expect(dispatcher.addClient).toHaveBeenCalledWith(JumpRampHandler);
         });
     });
 

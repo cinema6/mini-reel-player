@@ -773,7 +773,8 @@ describe('MiniReel', function() {
 
         environment.constructor();
         environment.params = {
-            container: 'jun'
+            container: 'jun',
+            context: 'standalone'
         };
         environment.loader = 'c6embed';
 
@@ -814,10 +815,6 @@ describe('MiniReel', function() {
         expect(MiniReel.mixins).toContain(SafelyGettable);
     });
 
-    it('should add the EmbedHandler to the dispatcher', function() {
-        expect(dispatcher.addClient).toHaveBeenCalledWith(EmbedHandler, minireel);
-    });
-
     it('should add the ADTECHHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(ADTECHHandler);
     });
@@ -840,6 +837,10 @@ describe('MiniReel', function() {
 
     it('should not add the VPAIDHandler', function() {
         expect(dispatcher.addClient).not.toHaveBeenCalledWith(VPAIDHandler);
+    });
+
+    it('should not add the EmbedHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).not.toHaveBeenCalledWith(EmbedHandler, minireel);
     });
 
     it('should add itself as a source', function() {
@@ -1893,9 +1894,9 @@ describe('MiniReel', function() {
         });
     });
 
-    describe('if vpaid is true', function() {
+    describe('if the context is vpaid', function() {
         beforeEach(function() {
-            environment.params.vpaid = true;
+            environment.params.context = 'vpaid';
             dispatcher.addClient.calls.reset();
 
             minireel = new MiniReel();
@@ -1903,6 +1904,21 @@ describe('MiniReel', function() {
 
         it('should add the VPAIDHandler to the dispatcher', function() {
             expect(dispatcher.addClient).toHaveBeenCalledWith(VPAIDHandler, minireel.embed);
+        });
+    });
+
+    ['mraid', 'vpaid', 'embed'].forEach(function(context) {
+        describe(`if the context is ${context}`, function() {
+            beforeEach(function() {
+                environment.params.context = context;
+                dispatcher.addClient.calls.reset();
+
+                minireel = new MiniReel();
+            });
+
+            it('should add the EmbedHandler to the dispatcher', function() {
+                expect(dispatcher.addClient).toHaveBeenCalledWith(EmbedHandler, minireel);
+            });
         });
     });
 

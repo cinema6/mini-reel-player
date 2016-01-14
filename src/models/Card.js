@@ -1,11 +1,17 @@
 import { EventEmitter } from 'events';
 import SafelyGettable from '../mixins/SafelyGettable.js';
-import Post from './Post.js';
 import Mixable from '../../lib/core/Mixable.js';
 import {
     extend,
     reduce
 } from '../../lib/utils.js';
+
+/***************************************************************************************************
+ * CARD MODULES IMPORTS
+ **************************************************************************************************/
+/* #if card.modules.indexOf('post') > -1 */
+import Post from './Post.js';
+/* #endif */
 
 class Card extends Mixable {
     constructor(card, experience) {

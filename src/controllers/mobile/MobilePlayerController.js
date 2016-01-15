@@ -1,33 +1,63 @@
 import PlayerController from '../PlayerController.js';
 import MobilePlayerView from '../../views/mobile/MobilePlayerView.js';
-import TableOfContentsViewController from './TableOfContentsViewController.js';
-import MobileImageCardController from './MobileImageCardController.js';
+import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
+
+/***************************************************************************************************
+ * CARD CONTROLLER IMPORTS
+ **************************************************************************************************/
 import MobileVideoCardController from './MobileVideoCardController.js';
-import MobileRecapCardController from './MobileRecapCardController.js';
+
+/* #if card.types.indexOf('image') > -1 */
+import MobileImageCardController from './MobileImageCardController.js';
+/* #endif */
+
+/* #if card.types.indexOf('instagram') > -1 */
 import MobileInstagramImageCardController from './MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from './MobileInstagramVideoCardController.js';
-import FullscreenPlayerController from '../../mixins/FullscreenPlayerController.js';
+/* #endif */
+
+/* #if card.types.indexOf('recap') > -1 */
+import MobileRecapCardController from './MobileRecapCardController.js';
+/* #endif */
+
+/***************************************************************************************************
+ * UI IMPORTS
+ **************************************************************************************************/
+/* #if isMiniReel */
+import TableOfContentsViewController from './TableOfContentsViewController.js';
+/* #endif */
 
 export default class MobilePlayerController extends PlayerController {
     constructor() {
         super(...arguments);
 
         this.view = this.addView(new MobilePlayerView());
-        this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
         this.CardControllers = {
-            image: MobileImageCardController,
             video: MobileVideoCardController,
-            recap: MobileRecapCardController,
+
+            /* #if card.types.indexOf('image') > -1 */
+            image: MobileImageCardController,
+            /* #endif */
+
+            /* #if card.types.indexOf('instagram') > -1 */
             instagramImage: MobileInstagramImageCardController,
-            instagramVideo: MobileInstagramVideoCardController
+            instagramVideo: MobileInstagramVideoCardController,
+            /* #endif */
+
+            /* #if card.types.indexOf('recap') > -1 */
+            recap: MobileRecapCardController,
+            /* #endif */
         };
 
-        this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
         this.minireel.on('becameUnskippable', () => this.updateView());
         this.minireel.on('becameSkippable', () => this.updateView());
 
+        /* #if isMiniReel */
+        this.TableOfContentsViewCtrl = new TableOfContentsViewController(this.minireel);
+        this.minireel.on('init', () => this.TableOfContentsViewCtrl.renderInto(this.view.toc));
         this.TableOfContentsViewCtrl.on('show', () => this.view.hideChrome());
         this.TableOfContentsViewCtrl.on('hide', () => this.view.showChrome());
+        /* #endif */
 
         this.initFullscreen();
     }

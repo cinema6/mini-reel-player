@@ -1,9 +1,12 @@
 import CardController from './CardController.js';
 import playerFactory from '../services/player_factory.js';
 import dispatcher from '../services/dispatcher.js';
-import PostVideoCardController from '../mixins/PostVideoCardController.js';
 import SponsoredCardController from '../mixins/SponsoredCardController.js';
 import environment from '../environment.js';
+
+/* #if card.modules.indexOf('post') > -1 */
+import PostVideoCardController from '../mixins/PostVideoCardController.js';
+/* #endif */
 
 export default class VideoCardController extends CardController {
     constructor() {
@@ -61,7 +64,9 @@ export default class VideoCardController extends CardController {
             if (this.canAutoadvance()) { this.model.complete(); }
         });
 
+        /* #if card.modules.indexOf('post') > -1 */
         this.initPost();
+        /* #endif */
     }
 
     canAutoadvance() {
@@ -106,6 +111,9 @@ export default class VideoCardController extends CardController {
     }
 }
 VideoCardController.mixin(// jshint ignore:line
+    /* #if card.modules.indexOf('post') > -1 */
     PostVideoCardController,
+    /* #endif */
+
     SponsoredCardController
 );

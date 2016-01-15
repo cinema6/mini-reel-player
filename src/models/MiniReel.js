@@ -1,14 +1,7 @@
 import Runner from '../../lib/Runner.js';
 import environment from '../environment.js';
 import dispatcher from '../services/dispatcher.js';
-import EmbedHandler from '../handlers/EmbedHandler.js';
 import resource from '../services/resource.js';
-import ADTECHHandler from '../handlers/ADTECHHandler.js';
-import PostMessageHandler from '../handlers/PostMessageHandler.js';
-import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
-import MoatHandler from '../handlers/MoatHandler.js';
-import JumpRampHandler from '../handlers/JumpRampHandler.js';
-import VPAIDHandler from '../handlers/VPAIDHandler.js';
 import Mixable from '../../lib/core/Mixable.js';
 import SafelyGettable from '../mixins/SafelyGettable.js';
 import { EventEmitter } from 'events';
@@ -23,18 +16,65 @@ import {
     forEach,
     filter
 } from '../../lib/utils.js';
-import ImageCard from './ImageCard.js';
+import RunnerPromise from '../../lib/RunnerPromise.js';
+
+/***************************************************************************************************
+ * CARD MODEL IMPORTS
+ **************************************************************************************************/
 import VideoCard from './VideoCard.js';
+
+/* #if card.types.indexOf('image') > -1 */
+import ImageCard from './ImageCard.js';
+/* #endif */
+
+/* #if card.types.indexOf('adUnit') > -1 */
 import AdUnitCard from './AdUnitCard.js';
+/* #endif */
+
+/* #if card.types.indexOf('recap') > -1 */
 import RecapCard from './RecapCard.js';
+/* #endif */
+
+/* #if card.types.indexOf('slideshow-bob') > -1 */
 import SlideshowBobCard from './SlideshowBobCard.js';
+/* #endif */
+
+/* #if card.types.indexOf('instagram') > -1 */
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
-import RunnerPromise from '../../lib/RunnerPromise.js';
+/* #endif */
+
+/* #if card.types.indexOf('brightcove') > -1 */
 import BrightcoveVideoCard from './BrightcoveVideoCard.js';
+/* #endif */
+
+/* #if card.types.indexOf('kaltura') > -1 */
 import KalturaVideoCard from './KalturaVideoCard.js';
+/* #endif */
+
+/***************************************************************************************************
+ * EVENT HANDLER IMPORTS
+ **************************************************************************************************/
+import ADTECHHandler from '../handlers/ADTECHHandler.js';
+import PostMessageHandler from '../handlers/PostMessageHandler.js';
+import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
+import MoatHandler from '../handlers/MoatHandler.js';
+
+/* #if context !== 'standalone' */
+import EmbedHandler from '../handlers/EmbedHandler.js';
+/* #endif */
+
+/* #if context === 'vpaid' */
+import VPAIDHandler from '../handlers/VPAIDHandler.js';
+/* #endif */
 
 const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
+const CONTEXTS = {
+    STANDALONE: 'standalone',
+    MRAID: 'mraid',
+    VPAID: 'vpaid',
+    EMBED: 'embed'
+};
 
 const _ = createKey();
 
@@ -127,6 +167,8 @@ function initialize(whitelist, experience, profile) {
 
 export default class MiniReel extends Mixable {
     constructor(whitelist = CARD_WHITELIST) {
+        const context = environment.params.context;
+
         super(...arguments);
 
         this.standalone = null;
@@ -187,13 +229,12 @@ export default class MiniReel extends Mixable {
             global.addEventListener('beforeunload', handleBeforeunload, false);
         }
 
-        dispatcher.addClient(EmbedHandler, this);
+        if (context !== CONTEXTS.STANDALONE) { dispatcher.addClient(EmbedHandler, this); }
         dispatcher.addClient(GoogleAnalyticsHandler, this);
         dispatcher.addClient(MoatHandler);
         dispatcher.addClient(ADTECHHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
-        if (environment.params.container === 'jumpramp') { dispatcher.addClient(JumpRampHandler); }
-        if (environment.params.vpaid) { dispatcher.addClient(VPAIDHandler, this.embed); }
+        if (context === CONTEXTS.VPAID) { dispatcher.addClient(VPAIDHandler, this.embed); }
 
         dispatcher.addSource('navigation', this, ['launch', 'move', 'close', 'error', 'init']);
 

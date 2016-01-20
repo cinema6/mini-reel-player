@@ -1,9 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.4.5 (January 20, 2016)
 * *[v2.4.5-rc1]*
   * [DEV]: Use new player service for dev server
   * [PERFORMANCE]: Trim unsued code out dynamically based on the
     experience/card being presented
+* *[/v2.4.5-rc1]*
 
 ## v2.4.4 (January 12, 2016)
 * *[v2.4.4-rc1]*

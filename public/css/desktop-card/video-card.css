@@ -370,22 +370,14 @@
         }
 
         .social__group ul {
-            top:-0.625em;
+            top:0;
         }
 
             .social__group--item {
                 margin-top:0.125em;
             }
 
-            .social__group--item.social__group--SVG,
-            .SVGicon {
-                width:1.125em;
-                height:1.125em;
-            }
 
-            .social__group--item.social__group--SVG {
-                margin-top:0.125em;
-            }
 
         .sponsorProfile__small--text {
             display:none;
@@ -395,12 +387,6 @@
 
 
     @media screen and (min-height: 351px) and (max-height: 400px) {
-
-        .social__group--item.social__group--SVG,
-        .SVGicon {
-            width: 1.25em;
-            height:1.25em;
-        }
 
             .sponsorProfile__img {
                 margin-bottom:0.25em;
@@ -423,6 +409,108 @@
             top:-0.5em;
         }
 
+    }
+
+/*  ================================================
+    media queries based on width (social media icons)
+    ================================================ */
+
+    @media screen and (min-width: 901px) {
+        .social__group--icon {
+            margin-bottom:0.5em;
+            padding:0.25em;
+        }
+
+        .socialIconFont {
+            width:6rem;
+        }
+
+        .socialIconFont:before,
+        .social__label {
+            font-size:1em;
+        }
+
+        .social__group--vimeo .socialIconFont:before {
+            font-size: 0.75em;
+            margin: 0 0.5em 0 0;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .socialIconFont {
+            width:4.5rem;
+        }
+    }
+
+        
+
+
+    @media screen  and (max-width: 749px) {
+
+        .socialIconFont:before {
+            font-size:0.625em;
+            position: absolute;
+            top: 0.25em;
+            left:0;
+        }
+
+        .socialIconFont {
+            width:3.875rem;
+            height: 1.25em;
+            position: relative
+        }
+
+        .social__label {
+            font-size:0.625em;
+            position:absolute;
+            top:0.25em;
+            left:1.375em;
+        }
+
+        .social__group--icon {
+            margin:0 auto 0.25em;
+        }
+
+        .social__group--vimeo .socialIconFont:before {
+            margin: 0.375em 0 0 .125em;
+            font-size: 0.5em;
+        }
+
+    }
+
+    @media screen and (max-width: 619px) {
+        .socialIconFont {
+            width: 1.125em;
+            height: 1.125em;
+        }
+
+        .social__group--icon {
+            width:1.125em;
+            margin-bottom:0.1875em;
+        }
+
+        .socialIconFont:before {
+            font-size: 0.75em;
+            top: .0625em;
+            left: -0.125em;
+        }
+
+        .social__label {
+            display: none;
+        }
+
+    }
+
+    @media screen and (max-width: 500px) {
+        .socialIconFont:before {
+            top:-0.125em;
+            left:-0.125em;
+        }
+
+        .socialIconFont {
+            width: 1em;
+            height: 1em;
+        }
     }
 
 

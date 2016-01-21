@@ -1,4 +1,17 @@
 /*  ================================================
+    font imports
+    ================================================ */
+
+    @font-face {
+      font-family: 'fontello';
+      src: url('../../fonts/SocialIcons/font/fontello.eot'); /* IE9 Compat Modes */
+      src: url('../../fonts/SocialIcons/font/fontello.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+           url('../../fonts/SocialIcons/font/fontello.woff') format('woff'), /* Pretty Modern Browsers */
+           url('../../fonts/SocialIcons/font/fontello.ttf')  format('truetype'), /* Safari, Android, iOS */
+           url('../../fonts/SocialIcons/font/fontello.svg#svgfontello') format('svg'); /* Legacy iOS */
+    }
+
+/*  ================================================
     global / reset styles
     ================================================ */
     /*  apply a natural box layout model to all elements,
@@ -89,16 +102,6 @@
         clear: both;
     }
 
-    .social__group--item.social__group--SVG {
-        display: block;
-        text-align: center;
-        margin: 0.375em auto 0;
-        width: 1.75em;
-        height:1.75em;
-        background: #fff;
-        border: 0px solid white;
-        border-radius: 5px;
-    }
 
     .sprite,
     .spriteAf:after,
@@ -159,40 +162,103 @@
                 width:1.25rem;
             }
 
-            .SVGicon {
-                width:1.75em;
-                height:1.75em;
-            }
 
-            .socialIconSVG--youtube {
-                fill:#e22d24;
-            }
-
-            .socialIconSVG--vimeo {
-                fill:#445566;
-            }
-
-            .socialIconSVG--facebook {
-                fill:#3b5998;
-            }
-
-            .socialIconSVG--twitter {
-                fill:#00b0ed;
-            }
-
-            .socialIconSVG--pinterest {
-                fill:#c92228;
-            }
-
-            .socialIconSVG--instagram {
-                fill:#125688;
-            }
-
-            .socialIconSVG--share {
-                fill:#0c7e4a;
-            }
             
+            .social__group--icon {
+                display:block;
+                width:90%;
+                margin:0 auto 0.375em;
+                padding:0 0.25em;
+                border-radius:4px;
+            }
 
+                .social__group--facebook {
+                    background:#2f478b;
+                }
+
+                .social__group--twitter {
+                    background:#30a2ef;
+                }
+
+                .social__group--pinterest {
+                    background:#b00d18;
+                }
+
+                .social__group--instagram {
+                    background:#194579;
+                }
+
+                .social__group--vimeo {
+                    background:#1ab7ea;
+                }
+
+                .social__group--youtube {
+                    background:#e52d27;
+                }
+
+                .social__group--share {
+                    background:#256c35;
+                }
+
+                
+
+                .socialIconFont {
+                    width:6rem;
+                    display:block;
+                    margin:0 auto;
+                    text-align:left;
+                }
+
+                .socialIconFont:before {
+                    font-family:"fontello";
+                    font-style:normal;
+                    font-weight:normal;
+                    font-size:0.75em;
+                    speak:none;
+                    display:inline-block;
+                    text-decoration:inherit;
+                    width:1em;
+                    margin:0 0.25em 0 0;
+                    text-align:center;
+                    color:#fff;
+                }
+
+                    .social__group--facebook .socialIconFont:before {
+                        content:'\e804';
+                    }
+
+                    .social__group--twitter .socialIconFont:before {
+                        content:'\e806';
+                    }
+
+                    .social__group--pinterest .socialIconFont:before {
+                        content:'\e802';
+                    }
+
+                    .social__group--instagram .socialIconFont:before {
+                        content:'\e803';
+                    }
+
+                    .social__group--vimeo .socialIconFont:before {
+                        content:'\e807';
+                        font-size:0.675em;
+                        margin:0 0.375em 0 0.125em;
+                    }
+
+                    .social__group--youtube .socialIconFont:before {
+                        content:'\e805';
+                    }
+
+                    .social__group--share .socialIconFont:before {
+                        content:'\e808';
+                    }
+
+                    .social__label {
+                        color:#fff;
+                        font-family:'Open Sans', Arial, Helvetica, sans-serif;
+                        font-size:0.75em;
+                        font-weight:500;
+                    }
             
 
             

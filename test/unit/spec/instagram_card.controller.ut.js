@@ -289,18 +289,7 @@ describe('InstagramCardController', function() {
                             isButton: true,
                             isText: false
                         },
-                        links: [
-                            {
-                                type: 'facebook',
-                                label: 'Facebook',
-                                href: 'www.facebook-link.com'
-                            },
-                            {
-                                type: 'twitter',
-                                label: 'Twitter',
-                                href: 'www.twitter-link.com'
-                            }
-                        ],
+                        links: card.get('socialLinks'),
                         sponsored: true,
                         hideTitle: false
                     };

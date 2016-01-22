@@ -22,25 +22,26 @@
             </a>
         </span>
         <ul data-view="links:LinksListView" data-model="links"><!-- social network links and the share button-->
-              <li data-target="controller" data-action="clickthrough">
-                  <a href="{{href}}" target="_blank" title="{{label}}" class="social__group--icon social__group--{{type}}">
-                      <span class="socialIconFont">
-                          <span class="social__label">{{cta}}</span><!-- NEW LOGIC GOES HERE PLEASE -->
-                      </span>
-                  </a>
-              </li>
-                     
-          </ul>
+            <li data-target="controller" data-action="clickthrough">
+                <a href="{{href}}" target="_blank" title="{{label}}" class="social__group--icon social__group--{{type}}">
+                    <span class="socialIconFont">
+                        <span class="social__label">{{cta}}</span>
+                    </span>
+                </a>
+            </li>
+        </ul>
 
-          <ul data-if="canShare">
-              <li data-target="controller" data-action="clickthrough">
-                  <button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare" class="social__group--icon social__group--share">
-                      <span class="socialIconFont">
-                          <span class="social__label">Share</span>
-                      </span>
-                  </button>
-              </li>
-          </ul>
+        <ul data-if="canShare">
+            <li data-target="controller" data-action="clickthrough">
+                <button data-view="shareButton:ButtonView"
+                    data-target="controller" data-action="showShare"
+                    class="social__group--icon social__group--share">
+                    <span class="socialIconFont">
+                        <span class="social__label">Share</span>
+                    </span>
+                </button>
+            </li>
+        </ul>
     </div><!-- .social__group-->
 
     <!--copy and cta below -->

@@ -170,6 +170,8 @@
                 margin:0 auto 0.375em;
                 padding:0 0.25em;
                 border-radius:4px;
+                text-shadow:0 0 1px rgba(0,0,0,0.6);
+                text-rendering: optimizeLegibility;
             }
 
                 .social__group--facebook {

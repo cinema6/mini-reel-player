@@ -34,11 +34,11 @@
 
           <ul data-if="canShare">
               <li data-target="controller" data-action="clickthrough">
-                  <a href="{{href}}" target="_blank" title="{{label}}" class="social__group--icon social__group--share">
+                  <button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare" class="social__group--icon social__group--share">
                       <span class="socialIconFont">
                           <span class="social__label">Share</span>
                       </span>
-                  </a>
+                  </button>
               </li>
           </ul>
     </div><!-- .social__group-->

@@ -32,7 +32,7 @@ function firePixels(pixels, mapper) {
     }
 }
 
-export default class ADTECHHandler extends BillingHandler {
+export default class PixelHandler extends BillingHandler {
     constructor(register) {
         super(...arguments);
 

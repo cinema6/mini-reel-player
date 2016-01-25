@@ -1,4 +1,4 @@
-import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
+import PixelHandler from '../../../src/handlers/PixelHandler.js';
 import BillingHandler from '../../../src/handlers/BillingHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
@@ -22,14 +22,14 @@ class MockCard extends Card {
 }
 MockCard.mixin(SponsoredCard);
 
-describe('ADTECHHandler', function() {
+describe('PixelHandler', function() {
     let card;
     let minireel;
     let experience;
     let player;
     let handler;
 
-    class MockHandler extends ADTECHHandler {
+    class MockHandler extends PixelHandler {
         constructor() {
             super(...arguments);
 

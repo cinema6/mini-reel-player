@@ -1,7 +1,7 @@
 import MiniReel from '../../../src/models/MiniReel.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import EmbedHandler from '../../../src/handlers/EmbedHandler.js';
-import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
+import PixelHandler from '../../../src/handlers/PixelHandler.js';
 import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
 import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import MoatHandler from '../../../src/handlers/MoatHandler.js';
@@ -814,8 +814,8 @@ describe('MiniReel', function() {
         expect(MiniReel.mixins).toContain(SafelyGettable);
     });
 
-    it('should add the ADTECHHandler to the dispatcher', function() {
-        expect(dispatcher.addClient).toHaveBeenCalledWith(ADTECHHandler);
+    it('should add the PixelHandler to the dispatcher', function() {
+        expect(dispatcher.addClient).toHaveBeenCalledWith(PixelHandler);
     });
 
     it('should add the PostMessageHandler to the dispatcher', function() {

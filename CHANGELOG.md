@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.4.6-rc1]*
+  * Support defining all tracking pixels on cards instead of experiences
+
 ## v2.4.5 (January 20, 2016)
 * *[v2.4.5-rc1]*
   * [DEV]: Use new player service for dev server

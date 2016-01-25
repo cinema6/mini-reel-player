@@ -41,13 +41,13 @@
         border:0; max-width:100%;
     }
     button {
-        font-size:1rem;
         margin:0; border:0; padding:0;
         display: inline-block;
         cursor:pointer;
         background:none;
         box-sizing: content-box;
         line-height: 1;
+        font-size:1rem;
     }
 
     button::-moz-focus-inner {

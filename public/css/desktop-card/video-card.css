@@ -494,8 +494,8 @@
         }
 
         .social__group--icon {
-            width:1.125em;
-            height:1.125em;
+            width:18px;
+            height:18px;
             margin-bottom:0.1875em;
         }
 
@@ -506,7 +506,7 @@
         }
 
         .social__group--share .socialIconFont:before {
-            left:2px;
+            left:1px;
             top:2px;
         }
 

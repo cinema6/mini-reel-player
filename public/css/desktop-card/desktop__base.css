@@ -46,11 +46,13 @@
         display: inline-block;
         cursor:pointer;
         background:none;
+        box-sizing: content-box;
+        line-height: 1;
     }
 
     button::-moz-focus-inner {
-        padding: 0;
         border: 0;
+        padding: 0;
     }
 
     body > iframe {
@@ -201,6 +203,9 @@
                 .social__group--share {
                     background:#256c35;
                     padding:0.1875em 0.25em;
+                    -webkit-border-fit:border !important;
+                    border:0;
+                    outline:0;
                 }
 
                 

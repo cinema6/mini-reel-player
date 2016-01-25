@@ -491,6 +491,7 @@
 
         .social__group--icon {
             width:1.125em;
+            height:1.125em;
             margin-bottom:0.1875em;
         }
 
@@ -513,7 +514,7 @@
 
     @media screen and (max-width: 500px) {
         .socialIconFont:before {
-            top:-0.125em;
+            top:0;
             left:-0.125em;
         }
 

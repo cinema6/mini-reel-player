@@ -357,6 +357,7 @@
         .sponsorProfile__imgBox {
             margin-left:0;
             top:-0.25em;
+            line-height: 1;
         }
 
             .sponsorProfile__img {
@@ -373,7 +374,7 @@
         }
 
         .social__group ul {
-            top:0;
+            top:-0.25em;
         }
 
             .social__group--item {
@@ -423,7 +424,8 @@
     @media screen and (min-width: 901px) {
         .social__group--icon {
             margin-bottom:0.5em;
-            padding:0.25em;
+            padding:0.3125rem 0.25rem 0.25rem;
+            height: 2.125rem;
         }
 
         .socialIconFont {
@@ -465,6 +467,10 @@
             position: relative
         }
 
+        .social__group--icon.social__group--share .socialIconFont {
+            height:0.875em;
+        }
+
         .social__label {
             font-size:0.625em;
             position:absolute;
@@ -474,9 +480,10 @@
 
         .social__group--icon {
             margin:0 auto 0.25em;
+            height: 1.5em;
         }
 
-        .social__group--share {
+        .social__group--icon.social__group--share {
             padding:0;
         }
 
@@ -485,6 +492,14 @@
             font-size: 0.5em;
         }
 
+    }
+
+    @media screen  and (max-width: 621px) {
+        .social__group--icon {
+            margin: 0 auto 0.25em;
+            height: 1.25em;
+            padding: 0;
+        }
     }
 
     @media screen and (max-width: 529px) {
@@ -497,6 +512,7 @@
             width:18px;
             height:18px;
             margin-bottom:0.1875em;
+            padding:0 .25em .125em;
         }
 
         .socialIconFont:before {
@@ -507,7 +523,7 @@
 
         .social__group--share .socialIconFont:before {
             left:1px;
-            top:2px;
+            top:1px;
         }
 
         .social__label {

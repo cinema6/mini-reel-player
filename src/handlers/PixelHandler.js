@@ -4,7 +4,8 @@ import completeUrl from '../fns/complete_url.js';
 import environment from '../environment.js';
 import {
     map,
-    reduce
+    filter,
+    forEach
 } from '../../lib/utils.js';
 
 function completeUrlWithCardViewDelay(card) {
@@ -25,10 +26,13 @@ function completeUrlWithLoadDelay() {
     };
 }
 
-function firePixels(pixels, mapper) {
-    if (pixels && pixels.length > 0 && !pixels.fired) {
+function firePixels(groups, mapper) {
+    const unfired = filter(groups, group => group && !group.fired);
+    const pixels = [].concat(...unfired);
+
+    if (pixels.length > 0) {
         imageLoader.load(...map(pixels, mapper));
-        pixels.fired = true;
+        forEach(unfired, group => group.fired = true);
     }
 }
 
@@ -39,11 +43,7 @@ export default class PixelHandler extends BillingHandler {
         register(({ target: minireel }) => {
             const { loadStartTime } = environment;
             const launchDelay = loadStartTime && (Date.now() - loadStartTime);
-            const launchUrls = (minireel.campaign.launchUrls || []).concat(
-                reduce(minireel.deck, (result, card) => {
-                    return result.concat(card.get('campaign.launchUrls') || []);
-                }, [])
-            );
+            const launchUrls = map(minireel.deck, card => card.get('campaign.launchUrls') || []);
 
             firePixels(launchUrls, url => completeUrl(url, {
                 '{launchDelay}': launchDelay,
@@ -53,47 +53,49 @@ export default class PixelHandler extends BillingHandler {
         register(({ target: minireel }) => {
             const { loadStartTime } = environment;
             const loadDelay = loadStartTime && (Date.now() - loadStartTime);
+            const loadUrls = map(minireel.deck, card => card.get('campaign.loadUrls') || []);
 
-            firePixels(reduce(minireel.deck, (result, card) => {
-                return result.concat(card.get('campaign.loadUrls') || []);
-            }, []), url => completeUrl(url, { '{loadDelay}': loadDelay, '{delay}': loadDelay }));
+            firePixels(loadUrls, url => completeUrl(url, {
+                '{loadDelay}': loadDelay,
+                '{delay}': loadDelay
+            }));
         }, 'navigation', 'init');
 
         register(({ data: card }) => {
-            firePixels(card.get('campaign.bufferUrls'), completeUrlWithLoadDelay());
+            firePixels([card.get('campaign.bufferUrls')], completeUrlWithLoadDelay());
         }, 'video', 'buffering');
         register(({ data: card }) => {
-            firePixels(card.get('campaign.q1Urls'), completeUrlWithCardViewDelay(card));
+            firePixels([card.get('campaign.q1Urls')], completeUrlWithCardViewDelay(card));
         }, 'video', 'firstQuartile');
         register(({ data: card }) => {
-            firePixels(card.get('campaign.q2Urls'), completeUrlWithCardViewDelay(card));
+            firePixels([card.get('campaign.q2Urls')], completeUrlWithCardViewDelay(card));
         }, 'video', 'midpoint');
         register(({ data: card }) => {
-            firePixels(card.get('campaign.q3Urls'), completeUrlWithCardViewDelay(card));
+            firePixels([card.get('campaign.q3Urls')], completeUrlWithCardViewDelay(card));
         }, 'video', 'thirdQuartile');
         register(({ data: card }) => {
-            firePixels(card.get('campaign.q4Urls'), completeUrlWithCardViewDelay(card));
+            firePixels([card.get('campaign.q4Urls')], completeUrlWithCardViewDelay(card));
         }, 'video', 'complete');
 
         register(({ target: card }) => {
-            firePixels(card.get('campaign.viewUrls'), completeUrlWithLoadDelay());
+            firePixels([card.get('campaign.viewUrls')], completeUrlWithLoadDelay());
         }, 'card', 'activate');
         register(({ target: card }, { tracking }) => {
-            firePixels(tracking, completeUrlWithCardViewDelay(card));
+            firePixels([tracking], completeUrlWithCardViewDelay(card));
         }, 'card', 'clickthrough', 'share');
 
         this.on('AdClick', card => {
             const { lastViewedTime } = card;
             const playDelay = Date.now() - lastViewedTime;
 
-            firePixels(card.get('campaign.playUrls'), url => completeUrl(url, {
+            firePixels([card.get('campaign.playUrls')], url => completeUrl(url, {
                 '{playDelay}': playDelay,
                 '{delay}': playDelay
             }));
         });
 
         this.on('AdCount', card => {
-            firePixels(card.get('campaign.countUrls'), completeUrlWithCardViewDelay(card));
+            firePixels([card.get('campaign.countUrls')], completeUrlWithCardViewDelay(card));
         });
     }
 }

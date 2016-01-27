@@ -512,18 +512,18 @@
             width:18px;
             height:18px;
             margin-bottom:0.1875em;
-            padding:0 .25em .125em;
+            padding:0;
+        }
+
+        .social__group--icon.social__group--share .socialIconFont {
+            height:0.75em;
         }
 
         .socialIconFont:before {
             font-size: 0.75em;
-            top: .0625em;
-            left: -0.125em;
-        }
-
-        .social__group--share .socialIconFont:before {
+            top:0;
             left:1px;
-            top:1px;
+            margin:0;
         }
 
         .social__label {
@@ -533,10 +533,7 @@
     }
 
     @media screen and (max-width: 500px) {
-        .socialIconFont:before {
-            top:0;
-            left:-0.125em;
-        }
+
 
         .socialIconFont {
             width: 1em;

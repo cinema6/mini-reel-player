@@ -1,7 +1,7 @@
 var AWS = require('aws-sdk');
 var Bluebird = require('bluebird');
 var formatURL = require('url').format;
-var request  = require('request-promise');
+var request  = require('request-promise').defaults({ simple: false });
 var inspect = require('util').inspect;
 
 function concat(arrays) {

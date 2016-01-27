@@ -261,7 +261,7 @@
                     font-family:"fontello";
                     font-style:normal;
                     font-weight:normal;
-                    font-size:0.75em;
+                    font-size:0.75rem;
                     speak:none;
                     display:inline-block;
                     text-decoration:inherit;
@@ -289,7 +289,7 @@
 
                     .social__group--vimeo .socialIconFont:before {
                         content:'\e807';
-                        font-size:0.675em;
+                        font-size:0.675rem;
                         margin:0 0.375em 0 0.125em;
                     }
 
@@ -304,12 +304,20 @@
                     .social__label {
                         color:#fff;
                         font-family:'Open Sans', Arial, Helvetica, sans-serif;
-                        font-size:0.75em;
+                        font-size:0.75rem;
                         font-weight:500;
                     }
+/*
+                    .social__group--pinterest .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe802;&nbsp;'); }
+                    .social__group--instagram .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe803;&nbsp;'); }
+                    .social__group--facebook .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe804;&nbsp;'); }
+                    .social__group--youtube .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe805;&nbsp;'); }
+                    .social__group--twitter .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe806;&nbsp;'); }
+                    .social__group--vimeo .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe807;&nbsp;'); }
+                    .social__group--share .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe808;&nbsp;'); }
 
             
-
+*/
             
 
     .overlay {

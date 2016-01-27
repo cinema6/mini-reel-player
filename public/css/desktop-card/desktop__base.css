@@ -1,4 +1,17 @@
 /*  ================================================
+    font imports
+    ================================================ */
+
+    @font-face {
+      font-family: 'fontello';
+      src: url('../../fonts/SocialIcons/font/fontello.eot'); /* IE9 Compat Modes */
+      src: url('../../fonts/SocialIcons/font/fontello.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+           url('../../fonts/SocialIcons/font/fontello.woff') format('woff'), /* Pretty Modern Browsers */
+           url('../../fonts/SocialIcons/font/fontello.ttf')  format('truetype'), /* Safari, Android, iOS */
+           url('../../fonts/SocialIcons/font/fontello.svg#svgfontello') format('svg'); /* Legacy iOS */
+    }
+
+/*  ================================================
     global / reset styles
     ================================================ */
     /*  apply a natural box layout model to all elements,
@@ -191,10 +204,120 @@
             .socialIconSVG--share {
                 fill:#0c7e4a;
             }
-            
+
 
             
 
+            .social__group--icon {
+                display:block;
+                width:90%;
+                height: 1.5em;
+                margin:0 auto 0.375em;
+                padding:0 0.25em;
+                border-radius:4px;
+                text-shadow:0 0 1px rgba(0,0,0,0.6);
+                text-rendering: optimizeLegibility;
+            }
+
+                .social__group--facebook {
+                    background:#2f478b;
+                }
+
+                .social__group--twitter {
+                    background:#30a2ef;
+                }
+
+                .social__group--pinterest {
+                    background:#b00d18;
+                }
+
+                .social__group--instagram {
+                    background:#194579;
+                }
+
+                .social__group--vimeo {
+                    background:#1ab7ea;
+                }
+
+                .social__group--youtube {
+                    background:#e52d27;
+                }
+
+                .social__group--share {
+                    background:#256c35;
+                    padding:0.0625em 0.25em 0.1875em;
+                }
+
+                
+
+                .socialIconFont {
+                    width:6rem;
+                    display:block;
+                    margin:0 auto;
+                    text-align:left;
+                }
+
+                .socialIconFont:before {
+                    font-family:"fontello";
+                    font-style:normal;
+                    font-weight:normal;
+                    font-size:0.75rem;
+                    speak:none;
+                    display:inline-block;
+                    text-decoration:inherit;
+                    width:1em;
+                    margin:0 0.25em 0 0;
+                    text-align:center;
+                    color:#fff;
+                }
+
+                    .social__group--facebook .socialIconFont:before {
+                        content:'\e804';
+                    }
+
+                    .social__group--twitter .socialIconFont:before {
+                        content:'\e806';
+                    }
+
+                    .social__group--pinterest .socialIconFont:before {
+                        content:'\e802';
+                    }
+
+                    .social__group--instagram .socialIconFont:before {
+                        content:'\e803';
+                    }
+
+                    .social__group--vimeo .socialIconFont:before {
+                        content:'\e807';
+                        font-size:0.675rem;
+                        margin:0 0.375em 0 0.125em;
+                    }
+
+                    .social__group--youtube .socialIconFont:before {
+                        content:'\e805';
+                    }
+
+                    .social__group--share .socialIconFont:before {
+                        content:'\e808';
+                    }
+
+                    .social__label {
+                        color:#fff;
+                        font-family:'Open Sans', Arial, Helvetica, sans-serif;
+                        font-size:0.75rem;
+                        font-weight:500;
+                    }
+/*
+                    .social__group--pinterest .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe802;&nbsp;'); }
+                    .social__group--instagram .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe803;&nbsp;'); }
+                    .social__group--facebook .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe804;&nbsp;'); }
+                    .social__group--youtube .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe805;&nbsp;'); }
+                    .social__group--twitter .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe806;&nbsp;'); }
+                    .social__group--vimeo .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe807;&nbsp;'); }
+                    .social__group--share .socialIconFont:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe808;&nbsp;'); }
+
+            
+*/
             
 
     .overlay {

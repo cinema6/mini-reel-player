@@ -1,6 +1,7 @@
 # MiniReel Player 2.0
 
 * *[v2.4.7-rc1]*
+  * [DESIGN]: Social media buttons for Desktop-Card changed to icon font with label. Width of video and social media bar changed to preserve aspect ratio of video.
   * [REFACTOR]: Remove legacy pixel-tracking code
   * [FIX]: Fix for an issue where launch/load pixels could be fired
     multiple times for a single session

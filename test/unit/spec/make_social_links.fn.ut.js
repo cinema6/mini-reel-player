@@ -1,4 +1,5 @@
 import makeSocialLinks from '../../../src/fns/make_social_links.js';
+import socialLinkCTAs from '../../../src/copy/social_link_ctas.json';
 
 describe('makeSocialLinks(links)', function() {
     let links;
@@ -22,12 +23,12 @@ describe('makeSocialLinks(links)', function() {
 
     it('should return an Array of social links', function() {
         expect(result).toEqual([
-            { type: 'facebook', label: 'Facebook', href: links.Facebook.uri },
-            { type: 'twitter', label: 'Twitter', href: links.Twitter.uri },
-            { type: 'pinterest', label: 'Pinterest', href: links.Pinterest.uri },
-            { type: 'youtube', label: 'YouTube', href: links.YouTube.uri },
-            { type: 'vimeo', label: 'Vimeo', href: links.Vimeo.uri },
-            { type: 'instagram', label: 'Instagram', href: links.Instagram.uri }
+            { type: 'facebook', label: 'Facebook', href: links.Facebook.uri, cta: socialLinkCTAs.Facebook },
+            { type: 'twitter', label: 'Twitter', href: links.Twitter.uri, cta: socialLinkCTAs.Twitter },
+            { type: 'pinterest', label: 'Pinterest', href: links.Pinterest.uri, cta: socialLinkCTAs.Pinterest },
+            { type: 'youtube', label: 'YouTube', href: links.YouTube.uri, cta: socialLinkCTAs.YouTube },
+            { type: 'vimeo', label: 'Vimeo', href: links.Vimeo.uri, cta: socialLinkCTAs.Vimeo },
+            { type: 'instagram', label: 'Instagram', href: links.Instagram.uri, cta: socialLinkCTAs.Instagram }
         ]);
     });
 });

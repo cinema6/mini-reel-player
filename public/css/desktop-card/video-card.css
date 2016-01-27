@@ -423,13 +423,17 @@
 
     @media screen and (min-width: 901px) {
         .social__group--icon {
-            margin-bottom:0.5em;
-            padding:0.3125rem 0.25rem 0.25rem;
-            height: 2.125rem;
+            margin-bottom: 0.5em;
+            padding: 0.3125em 0.1875em 0.25em;
+            height: 2.125em;
+        }
+
+        .social__group--icon.social__group--share {
+            padding:0.5em 0;
         }
 
         .socialIconFont {
-            width:6rem;
+            width:6.25rem;
         }
 
         .socialIconFont:before,
@@ -440,6 +444,33 @@
         .social__group--vimeo .socialIconFont:before {
             font-size: 0.75em;
             margin: 0 0.5em 0 0;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+
+        .social__group--icon {
+            margin-bottom:0.625em;
+            padding: 0.5em 0.25em 0.375em;
+            height: 2.75em;
+        }
+
+        .social__group--icon.social__group--share {
+            padding: 0.8125em 0 0.5em;
+        }
+
+        .socialIconFont {
+            width:7.5rem;
+        }
+
+        .socialIconFont:before,
+        .social__label {
+            font-size:1.25em;
+        }
+
+        .social__group--vimeo .socialIconFont:before {
+            font-size: 0.875em;
+            margin: 0 0.625em 0 0;
         }
     }
 
@@ -458,17 +489,12 @@
             font-size:0.625em;
             position: absolute;
             top: 0.25em;
-            left:0;
         }
 
         .socialIconFont {
             width:3.875rem;
             height: 1.25em;
             position: relative
-        }
-
-        .social__group--icon.social__group--share .socialIconFont {
-            height:0.875em;
         }
 
         .social__label {
@@ -480,27 +506,23 @@
 
         .social__group--icon {
             margin:0 auto 0.25em;
-            height: 1.5em;
+            height: 1.25em;
         }
 
         .social__group--icon.social__group--share {
-            padding:0;
+            padding:0.0625em 0;
         }
+
+            .social__group--share .socialIconFont {
+                height:1.125em;
+            }
 
         .social__group--vimeo .socialIconFont:before {
-            margin: 0.375em 0 0 .125em;
-            font-size: 0.5em;
+            margin: 0.25em 0 0;
         }
 
     }
 
-    @media screen  and (max-width: 621px) {
-        .social__group--icon {
-            margin: 0 auto 0.25em;
-            height: 1.25em;
-            padding: 0;
-        }
-    }
 
     @media screen and (max-width: 529px) {
         .socialIconFont {
@@ -509,40 +531,26 @@
         }
 
         .social__group--icon {
-            width:18px;
-            height:18px;
+            width:1em;
+            height:1em;
             margin-bottom:0.1875em;
-            padding:0;
-        }
-
-        .social__group--icon.social__group--share .socialIconFont {
-            height:0.75em;
         }
 
         .socialIconFont:before {
-            font-size: 0.75em;
-            top:0;
-            left:1px;
-            margin:0;
+            top:0.0625em;
+            left:-0.0625em;
+            font-size:0.5625em;
+        }
+
+        .social__group--share .socialIconFont:before {
+            top:0.25em;
+            left:0.375em;
         }
 
         .social__label {
             display: none;
         }
 
-    }
-
-    @media screen and (max-width: 500px) {
-
-
-        .socialIconFont {
-            width: 1em;
-            height: 1em;
-        }
-
-        .sponsorProfile__img {
-            max-height: 3em;
-        }
     }
 
 

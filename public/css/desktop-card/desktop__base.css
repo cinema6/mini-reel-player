@@ -41,18 +41,16 @@
         border:0; max-width:100%;
     }
     button {
+        font-size:1rem;
         margin:0; border:0; padding:0;
         display: inline-block;
         cursor:pointer;
         background:none;
-        box-sizing:inherit;
-        line-height: 1;
-        font-size:1rem;
     }
 
     button::-moz-focus-inner {
-        border: 0;
         padding: 0;
+        border: 0;
     }
 
     body > iframe {
@@ -104,6 +102,16 @@
         clear: both;
     }
 
+    .social__group--item.social__group--SVG {
+        display: block;
+        text-align: center;
+        margin: 0.375em auto 0;
+        width: 1.75em;
+        height:1.75em;
+        background: #fff;
+        border: 0px solid white;
+        border-radius: 5px;
+    }
 
     .sprite,
     .spriteAf:after,
@@ -164,17 +172,51 @@
                 width:1.25rem;
             }
 
+            .SVGicon {
+                width:1.75em;
+                height:1.75em;
+            }
+
+            .socialIconSVG--youtube {
+                fill:#e22d24;
+            }
+
+            .socialIconSVG--vimeo {
+                fill:#445566;
+            }
+
+            .socialIconSVG--facebook {
+                fill:#3b5998;
+            }
+
+            .socialIconSVG--twitter {
+                fill:#00b0ed;
+            }
+
+            .socialIconSVG--pinterest {
+                fill:#c92228;
+            }
+
+            .socialIconSVG--instagram {
+                fill:#125688;
+            }
+
+            .socialIconSVG--share {
+                fill:#0c7e4a;
+            }
+
 
             
+
             .social__group--icon {
                 display:block;
                 width:90%;
+                height: 1.5em;
                 margin:0 auto 0.375em;
-                padding:0.125em 0.25em 0.125em;
+                padding:0 0.25em;
                 border-radius:4px;
                 text-shadow:0 0 1px rgba(0,0,0,0.6);
                 text-rendering: optimizeLegibility;
-                height:1.75em;
             }
 
                 .social__group--facebook {
@@ -201,13 +243,10 @@
                     background:#e52d27;
                 }
 
-                .social__group--icon.social__group--share {
+                .social__group--share {
                     background:#256c35;
-                    -webkit-border-fit:border !important;
-                    border:0;
-                    outline:0;
+                    padding:0.0625em 0.25em 0.1875em;
                 }
-
 
                 
 
@@ -268,6 +307,7 @@
                         font-size:0.75em;
                         font-weight:500;
                     }
+
             
 
             

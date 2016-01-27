@@ -73,12 +73,11 @@ describe('PixelHandler', function() {
                 q4Urls: ['img11.jpg?delay={delay}', 'img12.jpg?page={pageUrl}'],
                 viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}'],
                 bufferUrls: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}'],
+                launchUrls: ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}'],
             }
         }, experience);
         minireel = new EventEmitter();
-        minireel.campaign = {
-            launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}&delay={delay}', 'img2.jpg?cb={cachebreaker}']
-        };
+        minireel.campaign = {};
         minireel.deck = [card];
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
@@ -104,82 +103,63 @@ describe('PixelHandler', function() {
     describe('minireel events:', function() {
         describe('launch', function() {
             beforeEach(function() {
+                minireel.deck = [
+                    new MockCard(),
+                    card,
+                    new MockCard(),
+                    new MockCard(),
+                    new VideoCard({
+                        id: 'rc-6d51e674680718',
+                        type: 'youtube',
+                        data: {},
+                        params: {},
+                        links: {},
+                        collateral: {},
+                        campaign: {
+                            minViewTime: -1,
+                            launchUrls: ['img19.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}', 'img20.jpg?cb={cachebreaker}&delay={delay}'],
+                        }
+                    }, experience),
+                    new MockCard()
+                ];
+
                 jasmine.clock().tick(150);
 
                 minireel.emit('launch');
             });
 
-            it('should fire the minireel\'s launch pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(url => completeUrl(url, {
-                    '{launchDelay}': 150,
+            it('should fire the launchUrls of all the cards', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
                     '{delay}': 150
                 })));
+            });
+
+            describe('if fired again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    minireel.emit('launch');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
             });
 
             describe('if the loadStartTime is unknown', function() {
                 beforeEach(function() {
                     environment.loadStartTime = null;
                     imageLoader.load.calls.reset();
-                    delete minireel.campaign.launchUrls.fired;
+                    minireel.deck.forEach(card => {
+                        if (card.campaign.launchUrls) { delete card.campaign.launchUrls.fired; }
+                    });
 
                     minireel.emit('launch');
                 });
 
                 it('should replace the {launchDelay} macro with null', function() {
-                    expect(imageLoader.load).toHaveBeenCalledWith(...minireel.campaign.launchUrls.map(url => completeUrl(url, {
-                        '{launchDelay}': null,
-                        '{delay}': null
-                    })));
-                });
-            });
-
-            describe('if the minireel has no launchUrls', function() {
-                beforeEach(function() {
-                    delete minireel.campaign.launchUrls;
-                    imageLoader.load.calls.reset();
-
-                    minireel.emit('launch');
-                });
-
-                it('should do nothing', function() {
-                    expect(imageLoader.load).not.toHaveBeenCalled();
-                });
-            });
-
-            describe('if some cards have launchUrls', function() {
-                beforeEach(function() {
-                    delete minireel.campaign.launchUrls;
-
-                    imageLoader.load.calls.reset();
-
-                    card.campaign.launchUrls = ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}'];
-                    minireel.deck = [
-                        new MockCard(),
-                        card,
-                        new MockCard(),
-                        new MockCard(),
-                        new VideoCard({
-                            id: 'rc-6d51e674680718',
-                            type: 'youtube',
-                            data: {},
-                            params: {},
-                            links: {},
-                            collateral: {},
-                            campaign: {
-                                minViewTime: -1,
-                                launchUrls: ['img19.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}', 'img20.jpg?cb={cachebreaker}&delay={delay}'],
-                            }
-                        }, experience),
-                        new MockCard()
-                    ];
-
-                    minireel.emit('launch');
-                });
-
-                it('should fire the launchUrls of all the cards', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
-                        '{launchDelay}': 150,
-                        '{delay}': 150
+                        '{delay}': null
                     })));
                 });
             });
@@ -214,7 +194,6 @@ describe('PixelHandler', function() {
 
             it('should fire the loadPixels of all the cards', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
-                    '{loadDelay}': 33,
                     '{delay}': 33
                 })));
             });
@@ -223,12 +202,15 @@ describe('PixelHandler', function() {
                 beforeEach(function() {
                     environment.loadStartTime = null;
                     imageLoader.load.calls.reset();
+                    minireel.deck.forEach(card => {
+                        if (card.campaign.loadUrls) { delete card.campaign.loadUrls.fired; }
+                    });
+
                     minireel.emit('init');
                 });
 
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
-                        '{loadDelay}': null,
                         '{delay}': null
                     })));
                 });
@@ -583,7 +565,7 @@ describe('PixelHandler', function() {
         });
 
         it('should load the playUrls', function() {
-            const urls = card.campaign.playUrls.map(url => completeUrl(url, { '{playDelay}': 500, '{delay}': 500 }));
+            const urls = card.campaign.playUrls.map(url => completeUrl(url, { '{delay}': 500 }));
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 

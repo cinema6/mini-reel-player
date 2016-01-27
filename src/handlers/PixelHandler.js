@@ -26,21 +26,26 @@ function completeUrlWithLoadDelay() {
 }
 
 function firePixels(pixels, mapper) {
-    if (pixels && !pixels.fired) {
+    if (pixels && pixels.length > 0 && !pixels.fired) {
         imageLoader.load(...map(pixels, mapper));
         pixels.fired = true;
     }
 }
 
-export default class ADTECHHandler extends BillingHandler {
+export default class PixelHandler extends BillingHandler {
     constructor(register) {
         super(...arguments);
 
         register(({ target: minireel }) => {
             const { loadStartTime } = environment;
             const launchDelay = loadStartTime && (Date.now() - loadStartTime);
+            const launchUrls = (minireel.campaign.launchUrls || []).concat(
+                reduce(minireel.deck, (result, card) => {
+                    return result.concat(card.get('campaign.launchUrls') || []);
+                }, [])
+            );
 
-            firePixels(minireel.campaign.launchUrls, url => completeUrl(url, {
+            firePixels(launchUrls, url => completeUrl(url, {
                 '{launchDelay}': launchDelay,
                 '{delay}': launchDelay
             }));

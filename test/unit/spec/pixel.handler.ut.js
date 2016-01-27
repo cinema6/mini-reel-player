@@ -1,4 +1,4 @@
-import ADTECHHandler from '../../../src/handlers/ADTECHHandler.js';
+import PixelHandler from '../../../src/handlers/PixelHandler.js';
 import BillingHandler from '../../../src/handlers/BillingHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
@@ -22,14 +22,14 @@ class MockCard extends Card {
 }
 MockCard.mixin(SponsoredCard);
 
-describe('ADTECHHandler', function() {
+describe('PixelHandler', function() {
     let card;
     let minireel;
     let experience;
     let player;
     let handler;
 
-    class MockHandler extends ADTECHHandler {
+    class MockHandler extends PixelHandler {
         constructor() {
             super(...arguments);
 
@@ -79,13 +79,14 @@ describe('ADTECHHandler', function() {
         minireel.campaign = {
             launchUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}&delay={delay}', 'img2.jpg?cb={cachebreaker}']
         };
+        minireel.deck = [card];
 
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete', 'buffering'], card);
         dispatcher.addSource('card', card, ['activate', 'deactivate'], player);
         dispatcher.addSource('card', card, ['share', 'clickthrough']);
 
-        spyOn(imageLoader, 'load').and.callFake(urls => expect(urls.length).toBeGreaterThan(0));
+        spyOn(imageLoader, 'load').and.callFake((...urls) => expect(urls.length).toBeGreaterThan(0));
     });
 
     afterEach(function() {
@@ -115,18 +116,6 @@ describe('ADTECHHandler', function() {
                 })));
             });
 
-            describe('if emitted again', function() {
-                beforeEach(function() {
-                    imageLoader.load.calls.reset();
-
-                    minireel.emit('launch');
-                });
-
-                it('should not fire any pixels', function() {
-                    expect(imageLoader.load).not.toHaveBeenCalled();
-                });
-            });
-
             describe('if the loadStartTime is unknown', function() {
                 beforeEach(function() {
                     environment.loadStartTime = null;
@@ -154,6 +143,44 @@ describe('ADTECHHandler', function() {
 
                 it('should do nothing', function() {
                     expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if some cards have launchUrls', function() {
+                beforeEach(function() {
+                    delete minireel.campaign.launchUrls;
+
+                    imageLoader.load.calls.reset();
+
+                    card.campaign.launchUrls = ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}'];
+                    minireel.deck = [
+                        new MockCard(),
+                        card,
+                        new MockCard(),
+                        new MockCard(),
+                        new VideoCard({
+                            id: 'rc-6d51e674680718',
+                            type: 'youtube',
+                            data: {},
+                            params: {},
+                            links: {},
+                            collateral: {},
+                            campaign: {
+                                minViewTime: -1,
+                                launchUrls: ['img19.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}', 'img20.jpg?cb={cachebreaker}&delay={delay}'],
+                            }
+                        }, experience),
+                        new MockCard()
+                    ];
+
+                    minireel.emit('launch');
+                });
+
+                it('should fire the launchUrls of all the cards', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
+                        '{launchDelay}': 150,
+                        '{delay}': 150
+                    })));
                 });
             });
         });

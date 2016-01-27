@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+* *[v2.4.7-rc1]*
+  * [REFACTOR]: Remove legacy pixel-tracking code
+  * [FIX]: Fix for an issue where launch/load pixels could be fired
+    multiple times for a single session
+
 ## v2.4.6 (January 26, 2016)
 * *[v2.4.6-rc2]*
   * [FIX]: Improve the reliability of the task that verifies when the

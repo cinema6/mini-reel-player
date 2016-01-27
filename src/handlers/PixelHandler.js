@@ -41,24 +41,14 @@ export default class PixelHandler extends BillingHandler {
         super(...arguments);
 
         register(({ target: minireel }) => {
-            const { loadStartTime } = environment;
-            const launchDelay = loadStartTime && (Date.now() - loadStartTime);
             const launchUrls = map(minireel.deck, card => card.get('campaign.launchUrls') || []);
 
-            firePixels(launchUrls, url => completeUrl(url, {
-                '{launchDelay}': launchDelay,
-                '{delay}': launchDelay
-            }));
+            firePixels(launchUrls, completeUrlWithLoadDelay());
         }, 'navigation', 'launch');
         register(({ target: minireel }) => {
-            const { loadStartTime } = environment;
-            const loadDelay = loadStartTime && (Date.now() - loadStartTime);
             const loadUrls = map(minireel.deck, card => card.get('campaign.loadUrls') || []);
 
-            firePixels(loadUrls, url => completeUrl(url, {
-                '{loadDelay}': loadDelay,
-                '{delay}': loadDelay
-            }));
+            firePixels(loadUrls, completeUrlWithLoadDelay());
         }, 'navigation', 'init');
 
         register(({ data: card }) => {
@@ -85,13 +75,7 @@ export default class PixelHandler extends BillingHandler {
         }, 'card', 'clickthrough', 'share');
 
         this.on('AdClick', card => {
-            const { lastViewedTime } = card;
-            const playDelay = Date.now() - lastViewedTime;
-
-            firePixels([card.get('campaign.playUrls')], url => completeUrl(url, {
-                '{playDelay}': playDelay,
-                '{delay}': playDelay
-            }));
+            firePixels([card.get('campaign.playUrls')], completeUrlWithCardViewDelay(card));
         });
 
         this.on('AdCount', card => {

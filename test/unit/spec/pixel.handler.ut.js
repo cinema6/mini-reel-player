@@ -130,7 +130,6 @@ describe('PixelHandler', function() {
 
             it('should fire the launchUrls of all the cards', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
-                    '{launchDelay}': 150,
                     '{delay}': 150
                 })));
             });
@@ -160,7 +159,6 @@ describe('PixelHandler', function() {
 
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
-                        '{launchDelay}': null,
                         '{delay}': null
                     })));
                 });
@@ -196,7 +194,6 @@ describe('PixelHandler', function() {
 
             it('should fire the loadPixels of all the cards', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
-                    '{loadDelay}': 33,
                     '{delay}': 33
                 })));
             });
@@ -214,7 +211,6 @@ describe('PixelHandler', function() {
 
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
-                        '{loadDelay}': null,
                         '{delay}': null
                     })));
                 });
@@ -569,7 +565,7 @@ describe('PixelHandler', function() {
         });
 
         it('should load the playUrls', function() {
-            const urls = card.campaign.playUrls.map(url => completeUrl(url, { '{playDelay}': 500, '{delay}': 500 }));
+            const urls = card.campaign.playUrls.map(url => completeUrl(url, { '{delay}': 500 }));
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 

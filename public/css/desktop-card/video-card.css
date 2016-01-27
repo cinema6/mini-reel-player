@@ -428,9 +428,7 @@
             height: 2.125em;
         }
 
-        .social__group--icon.social__group--share {
-            padding:0.5em 0;
-        }
+
 
         .socialIconFont {
             width:6.25rem;
@@ -453,10 +451,6 @@
             margin-bottom:0.625em;
             padding: 0.5em 0.25em 0.375em;
             height: 2.75em;
-        }
-
-        .social__group--icon.social__group--share {
-            padding: 0.8125em 0 0.5em;
         }
 
         .socialIconFont {

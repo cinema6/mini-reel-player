@@ -11,6 +11,8 @@
            url('../../fonts/SocialIcons/font/fontello.svg#svgfontello') format('svg'); /* Legacy iOS */
     }
 
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,300|Roboto+Condensed:400,300,700);
+
 /*  ================================================
     global / reset styles
     ================================================ */

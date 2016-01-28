@@ -178,7 +178,7 @@
             width: 100%;
             margin: 0 auto;
             padding: 0;
-            top: 0;
+            top:0.5rem;
             list-style-type: none;
             position: relative;
         }
@@ -202,9 +202,9 @@
                 width: 80%;
                 height: auto;
                 text-align: center;
-                margin-left: 10%;
-                top: -1em;
+                top: 0.5rem;
                 left: 0;
+                display: inline-block;
             }
                 .sponsorProfile__img {
                     width: auto;
@@ -356,7 +356,7 @@
 
         .sponsorProfile__imgBox {
             margin-left:0;
-            top:-0.25em;
+            top: 0.25rem;
             line-height: 1;
         }
 
@@ -370,11 +370,7 @@
             font-size:0.625em;
             color:#fff;
             display:block;
-            margin:0.75em 0 0.25em;
-        }
-
-        .social__group ul {
-            top:-0.25em;
+            margin:0 0 0.25em;
         }
 
             .social__group--item {
@@ -410,10 +406,6 @@
             .sponsorProfile__img {
                 margin-bottom:0.25em;
             }
-
-        .social__group ul {
-            top:-0.5em;
-        }
 
     }
 
@@ -760,7 +752,7 @@
                 .card__title h1 {
                     font-size: 1rem;
                     line-height: 1em;
-                    font-weight: 500;
+                    font-weight: 400;
                     margin-bottom: 0.25rem;
                 }
             .card__desc p{
@@ -804,7 +796,7 @@
         .card__title h1 {
             font-size: 1.5rem;
             line-height: 1.25em;
-            font-weight: 500;
+            font-weight: 400;
         }
 
         .card__copy--content {

@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.4.8-rc1]*
+  * [DESIGN]: Desktop-Card now supports 960x540 for preview page. All aspects of card design tweaked for all supported ad sizes.
+
 ## v2.4.7 (January 27, 2016)
 * *[v2.4.7-rc1]*
   * [DESIGN]: Social media buttons for Desktop-Card changed to icon font with label. Width of video and social media bar changed to preserve aspect ratio of video.

@@ -178,7 +178,7 @@
             width: 100%;
             margin: 0 auto;
             padding: 0;
-            top: 0;
+            top:0.5rem;
             list-style-type: none;
             position: relative;
         }
@@ -202,9 +202,9 @@
                 width: 80%;
                 height: auto;
                 text-align: center;
-                margin-left: 10%;
-                top: -1em;
+                top: 0.5rem;
                 left: 0;
+                display: inline-block;
             }
                 .sponsorProfile__img {
                     width: auto;
@@ -356,7 +356,7 @@
 
         .sponsorProfile__imgBox {
             margin-left:0;
-            top:-0.25em;
+            top: 0.25rem;
             line-height: 1;
         }
 
@@ -370,11 +370,7 @@
             font-size:0.625em;
             color:#fff;
             display:block;
-            margin:0.75em 0 0.25em;
-        }
-
-        .social__group ul {
-            top:-0.25em;
+            margin:0 0 0.25em;
         }
 
             .social__group--item {
@@ -411,10 +407,6 @@
                 margin-bottom:0.25em;
             }
 
-        .social__group ul {
-            top:-0.5em;
-        }
-
     }
 
 /*  ================================================
@@ -422,9 +414,14 @@
     ================================================ */
 
     @media screen and (min-width: 901px) {
+        .sponsorProfile__small--text {
+            font-size: 12px;
+        }
+
         .social__group--icon {
             margin-bottom: 0.5em;
             padding: 0.3125em 0.1875em 0.25em;
+            max-width: 8.5rem;
             height: 2.125em;
         }
 
@@ -447,9 +444,14 @@
 
     @media screen and (min-width: 1200px) {
 
+        .sponsorProfile__img {
+            max-height: 6rem;
+        }
+
         .social__group--icon {
             margin-bottom:0.625em;
             padding: 0.5em 0.25em 0.375em;
+            max-width: 9.5rem;
             height: 2.75em;
         }
 
@@ -471,6 +473,10 @@
     @media screen and (max-width: 900px) {
         .socialIconFont {
             width:4.5rem;
+        }
+
+        .social__group--icon {
+            max-width:7rem;
         }
     }
 
@@ -592,7 +598,7 @@
 
     }
 
-    @media screen and (min-height: 360px) and (max-height: 425px) {
+    @media screen and (min-height: 360px) and (max-height: 420px) {
         .cta__group {
             width:24%;
             min-height:59px;
@@ -609,7 +615,7 @@
             }
     }
 
-    @media screen and (min-height: 426px) and (max-height: 449px) {
+    @media screen and (min-height: 421px) and (max-height: 449px) {
         .cta__group {
             width:24%;
             min-height:72px;
@@ -643,7 +649,7 @@
             }
     }
 
-    @media screen and (min-height: 500px) and (max-height: 599px) {
+    @media screen and (min-height: 500px) and (max-height: 534px) {
         .cta__group {
             width:24%;
             min-height:77px;
@@ -661,6 +667,24 @@
             }
     }
 
+    @media screen and (min-height: 535px) and (max-height: 599px) {
+        .cta__group {
+            width: 24%;
+            min-height: 87px;
+            max-height: 87px;
+            padding-top: 0.75em;
+            padding-right: 0.875em;
+        }
+            .info__group:hover .sponsoredBtn, 
+            .sponsoredBtn {
+                height: 75px;
+                font-size: 1.25rem;
+                line-height: 1.25em;
+                text-transform: capitalize;
+                font-weight: bold;
+            }
+    }
+
     @media screen and (min-height: 600px) {
         .cta__group {
             width:24%;
@@ -672,7 +696,7 @@
             .info__group:hover .sponsoredBtn,
             .sponsoredBtn {
                 height: 88px;
-                font-size: 1rem;
+                font-size: 1.25rem;
                 line-height: 1.25em;
                 text-transform:capitalize;
                 font-weight:bold;
@@ -685,21 +709,30 @@
     other media queries
     ================================================ */
 
-    @media screen and (max-width: 529px) {
+    @media screen and (max-width: 530px) {
         .card__title {
             width: 98%;
         }
             .card__title h1 {
-                font-size: 0.75rem;
+                font-size: 0.875rem;
                 line-height: 1em;
                 font-weight: normal;
+                margin-bottom: 0.25rem;
+            }
+
+            .card__copy--content {
+                padding:0.5rem 0.25rem 0 0.625rem;
             }
 
         .hide-small {
             display: none;
         }
+
+        .card__desc p{
+            margin: 0;
+        }
     }
-    @media screen and (min-width: 530px) and (max-width: 580px) {
+    @media screen and (min-width: 531px) and (max-width: 649px) {
         .info__group--expandSml:hover {
             height: auto;
             margin-top: -16%;
@@ -708,7 +741,7 @@
         }
         .card__copy--content {
             width: 70%;
-            padding: 0 0.25em 0 0.625rem;
+            padding:0.5rem 0.25rem 0 0.625rem;
         }
             .copy__fullWidth .card__copy--content {
                 width: 100%;
@@ -719,25 +752,29 @@
                 .card__title h1 {
                     font-size: 1rem;
                     line-height: 1em;
-                    font-weight: 500;
+                    font-weight: 400;
+                    margin-bottom: 0.25rem;
                 }
             .card__desc p{
                 margin: 0;
             }
 
     }
-    @media screen and (min-width: 600px) and (max-width: 799px) {
+    @media screen and (min-width: 650px) and (max-width: 799px) {
         .info__group--expandMed:hover {
             height: auto;
             margin-top: -12.5%;
             border-top: 1px solid #ccc;
             background: #fff;
-
+        }
+        .card__copy--content {
+            padding: 0.5em 0.375em 0 0.75rem;
         }
         .card__title h1 {
-            font-size: 0.865rem;
+            font-size: 1rem;
             line-height: 1.25em;
             font-weight: normal;
+            margin-bottom: 0.25rem;
         }
         .card__desc {
             font-size: 0.875rem;
@@ -755,20 +792,27 @@
             border-top: 1px solid #ccc;
             background: #fff;
         }
+
         .card__title h1 {
-            font-size: 1rem;
+            font-size: 1.5rem;
             line-height: 1.25em;
-            font-weight: normal;
+            font-weight: 400;
         }
+
+        .card__copy--content {
+            padding: 0.75em 0.25em 0 0.875rem;
+        }
+
         .card__desc p {
             margin: 0px;
             line-height: 1.5;
             width: 98%;
-            font-size: 1.125em;
+            font-size: 1.25em;
             padding-top: 0.25em;
         }
-
     }
+
+
 
 
 

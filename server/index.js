@@ -91,8 +91,17 @@ function extend(/*...objects*/) {
 }
 
 function serveStatic(req, res) {
-    var directory = resolvePath(__dirname, '../public');
-    var path = resolvePath(directory, req.path.replace(/^\/static\/master\//, './'));
+    var path = (function() {
+        var STATIC_REGEX = /^\/static\/master\//;
+
+        if (STATIC_REGEX.test(req.path)) {
+            var directory = resolvePath(__dirname, '../public');
+
+            return resolvePath(directory, req.path.replace(STATIC_REGEX, ''));
+        }
+
+        return resolvePath(__dirname, '.' + req.path);
+    }());
 
     stat(path, function verifyExists(error) {
         if (error) {

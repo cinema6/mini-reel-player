@@ -50,7 +50,6 @@
     "grunt-karma": "^0.12.0",
     "grunt-open": "^0.2.3",
     "grunt-text-replace": "^0.4.0",
-    "http-mock": "git://github.com/cinema6/http-mock#v0.2.0",
     "jasmine-core": "2.1.x",
     "jquery": "^2.1.3",
     "karma": "^0.13.3",

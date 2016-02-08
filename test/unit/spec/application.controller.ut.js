@@ -6,6 +6,8 @@ import environment from '../../../src/environment.js';
 import browser from '../../../src/services/browser.js';
 import codeLoader from '../../../src/services/code_loader.js';
 import RunnerPromise from '../../../lib/RunnerPromise.js';
+import View from '../../../lib/core/View.js';
+import DominoView from '../../../src/mixins/DominoView.js';
 import {
     defer
 } from '../../../lib/utils.js';
@@ -47,6 +49,10 @@ describe('ApplicationController', function() {
 
     it('should not replace the flush() method on the RenderQueue', function() {
         expect(Runner.queues[1].prototype.flush).not.toBe(Runner.queues[0].prototype.flush);
+    });
+
+    it('should mix DominoView into the View', function() {
+        expect(View.mixins).toContain(DominoView);
     });
 
     describe('if the context is "mraid"', function() {

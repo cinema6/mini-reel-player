@@ -98,6 +98,7 @@
     "babel-plugin-transform-proto-to-assign": "^6.4.0",
     "babelify": "^7.2.0",
     "deep-freeze-node": "~1.1.1",
+    "domino.css": "^0.1.3",
     "es6-promise": "^2.0.1",
     "escape-regexp": "0.0.1",
     "grunt-domino-css": "^0.1.2",

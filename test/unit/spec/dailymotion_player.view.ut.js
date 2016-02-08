@@ -898,7 +898,7 @@ describe('DailymotionPlayer', function() {
                 beforeEach(function() {
                     player.autoplay = true;
 
-                    player.didInsertElement();
+                    Runner.run(() => player.didInsertElement());
                 });
 
                 it('should call play()', function() {
@@ -914,7 +914,7 @@ describe('DailymotionPlayer', function() {
                 beforeEach(function() {
                     player.autoplay = false;
 
-                    player.didInsertElement();
+                    Runner.run(() => player.didInsertElement());
                 });
 
                 it('should not call play()', function() {

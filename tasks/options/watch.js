@@ -1,29 +1,29 @@
 module.exports = {
+    options: {
+        livereload: {
+            liveCSS: false
+        }
+    },
     livereload: {
         files: [
             'public/**/*.html',
             'public/**/*.css',
             'public/**/*.{png,jpg,jpeg,gif,webp,svg}',
-            'src/**',
-            'lib/**'
+            'src/**/*.*',
+            'lib/**/*.*'
         ],
-        options: {
-            livereload: true
-        },
-        tasks: ['copy:server', 'jshint']
+        tasks: ['build']
     },
     'livereload-tdd': {
         files: [
             'public/**/*.html',
             'public/**/*.css',
             'public/**/*.{png,jpg,jpeg,gif,webp,svg}',
-            'server/.build/**/*.js',
+            'src/**/*.*',
+            'lib/**/*.*',
             'test/unit/**/*.js'
         ],
-        options: {
-            livereload: true
-        },
-        tasks: ['copy:server', 'karma:server:run:<%= grunt.task.current.args[1] %>']
+        tasks: ['build', 'karma:server:run:<%= grunt.task.current.args[1] %>']
 
     },
     docs: {
@@ -31,9 +31,6 @@ module.exports = {
             'src/**/*.js',
             'lib/**/*.js'
         ],
-        options: {
-            livereload: true
-        },
         tasks: ['yuidoc:compile']
     }
 };

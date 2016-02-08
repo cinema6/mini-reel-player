@@ -90,6 +90,7 @@ module.exports = function(grunt) {
             grunt.task.run('copy:test');
             grunt.task.run('karma:server:foo:' + target);
         }
+        grunt.task.run('build');
         grunt.task.run('express:server');
         grunt.task.run('open:server');
         grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
@@ -179,17 +180,10 @@ module.exports = function(grunt) {
      *********************************************************************************************/
 
     grunt.registerTask('build', 'build app into distDir', [
-        'test:unit',
-        'git_describe_tags',
-        'babelhelpers:build',
         'clean:build',
-        'copy:tmp',
-        'htmlmin:tmp',
-        'cssmin:tmp',
-        'browserify:tmp',
-        'copy:build',
-        'compress:build',
-        'replace:build'
+        'babelhelpers:build',
+        'cssmin:build',
+        'domino_css:build'
     ]);
 
     grunt.registerTask('build:docs', 'build YUIDocs', [

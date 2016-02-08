@@ -1,32 +1,54 @@
+var grunt = require('grunt');
+
 module.exports = {
-    options: {
-        livereload: {
-            liveCSS: false
-        }
-    },
     livereload: {
+        options: {
+            livereload: true
+        },
         files: [
             'public/**/*.html',
-            'public/**/*.css',
             'public/**/*.{png,jpg,jpeg,gif,webp,svg}',
             'src/**/*.*',
             'lib/**/*.*'
         ],
-        tasks: ['build']
+        tasks: []
     },
     'livereload-tdd': {
+        options: {
+            livereload: true
+        },
         files: [
             'public/**/*.html',
-            'public/**/*.css',
             'public/**/*.{png,jpg,jpeg,gif,webp,svg}',
             'src/**/*.*',
             'lib/**/*.*',
             'test/unit/**/*.js'
         ],
-        tasks: ['build', 'karma:server:run:<%= grunt.task.current.args[1] %>']
+        tasks: ['karma:server:run:<%= grunt.task.current.args[1] %>']
 
     },
+    domino: {
+        options: {
+            livereload: true
+        },
+        files: [
+            'public/**/*.css'
+        ],
+        tasks: ['build']
+    },
+    collateral: {
+        options: {
+            livereload: true
+        },
+        files: [
+            'server/mothership/collateral/branding/**'
+        ],
+        tasks: ['build-collateral']
+    },
     docs: {
+        options: {
+            livereload: true
+        },
         files: [
             'src/**/*.js',
             'lib/**/*.js'

@@ -204,6 +204,7 @@
 
             	.MiniReel__group--SingleCardMR .sponsorProfile__linkBtn {
             		padding:0.6875em 0;
+                    display: inline-block;
             	}
 
             .MiniReel__group--SingleCardMR .sponsorProfile__group {
@@ -394,4 +395,8 @@
         background-position: -5rem -13rem;
         background-size: 18.75em 18.75em;    
         display: inline-block;
+    }
+    /**hiding elements based on orientation**/
+    .landscapeOnly--branding {
+        display: none !important;
     }

@@ -1523,12 +1523,17 @@
                             "tracking": []
                         }
                     },
+                    "shareLinks": {
+                        "facebook": "https://www.cinema6.com",
+                        "twitter": "https://www.cinema6.com",
+                        "pinterest": "https://www.cinema6.com"
+                    },
                     "params": {
                         "sponsor": "Hyundai",
                         "ad": false,
                         "action": {
                             "type": "button",
-                            "label": "bring this moving masterpiece to your life"
+                            "label": "Learn More"
                         }
                     },
                     "campaignId": "cam-24482b245c9bbe",

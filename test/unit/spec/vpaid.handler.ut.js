@@ -244,6 +244,7 @@ describe('VPAIDHandler', function() {
             describe('play', function() {
                 beforeEach(function(done) {
                     spyOn(session, 'ping');
+                    video.duration = 60;
 
                     video.emit('play');
                     setTimeout(done, 0);
@@ -252,6 +253,32 @@ describe('VPAIDHandler', function() {
                 it('should ping the session', function() {
                     expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoStart'
+                    });
+                });
+
+                describe('if the duration is unknown', function() {
+                    beforeEach(function() {
+                        session.ping.calls.reset();
+                        video.duration = NaN;
+
+                        video.emit('play');
+                    });
+
+                    it('should not ping the session', function() {
+                        expect(session.ping).not.toHaveBeenCalled();
+                    });
+
+                    describe('when the metadata is loaded', function() {
+                        beforeEach(function() {
+                            video.duration = 60;
+                            video.emit('loadedmetadata');
+                        });
+
+                        it('should ping the session', function() {
+                            expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                                event: 'AdVideoStart'
+                            });
+                        });
                     });
                 });
 

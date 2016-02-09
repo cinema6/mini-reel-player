@@ -83,9 +83,11 @@ export default class VPAIDHandler {
         // Set adRemainingTime property as playback progresses (3.2.6)
         register(({ target: video }) => updateAdRemainingTime(video), 'video', 'timeupdate');
         // Emit AdVideoStart event when the video starts playing (3.3.13)
-        register(() => updateState({
-            event: 'AdVideoStart'
-        }), 'video', 'play');
+        register(({ target: video }) => {
+            const update = (() => updateState({ event: 'AdVideoStart' }));
+
+            if (video.duration) { update(); } else { video.once('loadedmetadata', update); }
+        }, 'video', 'play');
         // Emit AdVideoFirstQuartile event when the first quartile is reached (3.3.13)
         register(() => updateState({
             event: 'AdVideoFirstQuartile'

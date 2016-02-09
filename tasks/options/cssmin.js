@@ -1,13 +1,17 @@
+'use strict';
+
+var builds = require('../../package.json').builds;
+
 module.exports = {
-    tmp: {
+    build: {
         files: [
             {
                 expand: true,
                 cwd: 'public',
-                src: [
-                    '**/*.css'
-                ],
-                dest: '.tmp/uncompressed/<%= settings.distDir %>/<%= _version %>'
+                src: builds.map(function(build) {
+                    return 'css/' + build + '*.css';
+                }),
+                dest: '<%= settings.distDir %>'
             }
         ]
     }

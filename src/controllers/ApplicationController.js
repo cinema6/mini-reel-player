@@ -3,6 +3,8 @@ import browser from '../../src/services/browser.js';
 import codeLoader from '../../src/services/code_loader.js';
 import environment from '../environment.js';
 import Runner from '../../lib/Runner.js';
+import View from '../../lib/core/View.js';
+import DominoView from '../mixins/DominoView.js';
 
 import ApplicationView from '../views/ApplicationView.js';
 
@@ -18,6 +20,8 @@ export default class ApplicationController extends Controller {
 
             RenderQueue.prototype.flush = BeforeRenderQueue.prototype.flush;
         }
+
+        View.mixin(DominoView);
 
         super(...arguments);
 

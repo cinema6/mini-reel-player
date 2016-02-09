@@ -29,7 +29,7 @@ var player = new Player({
             endpoint: './.build/index.html'
         },
         branding: {
-            endpoint: 'mothership/collateral/branding/',
+            endpoint: 'mothership/collateral/dist/branding/',
             cacheTTLs: {
                 fresh: 0,
                 max: 0

@@ -268,7 +268,7 @@ describe('<vast-player>', function() {
                     beforeEach(function() {
                         player.autoplay = true;
 
-                        player.didInsertElement();
+                        Runner.run(() => player.didInsertElement());
                     });
 
                     it('should test for the autoplay feature', function() {
@@ -302,7 +302,7 @@ describe('<vast-player>', function() {
                     beforeEach(function() {
                         player.autoplay = false;
 
-                        player.didInsertElement();
+                        Runner.run(() => player.didInsertElement());
                     });
 
                     it('should not test for the autoplay feature', function() {

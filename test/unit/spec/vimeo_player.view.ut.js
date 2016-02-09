@@ -1175,7 +1175,7 @@ describe('VimeoPlayer', function() {
             describe('if autoplay is false', function() {
                 beforeEach(function() {
                     player.autoplay = false;
-                    player.didInsertElement();
+                    Runner.run(() => player.didInsertElement());
                 });
 
                 it('should not call play()', function() {
@@ -1186,7 +1186,7 @@ describe('VimeoPlayer', function() {
             describe('if autoplay is false', function() {
                 beforeEach(function() {
                     player.autoplay = true;
-                    player.didInsertElement();
+                    Runner.run(() => player.didInsertElement());
                 });
 
                 it('should call play()', function() {

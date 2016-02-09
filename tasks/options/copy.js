@@ -47,18 +47,6 @@ module.exports = {
             }
         ]
     },
-    server: {
-        files: [
-            {
-                expand: true,
-                cwd: 'public',
-                src: [
-                    '**'
-                ],
-                dest: 'server/.build'
-            }
-        ]
-    },
     test: {
         files: [
             {

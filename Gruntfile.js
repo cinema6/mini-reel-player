@@ -90,9 +90,11 @@ module.exports = function(grunt) {
             grunt.task.run('copy:test');
             grunt.task.run('karma:server:foo:' + target);
         }
+        grunt.task.run('build');
+        grunt.task.run('build-collateral');
         grunt.task.run('express:server');
         grunt.task.run('open:server');
-        grunt.task.run('watch:livereload' + (withTests ? ('-tdd:' + target) : ''));
+        grunt.task.run('focus:livereload' + (withTests ? ('-tdd:' + target) : ''));
     });
 
     grunt.registerTask('server:docs', 'start a YUIDoc server', [
@@ -179,18 +181,37 @@ module.exports = function(grunt) {
      *********************************************************************************************/
 
     grunt.registerTask('build', 'build app into distDir', [
-        'test:unit',
-        'git_describe_tags',
-        'babelhelpers:build',
         'clean:build',
-        'copy:tmp',
-        'htmlmin:tmp',
-        'cssmin:tmp',
-        'browserify:tmp',
-        'copy:build',
-        'compress:build',
-        'replace:build'
+        'babelhelpers:build',
+        'cssmin:build',
+        'domino_css:build'
     ]);
+
+    grunt.registerTask('build-collateral', 'build collateral assets', function() {
+        var done = this.async();
+
+        grunt.util.spawn({
+            grunt: true,
+            args: ['build'],
+            opts: {
+                cwd: require('path').resolve(__dirname, './server/mothership/collateral/'),
+                stdio: 'inherit'
+            }
+        }, done);
+    });
+
+    grunt.registerTask('install-collateral', 'npm install the collateral repo', function() {
+        var done = this.async();
+
+        grunt.util.spawn({
+            cmd: 'npm',
+            args: ['install'],
+            opts: {
+                cwd: require('path').resolve(__dirname, './server/mothership/collateral/'),
+                stdio: 'inherit'
+            }
+        }, done);
+    });
 
     grunt.registerTask('build:docs', 'build YUIDocs', [
         'yuidoc:compile'

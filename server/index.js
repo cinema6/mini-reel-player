@@ -58,7 +58,7 @@ var player = new Player({
     app: {
         version: 'master',
         staticURL: 'static/',
-        entry: require.resolve('../public/main.html'),
+        entry: require.resolve('../build/main.html'),
         config: require.resolve('./config.js')
     },
     cloudwatch: {
@@ -95,7 +95,7 @@ function serveStatic(req, res) {
         var STATIC_REGEX = /^\/static\/master\//;
 
         if (STATIC_REGEX.test(req.path)) {
-            var directory = resolvePath(__dirname, '../public');
+            var directory = resolvePath(__dirname, '../build');
 
             return resolvePath(directory, req.path.replace(STATIC_REGEX, ''));
         }

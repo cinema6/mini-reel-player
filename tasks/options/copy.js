@@ -39,11 +39,12 @@ module.exports = {
         files: [
             {
                 expand: true,
-                cwd: '.tmp/<%= settings.distDir %>',
+                cwd: 'public',
                 src: [
-                    '**'
+                    '**',
+                    '!css/**'
                 ],
-                dest: '<%= settings.distDir %>'
+                dest: '<%= settings.distDir %>/'
             }
         ]
     },

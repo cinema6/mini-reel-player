@@ -1,11 +1,13 @@
 # MiniReel Player 2.0
 
+## v2.4.8 (February 9, 2016)
 * *[v2.4.8-rc1]*
   * [DESIGN]: Desktop-Card now supports 960x540 for preview page. All aspects of card design tweaked for all supported ad sizes.
   * [FIX]: Instance where logo does not load used to hide part of social media links. Links now display properly without logo.
   * Add support for creative optimization via [domino.css](https://github.com/cinema6/domino.css)
   * [FIX]: Fix for an issue that caused certain VPAID players not to be
     able to resume a paused VAST sponsored card
+* *[/v2.4.8-rc1]*
 
 ## v2.4.7 (January 27, 2016)
 * *[v2.4.7-rc1]*

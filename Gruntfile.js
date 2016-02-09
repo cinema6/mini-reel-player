@@ -183,6 +183,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', 'build app into distDir', [
         'clean:build',
         'babelhelpers:build',
+        'copy:build',
         'cssmin:build',
         'domino_css:build'
     ]);

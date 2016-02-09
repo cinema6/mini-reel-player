@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.4.9 (February 9, 2016)
+* *[v2.4.9-rc1]*
+  * [FIX]: Fix for an issue that caused social media links not to
+    appear.
+* *[/v2.4.9-rc1]*
+
 ## v2.4.8 (February 9, 2016)
 * *[v2.4.8-rc1]*
   * [DESIGN]: Desktop-Card now supports 960x540 for preview page. All aspects of card design tweaked for all supported ad sizes.

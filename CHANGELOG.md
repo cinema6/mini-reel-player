@@ -5,6 +5,10 @@
   * [FIX]: Fix for an issue where the video player sometimes would not scale properly and show a scrollbar
 * *[/v2.4.10-rc1]*
 
+* *[v2.4.10-rc2]*
+  * [FIX]: Fix for an issue where the video player would not scale properly and show a scrollbar
+* *[/v2.4.10-rc2]*
+
 ## v2.4.9 (February 9, 2016)
 * *[v2.4.9-rc1]*
   * [FIX]: Fix for an issue that caused social media links not to

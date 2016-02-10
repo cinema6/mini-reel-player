@@ -84,6 +84,7 @@ export default class VideoCardController extends CardController {
             source: card.get('data.source'),
             href: card.get('data.href'),
             sponsor: card.get('sponsor'),
+            sponsored: card.get('sponsored'),
             showSource: !card.get('data.hideSource'),
             links: card.get('socialLinks'),
             website: {

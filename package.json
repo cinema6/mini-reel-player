@@ -29,7 +29,7 @@
     "browserify": "^13.0.0",
     "browserify-swap": "^0.2.1",
     "connect-livereload": "^0.5.4",
-    "cwrx": "git+ssh://git@github.com:cinema6/cwrx#player-2.1.2",
+    "cwrx": "git+ssh://git@github.com:cinema6/cwrx#player-2.6.0",
     "express": "^4.13.3",
     "function-bind": "^1.0.2",
     "jasmine-core": "2.1.x",

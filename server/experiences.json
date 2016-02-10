@@ -121,13 +121,28 @@
                         "logo": "http://i.imgur.com/YbBIFZv.png"
                     },
                     "links": {
-                        "Facebook": "https://www.facebook.com/pages/Diageo/108265212535624",
-                        "Twitter": "https://twitter.com/Diageo_News"
+                        "Facebook": {
+                            "uri": "https://www.facebook.com/pages/Diageo/108265212535624",
+                            "tracking": []
+                        },
+                        "Twitter": {
+                            "uri": "https://twitter.com/Diageo_News",
+                            "tracking": []
+                        }
                     },
                     "shareLinks": {
-                        "facebook": "https://www.cinema6.com",
-                        "twitter": "https://www.cinema6.com",
-                        "pinterest": "https://www.cinema6.com"
+                        "facebook": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "twitter": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "pinterest": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        }
                     },
                     "params": {
                         "sponsor": "Diageo",
@@ -354,9 +369,18 @@
                         "logo": "http://i.imgur.com/YbBIFZv.png"
                     },
                     "links": {
-                        "Facebook": "https://www.facebook.com/TheOfficialGrumpyCat",
-                        "Twitter": "https://twitter.com/RealGrumpyCat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
-                        "Action": "https://www.cinema6.com"
+                        "Facebook": {
+                            "uri": "https://www.facebook.com/TheOfficialGrumpyCat",
+                            "tracking": []
+                        },
+                        "Twitter": {
+                            "uri": "https://twitter.com/RealGrumpyCat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
+                            "tracking": []
+                        },
+                        "Action": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        }
                     },
                     "params": {
                         "sponsor": "Diageo",
@@ -416,12 +440,30 @@
                     },
                     "collateral": {},
                     "links": {
-                        "Action": "https://www.cinema6.com",
-                        "Website": "https://www.cinema6.com",
-                        "Facebook": "https://www.cinema6.com",
-                        "Twitter": "https://www.cinema6.com",
-                        "Pinterest": "https://www.cinema6.com",
-                        "YouTube": "https://www.cinema6.com"
+                        "Action": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "Website": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "Facebook": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "Twitter": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "Pinterest": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "YouTube": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        }
                     },
                     "params": {
                         "action": {
@@ -1341,8 +1383,14 @@
                     },
                     "collateral": {},
                     "links": {
-                        "Website": "http://www.netflix.com/",
-                        "YouTube": "https://www.youtube.com/user/NewOnNetflix"
+                        "Website": {
+                            "uri": "http://www.netflix.com/",
+                            "tracking": []
+                        },
+                        "YouTube": {
+                            "uri": "https://www.youtube.com/user/NewOnNetflix",
+                            "tracking": []
+                        }
                     },
                     "thumbs": {
                         "small": "https://pbs.twimg.com/profile_images/554776783967363072/2lxo5V22_400x400.png",
@@ -1389,6 +1437,7 @@
         "categories": [],
         "created": "2015-02-27T21:02:09.146Z",
         "data": {
+            "branding": "rcplatform",
             "title": "The Best Trumpet Solos of All Time (MRP 2.0)",
             "mode": "solo",
             "autoplay": true,
@@ -1453,11 +1502,26 @@
                         "logo": "https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/p200x200/10984161_10152715783303753_4107786662548901201_n.jpg?oh=437365de1cee9643d6e2a54a1f7e9633&oe=57468D41"
                     },
                     "links": {
-                        "Website": "https://www.hyundaiusa.com/sonata/technology.aspx",
-                        "Facebook": "https://www.facebook.com/Hyundai",
-                        "Twitter": "https://twitter.com/hyundai",
-                        "YouTube": "https://www.youtube.com/user/HyundaiUSA",
-                        "Action": "hyundaiusa.com/sonata"
+                        "Website": {
+                            "uri": "https://www.hyundaiusa.com/sonata/technology.aspx",
+                            "tracking": []
+                        },
+                        "Facebook": {
+                            "uri": "https://www.facebook.com/Hyundai",
+                            "tracking": []
+                        },
+                        "Twitter": {
+                            "uri": "https://twitter.com/hyundai",
+                            "tracking": []
+                        },
+                        "YouTube": {
+                            "uri": "https://www.youtube.com/user/HyundaiUSA",
+                            "tracking": []
+                        },
+                        "Action": {
+                            "uri": "http://hyundaiusa.com/sonata",
+                            "tracking": []
+                        }
                     },
                     "params": {
                         "sponsor": "Hyundai",

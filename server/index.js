@@ -53,7 +53,16 @@ var player = new Player({
                 fresh: 0,
                 max: 0
             }
+        },
+        placement: {
+            cacheTTLs: {
+                fresh: 0,
+                max: 0
+            }
         }
+    },
+    tracking: {
+        pixel: '/pixel.gif'
     },
     app: {
         version: 'master',

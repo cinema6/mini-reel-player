@@ -16,7 +16,7 @@ export default class VideoCardView extends CardView {
         if (!data.links || !('videoOnly' in data)) { return super.update(data); }
 
         super.update(extend(data, {
-            isSponsored: !!(data.website.logo || data.links.length > 0 || data.sponsor),
+            isSponsored: !!data.sponsored,
             hasSponsoredCopy: !!(data.links.length > 0 || data.sponsor),
             hasLinks: !!(data.links.length > 0 || data.website.href)
         }));

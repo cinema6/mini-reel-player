@@ -182,6 +182,44 @@ describe('VideoCardView', function() {
                 });
             });
 
+            describe('if the card is sponsored', function() {
+                beforeEach(function() {
+                    CardView.prototype.update.calls.reset();
+
+                    data.sponsored = true;
+                    data.website.logo = undefined;
+                    data.links.length = 0;
+                    data.sponsor = undefined;
+
+                    videoCardView.update(data);
+                });
+
+                it('should send data with isSponsored: true', function() {
+                    expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        isSponsored: true
+                    }));
+                });
+            });
+            
+            describe('if the card is not sponsored', function() {
+                beforeEach(function() {
+                    CardView.prototype.update.calls.reset();
+
+                    data.sponsored = undefined;
+                    data.website.logo = undefined;
+                    data.links.length = 0;
+                    data.sponsor = undefined;
+
+                    videoCardView.update(data);
+                });
+
+                it('should send data with isSponsored: false', function() {
+                    expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
+                        isSponsored: false
+                    }));
+                });
+            });
+
             describe('if the card has a logo', function() {
                 beforeEach(function() {
                     CardView.prototype.update.calls.reset();
@@ -193,9 +231,8 @@ describe('VideoCardView', function() {
                     videoCardView.update(data);
                 });
 
-                it('should send data with isSponsored: true and hasSponsoredCopy: false', function() {
+                it('should send data with hasSponsoredCopy: false', function() {
                     expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        isSponsored: true,
                         hasSponsoredCopy: false
                     }));
                 });
@@ -212,9 +249,8 @@ describe('VideoCardView', function() {
                     videoCardView.update(data);
                 });
 
-                it('should send data with isSponsored: true and hasSponsoredCopy: true', function() {
+                it('should send data with hasSponsoredCopy: true', function() {
                     expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        isSponsored: true,
                         hasSponsoredCopy: true
                     }));
                 });
@@ -231,9 +267,8 @@ describe('VideoCardView', function() {
                     videoCardView.update(data);
                 });
 
-                it('should send data with isSponsored: true and hasSponsoredCopy: true', function() {
+                it('should send data with hasSponsoredCopy: true', function() {
                     expect(CardView.prototype.update).toHaveBeenCalledWith(jasmine.objectContaining({
-                        isSponsored: true,
                         hasSponsoredCopy: true
                     }));
                 });

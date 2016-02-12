@@ -9,145 +9,127 @@ import ButtonView from '../../../../src/views/ButtonView.js';
 import LinkItemView from '../../../../src/views/LinkItemView.js';
 
 describe('MobileVideoCardView', function() {
-    let mobileVideoCardView;
+    let view;
 
     beforeEach(function() {
-        mobileVideoCardView = new MobileVideoCardView();
+        view = new MobileVideoCardView();
     });
 
     it('should be a VideoCardView', function() {
-        expect(mobileVideoCardView).toEqual(jasmine.any(VideoCardView));
+        expect(view).toEqual(jasmine.any(VideoCardView));
     });
 
     describe('properties:', function() {
         describe('template', function() {
             it('should be a MobileVideoCardView.html', function() {
-                expect(mobileVideoCardView.template).toBe(require('../../../../src/views/mobile/MobileVideoCardView.html'));
+                expect(view.template).toBe(require('../../../../src/views/mobile/MobileVideoCardView.html'));
             });
         });
 
-        describe('playerOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
-            });
-
-            it('should be a PlayerOutletView', function() {
-                expect(mobileVideoCardView.playerOutlet).toEqual(jasmine.any(PlayerOutletView));
-            });
-        });
-
-        describe('displayAdOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
-            });
-
-            it('should be a view', function() {
-                expect(mobileVideoCardView.displayAdOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('postOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
-            });
-
-            it('should be a view', function() {
-                expect(mobileVideoCardView.postOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('links', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
-            });
-
-            it('should be a LinksListView', function() {
-                expect(mobileVideoCardView.links).toEqual(jasmine.any(LinksListView));
-            });
-        });
-
-        describe('replayContainer', function() {
+        describe('child views:', function() {
             beforeEach(function() {
                 spyOn(HideableView.prototype, 'hide');
-                Runner.run(() => mobileVideoCardView.create());
+                Runner.run(() => view.create());
             });
 
-            it('should be a HideableView', function() {
-                expect(mobileVideoCardView.replayContainer).toEqual(jasmine.any(HideableView));
+            describe('playerOutlet', function() {
+                it('should be a PlayerOutletView', function() {
+                    expect(view.playerOutlet).toEqual(jasmine.any(PlayerOutletView));
+                });
             });
 
-            it('should be hidden', function() {
-                expect(mobileVideoCardView.replayContainer.hide).toHaveBeenCalled();
-            });
-        });
-
-        describe('replayButton', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
+            describe('displayAdOutlet', function() {
+                it('should be a view', function() {
+                    expect(view.displayAdOutlet).toEqual(jasmine.any(View));
+                });
             });
 
-            it('should be a ButtonView', function() {
-                expect(mobileVideoCardView.replayButton).toEqual(jasmine.any(ButtonView));
-            });
-        });
-
-        describe('ballotOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
+            describe('postOutlet', function() {
+                it('should be a view', function() {
+                    expect(view.postOutlet).toEqual(jasmine.any(View));
+                });
             });
 
-            it('should be a View', function() {
-                expect(mobileVideoCardView.ballotOutlet).toEqual(jasmine.any(View));
-            });
-        });
-
-        describe('ballotResultsOutlet', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
+            describe('links', function() {
+                it('should be a LinksListView', function() {
+                    expect(view.links).toEqual(jasmine.any(LinksListView));
+                });
             });
 
-            it('should be a View', function() {
-                expect(mobileVideoCardView.ballotResultsOutlet).toEqual(jasmine.any(View));
-            });
-        });
+            describe('replayContainer', function() {
+                it('should be a HideableView', function() {
+                    expect(view.replayContainer).toEqual(jasmine.any(HideableView));
+                });
 
-        describe('websiteView', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
-            });
-
-            it('should be a LinkItemView', function() {
-                expect(mobileVideoCardView.websiteView).toEqual(jasmine.any(LinkItemView));
-            });
-        });
-
-        describe('logoView', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
+                it('should be hidden', function() {
+                    expect(view.replayContainer.hide).toHaveBeenCalled();
+                });
             });
 
-            it('should be a LinkItemView', function() {
-                expect(mobileVideoCardView.logoView).toEqual(jasmine.any(LinkItemView));
-            });
-        });
-
-        describe('ctaButtonView', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
+            describe('replayButton', function() {
+                it('should be a ButtonView', function() {
+                    expect(view.replayButton).toEqual(jasmine.any(ButtonView));
+                });
             });
 
-            it('should be a LinkItemView', function() {
-                expect(mobileVideoCardView.ctaButtonView).toEqual(jasmine.any(LinkItemView));
-            });
-        });
-
-        describe('ctaTextView', function() {
-            beforeEach(function() {
-                Runner.run(() => mobileVideoCardView.create());
+            describe('ballotOutlet', function() {
+                it('should be a View', function() {
+                    expect(view.ballotOutlet).toEqual(jasmine.any(View));
+                });
             });
 
-            it('should be a LinkItemView', function() {
-                expect(mobileVideoCardView.ctaTextView).toEqual(jasmine.any(LinkItemView));
+            describe('ballotResultsOutlet', function() {
+                it('should be a View', function() {
+                    expect(view.ballotResultsOutlet).toEqual(jasmine.any(View));
+                });
+            });
+
+            describe('websiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.websiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('landscapeWebsiteView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.landscapeWebsiteView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('logoView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.logoView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('landscapeLogoView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.landscapeLogoView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaButtonView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaButtonView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('ctaTextView', function() {
+                it('should be a LinkItemView', function() {
+                    expect(view.ctaTextView).toEqual(jasmine.any(LinkItemView));
+                });
+            });
+
+            describe('shareButton', function() {
+                it('should be a ButtonView', function() {
+                    expect(view.shareButton).toEqual(jasmine.any(ButtonView));
+                });
+            });
+
+            describe('landscapeShareButton', function() {
+                it('should be a ButtonView', function() {
+                    expect(view.landscapeShareButton).toEqual(jasmine.any(ButtonView));
+                });
             });
         });
     });

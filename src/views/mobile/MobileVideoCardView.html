@@ -4,21 +4,21 @@
 
 <section class="card__group clearfix">
     <span data-if="website.logo"
-        data-view="logoView:LinkItemView" data-model="website"
+        data-view="landscapeLogoView:LinkItemView" data-model="website"
         data-target="controller" data-action="clickthrough" class="landscapeOnly--branding">
         <a href="{{href}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">
             <img tb-src="{{logo}}" alt="{{text}}" class="sponsorProfile__img">
         </a>
     </span>
     <p data-if="sponsor"
-        data-view="websiteView:LinkItemView" data-model="website"
+        data-view="landscapeWebsiteView:LinkItemView" data-model="website"
         data-target="controller" data-action="clickthrough"
         class="sponsorProfile__tag landscapeOnly--branding">
         Sponsored by
         <a href="{{href}}" target="_blank" title="{{text}}">{{text}}</a>
     </p>
     <div data-if="canShare" class="sponsorProfile__linkBtn landscapeOnly--branding">
-        <span><button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span></div>
+        <span><button data-view="landscapeShareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span></div>
     </div>
     <h1 class="card__title tk--hdr">
         {{title}}

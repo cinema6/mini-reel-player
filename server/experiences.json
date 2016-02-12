@@ -1524,9 +1524,18 @@
                         }
                     },
                     "shareLinks": {
-                        "facebook": "https://www.cinema6.com",
-                        "twitter": "https://www.cinema6.com",
-                        "pinterest": "https://www.cinema6.com"
+                        "facebook": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "twitter": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        },
+                        "pinterest": {
+                            "uri": "https://www.cinema6.com",
+                            "tracking": []
+                        }
                     },
                     "params": {
                         "sponsor": "Hyundai",

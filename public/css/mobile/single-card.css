@@ -199,12 +199,13 @@
             }
 
             .MiniReel__group--SingleCardMR .sponsorProfile__links {
-            	padding:0.6875em 0 0.375em;
+                padding:0.6875em 0 0.375em;
             }
 
-            	.MiniReel__group--SingleCardMR .sponsorProfile__linkBtn {
-            		padding:0.6875em 0;
-            	}
+                .MiniReel__group--SingleCardMR .sponsorProfile__linkBtn {
+                    padding:0.6875em 0;
+                    display: inline-block;
+                }
 
             .MiniReel__group--SingleCardMR .sponsorProfile__group {
                 background:#f1f1f1;
@@ -218,8 +219,8 @@
                 }
 
             .MiniReel__group--SingleCardMR .card__desc:empty {
-            	margin:0;
-            	padding:0;
+                margin:0;
+                padding:0;
             } 
 
         .MiniReel__group--SingleCardMR .sponsor__goBtn {
@@ -394,4 +395,8 @@
         background-position: -5rem -13rem;
         background-size: 18.75em 18.75em;    
         display: inline-block;
+    }
+    /**hiding elements based on orientation**/
+    .landscapeOnly--branding {
+        display: none !important;
     }

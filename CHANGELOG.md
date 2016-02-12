@@ -2,6 +2,7 @@
 
 * *[v2.4.11-rc1]*
   * [DESIGN]: Vimeo brand color updated in sprites.
+  * [FIX]: Fixed website logo and sponsor link position issue on mobile player for landscape orientation in safari
 
 ## v2.4.10 (February 10, 2016)
 * *[v2.4.10-rc1]*

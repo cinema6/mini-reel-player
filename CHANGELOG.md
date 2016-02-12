@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v2.4.11 (February 12, 2016)
+* *[v2.4.11-rc2]*
+  * [FIX]: Fix for an issue that broke landscape rendering in the mobile
+    player
+* *[/v2.4.11-rc2]*
+
 * *[v2.4.11-rc1]*
   * [DESIGN]: Vimeo brand color updated in sprites.
   * [FIX]: Fixed website logo and sponsor link position issue on mobile player for landscape orientation in safari

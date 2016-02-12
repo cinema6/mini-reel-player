@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.4.11-rc1]*
+  * [DESIGN]: Vimeo brand color updated in sprites.
+
 ## v2.4.10 (February 10, 2016)
 * *[v2.4.10-rc1]*
   * [FIX]: Fix for an issue where the video player sometimes would not scale properly and show a scrollbar

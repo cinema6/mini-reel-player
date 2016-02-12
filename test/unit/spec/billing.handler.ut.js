@@ -50,7 +50,7 @@ describe('BillingHandler', function() {
 
         beforeEach(function() {
             spy = jasmine.createSpy('spy()');
-            handler.on('AdClick', spy);
+            handler.on('AdStart', spy);
 
             player.emit('play');
         });

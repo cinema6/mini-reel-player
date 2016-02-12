@@ -549,7 +549,7 @@ describe('PixelHandler', function() {
         });
     });
 
-    describe('when the AdClick event is fired', function() {
+    describe('when the AdStart event is fired', function() {
         beforeEach(function() {
             jasmine.clock().install();
             jasmine.clock().mockDate();
@@ -557,7 +557,7 @@ describe('PixelHandler', function() {
 
             jasmine.clock().tick(500);
 
-            handler.emit('AdClick', card);
+            handler.emit('AdStart', card);
         });
 
         afterEach(function() {
@@ -574,7 +574,7 @@ describe('PixelHandler', function() {
                 delete card.campaign.playUrls;
                 imageLoader.load.calls.reset();
 
-                handler.emit('AdClick', card);
+                handler.emit('AdStart', card);
             });
 
             it('should not load any urls', function() {

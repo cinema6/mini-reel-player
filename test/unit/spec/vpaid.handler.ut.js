@@ -1,4 +1,5 @@
 import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
+import BillingHandler from '../../../src/handlers/BillingHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import { EventEmitter } from 'events';
 import CorePlayer from '../../../src/players/CorePlayer.js';
@@ -16,7 +17,13 @@ class MockPlayer extends CorePlayer {
 }
 
 class MockCard extends EventEmitter {
+    constructor() {
+        super();
 
+        this.campaign = {
+            minViewTime: 3
+        };
+    }
 }
 
 class MockSession extends EventEmitter {
@@ -59,6 +66,10 @@ describe('VPAIDHandler', function() {
 
     afterEach(function() {
         dispatcher.removeClient(MyHandler);
+    });
+
+    it('should be a BillingHandler', function() {
+        expect(handler).toEqual(jasmine.any(BillingHandler));
     });
 
     describe('events:', function() {
@@ -242,44 +253,8 @@ describe('VPAIDHandler', function() {
             });
 
             describe('play', function() {
-                beforeEach(function(done) {
+                beforeEach(function() {
                     spyOn(session, 'ping');
-                    video.duration = 60;
-
-                    video.emit('play');
-                    setTimeout(done, 0);
-                });
-
-                it('should ping the session', function() {
-                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
-                        event: 'AdVideoStart'
-                    });
-                });
-
-                describe('if the duration is unknown', function() {
-                    beforeEach(function() {
-                        session.ping.calls.reset();
-                        video.duration = NaN;
-
-                        video.emit('play');
-                    });
-
-                    it('should not ping the session', function() {
-                        expect(session.ping).not.toHaveBeenCalled();
-                    });
-
-                    describe('when the metadata is loaded', function() {
-                        beforeEach(function() {
-                            video.duration = 60;
-                            video.emit('loadedmetadata');
-                        });
-
-                        it('should ping the session', function() {
-                            expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
-                                event: 'AdVideoStart'
-                            });
-                        });
-                    });
                 });
 
                 describe('if resumeAd has not been called', function() {
@@ -450,6 +425,50 @@ describe('VPAIDHandler', function() {
                 it('should ping the session', function() {
                     expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdVideoComplete'
+                    });
+                });
+            });
+        });
+
+        describe('self:', function() {
+            describe('AdStart', function() {
+                beforeEach(function(done) {
+                    spyOn(session, 'ping');
+                    video.duration = 60;
+
+                    handler.emit('AdStart', card, video);
+                    setTimeout(done, 0);
+                });
+
+                it('should ping the session', function() {
+                    expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        event: 'AdVideoStart'
+                    });
+                });
+
+                describe('if the duration is unknown', function() {
+                    beforeEach(function() {
+                        session.ping.calls.reset();
+                        video.duration = NaN;
+
+                        handler.emit('AdStart', card, video);
+                    });
+
+                    it('should not ping the session', function() {
+                        expect(session.ping).not.toHaveBeenCalled();
+                    });
+
+                    describe('when the metadata is loaded', function() {
+                        beforeEach(function() {
+                            video.duration = 60;
+                            video.emit('loadedmetadata');
+                        });
+
+                        it('should ping the session', function() {
+                            expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                                event: 'AdVideoStart'
+                            });
+                        });
                     });
                 });
             });

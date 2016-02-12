@@ -6,7 +6,7 @@ export default class BillingHandler extends EventEmitter {
         this.cache = {};
 
         const getHistory = (card => this.cache[card.id] || (this.cache[card.id] = {
-            click: false,
+            start: false,
             count: false
         }));
 
@@ -15,9 +15,9 @@ export default class BillingHandler extends EventEmitter {
             const player = event.target;
             const history = getHistory(card);
 
-            if (!history.click) {
-                this.emit('AdClick', card, player);
-                history.click = true;
+            if (!history.start) {
+                this.emit('AdStart', card, player);
+                history.start = true;
             }
         }, 'video', 'play');
 

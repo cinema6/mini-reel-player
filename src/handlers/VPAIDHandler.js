@@ -1,4 +1,6 @@
-export default class VPAIDHandler {
+import BillingHandler from './BillingHandler.js';
+
+export default class VPAIDHandler extends BillingHandler {
     constructor(register, session) {
         const updateState = (state => {
             return session.ping('vpaid:stateUpdated', state);
@@ -30,6 +32,8 @@ export default class VPAIDHandler {
                 event: 'AdRemainingTimeChange'
             });
         });
+
+        super(register);
 
         // Pause video when vpaid.pauseAd() is called (3.1.6)
         register(() => videoCall('pause'), 'session', 'vpaid:pauseAd');
@@ -82,12 +86,6 @@ export default class VPAIDHandler {
         }, 'video', 'loadedmetadata');
         // Set adRemainingTime property as playback progresses (3.2.6)
         register(({ target: video }) => updateAdRemainingTime(video), 'video', 'timeupdate');
-        // Emit AdVideoStart event when the video starts playing (3.3.13)
-        register(({ target: video }) => {
-            const update = (() => updateState({ event: 'AdVideoStart' }));
-
-            if (video.duration) { update(); } else { video.once('loadedmetadata', update); }
-        }, 'video', 'play');
         // Emit AdVideoFirstQuartile event when the first quartile is reached (3.3.13)
         register(() => updateState({
             event: 'AdVideoFirstQuartile'
@@ -104,5 +102,11 @@ export default class VPAIDHandler {
         register(() => updateState({
             event: 'AdVideoComplete'
         }), 'video', 'complete');
+        // Emit AdVideoStart event when the video starts playing (3.3.13)
+        this.on('AdStart', (card, video) => {
+            const update = (() => updateState({ event: 'AdVideoStart' }));
+
+            if (video.duration) { update(); } else { video.once('loadedmetadata', update); }
+        });
     }
 }

@@ -160,9 +160,9 @@ describe('PostMessageHandler', function() {
         });
     });
 
-    describe('when the AdClick event is fired', function() {
+    describe('when the AdStart event is fired', function() {
         beforeEach(function() {
-            handler.emit('AdClick', card);
+            handler.emit('AdStart', card);
         });
 
         it('should call postMessage()', function() {

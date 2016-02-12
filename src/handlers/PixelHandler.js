@@ -74,7 +74,7 @@ export default class PixelHandler extends BillingHandler {
             firePixels([tracking], completeUrlWithCardViewDelay(card));
         }, 'card', 'clickthrough', 'share');
 
-        this.on('AdClick', card => {
+        this.on('AdStart', card => {
             firePixels([card.get('campaign.playUrls')], completeUrlWithCardViewDelay(card));
         });
 

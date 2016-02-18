@@ -30,7 +30,7 @@ function SponsoredCardController(card) {
 }
 SponsoredCardController.prototype = {
     clickthrough: function clickthrough(itemView) {
-        return this.model.clickthrough(itemView.type);
+        return this.model.clickthrough(itemView.data.label);
     },
 
     share: function share(itemView) {

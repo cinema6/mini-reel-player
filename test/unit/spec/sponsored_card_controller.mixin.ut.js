@@ -124,7 +124,7 @@ describe('SponsoredCardController mixin', function() {
             });
 
             it('should call clickthrough() on the card', function() {
-                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.type);
+                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label);
             });
         });
     });

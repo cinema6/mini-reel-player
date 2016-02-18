@@ -13,12 +13,6 @@ describe('LinkItemView', function() {
     });
 
     describe('properties:', function() {
-        describe('type', function() {
-            it('should be null', function() {
-                expect(view.type).toBeNull();
-            });
-        });
-
         describe('context', function() {
             it('should be null', function() {
                 expect(view.context).toBeNull();
@@ -34,41 +28,6 @@ describe('LinkItemView', function() {
 
                 it('should be the value of that attribute', function() {
                     expect(view.context).toBe('some-context');
-                });
-            });
-        });
-    });
-
-    describe('methods:', function() {
-        describe('update()', function() {
-            let data;
-
-            beforeEach(function() {
-                data = {
-                    label: 'YouTube'
-                };
-                spyOn(TemplateView.prototype, 'update');
-
-                view.update(data);
-            });
-
-            it('should set the type property to the data\'s label property', function() {
-                expect(view.type).toBe(data.label);
-            });
-
-            it('should call super()', function() {
-                expect(TemplateView.prototype.update).toHaveBeenCalledWith(data);
-            });
-
-            describe('if called with no data', function() {
-                beforeEach(function() {
-                    TemplateView.prototype.update.calls.reset();
-
-                    view.update();
-                });
-
-                it('should call super()', function() {
-                    expect(TemplateView.prototype.update).toHaveBeenCalled();
                 });
             });
         });

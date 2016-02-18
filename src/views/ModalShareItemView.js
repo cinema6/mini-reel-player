@@ -1,9 +1,9 @@
-import ActionableItemView from './ActionableItemView';
-import {createKey} from 'private-parts';
+import LinkItemView from './LinkItemView.js';
+import { createKey } from 'private-parts';
 
 const _ = createKey();
 
-export default class ModalShareItemView extends ActionableItemView {
+export default class ModalShareItemView extends LinkItemView {
     constructor() {
         super(...arguments);
 

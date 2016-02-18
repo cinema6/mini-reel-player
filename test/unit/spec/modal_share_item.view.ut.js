@@ -1,5 +1,5 @@
 import ModalShareItemView from '../../../src/views/ModalShareItemView.js';
-import ActionableItemView from '../../../src/views/ActionableItemView.js';
+import LinkItemView from '../../../src/views/LinkItemView.js';
 import Runner from '../../../lib/Runner.js';
 
 describe('ModalShareItemView', function() {
@@ -13,14 +13,14 @@ describe('ModalShareItemView', function() {
         expect(view).toEqual(jasmine.any(ModalShareItemView));
     });
 
-    it('should be an ActionableItemView', function() {
-        expect(view).toEqual(jasmine.any(ActionableItemView));
+    it('should be a LinkItemView', function() {
+        expect(view).toEqual(jasmine.any(LinkItemView));
     });
 
     describe('methods', function() {
         describe('update', function() {
             beforeEach(function() {
-                spyOn(ActionableItemView.prototype, 'update');
+                spyOn(LinkItemView.prototype, 'update');
             });
 
             it('should call super', function() {
@@ -29,7 +29,7 @@ describe('ModalShareItemView', function() {
                         type: 'facebook'
                     });
                 });
-                expect(ActionableItemView.prototype.update).toHaveBeenCalled();
+                expect(LinkItemView.prototype.update).toHaveBeenCalled();
             });
 
             it('should add the required classes', function() {

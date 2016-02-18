@@ -100,6 +100,7 @@ describe('SponsoredCardController mixin', function() {
             beforeEach(function() {
                 itemView = new ModalShareItemView();
                 itemView.tag = 'li';
+                itemView.context = 'context-a';
                 Runner.run(() => itemView.update({ type: 'youtube' }));
                 spyOn(card, 'share').and.callThrough();
 
@@ -107,7 +108,7 @@ describe('SponsoredCardController mixin', function() {
             });
 
             it('should call share() on the card', function() {
-                expect(card.share).toHaveBeenCalledWith('youtube');
+                expect(card.share).toHaveBeenCalledWith('youtube', itemView.context);
             });
         });
 
@@ -117,6 +118,7 @@ describe('SponsoredCardController mixin', function() {
             beforeEach(function() {
                 linkItem = new LinkItemView();
                 linkItem.tag = 'span';
+                linkItem.context = 'context-b';
                 Runner.run(() => linkItem.update({ type: 'youtube', label: 'YouTube' }));
                 spyOn(card, 'clickthrough').and.callThrough();
 
@@ -124,7 +126,7 @@ describe('SponsoredCardController mixin', function() {
             });
 
             it('should call clickthrough() on the card', function() {
-                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label);
+                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label, linkItem.context);
             });
         });
     });

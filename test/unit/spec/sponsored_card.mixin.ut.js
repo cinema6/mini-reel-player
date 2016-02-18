@@ -140,25 +140,25 @@ describe('SponsoredCard mixin', function() {
     });
 
     describe('methods:', function() {
-        describe('clickthrough(link)', function() {
+        describe('clickthrough(link, context)', function() {
             let clickthrough;
 
             beforeEach(function() {
                 clickthrough = jasmine.createSpy('clickthrough()');
                 card.on('clickthrough', clickthrough);
 
-                card.clickthrough('Twitter');
+                card.clickthrough('Twitter', 'context-a');
             });
 
             it('should emit the clickthrough event with the link config and type', function() {
-                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter, 'Twitter');
+                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter, 'Twitter', 'context-a');
             });
 
             describe('if the link cannot be found', function() {
                 beforeEach(function() {
                     clickthrough.calls.reset();
 
-                    card.clickthrough('jsdhf');
+                    card.clickthrough('jsdhf', 'context-a');
                 });
 
                 it('should not emit the event', function() {
@@ -167,25 +167,25 @@ describe('SponsoredCard mixin', function() {
             });
         });
 
-        describe('share(type)', function() {
+        describe('share(type, context)', function() {
             let share;
 
             beforeEach(function() {
                 share = jasmine.createSpy('share()');
                 card.on('share', share);
 
-                card.share('twitter');
+                card.share('twitter', 'context-b');
             });
 
             it('should emit the share event with the share link config', function() {
-                expect(share).toHaveBeenCalledWith(card.shareLinks[1], 'twitter');
+                expect(share).toHaveBeenCalledWith(card.shareLinks[1], 'twitter', 'context-b');
             });
 
             describe('if the link cannot be found', function() {
                 beforeEach(function() {
                     share.calls.reset();
 
-                    card.share('jsdhf');
+                    card.share('jsdhf', 'context-b');
                 });
 
                 it('should not emit the event', function() {

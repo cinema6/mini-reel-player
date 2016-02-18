@@ -41,7 +41,7 @@ SponsoredCard.prototype.clickthrough = function clickthrough(linkName) {
 SponsoredCard.prototype.share = function share(type) {
     const link = find(this.shareLinks, link => link.type === type);
 
-    if (link) { this.emit('share', link); }
+    if (link) { this.emit('share', link, type); }
 };
 
 export default SponsoredCard;

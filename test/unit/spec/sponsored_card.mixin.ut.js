@@ -178,7 +178,7 @@ describe('SponsoredCard mixin', function() {
             });
 
             it('should emit the share event with the share link config', function() {
-                expect(share).toHaveBeenCalledWith(card.shareLinks[1]);
+                expect(share).toHaveBeenCalledWith(card.shareLinks[1], 'twitter');
             });
 
             describe('if the link cannot be found', function() {

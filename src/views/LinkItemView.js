@@ -5,6 +5,7 @@ export default class LinkItemView extends TemplateView {
         super(...arguments);
 
         this.type = null;
+        this.context = this.attributes['data-link-context'] || null;
     }
 
     update(data) {

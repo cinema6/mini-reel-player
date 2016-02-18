@@ -18,6 +18,25 @@ describe('LinkItemView', function() {
                 expect(view.type).toBeNull();
             });
         });
+
+        describe('context', function() {
+            it('should be null', function() {
+                expect(view.context).toBeNull();
+            });
+
+            describe('if the element has a "data-link-context" attribute', function() {
+                beforeEach(function() {
+                    const element = document.createElement('a');
+                    element.setAttribute('data-link-context', 'some-context');
+
+                    view = new LinkItemView(element);
+                });
+
+                it('should be the value of that attribute', function() {
+                    expect(view.context).toBe('some-context');
+                });
+            });
+        });
     });
 
     describe('methods:', function() {

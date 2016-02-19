@@ -8,21 +8,28 @@ import {
     forEach
 } from '../../lib/utils.js';
 
-function completeUrlWithCardViewDelay(card) {
+function getMacroConfig({ delay, context }) {
+    return {
+        '{delay}': delay,
+        '{context}': context || ''
+    };
+}
+
+function completeUrlWithCardViewDelay(card, context) {
     return function completeUrlWithCardViewDelayAndUrl(url) {
         const { lastViewedTime } = card;
         const delay = Date.now() - lastViewedTime;
 
-        return completeUrl(url, { '{delay}': delay });
+        return completeUrl(url, getMacroConfig({ delay, context }));
     };
 }
 
-function completeUrlWithLoadDelay() {
+function completeUrlWithLoadDelay(context) {
     return function completeUrlWithLoadDelayAndUrl(url) {
         const { loadStartTime } = environment;
         const delay = loadStartTime && (Date.now() - loadStartTime);
 
-        return completeUrl(url, { '{delay}': delay });
+        return completeUrl(url, getMacroConfig({ delay, context }));
     };
 }
 
@@ -70,14 +77,15 @@ export default class PixelHandler extends BillingHandler {
         register(({ target: card }) => {
             firePixels([card.get('campaign.viewUrls')], completeUrlWithLoadDelay());
         }, 'card', 'activate');
-        register(({ target: card }, { tracking }) => {
-            firePixels([tracking], completeUrlWithCardViewDelay(card));
+        register(({ target: card }, { tracking }, type, context) => {
+            firePixels([tracking], completeUrlWithCardViewDelay(card, context));
         }, 'card', 'clickthrough', 'share');
 
-        register(({ target: controller }) => {
+        register(({ target: controller }, context) => {
             const card = controller.model;
+            const interactionUrls = card.get('campaign.interactionUrls');
 
-            firePixels([card.get('campaign.interactionUrls')], completeUrlWithCardViewDelay(card));
+            firePixels([interactionUrls], completeUrlWithCardViewDelay(card, context));
         }, 'ui', 'interaction');
 
         this.on('AdStart', card => {

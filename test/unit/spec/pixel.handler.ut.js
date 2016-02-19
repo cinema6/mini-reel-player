@@ -54,6 +54,14 @@ describe('PixelHandler', function() {
         return completeUrl(url, { '{delay}': Date.now() - card.lastViewedTime });
     }
 
+    function completeUrlWithContext(context) {
+        return function complete(url) {
+            return completeUrl(completeUrlWithDelay(url), {
+                '{context}': context || ''
+            });
+        };
+    }
+
     beforeEach(function() {
         dispatcher.constructor();
         dispatcher.addClient(MockHandler);
@@ -79,15 +87,15 @@ describe('PixelHandler', function() {
                 minViewTime: 7,
                 loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}', 'img4.jpg?cb={cachebreaker}&delay={loadDelay}'],
                 playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}', 'img2.jpg?cb={cachebreaker}&delay={playDelay}'],
-                countUrls: ['img3.jpg?delay={delay}', 'img4.jpg?page={pageUrl}'],
-                q1Urls: ['img5.jpg?delay={delay}', 'img6.jpg?page={pageUrl}'],
-                q2Urls: ['img7.jpg?delay={delay}', 'img8.jpg?page={pageUrl}'],
-                q3Urls: ['img9.jpg?delay={delay}', 'img10.jpg?page={pageUrl}'],
-                q4Urls: ['img11.jpg?delay={delay}', 'img12.jpg?page={pageUrl}'],
-                viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}'],
-                bufferUrls: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}'],
-                launchUrls: ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}'],
-                interactionUrls: ['img19.jpg?delay={delay}', 'img20.jpg?page={pageUrl}'],
+                countUrls: ['img3.jpg?delay={delay}', 'img4.jpg?page={pageUrl}&c={context}'],
+                q1Urls: ['img5.jpg?delay={delay}', 'img6.jpg?page={pageUrl}&c={context}'],
+                q2Urls: ['img7.jpg?delay={delay}', 'img8.jpg?page={pageUrl}&c={context}'],
+                q3Urls: ['img9.jpg?delay={delay}', 'img10.jpg?page={pageUrl}&c={context}'],
+                q4Urls: ['img11.jpg?delay={delay}', 'img12.jpg?page={pageUrl}&c={context}'],
+                viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}&c={context}'],
+                bufferUrls: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}&c={context}'],
+                launchUrls: ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}&c={context}'],
+                interactionUrls: ['img19.jpg?delay={delay}', 'img20.jpg?page={pageUrl}&c={context}'],
             }
         }, experience);
         minireel = new EventEmitter();
@@ -147,7 +155,8 @@ describe('PixelHandler', function() {
 
             it('should fire the launchUrls of all the cards', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
-                    '{delay}': 150
+                    '{delay}': 150,
+                    '{context}': ''
                 })));
             });
 
@@ -176,7 +185,8 @@ describe('PixelHandler', function() {
 
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
-                        '{delay}': null
+                        '{delay}': null,
+                        '{context}': ''
                     })));
                 });
             });
@@ -248,7 +258,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the bufferUrls', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': 300 })));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': 300, '{context}': '' })));
             });
 
             describe('if emitted again', function() {
@@ -273,7 +283,7 @@ describe('PixelHandler', function() {
                 });
 
                 it('should replace the {delay} macro with null', function() {
-                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': null })));
+                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': null, '{context}': '' })));
                 });
             });
 
@@ -299,7 +309,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the q1Urls', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q1Urls.map(completeUrlWithContext()));
             });
 
             describe('if emitted again', function() {
@@ -336,7 +346,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the q2Urls', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q2Urls.map(completeUrlWithContext()));
             });
 
             describe('if emitted again', function() {
@@ -373,7 +383,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the q3Urls', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q3Urls.map(completeUrlWithContext()));
             });
 
             describe('if emitted again', function() {
@@ -410,7 +420,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the q4Urls', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.q4Urls.map(completeUrlWithContext()));
             });
 
             describe('if emitted again', function() {
@@ -446,21 +456,22 @@ describe('PixelHandler', function() {
         });
 
         describe('clickthrough', function() {
-            let data;
+            let data, context;
 
             beforeEach(function() {
                 data = {
                     uri: 'https://twitter.com/netflix',
-                    tracking: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}']
+                    tracking: ['img13.jpg?delay={delay}&c={context}', 'img14.jpg?page={pageUrl}&c={context}']
                 };
+                context = 'clickthrough context';
 
                 jasmine.clock().tick(10);
 
-                card.emit('clickthrough', data);
+                card.emit('clickthrough', data, 'Twitter', context);
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
             });
 
             describe('if emitted again', function() {
@@ -477,23 +488,24 @@ describe('PixelHandler', function() {
         });
 
         describe('share', function() {
-            let data;
+            let data, context;
 
             beforeEach(function() {
                 data = {
                     type: 'facebook',
                     label: 'Facebook',
                     href: 'http://imgur.com/S3GiV63',
-                    tracking: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}']
+                    tracking: ['img15.jpg?delay={delay}&c={context}', 'img16.jpg?page={pageUrl}&c={context}']
                 };
+                context = 'share context';
 
                 jasmine.clock().tick(15);
 
-                card.emit('share', data);
+                card.emit('share', data, 'facebook', context);
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
             });
 
             describe('if emitted again', function() {
@@ -519,7 +531,8 @@ describe('PixelHandler', function() {
 
             it('should fire the tracking pixels', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.viewUrls.map(url => completeUrl(url, {
-                    '{delay}': Date.now() - environment.loadStartTime
+                    '{delay}': Date.now() - environment.loadStartTime,
+                    '{context}': ''
                 })));
             });
 
@@ -546,7 +559,8 @@ describe('PixelHandler', function() {
 
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.viewUrls.map(url => completeUrl(url, {
-                        '{delay}': null
+                        '{delay}': null,
+                        '{context}': ''
                     })));
                 });
             });
@@ -573,7 +587,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithDelay));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext('the-context')));
             });
 
             describe('if emitted again', function() {
@@ -646,7 +660,7 @@ describe('PixelHandler', function() {
         });
 
         it('should fire the pixels', function() {
-            const urls = card.campaign.countUrls.map(completeUrlWithDelay);
+            const urls = card.campaign.countUrls.map(completeUrlWithContext());
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 

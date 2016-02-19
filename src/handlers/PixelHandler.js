@@ -11,7 +11,11 @@ import {
 function getMacroConfig({ delay, context }) {
     return {
         '{delay}': delay,
-        '{context}': context || ''
+        '{context}': context || '',
+        '{screenWidth}': window.screen.width,
+        '{screenHeight}': window.screen.height,
+        '{playerWidth}': window.innerWidth,
+        '{playerHeight}': window.innerHeight
     };
 }
 

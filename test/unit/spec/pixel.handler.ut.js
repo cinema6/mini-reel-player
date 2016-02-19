@@ -57,7 +57,11 @@ describe('PixelHandler', function() {
     function completeUrlWithContext(context) {
         return function complete(url) {
             return completeUrl(completeUrlWithDelay(url), {
-                '{context}': context || ''
+                '{context}': context || '',
+                '{screenWidth}': window.screen.width,
+                '{screenHeight}': window.screen.height,
+                '{playerWidth}': window.innerWidth,
+                '{playerHeight}': window.innerHeight
             });
         };
     }
@@ -85,17 +89,17 @@ describe('PixelHandler', function() {
             collateral: {},
             campaign: {
                 minViewTime: 7,
-                loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}', 'img4.jpg?cb={cachebreaker}&delay={loadDelay}'],
-                playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}', 'img2.jpg?cb={cachebreaker}&delay={playDelay}'],
-                countUrls: ['img3.jpg?delay={delay}', 'img4.jpg?page={pageUrl}&c={context}'],
-                q1Urls: ['img5.jpg?delay={delay}', 'img6.jpg?page={pageUrl}&c={context}'],
-                q2Urls: ['img7.jpg?delay={delay}', 'img8.jpg?page={pageUrl}&c={context}'],
-                q3Urls: ['img9.jpg?delay={delay}', 'img10.jpg?page={pageUrl}&c={context}'],
-                q4Urls: ['img11.jpg?delay={delay}', 'img12.jpg?page={pageUrl}&c={context}'],
-                viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}&c={context}'],
-                bufferUrls: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}&c={context}'],
-                launchUrls: ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}&c={context}'],
-                interactionUrls: ['img19.jpg?delay={delay}', 'img20.jpg?page={pageUrl}&c={context}'],
+                loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img4.jpg?cb={cachebreaker}&delay={loadDelay}'],
+                playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img2.jpg?cb={cachebreaker}&delay={playDelay}'],
+                countUrls: ['img3.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img4.jpg?page={pageUrl}&c={context}'],
+                q1Urls: ['img5.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img6.jpg?page={pageUrl}&c={context}'],
+                q2Urls: ['img7.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img8.jpg?page={pageUrl}&c={context}'],
+                q3Urls: ['img9.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img10.jpg?page={pageUrl}&c={context}'],
+                q4Urls: ['img11.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img12.jpg?page={pageUrl}&c={context}'],
+                viewUrls: ['img13.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img14.jpg?page={pageUrl}&c={context}'],
+                bufferUrls: ['img15.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img16.jpg?page={pageUrl}&c={context}'],
+                launchUrls: ['img17.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img18.jpg?page={pageUrl}&c={context}'],
+                interactionUrls: ['img19.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img20.jpg?page={pageUrl}&c={context}'],
             }
         }, experience);
         minireel = new EventEmitter();
@@ -142,7 +146,7 @@ describe('PixelHandler', function() {
                         collateral: {},
                         campaign: {
                             minViewTime: -1,
-                            launchUrls: ['img19.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}', 'img20.jpg?cb={cachebreaker}&delay={delay}'],
+                            launchUrls: ['img19.jpg?cb={cachebreaker}&url={pageUrl}&delay={launchDelay}', 'img20.jpg?cb={cachebreaker}&delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}'],
                         }
                     }, experience),
                     new MockCard()
@@ -156,7 +160,11 @@ describe('PixelHandler', function() {
             it('should fire the launchUrls of all the cards', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
                     '{delay}': 150,
-                    '{context}': ''
+                    '{context}': '',
+                    '{screenWidth}': window.screen.width,
+                    '{screenHeight}': window.screen.height,
+                    '{playerWidth}': window.innerWidth,
+                    '{playerHeight}': window.innerHeight
                 })));
             });
 
@@ -186,7 +194,11 @@ describe('PixelHandler', function() {
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.launchUrls.concat(minireel.deck[4].campaign.launchUrls).map(url => completeUrl(url, {
                         '{delay}': null,
-                        '{context}': ''
+                        '{context}': '',
+                        '{screenWidth}': window.screen.width,
+                        '{screenHeight}': window.screen.height,
+                        '{playerWidth}': window.innerWidth,
+                        '{playerHeight}': window.innerHeight
                     })));
                 });
             });
@@ -208,7 +220,7 @@ describe('PixelHandler', function() {
                         collateral: {},
                         campaign: {
                             minViewTime: -1,
-                            loadUrls: ['img5.jpg?cb={cachebreaker}&url={pageUrl}&delay={loadDelay}', 'img6.jpg?cb={cachebreaker}&delay={delay}'],
+                            loadUrls: ['img5.jpg?cb={cachebreaker}&url={pageUrl}&delay={loadDelay}', 'img6.jpg?cb={cachebreaker}&delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}'],
                         }
                     }, experience),
                     new MockCard()
@@ -221,7 +233,11 @@ describe('PixelHandler', function() {
 
             it('should fire the loadPixels of all the cards', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
-                    '{delay}': 33
+                    '{delay}': 33,
+                    '{screenWidth}': window.screen.width,
+                    '{screenHeight}': window.screen.height,
+                    '{playerWidth}': window.innerWidth,
+                    '{playerHeight}': window.innerHeight
                 })));
             });
 
@@ -238,7 +254,11 @@ describe('PixelHandler', function() {
 
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...minireel.deck[1].campaign.loadUrls.concat(minireel.deck[4].campaign.loadUrls).map(url => completeUrl(url, {
-                        '{delay}': null
+                        '{delay}': null,
+                        '{screenWidth}': window.screen.width,
+                        '{screenHeight}': window.screen.height,
+                        '{playerWidth}': window.innerWidth,
+                        '{playerHeight}': window.innerHeight
                     })));
                 });
             });
@@ -258,7 +278,14 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the bufferUrls', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': 300, '{context}': '' })));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, {
+                    '{delay}': 300,
+                    '{context}': '',
+                    '{screenWidth}': window.screen.width,
+                    '{screenHeight}': window.screen.height,
+                    '{playerWidth}': window.innerWidth,
+                    '{playerHeight}': window.innerHeight
+                })));
             });
 
             describe('if emitted again', function() {
@@ -283,7 +310,14 @@ describe('PixelHandler', function() {
                 });
 
                 it('should replace the {delay} macro with null', function() {
-                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, { '{delay}': null, '{context}': '' })));
+                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.bufferUrls.map(url => completeUrl(url, {
+                        '{delay}': null,
+                        '{context}': '',
+                        '{screenWidth}': window.screen.width,
+                        '{screenHeight}': window.screen.height,
+                        '{playerWidth}': window.innerWidth,
+                        '{playerHeight}': window.innerHeight
+                    })));
                 });
             });
 
@@ -532,7 +566,11 @@ describe('PixelHandler', function() {
             it('should fire the tracking pixels', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.viewUrls.map(url => completeUrl(url, {
                     '{delay}': Date.now() - environment.loadStartTime,
-                    '{context}': ''
+                    '{context}': '',
+                    '{screenWidth}': window.screen.width,
+                    '{screenHeight}': window.screen.height,
+                    '{playerWidth}': window.innerWidth,
+                    '{playerHeight}': window.innerHeight
                 })));
             });
 
@@ -560,7 +598,11 @@ describe('PixelHandler', function() {
                 it('should replace the {launchDelay} macro with null', function() {
                     expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.viewUrls.map(url => completeUrl(url, {
                         '{delay}': null,
-                        '{context}': ''
+                        '{context}': '',
+                        '{screenWidth}': window.screen.width,
+                        '{screenHeight}': window.screen.height,
+                        '{playerWidth}': window.innerWidth,
+                        '{playerHeight}': window.innerHeight
                     })));
                 });
             });
@@ -633,7 +675,13 @@ describe('PixelHandler', function() {
         });
 
         it('should load the playUrls', function() {
-            const urls = card.campaign.playUrls.map(url => completeUrl(url, { '{delay}': 500 }));
+            const urls = card.campaign.playUrls.map(url => completeUrl(url, {
+                '{delay}': 500,
+                '{screenWidth}': window.screen.width,
+                '{screenHeight}': window.screen.height,
+                '{playerWidth}': window.innerWidth,
+                '{playerHeight}': window.innerHeight
+            }));
             expect(imageLoader.load).toHaveBeenCalledWith(...urls);
         });
 

@@ -1,5 +1,12 @@
 # MiniReel Player 2.0
 
+## v2.5.0 (February 19, 2016)
+* *[v2.5.0-rc1]*
+  * Add support for generic ui interaction tracking event
+  * Add support for tracking which UI elements are clicked
+  * Add support for tracking screen and player dimensions
+* *[/v2.5.0-rc1]*
+
 ## v2.4.11 (February 12, 2016)
 * *[v2.4.11-rc2]*
   * [FIX]: Fix for an issue that broke landscape rendering in the mobile

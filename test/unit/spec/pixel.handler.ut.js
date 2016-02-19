@@ -508,11 +508,24 @@ describe('PixelHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
             });
 
+            describe('if the context is different', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+                    context = 'other clickthrough context';
+
+                    card.emit('clickthrough', data, 'Twitter', context);
+                });
+
+                it('should fire the pixels again', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
+                });
+            });
+
             describe('if emitted again', function() {
                 beforeEach(function() {
                     imageLoader.load.calls.reset();
 
-                    card.emit('clickthrough', data);
+                    card.emit('clickthrough', data, 'Twitter', context);
                 });
 
                 it('should not fire any pixels', function() {
@@ -542,11 +555,24 @@ describe('PixelHandler', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
             });
 
+            describe('if the context is different', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+                    context = 'other share context';
+
+                    card.emit('clickthrough', data, 'Twitter', context);
+                });
+
+                it('should fire the pixels again', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
+                });
+            });
+
             describe('if emitted again', function() {
                 beforeEach(function() {
                     imageLoader.load.calls.reset();
 
-                    card.emit('share', data);
+                    card.emit('share', data, 'facebook', context);
                 });
 
                 it('should not fire any pixels', function() {
@@ -630,6 +656,18 @@ describe('PixelHandler', function() {
 
             it('should fire the tracking pixels', function() {
                 expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext('the-context')));
+            });
+
+            describe('if the context is different', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    controller.emit('interaction', 'the-other-context');
+                });
+
+                it('should fire the pixels again', function() {
+                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext('the-other-context')));
+                });
             });
 
             describe('if emitted again', function() {

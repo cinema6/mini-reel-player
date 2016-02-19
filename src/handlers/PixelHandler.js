@@ -37,13 +37,16 @@ function completeUrlWithLoadDelay(context) {
     };
 }
 
-function firePixels(groups, mapper) {
-    const unfired = filter(groups, group => group && !group.fired);
+function firePixels(groups, mapper, context) {
+    const unfired = filter(groups, group => group && !(group.fired || {})[context]);
     const pixels = [].concat(...unfired);
 
     if (pixels.length > 0) {
         imageLoader.load(...map(pixels, mapper));
-        forEach(unfired, group => group.fired = true);
+        forEach(unfired, group => {
+            if (!group.fired) { group.fired = {}; }
+            group.fired[context] = true;
+        });
     }
 }
 
@@ -82,14 +85,14 @@ export default class PixelHandler extends BillingHandler {
             firePixels([card.get('campaign.viewUrls')], completeUrlWithLoadDelay());
         }, 'card', 'activate');
         register(({ target: card }, { tracking }, type, context) => {
-            firePixels([tracking], completeUrlWithCardViewDelay(card, context));
+            firePixels([tracking], completeUrlWithCardViewDelay(card, context), context);
         }, 'card', 'clickthrough', 'share');
 
         register(({ target: controller }, context) => {
             const card = controller.model;
             const interactionUrls = card.get('campaign.interactionUrls');
 
-            firePixels([interactionUrls], completeUrlWithCardViewDelay(card, context));
+            firePixels([interactionUrls], completeUrlWithCardViewDelay(card, context), context);
         }, 'ui', 'interaction');
 
         this.on('AdStart', card => {

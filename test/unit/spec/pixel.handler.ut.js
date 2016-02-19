@@ -7,8 +7,11 @@ import imageLoader from '../../../src/services/image_loader.js';
 import completeUrl from '../../../src/fns/complete_url.js';
 import Card from '../../../src/models/Card.js';
 import SponsoredCard from '../../../src/mixins/SponsoredCard.js';
+import SponsoredCardController from '../../../src/mixins/SponsoredCardController.js';
+import CardController from '../../../src/controllers/CardController.js';
 import { EventEmitter } from 'events';
 import environment from '../../../src/environment.js';
+import CardView from '../../../src/views/CardView.js';
 
 class MockCard extends Card {
     constructor() {
@@ -22,11 +25,21 @@ class MockCard extends Card {
 }
 MockCard.mixin(SponsoredCard);
 
+class MockCardController extends CardController {
+    constructor() {
+        super(...arguments);
+
+        this.view = new CardView();
+    }
+}
+MockCardController.mixin(SponsoredCardController);
+
 describe('PixelHandler', function() {
     let card;
     let minireel;
     let experience;
     let player;
+    let controller;
     let handler;
 
     class MockHandler extends PixelHandler {
@@ -74,12 +87,16 @@ describe('PixelHandler', function() {
                 viewUrls: ['img13.jpg?delay={delay}', 'img14.jpg?page={pageUrl}'],
                 bufferUrls: ['img15.jpg?delay={delay}', 'img16.jpg?page={pageUrl}'],
                 launchUrls: ['img17.jpg?delay={delay}', 'img18.jpg?page={pageUrl}'],
+                interactionUrls: ['img19.jpg?delay={delay}', 'img20.jpg?page={pageUrl}'],
             }
         }, experience);
         minireel = new EventEmitter();
         minireel.campaign = {};
         minireel.deck = [card];
 
+        controller = new MockCardController(card);
+
+        dispatcher.addSource('ui', controller, ['interaction']);
         dispatcher.addSource('navigation', minireel, ['launch', 'move', 'close', 'error', 'init']);
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete', 'buffering'], card);
         dispatcher.addSource('card', card, ['activate', 'deactivate'], player);
@@ -540,6 +557,43 @@ describe('PixelHandler', function() {
                     imageLoader.load.calls.reset();
 
                     minireel.emit('activate');
+                });
+
+                it('should do nothing', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
+    describe('ui events', function() {
+        describe('interaction', function() {
+            beforeEach(function() {
+                controller.emit('interaction', 'the-context');
+            });
+
+            it('should fire the tracking pixels', function() {
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithDelay));
+            });
+
+            describe('if emitted again', function() {
+                beforeEach(function() {
+                    imageLoader.load.calls.reset();
+
+                    controller.emit('interaction', 'the-context');
+                });
+
+                it('should not fire any pixels', function() {
+                    expect(imageLoader.load).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if the card has no q1Urls', function() {
+                beforeEach(function() {
+                    delete card.campaign.interactionUrls;
+                    imageLoader.load.calls.reset();
+
+                    controller.emit('interaction', 'the-context');
                 });
 
                 it('should do nothing', function() {

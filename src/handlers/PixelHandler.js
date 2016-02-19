@@ -74,6 +74,12 @@ export default class PixelHandler extends BillingHandler {
             firePixels([tracking], completeUrlWithCardViewDelay(card));
         }, 'card', 'clickthrough', 'share');
 
+        register(({ target: controller }) => {
+            const card = controller.model;
+
+            firePixels([card.get('campaign.interactionUrls')], completeUrlWithCardViewDelay(card));
+        }, 'ui', 'interaction');
+
         this.on('AdStart', card => {
             firePixels([card.get('campaign.playUrls')], completeUrlWithCardViewDelay(card));
         });

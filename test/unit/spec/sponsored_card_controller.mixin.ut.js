@@ -42,6 +42,10 @@ describe('SponsoredCardController mixin', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['clickthrough', 'share']);
     });
 
+    it('should add itself as a source', function() {
+        expect(dispatcher.addSource).toHaveBeenCalledWith('ui', controller, ['interaction']);
+    });
+
     describe('events:', function() {
         describe('card', function() {
             describe('share', function() {

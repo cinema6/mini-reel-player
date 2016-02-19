@@ -2,6 +2,7 @@ import dispatcher from '../services/dispatcher.js';
 
 function SponsoredCardController(card) {
     dispatcher.addSource('card', card, ['clickthrough', 'share']);
+    dispatcher.addSource('ui', this, ['interaction']);
 
     card.on('share', shareLink => {
         const sizes = {

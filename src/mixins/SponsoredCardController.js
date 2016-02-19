@@ -35,6 +35,10 @@ SponsoredCardController.prototype = {
 
     share: function share(itemView) {
         return this.model.share(itemView.data.type, itemView.context);
+    },
+
+    interaction: function interaction(itemView) {
+        return this.emit('interaction', itemView.context);
     }
 };
 

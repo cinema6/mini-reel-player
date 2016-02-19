@@ -129,5 +129,24 @@ describe('SponsoredCardController mixin', function() {
                 expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label, linkItem.context);
             });
         });
+
+        describe('interaction(linkItem)', function() {
+            let linkItem;
+            let interaction;
+
+            beforeEach(function() {
+                linkItem = new LinkItemView();
+                linkItem.context = 'the-context';
+
+                interaction = jasmine.createSpy('interaction()');
+                controller.on('interaction', interaction);
+
+                controller.interaction(linkItem);
+            });
+
+            it('should emit the "interaction" event', function() {
+                expect(interaction).toHaveBeenCalledWith(linkItem.context);
+            });
+        });
     });
 });

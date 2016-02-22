@@ -8,31 +8,45 @@ import {
     forEach
 } from '../../lib/utils.js';
 
-function completeUrlWithCardViewDelay(card) {
+function getMacroConfig({ delay, context }) {
+    return {
+        '{delay}': delay,
+        '{context}': context || '',
+        '{screenWidth}': window.screen.width,
+        '{screenHeight}': window.screen.height,
+        '{playerWidth}': window.innerWidth,
+        '{playerHeight}': window.innerHeight
+    };
+}
+
+function completeUrlWithCardViewDelay(card, context) {
     return function completeUrlWithCardViewDelayAndUrl(url) {
         const { lastViewedTime } = card;
         const delay = Date.now() - lastViewedTime;
 
-        return completeUrl(url, { '{delay}': delay });
+        return completeUrl(url, getMacroConfig({ delay, context }));
     };
 }
 
-function completeUrlWithLoadDelay() {
+function completeUrlWithLoadDelay(context) {
     return function completeUrlWithLoadDelayAndUrl(url) {
         const { loadStartTime } = environment;
         const delay = loadStartTime && (Date.now() - loadStartTime);
 
-        return completeUrl(url, { '{delay}': delay });
+        return completeUrl(url, getMacroConfig({ delay, context }));
     };
 }
 
-function firePixels(groups, mapper) {
-    const unfired = filter(groups, group => group && !group.fired);
+function firePixels(groups, mapper, context) {
+    const unfired = filter(groups, group => group && !(group.fired || {})[context]);
     const pixels = [].concat(...unfired);
 
     if (pixels.length > 0) {
         imageLoader.load(...map(pixels, mapper));
-        forEach(unfired, group => group.fired = true);
+        forEach(unfired, group => {
+            if (!group.fired) { group.fired = {}; }
+            group.fired[context] = true;
+        });
     }
 }
 
@@ -70,9 +84,16 @@ export default class PixelHandler extends BillingHandler {
         register(({ target: card }) => {
             firePixels([card.get('campaign.viewUrls')], completeUrlWithLoadDelay());
         }, 'card', 'activate');
-        register(({ target: card }, { tracking }) => {
-            firePixels([tracking], completeUrlWithCardViewDelay(card));
+        register(({ target: card }, { tracking }, type, context) => {
+            firePixels([tracking], completeUrlWithCardViewDelay(card, context), context);
         }, 'card', 'clickthrough', 'share');
+
+        register(({ target: controller }, context) => {
+            const card = controller.model;
+            const interactionUrls = card.get('campaign.interactionUrls');
+
+            firePixels([interactionUrls], completeUrlWithCardViewDelay(card, context), context);
+        }, 'ui', 'interaction');
 
         this.on('AdStart', card => {
             firePixels([card.get('campaign.playUrls')], completeUrlWithCardViewDelay(card));

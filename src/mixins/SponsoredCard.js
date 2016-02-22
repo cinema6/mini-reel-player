@@ -32,16 +32,16 @@ function SponsoredCard(data) {
     }
 }
 
-SponsoredCard.prototype.clickthrough = function clickthrough(linkName) {
+SponsoredCard.prototype.clickthrough = function clickthrough(linkName, context) {
     const link = this.links[linkName];
 
-    if (link) { this.emit('clickthrough', link, linkName); }
+    if (link) { this.emit('clickthrough', link, linkName, context); }
 };
 
-SponsoredCard.prototype.share = function share(type) {
+SponsoredCard.prototype.share = function share(type, context) {
     const link = find(this.shareLinks, link => link.type === type);
 
-    if (link) { this.emit('share', link); }
+    if (link) { this.emit('share', link, type, context); }
 };
 
 export default SponsoredCard;

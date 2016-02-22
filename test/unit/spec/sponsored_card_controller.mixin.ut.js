@@ -42,6 +42,10 @@ describe('SponsoredCardController mixin', function() {
         expect(dispatcher.addSource).toHaveBeenCalledWith('card', card, ['clickthrough', 'share']);
     });
 
+    it('should add itself as a source', function() {
+        expect(dispatcher.addSource).toHaveBeenCalledWith('ui', controller, ['interaction']);
+    });
+
     describe('events:', function() {
         describe('card', function() {
             describe('share', function() {
@@ -100,6 +104,7 @@ describe('SponsoredCardController mixin', function() {
             beforeEach(function() {
                 itemView = new ModalShareItemView();
                 itemView.tag = 'li';
+                itemView.context = 'context-a';
                 Runner.run(() => itemView.update({ type: 'youtube' }));
                 spyOn(card, 'share').and.callThrough();
 
@@ -107,7 +112,7 @@ describe('SponsoredCardController mixin', function() {
             });
 
             it('should call share() on the card', function() {
-                expect(card.share).toHaveBeenCalledWith('youtube');
+                expect(card.share).toHaveBeenCalledWith('youtube', itemView.context);
             });
         });
 
@@ -117,6 +122,7 @@ describe('SponsoredCardController mixin', function() {
             beforeEach(function() {
                 linkItem = new LinkItemView();
                 linkItem.tag = 'span';
+                linkItem.context = 'context-b';
                 Runner.run(() => linkItem.update({ type: 'youtube', label: 'YouTube' }));
                 spyOn(card, 'clickthrough').and.callThrough();
 
@@ -124,7 +130,26 @@ describe('SponsoredCardController mixin', function() {
             });
 
             it('should call clickthrough() on the card', function() {
-                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.type);
+                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label, linkItem.context);
+            });
+        });
+
+        describe('interaction(linkItem)', function() {
+            let linkItem;
+            let interaction;
+
+            beforeEach(function() {
+                linkItem = new LinkItemView();
+                linkItem.context = 'the-context';
+
+                interaction = jasmine.createSpy('interaction()');
+                controller.on('interaction', interaction);
+
+                controller.interaction(linkItem);
+            });
+
+            it('should emit the "interaction" event', function() {
+                expect(interaction).toHaveBeenCalledWith(linkItem.context);
             });
         });
     });

@@ -13,43 +13,21 @@ describe('LinkItemView', function() {
     });
 
     describe('properties:', function() {
-        describe('type', function() {
+        describe('context', function() {
             it('should be null', function() {
-                expect(view.type).toBeNull();
-            });
-        });
-    });
-
-    describe('methods:', function() {
-        describe('update()', function() {
-            let data;
-
-            beforeEach(function() {
-                data = {
-                    label: 'YouTube'
-                };
-                spyOn(TemplateView.prototype, 'update');
-
-                view.update(data);
+                expect(view.context).toBeNull();
             });
 
-            it('should set the type property to the data\'s label property', function() {
-                expect(view.type).toBe(data.label);
-            });
-
-            it('should call super()', function() {
-                expect(TemplateView.prototype.update).toHaveBeenCalledWith(data);
-            });
-
-            describe('if called with no data', function() {
+            describe('if the element has a "data-link-context" attribute', function() {
                 beforeEach(function() {
-                    TemplateView.prototype.update.calls.reset();
+                    const element = document.createElement('a');
+                    element.setAttribute('data-link-context', 'some-context');
 
-                    view.update();
+                    view = new LinkItemView(element);
                 });
 
-                it('should call super()', function() {
-                    expect(TemplateView.prototype.update).toHaveBeenCalled();
+                it('should be the value of that attribute', function() {
+                    expect(view.context).toBe('some-context');
                 });
             });
         });

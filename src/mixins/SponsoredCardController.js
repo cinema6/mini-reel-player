@@ -2,6 +2,7 @@ import dispatcher from '../services/dispatcher.js';
 
 function SponsoredCardController(card) {
     dispatcher.addSource('card', card, ['clickthrough', 'share']);
+    dispatcher.addSource('ui', this, ['interaction']);
 
     card.on('share', shareLink => {
         const sizes = {
@@ -30,11 +31,15 @@ function SponsoredCardController(card) {
 }
 SponsoredCardController.prototype = {
     clickthrough: function clickthrough(itemView) {
-        return this.model.clickthrough(itemView.type);
+        return this.model.clickthrough(itemView.data.label, itemView.context);
     },
 
     share: function share(itemView) {
-        return this.model.share(itemView.data.type);
+        return this.model.share(itemView.data.type, itemView.context);
+    },
+
+    interaction: function interaction(itemView) {
+        return this.emit('interaction', itemView.context);
     }
 };
 

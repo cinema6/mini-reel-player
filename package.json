@@ -15,7 +15,8 @@
     "lightbox",
     "light",
     "solo",
-    "desktop-card"
+    "desktop-card",
+    "mobile-card"
   ],
   "repository": {
     "type": "git",

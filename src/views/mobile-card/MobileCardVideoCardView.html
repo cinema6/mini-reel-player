@@ -1,0 +1,62 @@
+<div class="card__group">
+
+    <div data-view="shareOutlet:View"></div>
+    <div data-view="postOutlet:View"></div>
+
+    <div class="sidebar__group"></div>
+
+    <div class="description__group"></div>
+
+    <div class="social__group"></div>
+
+    <div data-view="playerOutlet:PlayerOutletView" class="video__group"></div>
+
+    <div class="title__group">
+        <h1 class="tk--hdr">{{title}}</h1>
+    </div><!-- .title__group -->
+
+    <div class="cta__group" data-if="action.text">
+        <a data-view="LinkItemView" data-model="action"
+            data-target="controller" data-action="clickthrough"
+            href="{{action.href}}" target="_blank" class="cta__box">
+            <span class="sponsoredBtn">{{text}}</span>
+        </a>
+    </div><!-- .cta__group-->
+
+    <div class="sponsor__group">
+        <span class="sponsor__label">Sponsor:</span>
+        <a class="sponsor__logo" data-if="website.logo" href="{{website.href}}"
+            data-view="LinkItemView" data-model="website"
+            data-target="controller" data-action="clickthrough">
+            <img tb-src="{{logo}}">
+        </a>
+        <span class="sponsor__name">{{sponsor}}</span>
+    </div><!-- .sponsor__group -->
+
+    <div class="description__container">
+        <p>{{note}}</p>
+    </div><!-- .description__container -->
+
+    <ul data-view="links:LinksListView" data-model="links" class="social__media"><!-- social network links and the share button-->
+        <li data-target="controller" data-action="clickthrough">
+            <a href="{{href}}" target="_blank" title="{{cta}} on {{label}}" class="social__group--icon social__group--{{type}}">
+                <span class="socialIconFont">
+                    <span class="social__label">{{cta}}</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+
+    <ul data-if="canShare" class="social__share">
+        <li>
+            <button title="Share" data-view="ButtonView"
+                data-target="controller" data-action="showShare"
+                class="social__group--icon social__group--share">
+                <span class="socialIconFont">
+                    <span class="social__label">Share</span>
+                </span>
+            </button>
+        </li>
+    </ul>
+
+</div><!-- .card__group-->

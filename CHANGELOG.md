@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.6.0-rc1]*
+  * Added hidden link to track bot clicks
+
 ## v2.5.0 (February 19, 2016)
 * *[v2.5.0-rc1]*
   * Add support for generic ui interaction tracking event

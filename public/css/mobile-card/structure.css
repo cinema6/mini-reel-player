@@ -31,17 +31,17 @@
 
     .sponsor__label {
         -domino-container:.title__group;
-        -dominio-order:4;
+        -domino-order:2;
     }
 
     .sponsor__name {
         -domino-container:.title__group;
-        -dominio-order:3;
+        -domino-order:3;
     }
 
     h1.tk--hdr {
         -domino-container:.title__group;
-        -domino-order: 2;
+        -domino-order: 4;
     }
 
     .social__group {

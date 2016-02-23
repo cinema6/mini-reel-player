@@ -41,6 +41,20 @@
         background:none;
     }
 
+    button::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+    }
+
+    ul {
+        margin:0;
+        padding:0;
+    }
+
+    iframe {
+        border:0;
+    }
+
 /*  ================================================
     c6 copy classes : general type and color styles
     ================================================ */

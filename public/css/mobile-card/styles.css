@@ -1,34 +1,12 @@
-@font-face {
-  font-family: 'fontello';
-  src: url('../fonts/SocialIcons/font/fontello.eot'); /* IE9 Compat Modes */
-  src: url('../fonts/SocialIcons/font/fontello.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/SocialIcons/font/fontello.woff') format('woff'), /* Pretty Modern Browsers */
-       url('../fonts/SocialIcons/font/fontello.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/SocialIcons/font/fontello.svg#svgfontello') format('svg'); /* Legacy iOS */
-}
-
 body {
     background:#ddd;
 }
 
-    button {
-        font-size:1rem;
-        margin:0; border:0; padding:0;
-        display: inline-block;
-        cursor:pointer;
-        background:none;
-    }
-
-    button::-moz-focus-inner {
-        padding: 0;
-        border: 0;
-    }
-
     .card__group {
         background:#fff;
         box-shadow: 0 0 3px 3px rgba(0,0,0,.12);
-        margin:1em 0.25em;
-        padding:0.125em 0 0;
+        margin:0.5em;
+        padding:0.125em 0 1rem;
     }
 
     .sponsor__group {
@@ -46,21 +24,16 @@ body {
         }
 
     .sponsor__label {
-        display:inline;
-        text-align:left;
         color:#999;
         font-size:0.75em;
         margin:0 0.25em 0 0;
         font-family:"Open Sans", arial, helvetica, sans-serif;
-        float:left;
     }
 
     .sponsor__name {
-        display: inline;
         font-family:"Open Sans", sans-serif;
         font-size:0.75em;
         color:#d94040;
-        float:left;
     }
 
     .sidebar__group {
@@ -69,8 +42,6 @@ body {
     }
 
         .social__group {
-            height:1.75em;
-            padding:0.75em;
             border-bottom:1px solid #dedede;
             width:auto;
             text-align:center;
@@ -137,7 +108,7 @@ body {
                     text-align:center;
                     color:#fff;
                     position:absolute;
-                    top:0.3125em;
+                    top:0.0625em;
                     left:0.375em;
                 }
 
@@ -171,6 +142,8 @@ body {
 
                     .social__group--share .socialIconFont:before {
                         content:'\e808';
+                        top: 0.3125em;
+                        left: 0.37em;
                     }
 
                     .social__label {
@@ -181,7 +154,8 @@ body {
 
         .social__media,
         .social__share {
-            margin:0;
+            height:1.75em;
+            margin:.75em 0 0.3125em;
             padding:0;
             display:inline-block;
         }
@@ -205,7 +179,7 @@ body {
         padding:0 0 56.25%;
     }
 
-        .video__player {
+        .video__group iframe {
             position: absolute;
             top:0;
             right:0;
@@ -219,7 +193,7 @@ body {
 
           
         .description__container {
-            padding:0 1rem 1rem;
+            padding:1rem 1rem 0;
         }
 
             .description__container p {
@@ -232,29 +206,25 @@ body {
 
 
     .title__group {
+        height:3.5em;
         display:block;
-        background:#fff;
-        overflow:hidden;
+        background:#fff;    
         position:relative;
         margin: 0.75em;
     }
 
         .title__group h1 {
             color:#000;
-            font-size:1.125em;
-            line-height:1.25;
-            display:inline;
-            margin:0;
+            font-size:1em;
+            line-height:1;
+            display:block;
+            margin:-0.125em 0 0;
             font-family: "roboto condensed", arial, sans-serif;
             font-weight: 300;
-            position:absolute;
-            top:0.75em;
-            left:3.625em;
-            right:2em;
         }
 
     .cta__group {
-        margin:1em;
+        margin:1em 1em 0;
     }
 
         .cta__box {
@@ -278,147 +248,216 @@ body {
             }
 
 
+/**/
+
+.nav__counter {
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #d94040;
+    padding: 1em;
+    color: #fff;
+    text-align: center;
+}
+
+.card__closeGroup button {
+    top: .25em;
+    right: .25em;
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 50%;
+    background-color: #000;
+    border: 2px solid #eee;
+    z-index: 1000;
+    position:absolute;
+}
+
+.btn__label {
+    display:none;
+}
+
+    .card__closeGroup button:after {
+        content: 'x';
+        font-family:helvetica,arial,sans-serif;
+        font-weight:bold;
+        color:#fff;
+        position: absolute;
+        top:0.125em;
+        left:0.25em;
+        z-index: 200000;
+        width: 1rem;
+        height: 1rem;
+    }
+
+/**/
+
+
 /*  ================================================
     media queries for landscape
     ================================================ */
 
     @media only screen and (orientation: landscape) {
-
-        .card__group {
-            position:absolute;
-            top:0;
-            bottom:0;
-            left:0;
-            right:0;
-            border:0;
-            margin:0;
-            padding:0;
+    
+        body {
+            background:#fff;
         }
-
-            .title__group {
-                padding:0;
-            }
-
-                .title__group h1 {
-                    position:relative;
-                    top:inherit;
-                    bottom:inherit;
-                    left:0;
-                    font-size:1.25em;
-                }
-
-            .video__group {
-                width:60%;
-                padding:0;
+            .card__group {
                 position:absolute;
-                top:3em;
-                bottom:3em;
-                left:0;
-            }
-
-            .sidebar__group {
-                width:40%;
-                position: absolute;
-                top:3em;
-                bottom:3em;
-                right:0;
-                background:none;
-            }
-
-                    .sponsor__group {
-                        width:100%;
-                        height:auto;
-                        float:none;
-                        border:none;
-                    }
-
-                        .sponsor__logo {
-                            float:left;
-                            margin:0 0.75em 0.125em;
-                        }
-
-                            .sponsor__logo img {
-                                border:1px solid #ddd;
-                                width:2.5em;
-                                height:2.5em;
-                            }
-
-                        .sponsor__label {
-                            display:block;
-                            float:none;
-                            margin:0.25em 0 0;
-                        }
-
-                        .sponsor__name {
-                            display:block;
-                            float:none;
-                            font-size:1em;
-                            margin:0.375em 0 0;
-                        }
-
-                .social__group {
-                    padding:0.5em 0.75em;
-                    border-bottom:0;
-                    text-align:left;
-                }
-
-                    .socialIconFont {
-                        width: 1.5em;
-                        height: 1.5em;
-
-                    }
-
-                        .socialIconFont:before {
-                            font-size:0.875rem;
-                            top:0.375em;
-                        }
-
-                            .social__group--facebook .socialIconFont:before {
-                                margin:0.0625em 0 0;
-                            }
-
-                            .social__group--pinterest .socialIconFont:before {
-                                margin:0.0625em 0 0;
-                            }
-
-                            .social__group--vimeo .socialIconFont:before {
-                                font-size:0.75em;
-                                margin:0.125em 0 0;
-                            }
-
-                    .social__media li {
-                        margin:0 0.25em 0 0;
-                    }
-
-
-
-                .description__group {
-                    width:100%;
-                    position:absolute;
-                    top:5.75em;
-                    bottom:1em;
-                    overflow-y:auto;
-                }
-
-                    .description__container {
-                        padding:0 1em 1em;
-                    }
-
-            .cta__group {
-                margin:0;
-                position:absolute;
+                top:0;
                 bottom:0;
                 left:0;
                 right:0;
+                border:0;
+                margin:0;
+                padding:0;
+                box-shadow:none;
             }
 
-                .cta__box {
-                    border-radius:0;
+                .title__group {
+                    padding: 0;
+                    height: auto;
+                    margin: 1em;
                 }
 
-                    .sponsoredBtn {
-                        padding:0.75em;
+                    .title__group h1 {
+                        position:relative;
+                        top:inherit;
+                        bottom:inherit;
+                        left:0;
+                        font-size:1.25em;
                     }
+
+                .video__group {
+                    width:60%;
+                    padding:0;
+                    position:absolute;
+                    top:3em;
+                    bottom:3em;
+                    left:0;
+                }
+
+                .sidebar__group {
+                    width:40%;
+                    position: absolute;
+                    top:3em;
+                    bottom:3em;
+                    right:0;
+                    background:none;
+                }
+
+                        .sponsor__group {
+                            width:100%;
+                            height:auto;
+                            float:none;
+                            border:none;
+                            margin:0 0 0 0.75em;
+                        }
+
+                            .sponsor__logo {
+                                float:left;
+                                margin:0 0.5em 0.125em 0;
+                            }
+
+                                .sponsor__logo img {
+                                    border:1px solid #ddd;
+                                    width:2.5em;
+                                    height:2.5em;
+                                }
+
+                            .sponsor__label {
+                                display:block;
+                                float:none;
+                            }
+
+                            .sponsor__name {
+                                display:block;
+                                float:none;
+                                font-size:1em;
+                                margin:0;
+                            }
+
+                    .social__group {
+                        margin:0 0.75em;
+                        padding:0;
+                        border-bottom:0;
+                        text-align:left;
+                    }
+
+                        .social__media, .social__share {
+                            height: 1.5em;
+                            margin: .5em 0;
+                        }
+
+                            .socialIconFont {
+                                width: 1.5em;
+                                height: 1.5em;
+
+                            }
+
+                                .socialIconFont:before {
+                                    font-size:0.875rem;
+                                }
+
+                                    .social__group--share .socialIconFont:before {
+                                        top: 0.375em;
+                                        left:0.25em;
+                                    }
+
+                            .social__media li {
+                                margin:0 0.3125em 0 0;
+                            }
+
+
+
+                    .description__group {
+                        width:100%;
+                        position:absolute;
+                        top:5.75em;
+                        bottom:1em;
+                        overflow-y:auto;
+                    }
+
+                        .description__container {
+                            padding:0 1em 1em;
+                        }
+
+                .cta__group {
+                    margin:0;
+                    position:absolute;
+                    bottom:0;
+                    left:0;
+                    right:0;
+                }
+
+                    .cta__box {
+                        border-radius:0;
+                    }
+
+                        .sponsoredBtn {
+                            padding:0.75em;
+                        }
+
+/**/
+
+.nav__counter {
+    top: 0;
+    left: inherit;
+    overflow: hidden;
+    width: 8em;
+    height: 2.5em;
+    z-index: 200;
+    padding: 0.5em;
+    margin:
+}
+
+.card__closeGroup button {
+    
+}
+
+/**/
+
 
     }
 
@@ -432,41 +471,34 @@ body {
         }
 
         .description__group {
-            top: 5em;
+            top: 5.25em;
         }
 
             .social__group {
-                padding:0.25em 0.75em;
                 height: 1.25em;
             }
-                .socialIconFont {
-                    width: 1.25em;
-                    height: 1.25em;
+
+                .social__media, .social__share {
+                    height: 1.5em;
+                    margin: 0.25em 0;
                 }
 
-                    .socialIconFont:before {
-                        font-size:0.75rem;
-                        top:0.3125em;
-                        left:0.3125em;
+                    .socialIconFont {
+                        width: 1.25em;
+                        height: 1.25em;
                     }
 
-                        .social__group--facebook .socialIconFont:before {
-                            margin:0.0625em 0 0;
+                        .socialIconFont:before {
+                            font-size:0.75rem;
+                            left:0.3125em;
                         }
 
-                        .social__group--pinterest .socialIconFont:before {
-                            margin:0.0625em 0 0;
-                        }
 
-                        .social__group--vimeo .socialIconFont:before {
-                            font-size:0.625em;
-                            margin:0.125em 0 0;
-                            left:0.4375em;
-                        }
-
-                        .social__group--share .socialIconFont:before {
-                            font-size:0.75em;
-                        }
+                            .social__group--share .socialIconFont:before {
+                                font-size:0.675em;
+                                top:0.4375em;
+                                left:0.3125em;
+                            }
 
 
     }

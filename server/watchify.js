@@ -3,13 +3,12 @@ var request = require('request');
 var resolveURL = require('url').resolve;
 var resolvePath = require('path').resolve;
 var relativePath = require('path').relative;
+var pathSep = require('path').sep;
 
 module.exports = function watchifyPlugin(path, file, config, done) {
     var url = resolveURL(config.baseURL, config.watchify.endpoint);
-    var project = resolveURL(__dirname, './');
-    var relPath = relativePath(project, path);
 
-    if (/^build\//.test(relPath)) {
+    if (/css\.domino\.js$/.test(path)) {
         return file;
     }
 

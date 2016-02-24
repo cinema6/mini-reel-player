@@ -48,3 +48,7 @@
     /*  Instagram styles
         ============================================= */
         @import url("./mobile/instagram-card.css");
+
+    /*  Instagram overrides
+        ============================================= */
+        @import url("./mobile-card/instagram-card.css");

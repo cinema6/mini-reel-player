@@ -19,8 +19,6 @@
             actions Modal group classes
         ============================================= */    
         @import url('./mobile/video-card.css');
-
-
         
     /*  Count-down timer and close button for mobile-card
         ============================================= */
@@ -46,3 +44,7 @@
             popup : landscape view
         ============================================= */ 
         @import url('./mobile/modal-share.css');
+
+    /*  Instagram styles
+        ============================================= */
+        @import url("./mobile/instagram-card.css");

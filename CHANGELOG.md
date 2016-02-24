@@ -1,9 +1,5 @@
 # MiniReel Player 2.0
 
-* *[v2.5.1-rc1]*
-  * [REFACTOR] Modularize CSS for mobile-card
-    [DESIGN] Instagram support added for mobile-card
-
 ## v2.5.0 (February 19, 2016)
 * *[v2.5.0-rc1]*
   * Add support for generic ui interaction tracking event

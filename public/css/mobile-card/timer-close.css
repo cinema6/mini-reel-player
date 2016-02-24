@@ -13,7 +13,8 @@
     font-size:1em;
 }
 
-.card__closeGroup button {
+.card__closeGroup button,
+.card__closeGroup button:focus {
     top: .25em;
     right: .25em;
     width: 1.75em;

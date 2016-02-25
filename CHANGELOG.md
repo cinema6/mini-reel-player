@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.6.0 (February 25, 2016)
+
+* *[v2.6.0-rc2]*
+  * [FIX]: Fixed broken font in mobile-card
+
 * *[v2.6.0-rc1]*
   * Added hidden link to track bot clicks
   * [FIX]: Fix for an issue that broke Slideshow Bob

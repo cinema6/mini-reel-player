@@ -2,6 +2,12 @@ body {
     background:#ddd;
 }
 
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
+
+.tk--hdr {
+    font-family:"Roboto Condensed", "Open Sans", sans-serif;
+}
+
     .card__group {
         background:#fff;
         box-shadow: 0 0 3px 3px rgba(0,0,0,.12);

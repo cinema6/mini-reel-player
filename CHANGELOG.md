@@ -1,5 +1,13 @@
 # MiniReel Player 2.0
 
+## v2.6.0 (February 25, 2016)
+* *[v2.6.0-rc1]*
+  * Added hidden link to track bot clicks
+  * [FIX]: Fix for an issue that broke Slideshow Bob
+  * [FIX]: Fix for an issue that broke voting
+  * [FEATURE]: Add new single-card mobile player (`mobile-card`)
+* *[/v2.6.0-rc1]*
+
 ## v2.5.0 (February 19, 2016)
 * *[v2.5.0-rc1]*
   * Add support for generic ui interaction tracking event

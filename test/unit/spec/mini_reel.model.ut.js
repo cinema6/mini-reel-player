@@ -1611,42 +1611,6 @@ describe('MiniReel', function() {
             expect(minireel.moveToIndex).not.toHaveBeenCalled();
         });
 
-        it('should load the branding styles for the minireel', function() {
-            expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme.css`);
-            expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core.css`);
-        });
-
-        it('should see if the browser has a mouse', function() {
-            expect(browser.test).toHaveBeenCalledWith('mouse');
-        });
-
-        describe('if the device has no mouse', function() {
-            beforeEach(function(done) {
-                codeLoader.loadStyles.calls.reset();
-
-                mouseDeferred.fulfill(false);
-                Promise.resolve(mouseDeferred.promise).then(done, done);
-            });
-
-            it('should not load branding hover styles', function() {
-                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('if the device has a mouse', function() {
-            beforeEach(function(done) {
-                codeLoader.loadStyles.calls.reset();
-
-                mouseDeferred.fulfill(true);
-                Promise.resolve(mouseDeferred.promise).then(done, done);
-            });
-
-            it('should load branding hover styles', function() {
-                expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/${environment.mode}/theme--hover.css`);
-                expect(codeLoader.loadStyles).toHaveBeenCalledWith(`${environment.apiRoot}/collateral/branding/${minireel.branding}/styles/core--hover.css`);
-            });
-        });
-
         describe('if autoLaunch is true', function() {
             beforeEach(function(done) {
                 environment.params.autoLaunch = true;
@@ -1750,25 +1714,6 @@ describe('MiniReel', function() {
         describe('if the minireel has no branding', function() {
             beforeEach(function(done) {
                 delete experience.data.branding;
-                codeLoader.loadStyles.calls.reset();
-                browser.test.calls.reset();
-
-                minireel = new MiniReel();
-                minireel.on('init', done);
-            });
-
-            it('should not load styles', function() {
-                expect(codeLoader.loadStyles).not.toHaveBeenCalled();
-            });
-
-            it('should not test for a mouse', function() {
-                expect(browser.test).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('if the player was loaded by the player service', function() {
-            beforeEach(function(done) {
-                environment.loader = 'service';
                 codeLoader.loadStyles.calls.reset();
                 browser.test.calls.reset();
 

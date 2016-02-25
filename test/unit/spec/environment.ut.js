@@ -60,30 +60,6 @@ describe('environment', function() {
             });
         });
 
-        describe('apiRoot', function() {
-            describe('if c6.kEnvUrlRoot is set', function() {
-                beforeEach(function() {
-                    c6.kEnvUrlRoot = '//staging.cinema6.com';
-                    environment.constructor();
-                });
-
-                it('should be that value', function() {
-                    expect(environment.apiRoot).toBe(c6.kEnvUrlRoot);
-                });
-            });
-
-            describe('if c6.kEnvUrlRoot is not set', function() {
-                beforeEach(function() {
-                    delete c6.kEnvUrlRoot;
-                    environment.constructor();
-                });
-
-                it('should be "//portal.cinema6.com"', function() {
-                    expect(environment.apiRoot).toBe('//portal.cinema6.com');
-                });
-            });
-        });
-
         describe('params', function() {
             it('should be the options resource', function() {
                 expect(environment.params).toEqual(resource.getSync('options'));

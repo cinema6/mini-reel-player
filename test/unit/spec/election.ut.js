@@ -1,6 +1,5 @@
 import election from '../../../src/services/election.js';
 import fetcher from '../../../lib/fetcher.js';
-import environment from '../../../src/environment.js';
 
 describe('election', function() {
     beforeEach(function() {
@@ -24,7 +23,7 @@ describe('election', function() {
                 success = jasmine.createSpy('vote() success');
                 failure = jasmine.createSpy('vote() failure');
 
-                fetcher.expect('POST', `${environment.apiRoot}/api/public/vote`, {
+                fetcher.expect('POST', `/api/public/vote`, {
                     election: 'e-123-override',
                     ballotItem: 'rc-22119a8cf9f755',
                     vote: 1

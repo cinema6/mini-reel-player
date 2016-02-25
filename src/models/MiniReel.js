@@ -8,7 +8,6 @@ import { EventEmitter } from 'events';
 import {createKey} from 'private-parts';
 import EmbedSession from '../utils/EmbedSession.js';
 import browser from '../services/browser.js';
-import codeLoader from '../services/code_loader.js';
 import normalizeLinks from '../fns/normalize_links.js';
 import makeSocialLinks from '../fns/make_social_links.js';
 import {
@@ -140,21 +139,6 @@ function initialize(whitelist, experience, profile) {
     this.logo = experience.data.collateral.logo || null;
     this.links = normalizeLinks(experience.data.links);
     this.socialLinks = makeSocialLinks(this.links);
-
-    if (this.branding && environment.loader !== 'service') {
-        const { apiRoot, mode } = environment;
-        const base = `${apiRoot}/collateral/branding/${this.branding}/styles`;
-
-        codeLoader.loadStyles(`${base}/${mode}/theme.css`);
-        codeLoader.loadStyles(`${base}/core.css`);
-
-        browser.test('mouse').then(hasMouse => {
-            if (hasMouse) {
-                codeLoader.loadStyles(`${base}/${mode}/theme--hover.css`);
-                codeLoader.loadStyles(`${base}/core--hover.css`);
-            }
-        });
-    }
 
     this.closeable = !standalone;
 

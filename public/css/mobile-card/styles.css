@@ -2,6 +2,9 @@ body {
     background:#ddd;
 }
 
+.tk--hdr {
+    font-family:arial, helvetica, sans-serif;
+}
     .card__group {
         background:#fff;
         box-shadow: 0 0 3px 3px rgba(0,0,0,.12);
@@ -220,8 +223,6 @@ body {
             line-height:1;
             display:block;
             margin:-0.125em 0 0;
-            font-family: "roboto condensed", arial, sans-serif;
-            font-weight: 300;
         }
 
     .cta__group {
@@ -236,7 +237,7 @@ body {
         }
 
             .sponsoredBtn {
-                font-family:"Roboto Condensed", sans-serif;
+                font-family:Arial, Helvetica, sans-serif;
                 color: #fff;
                 font-size: 1.25em;
                 font-weight: 700;

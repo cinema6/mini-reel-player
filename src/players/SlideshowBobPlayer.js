@@ -1,7 +1,6 @@
 import CorePlayer from './CorePlayer.js';
 import bob from '../services/slideshow_bob.js';
 import Runner from '../../lib/Runner.js';
-import environment from '../environment.js';
 import {
     map
 } from '../../lib/utils.js';
@@ -107,7 +106,7 @@ export default class SlideshowBobPlayer extends CorePlayer {
         _(this).state.controls = this.controls;
 
         const iframe = _(this).iframe = document.createElement('iframe');
-        iframe.src = `${environment.apiRoot}/apps/slideshow-bob/index.html?` + toParams([
+        iframe.src = '/apps/slideshow-bob/index.html?' + toParams([
             ['id', this.id],
         ]);
         iframe.setAttribute('width', '100%');

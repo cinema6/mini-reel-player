@@ -7,20 +7,20 @@
 <!--invisible link -->
     <span data-if="website.logo"
         data-view="landscapeLogoView:LinkItemView" data-model="website"
-        data-target="controller" data-action="clickthrough" class="landscapeOnly--branding">
+        data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo" class="landscapeOnly--branding">
         <a href="{{href}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">
             <img tb-src="{{logo}}" alt="{{text}}" class="sponsorProfile__img">
         </a>
     </span>
     <p data-if="sponsor"
         data-view="landscapeWebsiteView:LinkItemView" data-model="website"
-        data-target="controller" data-action="clickthrough"
+        data-target="controller" data-action="clickthrough" data-link-context="sponsoredLink"
         class="sponsorProfile__tag landscapeOnly--branding">
         Sponsored by
         <a href="{{href}}" target="_blank" title="{{text}}">{{text}}</a>
     </p>
     <div data-if="canShare" class="sponsorProfile__linkBtn landscapeOnly--branding">
-        <span><button data-view="landscapeShareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
+        <span><button data-view="landscapeShareButton:LinkItemView" data-target="controller" data-action="showShare" data-link-context="shareButton"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
     </div>
     <h1 class="card__title tk--hdr">
         {{title}}
@@ -50,7 +50,7 @@
         <div class="socialBox">
             <span data-if="website.logo"
                 data-view="logoView:LinkItemView" data-model="website"
-                data-target="controller" data-action="clickthrough" class="portraitOnly--branding">
+                data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo" class="portraitOnly--branding">
                 <a href="{{href}}" target="_blank" title="Sponsor link" class="sponsorProfile__imgBox">
                     <img tb-src="{{logo}}" alt="{{text}}" class="sponsorProfile__img">
                 </a>
@@ -58,7 +58,7 @@
             <div data-if="hasSponsoredCopy" class="sponsorProfile__copy">
                 <p data-if="sponsor"
                     data-view="websiteView:LinkItemView" data-model="website"
-                    data-target="controller" data-action="clickthrough"
+                    data-target="controller" data-action="clickthrough" data-link-context="sponsoredLink"
                     class="sponsorProfile__tag portraitOnly--branding">
                     Sponsored by
                     <a href="{{href}}" target="_blank" title="{{text}}">{{text}}</a>
@@ -74,7 +74,7 @@
                     </span>
                 </div>
                 <div data-if="canShare" class="sponsorProfile__linkBtn portraitOnly--branding">
-                    <span><button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
+                    <span><button data-view="shareButton:LinkItemView" data-target="controller" data-action="showShare" data-link-context="shareButton"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
                 </div>
             </div>
         </div>

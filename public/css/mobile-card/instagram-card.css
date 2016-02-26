@@ -1,0 +1,43 @@
+/*  ================================================
+    instagram video card
+    ================================================ */
+    .instag____card__group {
+    	margin-bottom:4rem;
+    	overflow:none;
+    }
+
+    .instag____mediaVid__group {
+    	padding-bottom:20em;
+    }
+        .instag____mediaVid__box {
+            width:100%;
+            max-height: 20em;
+        }
+
+            .instag____mediaVid {
+                width:100%;
+                border:0;
+                max-height:20rem;
+                overflow:hidden;
+            }
+
+            .instag____mediaVid .playerBox,
+            .instag____mediaVid .playerBox object,
+            .instag____mediaVid .playerBox video {
+                min-height:auto;
+                min-width:auto;
+				max-height:20rem;
+				width:100%;
+            }
+
+    .instag____card__group--sponsored .instag____feedback__likeData {
+	    margin-right:10em;
+	}
+
+@media only screen and (orientation: landscape) {
+
+	.instag____card__group .nav__counter {
+		top:4.5rem;
+	}
+
+}

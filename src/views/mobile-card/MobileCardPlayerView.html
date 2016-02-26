@@ -1,0 +1,17 @@
+<div class="card__closeGroup"><!--skip button
+    --><button data-if="closeable" data-view="ButtonView"
+        data-target="controller" data-action="close"
+        title="Close"
+        type="button">
+        <span class="btn__label">
+            Skip
+        </span>
+    </button><!--skip button : Ends
+    --><div data-if="showSkipTimer"
+        data-view="SkipTimerView" data-model="skipTime"
+        class="nav__counter">
+        <span>Skip in </span>
+        <strong>{{remaining}}</strong>
+    </div><!--
+--></div>
+<ul data-view="cardOutlet:View"></ul>

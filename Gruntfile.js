@@ -39,6 +39,17 @@ module.exports = function(grunt) {
             browser: null
         }, grunt.file.exists('personal.json') ? grunt.file.readJSON('personal.json') : {});
 
+    function extend(/*...objects*/) {
+        var objects = Array.prototype.slice.call(arguments);
+
+        return objects.reduce(function(result, object) {
+            return Object.keys(object).reduce(function(result, key) {
+                result[key] = object[key];
+                return result;
+            }, result);
+        }, {});
+    }
+
     require('load-grunt-config')(grunt, {
         configPath: path.join(__dirname, 'tasks/options'),
         config: {
@@ -64,13 +75,11 @@ module.exports = function(grunt) {
         var withTests = !!tdd;
         var target = (typeof tdd === 'string') ? tdd : 'app';
         var campId = grunt.option('campaign');
-        var params = (function() {
-            try {
-                return JSON.parse(grunt.option('params'));
-            } catch(e) {
-                return {};
-            }
-        }());
+        var params = grunt.option('params');
+
+        if (!exp && !params) {
+            exp = '0';
+        }
 
         grunt.config.set('browserify.server.files', [
             {
@@ -80,8 +89,17 @@ module.exports = function(grunt) {
         ]);
         grunt.config.set('server.campId', campId);
         grunt.config.set('server.mode', mode);
-        grunt.config.set('server.exp', exp || '0');
-        grunt.config.set('server.params', params);
+        grunt.config.set('server.exp', exp);
+        grunt.config.set('server.params', JSON.stringify(extend({
+            experience: exp,
+            campaign: campId
+        }, (function() {
+           try {
+                return JSON.parse(params);
+           } catch(e) {
+                return {};
+           }
+        }()))));
 
         grunt.task.run('babelhelpers:build');
 

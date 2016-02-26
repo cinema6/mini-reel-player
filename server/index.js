@@ -1,7 +1,6 @@
 'use strict';
 var express = require('express');
 var Player = require('cwrx/bin/player');
-var BrowserInfo = require('cwrx/lib/browserInfo');
 var resolvePath = require('path').resolve;
 var createReadStream = require('fs').createReadStream;
 var inspect = require('util').inspect;
@@ -13,12 +12,10 @@ var formatURL = require('url').format;
 var pump = require('pump');
 var stat = require('fs').stat;
 var assign = require('lodash/object/assign');
+var grunt = require('grunt');
 
 var args = process.argv.slice(2);
-var cliOptions = {
-    experience: args[1],
-    campaign: args[2]
-};
+var cliOptions = JSON.parse(args[1]);
 
 var server = express().use(require('connect-livereload')());
 var experiences = require('./experiences.json');
@@ -45,7 +42,8 @@ var player = new Player({
             cacheTTLs: {
                 fresh: 0,
                 max: 0
-            }
+            },
+            default: 'e-00000000000000'
         },
         card: {
             endpoint: 'api/card/',
@@ -179,7 +177,7 @@ server.get('/api/experience/*', function getExperience(req, res) {
         pump(request.get({
             uri: formatURL({
                 protocol: 'http:',
-                hostname: 'staging.cinema6.com',
+                hostname: 'platform-staging.reelcontent.com',
                 pathname: '/api/public/content/experience/' + id
             }),
             qs: url.query
@@ -187,6 +185,19 @@ server.get('/api/experience/*', function getExperience(req, res) {
     } else {
         res.status(200).send(experiences[id]);
     }
+});
+
+server.get('/api/card/:id', function getExperience(req, res) {
+    var url = parseURL(req.url, true);
+
+    pump(request.get({
+        uri: formatURL({
+            protocol: 'http:',
+            hostname: 'platform-staging.reelcontent.com',
+            pathname: '/api/public/content/card/' + req.params.id
+        }),
+        qs: url.query
+    }), res.status(200));
 });
 
 server.get('/', function redirect(req, res) {
@@ -198,7 +209,7 @@ server.get('/', function redirect(req, res) {
     }));
 });
 
-server.get('/*', function handleRoot(req, res) {
+server.get('/*', function handleRoot(req, res, next) {
     var filename = basename(req.path);
     var host = req.get('Host');
 
@@ -209,16 +220,18 @@ server.get('/*', function handleRoot(req, res) {
 
         res.set('Content-Type', 'text/html; charset=UTF-8');
 
-        player.get(extend(cliOptions, req.query, {
+        req.query = extend({
             preview: true,
             type: filename,
-            desktop: new BrowserInfo(req.get('User-Agent')).isDesktop,
             debug: 3
-        })).then(function respond(player) {
-            res.status(200).end(player);
-        }).catch(function fail(error) {
-            res.status(error.status || 500).send(error.message || inspect(error));
-        });
+        }, cliOptions, req.query);
+
+        grunt.log.writeln(
+            'Serving the ' + filename + ' player with params: ' +
+                JSON.stringify(req.query, null, '    ')
+        );
+
+        player.middlewareify('get')(req, res, next);
     } else {
         serveStatic.apply(this, arguments);
     }

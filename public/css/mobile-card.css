@@ -1,0 +1,54 @@
+/*  ================================================
+    mobile-card view import styles
+    ================================================ */
+
+    /*  font imports
+        ============================================= */
+        @font-face {
+            font-family: 'fontello';
+            src: url('../fonts/SocialIcons/font/fontello.eot'); /* IE9 Compat Modes */
+            src: url('../fonts/SocialIcons/font/fontello.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                url('../fonts/SocialIcons/font/fontello.woff') format('woff'), /* Pretty Modern Browsers */
+                url('../fonts/SocialIcons/font/fontello.ttf')  format('truetype'), /* Safari, Android, iOS */
+                url('../fonts/SocialIcons/font/fontello.svg#svgfontello') format('svg'); /* Legacy iOS */
+        }
+
+    /*  MiniReel styles
+        	Ballot
+            results group
+            actions Modal group classes
+        ============================================= */    
+        @import url('./mobile/video-card.css');
+        
+    /*  Count-down timer and close button for mobile-card
+        ============================================= */
+        @import url("./mobile-card/timer-close.css");
+
+    /*  global styles
+        c6 copy classes : general type and color styles
+        helper classes
+        splash screen classes
+        ============================================= */
+        @import url('./mobile/mobile__base.css');
+
+    /*  Structure for mobile-card
+        ============================================= */
+		@import url("./mobile-card/structure.css");
+
+    /*  Video-card styles
+        ============================================= */
+		@import url("./mobile-card/styles.css");
+
+    /*  social share modal styles
+            popup : portrait view
+            popup : landscape view
+        ============================================= */ 
+        @import url('./mobile/modal-share.css');
+
+    /*  Instagram styles
+        ============================================= */
+        @import url("./mobile/instagram-card.css");
+
+    /*  Instagram overrides
+        ============================================= */
+        @import url("./mobile-card/instagram-card.css");

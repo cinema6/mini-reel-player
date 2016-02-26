@@ -1,0 +1,66 @@
+.nav__counter {
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #d94040;
+    padding: 1em;
+    color: #fff;
+    text-align: center;
+    z-index:100;
+    font-family:'Open-Sans', helvetica, sans-serif;
+    font-size:1em;
+}
+
+.card__closeGroup button,
+.card__closeGroup button:focus {
+    top: .25em;
+    right: .25em;
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 50%;
+    background-color: #000;
+    border: 2px solid #eee;
+    z-index: 100;
+    position:absolute;
+}
+
+.btn__label {
+    display:none;
+}
+
+    .card__closeGroup button:after {
+        content: "";
+        width: 1em;
+        height: 1em;
+        background:url("../../../public/img/sprite--alpha@2x.png") -4.25rem 8.375rem;
+        background-size:16rem;
+        top:0.25em;
+        left:0.3125em;
+        position: absolute;
+        display: inline-block;
+        z-index: 200000;
+    }
+
+
+/*  ================================================
+    media queries for landscape
+    ================================================ */
+
+    @media only screen and (orientation: landscape) {
+        .nav__counter {
+            position:fixed;
+            top: 0;
+            left: inherit;
+            overflow: hidden;
+            width: 8em;
+            height: 2.5em;
+            padding: 0.5em;
+        }
+
+        .card__closeGroup button {
+            position:fixed;
+        }
+
+}

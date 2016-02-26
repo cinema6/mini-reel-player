@@ -184,6 +184,7 @@ describe('TemplateView', function() {
                         <button data-view="button:ButtonView" data-target="controller" data-action="doControllerStuff">My Button</button>
                         <input data-view="text:TextFieldView" />
                         <div id="custom" data-view="foo:MyTemplateView" data-target="view" data-action="doSomething"></div>
+                        <button id="nameless" data-view="ButtonView"></button>
                     </div>
                 `;
 
@@ -782,7 +783,7 @@ describe('TemplateView', function() {
             });
 
             it('should create the child views declared in the templates', function() {
-                const [button, text, custom] = view.children;
+                const [button, text, custom, namelessButton] = view.children;
 
                 expect(button).toEqual(jasmine.any(ButtonView));
                 expect(button.element).toBe(element.querySelector('button'));
@@ -805,9 +806,12 @@ describe('TemplateView', function() {
                 expect(custom.action).toBe('doSomething');
                 expect(custom.parent).toBe(view);
 
+                expect(namelessButton).toEqual(jasmine.any(ButtonView));
+
                 expect(view.button).toBe(button);
                 expect(view.text).toBe(text);
                 expect(view.foo).toBe(custom);
+                expect(view['undefined']).not.toBeDefined();
             });
 
             describe('when a child emits the "action" event', function() {

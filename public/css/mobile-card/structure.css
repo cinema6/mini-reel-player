@@ -1,0 +1,110 @@
+.sidebar__group {
+    -domino-container:.card__group;
+    -domino-order: 3;
+}
+
+.description__group {
+    -domino-container:.card__group;
+    -domino-order: 5;
+}
+
+.video__group {
+    -domino-container:.card__group;
+    -domino-order: 2;
+}
+
+.title__group {
+    -domino-container:.card__group;
+    -domino-order: 1;
+}
+
+.cta__group {
+    -domino-container:.card__group;
+    -domino-order: 4;
+}
+
+
+    .sponsor__group {
+        -domino-container:.title__group;
+        -domino-order: 1;
+    }
+
+    .sponsor__label {
+        -domino-container:.title__group;
+        -domino-order:2;
+    }
+
+    .sponsor__name {
+        -domino-container:.title__group;
+        -domino-order:3;
+    }
+
+    h1.tk--hdr {
+        -domino-container:.title__group;
+        -domino-order: 4;
+    }
+
+    .social__group {
+        -domino-container:.sidebar__group;
+    }
+
+    .description__container {
+        -domino-container:.description__group;
+    }
+
+    .social__media {
+        -domino-container:.social__group;
+    }
+
+    .social__share {
+        -domino-container:.social__group;
+    }
+
+
+@media only screen and (orientation: landscape) {
+    .sidebar__group {
+        -domino-order: 3;
+    }
+
+    .video__group {
+        -domino-order: 2;
+    }
+
+    .title__group {
+        -domino-order: 1;
+    }
+
+    .cta__group {
+        -domino-order: 5;
+    }
+
+        .sponsor__group {
+            -domino-container:.sidebar__group;
+            -domino-order:1;
+        }
+
+        .social__group {
+            -domino-order:2;
+        }
+
+        .description__group {
+            -domino-container:.sidebar__group;
+            -domino-order:3;
+        }
+
+        .sponsor__logo {
+            -domino-order:1;
+        }
+
+        .sponsor__label {
+            -domino-container:.sponsor__group;
+            -domino-order:2;
+        }
+
+        .sponsor__name {
+            -domino-container:.sponsor__group;
+            -domino-order:3;
+        }
+
+
+}

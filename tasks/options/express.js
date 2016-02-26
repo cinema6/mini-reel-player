@@ -3,7 +3,7 @@ module.exports = {
         options: {
             port: '<%= settings.port %>',
             script: 'server/index.js',
-            args: ['<%= server.mode %>', '<%= server.exp %>', '<%= server.campId %>']
+            args: ['<%= server.mode %>', '<%= server.params %>']
         }
     }
 };

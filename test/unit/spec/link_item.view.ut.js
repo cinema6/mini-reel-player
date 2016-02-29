@@ -1,5 +1,6 @@
 import LinkItemView from '../../../src/views/LinkItemView.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
+import ContextualView from '../../../src/mixins/ContextualView.js';
 
 describe('LinkItemView', function() {
     let view;
@@ -12,25 +13,8 @@ describe('LinkItemView', function() {
         expect(view).toEqual(jasmine.any(TemplateView));
     });
 
-    describe('properties:', function() {
-        describe('context', function() {
-            it('should be null', function() {
-                expect(view.context).toBeNull();
-            });
-
-            describe('if the element has a "data-link-context" attribute', function() {
-                beforeEach(function() {
-                    const element = document.createElement('a');
-                    element.setAttribute('data-link-context', 'some-context');
-
-                    view = new LinkItemView(element);
-                });
-
-                it('should be the value of that attribute', function() {
-                    expect(view.context).toBe('some-context');
-                });
-            });
-        });
+    it('should mixin the ContextualView', function() {
+        expect(LinkItemView.mixins).toContain(ContextualView, 'ContextualView not mixed in.');
     });
 
     describe('handlers:', function() {

@@ -11,7 +11,7 @@
     <div class="card__copyBox">
         <span data-if="website.logo"
             data-view="logoView:LinkItemView" data-model="website"
-            data-target="controller" data-action="clickthrough"><a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
+            data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo"><a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
             <img tb-src="{{logo}}" class="sponsorProfile__img" alt="{{text}}">
         </a></span>
         <div class="card__copy" data-class="isSponsored:card__copy--hasSponsor action.text:card__copy--hasCtA">
@@ -32,7 +32,7 @@
             <div class="sponsorProfile__links">
                 <span data-if="sponsor"
                     data-view="websiteView:LinkItemView" data-model="website"
-                    data-target="controller" data-action="clickthrough"
+                    data-target="controller" data-action="clickthrough" data-link-context="sponsoredLink"
                     class="card__attributes sponsorProfile__tag tk--copy">
                     Sponsored by
                     <a href="{{href}}" target="_blank" class="textLink" title="{{text}}">{{text}}</a>
@@ -48,7 +48,7 @@
             </div>
             <!--share to social-->
             <div data-if="canShare" class="sponsorProfile__linkBtn">
-                <span><button data-view="shareButton:ButtonView" data-target="controller" data-action="showShare"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
+                <span><button data-view="shareButton:LinkItemView" data-target="controller" data-action="showShare" data-link-context="shareButton"><span class="spriteBe socialIconsBe socialIconsBe__solid--share shareBtn"><span class="shareBtn__label">Share</span></span></button></span>
             </div>
             <!--share to social-->
 

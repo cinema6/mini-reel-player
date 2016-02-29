@@ -51,9 +51,11 @@ ModalShareVideoCardController.prototype = {
         _(this).updateView();
     },
 
-    showShare: function() {
+    showShare: function(view) {
         _(this).shown = true;
         _(this).updateView();
+
+        if (this.interaction) { this.interaction(view); }
     },
 
     hideShare: function() {

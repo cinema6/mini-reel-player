@@ -16,7 +16,7 @@
         <!--Add sponsor website link in the anchor below-->
         <span data-if="website.logo"
             data-view="logoView:LinkItemView" data-model="website"
-            data-target="controller" data-action="clickthrough">
+            data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo">
             <a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
                 <span class="sponsorProfile__small--text">Sponsored by</span>
                 <!-- sponsor logo -->
@@ -37,7 +37,7 @@
         <ul data-if="canShare">
             <li>
                 <button data-view="shareButton:ButtonView"
-                    data-target="controller" data-action="showShare" 
+                    data-target="controller" data-action="showShare" data-link-context="shareButton"
                     class="social__group--icon social__group--share">
                     <span class="socialIconFont">
                         <span class="social__label">Share</span>

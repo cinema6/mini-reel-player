@@ -4,6 +4,7 @@
 
 * *[v2.6.0-rc2]*
   * [FIX]: Fixed broken font in mobile-card
+  * Add click tracking attribute to mobile, desktop and light player
 
 * *[v2.6.0-rc1]*
   * Added hidden link to track bot clicks

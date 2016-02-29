@@ -4,6 +4,7 @@ import Runner from '../../../lib/Runner.js';
 import CardController from '../../../src/controllers/CardController.js';
 import CardView from '../../../src/views/CardView.js';
 import ModalShareView from '../../../src/views/ModalShareView.js';
+import View from '../../../lib/core/View.js';
 
 describe('ModalShareVideoCardController mixin', function() {
     let Ctrl, card, showSpy, hideSpy, pauseSpy, itemSpy, renderSpy, appendSpy;
@@ -202,9 +203,13 @@ describe('ModalShareVideoCardController mixin', function() {
             });
 
             describe('showShare', function() {
+                let view;
+
                 beforeEach(function() {
+                    view = new View();
+
                     spyOn(Ctrl.__private__, 'updateView');
-                    Ctrl.showShare();
+                    Ctrl.showShare(view);
                 });
 
                 it('should set shown to false', function() {
@@ -213,6 +218,18 @@ describe('ModalShareVideoCardController mixin', function() {
 
                 it('should update the view', function() {
                     expect(Ctrl.__private__.updateView).toHaveBeenCalled();
+                });
+
+                describe('if the Controller has an interaction method', function() {
+                    beforeEach(function() {
+                        Ctrl.interaction = jasmine.createSpy('interaction()');
+
+                        Ctrl.showShare(view);
+                    });
+
+                    it('should call the interaction() method', function() {
+                        expect(Ctrl.interaction).toHaveBeenCalledWith(view);
+                    });
                 });
             });
 

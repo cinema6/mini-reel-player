@@ -1,5 +1,6 @@
 import View from '../../lib/core/View.js';
 import Touchable from '../../src/mixins/Touchable.js';
+import ContextualView from '../../src/mixins/ContextualView.js';
 
 class ButtonView extends View {
     constructor() {
@@ -23,5 +24,5 @@ class ButtonView extends View {
         this.sendAction(this);
     }
 }
-ButtonView.mixin(Touchable);
+ButtonView.mixin(Touchable, ContextualView);
 export default ButtonView;

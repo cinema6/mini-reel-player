@@ -2,6 +2,7 @@ import ButtonView from '../../../src/views/ButtonView.js';
 import View from '../../../lib/core/View.js';
 import Runner from '../../../lib/Runner.js';
 import Touchable from '../../../src/mixins/Touchable.js';
+import ContextualView from '../../../src/mixins/ContextualView.js';
 
 describe('ButtonView', function() {
     let buttonView;
@@ -16,6 +17,10 @@ describe('ButtonView', function() {
 
     it('should mixin Touchable', function() {
         expect(ButtonView.mixins).toContain(Touchable);
+    });
+
+    it('should mixin ContextualView', function() {
+        expect(ButtonView.mixins).toContain(ContextualView, 'ContextualView not mixed in.');
     });
 
     describe('properties:', function() {

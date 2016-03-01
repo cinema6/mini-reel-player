@@ -1,312 +1,105 @@
-import CorePlayer from './CorePlayer.js';
-import {createKey} from 'private-parts';
-import iab from '../services/iab.js';
-import browser from '../services/browser.js';
+import ThirdPartyPlayer from './ThirdPartyPlayer.js';
+import Player from 'vast-player';
+import { createKey } from 'private-parts';
 import Runner from '../../lib/Runner.js';
-import RunnerPromise from '../../lib/RunnerPromise.js';
+import completeUrl from '../fns/complete_url.js';
 
 const _ = createKey();
 
-let exitFullscreen = function(video) {
-    const documentExitFullscreen = document.exitFullscreen ||
-        document.msExitFullscreen ||
-        document.mozCancelFullScreen ||
-        document.webkitExitFullscreen;
+Player.vpaidSWFLocation = 'swf/vast-player--vpaid.swf';
 
-    const videoExitFullscreen = video.exitFullscreen ||
-        video.msExitFullscreen ||
-        video.mozCancelFullScreen ||
-        video.webkitExitFullscreen;
-
-    if (documentExitFullscreen) {
-        exitFullscreen = function() {
-            documentExitFullscreen.call(document);
-        };
-    } else {
-        exitFullscreen = function(video) {
-            videoExitFullscreen.call(video);
-        };
-    }
-
-    exitFullscreen(video);
-};
-
-function getInitialState() {
-    return {
-        vastEvents: {},
-        error: null,
-        hasStarted: false
-    };
-}
-
-function initializeVideo(player) {
-    const _player = _(player);
-    const {state} = _player;
-
-    return _player.video || (function(video) {
-        const element = player.element || player.create();
-
-        video.addEventListener('loadedmetadata', () => Runner.run(() => {
-            player.emit('loadedmetadata');
-        }), false);
-        video.addEventListener('canplay', () => Runner.run(() => {
-            player.emit('canplay');
-        }), false);
-        video.addEventListener('play', () => Runner.run(() => {
-            const {vast} = _player;
-
-            if (!state.hasStarted) {
-                state.hasStarted = true;
-                vast.firePixels('impression');
-                vast.firePixels('loaded');
-                vast.firePixels('creativeView');
-                vast.firePixels('start');
-                vast.firePixels('playing');
-            }
-            player.emit('play');
-        }), false);
-        video.addEventListener('pause', () => Runner.run(() => {
-            const {vast} = _player;
-
-            vast.firePixels('pause');
-            player.emit('pause');
-        }), false);
-        video.addEventListener('error', () => Runner.run(() => {
-            state.error = new Error(
-                'HTML5 Video Error: ' + video.error.code
-            );
-            player.emit('error');
-        }), false);
-        video.addEventListener('ended', () => Runner.run(() => {
-            player.emit('ended');
-        }), false);
-        video.addEventListener('timeupdate', () => Runner.run(() => {
-            player.emit('timeupdate');
-        }), false);
-
-        video.controls = player.controls;
-        if (player.poster) { video.poster = player.poster; }
-        video.setAttribute('webkit-playsinline', '');
-
-        video.load();
-        Runner.schedule('afterRender', element, 'appendChild', [video]);
-
-        return (_(player).video = video);
-    }(document.createElement('video')));
-}
-
-function load(player) {
-    const _player = _(player);
-    const {src} = player;
-    const {vastCache, state} = _player;
-    const video = initializeVideo(player);
-
-    function loadFromCache() {
-        var vast = vastCache[src];
-
-        return vast ? RunnerPromise.resolve(vast) : RunnerPromise.reject(null);
-    }
-
-    function loadFromVASTService() {
-        function cache(vast) {
-            /* jshint boss:true */
-            return (vastCache[src] = vast);
-        }
-
-        return iab.getVAST(src)
-            .then(cache);
-    }
-
-    function setState(data) {
-        const isNew = data !== _player.vast;
-
-        _player.vast = data;
-
-        if (isNew && data.getCompanion()) {
-            player.emit('companionsReady');
-        }
-
-        return data;
-    }
-
-    function setSrc(vast) {
-        var source = vast.getVideoSrc();
-
-        if (!source) {
-            return Promise.reject(vast);
-        }
-
-        if (source === video.src) {
-            return Promise.resolve(video);
-        }
-
-        video.src = source;
-        return Promise.resolve(video);
-    }
-
-    return loadFromCache()
-        .catch(loadFromVASTService)
-        .then(setState)
-        .then(setSrc)
-        .catch(function(error) {
-            const message = error instanceof Error ? error.message : JSON.stringify(error);
-
-            state.error = new Error(`VAST request failed: ${message}`);
-            player.emit('error');
-
-            return Promise.reject(error);
-        });
-}
-
-export default class VASTPlayer extends CorePlayer {
+export default class VASTPlayer extends ThirdPartyPlayer {
     constructor() {
         super(...arguments);
 
-        this.tag = 'div';
+        _(this).adStarted = false;
+        _(this).player = null;
 
-        this.src = null;
+        this.__api__.name = 'VASTPlayer';
 
-        this.controls = true;
-        this.autoplay = false;
-        this.disableClickthrough = false;
+        this.__api__.autoplayTest = false;
+        this.__api__.singleUse = true;
 
-        _(this).vastCache = {};
-        _(this).vast = null;
-        _(this).video = null;
-        _(this).state = getInitialState();
-        _(this).src = null;
+        this.__api__.loadPlayer = (src => {
+            if (_(this).player && !_(this).adStarted) { return _(this).player; }
 
-        this.on('firstQuartile', () => _(this).vast.firePixels('firstQuartile'));
-        this.on('midpoint', () => _(this).vast.firePixels('midpoint'));
-        this.on('thirdQuartile', () => _(this).vast.firePixels('thirdQuartile'));
-        this.on('complete', () => _(this).vast.firePixels('complete'));
-    }
+            _(this).adStarted = false;
+            return (_(this).player = new Player(this.element, {
+                tracking: { mapper: completeUrl }
+            })).load(src).catch(() => {
+                _(this).player = null;
 
-    get error() {
-        return _(this).state.error;
-    }
-
-    get currentTime() {
-        const {video} = _(this);
-
-        return video ? video.currentTime : 0;
-    }
-    set currentTime(value) {
-        _(this).video.currentTime = value;
-    }
-
-    get ended() {
-        const {video} = _(this);
-
-        return video ? video.ended : false;
-    }
-
-    get duration() {
-        const {video} = _(this);
-
-        return video ? video.duration : 0;
-    }
-
-    get volume() {
-        const {video} = _(this);
-
-        return video ? video.volume : 0;
-    }
-
-    get muted() {
-        const {video} = _(this);
-
-        return video ? video.muted : false;
-    }
-
-    get paused() {
-        const {video} = _(this);
-
-        return video ? video.paused : true;
-    }
-
-    get readyState() {
-        const {video} = _(this);
-
-        return video ? video.readyState : 0;
-    }
-
-    get seeking() {
-        const {video} = _(this);
-
-        return video ? video.seeking : false;
-    }
-
-    pause() {
-        const {video} = _(this);
-
-        if (video) {
-            video.pause();
-        }
-    }
-    play() {
-        this.emit('attemptPlay');
-
-        load(this).then(function(video) {
-            video.play();
-        });
-    }
-    load() {
-        load(this);
-    }
-    unload() {
-        const {video} = _(this);
-
-        if (!video) { return super.unload(); }
-
-        _(this).video = null;
-        _(this).vast = null;
-
-        Runner.schedule('afterRender', this.element, 'removeChild', [video]);
-
-        return super.unload();
-    }
-    reload() {
-        this.unload();
-        this.load();
-    }
-    minimize() {
-        exitFullscreen(_(this).video);
-    }
-    getCompanions() {
-        const {vast} = _(this);
-        const companion = vast && vast.getCompanion();
-
-        return companion && [companion];
-    }
-
-    didInsertElement() {
-        if (this.autoplay) {
-            browser.test('autoplay').then(autoplayable => {
-                if (autoplayable) {
-                    this.play();
-                }
+                return this.unload();
             });
-        }
+        });
+        this.__api__.onReady = (api => this.__setProperty__('duration', api.adRemainingTime));
 
-        return super.didInsertElement(...arguments);
-    }
+        this.__api__.methods.play = (api => {
+            if (_(this).adStarted) {
+                return api.resumeAd();
+            }
 
-    click() {
-        if (this.controls || this.disableClickthrough) { return; }
+            _(this).adStarted = true;
+            return api.startAd();
+        });
+        this.__api__.methods.pause = (api => {
+            if (!_(this).adStarted) { return; }
 
-        const {vast, video} = _(this);
+            return api.pauseAd();
+        });
+        this.__api__.methods.unload = (api => {
+            if (!_(this).adStarted || this.ended) { return; }
 
-        if (!(vast && vast.clickThrough && vast.clickThrough.length > 0)) {
-            return;
-        }
+            return api.stopAd();
+        });
+        this.__api__.methods.volume = ((api, volume) => api.adVolume = volume);
+        this.__api__.methods.addEventListener = ((api, event, handler) => {
+            const runHandler = ((...args) => Runner.run(handler, api, ...args));
 
-        if (video.paused) {
-            video.play();
-        } else {
-            video.pause();
-            global.open(vast.clickThrough[0]);
-            vast.firePixels('videoClickTracking');
-        }
+            api.on(event, runHandler);
+
+            return runHandler;
+        });
+        this.__api__.methods.removeEventListener = ((api, event, handler) => {
+            api.removeListener(event, handler);
+        });
+
+        this.__api__.events.AdVideoStart = (() => {
+            this.__setProperty__('ended', false);
+            this.__setProperty__('paused', false);
+        });
+        this.__api__.events.AdPaused = (() => {
+            this.__setProperty__('paused', true);
+        });
+        this.__api__.events.AdPlaying = (() => {
+            this.__setProperty__('paused', false);
+        });
+        this.__api__.events.AdVideoComplete = (() => {
+            this.__setProperty__('ended', true);
+            this.__setProperty__('paused', true);
+        });
+        this.__api__.events.AdStopped = (() => {
+            this.__setProperty__('ended', true);
+            this.__setProperty__('paused', true);
+        });
+        this.__api__.events.AdVolumeChange = (api => {
+            this.__setProperty__('volume', api.adVolume);
+        });
+        this.__api__.events.AdError = ((api, message) => {
+            this.__setProperty__('error', new Error(message));
+        });
+        this.__api__.events.error = ((api, error) => {
+            this.__setProperty__('error', error);
+        });
+
+        this.__api__.pollingDelay = 250;
+        this.__api__.onPoll = ((api) => {
+            const { adRemainingTime } = api;
+            const { duration } = this;
+
+            if (duration) { this.__setProperty__('currentTime', duration - adRemainingTime); }
+        });
+
+        this.on('ended', () => _(this).player = null);
     }
 }

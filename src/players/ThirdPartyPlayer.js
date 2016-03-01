@@ -353,7 +353,8 @@ export default class ThirdPartyPlayer extends CorePlayer {
             autoplayTest: true,
             onReady: noop,
             pollingDelay: null,
-            onPoll: noop
+            onPoll: noop,
+            singleUse: false
         };
 
         this.on('playing', () => {
@@ -361,6 +362,9 @@ export default class ThirdPartyPlayer extends CorePlayer {
         });
         this.on('emptied', () => {
             _(this).hasPlayed = false;
+        });
+        this.on('ended', () => {
+            if (this.__api__.singleUse) { this.unload(); }
         });
 
         if (global.__karma__) { this.__private__ = _(this); }

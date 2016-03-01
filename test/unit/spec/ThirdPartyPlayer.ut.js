@@ -1424,6 +1424,42 @@ describe('ThirdPartyPlayer', function() {
         });
     });
 
+    describe('public events', function() {
+        beforeEach(function() {
+            player.emit.and.callThrough();
+        });
+
+        describe('ended', function() {
+            beforeEach(function() {
+                player.unload.calls.reset();
+            });
+
+            describe('if __api__.singleUse is false', function() {
+                beforeEach(function() {
+                    player.__api__.singleUse = false;
+
+                    player.emit('ended');
+                });
+
+                it('should not unload the player', function() {
+                    expect(player.unload).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if __api__.singleUse is true', function() {
+                beforeEach(function() {
+                    player.__api__.singleUse = true;
+
+                    player.emit('ended');
+                });
+
+                it('should unload the player', function() {
+                    expect(player.unload).toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
     describe('public properties', function() {
         describe('prebuffer', function() {
             it('should be false', function() {
@@ -1441,7 +1477,8 @@ describe('ThirdPartyPlayer', function() {
                     autoplayTest: true,
                     onReady: noop,
                     pollingDelay: null,
-                    onPoll: noop
+                    onPoll: noop,
+                    singleUse: false
                 });
             });
         });

@@ -7,6 +7,7 @@ import {
 
 export default function completeUrl(url, params = {}) {
     const { debug, href, guid } = environment;
+    const { placement, container } = environment.params;
     const timestamp = Date.now();
     const pageUrl = ((() => {
         if (debug) { return 'mutantplayground.com'; }
@@ -19,6 +20,8 @@ export default function completeUrl(url, params = {}) {
         ['{pageUrl}', pageUrl],
         ['{cachebreaker}', timestamp],
         ['{guid}', guid],
+        ['{container}', container],
+        ['{placement}', placement],
 
         // DoubleClick Macros
         ['[timestamp]', timestamp]

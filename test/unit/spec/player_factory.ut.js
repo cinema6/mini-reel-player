@@ -3,7 +3,6 @@ import VideoCard from '../../../src/models/VideoCard.js';
 import YouTubePlayer from '../../../src/players/YouTubePlayer.js';
 import VimeoPlayer from '../../../src/players/VimeoPlayer.js';
 import VASTPlayer from '../../../src/players/VASTPlayer.js';
-import VPAIDPlayer from '../../../src/players/VPAIDPlayer.js';
 import DailymotionPlayer from '../../../src/players/DailymotionPlayer.js';
 import SlideshowBobPlayer from '../../../src/players/SlideshowBobPlayer.js';
 import VinePlayer from '../../../src/players/VinePlayer.js';
@@ -246,28 +245,13 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
+                    card.data.type = 'vast';
+
+                    result = playerFactory.playerForCard(card);
                 });
 
-                describe('if it is a vast card', function() {
-                    beforeEach(function() {
-                        card.data.type = 'vast';
-                        result = playerFactory.playerForCard(card);
-                    });
-
-                    it('should be a VASTPlayer', function() {
-                        expect(result).toEqual(jasmine.any(VASTPlayer));
-                    });
-                });
-
-                describe('if it is a vpaid card', function() {
-                    beforeEach(function() {
-                        card.data.type = 'vpaid';
-                        result = playerFactory.playerForCard(card);
-                    });
-
-                    it('should be a VPAIDPlayer', function() {
-                        expect(result).toEqual(jasmine.any(VPAIDPlayer));
-                    });
+                it('should be a VASTPlayer', function() {
+                    expect(result).toEqual(jasmine.any(VASTPlayer));
                 });
             });
 

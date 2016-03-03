@@ -100,7 +100,7 @@
             margin-left: 62%;
             margin-top: 2.25em;
             margin-bottom: 0;
-            height: calc(100% - 5.25rem);
+            height: calc(100% - 3.5rem);
             position: absolute;
         }
         .MiniReel__group--SingleCardMR .sponsorProfile__imgBox {
@@ -108,12 +108,17 @@
         }
         .MiniReel__group--SingleCardMR .sponsor__goBtn, .MiniReel__group--SingleCardMR .sponsor__goBtn span {
             margin: 0;
-            width: 100%;
+            width: 60%;
             border-radius: 0;
             text-align: center;
             display: block;
             z-index: 200;
         }
+
+        .MiniReel__group--SingleCardMR .sponsor__goBtn span {
+            width:100%;
+        }
+
         .MiniReel__group--SingleCardMR .socialBox {
             overflow: hidden;
             display: block;

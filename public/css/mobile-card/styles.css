@@ -184,6 +184,21 @@ body {
         padding:0 0 56.25%;
     }
 
+        .playerBox {
+            background:50% 50% / cover no-repeat;
+        }
+            .playerBox iframe,
+            .playerBox video {
+                -webkit-transition:opacity 0.5s;
+                transition:opacity 0.5s;
+                opacity:0;
+            }
+                .playerBox--canplay iframe,
+                .playerBox--canplay video {
+                    opacity:1;
+                    background-color: #000000;
+                }
+
         .video__group iframe,
         .video__group video {
             position: absolute;

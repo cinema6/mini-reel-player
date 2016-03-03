@@ -1,9 +1,15 @@
 # MiniReel Player 2.0
 
+## v2.6.1 (March 3, 2016)
 * *[v2.6.1-rc1]*
   * [FIX]: Call to action button in mobile player landscape no longer in the lower right corner.Fix for user accidentally clicking CTA when looking for close button.
   * [REFACTOR]: Add VASTPlayer that can play VPAID and non-VPAID
     creatives
+  * [FIX]: Fix for an issue that caused the mobile-card player to look
+    broken if a VAST video was used
+  * [FIX]: Make sure that VAST videos can always be resumed with a play
+    button
+* *[/v2.6.1-rc1]*
 
 ## v2.6.0 (February 25, 2016)
 * *[v2.6.0-rc2]*

@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.6.1-rc1]*
+  * [FIX]: Call to action button in mobile player landscape no longer in the lower right corner.Fix for user accidentally clicking CTA when looking for close button.
+
 ## v2.6.0 (February 25, 2016)
 * *[v2.6.0-rc2]*
   * [FIX]: Fixed broken font in mobile-card

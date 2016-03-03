@@ -14,6 +14,7 @@ import JWPlayer from '../../../src/players/JWPlayer.js';
 import VidyardPlayer from '../../../src/players/VidyardPlayer.js';
 import BrightcovePlayer from '../../../src/players/BrightcovePlayer.js';
 import KalturaPlayer from '../../../src/players/KalturaPlayer.js';
+import Runner from '../../../lib/Runner.js';
 
 describe('playerFactory', function() {
     let experience;
@@ -38,7 +39,7 @@ describe('playerFactory', function() {
                         collateral: {}
                     }, experience);
 
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a YouTubePlayer', function() {
@@ -55,7 +56,7 @@ describe('playerFactory', function() {
                         collateral: {}
                     }, experience);
 
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a VimeoPlayer', function() {
@@ -72,7 +73,7 @@ describe('playerFactory', function() {
                         collateral: {}
                     }, experience);
 
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a DailymotionPlayer', function() {
@@ -89,7 +90,7 @@ describe('playerFactory', function() {
                         collateral: {}
                     }, experience);
 
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a SlideshowBobPlayer', function() {
@@ -100,7 +101,7 @@ describe('playerFactory', function() {
             describe('if the card is from Vine', function() {
                 beforeEach(function() {
                     card.data.type = 'vine';
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a VinePlayer', function() {
@@ -117,7 +118,7 @@ describe('playerFactory', function() {
                         collateral: {}
                     }, experience);
 
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be an HtmlVideoPlayer', function() {
@@ -133,7 +134,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a VzaarPlayer', function() {
@@ -149,7 +150,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a WistiaPlayer', function() {
@@ -165,7 +166,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a JWPlayer', function() {
@@ -181,7 +182,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a VidyardPlayer', function() {
@@ -197,7 +198,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a BrightcovePlayer', function() {
@@ -213,7 +214,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
                 
                 it('should be a KalturaPlayer', function() {
@@ -229,7 +230,7 @@ describe('playerFactory', function() {
                         params: {},
                         collateral: {}
                     }, experience);
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be an HtmlVideoPlayer', function() {
@@ -247,7 +248,7 @@ describe('playerFactory', function() {
                     }, experience);
                     card.data.type = 'vast';
 
-                    result = playerFactory.playerForCard(card);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
                 });
 
                 it('should be a VASTPlayer', function() {
@@ -267,7 +268,7 @@ describe('playerFactory', function() {
 
                 it('should throw an error', function() {
                     expect(function() {
-                        playerFactory.playerForCard(card);
+                        Runner.run(() => playerFactory.playerForCard(card));
                     }).toThrow(new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`));
                 });
             });

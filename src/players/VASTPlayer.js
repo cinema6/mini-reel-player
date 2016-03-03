@@ -3,6 +3,7 @@ import Player from 'vast-player';
 import { createKey } from 'private-parts';
 import Runner from '../../lib/Runner.js';
 import completeUrl from '../fns/complete_url.js';
+import PlayButtonView from '../views/PlayButtonView.js';
 
 const _ = createKey();
 
@@ -14,6 +15,7 @@ export default class VASTPlayer extends ThirdPartyPlayer {
 
         _(this).adStarted = false;
         _(this).player = null;
+        const playButton = _(this).playButton = new PlayButtonView();
 
         this.__api__.name = 'VASTPlayer';
 
@@ -101,5 +103,17 @@ export default class VASTPlayer extends ThirdPartyPlayer {
         });
 
         this.on('ended', () => _(this).player = null);
+
+        this.on('play', () => playButton.hide());
+        this.on('pause', () => playButton.show());
+        playButton.on('press', () => this.play());
+
+        playButton.hide();
+    }
+
+    didCreateElement() {
+        this.append(_(this).playButton);
+
+        return super.didCreateElement();
     }
 }

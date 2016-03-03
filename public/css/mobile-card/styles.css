@@ -199,6 +199,23 @@ body {
                     background-color: #000000;
                 }
 
+        .player__playBtn,
+        .player__playBtn:focus {
+            width: 6em;
+            height: 6em;
+            padding: 0;
+            margin: -3em 0 0 -3em;
+            border: 4px solid #fff;
+            border-radius:50%;
+            cursor: pointer;
+            background: rgba(0,0,0,0.7);
+            position: absolute; left: 50%; top: 50%; z-index:125;
+        }
+            .player__playIcon {
+                height: 45%; width: 100%;
+                background: url('../../img/play-icon.svg') 56% 50% / contain no-repeat;
+            }
+
         .video__group iframe,
         .video__group video {
             position: absolute;

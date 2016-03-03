@@ -6,14 +6,18 @@ import {
     defer
 } from '../../../lib/utils.js';
 import completeUrl from '../../../src/fns/complete_url.js';
+import PlayButtonView from '../../../src/views/PlayButtonView.js';
 
 describe('VASTPlayer', function() {
     let player;
+    let playButton;
 
     beforeEach(function() {
         spyOn(Player.prototype, 'load').and.callFake(function() { return Promise.resolve(this); });
+        spyOn(PlayButtonView.prototype, 'hide');
 
         player = new VASTPlayer();
+        playButton = PlayButtonView.prototype.hide.calls.mostRecent().object;
     });
 
     it('should exist', function() {
@@ -22,6 +26,10 @@ describe('VASTPlayer', function() {
 
     it('should set the location of the Flash VPAID SWF', function() {
         expect(Player.vpaidSWFLocation).toBe('swf/vast-player--vpaid.swf');
+    });
+
+    it('should hide its play button', function() {
+        expect(PlayButtonView.prototype.hide).toHaveBeenCalledWith();
     });
 
     describe('properties:', function() {
@@ -459,6 +467,61 @@ describe('VASTPlayer', function() {
                         expect(player.__setProperty__.calls.count()).toBe(1);
                     });
                 });
+            });
+        });
+    });
+
+    describe('events:', function() {
+        describe('play', function() {
+            beforeEach(function() {
+                playButton.hide.calls.reset();
+
+                player.emit('play');
+            });
+
+            it('should hide the play button', function() {
+                expect(playButton.hide).toHaveBeenCalledWith();
+            });
+        });
+
+        describe('pause', function() {
+            beforeEach(function() {
+                spyOn(playButton, 'show');
+
+                player.emit('pause');
+            });
+
+            it('should show the play button', function() {
+                expect(playButton.show).toHaveBeenCalledWith();
+            });
+        });
+
+        describe('[play button]', function() {
+            describe('press', function() {
+                beforeEach(function() {
+                    spyOn(player, 'play');
+
+                    playButton.emit('press');
+                });
+
+                it('should play the video', function() {
+                    expect(player.play).toHaveBeenCalledWith();
+                });
+            });
+        });
+    });
+
+    describe('hooks:', function() {
+        describe('didCreateElement()', function() {
+            beforeEach(function() {
+                spyOn(player, 'append').and.callThrough();
+
+                Runner.run(() => player.create());
+            });
+
+            it('should append a PlayButtonView to itself', function() {
+                expect(player.append).toHaveBeenCalledWith(jasmine.any(PlayButtonView));
+                expect(player.append).toHaveBeenCalledWith(playButton);
             });
         });
     });

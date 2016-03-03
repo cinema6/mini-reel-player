@@ -184,7 +184,8 @@ body {
         padding:0 0 56.25%;
     }
 
-        .video__group iframe {
+        .video__group iframe,
+        .video__group video {
             position: absolute;
             top:0;
             right:0;

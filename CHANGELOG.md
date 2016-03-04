@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.6.1 (March 3, 2016)
+* *[v2.6.1-rc2]*
+  * [FIX]: Make sure VAST cards don't autoplay in selfie
+* *[/v2.6.1-rc2]*
+
 * *[v2.6.1-rc1]*
   * [FIX]: Call to action button in mobile player landscape no longer in the lower right corner.Fix for user accidentally clicking CTA when looking for close button.
   * [REFACTOR]: Add VASTPlayer that can play VPAID and non-VPAID

@@ -70,7 +70,7 @@
             border-radius:50%;
             cursor: pointer;
             background: rgba(0,0,0,0.7);
-            position: absolute; left: 50%; top: 50%; z-index:1;
+            position: absolute; left: 50%; top: 50%; z-index:125;
         }
             .player__playIcon {
                 height: 45%; width: 100%;

@@ -1805,7 +1805,7 @@ describe('MiniReel', function() {
         });
 
         it('should pass the minireel\'s autoplay and autoadvance properites to the video cards', function() {
-            minireel.deck.filter(card => card instanceof VideoCard)
+            minireel.deck.filter(card => card instanceof VideoCard && !(card instanceof AdUnitCard))
                 .forEach(card => {
                     expect(card.data.autoplay).toBe(experience.data.autoplay);
                     expect(card.data.autoadvance).toBe(experience.data.autoadvance);

@@ -19,7 +19,7 @@ describe('AdUnitCard', function() {
             /* jshint quotmark:double */
             "data": {
               "hideSource": true,
-              "autoplay": true,
+              "autoplay": false,
               "controls": false,
               "autoadvance": false,
               "skip": 40,
@@ -68,107 +68,26 @@ describe('AdUnitCard', function() {
     describe('properties:', function() {
         describe('data', function() {
             describe('.type', function() {
-                describe('if the profile supports flash', function() {
-                    beforeEach(function() {
-                        profile.flash = true;
-                        card = new AdUnitCard(data, experience, profile);
-                    });
-
-                    it('should be "vpaid"', function() {
-                        expect(card.data.type).toBe('vpaid');
-                    });
-
-                    describe('if there is no vpaid tag', function() {
-                        beforeEach(function() {
-                            delete data.data.vpaid;
-                            card = new AdUnitCard(data, experience, profile);
-                        });
-
-                        it('should be "vast"', function() {
-                            expect(card.data.type).toBe('vast');
-                        });
-                    });
-                });
-
-                describe('if the profile does not support flash', function() {
-                    beforeEach(function() {
-                        profile.flash = false;
-                        card = new AdUnitCard(data, experience, profile);
-                    });
-
-                    it('should be "vast"', function() {
-                        expect(card.data.type).toBe('vast');
-                    });
+                it('should be "vast"', function() {
+                    expect(card.data.type).toBe('vast');
                 });
             });
 
             describe('.videoid', function() {
-                describe('if the profile supports flash', function() {
-                    beforeEach(function() {
-                        profile.flash = true;
-                        card = new AdUnitCard(data, experience, profile);
-                    });
-
-                    it('should be the VPAID tag', function() {
-                        expect(card.data.videoid).toBe(data.data.vpaid);
-                    });
-
-                    describe('if there is no vpaid tag', function() {
-                        beforeEach(function() {
-                            delete data.data.vpaid;
-                            card = new AdUnitCard(data, experience, profile);
-                        });
-
-                        it('should be the VAST tag', function() {
-                            expect(card.data.videoid).toBe(data.data.vast);
-                        });
-                    });
-                });
-
-                describe('if the profile does not support flash', function() {
-                    beforeEach(function() {
-                        profile.flash = false;
-                        card = new AdUnitCard(data, experience, profile);
-                    });
-
-                    it('should be the VAST', function() {
-                        expect(card.data.videoid).toBe(data.data.vast);
-                    });
+                it('should be the VAST tag', function() {
+                    expect(card.data.videoid).toBe(data.data.vast);
                 });
             });
 
             describe('.preload', function() {
-                describe('if the profile supports flash', function() {
-                    beforeEach(function() {
-                        profile.flash = true;
-                        card = new AdUnitCard(data, experience, profile);
-                    });
-
-                    it('should be false', function() {
-                        expect(card.data.preload).toBe(false);
-                    });
-
-                    describe('if there is no vpaid tag', function() {
-                        beforeEach(function() {
-                            delete data.data.vpaid;
-                            card = new AdUnitCard(data, experience, profile);
-                        });
-
-                        it('should be true', function() {
-                            expect(card.data.preload).toBe(true);
-                        });
-                    });
+                it('should be true', function() {
+                    expect(card.data.preload).toBe(true);
                 });
+            });
 
-                describe('if the profile does not support flash', function() {
-                    beforeEach(function() {
-                        profile.flash = false;
-                        card = new AdUnitCard(data, experience, profile);
-                    });
-
-                    it('should be true', function() {
-                        expect(card.data.preload).toBe(true);
-                    });
+            describe('.autoplay', function() {
+                it('should be true', function() {
+                    expect(card.data.autoplay).toBe(true);
                 });
             });
         });

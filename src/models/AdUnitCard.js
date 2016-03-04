@@ -2,12 +2,13 @@ import VideoCard from './VideoCard.js';
 import completeUrl from '../fns/complete_url.js';
 
 export default class AdUnitCard extends VideoCard {
-    constructor(card, experience, profile) {
+    constructor(card) {
         super(...arguments);
 
-        this.data.type = (profile.flash && card.data.vpaid) ? 'vpaid' : 'vast';
-        this.data.videoid = card.data[this.data.type];
-        this.data.preload = (this.data.type !== 'vpaid');
+        this.data.type = 'vast';
+        this.data.videoid = card.data.vast;
+        this.data.preload = true;
+        this.data.autoplay = true;
     }
 
     getSrc() {

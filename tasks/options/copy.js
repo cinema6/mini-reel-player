@@ -45,6 +45,14 @@ module.exports = {
                     '!css/**'
                 ],
                 dest: '<%= settings.distDir %>/'
+            },
+            {
+                expand: true,
+                cwd: 'node_modules/vast-player/dist/',
+                src: [
+                    '*.swf'
+                ],
+                dest: '<%= settings.distDir %>/swf/'
             }
         ]
     },

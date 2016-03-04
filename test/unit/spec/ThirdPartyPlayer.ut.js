@@ -56,7 +56,7 @@ describe('ThirdPartyPlayer', function() {
             let loadSpy;
 
             beforeEach(function() {
-                loadSpy = jasmine.createSpy('load').and.returnValue(RunnerPromise.resolve('the api'));
+                loadSpy = jasmine.createSpy('load').and.returnValue(Promise.resolve('the api'));
                 player.__api__.loadPlayer = loadSpy;
                 player.__private__.src = 'some src';
                 player.poster = 'image.jpg';
@@ -70,6 +70,10 @@ describe('ThirdPartyPlayer', function() {
                     expect(error).not.toBeDefined();
                     done();
                 });
+            });
+
+            it('should always return a RunnerPromise', function() {
+                expect(player.__private__.callLoadPlayerMethod()).toEqual(jasmine.any(RunnerPromise));
             });
 
             it('should emit the loadstart event', function(done) {
@@ -1424,6 +1428,42 @@ describe('ThirdPartyPlayer', function() {
         });
     });
 
+    describe('public events', function() {
+        beforeEach(function() {
+            player.emit.and.callThrough();
+        });
+
+        describe('ended', function() {
+            beforeEach(function() {
+                player.unload.calls.reset();
+            });
+
+            describe('if __api__.singleUse is false', function() {
+                beforeEach(function() {
+                    player.__api__.singleUse = false;
+
+                    player.emit('ended');
+                });
+
+                it('should not unload the player', function() {
+                    expect(player.unload).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('if __api__.singleUse is true', function() {
+                beforeEach(function() {
+                    player.__api__.singleUse = true;
+
+                    player.emit('ended');
+                });
+
+                it('should unload the player', function() {
+                    expect(player.unload).toHaveBeenCalled();
+                });
+            });
+        });
+    });
+
     describe('public properties', function() {
         describe('prebuffer', function() {
             it('should be false', function() {
@@ -1441,7 +1481,8 @@ describe('ThirdPartyPlayer', function() {
                     autoplayTest: true,
                     onReady: noop,
                     pollingDelay: null,
-                    onPoll: noop
+                    onPoll: noop,
+                    singleUse: false
                 });
             });
         });

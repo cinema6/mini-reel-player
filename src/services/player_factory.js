@@ -8,7 +8,6 @@ import VimeoPlayer from '../players/VimeoPlayer.js';
 
 /* #if card.types.indexOf('adUnit') > -1 */
 import VASTPlayer from '../players/VASTPlayer.js';
-import VPAIDPlayer from '../players/VPAIDPlayer.js';
 /* #endif */
 
 /* #if card.types.indexOf('dailymotion') > -1 */
@@ -63,8 +62,6 @@ class PlayerFactory {
             return new VimeoPlayer();
         case 'vast':
             return new VASTPlayer();
-        case 'vpaid':
-            return new VPAIDPlayer();
         case 'dailymotion':
             return new DailymotionPlayer();
         case 'slideshow-bob':

@@ -142,6 +142,7 @@ describe('VideoCardController', function() {
     describe('properties:', function() {
         describe('player', function() {
             beforeEach(function() {
+                expect(card.data.autoplay).toBe(true, 'autoplay is not true');
                 spyOn(card, 'getSrc').and.returnValue(card.data.videoid + 'h39r8fh43');
                 VideoCardCtrl = new VideoCardController(card);
             });
@@ -171,6 +172,10 @@ describe('VideoCardController', function() {
                 expect(player.prebuffer).toBe(false);
             });
 
+            it('should set clickToPlay', function() {
+                expect(player.clickToPlay).toBe(false);
+            });
+
             describe('if the prebuffer param is enabled', function() {
                 beforeEach(function() {
                     environment.params.prebuffer = true;
@@ -179,6 +184,17 @@ describe('VideoCardController', function() {
 
                 it('should enable prebuffer on the video', function() {
                     expect(player.prebuffer).toBe(true);
+                });
+            });
+
+            describe('if the card is set to not autoplay', function() {
+                beforeEach(function() {
+                    card.data.autoplay = false;
+                    VideoCardCtrl = new VideoCardController(card);
+                });
+
+                it('should set clickToPlay to true', function() {
+                    expect(player.clickToPlay).toBe(true);
                 });
             });
         });

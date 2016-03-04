@@ -8,7 +8,6 @@ export default class AdUnitCard extends VideoCard {
         this.data.type = 'vast';
         this.data.videoid = card.data.vast;
         this.data.preload = true;
-        this.data.autoplay = true;
     }
 
     getSrc() {

@@ -19,6 +19,7 @@ export default class VideoCardController extends CardController {
         player.start = this.model.data.start;
         player.end = this.model.data.end;
         player.prebuffer = !!environment.params.prebuffer;
+        player.clickToPlay = !this.model.data.autoplay;
 
         this.player = player;
 

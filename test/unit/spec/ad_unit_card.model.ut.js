@@ -84,12 +84,6 @@ describe('AdUnitCard', function() {
                     expect(card.data.preload).toBe(true);
                 });
             });
-
-            describe('.autoplay', function() {
-                it('should be true', function() {
-                    expect(card.data.autoplay).toBe(true);
-                });
-            });
         });
     });
 

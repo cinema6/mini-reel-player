@@ -17,6 +17,8 @@ export default class VASTPlayer extends ThirdPartyPlayer {
         _(this).player = null;
         const playButton = _(this).playButton = new PlayButtonView();
 
+        this.clickToPlay = false;
+
         this.__api__.name = 'VASTPlayer';
 
         this.__api__.autoplayTest = false;
@@ -112,7 +114,13 @@ export default class VASTPlayer extends ThirdPartyPlayer {
     }
 
     didCreateElement() {
-        this.append(_(this).playButton);
+        const { playButton } = _(this);
+
+        if (this.clickToPlay) {
+            playButton.show();
+        }
+
+        this.append(playButton);
 
         return super.didCreateElement();
     }

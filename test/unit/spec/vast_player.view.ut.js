@@ -33,6 +33,12 @@ describe('VASTPlayer', function() {
     });
 
     describe('properties:', function() {
+        describe('clickToPlay', function() {
+            it('should be false', function() {
+                expect(player.clickToPlay).toBe(false);
+            });
+        });
+
         describe('__api__', function() {
             describe('name', function() {
                 it('should be VASTPlayer', function() {
@@ -515,6 +521,7 @@ describe('VASTPlayer', function() {
         describe('didCreateElement()', function() {
             beforeEach(function() {
                 spyOn(player, 'append').and.callThrough();
+                spyOn(playButton, 'show');
 
                 Runner.run(() => player.create());
             });
@@ -522,6 +529,25 @@ describe('VASTPlayer', function() {
             it('should append a PlayButtonView to itself', function() {
                 expect(player.append).toHaveBeenCalledWith(jasmine.any(PlayButtonView));
                 expect(player.append).toHaveBeenCalledWith(playButton);
+            });
+
+            it('should not show the player button', function() {
+                expect(playButton.show).not.toHaveBeenCalled();
+            });
+
+            describe('if clickToPlay is true', function() {
+                beforeEach(function() {
+                    player = new VASTPlayer();
+                    playButton = PlayButtonView.prototype.hide.calls.mostRecent().object;
+                    spyOn(playButton, 'show');
+
+                    player.clickToPlay = true;
+                    Runner.run(() => player.create());
+                });
+
+                it('should show the player button', function() {
+                    expect(playButton.show).toHaveBeenCalled();
+                });
             });
         });
     });

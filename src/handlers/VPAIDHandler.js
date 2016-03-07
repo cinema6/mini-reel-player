@@ -9,17 +9,22 @@ export default class VPAIDHandler extends BillingHandler {
             const queue = [];
 
             let video;
-            register(({ target }) => video = target, 'video', '@addSource');
+            register(({ target }) => {
+                video = target;
+                flush();
+            }, 'video', '@addSource');
+
+            function flush() {
+                let item;
+                while ((item = queue.shift())) {
+                    video[item.method](...item.args);
+                }
+            }
 
             return function videoCall(method, ...args) {
                 queue.push({ method, args });
 
-                if (video) {
-                    let item;
-                    while ((item = queue.shift())) {
-                        video[item.method](...item.args);
-                    }
-                }
+                if (video) { flush(); }
             };
         })());
         const updateAdRemainingTime = (video => {
@@ -41,13 +46,22 @@ export default class VPAIDHandler extends BillingHandler {
         register(() => videoCall('play'), 'session', 'vpaid:resumeAd');
 
         // Emit AdPlaying event after vpaid.resumeAd() is called (3.3.17)
-        register(() => videoCall('once', 'play', () => updateState({
-            event: 'AdPlaying'
-        })), 'session', 'vpaid:resumeAd');
+        register(((() => {
+            let hasPaused = false;
+            videoCall('once', 'pause', () => hasPaused = true);
+
+            return (() => {
+                if (hasPaused) {
+                    updateState({
+                        event: 'AdPlaying'
+                    });
+                }
+            });
+        })()), 'video', 'play');
         // Emit AdPaused event after vpaid.pauseAd() is called (3.3.17)
-        register(() => videoCall('once', 'pause', () => updateState({
+        register(() => updateState({
             event: 'AdPaused'
-        })), 'session', 'vpaid:pauseAd');
+        }), 'video', 'pause');
 
         // Emit AdUserClose event after the user closes the player (3.3.16)
         register(() => updateState({
@@ -66,19 +80,10 @@ export default class VPAIDHandler extends BillingHandler {
             event: 'AdSkippableStateChange'
         }), 'card', 'becameSkippable');
         // Emit AdClickThru event when the user clicks on a link (3.3.14)
-        register(((() => {
-            const fired = {};
-
-            return (event, { uri }, type) => {
-                if (fired[type]) { return; }
-
-                fired[type] = true;
-                return updateState({
-                    event: 'AdClickThru',
-                    params: [uri, type, false]
-                });
-            };
-        })()), 'card', 'clickthrough');
+        register((event, { uri }, type) => updateState({
+            event: 'AdClickThru',
+            params: [uri, type, false]
+        }), 'card', 'clickthrough');
         // Set adDuration prop when the video duration changes (3.2.7)
         register(({ target: video }) => {
             updateState({ prop: 'adDuration', value: video.duration, event: 'AdDurationChange' });

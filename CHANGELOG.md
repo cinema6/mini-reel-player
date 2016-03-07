@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.6.4 (March 7, 2016)
+* *[v2.6.4-rc1]*
+  * Updates to VPAID implementation to appease Genesis Media
+* *[/v2.6.4-rc1]*
+
 ## v2.6.3 (March 7, 2016)
 * *[v2.6.3-rc1]*
   * [FIX]: Fix for an issue that caused IAS JS VPAID to break

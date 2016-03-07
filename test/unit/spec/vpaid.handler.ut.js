@@ -222,8 +222,11 @@ describe('VPAIDHandler', function() {
                         setTimeout(done, 0);
                     });
 
-                    it('should not ping the session', function() {
-                        expect(session.ping).not.toHaveBeenCalled();
+                    it('should ping the session', function() {
+                        expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
+                            event: 'AdClickThru',
+                            params: [link.uri, 'facebook', false]
+                        });
                     });
                 });
             });

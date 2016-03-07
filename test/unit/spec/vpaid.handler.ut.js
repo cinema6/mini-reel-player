@@ -106,6 +106,7 @@ describe('VPAIDHandler', function() {
                     beforeEach(function() {
                         dispatcher.removeClient(MyHandler);
                         dispatcher.addClient(MyHandler);
+                        video.pause.calls.reset();
 
                         session.emit('vpaid:pauseAd');
                         dispatcher.addSource('video', video, ['play', 'pause', 'loadedmetadata', 'firstQuartile', 'midpoint', 'thirdQuartile', 'complete'], card);
@@ -257,7 +258,7 @@ describe('VPAIDHandler', function() {
                     spyOn(session, 'ping');
                 });
 
-                describe('if resumeAd has not been called', function() {
+                describe('if the video has not been paused', function() {
                     beforeEach(function(done) {
                         session.ping.calls.reset();
                         video.emit('play');
@@ -266,17 +267,18 @@ describe('VPAIDHandler', function() {
                     });
 
                     it('should not ping the "AdPlaying" event', function() {
-                        expect(session.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', {
+                        expect(session.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', jasmine.objectContaining({
                             event: 'AdPlaying'
-                        });
+                        }));
                     });
                 });
 
-                describe('if resumeAd has been called', function() {
+                describe('if the video has been paused', function() {
                     beforeEach(function(done) {
+                        video.emit('pause');
                         session.ping.calls.reset();
-                        session.emit('vpaid:resumeAd');
                         video.emit('play');
+
                         setTimeout(done, 0);
                     });
 
@@ -299,8 +301,8 @@ describe('VPAIDHandler', function() {
                         setTimeout(done, 0);
                     });
 
-                    it('should not ping the "AdPaused" event', function() {
-                        expect(session.ping).not.toHaveBeenCalledWith('vpaid:stateUpdated', {
+                    it('should ping the "AdPaused" event', function() {
+                        expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdPaused'
                         });
                     });

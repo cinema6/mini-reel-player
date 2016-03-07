@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.6.2 (March 7, 2016)
+* *[v2.6.2-rc1]*
+  * [FIX]: Fix for an issue that caused old VPAID cards to break
+* *[/v2.6.2-rc1]*
+
 ## v2.6.1 (March 3, 2016)
 * *[v2.6.1-rc2]*
   * [FIX]: Make sure VAST cards don't autoplay in selfie

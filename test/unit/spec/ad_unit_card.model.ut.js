@@ -77,6 +77,18 @@ describe('AdUnitCard', function() {
                 it('should be the VAST tag', function() {
                     expect(card.data.videoid).toBe(data.data.vast);
                 });
+
+                describe('if the card has no vast tag', function() {
+                    beforeEach(function() {
+                        data.data.vast = null;
+
+                        card = new AdUnitCard(data, experience, profile);
+                    });
+
+                    it('should be the vpaid tag', function() {
+                        expect(card.data.videoid).toBe(data.data.vpaid);
+                    });
+                });
             });
 
             describe('.preload', function() {

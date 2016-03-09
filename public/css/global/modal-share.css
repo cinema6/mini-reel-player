@@ -18,6 +18,13 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    @media screen and (max-height: 400px) {
+        .shareto__box {
+            top: 65%;
+        }
+    }
+
     .shareto__intro {
         font-size: 0.8125em;
         color: #999;

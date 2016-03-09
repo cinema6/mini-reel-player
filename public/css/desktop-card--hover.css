@@ -43,3 +43,15 @@
     .title__group:hover {
         max-height:100%;
     }
+
+    .ballot__btn0:hover .ballot__btnLabel {
+        color: #d94040;
+        text-shadow:none;
+    }
+
+    .ballot__btn1:hover .ballot__btnLabel {
+        color: #1789cb;
+        text-shadow:none;
+    }
+
+    

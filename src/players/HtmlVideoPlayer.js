@@ -4,7 +4,7 @@ import ThirdPartyPlayer from './ThirdPartyPlayer.js';
 
 const HAVE_METADATA = 1;
 
-let exitFullscreen = function(video) {
+function exitFullscreen(video) {
     const documentExitFullscreen = document.exitFullscreen ||
         document.msExitFullscreen ||
         document.mozCancelFullScreen ||
@@ -16,17 +16,11 @@ let exitFullscreen = function(video) {
         video.webkitExitFullscreen;
 
     if (documentExitFullscreen) {
-        exitFullscreen = function() {
-            documentExitFullscreen.call(document);
-        };
+        documentExitFullscreen.call(document);
     } else {
-        exitFullscreen = function(video) {
-            videoExitFullscreen.call(video);
-        };
+        videoExitFullscreen.call(video);
     }
-
-    exitFullscreen(video);
-};
+}
 
 export default class HtmlVideoPlayer extends ThirdPartyPlayer {
     constructor() {

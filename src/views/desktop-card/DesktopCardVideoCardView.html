@@ -6,67 +6,93 @@
     <div data-view="postOutlet:View"></div>
     <div data-view="shareOutlet:View"></div>
 
-    <div class="player__group">
-        <div class="player js-playerBox">
+    <input type="checkbox" id="toggle__btn" name="toggle__btn">
+
+    <div class="video__group">
+        <div class="video__player js-playerBox">
             <div data-view="playerOutlet:PlayerOutletView" class="js-playerBox player"></div>
         </div>
     </div><!-- .player__group--> <!--video embed -->
 
-    <div class="social__group">
-        <!--Add sponsor website link in the anchor below-->
-        <span data-if="website.logo"
-            data-view="logoView:LinkItemView" data-model="website"
-            data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo">
-            <a href="{{href}}" target="_blank" title="{{text}}" class="sponsorProfile__imgBox">
-                <span class="sponsorProfile__small--text">Sponsored by</span>
-                <!-- sponsor logo -->
-                <img tb-src="{{logo}}" class="sponsorProfile__img" alt="{{text}}" />
-                <!-- .sponsor logo -->
-            </a>
-        </span>
-        <ul data-view="links:LinksListView" data-model="links"><!-- social network links and the share button-->
-            <li data-target="controller" data-action="clickthrough">
-                <a href="{{href}}" target="_blank" title="{{label}}" class="social__group--icon social__group--{{type}}">
-                  <span class="socialIconFont">
-                      <span class="social__label">{{cta}}</span>
-                  </span>
-                </a>
-            </li>
-        </ul>
+    <div class="sidebar__group">
+    </div><!-- .sidebar__group-->
 
-        <ul data-if="canShare">
-            <li>
-                <button data-view="shareButton:ButtonView"
-                    data-target="controller" data-action="showShare" data-link-context="shareButton"
-                    class="social__group--icon social__group--share">
-                    <span class="socialIconFont">
-                        <span class="social__label">Share</span>
-                    </span>
-                </button>
-            </li>
-        </ul>
+    <div class="social__group">
     </div><!-- .social__group-->
 
-    <!--copy and cta below -->
-    <div class="info__group">
-        <div class="card__copyBox" data-class="action.text::copy__fullWidth">
-            <div class="card__copy card__copy--hasSponsor">
+    <ul data-view="links:LinksListView" data-model="links" class="social__media"><!-- social network links and the share button-->
+        <li data-target="controller" data-action="clickthrough">
+            <a href="{{href}}" target="_blank" title="{{label}}" class="social__group--icon social__group--{{type}}">
+              <span class="socialIconFont">
+                  <span class="social__label">{{cta}}</span>
+              </span>
+            </a>
+        </li>
+    </ul>
 
-                <div class="card__copy--content">
-                    <div class="card__title"><h1 class="tk--hdr">{{title}}</h1></div>
-                    <div class="card__desc"><p>{{note}}</p></div>
-                </div>
-                <!-- call to action link below-->
-                <div class="cta__group" data-if="action.text"
-                    data-view="ctaView:LinkItemView" data-model="action"
-                    data-target="controller" data-action="clickthrough">
-                    <a class="sponsoredBtn" href="{{href}}" target="_blank">{{text}}</a>
-                </div><!-- .cta__group-->
+    <ul data-if="canShare" class="social__share">
+        <li>
+            <button data-view="shareButton:ButtonView"
+                data-target="controller" data-action="showShare" data-link-context="shareButton"
+                class="social__group--icon social__group--share">
+                <span class="socialIconFont">
+                    <span class="social__label">Share</span>
+                </span>
+            </button>
+        </li>
+    </ul>
 
-            </div>
+    <div class="sponsor__group">
+        <span class="sponsor__label">Sponsor:</span>
+        <span data-if="website.logo"
+        data-view="logoView:LinkItemView" data-model="website"
+        data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo" class="sponsor__logo">
+            <a href="{{href}}" title="{{text}}" class="sponsor__img">
+                <img tb-src="{{logo}}" alt="{{text}}">
+            </a>
+        </span>
+        <span class="sponsor__name">{{sponsor}}</span>
+    </div><!-- .sponsor__group -->
+
+    <label for="toggle__btn" class="description__close"></label>
+
+    <div class="expand__group">
+        <div class="expand__box">
+            <label for="toggle__btn" class="expand__btn"><span class="expand__label">Expand</span></label>
+        </div><!-- .expand__box -->
+    </div><!-- .expand__group-->
+
+    <div class="description__group" data-class="action.text::copy__fullWidth">
+        <div class="description__container">
+            <p>{{note}}</p>
         </div>
-    </div><!-- .info__group-->
+    </div><!-- .description__group -->
+
+    <div class="title__group">
+        <h1 class="tk--hdr">{{title}}</h1>
+    </div><!-- .title__group -->
+
+    <div class="cta__group" data-if="action.text" 
+        data-view="ctaView:LinkItemView" data-model="action" 
+        data-target="controller" data-action="clickthrough">
+        <a href="{{href}}" target="_blank" class="cta__box">
+            <span class="sponsoredBtn">{{text}}</span>
+        </a>
+    </div><!-- .cta__group-->
+
+    <div class="container__1">
+    </div>
+
+    <div class="container__2">
+    </div>
+
+    <div class="container__3">
+    </div>
+
+    <div class="container__4">
+    </div>
+
+    <div class="container__5">
+    </div>
 
 </div><!-- .card__group-->
-
-

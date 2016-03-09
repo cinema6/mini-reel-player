@@ -1,0 +1,62 @@
+.video__group {
+    -domino-container:.card__group;
+    -domino-order:100;
+}
+
+.sidebar__group {
+    -domino-container:.card__group;
+    -domino-order:200;
+}
+
+    .sponsor__group {
+        -domino-container:.sidebar__group;
+        -domino-order:100;
+    }
+
+        .sponsor__name {
+            display:none;
+        }
+
+    .social__group {
+        -domino-container:.sidebar__group;
+        -domino-order:200;
+    }
+
+            .social__media {
+                -domino-container:.social__group;
+                -domino-order:100;
+            }
+
+            .social__share {
+                -domino-container:.social__group;
+                -domino-order:200;
+            }
+
+.title__group {
+    -domino-container:.card__group;
+    -domino-order:300;
+}
+
+    .description__group {
+        -domino-container:.title__group;
+        -domino-order:100;
+    }
+
+    .container__1 {
+        -domino-container:.title__group;
+        -domino-order:200;
+    }
+        .cta__group {
+            -domino-container:.container__1;
+        }
+
+.description__close,
+.expand__group,
+.description__close,
+.container__2,
+.container__3,
+.container__4,
+.container__5 {
+    display:none!important;
+    opacity:0;
+}

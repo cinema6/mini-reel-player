@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v2.6.5-rc1]*
+  * [FIX]: Ballot choice buttons have the right colors on hover, share modal optimized for smallest ad unit sizes, Button isn't jumping to top on hover
+  * [REFACTOR]: Desktop-card redesigned to support Domino
+
 ## v2.6.4 (March 7, 2016)
 * *[v2.6.4-rc1]*
   * Updates to VPAID implementation to appease Genesis Media

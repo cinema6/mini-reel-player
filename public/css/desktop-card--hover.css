@@ -5,7 +5,11 @@
     .recap__item,
     .ballot__btn:before,
     .player__playBtn,
-    .actionsModal__btn:after {
+    .actionsModal__btn:after,
+    .cta__box {
+        -webkit-transition:background 0.3s;
+        -moz-transition:background 0.3s;
+        -o-transition:background 0.3s;
         transition:background 0.3s;
     }
 
@@ -25,6 +29,17 @@
     .ballot__btn1:hover:before {
         background-color:#1789cb;
     }
-    .sponsoredBtn:hover {
+    .cta__box:hover {
         background-color: #BA2222;
+    }
+
+
+    .title__group {
+        -webkit-transition: max-height .5s ease-in-out;
+        -moz-transition: max-height .5s ease-in-out;
+        -o-transition: max-height .5s ease-in-out;
+        transition: max-height .5s ease-in-out;
+    }
+    .title__group:hover {
+        max-height:100%;
     }

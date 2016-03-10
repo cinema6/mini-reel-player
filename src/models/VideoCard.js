@@ -5,6 +5,7 @@ import {
 } from '../../lib/utils.js';
 import { createKey } from 'private-parts';
 import timer from '../../lib/timer.js';
+import environment from '../environment.js';
 
 const _ = createKey();
 
@@ -26,7 +27,11 @@ class VideoCard extends Card {
             videoid: data.data.videoid,
             href: data.data.href,
             controls: data.data.controls,
-            autoplay: 'autoplay' in data.data ? data.data.autoplay : autoplay,
+            autoplay: 'autoplay' in environment.params ? // is autoplay defined via embed params?
+                environment.params.autoplay : // yes: use embed param value
+                ('autoplay' in data.data) ? // no: is autoplay defined on the card?
+                    data.data.autoplay : // yes: use the value from the card
+                    autoplay, // no use value from MiniReel (which defaults to true)
             autoadvance: 'autoadvance' in data.data ? data.data.autoadvance : autoadvance,
             preload: 'preload' in data.data ? data.data.preload : preloadVideos,
             moat : data.data.moat || null,

@@ -344,7 +344,7 @@
             top:1.5em;
             bottom:1.5em;
             right:1.5em;
-            min-height:6em;
+            max-height:6em;
         }
 
             .sponsoredBtn {
@@ -373,7 +373,7 @@
             top:1em;
             bottom:1em;
             right:1em;
-            min-height:5em;
+            max-height:5em;
         }
     }
 

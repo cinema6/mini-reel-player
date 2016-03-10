@@ -42,6 +42,15 @@
         -domino-order:100;
     }
 
+        .tk--hdr {
+            -domino-container:.description__group;
+            -domino-order:100;
+        }
+
+        .description__container {
+            -domino-order:200;
+        }
+
     .container__1 {
         -domino-container:.title__group;
         -domino-order:200;

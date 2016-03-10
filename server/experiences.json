@@ -1483,8 +1483,8 @@
                         }
                     },
                     "type": "youtube",
-                    "title": "Word Just Won't Do",
-                    "note": "When Hyundai set out to build the 2015 Sonata, we transformed everything, from its appearance to its performance. Advanced high-strength steel, enhanced driving dynamics and sophisticated safety features are just the beginning. Was all of this extra effort really worth it? Get behind the wheel of the completely redesigned Hyundai Sonata and see for yourself. \n\nExperience the 2015 Hyundai Sonata by clicking the link below.",
+                    "title": "This is a long title example with 40 cha",
+                    "note": "Like any other social media site Facebook has length requirements when it comes to writing on the wall, providing status, messaging and commenting. Understanding how many characters you can use, enables you to more effectively use Facebook as a business or campaign tool.Private messaging is one of the main ways that people interact on Facebook.Private messaging is one of the main ways that as and.",
                     "source": "YouTube",
                     "modules": [],
                     "thumbs": null,
@@ -1542,7 +1542,7 @@
                         "ad": false,
                         "action": {
                             "type": "button",
-                            "label": "Learn More"
+                            "label": "This should be 25 charact"
                         }
                     },
                     "campaignId": "cam-24482b245c9bbe",

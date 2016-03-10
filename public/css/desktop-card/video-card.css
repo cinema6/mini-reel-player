@@ -253,6 +253,7 @@
             .description__container p {
                 margin:0 0.5em 0.5em 0;
                 color:#3d3d3d;
+                min-width:100%;
             }
 
 
@@ -408,6 +409,17 @@
             min-height:20%;
         }
 
+            .title__group h1 {
+                font-size: 1.1875em;
+                margin-bottom: 0.1875em;
+            }
+
+        .description__container p {
+            font-size:0.9375em;
+            line-height:1.25;
+        }
+
+
         .cta__group {
             top:1.25em;
             bottom:1.25em;
@@ -422,8 +434,17 @@
 
 
     @media screen and (min-width: 531px) and (max-width: 750px) {
-        .title__group h1 {
-            font-size:1.25em;
+        .title__group {
+            padding:0.5em;
+        }
+
+            .title__group h1 {
+                font-size:1.125em;
+            }
+
+        .description__container p {
+            font-size:0.8125em;
+            line-height:1.25;
         }
 
         .cta__group {
@@ -442,7 +463,12 @@
 
     @media screen and (max-width: 530px) {
         .title__group h1 {
-            font-size:1em;
+            font-size:0.875em;
+        }
+
+        .description__container p {
+            font-size:0.6875em;
+            line-height:1.25;
         }
 
         .cta__group {
@@ -461,10 +487,28 @@
     }
 
     @media screen and (max-width: 460px) {
-
-        .sponsoredBtn {
-            font-size:0.6125em;
+        .title__group {
+            padding:0.375em;
         }
+
+            .title__group h1 {
+                font-size:0.8125em;
+            }
+
+            .description__container p {
+                font-size:0.625em;
+                line-height:1.25;
+            }
+
+        .cta__group {
+            top:0.25em;
+            bottom:0.25em;
+            right:0.25em;
+        }
+
+            .sponsoredBtn {
+                font-size:0.625em;
+            }
 
     }
 
@@ -568,7 +612,7 @@
             }
 
         .social__group--vimeo .socialIconFont:before {
-            margin: 0.25em 0 0;
+            margin:0;
         }
 
     }
@@ -597,6 +641,53 @@
             left:0.375em;
         }
 
+        .social__group--vimeo .socialIconFont:before {
+            top:0.375em;
+            left:0;
+            font-size:0.5em;
+            margin:0;
+        }
+
+        .social__label {
+            display: none;
+        }
+
+    }
+
+    @media screen and (max-width: 450px) {
+        .socialIconFont {
+            width: 0.875em;
+            height: 0.875em;
+        }
+
+        .social__group--icon {
+            width:0.875em;
+            height:0.875em;
+            margin-bottom:0.25em;
+        }
+
+        .socialIconFont {
+            padding:0;
+        }
+
+        .socialIconFont:before {
+            top: .25em;
+            left:-0.125em;
+            font-size: .5rem;
+        }
+
+        .social__group--share .socialIconFont:before {
+            top:0.25em;
+            left:0.375em;
+        }
+
+        .social__group--vimeo .socialIconFont:before {
+            top: .125em;
+            left: -0.0625em;
+            font-size:0.4375em;
+            margin:0;
+        }
+
         .social__label {
             display: none;
         }
@@ -604,17 +695,51 @@
     }
 
 
+   /* @media screen and (max-width:920px) and (max-height: 520px) {
+        .title__group:hover {
+            overflow-y:auto;
+            max-height:10rem!important;
+        }
+    }
+
+    @media screen and (max-width: 850px)and (max-height: 490px) {
+        .title__group:hover {
+            max-height:7rem!important;
+        }
+    }*/
+
+    @media screen and (max-width: 650px)and (max-height: 400px) {
+        .title__group:hover {
+            overflow-y:auto;
+            max-height:6rem!important;
+        }
+    }
+
+    @media screen and (max-width: 475px)and (max-height: 400px) {
+        .title__group:hover {
+            max-height:5rem!important;
+        }
+    }
+
+        /*.title__group:hover {
+            max-height:6em!important;
+            overflow-y:auto;
+        }
+
+            @media screen and (max-height: 260px) {
+        .title__group:hover {
+            max-height:5em!important;
+            overflow-y:auto;
+        }
+    }*/
+
+
+
+
 
 /*  ================================================
     media queries based on height (sponsor logo)
     ================================================ */
-
-    @media screen and (max-height: 499px) {
-        .title__group:hover {
-            max-height:8em!important;
-            overflow-y:auto;
-        }
-    }
 
     @media screen and (max-height: 400px) {
 
@@ -627,20 +752,9 @@
             margin:0.25em 0;
         }
 
-
-        .description__container p {
-            font-size:0.875em;
-            line-height:1.25;
-        }
-
     }
 
-    @media screen and (max-width: 360px) {
-        .title__group:hover {
-            max-height:5em!important;
-            overflow-y:auto;
-        }
-    }
+
 
     @media screen and (max-height: 350px) {
 
@@ -662,23 +776,14 @@
 
     @media screen and (max-height: 300px) {
         .sponsor__img {
-            width: 2em;
-            height: 2em;
-            margin-bottom: 0.5em;
+            width: 1.875em;
+            height: 1.875em;
+            margin-bottom: 0.25em;
         }
 
-        .title__group:hover {
-            max-height:6em!important;
-            overflow-y:auto;
-        }
     }
 
-    @media screen and (max-height: 260px) {
-        .title__group:hover {
-            max-height:5em!important;
-            overflow-y:auto;
-        }
-    }
+
 
 
 /*  ================================================

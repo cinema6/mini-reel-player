@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v2.7.0-rc1]*
+  * [FEATURE]: Add support for changing the autoplaying behavior of
+    videos with the `autoplay` parameter
+
 ## v2.6.5 (March 9, 2016)
 * *[v2.6.5-rc2]*
   * [FIX]: Border added around card.

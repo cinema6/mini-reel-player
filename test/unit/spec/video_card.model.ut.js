@@ -4,6 +4,7 @@ import VideoCard from '../../../src/models/VideoCard.js';
 import Card from '../../../src/models/Card.js';
 import makeSocialLinks from '../../../src/fns/make_social_links.js';
 import normalizeLinks from '../../../src/fns/normalize_links.js';
+import environment from '../../../src/environment.js';
 
 describe('VideoCard', function() {
     let card;
@@ -112,11 +113,17 @@ describe('VideoCard', function() {
         };
         /* jshint quotmark:single */
 
+        environment.constructor();
+
         card = new VideoCard(data, experience);
     });
 
     afterEach(function() {
         jasmine.clock().uninstall();
+    });
+
+    afterAll(function() {
+        environment.constructor();
     });
 
     it('should exist', function() {
@@ -317,6 +324,9 @@ describe('VideoCard', function() {
             });
 
             describe('.autoplay', function() {
+                beforeEach(function() {
+                    delete environment.params.autoplay;
+                });
                 describe('if data.autoplay is true', function() {
                     beforeEach(function() {
                         experience.data.autoplay = false;
@@ -326,6 +336,17 @@ describe('VideoCard', function() {
 
                     it('should be true', function() {
                         expect(card.data.autoplay).toBe(true);
+                    });
+
+                    describe('if autoplay is configured globally', function() {
+                        beforeEach(function() {
+                            environment.params.autoplay = false;
+                            card = new VideoCard(data, experience);
+                        });
+
+                        it('should use that value', function() {
+                            expect(card.data.autoplay).toBe(false, 'autoplay does not match the environment param');
+                        });
                     });
                 });
 
@@ -338,6 +359,17 @@ describe('VideoCard', function() {
 
                     it('should be false', function() {
                         expect(card.data.autoplay).toBe(false);
+                    });
+
+                    describe('if autoplay is configured globally', function() {
+                        beforeEach(function() {
+                            environment.params.autoplay = true;
+                            card = new VideoCard(data, experience);
+                        });
+
+                        it('should use that value', function() {
+                            expect(card.data.autoplay).toBe(true, 'autoplay does not match the environment param');
+                        });
                     });
                 });
 
@@ -355,6 +387,17 @@ describe('VideoCard', function() {
                         it('should be true', function() {
                             expect(card.data.autoplay).toBe(true);
                         });
+
+                        describe('if autoplay is configured globally', function() {
+                            beforeEach(function() {
+                                environment.params.autoplay = false;
+                                card = new VideoCard(data, experience);
+                            });
+
+                            it('should use that value', function() {
+                                expect(card.data.autoplay).toBe(false, 'autoplay does not match the environment param');
+                            });
+                        });
                     });
 
                     describe('if false on the minireel', function() {
@@ -366,6 +409,17 @@ describe('VideoCard', function() {
                         it('should be false', function() {
                             expect(card.data.autoplay).toBe(false);
                         });
+
+                        describe('if autoplay is configured globally', function() {
+                            beforeEach(function() {
+                                environment.params.autoplay = true;
+                                card = new VideoCard(data, experience);
+                            });
+
+                            it('should use that value', function() {
+                                expect(card.data.autoplay).toBe(true, 'autoplay does not match the environment param');
+                            });
+                        });
                     });
 
                     describe('if undefined on the minireel', function() {
@@ -376,6 +430,17 @@ describe('VideoCard', function() {
 
                         it('should be true', function() {
                             expect(card.data.autoplay).toBe(true);
+                        });
+
+                        describe('if autoplay is configured globally', function() {
+                            beforeEach(function() {
+                                environment.params.autoplay = false;
+                                card = new VideoCard(data, experience);
+                            });
+
+                            it('should use that value', function() {
+                                expect(card.data.autoplay).toBe(false, 'autoplay does not match the environment param');
+                            });
                         });
                     });
                 });

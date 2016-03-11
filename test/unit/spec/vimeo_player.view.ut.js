@@ -333,7 +333,7 @@ describe('VimeoPlayer', function() {
                 deferred = defer(RunnerPromise);
                 vimeoPlayer.call.and.returnValue(deferred.promise);
 
-                loadedmetadata = jasmine.createSpy('loadedmetadata');
+                loadedmetadata = jasmine.createSpy('loadedmetadata').and.callFake(() => expect(player.duration).toBeGreaterThan(0));
                 player.on('loadedmetadata', loadedmetadata);
 
                 vimeoPlayer.emit('ready');

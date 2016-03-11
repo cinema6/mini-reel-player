@@ -153,15 +153,15 @@ export default class VimeoPlayer extends CorePlayer {
         const end = this.end || Infinity;
 
         const onceLoadProgress = (() => {
-            this.emit('loadstart');
             _(this).state.readyState = 3;
+            this.emit('loadstart');
         });
         const checkIfCanPlayThrough = (data => {
             const percent = parseFloat(data.percent);
 
             if (percent >= 0.25) {
-                this.emit('canplaythrough');
                 _(this).state.readyState = 4;
+                this.emit('canplaythrough');
                 player.removeListener('loadProgress', checkIfCanPlayThrough);
             }
         });
@@ -172,12 +172,12 @@ export default class VimeoPlayer extends CorePlayer {
             this.emit('progress');
         });
         const onFinish = (() => {
-            this.emit('ended');
             _(this).state.ended = true;
+            this.emit('ended');
         });
         const onPause = (() => {
-            this.emit('pause');
             _(this).state.paused = true;
+            this.emit('pause');
         });
         const onPlay = (() => {
             const {state} = _(this);
@@ -186,15 +186,15 @@ export default class VimeoPlayer extends CorePlayer {
                 player.call('seekTo', start);
             }
 
-            this.emit('play');
             state.ended = false;
             state.paused = false;
+            this.emit('play');
 
             state.hasPlayed = true;
         });
         const onSeek = (() => {
-            this.emit('seeked');
             _(this).state.seeking = false;
+            this.emit('seeked');
         });
         const onPlayProgress = (({ seconds }) => {
             const time = parseFloat(seconds);
@@ -235,8 +235,8 @@ export default class VimeoPlayer extends CorePlayer {
             player.call('getDuration').then(duration => {
                 const {state} = _(this);
 
-                this.emit('loadedmetadata');
                 state.duration = (Math.min(end, duration) -  start);
+                this.emit('loadedmetadata');
             });
 
             player.call('getVolume').then(volume => {

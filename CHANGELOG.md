@@ -1,8 +1,12 @@
 # MiniReel Player 2.0
 
+## v2.7.0 (March 11, 2016)
 * *[v2.7.0-rc1]*
   * [FEATURE]: Add support for changing the autoplaying behavior of
     videos with the `autoplay` parameter
+  * [FIX]: Disable Moat tracking for Vimeo videos as it is breaking
+    analytics
+* *[/v2.7.0-rc1]*
 
 ## v2.6.5 (March 9, 2016)
 * *[v2.6.5-rc2]*

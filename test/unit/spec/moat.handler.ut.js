@@ -46,7 +46,7 @@ describe('MoatHandler', function() {
 
                 card = new VideoCard({
                     id: 'rc-abc123',
-                    type: 'vimeo',
+                    type: 'youtube',
                     data: {
                         autoplay: true,
                         href: 'http://www.vimeo.com/384895',

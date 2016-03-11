@@ -248,6 +248,17 @@ describe('VideoCard', function() {
             });
 
             describe('on a sponsored card', function() {
+                describe('using vimeo', function() {
+                    beforeEach(function() {
+                        sponsoredData.type = 'vimeo';
+                        card = new VideoCard(sponsoredData, experience);
+                    });
+
+                    it('should be null', function() {
+                        expect(card.data.moat).toBeNull();
+                    });
+                });
+
                 it('should be set', function() {
                     expect(new VideoCard(sponsoredData, experience).data.moat)
                         .toBe(sponsoredData.data.moat);

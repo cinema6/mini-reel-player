@@ -172,7 +172,18 @@
             height:5em;
             display:block;
             margin:0.25em auto 0.75em;
+            background:#fff;
+            border:1px solid #ddd;
         }
+
+            .sponsor__img span {
+                width:100%;
+                height:100%;
+                display: block;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
 
         .sponsor__label {
             display:block;
@@ -737,8 +748,6 @@
         }
 
     }
-
-
 
 
 /*  ================================================

@@ -168,10 +168,12 @@
     }
 
         .sponsor__img {
-            width:5em;
-            height:5em;
+            width:40%;
+            max-width:6em;
+            min-width:2.5em;
+            height:auto;
             display:block;
-            margin:0.25em auto 0.75em;
+            margin:0.25em auto 0.125em;
         }
 
         .sponsor__label {
@@ -315,8 +317,7 @@
 
     @media screen and (min-width: 1200px) {
         .sponsor__img {
-            width:8em;
-            height:8em;
+            margin-bottom:1em;
         }
 
         .sponsor__name {
@@ -355,9 +356,7 @@
 
     @media screen and (min-width: 1140px) {
         .sponsor__img {
-            width: 7em;
-            height: 7em;
-            margin-bottom: 0.875em;
+           margin-bottom:0.75em;
         }
 
         .sponsor__label {
@@ -699,41 +698,11 @@
     @media screen and (max-height: 400px) {
 
         .sponsor__img {
-            width: 2.75em;
-            height: 2.75em;
+            margin-bottom:0;
         }
 
         .sponsor__label {
             margin:0.25em 0;
-        }
-
-    }
-
-
-
-    @media screen and (max-height: 350px) {
-
-        .sponsor__img {
-            width: 3.25em;
-            height: 3.25em;
-            margin-bottom: .5em;
-        }
-
-    }
-
-    @media screen and (max-height: 315px) {
-        .sponsor__img {
-            width: 2.5em;
-            height: 2.5em;
-            margin-bottom: 0.5em;
-        }
-    }
-
-    @media screen and (max-height: 300px) {
-        .sponsor__img {
-            width: 1.875em;
-            height: 1.875em;
-            margin-bottom: 0.25em;
         }
 
     }

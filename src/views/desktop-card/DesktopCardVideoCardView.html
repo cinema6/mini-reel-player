@@ -48,7 +48,7 @@
         data-view="logoView:LinkItemView" data-model="website"
         data-target="controller" data-action="clickthrough" data-link-context="sponsoredLogo" class="sponsor__logo">
             <a href="{{href}}" title="{{text}}" class="sponsor__img">
-                <img tb-src="{{logo}}" alt="{{text}}">
+                <span style="background-image:url('{{logo}}');" alt="{{text}}">&nbsp;</span>
             </a>
         </span>
         <span class="sponsor__name">{{sponsor}}</span>

@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.7.1-rc1]*
+  * [FEATURE]: Landscape and portrait logos supported in desktop-card and mobile-card
+
 ## v2.7.0 (March 11, 2016)
 * *[v2.7.0-rc1]*
   * [FEATURE]: Add support for changing the autoplaying behavior of

@@ -50,6 +50,10 @@ import BrightcovePlayer from '../players/BrightcovePlayer.js';
 import KalturaPlayer from '../players/KalturaPlayer.js';
 /* #endif */
 
+/* #if card.types.indexOf('facebook') > -1 */
+import FacebookPlayer from '../players/FacebookPlayer.js';
+/* #endif */
+
 class PlayerFactory {
     playerForCard(card) {
         if(card.type === 'instagramVideo') {
@@ -82,6 +86,8 @@ class PlayerFactory {
             return new BrightcovePlayer();
         case 'kaltura':
             return new KalturaPlayer();
+        case 'facebook':
+            return new FacebookPlayer();
         default:
             throw new TypeError(`Have no Player for VideoCard with type "${card.data.type}".`);
         }

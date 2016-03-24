@@ -91,6 +91,7 @@ function getCardType(card) {
     case 'htmlvideo':
     case 'brightcove':
     case 'kaltura':
+    case 'facebook':
         return 'video';
     default:
         return card.type;

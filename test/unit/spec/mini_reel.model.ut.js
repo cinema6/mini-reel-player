@@ -735,6 +735,39 @@ describe('MiniReel', function() {
                   "params": {}
               },
               {
+                  "data": {
+                      "autoplay": false,
+                      "service": "facebook",
+                      "videoid": "10153231379946729",
+                      "href": "",
+                      "thumbs": {
+                          "small": "",
+                          "large": ""
+                      }
+                  },
+                  "id": "rc-27ead7ab22ab",
+                  "type": "facebook",
+                  "title": "Fantastic Facebook",
+                  "note": "Sharing is Caring: A FB PSA",
+                  "source": "Facebook",
+                  "modules": [],
+                  "thumbs": null,
+                  "placementId": null,
+                  "templateUrl": null,
+                  "sponsored": false,
+                  "campaign": {
+                      "campaignId": null,
+                      "advertiserId": null,
+                      "minViewTime": null,
+                      "countUrls": [],
+                      "clickUrls": []
+                  },
+                  "collateral": {},
+                  "links": {},
+                  "shareLinks": {},
+                  "params": {}
+              },
+              {
                 "data": {},
                 "id": "rc-60b247489263c5",
                 "type": "recap",
@@ -1800,6 +1833,7 @@ describe('MiniReel', function() {
                 jasmine.any(ImageCard),
                 jasmine.any(BrightcoveVideoCard),
                 jasmine.any(KalturaVideoCard),
+                jasmine.any(VideoCard),
                 jasmine.any(RecapCard)
             ]);
         });
@@ -1817,7 +1851,7 @@ describe('MiniReel', function() {
         });
 
         it('should set the length', function() {
-            expect(minireel.length).toBe(19);
+            expect(minireel.length).toBe(20);
         });
     });
 
@@ -1875,7 +1909,8 @@ describe('MiniReel', function() {
                 jasmine.any(VideoCard),
                 jasmine.any(VideoCard),
                 jasmine.any(BrightcoveVideoCard),
-                jasmine.any(KalturaVideoCard)
+                jasmine.any(KalturaVideoCard),
+                jasmine.any(VideoCard)
             ]);
         });
     });

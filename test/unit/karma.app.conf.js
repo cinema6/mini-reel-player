@@ -25,7 +25,8 @@ module.exports = function(config) {
             debug: true,
             transform: buildConfig.browserify.transforms.concat([
                 ['browserify-swap']
-            ])
+            ]),
+            plugin: ['proxyquireify/plugin']
         }
     });
 };

@@ -1,6 +1,8 @@
 # MiniReel Player 2.0
 
-* *[v2.7.1-rc1]*
+* *[v2.8.0-rc1]*
+  * Re-Enable Moat tracking for Vimeo videos
+  * [FEATURE]: Added support for Facebook video cards
   * [FEATURE]: Landscape and portrait logos supported in desktop-card and mobile-card
   * [FIX]: Checkbox behind video is now hidden
 

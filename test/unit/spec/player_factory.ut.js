@@ -14,6 +14,7 @@ import JWPlayer from '../../../src/players/JWPlayer.js';
 import VidyardPlayer from '../../../src/players/VidyardPlayer.js';
 import BrightcovePlayer from '../../../src/players/BrightcovePlayer.js';
 import KalturaPlayer from '../../../src/players/KalturaPlayer.js';
+import FacebookPlayer from '../../../src/players/FacebookPlayer.js';
 import Runner from '../../../lib/Runner.js';
 
 describe('playerFactory', function() {
@@ -205,7 +206,7 @@ describe('playerFactory', function() {
                     expect(result).toEqual(jasmine.any(BrightcovePlayer));
                 });
             });
-            
+
             describe('if the card is from Kaltura', function() {
                 beforeEach(function() {
                     card = new VideoCard({
@@ -216,9 +217,25 @@ describe('playerFactory', function() {
                     }, experience);
                     result = Runner.run(() => playerFactory.playerForCard(card));
                 });
-                
+
                 it('should be a KalturaPlayer', function() {
                     expect(result).toEqual(jasmine.any(KalturaPlayer));
+                });
+            });
+
+            describe('if the card is from Facebook', function() {
+                beforeEach(function() {
+                    card = new VideoCard({
+                        type: 'facebook',
+                        data: {},
+                        params: {},
+                        collateral: {}
+                    }, experience);
+                    result = Runner.run(() => playerFactory.playerForCard(card));
+                });
+
+                it('should be a FacebookPlayer', function() {
+                    expect(result).toEqual(jasmine.any(FacebookPlayer));
                 });
             });
 

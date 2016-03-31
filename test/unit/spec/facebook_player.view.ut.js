@@ -107,10 +107,6 @@ describe('Facebook Player', function() {
         });
     });
 
-    it('should be singleUse', function() {
-        expect(player.__api__.singleUse).toBe(true);
-    });
-
     describe('private functions', function() {
         describe('waitForFocus', function() {
             beforeEach(function() {

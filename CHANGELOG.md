@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.8.0 (March 28, 2016)
+* *[v2.8.0-rc2]*
+  * [FIX]: Remove unnecessary unloading of Facebook player when playback ends
+* *[/v2.8.0-rc2]*
+
 * *[v2.8.0-rc1]*
   * Re-Enable Moat tracking for Vimeo videos
   * [FEATURE]: Added support for Facebook video cards

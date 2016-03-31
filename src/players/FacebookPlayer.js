@@ -156,7 +156,5 @@ export default class FacebookPlayer extends ThirdPartyPlayer {
             this.__setProperty__('volume', api.getVolume());
             this.__setProperty__('muted', (api.getVolume() === 0));
         };
-
-        this.__api__.singleUse = true;
     }
 }

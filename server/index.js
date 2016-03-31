@@ -172,6 +172,7 @@ function serveStatic(req, res) {
 server.get('/api/experience/*', function getExperience(req, res) {
     var id = basename(req.path);
     var url = parseURL(req.url, true);
+    var experience;
 
     if (/^e-/.test(id)) {
         pump(request.get({
@@ -183,7 +184,17 @@ server.get('/api/experience/*', function getExperience(req, res) {
             qs: url.query
         }), res.status(200));
     } else {
-        res.status(200).send(experiences[id]);
+        experience = experiences[id];
+
+        if (!experience) {
+            return res.status(404).send('NOT FOUND');
+        }
+
+        if (url.query.branding) {
+            experience.data.branding = url.query.branding;
+        }
+
+        res.status(200).send(experience);
     }
 });
 

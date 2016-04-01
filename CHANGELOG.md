@@ -1,6 +1,11 @@
 # MiniReel Player 2.0
 
 ## v2.8.0 (March 28, 2016)
+* *[v2.8.0-rc3]*
+  * [FIX]: Fix for an issue that caused YouTube videos not to load
+  * [FIX]: Fix for an issue that caused HTML5 vast videos not to playback inline on iPhones
+* *[/v2.8.0-rc3]*
+
 * *[v2.8.0-rc2]*
   * [FIX]: Remove unnecessary unloading of Facebook player when playback ends
 * *[/v2.8.0-rc2]*

@@ -42,7 +42,7 @@ export default class YouTubePlayer extends ThirdPartyPlayer {
                 controls: Number(this.controls)
             };
 
-            iframe.src = `https://www.youtube-nocookie.com/embed/${src}?${stringify(params)}`;
+            iframe.src = `https://www.youtube.com/embed/${src}?${stringify(params)}`;
 
             Runner.schedule('afterRender', this.element, 'appendChild', [iframe]);
 

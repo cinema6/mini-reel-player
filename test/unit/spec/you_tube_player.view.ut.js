@@ -126,7 +126,7 @@ describe('YouTubePlayer', function() {
                         playsinline: 1,
                         controls: Number(player.controls)
                     };
-                    expect(iframe.src).toBe(`https://www.youtube-nocookie.com/embed/${src}?${stringify(params)}`);
+                    expect(iframe.src).toBe(`https://www.youtube.com/embed/${src}?${stringify(params)}`);
                 });
 
                 it('should put the <iframe> in the DOM', function() {

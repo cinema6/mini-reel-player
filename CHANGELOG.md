@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.8.1 (April 1, 2016)
+* *[v2.8.1-rc1]*
+  * [FIX]: Fix for an issue that caused JS VPAID vast videos
+    not to playback inline on iPhones
+* *[/v2.8.1-rc1]*
+
 ## v2.8.0 (March 28, 2016)
 * *[v2.8.0-rc3]*
   * [FIX]: Fix for an issue that caused YouTube videos not to load

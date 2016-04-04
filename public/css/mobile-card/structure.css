@@ -39,7 +39,7 @@
         -domino-order:3;
     }
 
-    h1.tk--hdr {
+    .card__title {
         -domino-container:.title__group;
         -domino-order: 4;
     }

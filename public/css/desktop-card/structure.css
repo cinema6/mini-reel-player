@@ -42,7 +42,7 @@
         -domino-order:100;
     }
 
-        .tk--hdr {
+        .card__title {
             -domino-container:.description__group;
             -domino-order:100;
         }

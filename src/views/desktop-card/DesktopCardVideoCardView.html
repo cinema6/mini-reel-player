@@ -54,9 +54,11 @@
         <span class="sponsor__name">{{sponsor}}</span>
     </div><!-- .sponsor__group -->
 
-    <label for="toggle__btn" class="description__close"></label>
+    <label for="toggle__btn" class="description__close"
+    data-view="LinkItemView" data-target="controller" data-action="interaction" data-link-context="expandClose"></label>
 
-    <div class="expand__group">
+    <div class="expand__group"
+    data-view="LinkItemView" data-target="controller" data-action="interaction" data-link-context="expandOpen">
         <div class="expand__box">
             <label for="toggle__btn" class="expand__btn"><span class="expand__label">Expand</span></label>
         </div><!-- .expand__box -->

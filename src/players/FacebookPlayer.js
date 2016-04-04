@@ -30,21 +30,6 @@ class Private {
         this.__public__ = instance;
     }
 
-    waitForFocus() {
-        global.focus();
-        return new RunnerPromise(resolve => {
-            if(document.hasFocus()) {
-                resolve();
-            } else {
-                const onFocus = () => {
-                    global.removeEventListener('focus', onFocus, false);
-                    resolve();
-                };
-                global.addEventListener('focus', onFocus, false);
-            }
-        });
-    }
-
     waitForPlayer(elementId, sdk) {
         return new RunnerPromise((resolve, reject) => {
             let loadInterval = null;
@@ -89,20 +74,17 @@ export default class FacebookPlayer extends ThirdPartyPlayer {
             const videoId = (src.match(/\d+/) || ['0'])[0];
             const elementId = `fb-video-${videoId}`;
 
-            // IMPORTANT: The Facebook player will only load once the page has focus
-            return _private.waitForFocus().then(() => {
-                // Get Facebook video HTML
-                const embedTemplate = require('../views/video_embeds/FacebookEmbed.html');
-                const embed = embedTemplate.replace('{{elementId}}', elementId)
-                    .replace('{{src}}', src);
+            // Get Facebook video HTML
+            const embedTemplate = require('../views/video_embeds/FacebookEmbed.html');
+            const embed = embedTemplate.replace('{{elementId}}', elementId)
+                .replace('{{src}}', src);
 
-                // Append to the player element
-                Runner.schedule('afterRender', this, () => this.element.innerHTML = embed);
+            // Append to the player element
+            Runner.schedule('afterRender', this, () => this.element.innerHTML = embed);
 
-                // Load the facebook sdk
-                return codeLoader.load('facebook', document.body, 'insertBefore',
-                    document.body.firstChild);
-            }).then(sdk => {
+            // Load the facebook sdk
+            return codeLoader.load('facebook', document.body, 'insertBefore',
+                document.body.firstChild).then(sdk => {
                 sdk.XFBML.parse(this.element);
                 return _private.waitForPlayer(elementId, sdk);
             });

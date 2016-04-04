@@ -71,7 +71,6 @@ describe('Facebook Player', function() {
             }
         }).default;
         player = new FacebookPlayer();
-        spyOn(player.__private__, 'waitForFocus');
         spyOn(player.__private__, 'waitForPlayer');
         spyOn(player, '__setProperty__');
         spyOn(player, 'reload');
@@ -108,36 +107,6 @@ describe('Facebook Player', function() {
     });
 
     describe('private functions', function() {
-        describe('waitForFocus', function() {
-            beforeEach(function() {
-                player.__private__.waitForFocus.and.callThrough();
-            });
-
-            it('should attempt to focus the window', function() {
-                player.__private__.waitForFocus();
-                expect(global.focus).toHaveBeenCalledWith();
-            });
-
-            it('resolve immediately if the document has focus', function(done) {
-                document.hasFocus.and.returnValue(true);
-                player.__private__.waitForFocus().then(() => process.nextTick(done), done.fail);
-            });
-
-            it('should wait for the document to get focus', function(done) {
-                document.hasFocus.and.returnValue(false);
-                global.addEventListener.and.callFake((event, handler) => {
-                    if(event === 'focus') {
-                        handler();
-                    }
-                });
-                player.__private__.waitForFocus().then(() => {
-                    const fn = global.addEventListener.calls.mostRecent().args[1];
-                    expect(global.addEventListener).toHaveBeenCalledWith('focus', jasmine.any(Function), false);
-                    expect(global.removeEventListener).toHaveBeenCalledWith('focus', fn, false);
-                }).then(() => process.nextTick(done), done.fail);
-            });
-        });
-
         describe('waitForPlayer', function() {
             beforeEach(function() {
                 player.__private__.waitForPlayer.and.callThrough();
@@ -205,13 +174,8 @@ describe('Facebook Player', function() {
             codeLoader.load.and.returnValue({
                 then: fn => Runner.run(() => fn(mockFacebook))
             });
-            player.__private__.waitForFocus.and.returnValue(Promise.resolve());
-            codeLoader.load.and.returnValue(mockFacebook);
+            codeLoader.load.and.returnValue(Promise.resolve(mockFacebook));
             player.__api__.loadPlayer('https://facebook.com/facebook/videos/123').then(done, done.fail);
-        });
-
-        it('should wait for focus', function() {
-            expect(player.__private__.waitForFocus).toHaveBeenCalledWith();
         });
 
         it('embed the player in an afterRender queue', function() {

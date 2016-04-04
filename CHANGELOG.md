@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.8.2 (April 4, 2016)
+* *[v2.8.2-rc1]*
+  * [FIX]: Fix for an issue where the Facebook player would disrupt focus on the page it was embedded in
+* *[/v2.8.2-rc1]*
+
 ## v2.8.1 (April 1, 2016)
 * *[v2.8.1-rc1]*
   * [FIX]: Fix for an issue that caused JS VPAID vast videos

@@ -255,12 +255,13 @@ body {
         margin: 0.75em;
     }
 
-        .title__group h1 {
+        .card__title {
             color:#000;
             font-size:1em;
             line-height:1;
             display:block;
             margin:-0.125em 0 0;
+            text-align:left;
         }
 
     .cta__group {
@@ -315,7 +316,7 @@ body {
                     margin: 1em;
                 }
 
-                    .title__group h1 {
+                    .card__title {
                         position:relative;
                         top:inherit;
                         bottom:inherit;

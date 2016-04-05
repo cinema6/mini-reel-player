@@ -52,11 +52,11 @@
     border transitions
     ================================================ */
     .sponsorProfile__imgBox {
-        transition: border 0.3s ease;
+        transition: border-color 0.3s ease;
     }
-
     .sponsorProfile__imgBox:hover {
-        border-color:#d94040;
+        border-color:#ddd;
+        color:rgba(255,255,255,0);
     }
     .textLink:hover,
     a:hover .textLink {

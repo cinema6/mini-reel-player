@@ -51,7 +51,11 @@
                 <span style="background-image:url('{{logo}}');" alt="{{text}}">&nbsp;</span>
             </a>
         </span>
-        <span class="sponsor__name">{{sponsor}}</span>
+        <span data-if="sponsor"
+        data-view="websiteView:LinkItemView" data-model="website"
+        data-target="controller" data-action="clickthrough" data-link-context="sponsoredLink">
+            <a href="{{href}}" title="{{text}}" class="sponsor__name">{{text}}</a>
+        </span>
     </div><!-- .sponsor__group -->
 
     <label for="toggle__btn" class="description__close"

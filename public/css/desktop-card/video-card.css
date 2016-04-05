@@ -621,8 +621,8 @@
         }
 
         .social__group--share .socialIconFont:before {
-            top:0.25em;
-            left:0.375em;
+            top: .125rem;
+            left: .1875rem;
         }
 
         .social__group--vimeo .socialIconFont:before {
@@ -661,8 +661,8 @@
         }
 
         .social__group--share .socialIconFont:before {
-            top:0.25em;
-            left:0.375em;
+            top: .125rem;
+            left: .1875rem;
         }
 
         .social__group--vimeo .socialIconFont:before {

@@ -1,8 +1,13 @@
 # MiniReel Player 2.0
 
-* *[v2.8.2-rc1]*
+* *[v2.8.3-rc1]*
   * [FEATURE]: Click-tracking added to desktop-card buttons that hide/show a container
   * [FIX]: More specific class added to the title in desktop-card and mobile-card so that Domino doesn't apply rules to the less-specific class.
+
+## v2.8.2 (April 4, 2016)
+* *[v2.8.2-rc1]*
+  * [FIX]: Fix for an issue where the Facebook player would disrupt focus on the page it was embedded in
+* *[/v2.8.2-rc1]*
 
 ## v2.8.1 (April 1, 2016)
 * *[v2.8.1-rc1]*

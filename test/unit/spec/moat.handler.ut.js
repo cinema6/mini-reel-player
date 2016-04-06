@@ -19,6 +19,7 @@ describe('MoatHandler', function() {
         spyOn(moatApi,'initTracker');
         spyOn(moatApi,'dispatchEvent');
 
+        environment.constructor();
         environment.params = {
             container: 'jun'
         };
@@ -31,6 +32,7 @@ describe('MoatHandler', function() {
     afterAll(function() {
         dispatcher.constructor();
         moatApi.constructor();
+        environment.constructor();
     });
 
     describe('handlers:', function() {
@@ -97,6 +99,24 @@ describe('MoatHandler', function() {
                     card.data.moat = null;
                     player.emit('loadedmetadata');
                     expect(moatApi.initTracker).not.toHaveBeenCalled();
+                });
+
+                describe('if there is a placement', function() {
+                    beforeEach(function() {
+                        environment.params.placement = 'pl-4c55ec5bbb0dba';
+                        moatApi.initTracker.calls.reset();
+
+                        dispatcher.removeClient(MockHandler);
+                        dispatcher.addClient(MockHandler);
+
+                        player.emit('loadedmetadata');
+                    });
+
+                    it('should set slicer2 to the placement id', function() {
+                        expect(moatApi.initTracker).toHaveBeenCalledWith(jasmine.any(String), player.element, jasmine.objectContaining({
+                            slicer2: environment.params.placement
+                        }), jasmine.any(Number));
+                    });
                 });
             });
 

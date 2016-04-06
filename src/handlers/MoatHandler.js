@@ -8,7 +8,7 @@ function ignoreError(fn) {
 export default class MoatHandler {
     constructor(register) {
         const site = environment.hostname;
-        const { container } = environment.params;
+        const { container, placement } = environment.params;
 
         function moatEvent(evtType,player){
             var vol = player.volume;
@@ -28,7 +28,7 @@ export default class MoatHandler {
                 level2  : card.data.moat.campaign,
                 level3  : card.data.moat.creative,
                 slicer1 : site,
-                slicer2 : container
+                slicer2 : placement || container
             };
             moatApi.initTracker(card.id,player.element,ids,player.duration);
         }), 'video', 'loadedmetadata');

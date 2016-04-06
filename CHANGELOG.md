@@ -5,6 +5,7 @@
   * [FIX]: More specific class added to the title in desktop-card and mobile-card so that Domino doesn't apply rules to the less-specific class.
   * [FEATURE]: Portrait/landscape sponsor logos supported in Light player
   * [FIX]: Share and Vimeo icon size fixed in IE for desktop-card
+  * Support sending RC placement IDs to Moat
 
 ## v2.8.2 (April 4, 2016)
 * *[v2.8.2-rc1]*

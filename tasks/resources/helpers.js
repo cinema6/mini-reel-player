@@ -1,8 +1,8 @@
 (function() {
     'use strict';
 
-    var crypto = require('crypto'),
-        Q = require('q');
+    var uuid = require('rc-uuid');
+    var Q = require('q');
 
     module.exports = {
         mountFolder: function(connect, dir) {
@@ -10,15 +10,7 @@
         },
 
         genId: function(prefix) {
-            var hash = crypto.createHash('sha1');
-            var txt =   process.env.host                    +
-                        process.pid.toString()              +
-                        process.uptime().toString()         +
-                        (new Date()).valueOf().toString()   +
-                        (Math.random() * 999999999).toString();
-
-            hash.update(txt);
-            return (prefix + '-' + hash.digest('hex').substr(0,14));
+            return prefix + '-' + uuid.createUuid();
         },
 
         QS3: function(s3) {

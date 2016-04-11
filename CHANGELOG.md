@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.9.1 (April 11, 2016)
+* *[v2.9.1-rc1]*
+  * [FIX]: Fix for an issue that caused VAST complete pixels to
+    occasionally not be fired
+* *[/v2.9.1-rc1]*
+
 ## v2.9.0 (April 6, 2016)
 * *[v2.9.0-rc1]*
   * [FEATURE]: Click-tracking added to desktop-card buttons that hide/show a container and desktop-card/mobile-card sponsor name

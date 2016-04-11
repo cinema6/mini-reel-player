@@ -1,6 +1,6 @@
 {
   "name": "mini-reel-player",
-  "version": "2.9.0",
+  "version": "2.9.1-rc1",
   "private": true,
   "description": "Stub project for creating a \"Hello world.\" ECMAScript 6 application.",
   "scripts": {
@@ -114,7 +114,7 @@
     "request-promise": "~0.4.3",
     "twobits.js": "git+ssh://git@github.com:cinema6/twobits.js#v0.3.2",
     "underscore": "^1.7.0",
-    "vast-player": "^0.2.8",
+    "vast-player": "^0.2.9",
     "weak-map": "^1.0.5",
     "whatwg-fetch": "^0.7.0"
   },

@@ -1,4 +1,13 @@
+import {createKey} from 'private-parts';
 import dispatcher from '../services/dispatcher.js';
+
+class Private {
+    openWindow(url, name, features) {
+        window.open(url, name, features);
+    }
+}
+
+const _ = createKey(() => new Private());
 
 function SponsoredCardController(card) {
     dispatcher.addSource('card', card, ['clickthrough', 'share']);
@@ -25,9 +34,11 @@ function SponsoredCardController(card) {
         const top = (screen.height/2)-(h/2)-50;
         const title = 'Share to ' + shareLink.type.charAt(0).toUpperCase() +
             shareLink.type.slice(1);
-        return window.open(shareLink.href, title,
+        return _(this).openWindow(shareLink.href, title,
             `width=${w},height=${h},top=${top},left=${left}`);
     });
+
+    if (global.__karma__) { this.__private__ = _(this); }
 }
 SponsoredCardController.prototype = {
     clickthrough: function clickthrough(itemView) {

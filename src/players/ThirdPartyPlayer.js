@@ -500,11 +500,11 @@ export default class ThirdPartyPlayer extends CorePlayer {
     get error() {
         return _(this).state.get('error');
     }
-    
+
     get controls() {
         return _(this).state.get('controls');
     }
-    
+
     set controls(val) {
         _(this).serializer.call(() => {
             return _(this).playerControls(val);

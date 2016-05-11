@@ -12,6 +12,8 @@ export default class VideoCardController extends CardController {
     constructor() {
         super(...arguments);
 
+        const startMuted = !!environment.params.soundoff;
+
         const player = playerFactory.playerForCard(this.model);
         player.poster = this.model.thumbs.large;
         player.src = this.model.getSrc();
@@ -43,6 +45,16 @@ export default class VideoCardController extends CardController {
                 player.emit('loadedmetadata');
             }
             player[this.model.data.autoplay ? 'play' : 'load']();
+
+            if(startMuted) {
+                const unmute = () => {
+                    player.volume = 1;
+                    player.element.removeEventListener('mouseover', unmute, false);
+                };
+
+                player.volume = 0;
+                player.element.addEventListener('mouseover', unmute, false);
+            }
         });
         this.model.on('deactivate', () => {
             player.pause();

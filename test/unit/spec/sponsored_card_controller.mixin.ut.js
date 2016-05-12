@@ -52,7 +52,7 @@ describe('SponsoredCardController mixin', function() {
                 let link;
 
                 beforeEach(function() {
-                    spyOn(window, 'open');
+                    spyOn(controller.__private__, 'openWindow');
                     link = {
                         href: 'www.site.com'
                     };
@@ -62,7 +62,7 @@ describe('SponsoredCardController mixin', function() {
                     it('should open a window with the correct link and size', function() {
                         link.type = 'facebook';
                         card.emit('share', link);
-                        const args = window.open.calls.mostRecent().args;
+                        const args = controller.__private__.openWindow.calls.mostRecent().args;
                         expect(args[0]).toBe('www.site.com');
                         expect(args[1]).toBe('Share to Facebook');
                         expect(args[2]).toContain('width=570');
@@ -74,7 +74,7 @@ describe('SponsoredCardController mixin', function() {
                     it('should open a window with the correct link and size', function() {
                         link.type = 'twitter';
                         card.emit('share', link);
-                        const args = window.open.calls.mostRecent().args;
+                        const args = controller.__private__.openWindow.calls.mostRecent().args;
                         expect(args[0]).toBe('www.site.com');
                         expect(args[1]).toBe('Share to Twitter');
                         expect(args[2]).toContain('width=580');
@@ -86,7 +86,7 @@ describe('SponsoredCardController mixin', function() {
                     it('should open a window with the correct link and size', function() {
                         link.type = 'pinterest';
                         card.emit('share', link);
-                        const args = window.open.calls.mostRecent().args;
+                        const args = controller.__private__.openWindow.calls.mostRecent().args;
                         expect(args[0]).toBe('www.site.com');
                         expect(args[1]).toBe('Share to Pinterest');
                         expect(args[2]).toContain('width=750');

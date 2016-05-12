@@ -107,7 +107,9 @@ describe('environment', function() {
 
             describe('if the ancestorOrigins property does not exist', function() {
                 beforeEach(function() {
-                    delete window.location.ancestorOrigins;
+                    try {
+                        delete window.location.ancestorOrigins;
+                    } catch(e) {}
                     environment.constructor();
                 });
 

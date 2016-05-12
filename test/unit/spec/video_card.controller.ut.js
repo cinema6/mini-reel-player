@@ -23,6 +23,7 @@ describe('VideoCardController', function() {
             super(...arguments);
 
             this.paused = true;
+            this.volume = 1;
         }
 
         load() {}
@@ -104,9 +105,12 @@ describe('VideoCardController', function() {
             /* jshint quotmark:single */
         }, experience);
         player = new MockPlayer();
+        spyOn(player, 'once');
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
         spyOn(dispatcher, 'addSource');
+
+        environment.params.soundoff = false;
 
         spyOn(VideoCardController.prototype, 'initPost').and.callThrough();
 
@@ -309,6 +313,44 @@ describe('VideoCardController', function() {
 
                     it('should load the player', function() {
                         expect(player.load).toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the soundoff param is true', function() {
+                    beforeEach(function() {
+                        environment.params.soundoff = true;
+                        VideoCardCtrl = new VideoCardController(card);
+                        VideoCardCtrl.view = new VideoCardView();
+                        card.active = false;
+                        Runner.run(() => card.activate());
+                    });
+
+                    it('should change the volume of the player to be zero', function() {
+                        expect(player.volume).toBe(0);
+                    });
+
+                    it('should unmute the player when it is moused over', function() {
+                        expect(player.once).toHaveBeenCalledWith('mouseOver', jasmine.any(Function));
+                        const handler = player.once.calls.mostRecent().args[1];
+                        handler();
+                        expect(player.volume).toBe(1);
+                    });
+                });
+
+                describe('if the soundoff param is false', function() {
+                    beforeEach(function() {
+                        VideoCardCtrl = new VideoCardController(card);
+                        VideoCardCtrl.view = new VideoCardView();
+                        card.active = false;
+                        Runner.run(() => card.activate());
+                    });
+
+                    it('should not change the volume of the player', function() {
+                        expect(player.volume).toBe(1);
+                    });
+
+                    it('should not add an event listener', function() {
+                        expect(player.once).not.toHaveBeenCalled();
                     });
                 });
             });

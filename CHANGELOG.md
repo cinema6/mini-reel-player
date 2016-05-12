@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.10.0 (May 12, 2016)
+* *[v2.10.0-rc1]*
+  * [FEATURE]: Support an embed parameter for autoplaying videos without sound
+* *[/v2.10.0-rc1]*
+
 ## v2.9.1 (April 11, 2016)
 * *[v2.9.1-rc1]*
   * [FIX]: Fix for an issue that caused VAST complete pixels to

@@ -414,8 +414,8 @@ describe('ThumbnailNavigatorView', function() {
                 });
 
                 it('should be centered', function() {
-                    expect($pages.css('left')).toBe('74px');
-                    expect($pages.css('right')).toBe('74px');
+                    expect($pages.css('left')).toBe('74.5px');
+                    expect($pages.css('right')).toBe('74.5px');
                 });
             });
         });

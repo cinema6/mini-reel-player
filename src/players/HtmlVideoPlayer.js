@@ -25,11 +25,11 @@ function exitFullscreen(video) {
 export default class HtmlVideoPlayer extends ThirdPartyPlayer {
     constructor() {
         super(...arguments);
-        
+
         this.__api__.name = 'HtmlVideoPlayer';
 
         this.__api__.autoplayTest = false;
-        
+
         this.__api__.loadPlayer = (src, poster) => {
             const video = document.createElement('video');
             video.setAttribute('src', src);
@@ -44,7 +44,7 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
                 });
             });
         };
-        
+
         this.__api__.methods = {
             seek: (api, time) => {
                 api.currentTime = time;
@@ -75,7 +75,7 @@ export default class HtmlVideoPlayer extends ThirdPartyPlayer {
                 api.removeEventListener(name, handler, false);
             }
         };
-        
+
         this.__api__.events = {
             loadedmetadata: api => {
                 this.__setProperty__('duration', api.duration);

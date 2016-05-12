@@ -78,4 +78,8 @@ export default class CorePlayer extends View {
 
         return super.willRemoveElement(...arguments);
     }
+
+    mouseOver(event) {
+        this.emit('mouseOver', event);
+    }
 }

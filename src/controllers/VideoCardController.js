@@ -47,13 +47,8 @@ export default class VideoCardController extends CardController {
             player[this.model.data.autoplay ? 'play' : 'load']();
 
             if(startMuted) {
-                const unmute = () => {
-                    player.volume = 1;
-                    player.element.removeEventListener('mouseover', unmute, false);
-                };
-
                 player.volume = 0;
-                player.element.addEventListener('mouseover', unmute, false);
+                player.once('mouseOver', () => player.volume = 1);
             }
         });
         this.model.on('deactivate', () => {

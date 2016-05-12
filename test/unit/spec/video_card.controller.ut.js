@@ -105,10 +105,7 @@ describe('VideoCardController', function() {
             /* jshint quotmark:single */
         }, experience);
         player = new MockPlayer();
-        player.tag = 'div';
-        Runner.run(() => player.create());
-        spyOn(player.element, 'addEventListener');
-        spyOn(player.element, 'removeEventListener');
+        spyOn(player, 'once');
         spyOn(playerFactory, 'playerForCard').and.returnValue(player);
 
         spyOn(dispatcher, 'addSource');
@@ -333,11 +330,10 @@ describe('VideoCardController', function() {
                     });
 
                     it('should unmute the player when it is moused over', function() {
-                        expect(player.element.addEventListener).toHaveBeenCalledWith('mouseover', jasmine.any(Function), false);
-                        const handler = player.element.addEventListener.calls.mostRecent().args[1];
+                        expect(player.once).toHaveBeenCalledWith('mouseOver', jasmine.any(Function));
+                        const handler = player.once.calls.mostRecent().args[1];
                         handler();
                         expect(player.volume).toBe(1);
-                        expect(player.element.removeEventListener).toHaveBeenCalledWith('mouseover', handler, false);
                     });
                 });
 
@@ -354,7 +350,7 @@ describe('VideoCardController', function() {
                     });
 
                     it('should not add an event listener', function() {
-                        expect(player.element.addEventListener).not.toHaveBeenCalled();
+                        expect(player.once).not.toHaveBeenCalled();
                     });
                 });
             });

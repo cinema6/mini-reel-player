@@ -277,6 +277,19 @@ describe('CorePlayer', function() {
                 expect(player.removeClass).toHaveBeenCalledWith('playerBox--canplay');
             });
         });
+
+        describe('mouseOver', function() {
+            beforeEach(function() {
+                this.mouseSpy = jasmine.createSpy('mouseSpy()');
+
+                player.on('mouseOver', this.mouseSpy);
+                player.mouseOver('event');
+            });
+
+            it('should emit a mouseOver event', function() {
+                expect(this.mouseSpy).toHaveBeenCalledWith('event');
+            });
+        });
     });
 
     describe('hooks:', function() {

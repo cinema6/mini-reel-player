@@ -1221,6 +1221,8 @@ describe('View', function() {
 
     describe('hooks:', function() {
         describe('didCreateElement()', function() {
+            let created;
+
             beforeEach(function() {
                 spyOn(eventDelegator, 'addListeners');
 
@@ -1228,11 +1230,18 @@ describe('View', function() {
                 view.click = function() {};
                 view.mouseMove = function() {};
 
+                created = jasmine.createSpy('created()');
+                view.on('created', created);
+
                 view.didCreateElement();
             });
 
             it('should add a listener for every event handler that has been overridden', function() {
                 expect(eventDelegator.addListeners).toHaveBeenCalledWith(view, ['click', 'mouseMove']);
+            });
+
+            it('should emit "created"', function() {
+                expect(created).toHaveBeenCalledWith();
             });
         });
 

@@ -881,23 +881,5 @@ describe('TemplateView', function() {
                 });
             });
         });
-
-        describe('didInsertElement()', function() {
-            let element;
-
-            beforeEach(function() {
-                element = document.createElement('div');
-                view.element = element;
-
-                view.children = [new View(), new View()];
-                view.children.forEach(view => spyOn(view, 'didInsertElement').and.callThrough());
-
-                view.didInsertElement();
-            });
-
-            it('should call didInsertElement() on its children', function() {
-                view.children.forEach(view => expect(view.didInsertElement).toHaveBeenCalled());
-            });
-        });
     });
 });

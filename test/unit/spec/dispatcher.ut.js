@@ -279,6 +279,26 @@ describe('dispatcher', function() {
                         register(handler3, 'video', 'complete');
                     });
 
+                    describe('in a different category', function() {
+                        let handler4;
+                        let moreDifferentData;
+
+                        beforeEach(function() {
+                            moreDifferentData = { cool: 'beans' };
+
+                            dispatcher.addSource('video-other', emitter1, ['complete'], moreDifferentData);
+                            handler4 = jasmine.createSpy('handler4()');
+                            register(handler4, 'video-other', 'complete');
+
+                            emitter1.emit('complete');
+                        });
+
+                        it('should call both handlers', function() {
+                            expect(handler4).toHaveBeenCalledWith(jasmine.objectContaining({ data: moreDifferentData }));
+                            expect(handler3).toHaveBeenCalledWith(jasmine.objectContaining({ data: differentData }));
+                        });
+                    });
+
                     describe('when the event is emitted', function() {
                         beforeEach(function() {
                             emitter1.emit('play');

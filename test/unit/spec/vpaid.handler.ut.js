@@ -451,6 +451,16 @@ describe('VPAIDHandler', function() {
                     });
                 });
 
+                describe('if there is no player', function() {
+                    beforeEach(function() {
+                        session.ping.calls.reset();
+
+                        handler.emit('AdStart', card, null);
+                    });
+
+                    it('should do nothing', function() {});
+                });
+
                 describe('if the duration is unknown', function() {
                     beforeEach(function() {
                         session.ping.calls.reset();

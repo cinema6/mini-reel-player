@@ -2,9 +2,10 @@ import BillingHandler from '../../../src/handlers/BillingHandler.js';
 import dispatcher from '../../../src/services/dispatcher.js';
 import CorePlayer from '../../../src/players/CorePlayer.js';
 import VideoCard from '../../../src/models/VideoCard.js';
+import ShowcaseCard from '../../../src/models/ShowcaseCard.js';
 
 describe('BillingHandler', function() {
-    let card;
+    let card, showcase;
     let experience;
     let player;
     let handler;
@@ -37,12 +38,122 @@ describe('BillingHandler', function() {
                 countUrls: ['img3.jpg', 'img4.jpg']
             }
         }, experience);
+        showcase = new ShowcaseCard({
+            id: 'rc-6d51e674680718',
+            data: {},
+            params: {},
+            links: {},
+            collateral: {},
+            campaign: {
+                minViewTime: 0
+            }
+        });
 
         dispatcher.addSource('video', player, ['timeupdate', 'play', 'complete'], card);
+        dispatcher.addSource('showcase-card', showcase, ['activate', 'deactivate']);
     });
 
     afterAll(function() {
         dispatcher.constructor();
+    });
+
+    describe('when the showcase card is deactivated', function() {
+        beforeEach(function() {
+            showcase.emit('deactivate');
+        });
+
+        it('should do nothing', function() {});
+    });
+
+    describe('when the showcase card is activated', function() {
+        let AdCount, AdStart;
+
+        beforeEach(function() {
+            AdCount = jasmine.createSpy('AdCount()');
+            AdStart = jasmine.createSpy('AdStart()');
+            handler.on('AdCount', AdCount);
+            handler.on('AdStart', AdStart);
+
+            showcase.emit('activate');
+        });
+
+        it('should emit AdCount', function() {
+            expect(AdCount).toHaveBeenCalledWith(showcase, null);
+        });
+
+        it('should emit AdStart', function() {
+            expect(AdStart).toHaveBeenCalledWith(showcase, null);
+        });
+
+        describe('again', function() {
+            beforeEach(function() {
+                AdCount.calls.reset();
+                AdStart.calls.reset();
+
+                showcase.emit('activate');
+            });
+
+            it('should not emit AdCount', function() {
+                expect(AdCount).not.toHaveBeenCalled();
+                expect(AdStart).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('if the minViewTime is greater than 0', function() {
+            beforeEach(function(done) {
+                AdCount.calls.reset();
+                showcase.id = 'rc-jfw9hru4r';
+                showcase.campaign.minViewTime = 3;
+
+                jasmine.clock().install();
+
+                showcase.emit('activate');
+                Promise.resolve().then(done);
+            });
+
+            afterEach(function() {
+                jasmine.clock().uninstall();
+            });
+
+            it('should not emit AdCount', function() {
+                expect(AdCount).not.toHaveBeenCalled();
+            });
+
+            describe('before the minViewTime is reached', function() {
+                beforeEach(function(done) {
+                    jasmine.clock().tick(2999);
+                    Promise.resolve().then(done);
+                });
+
+                it('should not emit AdCount', function() {
+                    expect(AdCount).not.toHaveBeenCalled();
+                });
+
+                describe('if the card is deactivated', function() {
+                    beforeEach(function(done) {
+                        showcase.emit('deactivate');
+
+                        jasmine.clock().tick(1);
+                        Promise.resolve().then(done);
+                    });
+
+                    it('should not emit AdCount', function() {
+                        expect(AdCount).not.toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('when the minViewTime is reached', function() {
+                beforeEach(function(done) {
+                    jasmine.clock().tick(3000);
+                    Promise.resolve().then(done);
+                });
+
+                it('should emit AdCount', function() {
+                    expect(AdCount).toHaveBeenCalledWith(showcase, null);
+                });
+            });
+        });
     });
 
     describe('when the video plays', function() {

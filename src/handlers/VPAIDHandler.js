@@ -109,6 +109,8 @@ export default class VPAIDHandler extends BillingHandler {
         }), 'video', 'complete');
         // Emit AdVideoStart event when the video starts playing (3.3.13)
         this.on('AdStart', (card, video) => {
+            if (!video) { return; }
+
             const update = (() => updateState({ event: 'AdVideoStart' }));
 
             if (video.duration) { update(); } else { video.once('loadedmetadata', update); }

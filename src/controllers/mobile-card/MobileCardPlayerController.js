@@ -11,6 +11,10 @@ import MobileInstagramImageCardController from '../mobile/MobileInstagramImageCa
 import MobileInstagramVideoCardController from '../mobile/MobileInstagramVideoCardController.js';
 /* #endif */
 
+/* #if card.types.indexOf('showcase-app') > -1 */
+import MobileCardShowcaseAppCardController from './MobileCardShowcaseAppCardController.js';
+/* #endif */
+
 export default class MobileCardPlayerController extends CardPlayerController {
     constructor() {
         super(...arguments);
@@ -23,6 +27,10 @@ export default class MobileCardPlayerController extends CardPlayerController {
             /* #if card.types.indexOf('instagram') > -1 */
             instagramImage: MobileInstagramImageCardController,
             instagramVideo: MobileInstagramVideoCardController,
+            /* #endif */
+
+            /* #if card.types.indexOf('showcase-app') > -1 */
+            'showcase-app': MobileCardShowcaseAppCardController,
             /* #endif */
         };
     }

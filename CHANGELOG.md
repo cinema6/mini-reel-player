@@ -1,7 +1,9 @@
 # MiniReel Player 2.0
 
+## v2.11.0 (May 16, 2016)
 * *[v2.11.0-rc1]*
   * [FEATURE]: Add support for `showcase` interstitial app ads
+* *[/v2.11.0-rc1]*
 
 ## v2.10.0 (May 12, 2016)
 * *[v2.10.0-rc1]*

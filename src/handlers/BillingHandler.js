@@ -1,4 +1,5 @@
-import {EventEmitter} from 'events';
+import { EventEmitter } from 'events';
+import timer from '../../lib/timer.js';
 
 export default class BillingHandler extends EventEmitter {
     constructor(register) {
@@ -7,7 +8,8 @@ export default class BillingHandler extends EventEmitter {
 
         const getHistory = (card => this.cache[card.id] || (this.cache[card.id] = {
             start: false,
-            count: false
+            count: false,
+            timer: null
         }));
 
         register(event => {
@@ -50,5 +52,41 @@ export default class BillingHandler extends EventEmitter {
                 history.count = true;
             }
         }, 'video', 'timeupdate');
+
+        register(({ target: card }) => {
+            const {
+                campaign: { minViewTime }
+            } = card;
+            const count = () => {
+                this.emit('AdCount', card, null);
+                history.count = true;
+            };
+            const history = getHistory(card);
+
+            if (history.count) { return; }
+
+            if (minViewTime > 0) {
+                (history.timer = timer.wait(minViewTime * 1000)).then(count);
+            } else {
+                count();
+            }
+        }, 'showcase-card', 'activate');
+        register(({ target: card }) => {
+            const history = getHistory(card);
+
+            if (history.start) { return; }
+
+            this.emit('AdStart', card, null);
+            history.start = true;
+
+        }, 'showcase-card', 'activate');
+
+        register(({ target: card }) => {
+            const history = getHistory(card);
+
+            if (history.timer) {
+                timer.cancel(history.timer);
+            }
+        }, 'showcase-card', 'deactivate');
     }
 }

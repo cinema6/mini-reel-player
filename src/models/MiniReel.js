@@ -38,6 +38,10 @@ import RecapCard from './RecapCard.js';
 import SlideshowBobCard from './SlideshowBobCard.js';
 /* #endif */
 
+/* #if card.types.indexOf('showcase-app') > -1 */
+import ShowcaseAppCard from './ShowcaseAppCard.js';
+/* #endif */
+
 /* #if card.types.indexOf('instagram') > -1 */
 import InstagramImageCard from './InstagramImageCard.js';
 import InstagramVideoCard from './InstagramVideoCard.js';
@@ -67,7 +71,7 @@ import EmbedHandler from '../handlers/EmbedHandler.js';
 import VPAIDHandler from '../handlers/VPAIDHandler.js';
 /* #endif */
 
-const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'recap', 'instagram'];
+const CARD_WHITELIST = ['video', 'image', 'slideshow-bob', 'showcase-app', 'recap', 'instagram'];
 const CONTEXTS = {
     STANDALONE: 'standalone',
     MRAID: 'mraid',
@@ -119,6 +123,8 @@ function initialize(whitelist, experience, profile) {
             return new AdUnitCard(card, experience, profile);
         case 'slideshow-bob':
             return new SlideshowBobCard(card, experience, profile);
+        case 'showcase-app':
+            return new ShowcaseAppCard(card);
         case 'instagram':
             if(card.data.type === 'image') {
                 return new InstagramImageCard(card, experience, profile);

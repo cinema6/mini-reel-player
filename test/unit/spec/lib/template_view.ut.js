@@ -55,6 +55,12 @@ describe('TemplateView', function() {
             });
         });
 
+        describe('updateSelf', function() {
+            it('should be false', function() {
+                expect(view.updateSelf).toBe(false);
+            });
+        });
+
         describe('data', function() {
             it('should be and empty, frozen Object', function() {
                 expect(view.data).toEqual({});
@@ -158,6 +164,26 @@ describe('TemplateView', function() {
                 it('should create and compile the element', function() {
                     expect(view.create).toHaveBeenCalled();
                     tbCompileFns.forEach(fn => expect(fn).toHaveBeenCalledWith(data));
+                });
+            });
+
+            describe('if updateSelf is true', function() {
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.updateSelf = true;
+                    view.attributes = {
+                        'data-foo': '{{bar}}'
+                    };
+                    view.template = 'Oye {{bar}}.';
+                    Runner.run(() => view.create());
+
+                    view.update({ bar: 'hello!' });
+                    queues.render.shift()();
+                });
+
+                it('should update its own attributes', function() {
+                    expect(view.element.getAttribute('data-foo')).toBe('hello!');
                 });
             });
         });
@@ -879,24 +905,6 @@ describe('TemplateView', function() {
                         view.create();
                     }).toThrow(new Error('Unknown class (FooView). Make sure your class is in the \'instantiates\' object.'));
                 });
-            });
-        });
-
-        describe('didInsertElement()', function() {
-            let element;
-
-            beforeEach(function() {
-                element = document.createElement('div');
-                view.element = element;
-
-                view.children = [new View(), new View()];
-                view.children.forEach(view => spyOn(view, 'didInsertElement').and.callThrough());
-
-                view.didInsertElement();
-            });
-
-            it('should call didInsertElement() on its children', function() {
-                view.children.forEach(view => expect(view.didInsertElement).toHaveBeenCalled());
             });
         });
     });

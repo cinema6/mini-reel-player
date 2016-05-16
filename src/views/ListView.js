@@ -46,6 +46,7 @@ export default class ListView extends View {
                 child.__listId__ = id;
                 child.target = child.attributes['data-target'] || null;
                 child.action = child.attributes['data-action'] || null;
+                child.updateSelf = true;
                 child.on('action', (target, action, args) => {
                     if (target !== 'view') { return this.emit('action', target, action, args); }
 

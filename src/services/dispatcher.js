@@ -71,18 +71,18 @@ class Dispatcher {
         emitterHandlers.set(emitter, handlers);
 
         forEach(events, event => {
-            const existingEntry = find(handlers, data => data.event === event);
+            const existing = find(handlers, data => data.event === event && data.type === type);
 
-            if (existingEntry) {
-                handlers.splice(handlers.indexOf(existingEntry), 1);
-                emitter.removeListener(event, existingEntry.handler);
+            if (existing) {
+                handlers.splice(handlers.indexOf(existing), 1);
+                emitter.removeListener(event, existing.handler);
             }
 
             const eventData = { type, data, name: event, target: emitter };
             const handler = ((...args) => _(this).dispatchEvent(type, event, eventData, ...args));
 
             emitter.on(event, handler);
-            handlers.push({event , handler});
+            handlers.push({ type, event , handler });
         });
 
         _(this).dispatchEvent(type, '@addSource', {

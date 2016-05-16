@@ -94,6 +94,7 @@ describe('ListView', function() {
 
                 it('should create the children with a clone of the list\'s child', function() {
                     children.forEach(child => {
+                        expect(child.updateSelf).toBe(true);
                         expect(child.template).toEqual('I will be repeated.');
                         expect(child.tag).toBe('li');
                         expect(child.target).toBe('controller');
@@ -134,6 +135,7 @@ describe('ListView', function() {
                 expect(listView.append.calls.count()).toBe(collection.length);
                 expect(children).toEqual(collection.map(() => jasmine.any(TemplateView)));
                 expect(listView.children).toEqual(children);
+                children.forEach(child => expect(child.updateSelf).toBe(true));
             });
 
             it('should emit the addChild event', function() {

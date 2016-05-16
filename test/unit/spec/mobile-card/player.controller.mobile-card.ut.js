@@ -4,6 +4,7 @@ import MobileCardPlayerView from '../../../../src/views/mobile-card/MobileCardPl
 import View from '../../../../lib/core/View.js';
 import Runner from '../../../../lib/Runner.js';
 import MobileCardVideoCardController from '../../../../src/controllers/mobile-card/MobileCardVideoCardController.js';
+import MobileCardShowcaseAppCardController from '../../../../src/controllers/mobile-card/MobileCardShowcaseAppCardController.js';
 import MobileInstagramImageCardController from '../../../../src/controllers/mobile/MobileInstagramImageCardController.js';
 import MobileInstagramVideoCardController from '../../../../src/controllers/mobile/MobileInstagramVideoCardController.js';
 
@@ -39,6 +40,12 @@ describe('MobileCardPlayerController', function() {
             describe('.instagramVideo', function() {
                 it('should be the MobileInstagramVideoCardController', function() {
                     expect(MobileCardPlayerCtrl.CardControllers.instagramVideo).toBe(MobileInstagramVideoCardController);
+                });
+            });
+
+            describe('[\'showcase-app\']', function() {
+                it('should be the MobileCardShowcaseAppCardController', function() {
+                    expect(MobileCardPlayerCtrl.CardControllers['showcase-app']).toBe(MobileCardShowcaseAppCardController);
                 });
             });
         });

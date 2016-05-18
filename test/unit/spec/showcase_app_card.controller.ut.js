@@ -94,7 +94,9 @@ describe('ShowcaseAppCardController', function() {
                 expect(Ctrl.view.update).toHaveBeenCalledWith({
                     slides: card.get('slides').map((slide, index) => extend(slide, {
                         id: slide.uri,
+                        previous: index === (card.currentIndex - 1),
                         active: index === card.currentIndex,
+                        next: index === (card.currentIndex + 1),
                         clickthrough: card.links.Action.uri
                     })),
                     price: card.get('data.price'),

@@ -24,7 +24,9 @@ export default class ShowcaseAppCardController extends ShowcaseCardController {
             price,
             slides: map(slides, (slide, index) => extend(slide, {
                 id: slide.uri,
+                previous: index === (currentIndex - 1),
                 active: index === currentIndex,
+                next: index === (currentIndex + 1),
                 clickthrough: Action.uri
             }))
         });

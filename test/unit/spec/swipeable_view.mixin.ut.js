@@ -201,10 +201,6 @@ describe('SwipeableView mixin', function() {
                 expect(view.element.style[prefix('transform')]).toBe('translate3d(-150px, 0px, 0px)');
             });
 
-            it('should return a promise in the render queue', function() {
-                expect(result).toEqual(jasmine.any(Promise));
-            });
-
             it('should set animating to true', function() {
                 expect(view.animating).toBe(true);
             });
@@ -220,15 +216,11 @@ describe('SwipeableView mixin', function() {
                     ['opera 12', 'otransitionend'],
                     ['modern browsers', 'transitionend']
                 ].forEach(([browser, eventName]) => describe(`on ${browser}`, function() {
-                    let success;
                     let animationEnd;
 
                     beforeEach(function(done) {
                         animationEnd = jasmine.createSpy('animationEnd()').and.callFake(() => Runner.schedule('render', null, () => {}));
                         view.on('animationEnd', animationEnd);
-
-                        success = jasmine.createSpy('success()');
-                        result.then(success);
 
                         const event = document.createEvent('CustomEvent');
                         event.initCustomEvent(eventName);
@@ -245,10 +237,6 @@ describe('SwipeableView mixin', function() {
 
                     it('should set animating to false', function() {
                         expect(view.animating).toBe(false);
-                    });
-
-                    it('should fulfill the promise', function() {
-                        expect(success).toHaveBeenCalled();
                     });
 
                     it('should emit "animationEnd"', function() {

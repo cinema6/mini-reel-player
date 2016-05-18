@@ -51,6 +51,17 @@ const _ = createKey();
 function animate(px, duration, easing) {
     const { element } = this;
     const { style } = element;
+    const transitionend = (() => {
+        forEach(TRANSITION_PROPS, prop => style[prop] = '');
+        removeEventListeners(element, TRANSITION_END_EVENTS, transitionend);
+
+        Runner.runNext(() => {
+            this.animating = false;
+            this.emit('animationEnd');
+        });
+    });
+
+    addEventListeners(element, TRANSITION_END_EVENTS, transitionend);
 
     style[prefix('transition-property')] = prefix.dash('transform');
     style[prefix('transition-duration')] = `${duration}s`;
@@ -58,21 +69,6 @@ function animate(px, duration, easing) {
 
     this.reflow();
     transform.call(this, px);
-
-    return new Promise(fulfill => {
-        const transitionend = (() => {
-            forEach(TRANSITION_PROPS, prop => style[prop] = '');
-            removeEventListeners(element, TRANSITION_END_EVENTS, transitionend);
-            fulfill();
-
-            Runner.runNext(() => {
-                this.animating = false;
-                this.emit('animationEnd');
-            });
-        });
-
-        addEventListeners(element, TRANSITION_END_EVENTS, transitionend);
-    });
 }
 
 function elementCreatingMethod(method) {

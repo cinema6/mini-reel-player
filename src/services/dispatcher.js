@@ -64,7 +64,7 @@ class Dispatcher {
         return _(this).instances.get(Client);
     }
 
-    addSource(type, emitter, events, data = {}) {
+    addSource(type, emitter, events, data = null) {
         const { emitterHandlers } = _(this);
         const handlers = emitterHandlers.get(emitter) || [];
 

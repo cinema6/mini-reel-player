@@ -19,7 +19,9 @@ export default class ShowcaseAppCard extends ShowcaseCard {
 
         this.data = extend(this.data, {
             rating: card.data.rating,
-            price: card.data.price
+            price: card.data.price,
+            showDescription: card.data.showDescription || false,
+            autoHideDescription: (card.data.autoHideDescription || 0) * 1000
         });
     }
 

@@ -15,6 +15,8 @@ describe('ShowcaseAppCard', function() {
                 logo: null
             },
             data: {
+                showDescription: true,
+                autoHideDescription: 5,
                 duration: 30,
                 advanceInterval: 5,
                 price: 'Free',
@@ -112,6 +114,40 @@ describe('ShowcaseAppCard', function() {
             describe('rating', function() {
                 it('should be copied from the data', function() {
                     expect(card.data.rating).toBe(data.data.rating);
+                });
+            });
+
+            describe('showDescription', function() {
+                it('should be copied from the data', function() {
+                    expect(card.data.showDescription).toBe(data.data.showDescription);
+                });
+
+                describe('if not set', function() {
+                    beforeEach(function() {
+                        delete data.data.showDescription;
+                        card = new ShowcaseAppCard(data);
+                    });
+
+                    it('should be false', function() {
+                        expect(card.data.showDescription).toBe(false);
+                    });
+                });
+            });
+
+            describe('autoHideDescription', function() {
+                it('should be copied from the data in miliseconds', function() {
+                    expect(card.data.autoHideDescription).toBe(data.data.autoHideDescription * 1000);
+                });
+
+                describe('if not set', function() {
+                    beforeEach(function() {
+                        delete data.data.autoHideDescription;
+                        card = new ShowcaseAppCard(data);
+                    });
+
+                    it('should be 0', function() {
+                        expect(card.data.autoHideDescription).toBe(0);
+                    });
                 });
             });
         });

@@ -169,7 +169,7 @@ describe('dispatcher', function() {
                 expect(addVideoSource).toHaveBeenCalledWith({ type: 'video', name: '@addSource', target: emitter1, data: data });
                 expect(addVideoSource.calls.count()).toBe(1);
 
-                expect(addNavigationSource).toHaveBeenCalledWith({ type: 'navigation', name: '@addSource', target: emitter2, data: {} });
+                expect(addNavigationSource).toHaveBeenCalledWith({ type: 'navigation', name: '@addSource', target: emitter2, data: null });
                 expect(addNavigationSource.calls.count()).toBe(1);
             });
 
@@ -235,7 +235,7 @@ describe('dispatcher', function() {
                             type: 'navigation',
                             name: 'play',
                             target: emitter2,
-                            data: {}
+                            data: null
                         });
                     });
 

@@ -3,6 +3,11 @@ import ShowcaseCardController from '../../../src/controllers/ShowcaseCardControl
 import ShowcaseAppCard from '../../../src/models/ShowcaseAppCard.js';
 import TemplateView from '../../../lib/core/TemplateView.js';
 import { extend } from '../../../lib/utils.js';
+import Runner from '../../../lib/Runner.js';
+
+function wait(ticks = 5) {
+    return Array.apply([], new Array(ticks)).reduce(promise => promise.then(() => {}), Promise.resolve());
+}
 
 describe('ShowcaseAppCardController', function() {
     let card;
@@ -77,6 +82,14 @@ describe('ShowcaseAppCardController', function() {
         expect(Ctrl).toEqual(jasmine.any(ShowcaseCardController));
     });
 
+    describe('properties:', function() {
+        describe('showDescription', function() {
+            it('should be initialized from the card', function() {
+                expect(Ctrl.showDescription).toBe(card.data.showDescription);
+            });
+        });
+    });
+
     describe('methods:', function() {
         describe('updateView()', function() {
             beforeEach(function() {
@@ -92,6 +105,7 @@ describe('ShowcaseAppCardController', function() {
 
             it('should update() the view with data', function() {
                 expect(Ctrl.view.update).toHaveBeenCalledWith({
+                    showDescription: Ctrl.showDescription,
                     slides: card.get('slides').map((slide, index) => extend(slide, {
                         id: slide.uri,
                         previous: index === (card.currentIndex - 1),
@@ -108,6 +122,29 @@ describe('ShowcaseAppCardController', function() {
                 expect(ShowcaseCardController.prototype.updateView).toHaveBeenCalled();
             });
         });
+
+        describe('setShowDescription(view, checked)', function() {
+            let view, checked;
+
+            beforeEach(function() {
+                view = null;
+                checked = !Ctrl.showDescription;
+
+                Ctrl.view = new TemplateView();
+                spyOn(Ctrl.view, 'update');
+                spyOn(Ctrl, 'updateView').and.callThrough();
+
+                Runner.run(() => Ctrl.setShowDescription(view, checked));
+            });
+
+            it('should set showDescription', function() {
+                expect(Ctrl.showDescription).toBe(checked);
+            });
+
+            it('should update its view', function() {
+                expect(Ctrl.updateView).toHaveBeenCalledWith();
+            });
+        });
     });
 
     describe('when the card emits "move"', function() {
@@ -118,6 +155,95 @@ describe('ShowcaseAppCardController', function() {
 
         it('should call updateView()', function() {
             expect(Ctrl.updateView).toHaveBeenCalledWith();
+        });
+    });
+
+    describe('when the card is activated', function() {
+        beforeEach(function() {
+            jasmine.clock().install();
+
+            Ctrl.view = new TemplateView();
+            Ctrl.view.show = () => {};
+            card.data.autoHideDescription = 5000;
+            spyOn(Ctrl, 'updateView').and.callThrough();
+        });
+
+        afterEach(function() {
+            jasmine.clock().uninstall();
+        });
+
+        describe('if showDescription is false', function() {
+            beforeEach(function(done) {
+                card.data.showDescription = false;
+                Ctrl.showDescription = false;
+
+                card.emit('activate');
+                jasmine.clock().tick(6000);
+                wait().then(done);
+            });
+
+            it('should not update the view', function() {
+                expect(Ctrl.updateView).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('if showDescription is true', function() {
+            beforeEach(function() {
+                card.data.showDescription = true;
+                Ctrl.showDescription = true;
+
+                card.emit('activate');
+            });
+
+            describe('before the autoHideDescription time', function() {
+                beforeEach(function(done) {
+                    jasmine.clock().tick(card.data.autoHideDescription - 1);
+                    wait().then(done);
+                });
+
+                it('should not set showDescription to false', function() {
+                    expect(Ctrl.showDescription).not.toBe(false);
+                });
+
+                it('should not call updateView()', function() {
+                    expect(Ctrl.updateView).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('after the autoHideDescription time', function() {
+                beforeEach(function(done) {
+                    jasmine.clock().tick(card.data.autoHideDescription);
+                    wait().then(done);
+                });
+
+                it('should set showDescription to false', function() {
+                    expect(Ctrl.showDescription).toBe(false);
+                });
+
+                it('should call updateView()', function() {
+                    expect(Ctrl.updateView).toHaveBeenCalledWith();
+                });
+            });
+        });
+
+        describe('if showDescription is true and autoHideDescription is 0', function() {
+            beforeEach(function(done) {
+                card.data.showDescription = true;
+                Ctrl.showDescription = true;
+                card.data.autoHideDescription = 0;
+
+                card.emit('activate');
+                jasmine.clock().tick(1000);
+                wait().then(done);
+            });
+
+            it('should not set showDescription to false', function() {
+                expect(Ctrl.showDescription).not.toBe(false);
+            });
+
+            it('should not call updateView()', function() {
+                expect(Ctrl.updateView).not.toHaveBeenCalled();
+            });
         });
     });
 });

@@ -1804,6 +1804,8 @@
                         "logo": null
                     },
                     "data": {
+                        "showDescription": true,
+                        "autoHideDescription": 5,
                         "advanceInterval": 4,
                         "skip": 30,
                         "price": "Free",

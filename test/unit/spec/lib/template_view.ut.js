@@ -371,6 +371,55 @@ describe('TemplateView', function() {
                 });
             });
 
+            describe('if the template contains a data-properties="" directive', function() {
+                let element;
+
+                beforeEach(function() {
+                    view = new TemplateView();
+                    view.tag = 'span';
+                    view.template = `
+                        <input type="checkbox" data-properties="foo:checkbox.foo checked:checkbox.checked" />
+                    `;
+
+                    view.create();
+                    element = view.element.querySelector('input');
+                });
+
+                describe('when update is called', function() {
+                    beforeEach(function() {
+                        view.update({
+                            checkbox: {
+                                foo: 'hello!',
+                                checked: true
+                            }
+                        });
+                        queues.render.pop()();
+                    });
+
+                    it('should set the values to the associated props', function() {
+                        expect(element.foo).toBe('hello!');
+                        expect(element.checked).toBe(true);
+                    });
+
+                    describe('when update is called again', function() {
+                        beforeEach(function() {
+                            view.update({
+                                checkbox: {
+                                    foo: 'world.',
+                                    checked: false
+                                }
+                            });
+                            queues.render.pop()();
+                        });
+
+                        it('should set the values to the associated props', function() {
+                            expect(element.foo).toBe('world.');
+                            expect(element.checked).toBe(false);
+                        });
+                    });
+                });
+            });
+
             describe('if the template contains a data-class="" directive', function() {
                 let element;
 

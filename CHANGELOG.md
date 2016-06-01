@@ -1,5 +1,8 @@
 # MiniReel Player 2.0
 
+* *[v2.13.0-rc1]*
+  * [FIX]: Fixed the viewport issue with showcase player
+
 ## v2.12.0 (May 31, 2016)
 * *[v2.12.0-rc1]*
   * [FEATURE]: Added support to show/hide description on showcase app card view

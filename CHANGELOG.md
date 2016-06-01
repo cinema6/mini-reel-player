@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.12.2 (June 1, 2016)
+* *[v2.12.2-rc1]*
+  * [FIX]: Actually fixed the viewport issue with showcase player
+* *[/v2.12.2-rc1]*
+
 ## v2.12.1 (June 1, 2016)
 * *[v2.12.1-rc1]*
   * [FIX]: Fixed the viewport issue with showcase player

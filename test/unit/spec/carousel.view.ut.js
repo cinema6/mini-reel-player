@@ -177,16 +177,22 @@ describe('CarouselView', function() {
             describe('if called with an index below 0', function() {
                 beforeEach(function() {
                     view.animateOffset.calls.reset();
-                    Runner.run(() => view.scrollTo(-1));
+                    Runner.run(() => view.scrollTo(-2));
                 });
 
-                it('should do nothing', function() {
-                    expect(view.animateOffset).not.toHaveBeenCalled();
+                it('should animate to the proper positive offset', function() {
+                    expect(view.animateOffset).toHaveBeenCalledWith(535, 0.5);
+                });
+
+                it('should set the currentIndex', function() {
+                    expect(view.currentIndex).toBe(-2);
                 });
             });
         });
 
         describe('refresh()', function() {
+            let refresh;
+
             beforeEach(function() {
                 Runner.run(() => view.create());
                 document.body.appendChild(view.element);
@@ -194,6 +200,12 @@ describe('CarouselView', function() {
                 Runner.run(() => view.update(Array.apply([], new Array(4)).map(() => ({
                     id: createUuid()
                 }))));
+
+                spyOn(view, 'setOffset');
+                view.currentIndex = 2;
+
+                refresh = jasmine.createSpy('refresh()');
+                view.on('refresh', refresh);
 
                 Runner.run(() => {
                     view.children.forEach(function(child, index) {
@@ -217,6 +229,14 @@ describe('CarouselView', function() {
             it('should set the snap points', function() {
                 expect(view.snapPoints).toEqual([-0, -335, -535, -935]);
             });
+
+            it('should set the offset', function() {
+                expect(view.setOffset).toHaveBeenCalledWith(-535);
+            });
+
+            it('should emit refresh', function() {
+                expect(refresh).toHaveBeenCalledWith();
+            });
         });
 
         describe('when the view is inserted', function() {
@@ -230,6 +250,8 @@ describe('CarouselView', function() {
                         child.setWidth(this[index]);
                     }, [335, 200, 400, 335]);
                 });
+
+                spyOn(view, 'setOffset');
 
                 Runner.run(() => view.didInsertElement());
             });
@@ -248,6 +270,10 @@ describe('CarouselView', function() {
             it('should set the snap points', function() {
                 expect(view.snapPoints).toEqual([-0, -335, -535, -935]);
             });
+
+            it('should set the offset', function() {
+                expect(view.setOffset).toHaveBeenCalledWith(-0);
+            });
         });
 
         describe('when children are added', function() {
@@ -255,6 +281,9 @@ describe('CarouselView', function() {
                 Runner.run(() => view.create());
                 document.body.appendChild(view.element);
                 Runner.run(() => view.didInsertElement());
+
+                view.currentIndex = -1;
+                spyOn(view, 'setOffset');
 
                 Runner.run(() => view.update([335, 200, 400, 335].map(width => ({
                     id: createUuid(),
@@ -271,6 +300,10 @@ describe('CarouselView', function() {
 
             it('should set the snap points', function() {
                 expect(view.snapPoints).toEqual([-0, -335, -535, -935]);
+            });
+
+            it('should set the offset', function() {
+                expect(view.setOffset).toHaveBeenCalledWith(335);
             });
         });
 

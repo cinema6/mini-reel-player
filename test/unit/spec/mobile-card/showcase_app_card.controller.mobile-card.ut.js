@@ -97,6 +97,10 @@ describe('MobileCardShowcaseAppCardController', function() {
                 });
 
                 describe('slides', function() {
+                    it('should set the currentIndex', function() {
+                        expect(view.slides.currentIndex).toBe(card.currentIndex);
+                    });
+
                     describe('when swiped', function() {
                         beforeEach(function() {
                             spyOn(card, 'goToIndex');
@@ -138,6 +142,7 @@ describe('MobileCardShowcaseAppCardController', function() {
 
                 Runner.run(() => Ctrl.updateView());
                 spyOn(Ctrl.view.slides, 'scrollTo');
+                Ctrl.view.slides.inserted = true;
             });
 
             it('should call super()', function() {
@@ -167,6 +172,28 @@ describe('MobileCardShowcaseAppCardController', function() {
 
                 it('should scroll the slides', function() {
                     expect(Ctrl.view.slides.scrollTo).toHaveBeenCalledWith(card.currentIndex);
+                });
+
+                describe('and the view is not inserted', function() {
+                    beforeEach(function() {
+                        Ctrl.view.slides.scrollTo.calls.reset();
+                        Ctrl.view.slides.inserted = false;
+                        Runner.run(() => Ctrl.updateView());
+                    });
+
+                    it('should not scroll the slides', function() {
+                        expect(Ctrl.view.slides.scrollTo).not.toHaveBeenCalled();
+                    });
+
+                    describe('when the view is refreshed', function() {
+                        beforeEach(function() {
+                            Ctrl.view.slides.emit('refresh');
+                        });
+
+                        it('should scroll the slides', function() {
+                            expect(Ctrl.view.slides.scrollTo).toHaveBeenCalledWith(card.currentIndex);
+                        });
+                    });
                 });
             });
         });

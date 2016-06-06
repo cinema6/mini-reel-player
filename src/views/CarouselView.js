@@ -14,16 +14,19 @@ function add(...values) {
 const _ = createKey();
 
 function translateAmount(widths, index) {
-    return -(add(...widths.slice(0, index)));
+    return add(...widths.slice(0, Math.abs(index))) * (index < 0 ? 1 : -1);
 }
 
 function refresh() {
     const { children } = this;
     const widths = (_(this).childWidths = map(children, child => child.element.clientWidth));
+
     _(this).bounds.max = 0;
     _(this).bounds.min = -(add(...widths.slice(0, widths.length - 1)));
     this.snapPoints = map(widths, (width, index) =>  -(add(...widths.slice(0, index))));
-    return widths;
+
+    this.setOffset(translateAmount(widths, this.currentIndex));
+    this.emit('refresh');
 }
 
 export default class CarouselView extends ListView {
@@ -36,9 +39,7 @@ export default class CarouselView extends ListView {
             max: Infinity
         };
 
-        _(this).resize = () => Runner.run(() => {
-            this.setOffset(translateAmount(refresh.call(this), this.currentIndex));
-        });
+        _(this).resize = () => Runner.run(() => this.refresh());
 
         this.tag = 'ul';
 
@@ -67,7 +68,7 @@ export default class CarouselView extends ListView {
     }
 
     scrollTo(index) {
-        if (index === this.currentIndex || index < 0) { return; }
+        if (index === this.currentIndex) { return; }
 
         this.currentIndex = index;
         this.animateOffset(translateAmount(_(this).childWidths, index), 0.5);

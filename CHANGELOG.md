@@ -1,5 +1,10 @@
 # MiniReel Player 2.0
 
+## v2.13.0 (June 6, 2016)
+* *[v2.13.0-rc1]*
+  * Animate the first showcase slide when the player launches
+* *[/v2.13.0-rc1]*
+
 ## v2.12.2 (June 1, 2016)
 * *[v2.12.2-rc1]*
   * [FIX]: Actually fixed the viewport issue with showcase player

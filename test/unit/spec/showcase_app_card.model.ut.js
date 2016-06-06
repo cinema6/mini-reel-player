@@ -83,8 +83,8 @@ describe('ShowcaseAppCard', function() {
         });
 
         describe('currentIndex', function() {
-            it('should be 0', function() {
-                expect(card.currentIndex).toBe(0);
+            it('should be -1', function() {
+                expect(card.currentIndex).toBe(-1);
             });
         });
 
@@ -217,6 +217,7 @@ describe('ShowcaseAppCard', function() {
             beforeEach(function() {
                 spyOn(ShowcaseCard.prototype, 'activate');
                 spyOn(card, 'nextSlide');
+                spyOn(card, 'goToIndex').and.callThrough();
 
                 jasmine.clock().install();
 
@@ -229,6 +230,10 @@ describe('ShowcaseAppCard', function() {
 
             it('should call super()', function() {
                 expect(ShowcaseCard.prototype.activate).toHaveBeenCalledWith();
+            });
+
+            it('should goToIndex(0)', function() {
+                expect(card.goToIndex).toHaveBeenCalledWith(0);
             });
 
             describe('before the advanceInterval is reached', function() {

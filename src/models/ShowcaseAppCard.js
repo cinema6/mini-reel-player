@@ -14,7 +14,7 @@ export default class ShowcaseAppCard extends ShowcaseCard {
 
         this.type = 'showcase-app';
 
-        this.currentIndex = 0;
+        this.currentIndex = -1;
         this.slides = extend(card.data.slides);
 
         this.data = extend(this.data, {
@@ -58,6 +58,8 @@ export default class ShowcaseAppCard extends ShowcaseCard {
         if (advanceInterval) {
             _(this).interval = timer.interval(() => this.nextSlide(), advanceInterval);
         }
+
+        this.goToIndex(0);
 
         return super.activate(...arguments);
     }

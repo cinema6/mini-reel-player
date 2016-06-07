@@ -643,7 +643,7 @@ describe('Runner', function() {
 
                     beforeEach(function() {
                         spyOn(Runner.prototype, 'flush').and.callFake(function(callback) {
-                            flushDone = callback || function() {};
+                            flushDone = (callback || function() {}).bind(null, this);
                         });
 
                         runFn2 = jasmine.createSpy('runFn2()').and.callFake(() => Runner.schedule('beforeRender', null, () => {}));
@@ -662,6 +662,19 @@ describe('Runner', function() {
                     it('should not call the provided function', function() {
                         expect(runFn).not.toHaveBeenCalled();
                         expect(runFn2).not.toHaveBeenCalled();
+                    });
+
+                    describe('when another Runner is done', function() {
+                        beforeEach(function() {
+                            Runner.run(() => {});
+                            flushDone();
+                            Runner.run.calls.reset();
+                        });
+
+                        it('should not call the functions', function() {
+                            expect(runFn).not.toHaveBeenCalled();
+                            expect(runFn2).not.toHaveBeenCalled();
+                        });
                     });
 
                     describe('when the current runner is done', function() {
@@ -870,7 +883,7 @@ describe('Runner', function() {
                                     });
 
                                     it('should call the callback', function() {
-                                        expect(callback).toHaveBeenCalled();
+                                        expect(callback).toHaveBeenCalledWith(runner);
                                     });
                                 });
                             });

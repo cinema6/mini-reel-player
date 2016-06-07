@@ -1,6 +1,10 @@
 # MiniReel Player 2.0
 
 ## v2.13.0 (June 6, 2016)
+* *[v2.13.0-rc2]*
+  * [FIX]: Make sure the intro slide animation happens every time
+* *[/v2.13.0-rc2]*
+
 * *[v2.13.0-rc1]*
   * Animate the first showcase slide when the player launches
 * *[/v2.13.0-rc1]*

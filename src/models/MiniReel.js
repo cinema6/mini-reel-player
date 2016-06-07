@@ -153,7 +153,7 @@ function initialize(whitelist, experience, profile) {
     this.emit('init');
     this.deck[0].prepare();
 
-    if (autoLaunch) { this.moveToIndex(0); }
+    if (autoLaunch) { Runner.runNext(() => this.moveToIndex(0)); }
 }
 
 export default class MiniReel extends Mixable {
@@ -241,7 +241,7 @@ export default class MiniReel extends Mixable {
         ]).then(([experience, profile]) => {
             initialize.call(this, whitelist, experience, profile);
 
-            getReady().then(ready => ready());
+            Runner.runNext(() => getReady().then(ready => ready()));
         }).catch(error => this.emit('error', error));
     }
 

@@ -241,7 +241,7 @@ export default class MiniReel extends Mixable {
         ]).then(([experience, profile]) => {
             initialize.call(this, whitelist, experience, profile);
 
-            getReady().then(ready => ready());
+            Runner.runNext(() => getReady().then(ready => ready()));
         }).catch(error => this.emit('error', error));
     }
 

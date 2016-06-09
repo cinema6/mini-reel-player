@@ -1,5 +1,11 @@
 # MiniReel Player 2.0
 
+## v2.13.1 (June 9, 2016)
+* *[v2.13.1-rc1]*
+  * [FIX]: Fix the delay when opening the description in an MRAID
+    environment
+* *[/v2.13.1-rc1]*
+
 ## v2.13.0 (June 6, 2016)
 * *[v2.13.0-rc2]*
   * [FIX]: Make sure the intro slide animation happens every time

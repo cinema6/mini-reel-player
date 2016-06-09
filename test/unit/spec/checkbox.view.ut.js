@@ -78,15 +78,32 @@ describe('CheckboxView', function() {
                 };
                 spyOn(this.view, 'sendAction').and.callThrough();
 
+                jasmine.clock().install();
+
                 this.view.click(this.event);
+            });
+
+            afterEach(function() {
+                jasmine.clock().uninstall();
             });
 
             it('should call event.preventDefault()', function() {
                 expect(this.event.preventDefault());
             });
 
-            it('should send its action', function() {
-                expect(this.view.sendAction).toHaveBeenCalledWith(this.view, this.view.element.checked);
+            it('should not send its action', function() {
+                expect(this.view.sendAction).not.toHaveBeenCalled();
+            });
+
+            describe('in the next turn of the event loop', function() {
+                beforeEach(function() {
+                    this.view.sendAction.and.callFake(() => Runner.schedule('render', null, () => {}));
+                    jasmine.clock().tick(0);
+                });
+
+                it('should send its action', function() {
+                    expect(this.view.sendAction).toHaveBeenCalledWith(this.view, !this.view.element.checked);
+                });
             });
         });
     });

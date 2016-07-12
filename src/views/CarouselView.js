@@ -1,5 +1,6 @@
 import ListView from '../views/ListView.js';
 import SwipeableView from '../mixins/SwipeableView.js';
+import CarouselItemView from './CarouselItemView.js';
 import { createKey } from 'private-parts';
 import Runner from '../../lib/Runner.js';
 import {
@@ -42,6 +43,7 @@ export default class CarouselView extends ListView {
         _(this).resize = () => Runner.run(() => this.refresh());
 
         this.tag = 'ul';
+        this.itemViewClass = CarouselItemView;
 
         this.locked = false;
         this.currentIndex = 0;
@@ -57,6 +59,12 @@ export default class CarouselView extends ListView {
         });
 
         this.on('addChild', () => this.refresh());
+        this.on('addChild', (child, index) => child.on('clickthrough', href => {
+            if (this.currentIndex === index) {
+                window.open(href);
+                this.emit('click');
+            }
+        }));
     }
 
     refresh() {
@@ -110,11 +118,6 @@ export default class CarouselView extends ListView {
         });
 
         return this.snapPoints[index];
-    }
-
-    /* event handlers */
-    click() {
-        this.emit('click');
     }
 }
 CarouselView.mixin(SwipeableView);

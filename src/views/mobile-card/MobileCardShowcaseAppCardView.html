@@ -1,9 +1,11 @@
-<input data-view="CheckboxView"
+<input
+    data-view="CheckboxView"
     data-target="controller" data-action="setShowDescription"
     data-properties="checked:showDescription"
     type="checkbox"
     id="toggle__btn"
-    name="toggle__btn" />
+    name="toggle__btn"
+/>
 <div class="header__container"></div>
 <div class="main__container">
     <div class="main wrapper clearfix"></div>
@@ -20,7 +22,6 @@
                 </div>
             </li>
         </ul>
-
     </div>
 </div>
 <div class="app__info">
@@ -38,25 +39,30 @@
         <span>{{price}}</span>
     </div>
     <div class="action__button">
-        <a data-view="LinkItemView" data-model="action"
+        <a
+            data-view="LinkItemView" data-model="action"
             data-target="controller" data-action="clickthrough"
-            href="{{action.href}}" target="_blank">
+            href="{{action.href}}" target="_blank"
+        >
             {{text}} <i class="fa-icon icon-down-circled2"></i>
         </a>
     </div>
 </div>
-<label for="toggle__btn" class="description__close"
-    data-view="LinkItemView" data-target="controller" data-action="interaction" data-link-context="expandClose"></label>
-
-    <div class="expand__group"
+<label
+    for="toggle__btn" class="description__close"
+    data-view="LinkItemView"
+    data-target="controller" data-action="interaction"
+    data-link-context="expandClose"
+>
+</label>
+<div class="expand__group"
     data-view="LinkItemView" data-target="controller" data-action="interaction" data-link-context="expandOpen">
-        <div class="expand__box">
-            <label for="toggle__btn" class="expand__btn"><span class="expand__label"></span></label>
-        </div><!-- .expand__box -->
-    </div><!-- .expand__group-->
-
-    <div class="description__group" data-class="action.text::copy__fullWidth">
-        <div class="description__container">
-            <p>{{note}}</p>
-        </div>
-    </div><!-- .description__group -->
+    <div class="expand__box">
+        <label for="toggle__btn" class="expand__btn"><span class="expand__label"></span></label>
+    </div><!-- .expand__box -->
+</div><!-- .expand__group-->
+<div class="description__group" data-class="action.text::copy__fullWidth">
+    <div class="description__container">
+        <p>{{note}}</p>
+    </div>
+</div><!-- .description__group -->

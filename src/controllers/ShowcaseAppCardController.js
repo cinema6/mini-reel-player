@@ -49,7 +49,8 @@ export default class ShowcaseAppCardController extends ShowcaseCardController {
                 previous: index === (currentIndex - 1),
                 active: index === currentIndex,
                 next: index === (currentIndex + 1),
-                clickthrough: Action.uri
+                clickthrough: Action.uri,
+                label: 'Action'
             }))
         });
 

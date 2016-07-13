@@ -3,6 +3,7 @@ import ShowcaseAppCardController from '../../../../src/controllers/ShowcaseAppCa
 import ShowcaseAppCard from '../../../../src/models/ShowcaseAppCard.js';
 import MobileCardShowcaseAppCardView from '../../../../src/views/mobile-card/MobileCardShowcaseAppCardView.js';
 import Runner from '../../../../lib/Runner.js';
+import View from '../../../../lib/core/View.js';
 
 describe('MobileCardShowcaseAppCardController', function() {
     let card;
@@ -120,14 +121,22 @@ describe('MobileCardShowcaseAppCardController', function() {
                     });
 
                     describe('when clicked', function() {
-                        beforeEach(function() {
-                            spyOn(card, 'clickthrough');
+                        let child, event;
 
-                            view.slides.emit('click');
+                        beforeEach(function() {
+                            spyOn(Ctrl, 'clickthrough');
+
+                            child = new View();
+                            event = {
+                                coordinates: { x: 200, y: 200 },
+                                href: 'foo.com'
+                            };
+
+                            view.slides.emit('click', child, event);
                         });
 
                         it('should call clickthrough()', function() {
-                            expect(card.clickthrough).toHaveBeenCalledWith('Action', 'carousel');
+                            expect(Ctrl.clickthrough).toHaveBeenCalledWith(child, event);
                         });
                     });
                 });

@@ -14,7 +14,11 @@
 <div class="slider__wrap">
     <div class="viewPane">
         <ul data-view="slides:CarouselView" data-model="slides" class="slideshow__slider">
-            <li class="slideshow__item" data-class="active:slideshow__item--current previous:slideshow__item--previous next:slideshow__item--next">
+            <li
+                class="slideshow__item"
+                data-target="view" data-action="clickthrough"
+                data-class="active:slideshow__item--current previous:slideshow__item--previous next:slideshow__item--next"
+            >
                 <div class="slide__holder">
                     <div class="slide slide--front">
                         <a href="{{clickthrough}}" target="_blank"><img tb-src="{{uri}}" /></a>

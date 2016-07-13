@@ -16,7 +16,7 @@ export default class MobileCardShowcaseAppCardController extends ShowcaseAppCard
 
             slides.currentIndex = currentIndex;
 
-            slides.on('click', () => this.model.clickthrough('Action', 'carousel'));
+            slides.on('click', (child, event) => this.clickthrough(child, event));
             slides.on('swipe', () => this.model.goToIndex(slides.currentIndex));
             slides.once('swipe', () => this.model.stopAdvancing());
         });

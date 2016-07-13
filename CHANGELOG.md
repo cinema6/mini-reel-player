@@ -5,6 +5,7 @@
     slideshow
   * [REMOVAL]: Remove Moat tracking
   * [REMOVAL]: Remove Google Analytics tracking
+  * Add support for tracking the x/y coordinates of an ad clickthrough
 
 ## v2.13.1 (June 9, 2016)
 * *[v2.13.1-rc1]*

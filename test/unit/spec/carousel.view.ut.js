@@ -4,6 +4,7 @@ import SwipeableView from '../../../src/mixins/SwipeableView.js';
 import ListView from '../../../src/views/ListView.js';
 import { createUuid } from 'rc-uuid';
 import TemplateView from '../../../lib/core/TemplateView.js';
+import CarouselItemView from '../../../src/views/CarouselItemView.js';
 
 describe('CarouselView', function() {
     let view;
@@ -38,6 +39,7 @@ describe('CarouselView', function() {
 
     beforeEach(function() {
         view = new CarouselView();
+        expect(view.itemViewClass).toBe(CarouselItemView);
         view.itemViewClass = ChildView;
     });
 
@@ -305,6 +307,47 @@ describe('CarouselView', function() {
             it('should set the offset', function() {
                 expect(view.setOffset).toHaveBeenCalledWith(335);
             });
+
+            describe('when one is clicked', function() {
+                let click;
+
+                beforeEach(function() {
+                    click = jasmine.createSpy('click()');
+                    view.on('click', click);
+
+                    spyOn(window, 'open');
+                });
+
+                describe('if the currentIndex does not match the view\'s index', function() {
+                    beforeEach(function() {
+                        view.currentIndex = 2;
+                        view.children[1].emit('clickthrough', 'https://reelcontent.com/');
+                    });
+
+                    it('should not open anything', function() {
+                        expect(window.open).not.toHaveBeenCalled();
+                    });
+
+                    it('should not emit click', function() {
+                        expect(click).not.toHaveBeenCalled();
+                    });
+                });
+
+                describe('if the currentIndex does match the view\'s index', function() {
+                    beforeEach(function() {
+                        view.currentIndex = 2;
+                        view.children[2].emit('clickthrough', 'https://reelcontent.com/');
+                    });
+
+                    it('should open the link', function() {
+                        expect(window.open).toHaveBeenCalledWith('https://reelcontent.com/');
+                    });
+
+                    it('should emit click', function() {
+                        expect(click).toHaveBeenCalledWith();
+                    });
+                });
+            });
         });
 
         describe('validateSnap(offset)', function() {
@@ -503,23 +546,6 @@ describe('CarouselView', function() {
 
             it('should scroll to the card based on the new dimmensions', function() {
                 expect(view.animateOffset).toHaveBeenCalledWith(-350, 0.5);
-            });
-        });
-    });
-
-    describe('events:', function() {
-        describe('click()', function() {
-            let click;
-
-            beforeEach(function() {
-                click = jasmine.createSpy('click()');
-                view.on('click', click);
-
-                view.click();
-            });
-
-            it('should emit click', function() {
-                expect(click).toHaveBeenCalledWith();
             });
         });
     });

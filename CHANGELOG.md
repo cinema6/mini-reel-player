@@ -1,5 +1,9 @@
 # MiniReel Player 2.0
 
+* *[v2.14.0-rc1]*
+  * Only allow clickthroughs via the active slide of a showcase
+    slideshow
+
 ## v2.13.1 (June 9, 2016)
 * *[v2.13.1-rc1]*
   * [FIX]: Fix the delay when opening the description in an MRAID

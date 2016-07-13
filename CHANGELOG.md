@@ -3,6 +3,8 @@
 * *[v2.14.0-rc1]*
   * Only allow clickthroughs via the active slide of a showcase
     slideshow
+  * [REMOVAL]: Remove Moat tracking
+  * [REMOVAL]: Remove Google Analytics tracking
 
 ## v2.13.1 (June 9, 2016)
 * *[v2.13.1-rc1]*

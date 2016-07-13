@@ -34,7 +34,6 @@ class VideoCard extends Card {
                     autoplay, // no use value from MiniReel (which defaults to true)
             autoadvance: 'autoadvance' in data.data ? data.data.autoadvance : autoadvance,
             preload: 'preload' in data.data ? data.data.preload : preloadVideos,
-            moat : data.data.moat || null,
             end: data.data.end,
             start: data.data.start
         };

@@ -308,8 +308,8 @@ describe('CarouselView', function() {
                 expect(view.setOffset).toHaveBeenCalledWith(335);
             });
 
-            describe('when one is clicked', function() {
-                let click;
+            describe('when clickthrough is called', function() {
+                let click, event;
 
                 beforeEach(function() {
                     click = jasmine.createSpy('click()');
@@ -321,7 +321,10 @@ describe('CarouselView', function() {
                 describe('if the currentIndex does not match the view\'s index', function() {
                     beforeEach(function() {
                         view.currentIndex = 2;
-                        view.children[1].emit('clickthrough', 'https://reelcontent.com/');
+                        view.clickthrough(view.children[1], (event = {
+                            coordinates: { x: 0, y: 1 },
+                            href: 'https://reelcontent.com/'
+                        }));
                     });
 
                     it('should not open anything', function() {
@@ -336,7 +339,10 @@ describe('CarouselView', function() {
                 describe('if the currentIndex does match the view\'s index', function() {
                     beforeEach(function() {
                         view.currentIndex = 2;
-                        view.children[2].emit('clickthrough', 'https://reelcontent.com/');
+                        view.clickthrough(view.children[2], (event = {
+                            coordinates: { x: 0, y: 1 },
+                            href: 'https://reelcontent.com/'
+                        }));
                     });
 
                     it('should open the link', function() {
@@ -344,7 +350,7 @@ describe('CarouselView', function() {
                     });
 
                     it('should emit click', function() {
-                        expect(click).toHaveBeenCalledWith();
+                        expect(click).toHaveBeenCalledWith(view.children[2], event);
                     });
                 });
             });

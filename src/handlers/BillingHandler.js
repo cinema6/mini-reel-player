@@ -57,11 +57,11 @@ export default class BillingHandler extends EventEmitter {
             const {
                 campaign: { minViewTime }
             } = card;
+            const history = getHistory(card);
             const count = () => {
                 this.emit('AdCount', card, null);
                 history.count = true;
             };
-            const history = getHistory(card);
 
             if (history.count) { return; }
 

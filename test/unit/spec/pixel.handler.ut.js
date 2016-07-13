@@ -54,14 +54,19 @@ describe('PixelHandler', function() {
         return completeUrl(url, { '{delay}': Date.now() - card.lastViewedTime });
     }
 
-    function completeUrlWithContext(context) {
+    function completeUrlWithContext({
+        context,
+        coordinates = {}
+    } = {}) {
         return function complete(url) {
             return completeUrl(completeUrlWithDelay(url), {
                 '{context}': context || '',
                 '{screenWidth}': window.screen.width,
                 '{screenHeight}': window.screen.height,
                 '{playerWidth}': window.innerWidth,
-                '{playerHeight}': window.innerHeight
+                '{playerHeight}': window.innerHeight,
+                '{screenX}': coordinates.x || '',
+                '{screenY}': coordinates.y || ''
             });
         };
     }
@@ -92,13 +97,13 @@ describe('PixelHandler', function() {
                 loadUrls: ['img3.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img4.jpg?cb={cachebreaker}&delay={loadDelay}'],
                 playUrls: ['img1.jpg?cb={cachebreaker}&url={pageUrl}&delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img2.jpg?cb={cachebreaker}&delay={playDelay}'],
                 countUrls: ['img3.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img4.jpg?page={pageUrl}&c={context}'],
-                q1Urls: ['img5.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img6.jpg?page={pageUrl}&c={context}'],
+                q1Urls: ['img5.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}&hit={screenX},{screenY}', 'img6.jpg?page={pageUrl}&c={context}'],
                 q2Urls: ['img7.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img8.jpg?page={pageUrl}&c={context}'],
                 q3Urls: ['img9.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img10.jpg?page={pageUrl}&c={context}'],
-                q4Urls: ['img11.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img12.jpg?page={pageUrl}&c={context}'],
+                q4Urls: ['img11.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}&hit={screenX},{screenY}', 'img12.jpg?page={pageUrl}&c={context}'],
                 viewUrls: ['img13.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img14.jpg?page={pageUrl}&c={context}'],
                 bufferUrls: ['img15.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img16.jpg?page={pageUrl}&c={context}'],
-                launchUrls: ['img17.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img18.jpg?page={pageUrl}&c={context}'],
+                launchUrls: ['img17.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}&hit={screenX},{screenY}', 'img18.jpg?page={pageUrl}&c={context}'],
                 interactionUrls: ['img19.jpg?delay={delay}&sw={screenWidth}&sh={screenHeight}&pw={playerWidth}&ph={playerHeight}', 'img20.jpg?page={pageUrl}&c={context}'],
             }
         }, experience);
@@ -164,7 +169,9 @@ describe('PixelHandler', function() {
                     '{screenWidth}': window.screen.width,
                     '{screenHeight}': window.screen.height,
                     '{playerWidth}': window.innerWidth,
-                    '{playerHeight}': window.innerHeight
+                    '{playerHeight}': window.innerHeight,
+                    '{screenX}': '',
+                    '{screenY}': ''
                 })));
             });
 
@@ -198,7 +205,9 @@ describe('PixelHandler', function() {
                         '{screenWidth}': window.screen.width,
                         '{screenHeight}': window.screen.height,
                         '{playerWidth}': window.innerWidth,
-                        '{playerHeight}': window.innerHeight
+                        '{playerHeight}': window.innerHeight,
+                        '{screenX}': '',
+                        '{screenY}': ''
                     })));
                 });
             });
@@ -490,34 +499,38 @@ describe('PixelHandler', function() {
         });
 
         describe('clickthrough', function() {
-            let data, context;
+            let event;
 
             beforeEach(function() {
-                data = {
-                    uri: 'https://twitter.com/netflix',
-                    tracking: ['img13.jpg?delay={delay}&c={context}', 'img14.jpg?page={pageUrl}&c={context}']
+                event = {
+                    link: {
+                        uri: 'https://twitter.com/netflix',
+                        tracking: ['img13.jpg?delay={delay}&c={context}&hit={screenX},{screenY}', 'img14.jpg?page={pageUrl}&c={context}&hit={screenX},{screenY}']
+                    },
+                    type: 'Twitter',
+                    context: 'clickthrough context',
+                    coordinates: { x: 300, y: 200 }
                 };
-                context = 'clickthrough context';
 
                 jasmine.clock().tick(10);
 
-                card.emit('clickthrough', data, 'Twitter', context);
+                card.emit('clickthrough', event);
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
+                expect(imageLoader.load).toHaveBeenCalledWith(...event.link.tracking.map(completeUrlWithContext({ context: event.context, coordinates: event.coordinates })));
             });
 
             describe('if the context is different', function() {
                 beforeEach(function() {
                     imageLoader.load.calls.reset();
-                    context = 'other clickthrough context';
+                    event.context = 'other clickthrough context';
 
-                    card.emit('clickthrough', data, 'Twitter', context);
+                    card.emit('clickthrough', event);
                 });
 
                 it('should fire the pixels again', function() {
-                    expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
+                    expect(imageLoader.load).toHaveBeenCalledWith(...event.link.tracking.map(completeUrlWithContext({ context: event.context, coordinates: event.coordinates })));
                 });
             });
 
@@ -525,7 +538,7 @@ describe('PixelHandler', function() {
                 beforeEach(function() {
                     imageLoader.load.calls.reset();
 
-                    card.emit('clickthrough', data, 'Twitter', context);
+                    card.emit('clickthrough', event);
                 });
 
                 it('should not fire any pixels', function() {
@@ -535,36 +548,40 @@ describe('PixelHandler', function() {
         });
 
         describe('share', function() {
-            let data, context;
+            let event;
 
             beforeEach(function() {
-                data = {
+                event = {
+                    link: {
+                        type: 'facebook',
+                        label: 'Facebook',
+                        href: 'http://imgur.com/S3GiV63',
+                        tracking: ['img15.jpg?delay={delay}&c={context}&hit={screenX},{screenY}', 'img16.jpg?page={pageUrl}&c={context}&hit={screenX},{screenY}']
+                    },
                     type: 'facebook',
-                    label: 'Facebook',
-                    href: 'http://imgur.com/S3GiV63',
-                    tracking: ['img15.jpg?delay={delay}&c={context}', 'img16.jpg?page={pageUrl}&c={context}']
+                    context: 'share context',
+                    coordinates: { x: 1, y: 300 }
                 };
-                context = 'share context';
 
                 jasmine.clock().tick(15);
 
-                card.emit('share', data, 'facebook', context);
+                card.emit('share', event);
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
+                expect(imageLoader.load).toHaveBeenCalledWith(...event.link.tracking.map(completeUrlWithContext({ context: event.context, coordinates: event.coordinates })));
             });
 
             describe('if the context is different', function() {
                 beforeEach(function() {
                     imageLoader.load.calls.reset();
-                    context = 'other share context';
+                    event.context = 'other share context';
 
-                    card.emit('clickthrough', data, 'Twitter', context);
+                    card.emit('clickthrough', event);
                 });
 
                 it('should fire the pixels again', function() {
-                    expect(imageLoader.load).toHaveBeenCalledWith(...data.tracking.map(completeUrlWithContext(context)));
+                    expect(imageLoader.load).toHaveBeenCalledWith(...event.link.tracking.map(completeUrlWithContext({ context: event.context, coordinates: event.coordinates })));
                 });
             });
 
@@ -572,7 +589,7 @@ describe('PixelHandler', function() {
                 beforeEach(function() {
                     imageLoader.load.calls.reset();
 
-                    card.emit('share', data, 'facebook', context);
+                    card.emit('share', event);
                 });
 
                 it('should not fire any pixels', function() {
@@ -655,7 +672,7 @@ describe('PixelHandler', function() {
             });
 
             it('should fire the tracking pixels', function() {
-                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext('the-context')));
+                expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext({ context: 'the-context' })));
             });
 
             describe('if the context is different', function() {
@@ -666,7 +683,7 @@ describe('PixelHandler', function() {
                 });
 
                 it('should fire the pixels again', function() {
-                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext('the-other-context')));
+                    expect(imageLoader.load).toHaveBeenCalledWith(...card.campaign.interactionUrls.map(completeUrlWithContext({ context: 'the-other-context' })));
                 });
             });
 

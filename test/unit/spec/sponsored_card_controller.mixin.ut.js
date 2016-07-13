@@ -98,39 +98,43 @@ describe('SponsoredCardController mixin', function() {
     });
 
     describe('methods:', function() {
-        describe('share(itemView)', function() {
-            let itemView;
+        describe('share(itemView, event)', function() {
+            let itemView, event;
 
             beforeEach(function() {
                 itemView = new ModalShareItemView();
                 itemView.tag = 'li';
-                itemView.context = 'context-a';
                 Runner.run(() => itemView.update({ type: 'youtube' }));
+                itemView.context = 'context-a';
                 spyOn(card, 'share').and.callThrough();
 
-                controller.share(itemView);
+                event = { coordinates: { x: 300, y: 200 } };
+
+                controller.share(itemView, event);
             });
 
             it('should call share() on the card', function() {
-                expect(card.share).toHaveBeenCalledWith('youtube', itemView.context);
+                expect(card.share).toHaveBeenCalledWith('youtube', itemView.context, event.coordinates);
             });
         });
 
-        describe('clickthrough(linkItem)', function() {
-            let linkItem;
+        describe('clickthrough(linkItem, event)', function() {
+            let linkItem, event;
 
             beforeEach(function() {
                 linkItem = new LinkItemView();
                 linkItem.tag = 'span';
-                linkItem.context = 'context-b';
                 Runner.run(() => linkItem.update({ type: 'youtube', label: 'YouTube' }));
+                linkItem.context = 'context-b';
                 spyOn(card, 'clickthrough').and.callThrough();
 
-                controller.clickthrough(linkItem);
+                event = { coordinates: { x: 200, y: 10 } };
+
+                controller.clickthrough(linkItem, event);
             });
 
             it('should call clickthrough() on the card', function() {
-                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label, linkItem.context);
+                expect(card.clickthrough).toHaveBeenCalledWith(linkItem.data.label, linkItem.context, event.coordinates);
             });
         });
 

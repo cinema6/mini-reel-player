@@ -111,7 +111,8 @@ describe('ShowcaseAppCardController', function() {
                         previous: index === (card.currentIndex - 1),
                         active: index === card.currentIndex,
                         next: index === (card.currentIndex + 1),
-                        clickthrough: card.links.Action.uri
+                        clickthrough: card.links.Action.uri,
+                        label: 'Action'
                     })),
                     price: card.get('data.price'),
                     rating: card.get('data.rating')

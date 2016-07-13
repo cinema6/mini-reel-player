@@ -59,12 +59,13 @@ export default class CarouselView extends ListView {
         });
 
         this.on('addChild', () => this.refresh());
-        this.on('addChild', (child, index) => child.on('clickthrough', href => {
-            if (this.currentIndex === index) {
-                window.open(href);
-                this.emit('click');
-            }
-        }));
+    }
+
+    clickthrough(child, event) {
+        if (this.children.indexOf(child) === this.currentIndex) {
+            window.open(event.href);
+            this.emit('click', child, event);
+        }
     }
 
     refresh() {

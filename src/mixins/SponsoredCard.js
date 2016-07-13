@@ -32,16 +32,25 @@ function SponsoredCard(data) {
     }
 }
 
-SponsoredCard.prototype.clickthrough = function clickthrough(linkName, context) {
+SponsoredCard.prototype.clickthrough = function clickthrough(linkName, context, coordinates) {
     const link = this.links[linkName];
 
-    if (link) { this.emit('clickthrough', link, linkName, context); }
+    if (link) {
+        this.emit('clickthrough', {
+            link,
+            context,
+            coordinates,
+            type: linkName
+        });
+    }
 };
 
-SponsoredCard.prototype.share = function share(type, context) {
+SponsoredCard.prototype.share = function share(type, context, coordinates) {
     const link = find(this.shareLinks, link => link.type === type);
 
-    if (link) { this.emit('share', link, type, context); }
+    if (link) {
+        this.emit('share', { link, type, context, coordinates });
+    }
 };
 
 export default SponsoredCard;

@@ -7,12 +7,7 @@ export default class VPAIDHandler extends BillingHandler {
         });
         const videoCall = ((() => {
             const queue = [];
-
             let video;
-            register(({ target }) => {
-                video = target;
-                flush();
-            }, 'video', '@addSource');
 
             function flush() {
                 let item;
@@ -20,6 +15,11 @@ export default class VPAIDHandler extends BillingHandler {
                     video[item.method](...item.args);
                 }
             }
+
+            register(({ target }) => {
+                video = target;
+                flush();
+            }, 'video', '@addSource');
 
             return function videoCall(method, ...args) {
                 queue.push({ method, args });
@@ -80,7 +80,7 @@ export default class VPAIDHandler extends BillingHandler {
             event: 'AdSkippableStateChange'
         }), 'card', 'becameSkippable');
         // Emit AdClickThru event when the user clicks on a link (3.3.14)
-        register((event, { uri }, type) => updateState({
+        register((event, { link: { uri }, type }) => updateState({
             event: 'AdClickThru',
             params: [uri, type, false]
         }), 'card', 'clickthrough');

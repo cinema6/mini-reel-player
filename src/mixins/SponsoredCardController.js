@@ -41,12 +41,12 @@ function SponsoredCardController(card) {
     if (global.__karma__) { this.__private__ = _(this); }
 }
 SponsoredCardController.prototype = {
-    clickthrough: function clickthrough(itemView) {
-        return this.model.clickthrough(itemView.data.label, itemView.context);
+    clickthrough: function clickthrough(itemView, { coordinates }) {
+        return this.model.clickthrough(itemView.data.label, itemView.context, coordinates);
     },
 
-    share: function share(itemView) {
-        return this.model.share(itemView.data.type, itemView.context);
+    share: function share(itemView, { coordinates }) {
+        return this.model.share(itemView.data.type, itemView.context, coordinates);
     },
 
     interaction: function interaction(itemView) {

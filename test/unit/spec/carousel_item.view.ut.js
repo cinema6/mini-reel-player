@@ -1,5 +1,5 @@
 import CarouselItemView from '../../../src/views/CarouselItemView.js';
-import TemplateView from '../../../lib/core/TemplateView.js';
+import LinkItemView from '../../../src/views/LinkItemView.js';
 import Runner from '../../../lib/Runner.js';
 
 describe('CarouselItemView', function() {
@@ -28,7 +28,7 @@ describe('CarouselItemView', function() {
     });
 
     it('should exist', function() {
-        expect(this.view).toEqual(jasmine.any(TemplateView));
+        expect(this.view).toEqual(jasmine.any(LinkItemView));
     });
 
     describe('event handlers', function() {
@@ -39,40 +39,17 @@ describe('CarouselItemView', function() {
                     target: null
                 };
 
-                this.clickthrough = jasmine.createSpy('clickthrough()');
-                this.view.on('clickthrough', this.clickthrough);
+                spyOn(LinkItemView.prototype, 'click');
+
+                this.view.click(this.event);
             });
 
-            describe('if the target is not in a link', function() {
-                beforeEach(function() {
-                    this.event.target = this.element.querySelector('.test1');
-
-                    this.view.click(this.event);
-                });
-
-                it('should preventDefault()', function() {
-                    expect(this.event.preventDefault).toHaveBeenCalledWith();
-                });
-
-                it('should not emit clickthrough', function() {
-                    expect(this.clickthrough).not.toHaveBeenCalled();
-                });
+            it('should preventDefault()', function() {
+                expect(this.event.preventDefault).toHaveBeenCalledWith();
             });
 
-            describe('if the target is in a link', function() {
-                beforeEach(function() {
-                    this.event.target = this.element.querySelector('.test2');
-
-                    this.view.click(this.event);
-                });
-
-                it('should preventDefault()', function() {
-                    expect(this.event.preventDefault).toHaveBeenCalledWith();
-                });
-
-                it('should emit clickthrough', function() {
-                    expect(this.clickthrough).toHaveBeenCalledWith('https://www.google.com/');
-                });
+            it('should call super()', function() {
+                expect(LinkItemView.prototype.click).toHaveBeenCalledWith(this.event);
             });
         });
     });

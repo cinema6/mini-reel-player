@@ -80,7 +80,7 @@ export default class VPAIDHandler extends BillingHandler {
             event: 'AdSkippableStateChange'
         }), 'card', 'becameSkippable');
         // Emit AdClickThru event when the user clicks on a link (3.3.14)
-        register((event, { uri }, type) => updateState({
+        register((event, { link: { uri }, type }) => updateState({
             event: 'AdClickThru',
             params: [uri, type, false]
         }), 'card', 'clickthrough');

@@ -181,35 +181,41 @@ describe('VPAIDHandler', function() {
             });
 
             describe('clickthrough', function() {
-                let link;
+                let event;
 
                 beforeEach(function(done) {
-                    link = { uri: 'https://www.facebook.com/Hyundai', tracking: [] };
+                    event = {
+                        link: { uri: 'https://www.facebook.com/Hyundai', tracking: [] },
+                        type: 'Facebook',
+                        context: 'some-context',
+                        coordinates: { x: 200, y: 300 }
+                    };
                     spyOn(session, 'ping');
 
-                    card.emit('clickthrough', link, 'facebook');
+                    card.emit('clickthrough', event);
                     setTimeout(done, 0);
                 });
 
                 it('should ping the session', function() {
                     expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                         event: 'AdClickThru',
-                        params: [link.uri, 'facebook', false]
+                        params: [event.link.uri, event.type, false]
                     });
                 });
 
                 describe('if a different link type is clicked', function() {
                     beforeEach(function(done) {
                         session.ping.calls.reset();
+                        event.type = 'Twitter';
 
-                        card.emit('clickthrough', link, 'twitter');
+                        card.emit('clickthrough', event);
                         setTimeout(done, 0);
                     });
 
                     it('should ping the session', function() {
                         expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdClickThru',
-                            params: [link.uri, 'twitter', false]
+                            params: [event.link.uri, event.type, false]
                         });
                     });
                 });
@@ -218,14 +224,14 @@ describe('VPAIDHandler', function() {
                     beforeEach(function(done) {
                         session.ping.calls.reset();
 
-                        card.emit('clickthrough', link, 'facebook');
+                        card.emit('clickthrough', event);
                         setTimeout(done, 0);
                     });
 
                     it('should ping the session', function() {
                         expect(session.ping).toHaveBeenCalledWith('vpaid:stateUpdated', {
                             event: 'AdClickThru',
-                            params: [link.uri, 'facebook', false]
+                            params: [event.link.uri, event.type, false]
                         });
                     });
                 });

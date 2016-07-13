@@ -140,18 +140,23 @@ describe('SponsoredCard mixin', function() {
     });
 
     describe('methods:', function() {
-        describe('clickthrough(link, context)', function() {
+        describe('clickthrough(link, context, coordinates)', function() {
             let clickthrough;
 
             beforeEach(function() {
                 clickthrough = jasmine.createSpy('clickthrough()');
                 card.on('clickthrough', clickthrough);
 
-                card.clickthrough('Twitter', 'context-a');
+                card.clickthrough('Twitter', 'context-a', { x: 800, y: 600 });
             });
 
             it('should emit the clickthrough event with the link config and type', function() {
-                expect(clickthrough).toHaveBeenCalledWith(card.links.Twitter, 'Twitter', 'context-a');
+                expect(clickthrough).toHaveBeenCalledWith({
+                    link: card.links.Twitter,
+                    type: 'Twitter',
+                    context: 'context-a',
+                    coordinates: { x: 800, y: 600 }
+                });
             });
 
             describe('if the link cannot be found', function() {
@@ -167,18 +172,23 @@ describe('SponsoredCard mixin', function() {
             });
         });
 
-        describe('share(type, context)', function() {
+        describe('share(type, context, coordinates)', function() {
             let share;
 
             beforeEach(function() {
                 share = jasmine.createSpy('share()');
                 card.on('share', share);
 
-                card.share('twitter', 'context-b');
+                card.share('twitter', 'context-b', { x: 100, y: 200 });
             });
 
             it('should emit the share event with the share link config', function() {
-                expect(share).toHaveBeenCalledWith(card.shareLinks[1], 'twitter', 'context-b');
+                expect(share).toHaveBeenCalledWith({
+                    link: card.shareLinks[1],
+                    type: 'twitter',
+                    context: 'context-b',
+                    coordinates: { x: 100, y: 200 }
+                });
             });
 
             describe('if the link cannot be found', function() {

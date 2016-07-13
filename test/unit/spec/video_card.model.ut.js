@@ -242,19 +242,6 @@ describe('VideoCard', function() {
             });
         });
 
-        describe('moat',function(){
-            it('should be null', function() {
-                expect(card.data.moat).toBeNull();
-            });
-
-            describe('on a sponsored card', function() {
-                it('should be set', function() {
-                    expect(new VideoCard(sponsoredData, experience).data.moat)
-                        .toBe(sponsoredData.data.moat);
-                });
-            });
-        });
-
         describe('skippable', function() {
             it('should be true', function() {
                 expect(card.skippable).toBe(true);
@@ -317,7 +304,6 @@ describe('VideoCard', function() {
                     preload: true,
                     hideSource: !!data.data.hideSource,
                     controls: data.data.controls,
-                    moat: null,
                     start: data.data.start,
                     end: data.data.end
                 });

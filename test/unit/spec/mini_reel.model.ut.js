@@ -3,7 +3,6 @@ import dispatcher from '../../../src/services/dispatcher.js';
 import EmbedHandler from '../../../src/handlers/EmbedHandler.js';
 import PixelHandler from '../../../src/handlers/PixelHandler.js';
 import PostMessageHandler from '../../../src/handlers/PostMessageHandler.js';
-import GoogleAnalyticsHandler from '../../../src/handlers/GoogleAnalyticsHandler.js';
 import VPAIDHandler from '../../../src/handlers/VPAIDHandler.js';
 import Mixable from '../../../lib/core/Mixable.js';
 import SafelyGettable from '../../../src/mixins/SafelyGettable.js';
@@ -853,10 +852,6 @@ describe('MiniReel', function() {
 
     it('should add the PostMessageHandler to the dispatcher', function() {
         expect(dispatcher.addClient).toHaveBeenCalledWith(PostMessageHandler, window.parent.postMessage);
-    });
-
-    it('should add the GoogleAnalyticsHandler to the dispatcher', function() {
-        expect(dispatcher.addClient).toHaveBeenCalledWith(GoogleAnalyticsHandler, minireel);
     });
 
     it('should not add the VPAIDHandler', function() {

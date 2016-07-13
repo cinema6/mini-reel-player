@@ -60,7 +60,6 @@ import KalturaVideoCard from './KalturaVideoCard.js';
  **************************************************************************************************/
 import PixelHandler from '../handlers/PixelHandler.js';
 import PostMessageHandler from '../handlers/PostMessageHandler.js';
-import GoogleAnalyticsHandler from '../handlers/GoogleAnalyticsHandler.js';
 
 /* #if context !== 'standalone' */
 import EmbedHandler from '../handlers/EmbedHandler.js';
@@ -220,7 +219,6 @@ export default class MiniReel extends Mixable {
         }
 
         if (context !== CONTEXTS.STANDALONE) { dispatcher.addClient(EmbedHandler, this); }
-        dispatcher.addClient(GoogleAnalyticsHandler, this);
         dispatcher.addClient(PixelHandler);
         dispatcher.addClient(PostMessageHandler, window.parent.postMessage);
         if (context === CONTEXTS.VPAID) { dispatcher.addClient(VPAIDHandler, this.embed); }

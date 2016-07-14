@@ -1,11 +1,13 @@
 # MiniReel Player 2.0
 
+## v2.14.0 (July 14, 2016)
 * *[v2.14.0-rc1]*
   * Only allow clickthroughs via the active slide of a showcase
     slideshow
   * [REMOVAL]: Remove Moat tracking
   * [REMOVAL]: Remove Google Analytics tracking
   * Add support for tracking the x/y coordinates of an ad clickthrough
+* *[/v2.14.0-rc1]*
 
 ## v2.13.1 (June 9, 2016)
 * *[v2.13.1-rc1]*
